@@ -1,0 +1,64 @@
+<html>
+<head>
+    <title>Ext Calendar Sample</title>
+    <!-- Ext includes -->
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.0/resources/css/ext-all.css" />
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/adapter/ext/ext-base-debug.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../../Ext-overrides.js"></script> 
+    
+    <!-- Calendar-specific includes -->
+	<link rel="stylesheet" type="text/css" href="../../resources/css/calendar.css" />
+    <script type="text/javascript" src="../../Ext.calendar.js"></script>
+    <script type="text/javascript" src="../../src/calendar/templates/DayHeaderTemplate.js"></script>
+    <script type="text/javascript" src="../../src/calendar/templates/DayBodyTemplate.js"></script>
+    <script type="text/javascript" src="../../src/calendar/templates/DayViewTemplate.js"></script>
+    <script type="text/javascript" src="../../src/calendar/templates/BoxLayoutTemplate.js"></script>
+    <script type="text/javascript" src="../../src/calendar/templates/MonthViewTemplate.js"></script>
+    <script type="text/javascript" src="../../src/calendar/dd/CalendarScrollManager.js"></script>
+    <script type="text/javascript" src="../../src/calendar/dd/StatusProxy.js"></script>
+    <script type="text/javascript" src="../../src/calendar/dd/CalendarDD.js"></script>
+    <script type="text/javascript" src="../../src/calendar/dd/DayViewDD.js"></script>
+    <script type="text/javascript" src="../../src/calendar/EventRecord.js"></script>
+	<script type="text/javascript" src="../../src/calendar/views/MonthDayDetailView.js"></script>
+    <script type="text/javascript" src="../../src/calendar/widgets/CalendarPicker.js"></script>
+    <script type="text/javascript" src="../../src/calendar/WeekEventRenderer.js"></script>
+    <script type="text/javascript" src="../../src/calendar/views/CalendarView.js"></script>
+    <script type="text/javascript" src="../../src/calendar/views/MonthView.js"></script>
+    <script type="text/javascript" src="../../src/calendar/views/DayHeaderView.js"></script>
+    <script type="text/javascript" src="../../src/calendar/views/DayBodyView.js"></script>
+    <script type="text/javascript" src="../../src/calendar/views/DayView.js"></script>
+    <script type="text/javascript" src="../../src/calendar/views/WeekView.js"></script>
+    <script type="text/javascript" src="../../src/calendar/widgets/DateRangeField.js"></script>
+    <script type="text/javascript" src="../../src/calendar/widgets/ReminderField.js"></script>
+    <script type="text/javascript" src="../../src/calendar/EventEditForm.js"></script>
+    <script type="text/javascript" src="../../src/calendar/EventEditWindow.js"></script>
+    <script type="text/javascript" src="../../src/calendar/CalendarPanel.js"></script>
+	
+    <!-- App -->
+    <link rel="stylesheet" type="text/css" href="../examples.css" />
+	<script type="text/javascript" src="calendar-list.js"></script>
+    <script type="text/javascript" src="event-list.js"></script>
+	<script type="text/javascript" src="test-app.js"></script>
+</head>
+<body>
+    <div style="display:none;">
+    <div id="app-header-content">
+        <div id="app-logo">
+            <div class="logo-top">&nbsp;</div>
+            <div id="logo-body">&nbsp;</div>
+            <div class="logo-bottom">&nbsp;</div>
+        </div>
+        <h1>Ext JS Calendar</h1>
+        <span id="app-msg" class="x-hidden"></span>
+    </div>
+    </div>
+</body>
+<script>
+    var updateLogoDt = function(){
+        document.getElementById('logo-body').innerHTML = new Date().getDate();
+    }
+    updateLogoDt();
+    setInterval(updateLogoDt, 1000);
+</script>
+</html>
