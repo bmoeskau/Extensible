@@ -4,8 +4,6 @@
 
 <p>by Brian Moeskau</p>
 
-<hr />
-
 <h2>Installation and Usage</h2>
 
 <p>Extensible requires the Ext JS framework (version 3.2 or later). You should download the "latest version":http://www.sencha.com/products/js/download.php of
@@ -13,20 +11,18 @@ Ext JS and install Extensible in a sibling directory.</p>
 
 <p>To use Extensible in your application simply include the base Extensible file after the standard Ext JS includes. For example:</p>
 
-<p><pre>
+<p><pre><code>
     <!-- Ext JS includes -->
-    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.0/resources/css/ext-all.css" />
-    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/adapter/ext/ext-base-debug.js"></script>
-    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/ext-all-debug.js"></script>
+    &ltlink rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.0/resources/css/ext-all.css" />
+    &ltscript type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/adapter/ext/ext-base-debug.js">&lt/script>
+    &ltscript type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/ext-all-debug.js">&lt/script>
 
     <!-- Extensible includes -->
-    <link rel="stylesheet" type="text/css" href="path/to/extensible-all.css" />
-    <script type="text/javascript" src="path/to/extensible-all.js"></script>
-</pre></p>
+    &ltlink rel="stylesheet" type="text/css" href="path/to/extensible-all.css" />
+    &ltscript type="text/javascript" src="path/to/extensible-all.js">&lt/script>
+</code></pre></p>
 
 <p>If you are using individual source files then it's up to you to include them all, in the proper order.</p>
-
-<hr />
 
 <h2>Licensing</h2>
 <p>Extensible is licensed just like Ext JS, dual GPL / commercial. ...more details to follow...</p>
