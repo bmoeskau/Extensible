@@ -1,0 +1,26 @@
+/*******************************************
+ * Extensible recurrence control styles
+ *
+ ******************************************/
+.extensible-recur-ct .x-table-layout-ct {
+    margin-top: 5px;
+}
+.extensible-recur-ct .x-table-layout-cell {
+    padding-right: 5px;
+    font-size: 12px;
+}
+.extensible-recur-ct .x-form-check-wrap {
+    white-space: nowrap;
+    margin-right: 10px;
+}
+.extensible-recur-ct .x-form-check-group .x-column {
+    xmargin-right: 5px;
+}
+.extensible-recur-inner-ct {
+    padding-left: 10px;
+    border-left: 2px solid #ddd;
+}
+.x-panel-mc .extensible-recur-inner-ct {
+    /* inside a framed panel with a blue bg */
+    border-left: 2px solid #A7C5DF;
+}

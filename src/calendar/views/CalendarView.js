@@ -273,7 +273,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     },
     
     getWeekCount : function(){
-        var days = Ext.ensible.cal.Date.diffDays(this.viewStart, this.viewEnd);
+        var days = Ext.ensible.Date.diffDays(this.viewStart, this.viewEnd);
         return Math.ceil(days / this.dayCount);
     },
     
@@ -326,11 +326,11 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         
         evts.each(function(evt){
             var M = Ext.ensible.cal.EventMappings,
-                days = Ext.ensible.cal.Date.diffDays(
-                Ext.ensible.cal.Date.max(this.viewStart, evt.data[M.StartDate.name]),
-                Ext.ensible.cal.Date.min(this.viewEnd, evt.data[M.EndDate.name])) + 1;
+                days = Ext.ensible.Date.diffDays(
+                Ext.ensible.Date.max(this.viewStart, evt.data[M.StartDate.name]),
+                Ext.ensible.Date.min(this.viewEnd, evt.data[M.EndDate.name])) + 1;
             
-            if(days > 1 || Ext.ensible.cal.Date.diffDays(evt.data[M.StartDate.name], evt.data[M.EndDate.name]) > 1){
+            if(days > 1 || Ext.ensible.Date.diffDays(evt.data[M.StartDate.name], evt.data[M.EndDate.name]) > 1){
                 this.prepareEventGridSpans(evt, this.eventGrid, w, d, days);
                 this.prepareEventGridSpans(evt, this.allDayGrid, w, d, days, true);
             }else{
@@ -440,7 +440,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	
     // private
 	onEventDrop : function(rec, dt){
-        if(Ext.ensible.cal.Date.compare(rec.data[Ext.ensible.cal.EventMappings.StartDate.name], dt) === 0){
+        if(Ext.ensible.Date.compare(rec.data[Ext.ensible.cal.EventMappings.StartDate.name], dt) === 0){
             // no changes
             return;
         }
@@ -760,7 +760,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 				// be the approach used by Google calendar and can lead to a more
 				// visually appealing layout in complex cases, but event order is
 				// not guaranteed to be consistent.
-				var diff = Ext.ensible.cal.Date.diffDays;
+				var diff = Ext.ensible.Date.diffDays;
 				if (diff(a[M.StartDate.name], a[M.EndDate.name]) > 0) {
 					if (diff(b[M.StartDate.name], b[M.EndDate.name]) > 0) {
 						// Both events are multi-day
@@ -814,7 +814,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * Updates the view to the previous consecutive date(s)
      */
     movePrev : function(noRefresh){
-        var days = Ext.ensible.cal.Date.diffDays(this.viewStart, this.viewEnd)+1;
+        var days = Ext.ensible.Date.diffDays(this.viewStart, this.viewEnd)+1;
         return this.moveDays(-days, noRefresh);
     },
     

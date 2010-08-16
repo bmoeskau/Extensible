@@ -7,9 +7,11 @@
     
     Ext.ns('Ext.ensible.cal');
     
-    Ext.ensible.version = 'alpha-1',
+    Ext.apply(Ext.ensible, {
     
-    Ext.apply(Ext.ensible.cal, {
+        version : '1.0-alpha-1',
+        
+        hasBorderRadius : !(Ext.isIE || Ext.isOpera),
     
        /**
         * @class Ext.ensible.cal.Date

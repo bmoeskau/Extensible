@@ -82,9 +82,9 @@ Ext.ensible.cal.DayViewDropZone = Ext.extend(Ext.ensible.cal.DropZone, {
             }
             this.shim(this.dragCreateDt, box);
             
-            var curr = Ext.ensible.cal.Date.copyTime(n.date, this.dragCreateDt);
-            this.dragStartDate = Ext.ensible.cal.Date.min(this.dragCreateDt, curr);
-            this.dragEndDate = endDt || Ext.ensible.cal.Date.max(this.dragCreateDt, curr);
+            var curr = Ext.ensible.Date.copyTime(n.date, this.dragCreateDt);
+            this.dragStartDate = Ext.ensible.Date.min(this.dragCreateDt, curr);
+            this.dragEndDate = endDt || Ext.ensible.Date.max(this.dragCreateDt, curr);
                 
             dt = this.dragStartDate.format('g:ia-') + this.dragEndDate.format('g:ia');
         }
@@ -123,9 +123,9 @@ Ext.ensible.cal.DayViewDropZone = Ext.extend(Ext.ensible.cal.DropZone, {
                 }
                 this.shim(this.resizeDt, box);
                 
-                var curr = Ext.ensible.cal.Date.copyTime(n.date, this.resizeDt),
-                    start = Ext.ensible.cal.Date.min(data.eventStart, curr),
-                    end = Ext.ensible.cal.Date.max(data.eventStart, curr);
+                var curr = Ext.ensible.Date.copyTime(n.date, this.resizeDt),
+                    start = Ext.ensible.Date.min(data.eventStart, curr),
+                    end = Ext.ensible.Date.max(data.eventStart, curr);
                     
                 data.resizeDates = {
                     StartDate: start,

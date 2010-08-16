@@ -130,7 +130,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     
     // private
     onEventResize : function(rec, data){
-        var D = Ext.ensible.cal.Date,
+        var D = Ext.ensible.Date,
             start = Ext.ensible.cal.EventMappings.StartDate.name,
             end = Ext.ensible.cal.EventMappings.EndDate.name;
             
