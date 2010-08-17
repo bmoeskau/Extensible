@@ -90,7 +90,7 @@ Ext.ensible.cal.DayHeaderView = Ext.extend(Ext.ensible.cal.MonthView, {
             }
         }
         Ext.ensible.cal.DayHeaderView.superclass.onClick.apply(this, arguments);
-    },
+    }
 });
 
 Ext.reg('dayheaderview', Ext.ensible.cal.DayHeaderView);

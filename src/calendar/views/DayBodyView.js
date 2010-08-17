@@ -134,13 +134,13 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             start = Ext.ensible.cal.EventMappings.StartDate.name,
             end = Ext.ensible.cal.EventMappings.EndDate.name;
             
-        if(D.compare(rec.data[start], data[start]) === 0 &&
-            D.compare(rec.data[end], data[end]) === 0){
+        if(D.compare(rec.data[start], data.StartDate) === 0 &&
+            D.compare(rec.data[end], data.EndDate) === 0){
             // no changes
             return;
         } 
-        rec.set('StartDate', data[start]);
-        rec.set('EndDate', data[end]);
+        rec.set(start, data.StartDate);
+        rec.set(end, data.EndDate);
         
         this.fireEvent('eventresize', this, rec);
     },

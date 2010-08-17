@@ -456,7 +456,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         // set this flag for other event handlers that might conflict while we're waiting
         this.dragPending = true;
         // have to wait for the user to save or cancel before finalizing the dd interation
-		this.fireEvent('rangeselect', this, {StartDate:start, EndDate:end}, this.onCalendarEndDragComplete.createDelegate(this, [onComplete]));
+        var o = {};
+        o[Ext.ensible.cal.EventMappings.StartDate.name] = start;
+        o[Ext.ensible.cal.EventMappings.EndDate.name] = end;
+		this.fireEvent('rangeselect', this, o, this.onCalendarEndDragComplete.createDelegate(this, [onComplete]));
 	},
     
     // private

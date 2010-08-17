@@ -8,11 +8,11 @@ Ext.ensible.cal.RecurrenceCombo = Ext.extend(Ext.form.ComboBox, {
     valueField: 'id',
     
     recurrenceText: {
-        'None': 'Does not repeat',
-        'Daily': 'Daily',
-        'Weekly': 'Weekly',
-        'Monthly': 'Monthly',
-        'Yearly': 'Yearly'
+        none: 'Does not repeat',
+        daily: 'Daily',
+        weekly: 'Weekly',
+        monthly: 'Monthly',
+        yearly: 'Yearly'
     },
     
     initComponent: function(){
@@ -24,11 +24,11 @@ Ext.ensible.cal.RecurrenceCombo = Ext.extend(Ext.form.ComboBox, {
             fields: ['id', 'pattern'],
             idIndex: 0,
             data: [
-                ['NONE', this.recurrenceText.None],
-                ['DAILY', this.recurrenceText.Daily],
-                ['WEEKLY', this.recurrenceText.Weekly],
-                ['MONTHLY', this.recurrenceText.Monthly],
-                ['YEARLY', this.recurrenceText.Yearly]
+                ['NONE', this.recurrenceText.none],
+                ['DAILY', this.recurrenceText.daily],
+                ['WEEKLY', this.recurrenceText.weekly],
+                ['MONTHLY', this.recurrenceText.monthly],
+                ['YEARLY', this.recurrenceText.yearly]
             ]
         });
     },
