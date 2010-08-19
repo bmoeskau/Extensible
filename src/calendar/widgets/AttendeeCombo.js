@@ -1,4 +1,4 @@
-Extensible.calendar.AttendeeCombo = Ext.extend(Ext.ux.form.SuperBoxSelect, {
+Ext.ensible.cal.AttendeeCombo = Ext.extend(Ext.ux.form.SuperBoxSelect, {
     fieldLabel: 'Attendees',
     name: 'attendees',
     anchor:'100%',
@@ -10,4 +10,4 @@ Extensible.calendar.AttendeeCombo = Ext.extend(Ext.ux.form.SuperBoxSelect, {
     extraItemStyle: 'border-width:2px'
 });
 
-Ext.reg('extensible.attendeecombo', Extensible.calendar.AttendeeCombo);
+Ext.reg('extensible.attendeecombo', Ext.ensible.cal.AttendeeCombo);
