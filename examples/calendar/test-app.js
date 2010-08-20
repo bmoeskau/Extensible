@@ -96,9 +96,13 @@
                         region: 'center',
                         activeItem: 2, // month view
                         
-                        // CalendarPanel supports view-specific configs that are passed through to the 
-                        // underlying views to make configuration possible without explicitly having to 
-                        // create those views at this level:
+                        // Any generic view options that should be applied to all sub views:
+                        viewConfig: {
+                            //enableFx: false
+                        },
+                        
+                        // View options specific to a certain view (if the same options exist in viewConfig
+                        // they will be overridden by the view-specific config):
                         monthViewCfg: {
                             showHeader: true,
                             showWeekLinks: true,
@@ -120,6 +124,10 @@
                             App.calendarPanel = this;
                             this.constructor.prototype.initComponent.apply(this, arguments);
                         },
+                        
+//                        plugins: [{
+//                            ptype: 'ext.ensible.cal.contextmenu'
+//                        }],
                         
                         listeners: {
                             'eventclick': {
@@ -149,6 +157,7 @@
                             },
                             'eventdelete': {
                                 fn: function(cp, rec){
+                                    this.eventStore.remove(rec);
                                     this.showMsg('Event '+ rec.data[Ext.ensible.cal.EventMappings.Title.name] +' was deleted');
                                 },
                                 scope: this
@@ -183,8 +192,8 @@
                                 scope: this
                             },
                             'rangeselect': {
-                                fn: function(win, dates, onComplete){
-                                    this.showEditWindow(dates);
+                                fn: function(win, dates, el, onComplete){
+                                    this.showEditWindow(dates, el);
                                     this.editWin.on('hide', onComplete, this, {single:true});
                                     this.clearMsg();
                                 },
@@ -220,6 +229,14 @@
                                     }
                                 },
                                 scope: this
+                            },
+                            'editdetails': {
+                                fn: function(vw, rec, animTarget){
+                                    if(this.editWin && this.editWin.isVisible()){
+                                        this.editWin.hide(animTarget);
+                                    }
+                                    App.calendarPanel.showEditForm(rec);
+                                }
                             }
                         }
                     }]
@@ -237,8 +254,8 @@
                     calendarStore: this.calendarStore,
 					listeners: {
 						'eventadd': {
-							fn: function(win, rec){
-								win.hide();
+							fn: function(win, rec, animTarget){
+								win.hide(animTarget);
 								rec.data[Ext.ensible.cal.EventMappings.IsNew.name] = false;
 								this.eventStore.add(rec);
                                 this.showMsg('Event '+ rec.data[Ext.ensible.cal.EventMappings.Title.name] +' was added');
@@ -246,24 +263,24 @@
 							scope: this
 						},
 						'eventupdate': {
-							fn: function(win, rec){
-								win.hide();
+							fn: function(win, rec, animTarget){
+								win.hide(animTarget);
 								rec.commit();
                                 this.showMsg('Event '+ rec.data[Ext.ensible.cal.EventMappings.Title.name] +' was updated');
 							},
 							scope: this
 						},
 						'eventdelete': {
-							fn: function(win, rec){
+							fn: function(win, rec, animTarget){
+                                win.hide(animTarget);
 								this.eventStore.remove(rec);
-								win.hide();
                                 this.showMsg('Event '+ rec.data[Ext.ensible.cal.EventMappings.Title.name] +' was deleted');
 							},
 							scope: this
 						},
                         'editdetails': {
-                            fn: function(win, rec){
-                                win.hide();
+                            fn: function(win, rec, animTarget){
+                                win.hide(animTarget);
                                 App.calendarPanel.showEditForm(rec);
                             }
                         }

@@ -847,3 +847,18 @@ td.ext-cal-dtitle-today div {
 .ext-dt-range .x-table-layout-cell {
     padding-right: 5px;
 }
+
+/*******************************************
+ * 
+ * ContextMenu styles
+ *
+ ******************************************/
+.extensible-cal-icon-evt-edit {
+    background-image:url(../images/default/silk/calendar_edit.png) !important;
+}
+.extensible-cal-icon-evt-del {
+    background-image:url(../images/default/silk/cross.png) !important;
+}
+.extensible-cal-icon-evt-move {
+    background-image:url(../images/default/silk/date_go.png) !important;
+}

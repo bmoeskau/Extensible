@@ -84,6 +84,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
              * Fires after a new event is added
              * @param {Ext.ensible.cal.EventEditWindow} this
              * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was added
+             * @param {Ext.Element} el The target element
              */
             eventadd: true,
             /**
@@ -91,6 +92,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
              * Fires after an existing event is updated
              * @param {Ext.ensible.cal.EventEditWindow} this
              * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was updated
+             * @param {Ext.Element} el The target element
              */
             eventupdate: true,
             /**
@@ -98,6 +100,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
              * Fires after an event is deleted
              * @param {Ext.ensible.cal.EventEditWindow} this
              * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was deleted
+             * @param {Ext.Element} el The target element
              */
             eventdelete: true,
             /**
@@ -105,6 +108,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
              * Fires after an event add/edit operation is canceled by the user and no store update took place
              * @param {Ext.ensible.cal.EventEditWindow} this
              * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was canceled
+             * @param {Ext.Element} el The target element
              */
             eventcancel: true,
             /**
@@ -115,6 +119,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
              * and calling {@link Ext.ensible.cal.EventEditForm#loadRecord loadRecord}.
              * @param {Ext.ensible.cal.EventEditWindow} this
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} that is currently being edited
+             * @param {Ext.Element} el The target element
              */
             editdetails: true
         });
@@ -129,7 +134,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
         Ext.get('tblink').on('click', function(e){
             e.stopEvent();
             this.updateRecord();
-            this.fireEvent('editdetails', this, this.activeRecord);
+            this.fireEvent('editdetails', this, this.activeRecord, this.animateTarget);
         }, this);
     },
 	
@@ -207,7 +212,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
     // private
     onCancel: function(){
     	this.cleanup(true);
-		this.fireEvent('eventcancel', this);
+		this.fireEvent('eventcancel', this, this.animateTarget);
     },
 
     // private
@@ -249,11 +254,11 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
 			return;
 		}
 		
-		this.fireEvent(this.isAdd ? 'eventadd' : 'eventupdate', this, this.activeRecord);
+		this.fireEvent(this.isAdd ? 'eventadd' : 'eventupdate', this, this.activeRecord, this.animateTarget);
     },
     
     // private
     onDelete: function(){
-		this.fireEvent('eventdelete', this, this.activeRecord);
+		this.fireEvent('eventdelete', this, this.activeRecord, this.animateTarget);
     }
 });

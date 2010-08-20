@@ -24,6 +24,7 @@
              * Calculates the number of days between two dates, ignoring time values.
              * @param {Date} start The start date
              * @param {Date} end The end date
+             * @return {Number} The number of days difference between the dates
              */
 	        diffDays : function(start, end){
 	            day = 1000*60*60*24;
@@ -32,9 +33,11 @@
 	        },
             
             /**
-             * Copy the time value from one date object into another without altering the date value.
+             * Copies the time value from one date object into another without altering the target's 
+             * date value. This function returns a new Date instance without modifying either original value.
              * @param {Date} fromDt The original date from which to copy the time
              * @param {Date} toDt The target date to copy the time to
+             * @return {Date} The new date/time value
              */
             copyTime : function(fromDt, toDt){
                 var dt = toDt.clone();

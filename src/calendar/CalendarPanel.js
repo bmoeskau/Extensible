@@ -68,6 +68,23 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      */
     monthText: 'Month',
     
+    /**
+     * @cfg {Object} viewConfig
+     * 
+     */
+    /**
+     * @cfg {Object} dayViewCfg
+     * 
+     */
+    /**
+     * @cfg {Object} weekViewCfg
+     * 
+     */
+    /**
+     * @cfg {Object} monthViewCfg
+     * 
+     */
+    
     // private
     layoutConfig: {
         layoutOnCardChange: true,
@@ -241,19 +258,39 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              * @param {Boolean} allday True if the day clicked on represents an all-day box, else false.
              * @param {Ext.Element} el The Element that was clicked on
              */
+            /**
+             * @event editdetails
+             * Fires when the user selects the option in this window to continue editing in the detailed edit form
+             * (by default, an instance of {@link Ext.ensible.cal.EventEditForm}. Handling code should hide this window
+             * and transfer the current event record to the appropriate instance of the detailed form by showing it
+             * and calling {@link Ext.ensible.cal.EventEditForm#loadRecord loadRecord}.
+             * @param {Ext.ensible.cal.EventEditWindow} this
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} that is currently being edited
+             */
+            /**
+             * @event eventdelete
+             * Fires after an event element is deleted by the user. Not currently implemented directly at the view level -- currently 
+             * deletes only happen from one of the forms.
+             * @param {Ext.ensible.cal.CalendarView} this
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was deleted
+             */
         });
         
         this.layout = 'card'; // do not allow override
         
+        var sharedViewCfg = {
+            showToday: this.showToday,
+            showTodayText: this.showTodayText,
+            showTime: this.showTime
+        };
+        
         if(this.showDayView){
             var day = Ext.apply({
                 xtype: 'dayview',
-                title: this.dayText,
-                showToday: this.showToday,
-                showTodayText: this.showTodayText,
-                showTime: this.showTime
-            }, this.dayViewCfg);
+                title: this.dayText
+            }, sharedViewCfg);
             
+            day = Ext.apply(Ext.apply(day, this.viewConfig), this.dayViewCfg);
             day.id = this.id+'-day';
             day.store = day.store || this.eventStore;
             this.initEventRelay(day);
@@ -262,12 +299,10 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         if(this.showWeekView){
             var wk = Ext.applyIf({
                 xtype: 'weekview',
-                title: this.weekText,
-                showToday: this.showToday,
-                showTodayText: this.showTodayText,
-                showTime: this.showTime
-            }, this.weekViewCfg);
+                title: this.weekText
+            }, sharedViewCfg);
             
+            wk = Ext.apply(Ext.apply(wk, this.viewConfig), this.weekViewCfg);
             wk.id = this.id+'-week';
             wk.store = wk.store || this.eventStore;
             this.initEventRelay(wk);
@@ -277,9 +312,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             var month = Ext.applyIf({
                 xtype: 'monthview',
                 title: this.monthText,
-                showToday: this.showToday,
-                showTodayText: this.showTodayText,
-                showTime: this.showTime,
                 listeners: {
                     'weekclick': {
                         fn: function(vw, dt){
@@ -288,8 +320,9 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
                         scope: this
                     }
                 }
-            }, this.monthViewCfg);
+            }, sharedViewCfg);
             
+            month = Ext.apply(Ext.apply(month, this.viewConfig), this.monthViewCfg);
             month.id = this.id+'-month';
             month.store = month.store || this.eventStore;
             this.initEventRelay(month);
@@ -316,7 +349,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             fn: function(c){
                 // relay the view events so that app code only has to handle them in one place
                 this.relayEvents(c, ['eventsrendered','eventclick','eventover','eventout','dayclick',
-                    'eventmove','datechange','rangeselect','eventdelete','eventresize','initdrag']);
+                    'eventmove','datechange','rangeselect','eventdelete','eventresize','initdrag','editdetails']);
             },
             scope: this,
             single: true

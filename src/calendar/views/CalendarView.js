@@ -66,6 +66,20 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      */
     enableDD: true,
     /**
+     * @cfg {Boolean} enableContextMenus
+     * True to enable automatic right-click context menu handling in the calendar views (the default), false to disable
+     * them. Different context menus are provided when clicking on events vs. the view background.
+     */
+    enableContextMenus: true,
+    /**
+     * @cfg {Boolean} suppressBrowserContextMenu
+     * When {@link #enableContextMenus} is true, the browser context menu will automatically be suppressed whenever a
+     * custom context menu is displayed. When this option is true, right-clicks on elements that do not have a custom
+     * context menu will also suppress the default browser context menu (no menu will be shown at all). When false,
+     * the browser context menu will still show if the right-clicked element has no custom menu (this is the default).
+     */
+    suppressBrowserContextMenu: false,
+    /**
      * @cfg {Boolean} monitorResize
      * True to monitor the browser's resize event (the default), false to ignore it. If the calendar view is rendered
      * into a fixed-size container this can be set to false. However, if the view can change dimensions (e.g., it's in 
@@ -210,15 +224,27 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
              * @param {Date} dt The date that is exited
              * @param {Ext.Element} el The day Element that is exited
              */
-            dayout: true
-            /*
+            dayout: true,
+            /**
+             * @event editdetails
+             * Fires when the user selects the option in this window to continue editing in the detailed edit form
+             * (by default, an instance of {@link Ext.ensible.cal.EventEditForm}. Handling code should hide this window
+             * and transfer the current event record to the appropriate instance of the detailed form by showing it
+             * and calling {@link Ext.ensible.cal.EventEditForm#loadRecord loadRecord}.
+             * @param {Ext.ensible.cal.CalendarView} this
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} that is currently being edited
+             * @param {Ext.Element} el The target element
+             */
+            editdetails: true,
+            /**
              * @event eventdelete
              * Fires after an event element is deleted by the user. Not currently implemented directly at the view level -- currently 
              * deletes only happen from one of the forms.
              * @param {Ext.ensible.cal.CalendarView} this
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was deleted
+             * @param {Ext.Element} el The target element
              */
-            //eventdelete: true
+            eventdelete: true
         });
     },
 
@@ -239,6 +265,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 			'resize': this.onResize,
             scope: this
         });
+        
+        if(this.enableContextMenus){
+            this.el.on('contextmenu', this.onContextMenu, this);
+        }
 		
 		this.el.unselectable();
         
@@ -440,6 +470,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	
     // private
 	onEventDrop : function(rec, dt){
+        this.moveEvent(rec, dt);
+	},
+    
+    moveEvent : function(rec, dt){
         if(Ext.ensible.Date.compare(rec.data[Ext.ensible.cal.EventMappings.StartDate.name], dt) === 0){
             // no changes
             return;
@@ -447,19 +481,20 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         var diff = dt.getTime() - rec.data[Ext.ensible.cal.EventMappings.StartDate.name].getTime();
         rec.set(Ext.ensible.cal.EventMappings.StartDate.name, dt);
         rec.set(Ext.ensible.cal.EventMappings.EndDate.name, rec.data[Ext.ensible.cal.EventMappings.EndDate.name].add(Date.MILLI, diff));
-		
-		this.fireEvent('eventmove', this, rec);
-	},
+        
+        this.fireEvent('eventmove', this, rec);
+    },
     
     // private
 	onCalendarEndDrag : function(start, end, onComplete){
         // set this flag for other event handlers that might conflict while we're waiting
         this.dragPending = true;
         // have to wait for the user to save or cancel before finalizing the dd interation
-        var o = {};
+        var o = {};//, el = this.getDayEl(start);
         o[Ext.ensible.cal.EventMappings.StartDate.name] = start;
         o[Ext.ensible.cal.EventMappings.EndDate.name] = end;
-		this.fireEvent('rangeselect', this, o, this.onCalendarEndDragComplete.createDelegate(this, [onComplete]));
+        
+		this.fireEvent('rangeselect', this, o, null, this.onCalendarEndDragComplete.createDelegate(this, [onComplete]));
 	},
     
     // private
@@ -902,12 +937,72 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         return this.startDate.format('F Y');
     },
     
+    // private
+    showEventMenu : function(el, xy){
+        if(!this.eventMenu){
+            var dateMenu = new Ext.menu.DateMenu({
+                handler: function(dp, dt){
+                    this.menuActive = false;
+                    dt = Ext.ensible.Date.copyTime(this.eventMenu.rec.data[Ext.ensible.cal.EventMappings.StartDate.name], dt);
+                    this.moveEvent(this.eventMenu.rec, dt);
+                },
+                scope: this
+            });
+            this.eventMenu = new Ext.menu.Menu({
+                id: this.id+'-evt-ctxmenu',
+                items: [{
+                    iconCls:'extensible-cal-icon-evt-edit',
+                    text: 'Edit Details',
+                    scope: this,
+                    handler: function(){
+                        this.menuActive = false;
+                        this.fireEvent('editdetails', this, this.eventMenu.rec, this.eventMenu.ctxEl);
+                    }
+                },{
+                    text: 'Delete',
+                    iconCls:'extensible-cal-icon-evt-del',
+                    scope: this,
+                    handler:function(){
+                        this.menuActive = false;
+                        this.fireEvent('eventdelete', this, this.eventMenu.rec, this.eventMenu.ctxEl);
+                    }
+                },'-',{
+                    iconCls:'extensible-cal-icon-evt-move',
+                    text:'Move to...',
+                    scope: this,
+                    menu: dateMenu
+                }]
+            });
+            this.eventMenu.on('hide', this.onEventContextHide, this);
+            this.eventMenu.datePicker = dateMenu.picker;
+        }
+        if(this.eventMenu.ctxEl){
+            this.eventMenu.ctxEl = null;
+        }
+        this.eventMenu.ctxEl = el;
+        this.eventMenu.rec = this.getEventRecordFromEl(el); 
+        this.eventMenu.datePicker.setValue(this.eventMenu.rec.data[Ext.ensible.cal.EventMappings.StartDate.name]);
+        this.eventMenu.showAt(xy);
+        this.menuActive = true;
+    },
+    
+    onEventContextHide : function(){
+        if(this.eventMenu.ctxEl){
+            this.eventMenu.ctxEl = null;
+        }
+    },
+    
     /*
      * Shared click handling.  Each specific view also provides view-specific
      * click handling that calls this first.  This method returns true if it
      * can handle the click (and so the subclass should ignore it) else false.
      */
     onClick : function(e, t){
+        if(this.menuActive === true){
+            // ignore the first click if a context menu is active (let it close)
+            this.menuActive = false;
+            return true;
+        }
         var el = e.getTarget(this.eventSelector, 5);
         if(el){
             var id = this.getEventIdFromEl(el);
@@ -984,7 +1079,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         }
     },
 	
-    // private
+    // private, optionally may be implemented by subclasses
+    onContextMenu : Ext.emptyFn,
+    
+    // private, MUST be implemented by subclasses
     renderItems : function(){
         throw 'This method must be implemented by a subclass';
     }

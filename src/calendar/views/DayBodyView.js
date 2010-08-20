@@ -386,6 +386,20 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             } 
         }
     },
+    
+    // private
+    onContextMenu : function(e, t){
+        var match = false;
+        
+        if(el = e.getTarget(this.eventSelector, 5, true)){
+            this.showEventMenu(el, e.getXY());
+            match = true;
+        }
+        
+        if(match || this.suppressBrowserContextMenu === true){
+            e.preventDefault();
+        }
+    },
 
     // private
     onClick : function(e, t){
