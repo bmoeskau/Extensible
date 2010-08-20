@@ -426,4 +426,4 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     }
 });
 
-Ext.reg('daybodyview', Ext.ensible.cal.DayBodyView);
+Ext.reg('extensible.daybodyview', Ext.ensible.cal.DayBodyView);

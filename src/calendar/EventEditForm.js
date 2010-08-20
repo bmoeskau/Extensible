@@ -206,4 +206,4 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
     }
 });
 
-Ext.reg('eventeditform', Ext.ensible.cal.EventEditForm);
+Ext.reg('extensible.eventeditform', Ext.ensible.cal.EventEditForm);

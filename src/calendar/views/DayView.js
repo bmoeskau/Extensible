@@ -57,12 +57,12 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
         cfg.wekkCount = 1; 
         
         var header = Ext.applyIf({
-            xtype: 'dayheaderview',
+            xtype: 'extensible.dayheaderview',
             id: this.id+'-hd'
         }, cfg);
         
         var body = Ext.applyIf({
-            xtype: 'daybodyview',
+            xtype: 'extensible.daybodyview',
             id: this.id+'-bd'
         }, cfg);
         
@@ -188,4 +188,4 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
     }
 });
 
-Ext.reg('dayview', Ext.ensible.cal.DayView);
+Ext.reg('extensible.dayview', Ext.ensible.cal.DayView);

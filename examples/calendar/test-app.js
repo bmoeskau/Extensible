@@ -88,13 +88,13 @@
                             }
                         }]
                     },{
-                        xtype: 'calendarpanel',
+                        xtype: 'extensible.calendarpanel',
                         eventStore: this.eventStore,
                         calendarStore: this.calendarStore,
                         border: false,
                         id:'app-calendar',
                         region: 'center',
-                        activeItem: 2, // month view
+                        activeItem: 3, // month view
                         
                         // Any generic view options that should be applied to all sub views:
                         viewConfig: {
@@ -109,9 +109,14 @@
                             showWeekNumbers: true
                         },
                         
+                        multiWeekViewCfg: {
+                            //weekCount: 3
+                        },
+                        
                         // Some optional CalendarPanel configs to experiment with:
                         //showDayView: false,
                         //showWeekView: false,
+                        //showMultiWeekView: false,
                         //showMonthView: false,
                         //showNavBar: false,
                         //showTodayText: false,

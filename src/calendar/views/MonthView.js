@@ -378,7 +378,7 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 					}
 				}],
 				items: {
-					xtype: 'monthdaydetailview',
+					xtype: 'extensible.monthdaydetailview',
 					id: this.id+'-details-view',
 					date: dt,
 					view: this,
@@ -477,4 +477,4 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
     }
 });
 
-Ext.reg('monthview', Ext.ensible.cal.MonthView);
+Ext.reg('extensible.monthview', Ext.ensible.cal.MonthView);

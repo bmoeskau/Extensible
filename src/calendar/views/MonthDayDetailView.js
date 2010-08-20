@@ -98,4 +98,4 @@ Ext.ensible.cal.MonthDayDetailView = Ext.extend(Ext.BoxComponent, {
 	}
 });
 
-Ext.reg('monthdaydetailview', Ext.ensible.cal.MonthDayDetailView);
+Ext.reg('extensible.monthdaydetailview', Ext.ensible.cal.MonthDayDetailView);

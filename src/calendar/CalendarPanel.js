@@ -29,6 +29,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      * this config is false.
      */
     showMonthView: true,
+    showMultiWeekView: true,
     /**
      * @cfg {Boolean} showNavBar
      * True to display the calendar navigation toolbar, false to hide it (defaults to true). Note that
@@ -37,7 +38,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     showNavBar: true,
     /**
      * @cfg {String} todayText
-     * Alternate text to use for the 'Today' nav bar button.
+     * Text to use for the 'Today' nav bar button.
      */
     todayText: 'Today',
     /**
@@ -54,17 +55,23 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     showTime: true,
     /**
      * @cfg {String} dayText
-     * Alternate text to use for the 'Day' nav bar button.
+     * Text to use for the 'Day' nav bar button.
      */
     dayText: 'Day',
     /**
      * @cfg {String} weekText
-     * Alternate text to use for the 'Week' nav bar button.
+     * Text to use for the 'Week' nav bar button.
      */
     weekText: 'Week',
     /**
+     * @cfg {String} multiWeekText
+     * Text to use for the 'X Weeks' nav bar button (defaults to "{0} Weeks" where {0} is automatically replaced by the
+     * value of the {@link #multiWeekViewCfg}'s weekCount value if available, otherwise it uses the view default of 2).
+     */
+    multiWeekText: '{0} Weeks',
+    /**
      * @cfg {String} monthText
-     * Alternate text to use for the 'Month' nav bar button.
+     * Text to use for the 'Month' nav bar button.
      */
     monthText: 'Month',
     
@@ -78,6 +85,10 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      */
     /**
      * @cfg {Object} weekViewCfg
+     * 
+     */
+    /**
+     * @cfg {Object} multiWeekViewCfg
      * 
      */
     /**
@@ -99,10 +110,12 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         this.tbar = {
             cls: 'ext-cal-toolbar',
             border: true,
-            buttonAlign: 'center',
+            //buttonAlign: 'center',
             items: [{
                 id: this.id+'-tb-prev', handler: this.onPrevClick, scope: this, iconCls: 'x-tbar-page-prev'
-            }]
+            },{
+                id: this.id+'-tb-next', handler: this.onNextClick, scope: this, iconCls: 'x-tbar-page-next'
+            }, '->']
         };
         
         this.viewCount = 0;
@@ -119,6 +132,13 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             });
             this.viewCount++;
         }
+        if(this.showMultiWeekView){
+            var text = String.format(this.multiWeekText, this.multiWeekViewCfg.weekCount || 2);
+            this.tbar.items.push({
+                id: this.id+'-tb-multiweek', text: text, handler: this.onMultiWeekClick, scope: this, toggleGroup: 'tb-views'
+            });
+            this.viewCount++;
+        }
         if(this.showMonthView || this.viewCount == 0){
             this.tbar.items.push({
                 id: this.id+'-tb-month', text: this.monthText, handler: this.onMonthClick, scope: this, toggleGroup: 'tb-views'
@@ -126,10 +146,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             this.viewCount++;
             this.showMonthView = true;
         }
-        this.tbar.items.push({
-            id: this.id+'-tb-next', handler: this.onNextClick, scope: this, iconCls: 'x-tbar-page-next'
-        });
-        this.tbar.items.push('->');
         
         var idx = this.viewCount-1;
         this.activeItem = this.activeItem === undefined ? idx : (this.activeItem > idx ? idx : this.activeItem);
@@ -286,7 +302,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         
         if(this.showDayView){
             var day = Ext.apply({
-                xtype: 'dayview',
+                xtype: 'extensible.dayview',
                 title: this.dayText
             }, sharedViewCfg);
             
@@ -298,7 +314,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         }
         if(this.showWeekView){
             var wk = Ext.applyIf({
-                xtype: 'weekview',
+                xtype: 'extensible.weekview',
                 title: this.weekText
             }, sharedViewCfg);
             
@@ -308,9 +324,21 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             this.initEventRelay(wk);
             this.add(wk);
         }
+        if(this.showMultiWeekView){
+            var mwk = Ext.applyIf({
+                xtype: 'extensible.multiweekview',
+                title: this.multiWeekText
+            }, sharedViewCfg);
+            
+            mwk = Ext.apply(Ext.apply(mwk, this.viewConfig), this.multiWeekViewCfg);
+            mwk.id = this.id+'-multiweek';
+            mwk.store = mwk.store || this.eventStore;
+            this.initEventRelay(mwk);
+            this.add(mwk);
+        }
         if(this.showMonthView){
             var month = Ext.applyIf({
-                xtype: 'monthview',
+                xtype: 'extensible.monthview',
                 title: this.monthText,
                 listeners: {
                     'weekclick': {
@@ -330,7 +358,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         }
 
         this.add(Ext.applyIf({
-            xtype: 'eventeditform',
+            xtype: 'extensible.eventeditform',
             id: this.id+'-edit',
             calendarStore: this.calendarStore,
             listeners: {
@@ -511,6 +539,11 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     },
     
     // private
+    onMultiWeekClick: function(){
+        this.setActiveView(this.id+'-multiweek');
+    },
+    
+    // private
     onMonthClick: function(){
         this.setActiveView(this.id+'-month');
     },
@@ -525,4 +558,4 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     }
 });
 
-Ext.reg('calendarpanel', Ext.ensible.cal.CalendarPanel);
+Ext.reg('extensible.calendarpanel', Ext.ensible.cal.CalendarPanel);
