@@ -19,9 +19,9 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     showDayView: true,
     /**
      * @cfg {Boolean} showMultiDayView
-     * True to include the multi-day view (and toolbar button), false to hide them (defaults to true).
+     * True to include the multi-day view (and toolbar button), false to hide them (defaults to false).
      */
-    showMultiDayView: true,
+    showMultiDayView: false,
     /**
      * @cfg {Boolean} showWeekView
      * True to include the week view (and toolbar button), false to hide them (defaults to true).

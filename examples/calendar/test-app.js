@@ -113,12 +113,9 @@
                             //weekCount: 3
                         },
                         
-                        multiDayViewCfg: {
-                            //dayCount: 5
-                        },
-                        
                         // Some optional CalendarPanel configs to experiment with:
                         //showDayView: false,
+                        //showMultiDayView: true,
                         //showWeekView: false,
                         //showMultiWeekView: false,
                         //showMonthView: false,
