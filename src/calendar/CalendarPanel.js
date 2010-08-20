@@ -18,18 +18,26 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      */
     showDayView: true,
     /**
+     * @cfg {Boolean} showMultiDayView
+     * True to include the multi-day view (and toolbar button), false to hide them (defaults to true).
+     */
+    showMultiDayView: true,
+    /**
      * @cfg {Boolean} showWeekView
      * True to include the week view (and toolbar button), false to hide them (defaults to true).
      */
     showWeekView: true,
     /**
+     * @cfg {Boolean} showMultiWeekView
+     * True to include the multi-week view (and toolbar button), false to hide them (defaults to true).
+     */
+    showMultiWeekView: true,
+    /**
      * @cfg {Boolean} showMonthView
      * True to include the month view (and toolbar button), false to hide them (defaults to true).
-     * If the day and week views are both hidden, the month view will show by default even if
-     * this config is false.
+     * If all other views are hidden, the month view will show by default even if this config is false.
      */
     showMonthView: true,
-    showMultiWeekView: true,
     /**
      * @cfg {Boolean} showNavBar
      * True to display the calendar navigation toolbar, false to hide it (defaults to true). Note that
@@ -59,6 +67,12 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      */
     dayText: 'Day',
     /**
+     * @cfg {String} multiDayText
+     * Text to use for the 'X Days' nav bar button (defaults to "{0} Days" where {0} is automatically replaced by the
+     * value of the {@link #multDayViewCfg}'s dayCount value if available, otherwise it uses the view default of 3).
+     */
+    multiDayText: '{0} Days',
+    /**
      * @cfg {String} weekText
      * Text to use for the 'Week' nav bar button.
      */
@@ -81,6 +95,10 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      */
     /**
      * @cfg {Object} dayViewCfg
+     * 
+     */
+    /**
+     * @cfg {Object} multiDayViewCfg
      * 
      */
     /**
@@ -126,6 +144,13 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             });
             this.viewCount++;
         }
+        if(this.showMultiDayView){
+            var text = String.format(this.multiDayText, (this.multiDayViewCfg && this.multiDayViewCfg.dayCount) || 3);
+            this.tbar.items.push({
+                id: this.id+'-tb-multiday', text: text, handler: this.onMultiDayClick, scope: this, toggleGroup: 'tb-views'
+            });
+            this.viewCount++;
+        }
         if(this.showWeekView){
             this.tbar.items.push({
                 id: this.id+'-tb-week', text: this.weekText, handler: this.onWeekClick, scope: this, toggleGroup: 'tb-views'
@@ -133,7 +158,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             this.viewCount++;
         }
         if(this.showMultiWeekView){
-            var text = String.format(this.multiWeekText, this.multiWeekViewCfg.weekCount || 2);
+            var text = String.format(this.multiWeekText, (this.multiWeekViewCfg && this.multiWeekViewCfg.weekCount) || 2);
             this.tbar.items.push({
                 id: this.id+'-tb-multiweek', text: text, handler: this.onMultiWeekClick, scope: this, toggleGroup: 'tb-views'
             });
@@ -311,6 +336,18 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             day.store = day.store || this.eventStore;
             this.initEventRelay(day);
             this.add(day);
+        }
+        if(this.showMultiDayView){
+            var mday = Ext.apply({
+                xtype: 'extensible.multidayview',
+                title: this.multiDayText
+            }, sharedViewCfg);
+            
+            mday = Ext.apply(Ext.apply(mday, this.viewConfig), this.multiDayViewCfg);
+            mday.id = this.id+'-multiday';
+            mday.store = mday.store || this.eventStore;
+            this.initEventRelay(mday);
+            this.add(mday);
         }
         if(this.showWeekView){
             var wk = Ext.applyIf({
@@ -531,6 +568,11 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     // private
     onDayClick: function(){
         this.setActiveView(this.id+'-day');
+    },
+    
+    // private
+    onMultiDayClick: function(){
+        this.setActiveView(this.id+'-multiday');
     },
     
     // private

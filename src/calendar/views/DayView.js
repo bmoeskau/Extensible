@@ -40,14 +40,14 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
     ddMoveEventText: 'Move event to {0}',
     /**
      * @cfg {Number} dayCount
-     * The number of days to display in the view (defaults to 1)
+     * The number of days to display in the view (defaults to 1). Only values from 1 to 7 are allowed.
      */
     dayCount: 1,
     
     // private
     initComponent : function(){
-        // rendering more than 7 days per view is not supported
-        this.dayCount = this.dayCount > 7 ? 7 : this.dayCount;
+        // day count is only supported between 1 and 7 days
+        this.dayCount = this.dayCount > 7 ? 7 : (this.dayCount < 1 ? 1 : this.dayCount);
         
         var cfg = Ext.apply({}, this.initialConfig);
         cfg.showTime = this.showTime;
