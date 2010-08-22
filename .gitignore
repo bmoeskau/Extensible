@@ -1,2 +1,10 @@
 .project
 .tmp*
+
+# These get placed here after builds and are here in the 
+# packaged releases but we don't want them versioned:
+deploy/*
+extensible-all-debug.js
+extensible-all.js
+resources/css/extensible-all.css
+resources/css/extensible-all-debug.css

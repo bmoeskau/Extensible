@@ -1,0 +1,136 @@
+{
+    "projectName": "Extensible",
+    "deployDir": "extensible-1.0-alpha1",
+    "licenseText": "Extensible 1.0-alpha1\nCopyright(c) 2010 ThinkFirst, LLC\nteam@ext.ensible.com\nhttp://ext.ensible.com",
+    "pkgs": [{
+        "name": "Extensible Core",
+        "file": "pkgs/extensible-core.js",
+        "isDebug": true,
+        "fileIncludes": [{
+            "text": "Extensible.js",
+            "path": ""
+        },{
+            "text": "Ext-overrides.js",
+            "path": ""
+        }]
+    },{
+        "name": "Calendar",
+        "file": "pkgs/calendar.js",
+        "isDebug": true,
+        "fileIncludes": [{
+            "text": "DayHeaderTemplate.js",
+            "path": "src/calendar/templates/"
+        },{
+            "text": "DayBodyTemplate.js",
+            "path": "src/calendar/templates/"
+        },{
+            "text": "BoxLayoutTemplate.js",
+            "path": "src/calendar/templates/"
+        },{
+            "text": "MonthViewTemplate.js",
+            "path": "src/calendar/templates/"
+        },{
+            "text": "CalendarScrollManager.js",
+            "path": "src/calendar/dd/"
+        },{
+            "text": "StatusProxy.js",
+            "path": "src/calendar/dd/"
+        },{
+            "text": "CalendarDD.js",
+            "path": "src/calendar/dd/"
+        },{
+            "text": "DayViewDD.js",
+            "path": "src/calendar/dd/"
+        },{
+            "text": "EventRecord.js",
+            "path": "src/calendar/"
+        },{
+            "text": "WeekEventRenderer.js",
+            "path": "src/calendar/"
+        },{
+            "text": "CalendarView.js",
+            "path": "src/calendar/views/"
+        },{
+            "text": "MonthView.js",
+            "path": "src/calendar/views/"
+        },{
+            "text": "DayHeaderView.js",
+            "path": "src/calendar/views/"
+        },{
+            "text": "DayBodyView.js",
+            "path": "src/calendar/views/"
+        },{
+            "text": "DayView.js",
+            "path": "src/calendar/views/"
+        },{
+            "text": "MultiDayView.js",
+            "path": "src/calendar/views/"
+        },{
+            "text": "WeekView.js",
+            "path": "src/calendar/views/"
+        },{
+            "text": "MultiWeekView.js",
+            "path": "src/calendar/views/"
+        },{
+            "text": "MonthDayDetailView.js",
+            "path": "src/calendar/views/"
+        },{
+            "text":"CalendarPicker.js",
+            "path":"src/calendar/widgets/"
+        },{
+            "text": "RecurrenceCombo.js",
+            "path": "src/calendar/widgets/"
+        },{
+            "text": "RecurrenceField.js",
+            "path": "src/calendar/widgets/"
+        },{
+            "text": "DateRangeField.js",
+            "path": "src/calendar/widgets/"
+        },{
+            "text": "ReminderField.js",
+            "path": "src/calendar/widgets/"
+        },{
+            "text": "EventEditForm.js",
+            "path": "src/calendar/"
+        },{
+            "text": "EventEditWindow.js",
+            "path": "src/calendar/"
+        },{
+            "text": "CalendarPanel.js",
+            "path": "src/calendar/"
+        }]
+    },{
+       "name": "Extensible All CSS",
+       "file": "resources/css/extensible-all.css",
+       "fileIncludes": [{
+           "text": "calendar.css",
+           "path": "resources/css/"
+       },{
+           "text": "recurrence.css",
+           "path": "resources/css/"
+       }]
+    },{
+        "name": "Extensible All",
+        "file": "extensible-all.js",
+        "isDebug": true,
+        "includeDeps": true,
+        "pkgDeps": [
+            "pkgs/extensible-core.js",
+            "pkgs/calendar.js"
+        ],
+        "fileIncludes": []
+    }],
+    "resources": [{
+        "src": "src/",
+        "dest": "src/",
+        "filters": ".*[\\.jpg|\\.png|\\.gif|\\.css|\\.js]"
+    },{
+        "src": "examples/",
+        "dest": "examples/",
+        "filters": ".*[\\.html|\\.jpg|\\.png|\\.gif|\\.css|\\.js|\\.php]"
+    },{
+        "src": "resources/",
+        "dest": "resources/",
+        "filters": ".*"
+    }]
+}
