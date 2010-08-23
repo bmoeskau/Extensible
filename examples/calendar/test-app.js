@@ -5,7 +5,7 @@
             Ext.BLANK_IMAGE_URL = 'http://extjs.cachefly.net/ext-3.1.0/resources/images/default/s.gif';
 
             // This is an example calendar store that enables the events to have
-            // different colors based on CalendarId. This is not a fully-implmented
+            // different colors based on CalendarId. This is not a fully-realized
             // multi-calendar implementation, which is beyond the scope of this sample app
             this.calendarStore = new Ext.data.JsonStore({
                 storeId: 'calendarStore',
@@ -53,7 +53,7 @@
             
             // This is the app UI layout code.  All of the calendar views are subcomponents of
             // CalendarPanel, but the app title bar and sidebar/navigation calendar are separate
-            // pieces that are composed in app-specific layout code since they could be ommitted
+            // pieces that are composed in app-specific layout code since they could be omitted
             // or placed elsewhere within the application.
             new Ext.Viewport({
                 layout: 'border',
@@ -66,7 +66,7 @@
                     contentEl: 'app-header-content'
                 },{
                     id: 'app-center',
-                    title: '...', // will be updated to view date range
+                    title: '...', // will be updated to the current view's date range
                     region: 'center',
                     layout: 'border',
                     items: [{

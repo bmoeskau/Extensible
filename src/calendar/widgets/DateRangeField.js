@@ -12,7 +12,7 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
      */
     toText: 'to',
     /**
-     * @cfg {String} toText
+     * @cfg {String} allDayText
      * The text to display as the label for the all day checkbox (defaults to 'All day')
      */
     allDayText: 'All day',

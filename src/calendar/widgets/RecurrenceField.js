@@ -1,3 +1,6 @@
+
+// http://www.kanzaki.com/docs/ical/rrule.html
+
 Ext.ensible.cal.RecurrenceField = Ext.extend(Ext.form.Field, {
     
     fieldLabel: 'Repeats',
