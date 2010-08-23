@@ -1,0 +1,1173 @@
+/*
+ * Ext Scheduler v1.6
+ * Copyright(c) 2009-2010 Mats Bryntse Consulting
+ * 
+ * info@ext-scheduler.com
+ * 
+ * http://www.ext-scheduler.com/license.html
+ * 
+ * 
+ */
+
+
+ 
+.sch-event
+{
+	border:1px solid #aaa;
+	background:url(../images/eventbg.png) repeat-x;
+    z-index:1000;
+    min-width:1px;			 
+    position : absolute;
+    height:18px;
+    top:1px;
+    overflow:hidden;
+}
+
+
+.sch-event-inner
+{
+    overflow:hidden;
+    white-space:nowrap;
+    margin-left:5px;
+    margin-right:5px;
+	margin-top:2px;
+}
+
+
+.ext-ie .sch-event
+{
+	overflow:hidden;
+}
+
+.ext-ie .sch-event .sch-event-inner
+{
+	margin-top:0;
+}
+
+
+.sch-event-endsoutside
+{
+	border-right:0 none;
+}
+
+
+.sch-event-startsoutside
+{
+	border-left:0 none;
+}
+
+.sch-event-selected 
+{
+	border-color:red !important;
+}
+
+
+ 
+.sch-event
+{
+	border:1px solid #aaa;
+	background:url(../images/eventbg.png) repeat-x;
+    z-index:1000;
+    min-width:1px;			 
+    position : absolute;
+    height:18px;
+    top:1px;
+    overflow:hidden;
+}
+
+
+.sch-event-inner
+{
+    overflow:hidden;
+    white-space:nowrap;
+    margin-left:5px;
+    margin-right:5px;
+	margin-top:2px;
+}
+
+
+.ext-ie .sch-event
+{
+	overflow:hidden;
+}
+
+.ext-ie .sch-event .sch-event-inner
+{
+	margin-top:0;
+}
+
+
+.sch-event-endsoutside
+{
+	border-right:0 none;
+}
+
+
+.sch-event-startsoutside
+{
+	border-left:0 none;
+}
+
+.sch-event-selected 
+{
+	border-color:red !important;
+}
+
+
+ 
+.sch-timetipwrap .sch-clock
+{
+    white-space:nowrap;
+    padding-left:26px;
+    min-height:17px;
+    position:relative;
+	height:20px;
+    background: url(../images/clock-bare.png) no-repeat left top !important;
+    display:block;
+}
+
+.ext-ie .sch-timetipwrap .sch-clock
+{
+    padding-left:6px;
+    background-image:none !important;
+}
+
+img.sch-hourIndicator
+{
+    background: url(../images/hourimg.png) no-repeat left top !important;
+    position:absolute;
+    left:10px;
+    top:0;
+    width:3px;
+    height:20px;
+}
+
+img.sch-minuteIndicator
+{
+    background: url(../images/minuteIndicator.png) no-repeat left top !important;
+    position:absolute;
+    left:10px;
+    top:0;
+    width:3px;
+    height:20px;
+}
+
+
+.ext-ie .sch-clock img
+{
+	display:none;
+}
+
+.sch-tip-ok
+{
+  padding-left:20px;
+  background: url(http://extjs.cachefly.net/ext-3.1.1/resources/images/default/dd/drop-yes.gif) no-repeat left top;
+}
+
+.sch-tip-notok
+{
+  padding-left:20px;
+  background: url(http://extjs.cachefly.net/ext-3.1.1/resources/images/default/dd/drop-no.gif) no-repeat left top;
+}
+
+ 
+.sch-timetipwrap .sch-clock
+{
+    white-space:nowrap;
+    padding-left:26px;
+    min-height:17px;
+    position:relative;
+	height:20px;
+    background: url(../images/clock-bare.png) no-repeat left top !important;
+    display:block;
+}
+
+.ext-ie .sch-timetipwrap .sch-clock
+{
+    padding-left:6px;
+    background-image:none !important;
+}
+
+img.sch-hourIndicator
+{
+    background: url(../images/hourimg.png) no-repeat left top !important;
+    position:absolute;
+    left:10px;
+    top:0;
+    width:3px;
+    height:20px;
+}
+
+img.sch-minuteIndicator
+{
+    background: url(../images/minuteIndicator.png) no-repeat left top !important;
+    position:absolute;
+    left:10px;
+    top:0;
+    width:3px;
+    height:20px;
+}
+
+
+.ext-ie .sch-clock img
+{
+	display:none;
+}
+
+.sch-tip-ok
+{
+  padding-left:20px;
+  background: url(http://extjs.cachefly.net/ext-3.1.1/resources/images/default/dd/drop-yes.gif) no-repeat left top;
+}
+
+.sch-tip-notok
+{
+  padding-left:20px;
+  background: url(http://extjs.cachefly.net/ext-3.1.1/resources/images/default/dd/drop-no.gif) no-repeat left top;
+}
+
+ 
+
+.sch-dragcreator-proxy
+{
+	position:absolute;
+    left:0;
+    top:0;
+    width:0;
+    border:1px dotted;
+	opacity: .5;
+    filter:alpha(opacity=50);
+    zoom:1;
+    background-color:#c3daf9;
+    border-color:#3399bb;
+    height:100%;
+    z-index:10000;
+}
+
+
+
+ 
+
+.sch-dragcreator-proxy
+{
+	position:absolute;
+    left:0;
+    top:0;
+    width:0;
+    border:1px dotted;
+	opacity: .5;
+    filter:alpha(opacity=50);
+    zoom:1;
+    background-color:#c3daf9;
+    border-color:#3399bb;
+    height:100%;
+    z-index:10000;
+}
+
+
+
+ 
+
+.sch-dd-cellover
+{
+    background:url(../images/altrow.png) repeat;
+}
+
+
+.x-dd-drop-ok.add .x-dd-drop-icon{
+  background-image: url(http://extjs.cachefly.net/ext-3.1.1/resources/images/default/dd/drop-add.gif);
+}
+
+
+.x-dd-drag-proxy .sch-event
+{
+	max-width:200px;
+    position:static !important;
+    margin-top:2px;
+}
+
+.sch-dd-newtime
+{
+    font-weight:bold;
+    color:#274490;
+    display:block;
+    margin: 0 0 5px 4px;
+}
+
+.x-dd-drag-proxy .sch-event .x-resizable-handle
+{
+	opacity:0 !important;
+	filter: alpha(opacity=0);
+}
+
+ 
+
+.sch-dd-cellover
+{
+    background:url(../images/altrow.png) repeat;
+}
+
+
+.x-dd-drop-ok.add .x-dd-drop-icon{
+  background-image: url(http://extjs.cachefly.net/ext-3.1.1/resources/images/default/dd/drop-add.gif);
+}
+
+
+.x-dd-drag-proxy .sch-event
+{
+	max-width:200px;
+    position:static !important;
+    margin-top:2px;
+}
+
+.sch-dd-newtime
+{
+    font-weight:bold;
+    color:#274490;
+    display:block;
+    margin: 0 0 5px 4px;
+}
+
+.x-dd-drag-proxy .sch-event .x-resizable-handle
+{
+	opacity:0 !important;
+	filter: alpha(opacity=0);
+}
+
+
+.sch-eventeditor
+{
+	background:#fff;
+    z-index:10000;
+    top:-1000px;
+    left:-1000px;
+    position:absolute;
+    -webkit-box-shadow: 1px 1px 1px rgba(100, 100, 100, 0.5);
+    -moz-box-shadow: 1px 1px 1px rgba(100, 100, 100, 0.5); 
+    -moz-border-radius-bottomleft:11px;
+    -moz-border-radius-bottomright:11px;
+    -moz-border-radius-topright:11px;
+    -webkit-border-bottom-right-radius: 11px;
+    -webkit-border-bottom-left-radius: 11px;
+    -webkit-border-top-right-radius: 11px;
+	border: 1px solid #DDDDDD;
+}
+
+.sch-eventeditor .x-border-layout-ct
+{
+	background:transparent;
+}
+
+.sch-eventeditor-timefields
+{
+	background:transparent;
+}
+
+.sch-eventeditor-timefields .x-panel-body
+{
+    -moz-border-radius-topright:11px;
+    -webkit-border-top-right-radius: 11px;
+	background:#DFE8F6;
+	border-bottom: 1px solid #DDDDDD;
+}
+
+.sch-eventeditor.x-panel-collapsed
+{
+	border: 0px none;
+}
+
+
+.sch-eventeditor
+{
+	background:#fff;
+    z-index:10000;
+    top:-1000px;
+    left:-1000px;
+    position:absolute;
+    -webkit-box-shadow: 1px 1px 1px rgba(100, 100, 100, 0.5);
+    -moz-box-shadow: 1px 1px 1px rgba(100, 100, 100, 0.5); 
+    -moz-border-radius-bottomleft:11px;
+    -moz-border-radius-bottomright:11px;
+    -moz-border-radius-topright:11px;
+    -webkit-border-bottom-right-radius: 11px;
+    -webkit-border-bottom-left-radius: 11px;
+    -webkit-border-top-right-radius: 11px;
+	border: 1px solid #DDDDDD;
+}
+
+.sch-eventeditor .x-border-layout-ct
+{
+	background:transparent;
+}
+
+.sch-eventeditor-timefields
+{
+	background:transparent;
+}
+
+.sch-eventeditor-timefields .x-panel-body
+{
+    -moz-border-radius-topright:11px;
+    -webkit-border-top-right-radius: 11px;
+	background:#DFE8F6;
+	border-bottom: 1px solid #DDDDDD;
+}
+
+.sch-eventeditor.x-panel-collapsed
+{
+	border: 0px none;
+}
+
+ 
+
+.sch-schedulerpanel .x-grid3
+{
+  overflow:visible !important;
+}
+
+.sch-verticalLine
+{
+  cursor:pointer;
+  width:1px;
+  height:100%;
+  position:absolute;
+  left:0;
+  top:0;
+  border-left:1px dotted #aaa;
+  z-index:101;
+}
+
+div.sch-verticalLine:hover
+{
+  border-left-style:solid !important;
+}
+
+.sch-schedulerpanel .x-panel-body,
+.sch-schedulerpanel .x-panel-bwrap {
+    overflow:visible !important;
+}
+
+.sch-schedulerpanel .x-grid3-header,
+.sch-schedulerpanel .x-grid-group-hd
+{
+    position:relative;
+    z-index:101;
+}
+
+.sch-schedulerpanel .x-grid-group-hd
+{
+     
+}
+
+.sch-schedulerpanel .x-grid3-scroller
+{
+    z-index:101;
+}
+
+ 
+
+.sch-schedulerpanel .x-grid3
+{
+  overflow:visible !important;
+}
+
+.sch-verticalLine
+{
+  cursor:pointer;
+  width:1px;
+  height:100%;
+  position:absolute;
+  left:0;
+  top:0;
+  border-left:1px dotted #aaa;
+  z-index:101;
+}
+
+div.sch-verticalLine:hover
+{
+  border-left-style:solid !important;
+}
+
+.sch-schedulerpanel .x-panel-body,
+.sch-schedulerpanel .x-panel-bwrap {
+    overflow:visible !important;
+}
+
+.sch-schedulerpanel .x-grid3-header,
+.sch-schedulerpanel .x-grid-group-hd
+{
+    position:relative;
+    z-index:101;
+}
+
+.sch-schedulerpanel .x-grid-group-hd
+{
+     
+}
+
+.sch-schedulerpanel .x-grid3-scroller
+{
+    z-index:101;
+}
+
+
+.sch-event .x-resizable-handle
+{
+	opacity:0;
+	display:none;
+}
+
+
+.sch-event-endsoutside .x-resizable-handle-east,
+.sch-event-startsoutside .x-resizable-handle-west
+{
+	display:none !important;
+}
+
+.sch-event .x-resizable-handle-east
+{
+	right:-2px;
+}
+
+.ext-ie .sch-event .x-resizable-handle-east
+{
+	right:0;
+}
+
+.sch-event-hover .x-resizable-handle
+{
+	display:block;
+	opacity:1 !important;
+	filter: alpha(opacity=100);
+	background-position: left;
+	background-image: url(http://extjs.cachefly.net/ext-3.1.1/resources/images/default/sizer/e-handle.gif);
+}
+
+
+
+
+.sch-event .x-resizable-handle
+{
+	opacity:0;
+	display:none;
+}
+
+
+.sch-event-endsoutside .x-resizable-handle-east,
+.sch-event-startsoutside .x-resizable-handle-west
+{
+	display:none !important;
+}
+
+.sch-event .x-resizable-handle-east
+{
+	right:-2px;
+}
+
+.ext-ie .sch-event .x-resizable-handle-east
+{
+	right:0;
+}
+
+.sch-event-hover .x-resizable-handle
+{
+	display:block;
+	opacity:1 !important;
+	filter: alpha(opacity=100);
+	background-position: left;
+	background-image: url(http://extjs.cachefly.net/ext-3.1.1/resources/images/default/sizer/e-handle.gif);
+}
+
+
+
+ 
+.sch-zone
+{
+  height:100%;
+  position:absolute;
+  left:0;
+  top:0;
+  background: url(../images/zonebg.png) repeat;
+}
+
+
+.ext-ie .sch-schedulerpanel .x-grid3-body,
+{
+	position:relative;
+	z-index:2;
+}
+
+ 
+.sch-zone
+{
+  height:100%;
+  position:absolute;
+  left:0;
+  top:0;
+  background: url(../images/zonebg.png) repeat;
+}
+
+
+.ext-ie .sch-schedulerpanel .x-grid3-body,
+{
+	position:relative;
+	z-index:2;
+}
+
+ 
+
+.sch-groupingsummary .x-grid-group-collapsed
+{
+	position:relative;
+	border-bottom:2px solid #99BBE8;
+	min-height:22px;
+}
+
+
+
+
+* html .sch-groupingsummary .x-grid-group-collapsed {
+	height: 22px;
+}
+
+.sch-groupingsummary .x-grid-group-collapsed .x-grid3-row
+{
+	height:4px;
+	background-color:transparent !important;
+	background-image:none !important;
+}
+
+.sch-groupingsummary .x-grid-group-collapsed .x-grid3-row .sch-event
+{
+	height:2px;
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -moz-border-radius:0;
+    -webkit-border-radius: 0;
+    border-bottom:0 !important;
+	border-top:0 !important;
+    top:0px;
+    padding:0 !important;
+}
+
+.sch-groupingsummary .x-grid-group-collapsed .x-grid-group-body {
+	display:block;
+	padding-top:2px;
+}
+
+.sch-groupingsummary .x-grid-group-hd
+{
+	padding-top:0 !important;
+}
+
+.sch-groupingsummary .x-grid-group-collapsed .x-grid-group-hd
+{
+	position:absolute;
+	border-bottom:0 none;
+	z-index:200;
+	top:0;
+	left:0;
+	height:100%;
+}
+
+.sch-groupingsummary .x-grid-group-collapsed td.x-grid3-col {
+	height:2px !important;
+	border-bottom:0 !important;
+	border-top:0 !important;
+	text-indent:-10000px;
+    border-right: 1px none !important;
+}
+
+.sch-groupingsummary .x-grid-group-collapsed .x-grid3-cell-inner
+{
+	height:2px !important;
+	padding:0 !important;
+}
+
+
+
+
+.sch-schedulerpanel .x-grid-group-unlocked .x-grid-group-title
+{
+    visibility:hidden;
+}
+
+ 
+
+.sch-groupingsummary .x-grid-group-collapsed
+{
+	position:relative;
+	border-bottom:2px solid #99BBE8;
+	min-height:22px;
+}
+
+
+
+
+* html .sch-groupingsummary .x-grid-group-collapsed {
+	height: 22px;
+}
+
+.sch-groupingsummary .x-grid-group-collapsed .x-grid3-row
+{
+	height:4px;
+	background-color:transparent !important;
+	background-image:none !important;
+}
+
+.sch-groupingsummary .x-grid-group-collapsed .x-grid3-row .sch-event
+{
+	height:2px;
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -moz-border-radius:0;
+    -webkit-border-radius: 0;
+    border-bottom:0 !important;
+	border-top:0 !important;
+    top:0px;
+    padding:0 !important;
+}
+
+.sch-groupingsummary .x-grid-group-collapsed .x-grid-group-body {
+	display:block;
+	padding-top:2px;
+}
+
+.sch-groupingsummary .x-grid-group-hd
+{
+	padding-top:0 !important;
+}
+
+.sch-groupingsummary .x-grid-group-collapsed .x-grid-group-hd
+{
+	position:absolute;
+	border-bottom:0 none;
+	z-index:200;
+	top:0;
+	left:0;
+	height:100%;
+}
+
+.sch-groupingsummary .x-grid-group-collapsed td.x-grid3-col {
+	height:2px !important;
+	border-bottom:0 !important;
+	border-top:0 !important;
+	text-indent:-10000px;
+    border-right: 1px none !important;
+}
+
+.sch-groupingsummary .x-grid-group-collapsed .x-grid3-cell-inner
+{
+	height:2px !important;
+	padding:0 !important;
+}
+
+
+
+
+.sch-schedulerpanel .x-grid-group-unlocked .x-grid-group-title
+{
+    visibility:hidden;
+}
+
+ 
+
+.sch-schedulerpanel .x-grid3-cell
+{
+	height: 16px;
+}
+
+
+.ext-ie .sch-schedulerpanel .x-grid3-cell
+{
+	height: 20px;
+}
+
+.sch-schedulerpanel .x-grid3-cell-inner
+{
+	height:inherit;
+}
+
+.ext-ie .sch-timetd .x-grid3-cell-inner
+{
+	height:100%;
+}
+
+.sch-timetd .x-grid3-cell-inner
+{
+	overflow:visible !important;
+    position:relative;
+    text-align:left;    
+}
+
+
+.sch-schedulerpanel .x-grid3-hd-inner{
+	-o-text-overflow: clip;
+	text-overflow: clip;
+}
+
+
+.x-view-selector {
+	z-index:5000;
+}
+
+
+.sch-schedulerpanel .x-grid3-row-alt {
+	background:transparent url(../images/altrow.png) repeat;
+}
+
+
+.sch-schedulerpanel .x-grid3-row {
+	position:relative;
+	z-index:3;
+}
+
+.ext-ie .sch-timeheader .x-grid3-hd-btn,
+.ext-ie .sch-timeheader .x-grid3-sort-icon
+{
+	display:none;
+}
+
+ 
+
+.sch-schedulerpanel .x-grid3-cell
+{
+	height: 16px;
+}
+
+
+.ext-ie .sch-schedulerpanel .x-grid3-cell
+{
+	height: 20px;
+}
+
+.sch-schedulerpanel .x-grid3-cell-inner
+{
+	height:inherit;
+}
+
+.ext-ie .sch-timetd .x-grid3-cell-inner
+{
+	height:100%;
+}
+
+.sch-timetd .x-grid3-cell-inner
+{
+	overflow:visible !important;
+    position:relative;
+    text-align:left;    
+}
+
+
+.sch-schedulerpanel .x-grid3-hd-inner{
+	-o-text-overflow: clip;
+	text-overflow: clip;
+}
+
+
+.x-view-selector {
+	z-index:5000;
+}
+
+
+.sch-schedulerpanel .x-grid3-row-alt {
+	background:transparent url(../images/altrow.png) repeat;
+}
+
+
+.sch-schedulerpanel .x-grid3-row {
+	position:relative;
+	z-index:3;
+}
+
+.ext-ie .sch-timeheader .x-grid3-hd-btn,
+.ext-ie .sch-timeheader .x-grid3-sort-icon
+{
+	display:none;
+}
+
+ 
+
+td.ux-grid-hd-group-cell,
+td.ux-grid-hd-nogroup-cell {
+	background: url(http://extjs.cachefly.net/ext-3.1.1/resources/images/default/grid/grid3-hrow.gif) repeat-x bottom;
+}
+
+
+td.ux-grid-hd-group-cell,
+td.ux-grid-hd-nogroup-cell {
+	background: url(http://extjs.cachefly.net/ext-3.1.1/resources/images/default/grid/grid3-hrow.gif) repeat-x bottom;
+}
+
+.sch-schedulerpanel table.sch-dayIndicator
+{
+	width:100%;
+}
+
+.sch-schedulerpanel .sch-daytableheader .x-grid3-hd-inner
+{
+	padding:0 !important;
+}
+
+.sch-schedulerpanel .sch-daytableheader td
+{
+	padding:4px 0 !important;
+}
+
+.sch-schedulerpanel .sch-dayIndicator td
+{
+	text-align:center;
+}
+
+.sch-schedulerpanel .sch-dayIndicator td:last-child
+{
+	border: 0 none;
+}
+
+
+ 
+
+td.ux-grid-hd-group-cell,
+td.ux-grid-hd-nogroup-cell {
+	background: url(http://extjs.cachefly.net/ext-3.1.1/resources/images/default/grid/grid3-hrow.gif) repeat-x bottom;
+}
+
+
+td.ux-grid-hd-group-cell,
+td.ux-grid-hd-nogroup-cell {
+	background: url(http://extjs.cachefly.net/ext-3.1.1/resources/images/default/grid/grid3-hrow.gif) repeat-x bottom;
+}
+
+.sch-schedulerpanel table.sch-dayIndicator
+{
+	width:100%;
+}
+
+.sch-schedulerpanel .sch-daytableheader .x-grid3-hd-inner
+{
+	padding:0 !important;
+}
+
+.sch-schedulerpanel .sch-daytableheader td
+{
+	padding:4px 0 !important;
+}
+
+.sch-schedulerpanel .sch-dayIndicator td
+{
+	text-align:center;
+}
+
+.sch-schedulerpanel .sch-dayIndicator td:last-child
+{
+	border: 0 none;
+}
+
+.sch-dayview .sch-schedulerpanel .x-grid3-hd
+{
+    cursor:pointer;
+}
+
+
+.ext-ie.sch-dayview .x-resizable-handle-east
+{
+    right: 1px;
+}
+
+table.hourIndicator
+{
+    height:auto;
+    width:100%;
+}
+
+table.hourIndicator td {
+    text-align:left;
+	border:0 none;
+}
+
+.sch-dayheader .x-grid3-hd-inner
+{
+	padding-left:0px !important;
+	padding-right:0px !important;
+}
+.sch-dayview .sch-schedulerpanel .x-grid3-hd
+{
+    cursor:pointer;
+}
+
+
+.ext-ie.sch-dayview .x-resizable-handle-east
+{
+    right: 1px;
+}
+
+table.hourIndicator
+{
+    height:auto;
+    width:100%;
+}
+
+table.hourIndicator td {
+    text-align:left;
+	border:0 none;
+}
+
+.sch-dayheader .x-grid3-hd-inner
+{
+	padding-left:0px !important;
+	padding-right:0px !important;
+}
+.sch-dayview .sch-schedulerpanel .x-grid3-hd
+{
+    cursor:pointer;
+}
+
+
+.ext-ie.sch-dayview .x-resizable-handle-east
+{
+    right: 1px;
+}
+
+table.quarterMinuteIndicator
+{
+    height:auto;
+    width:100%;
+}
+
+table.quarterMinuteIndicator td {
+    text-align:left;
+	border:0 none;
+}
+
+.sch-quarterminuteheader .x-grid3-hd-inner
+{
+	padding-left:2px !important;
+	padding-right:2px !important;
+}
+.sch-dayview .sch-schedulerpanel .x-grid3-hd
+{
+    cursor:pointer;
+}
+
+
+.ext-ie.sch-dayview .x-resizable-handle-east
+{
+    right: 1px;
+}
+
+table.quarterMinuteIndicator
+{
+    height:auto;
+    width:100%;
+}
+
+table.quarterMinuteIndicator td {
+    text-align:left;
+	border:0 none;
+}
+
+.sch-quarterminuteheader .x-grid3-hd-inner
+{
+	padding-left:2px !important;
+	padding-right:2px !important;
+}
+.sch-monthview .sch-schedulerpanel .x-grid3-hd
+{
+    cursor:pointer;
+}
+
+.sch-monthview div.sch-event:hover
+{
+    border:1px solid #555;
+}
+
+
+.sch-monthview .sch-schedulerpanel .x-grid3-hd
+{
+    cursor:pointer;
+}
+
+.sch-monthview div.sch-event:hover
+{
+    border:1px solid #555;
+}
+
+
+.sch-weekview .sch-schedulerpanel .x-grid3-hd
+{
+    cursor:pointer;
+}
+
+.weekHeader
+{
+    display:block;
+    margin-bottom:2px;
+}
+
+table.sch-dayIndicator
+{
+    height:auto;
+    width:100%;
+}
+
+table.sch-dayIndicator td {
+    text-align:center;
+	border:0 none;
+}
+
+tr.days td
+{
+    text-align:left;
+}
+
+.days td:hover
+{
+    background-color:#ebf3fd;
+}
+
+.sch-weekheader .x-grid3-hd-inner
+{
+	padding-left:2px !important;
+	padding-right:0px !important;
+}
+
+
+.sch-weekview .sch-schedulerpanel .x-grid3-hd
+{
+    cursor:pointer;
+}
+
+.weekHeader
+{
+    display:block;
+    margin-bottom:2px;
+}
+
+table.sch-dayIndicator
+{
+    height:auto;
+    width:100%;
+}
+
+table.sch-dayIndicator td {
+    text-align:center;
+	border:0 none;
+}
+
+tr.days td
+{
+    text-align:left;
+}
+
+.days td:hover
+{
+    background-color:#ebf3fd;
+}
+
+.sch-weekheader .x-grid3-hd-inner
+{
+	padding-left:2px !important;
+	padding-right:0px !important;
+}
+
+

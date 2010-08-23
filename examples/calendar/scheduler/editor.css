@@ -1,0 +1,95 @@
+.x-grid3-row .x-grid3-cell{
+	height:28px;
+}
+
+.ext-ie .x-grid3-row .x-grid3-cell{
+	height:32px;
+}
+
+.icon-edit
+{
+    background: transparent url(images/pencil.png) no-repeat left center;
+}
+
+.icon-delete
+{
+    background: transparent url(images/delete.png) no-repeat left center;
+}
+
+.icon-task
+{
+    background: transparent url(images/LeftNavTaskIcon.gif) no-repeat left center;
+}
+
+.icon-task16
+{
+    background: transparent url(images/task.png) no-repeat left center;
+}
+
+.calendar
+{
+    background: url(images/calendar_date.png) no-repeat center center !important;
+}
+
+.icon-user
+{
+    padding-left:20px;
+    background: url(images/user.png) no-repeat left center !important;
+    display:block;
+    height:16px;
+}
+
+.icon-clock
+{
+    padding-left:20px;
+    background: url(images/clock.png) no-repeat left center !important;
+    display:block;
+    height:16px;
+}
+
+.icon-earth
+{
+    padding-left:20px;
+    background: url(images/earth.png) no-repeat left center !important;
+    display:block;
+    height:16px;
+}
+
+.right
+{
+    float:right;
+}
+
+.left
+{
+    float:left;
+}
+
+.info
+{
+    padding-top:10px;
+    padding-left:10px;
+}
+
+
+.editorpanel .x-panel-body
+{
+    background: #fff url(images/unknown.gif) no-repeat 15px 15px;
+    padding-left:75px !important;
+    padding-top:15px !important;
+}
+
+.icon-prev
+{
+    background: url(../../images/arrow_left.png) no-repeat center center !important;
+}
+
+.icon-next
+{
+    background: url(../../images/arrow_right.png) no-repeat center center !important;
+}
+
+.icon-cleardatabase
+{
+    background: transparent url(images/database_delete.png) no-repeat center center !important;
+}
