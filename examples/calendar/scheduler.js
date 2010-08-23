@@ -292,34 +292,6 @@ App = function() {
         },
         
         createCalendar : function(){
-//            this.calendarStore = new Ext.data.JsonStore({
-//                storeId: 'calendarStore',
-//                root: 'calendars',
-//                idProperty: 'id',
-//                data: {
-//                    "calendars":[{
-//                        "id":1,
-//                        "title":"Home"
-//                    },{
-//                        "id":2,
-//                        "title":"Work"
-//                    },{
-//                        "id":3,
-//                        "title":"School"
-//                    }]
-//                },
-//                proxy: new Ext.data.MemoryProxy(),
-//                autoLoad: true,
-//                fields: [
-//                    {name:'CalendarId', mapping: 'id', type: 'int'},
-//                    {name:'Title', mapping: 'title', type: 'string'}
-//                ],
-//                sortInfo: {
-//                    field: 'CalendarId',
-//                    direction: 'ASC'
-//                }
-//            });
-            
             Ext.ensible.cal.EventMappings.CalendarId.name = 'ResourceId';
             Ext.ensible.cal.EventRecord.reconfigure();
             
