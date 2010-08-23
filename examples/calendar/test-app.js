@@ -256,7 +256,7 @@
         // Note that this function is called from various event handlers in the CalendarPanel above.
 		showEditWindow : function(rec, animateTarget){
 	        if(!this.editWin){
-	            this.editWin = new Ext.ensible.cal.EventEditWindow({
+	            this.editWin = new Ext.ensible.ux.cal.EventEditWindow({
                     calendarStore: this.calendarStore,
 					listeners: {
 						'eventadd': {

@@ -1,5 +1,6 @@
+Ext.ns('Ext.ensible.ux.cal');
 /**
- * @class Ext.ensible.cal.EventEditWindow
+ * @class Ext.ensible.ux.cal.EventEditWindow
  * @extends Ext.Window
  * <p>A custom window containing a basic edit form used for quick editing of events.</p>
  * <p>This window also provides custom events specific to the calendar so that other calendar components can be easily
@@ -7,7 +8,7 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.EventEditWindow = function(config){
+Ext.ensible.ux.cal.EventEditWindow = function(config){
 	var formPanelCfg = {
 		xtype: 'form',
         labelWidth: 65,
@@ -42,7 +43,7 @@ Ext.ensible.cal.EventEditWindow = function(config){
         });
     }
 
-    Ext.ensible.cal.EventEditWindow.superclass.constructor.call(this, Ext.apply({
+    Ext.ensible.ux.cal.EventEditWindow.superclass.constructor.call(this, Ext.apply({
         titleTextAdd: 'Add Event',
 		titleTextEdit: 'Edit Event',
         width: 600,
@@ -68,13 +69,13 @@ Ext.ensible.cal.EventEditWindow = function(config){
     }, config));
 };
 
-Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
+Ext.extend(Ext.ensible.ux.cal.EventEditWindow, Ext.Window, {
     // private
 	newId: 10000,
 	
     // private
     initComponent: function(){
-        Ext.ensible.cal.EventEditWindow.superclass.initComponent.call(this);
+        Ext.ensible.ux.cal.EventEditWindow.superclass.initComponent.call(this);
 		
 		this.formPanel = this.items.items[0];
 		
@@ -82,7 +83,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
             /**
              * @event eventadd
              * Fires after a new event is added
-             * @param {Ext.ensible.cal.EventEditWindow} this
+             * @param {Ext.ensible.ux.cal.EventEditWindow} this
              * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was added
              * @param {Ext.Element} el The target element
              */
@@ -90,7 +91,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
             /**
              * @event eventupdate
              * Fires after an existing event is updated
-             * @param {Ext.ensible.cal.EventEditWindow} this
+             * @param {Ext.ensible.ux.cal.EventEditWindow} this
              * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was updated
              * @param {Ext.Element} el The target element
              */
@@ -98,7 +99,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
             /**
              * @event eventdelete
              * Fires after an event is deleted
-             * @param {Ext.ensible.cal.EventEditWindow} this
+             * @param {Ext.ensible.ux.cal.EventEditWindow} this
              * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was deleted
              * @param {Ext.Element} el The target element
              */
@@ -106,7 +107,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
             /**
              * @event eventcancel
              * Fires after an event add/edit operation is canceled by the user and no store update took place
-             * @param {Ext.ensible.cal.EventEditWindow} this
+             * @param {Ext.ensible.ux.cal.EventEditWindow} this
              * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was canceled
              * @param {Ext.Element} el The target element
              */
@@ -117,7 +118,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
              * (by default, an instance of {@link Ext.ensible.cal.EventEditForm}. Handling code should hide this window
              * and transfer the current event record to the appropriate instance of the detailed form by showing it
              * and calling {@link Ext.ensible.cal.EventEditForm#loadRecord loadRecord}.
-             * @param {Ext.ensible.cal.EventEditWindow} this
+             * @param {Ext.ensible.ux.cal.EventEditWindow} this
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} that is currently being edited
              * @param {Ext.Element} el The target element
              */
@@ -127,7 +128,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
 
     // private
     afterRender: function(){
-        Ext.ensible.cal.EventEditWindow.superclass.afterRender.call(this);
+        Ext.ensible.ux.cal.EventEditWindow.superclass.afterRender.call(this);
 		
 		this.el.addClass('ext-cal-event-win');
         
@@ -151,7 +152,7 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
 		// Work around the CSS day cell height hack needed for initial render in IE8/strict:
 		var anim = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget;
 
-		Ext.ensible.cal.EventEditWindow.superclass.show.call(this, anim, function(){
+		Ext.ensible.ux.cal.EventEditWindow.superclass.show.call(this, anim, function(){
             Ext.getCmp('title').focus(false, 100);
         });
         Ext.getCmp('delete-btn')[o.data && o.data[Ext.ensible.cal.EventMappings.EventId.name] ? 'show' : 'hide']();
@@ -239,7 +240,9 @@ Ext.extend(Ext.ensible.cal.EventEditWindow, Ext.Window, {
         this.activeRecord.set(M.StartDate.name, dates[0]);
         this.activeRecord.set(M.EndDate.name, dates[1]);
         this.activeRecord.set(M.IsAllDay.name, dates[2]);
-        this.activeRecord.set(M.CalendarId.name, this.formPanel.form.findField('calendar').getValue());
+        if(this.calendarStore){
+            this.activeRecord.set(M.CalendarId.name, this.formPanel.form.findField('calendar').getValue());
+        }
     },
     
     // private
