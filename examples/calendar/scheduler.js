@@ -3,95 +3,16 @@ App = function() {
         init : function() {
             Ext.BLANK_IMAGE_URL = 'http://extjs.cachefly.net/ext-3.1.0/resources/images/default/s.gif';
             Ext.QuickTips.init();
-    
-            this.grid = this.createGrid();
             
-            this.initGridEvents();
-            this.initStoreEvents();
-               
-            this.grid.render(Ext.getBody());
-        },
-    
-        onEventContextMenu : function(g, rec, e) {
-            e.stopEvent();
-            
-            if (!g.gCtx) {
-                g.gCtx = new Ext.menu.Menu({
-                    items : [
-                        {
-                            id : 'context-delete',
-                            text : 'Delete event',
-                            iconCls : 'icon-delete'
-                        }
-                    ]
-                });
-                
-                g.gCtx.on('itemclick', function(item, e) {
-                    switch (item.id) {
-                        case 'context-delete':
-                            g.eventStore.remove(g.gCtx.rec);
-                        break;
-                        
-                        default:
-                            throw item.id + ' is not a valid menu action';
-                        break;
-                    }
-                }, this);
-            }
-            g.gCtx.rec = rec;
-            g.gCtx.showAt(e.getXY());
+            this.initStores();
+            this.createScheduler();
+            this.createCalendar();
         },
         
-        // Don't show tooltip if editor is visible
-        beforeTooltipShow : function(g, r) {
-            return this.editor.collapsed;
-        },
-            
-        initStoreEvents : function() {
-            var g = this.grid;
-            
-            g.eventStore.on('update', function (store, bookingRecord, operation) {
-                if (operation !== Ext.data.Record.EDIT) return;
-                
-                // Simulate server delay 1.5 seconds
-                bookingRecord.commit.defer(1500, bookingRecord);
-            });
-        },
-        
-        initGridEvents : function() {
-            var g = this.grid;
-            
-            g.on('eventcontextmenu', this.onEventContextMenu, this);
-            g.on('beforetooltipshow', this.beforeTooltipShow, this);
-        },
-       
-        renderer : function (item, resourceRec, row, col, ds) {
-            var bookingStart = item.get('StartDate');
-            
-            return {
-                headerText : bookingStart.format("G:i"),
-                footerText : item.get('Title') || '&nbsp;'
-            };
-        },
-        
-        createGrid : function() {
-                
-            // Store holding all the resources
-            var resourceStore = new Ext.data.JsonStore({
-                sortInfo:{field: 'Id', direction: "ASC"},
-                idProperty : 'Id',
-                fields : [
-                    'Id', 
-                    'Name',
-                    'Type'
-                ]
-            });
-            
-            resourceStore.loadData(schedulerResources); // from scheduler/resource-list.js
-            
-            // Store holding all the events
-            var eventStore = new Ext.data.JsonStore({
+        initStores : function(){
+            this.eventStore = new Ext.data.JsonStore({
                 sortInfo:{field: 'ResourceId', direction: "ASC"},
+                proxy: new Ext.data.MemoryProxy(),
                 fields : [
                     {name: 'ResourceId'},
                     {name: 'Title'},
@@ -100,6 +21,77 @@ App = function() {
                     'Location'
                 ]
             });
+            this.resourceStore = new Ext.data.JsonStore({
+                sortInfo:{field: 'Id', direction: "ASC"},
+                idProperty : 'Id',
+                fields : [
+                    'Id', 
+                    'Name',
+                    'Type'
+                ],
+                data: [
+                    {Id : '1', Name : 'Rob', Type : 'Sales'},
+                    {Id : '2', Name : 'Mike', Type : 'Sales'},
+                    {Id : '3', Name : 'Kate', Type : 'Product manager'}
+//                    {id : '4', Name : 'Lisa', Type : 'Developer'},
+//                    {id : '5', Name : 'Dave', Type : 'Developer'},
+//                    {id : '6', Name : 'Arnold', Type : 'Developer'},
+//                    {id : '7', Name : 'Lee', Type : 'Marketing'},
+//                    {id : '8', Name : 'Jong', Type : 'Marketing'}
+                ]
+            });
+        },
+        
+        createScheduler : function() {
+            
+            this.eventStore.on('update', function (store, bookingRecord, operation) {
+                if (operation !== Ext.data.Record.EDIT) return;
+                // Simulate server delay 1.5 seconds
+                bookingRecord.commit.defer(1500, bookingRecord);
+            });
+            
+            var renderer = function (item, resourceRec, row, col, ds) {
+                var bookingStart = item.get('StartDate');
+                return {
+                    headerText : bookingStart.format("G:i"),
+                    footerText : item.get('Title') || '&nbsp;'
+                };
+            };
+            
+            var onEventContextMenu = function(g, rec, e) {
+                e.stopEvent();
+                
+                if (!g.gCtx) {
+                    g.gCtx = new Ext.menu.Menu({
+                        items : [
+                            {
+                                id : 'context-delete',
+                                text : 'Delete event',
+                                iconCls : 'icon-delete'
+                            }
+                        ]
+                    });
+                    
+                    g.gCtx.on('itemclick', function(item, e) {
+                        switch (item.id) {
+                            case 'context-delete':
+                                g.eventStore.remove(g.gCtx.rec);
+                            break;
+                            
+                            default:
+                                throw item.id + ' is not a valid menu action';
+                            break;
+                        }
+                    }, this);
+                }
+                g.gCtx.rec = rec;
+                g.gCtx.showAt(e.getXY());
+            };
+            
+            // Don't show tooltip if editor is visible
+            var beforeTooltipShow = function(g, r) {
+                return this.editor.collapsed;
+            };
             
             var start = new Date();
             
@@ -107,9 +99,12 @@ App = function() {
             start.setHours(6);
             
             var g = new Sch.EditorSchedulerPanel({
-                width : 1000,
-                height:300,
-                clicksToEdit : 1,
+                width: 1000,
+                //height: 300,
+                height: 200,
+                clicksToEdit: 1,
+                renderTo: Ext.getBody(),
+                
                 columns : [
                     {header : 'Staff', sortable:true, width:130, dataIndex : 'Name', editor : new Ext.form.TextField()},
                     {header : 'Type', sortable:true, width:140, dataIndex : 'Type', editor : new Ext.form.ComboBox({
@@ -127,7 +122,7 @@ App = function() {
                     end : start.add(Date.HOUR, 12),
                     columnType : 'hourAndDay',
                     viewBehaviour : Sch.ViewBehaviour.HourView,
-                    renderer : this.renderer
+                    renderer : renderer
                 },     
                 
                 // Specialized template with header and footer
@@ -144,8 +139,8 @@ App = function() {
                     forceFit:true
                 },
                 
-                store : resourceStore,
-                eventStore : eventStore,
+                store : this.resourceStore,
+                eventStore : this.eventStore,
                 border : true,
                 tbar : [
                     {
@@ -177,7 +172,7 @@ App = function() {
                             var start = g.getStart();
                             start.clearTime();
                             start.setHours(6);
-                            g.setView(start, start.add(Date.HOUR, 12), 'hourAndDay', Sch.ViewBehaviour.HourView, this.renderer);
+                            g.setView(start, start.add(Date.HOUR, 12), 'hourAndDay', Sch.ViewBehaviour.HourView, renderer);
                         }
                     },
                     '            ',
@@ -187,7 +182,7 @@ App = function() {
                         text: '1 week',
                         toggleGroup: 'span',
                         handler : function() {
-                            g.setView(g.getStart(), g.getStart().add(Date.DAY, 7), 'dayAndWeeks', Sch.ViewBehaviour.DayView, this.renderer);
+                            g.setView(g.getStart(), g.getStart().add(Date.DAY, 7), 'dayAndWeeks', Sch.ViewBehaviour.DayView, renderer);
                         }
                     },
                     '            ',
@@ -197,18 +192,17 @@ App = function() {
                         text: '6 weeks',
                         toggleGroup: 'span',
                         handler : function() {
-                            g.setView(g.getStart(), g.getStart().add(Date.DAY, 42), 'weekAndMonths', Sch.ViewBehaviour.MonthView, this.renderer);
+                            g.setView(g.getStart(), g.getStart().add(Date.DAY, 42), 'weekAndMonths', Sch.ViewBehaviour.MonthView, renderer);
                         }
                     },
-                    '->',
-                    {
-                        iconCls : 'icon-cleardatabase',
-                        tooltip: 'Clear database',
-                        scale : 'medium',
-                        handler : function() {
-                            g.eventStore.removeAll();
-                        }
-                    },
+//                    {
+//                        iconCls : 'icon-cleardatabase',
+//                        tooltip: 'Clear database',
+//                        scale : 'medium',
+//                        handler : function() {
+//                            g.eventStore.removeAll();
+//                        }
+//                    },
                     {
                         iconCls : 'icon-next',
                         scale : 'medium',
@@ -272,9 +266,9 @@ App = function() {
                     })
                 ],
                 listeners : {
-                    dragcreateend : {
+                    'dragcreateend' : {
                         fn : function(p, data, e) {
-                            var newRec = new this.grid.eventStore.recordType({
+                            var newRec = new this.eventStore.recordType({
                                 Title: 'New task', 
                                 ResourceId : data.record.get('Id'),
                                 Location : 'Local office',
@@ -282,21 +276,61 @@ App = function() {
                                 EndDate : data.endDate
                             });
                             
-                            this.grid.eventStore.add(newRec);
+                            this.eventStore.add(newRec);
                             
                             // Enter edit mode right away
                             this.editor.show(newRec);
                         },
                         scope : this
-                    }
+                    },
+                    'eventcontextmenu' : onEventContextMenu.createDelegate(this),
+                    'beforetooltipshow' : beforeTooltipShow.createDelegate(this)
                 },
                 
                 trackMouseOver : false
             });
-            
-            return g;
         },
         
+        createCalendar : function(){
+//            this.calendarStore = new Ext.data.JsonStore({
+//                storeId: 'calendarStore',
+//                root: 'calendars',
+//                idProperty: 'id',
+//                data: {
+//                    "calendars":[{
+//                        "id":1,
+//                        "title":"Home"
+//                    },{
+//                        "id":2,
+//                        "title":"Work"
+//                    },{
+//                        "id":3,
+//                        "title":"School"
+//                    }]
+//                },
+//                proxy: new Ext.data.MemoryProxy(),
+//                autoLoad: true,
+//                fields: [
+//                    {name:'CalendarId', mapping: 'id', type: 'int'},
+//                    {name:'Title', mapping: 'title', type: 'string'}
+//                ],
+//                sortInfo: {
+//                    field: 'CalendarId',
+//                    direction: 'ASC'
+//                }
+//            });
+            
+            Ext.ensible.cal.EventMappings.CalendarId.name = 'ResourceId';
+            Ext.ensible.cal.EventRecord.reconfigure();
+            
+            new Ext.ensible.cal.CalendarPanel({
+                eventStore: this.eventStore,
+                calendarStore: this.resourceStore,
+                renderTo: Ext.getBody(),
+                width: 1000,
+                height: 500
+            });
+        },
         
         onSave : function(formPanel, newStart, newEnd, record) {
             var values = formPanel.getForm().getValues();
