@@ -61,6 +61,15 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      * (defaults to true).
      */
     showTime: true,
+    
+    showNavToday: true,
+    showNavJump: true,
+    showNavNextPrev: true,
+    
+    todayText: 'Today',
+    jumpToText: 'Jump to:',
+    goText: 'Go',
+    
     /**
      * @cfg {String} dayText
      * Text to use for the 'Day' nav bar button.
@@ -128,15 +137,31 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         this.tbar = {
             cls: 'ext-cal-toolbar',
             border: true,
-            //buttonAlign: 'center',
-            items: [{
-                id: this.id+'-tb-prev', handler: this.onPrevClick, scope: this, iconCls: 'x-tbar-page-prev'
-            },{
-                id: this.id+'-tb-next', handler: this.onNextClick, scope: this, iconCls: 'x-tbar-page-next'
-            }, '->']
+            items: []
         };
         
         this.viewCount = 0;
+        
+        if(this.showNavToday){
+            this.tbar.items.push({
+                id: this.id+'-tb-today', text: this.todayText, handler: this.onTodayClick, scope: this
+            });
+        }
+        if(this.showNavNextPrev){
+            this.tbar.items.push([
+                {id: this.id+'-tb-prev', handler: this.onPrevClick, scope: this, iconCls: 'x-tbar-page-prev'},
+                {id: this.id+'-tb-next', handler: this.onNextClick, scope: this, iconCls: 'x-tbar-page-next'}
+            ]);
+        }
+        if(this.showNavJump){
+            this.tbar.items.push([
+                this.jumpToText,
+                {id: this.id+'-tb-jump-dt', xtype: 'datefield', showToday: false},
+                {id: this.id+'-tb-jump', text: this.goText, handler: this.onJumpClick, scope: this}
+            ]);
+        }
+        
+        this.tbar.items.push('->');
         
         if(this.showDayView){
             this.tbar.items.push({
@@ -530,6 +555,9 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             var item = this.layout.activeItem,
                 suffix = item.id.split(this.id+'-')[1];
             
+            if(this.showNavToday){
+                Ext.getCmp(this.id+'-tb-today').setDisabled(item.isToday());
+            }
             var btn = Ext.getCmp(this.id+'-tb-'+suffix);
             btn.toggle(true);
         }
@@ -549,6 +577,24 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     showWeek: function(dt){
         this.setActiveView(this.id+'-week');
         this.setStartDate(dt);
+    },
+    
+    // private
+    onTodayClick: function(){
+        this.startDate = this.layout.activeItem.moveToday();
+        this.updateNavState();
+        this.fireViewChange();
+    },
+    
+    // private
+    onJumpClick: function(){
+        var dt = Ext.getCmp(this.id+'-tb-jump-dt').getValue();
+        if(dt !== ''){
+            this.startDate = this.layout.activeItem.moveTo(dt);
+            this.updateNavState();
+            // TODO: check that view actually changed:
+            this.fireViewChange();
+        }
     },
     
     // private
