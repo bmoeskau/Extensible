@@ -38,9 +38,23 @@ Ext.onReady(function(){
     
     new Ext.ensible.cal.CalendarPanel({
         eventStore: eventStore,
-        renderTo: 'basic-cal',
+        renderTo: 'simple',
         title: 'Basic Calendar',
-        width: 800,
-        height: 600
+        //border: false,
+        width: 700,
+        height: 500
+    });
+    
+    new Ext.ensible.cal.CalendarPanel({
+        eventStore: eventStore,
+        renderTo: 'panel',
+        title: 'Calendar with Panel Configs',
+        activeItem: 1, // default to week view
+        width: 700,
+        height: 500,
+        frame: true,
+        bodyBorder: true,
+        collapsible: true,
+        bbar: [{text: 'A Button'}]
     });
 });

@@ -97,7 +97,7 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
                 hd = this.el.child('.ext-cal-day-header'),
                 h = ct.getHeight() - hd.getHeight();
             
-            this.el.child('.ext-cal-body-ct').setHeight(h);
+            this.el.child('.ext-cal-body-ct').setHeight(h-1);
         }).defer(10, this);
     },
     

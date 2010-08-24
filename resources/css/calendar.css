@@ -13,7 +13,7 @@
     border-bottom-width: 0 !important;
 }
 .x-panel-tbar .ext-cal-toolbar .x-btn button {
-    font-weight: bold;
+    /*font-weight: bold;*/
     color: #555;
 }
 .x-panel-tbar .ext-cal-toolbar .x-toolbar-cell {
@@ -23,8 +23,13 @@
 .ext-cal-ct {
     position: relative;
     font-family: helvetica, arial, sans-serif;
-    border-bottom:1px solid #C3D9FF;
-    border-right:1px solid #C3D9FF;
+}
+.x-panel-mc .x-panel-body .ext-cal-ct {
+    border-left:1px solid #99BBE8;
+    border-right:1px solid #99BBE8;
+}
+.x-panel-mc .x-panel-body .ext-cal-day-header {
+    border: 0;
 }
 .ext-cal-ct img {
     border:0 none;
@@ -139,6 +144,7 @@
     overflow-x: hidden;
     padding: 0;
     line-height: normal;
+    background: #eee;
 }
 .ext-cal-dayview .ext-cal-body-ct .ext-cal-bg-tbl {
     height: 1008px;
