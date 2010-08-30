@@ -165,33 +165,33 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         
         if(this.showDayView){
             this.tbar.items.push({
-                id: this.id+'-tb-day', text: this.dayText, handler: this.onDayClick, scope: this, toggleGroup: 'tb-views'
+                id: this.id+'-tb-day', text: this.dayText, handler: this.onDayClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
         if(this.showMultiDayView){
             var text = String.format(this.multiDayText, (this.multiDayViewCfg && this.multiDayViewCfg.dayCount) || 3);
             this.tbar.items.push({
-                id: this.id+'-tb-multiday', text: text, handler: this.onMultiDayClick, scope: this, toggleGroup: 'tb-views'
+                id: this.id+'-tb-multiday', text: text, handler: this.onMultiDayClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
         if(this.showWeekView){
             this.tbar.items.push({
-                id: this.id+'-tb-week', text: this.weekText, handler: this.onWeekClick, scope: this, toggleGroup: 'tb-views'
+                id: this.id+'-tb-week', text: this.weekText, handler: this.onWeekClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
         if(this.showMultiWeekView){
             var text = String.format(this.multiWeekText, (this.multiWeekViewCfg && this.multiWeekViewCfg.weekCount) || 2);
             this.tbar.items.push({
-                id: this.id+'-tb-multiweek', text: text, handler: this.onMultiWeekClick, scope: this, toggleGroup: 'tb-views'
+                id: this.id+'-tb-multiweek', text: text, handler: this.onMultiWeekClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
         if(this.showMonthView || this.viewCount == 0){
             this.tbar.items.push({
-                id: this.id+'-tb-month', text: this.monthText, handler: this.onMonthClick, scope: this, toggleGroup: 'tb-views'
+                id: this.id+'-tb-month', text: this.monthText, handler: this.onMonthClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
             this.showMonthView = true;
