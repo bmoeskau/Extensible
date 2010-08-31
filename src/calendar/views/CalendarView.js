@@ -609,6 +609,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	// private
 	getEventId : function(eventId){
 		if(eventId === undefined && this.tempEventId){
+            // temp record id assigned during an add, will be overwritten later
 			eventId = this.tempEventId;
 		}
 		return eventId;
