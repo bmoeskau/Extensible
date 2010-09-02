@@ -2,6 +2,9 @@ Ext.onReady(function(){
     
     var today = new Date().clearTime();
     
+    //
+    // common data store shared by all calendars on the page
+    //
     var eventStore = new Ext.data.JsonStore({
         id: 'eventStore',
         data: [{
@@ -40,15 +43,21 @@ Ext.onReady(function(){
         }
     });
     
+    //
+    // example 1: simplest possible standalone configuration
+    //
     new Ext.ensible.cal.CalendarPanel({
         eventStore: eventStore,
         renderTo: 'simple',
         title: 'Basic Calendar',
-        //border: false,
         width: 700,
         height: 500
     });
     
+    //
+    // example 2: shows off some common Ext.Panel configs as well as a 
+    // few extra CalendarPanel-specific configs
+    //
     new Ext.ensible.cal.CalendarPanel({
         eventStore: eventStore,
         renderTo: 'panel',
@@ -56,8 +65,8 @@ Ext.onReady(function(){
         activeItem: 1, // default to week view
         width: 700,
         height: 500,
+        // Ext.Panel configs:
         frame: true,
-        bodyBorder: true,
         collapsible: true,
         bbar: [{text: 'A Button'}]
     });
