@@ -295,10 +295,12 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         }
         
         // overlapping event pre-processing loop
-        var i = j = overlapCols = prevCol = 0, l = evts.length;
+        var i = j = 0, overlapCols = [], l = evts.length, prevDt;
         for(; i<l; i++){
-            var evt = evts[i].data, evt2 = null;
-            prevCol = overlapCols;
+            var evt = evts[i].data, 
+                evt2 = null, 
+                dt = evt[Ext.ensible.cal.EventMappings.StartDate.name].getDate();
+            
             for(j=0; j<l; j++){
                 if(i==j)continue;
                 evt2 = evts[j].data;
@@ -309,7 +311,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
                             evt._overcol = 0;
                         }
                         evt2._overcol = evt._overcol+1;
-                        overlapCols = Math.max(overlapCols, evt2._overcol);
+                        overlapCols[dt] = overlapCols[dt] ? Math.max(overlapCols[dt], evt2._overcol) : evt2._overcol;
                     }
                 }
             }
@@ -317,9 +319,11 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         
         // rendering loop
         for(i=0; i<l; i++){
-            var evt = evts[i].data;
+            var evt = evts[i].data,
+                dt = evt[Ext.ensible.cal.EventMappings.StartDate.name].getDate();
+                
             if(evt._overlap !== undefined){
-                var colWidth = 100 / (overlapCols+1),
+                var colWidth = 100 / (overlapCols[dt]+1),
                     evtWidth = 100 - (colWidth * evt._overlap);
                     
                 evt._width = colWidth;
