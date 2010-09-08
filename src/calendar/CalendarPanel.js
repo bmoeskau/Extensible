@@ -165,33 +165,33 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         
         if(this.showDayView){
             this.tbar.items.push({
-                id: this.id+'-tb-day', text: this.dayText, handler: this.onDayClick, scope: this, toggleGroup: this.id+'-tb-views'
+                id: this.id+'-tb-day', text: this.dayText, handler: this.onDayNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
         if(this.showMultiDayView){
             var text = String.format(this.multiDayText, (this.multiDayViewCfg && this.multiDayViewCfg.dayCount) || 3);
             this.tbar.items.push({
-                id: this.id+'-tb-multiday', text: text, handler: this.onMultiDayClick, scope: this, toggleGroup: this.id+'-tb-views'
+                id: this.id+'-tb-multiday', text: text, handler: this.onMultiDayNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
         if(this.showWeekView){
             this.tbar.items.push({
-                id: this.id+'-tb-week', text: this.weekText, handler: this.onWeekClick, scope: this, toggleGroup: this.id+'-tb-views'
+                id: this.id+'-tb-week', text: this.weekText, handler: this.onWeekNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
         if(this.showMultiWeekView){
             var text = String.format(this.multiWeekText, (this.multiWeekViewCfg && this.multiWeekViewCfg.weekCount) || 2);
             this.tbar.items.push({
-                id: this.id+'-tb-multiweek', text: text, handler: this.onMultiWeekClick, scope: this, toggleGroup: this.id+'-tb-views'
+                id: this.id+'-tb-multiweek', text: text, handler: this.onMultiWeekNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
         if(this.showMonthView || this.viewCount == 0){
             this.tbar.items.push({
-                id: this.id+'-tb-month', text: this.monthText, handler: this.onMonthClick, scope: this, toggleGroup: this.id+'-tb-views'
+                id: this.id+'-tb-month', text: this.monthText, handler: this.onMonthNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
             this.showMonthView = true;
@@ -248,7 +248,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              * <li><b><code>viewEnd</code></b> : <div class="sub-desc">The last date in the new view range</div></li>
              * </ul></div>
              */
-            viewchange: true
+            viewchange: true,
             
             //
             // NOTE: CalendarPanel also relays the following events from contained views as if they originated from this:
@@ -265,6 +265,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was clicked on
              * @param {HTMLNode} el The DOM node that was clicked on
              */
+            eventclick: true,
             /**
              * @event eventover
              * Fires anytime the mouse is over an event element
@@ -297,6 +298,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              * range selection). The callback is already created in the proper scope, so it simply needs to be executed as a standard
              * function call (e.g., callback()).
              */
+            rangeselect: true,
             /**
              * @event eventmove
              * Fires after an event element is dragged by the user and dropped in a new position
@@ -304,6 +306,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was moved with
              * updated start and end dates
              */
+            eventmove: true,
             /**
              * @event initdrag
              * Fires when a drag operation is initiated in the view
@@ -316,6 +319,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was resized
              * containing the updated start and end dates
              */
+            eventresize: true,
             /**
              * @event dayclick
              * Fires after the user clicks within a day/week view container and not on an event element
@@ -324,6 +328,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              * @param {Boolean} allday True if the day clicked on represents an all-day box, else false.
              * @param {Ext.Element} el The Element that was clicked on
              */
+            dayclick: true
             /**
              * @event editdetails
              * Fires when the user selects the option in this window to continue editing in the detailed edit form
@@ -438,8 +443,11 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         cfg.listeners.afterrender = {
             fn: function(c){
                 // relay the view events so that app code only has to handle them in one place
-                this.relayEvents(c, ['eventsrendered','eventclick','eventover','eventout','dayclick',
-                    'eventmove','datechange','rangeselect','eventdelete','eventresize','initdrag','editdetails']);
+                this.relayEvents(c, ['eventsrendered','eventover','eventout','datechange','eventdelete','initdrag','editdetails']);
+                
+                c.on('eventclick', this.onEventClick, this);
+                c.on('dayclick', this.onDayClick, this);
+                c.on('rangeselect', this.onRangeSelect, this);
             },
             scope: this,
             single: true
@@ -458,6 +466,95 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         if(!this.navInitComplete){
             this.updateNavState();
             this.navInitComplete = true;
+        }
+    },
+    
+    // private 
+    onEventClick: function(vw, rec, el){
+        if(this.fireEvent('eventclick', this, rec, el) !== false){
+            this.showEditWindow(rec, el);
+        }
+    },
+    
+    showEditWindow : function(rec, animateTarget){
+        // only create one instance of the edit window, even if there are multiple CalendarPanels
+        this.editWin = this.editWin || Ext.WindowMgr.get('ext-cal-editwin');
+        
+        if(!this.editWin){
+            this.editWin = new Ext.ensible.ux.cal.EventEditWindow({
+                id: 'ext-cal-editwin',
+                calendarStore: this.calendarStore,
+                listeners: {
+                    'eventadd': {
+                        fn: function(win, rec, animTarget){
+                            win.hide(animTarget);
+                            this.onEventAdd(null, rec);
+                        },
+                        scope: this
+                    },
+                    'eventupdate': {
+                        fn: function(win, rec, animTarget){
+                            win.hide(animTarget);
+                            this.onEventUpdate(null, rec);
+                        },
+                        scope: this
+                    },
+                    'eventdelete': {
+                        fn: function(win, rec, animTarget){
+                            win.hide(animTarget);
+                            this.onEventDelete(null, rec);
+                        },
+                        scope: this
+                    },
+                    'editdetails': {
+                        fn: function(win, rec, animTarget){
+                            win.hide(animTarget);
+                            this.showEditForm(rec);
+                        },
+                        scope: this
+                    },
+                    'eventcancel': {
+                        fn: function(win, rec, animTarget){
+                            win.hide(animateTarget);
+                            this.onEventCancel();
+                        },
+                        scope: this
+                    }
+                }
+            });
+        }
+        this.editWin.show(rec, animateTarget);
+    },
+    
+    // private 
+    onDayClick: function(vw, dt, ad, el){
+        if(this.fireEvent('dayclick', this, dt, ad, el) !== false){
+            this.showEditWindow({
+                StartDate: dt,
+                IsAllDay: ad
+            }, el);
+        }
+    },
+    
+    // private
+    onRangeSelect: function(win, dates, el, onComplete){
+        if(this.fireEvent('rangeselect', this, dates, el, onComplete) !== false){
+            this.showEditWindow(dates, el);
+            this.editWin.on('hide', onComplete, this, {single:true});
+        }
+    },
+    
+    // private
+    onEventMove: function(vw, rec){
+        if(this.fireEvent('eventmove', this, rec) !== false){
+            this.onEventUpdate(null, rec);
+        }
+    },
+    
+    // private
+    onEventResize: function(vw, rec){
+        if(this.fireEvent('eventresize', this, rec) !== false){
+            this.onEventUpdate(null, rec);
         }
     },
     
@@ -612,27 +709,27 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     },
     
     // private
-    onDayClick: function(){
+    onDayNavClick: function(){
         this.setActiveView(this.id+'-day');
     },
     
     // private
-    onMultiDayClick: function(){
+    onMultiDayNavClick: function(){
         this.setActiveView(this.id+'-multiday');
     },
     
     // private
-    onWeekClick: function(){
+    onWeekNavClick: function(){
         this.setActiveView(this.id+'-week');
     },
     
     // private
-    onMultiWeekClick: function(){
+    onMultiWeekNavClick: function(){
         this.setActiveView(this.id+'-multiweek');
     },
     
     // private
-    onMonthClick: function(){
+    onMonthNavClick: function(){
         this.setActiveView(this.id+'-month');
     },
     

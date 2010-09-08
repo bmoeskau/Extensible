@@ -15,13 +15,22 @@
     <!-- Page-specific includes -->
     <link rel="stylesheet" type="text/css" href="../examples.css" />
     <script type="text/javascript" src="recurrence.js"></script>
+    <style>
+        #recur-pattern {
+            padding: 5px 10px;
+            margin-bottom: 15px;
+            background: #ffc;
+            border: 1px solid #99BBE8;
+            width: 580px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h1>Extensible Recurrence Control</h1>
     <p>Changing this date will set the recurrence start date for the recurrence panel:</p>
     <div id="recur-dt"></div><br />
     <div id="recur-panel"></div><br />
-    <p>This is the resulting iCal recurrence pattern. You can also update this raw value directly to see how the recurrence panel changes:</p>
     <div id="recur-pattern"></div>
 </body>
 </html>

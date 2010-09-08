@@ -59,6 +59,7 @@ Ext.onReady(function(){
     // few extra CalendarPanel-specific configs
     //
     new Ext.ensible.cal.CalendarPanel({
+        id: 'cal-example2',
         eventStore: eventStore,
         renderTo: 'panel',
         title: 'Calendar with Panel Configs',
@@ -68,6 +69,16 @@ Ext.onReady(function(){
         // Ext.Panel configs:
         frame: true,
         collapsible: true,
-        bbar: [{text: 'A Button'}]
+        bbar: [{text: 'A Button'}],
+        
+        listeners: {
+            'eventclick': {
+                fn: function(panel, rec, el){
+                    Ext.Msg.alert('App Click', 'Editing: ' + rec.data.Title);
+                    return false;
+                },
+                scope: this
+            },
+        }
     });
 });

@@ -43,25 +43,17 @@ Ext.onReady(function(){
         }
     });
     
-    var pattern = new Ext.form.TextField({
-        id: 'recur-pattern-text',
-        renderTo: 'recur-pattern',
-        width: 500
-    });
-    
-    new Ext.Button({
-        text: 'Get value from field',
-        renderTo: 'recur-pattern',
+    var btn = new Ext.Button({
+        text: 'Show the iCal string',
+        renderTo: Ext.getBody(),
         handler: function(){
-            pattern.setValue(recurField.getValue());
-        }
-    });
-    
-    new Ext.Button({
-        text: 'Set value into field',
-        renderTo: 'recur-pattern',
-        handler: function(){
-            recurField.setValue(pattern.getValue());
+            var pattern = Ext.get('recur-pattern');
+            if(!pattern.isVisible()){
+                pattern.slideIn('t', {duration:.25});
+                btn.setText('Refresh the iCal string');
+            }
+            var v = recurField.getValue();
+            pattern.update(v.length > 0 ? v : '(Empty)');
         }
     });
     
