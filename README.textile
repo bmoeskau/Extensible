@@ -4,6 +4,10 @@
 
 <p>by Brian Moeskau</p>
 
+<h2>Current Status</h2>
+
+<p>Extensible should currently be considered <strong>alpha quality code</strong>. Although a stable version of this code was contributed to the Ext JS 3.3 release, the code here is currently under heavy revision and is not yet feature-complete or guaranteed to be free of bugs.</p>
+
 <h2>Installation and Usage</h2>
 
 <p>Extensible requires the Ext JS framework (version 3.2 or later). You should download the "latest version":http://www.sencha.com/products/js/download.php of Ext JS and install Extensible in a sibling directory.</p>
@@ -21,7 +25,9 @@
     <script type="text/javascript" src="path/to/extensible-all.js"></script>
 </code></pre></p>
 
-<p>If you are using individual source files then it's up to you to include them all, in the proper order.</p>
+<p>If you are using individual source files then it's up to you to include them all, in the proper order. Look under the <code>/examples</code> folder to get a jump start on how to use the included components.</p>
 
 <h2>Licensing</h2>
-<p>Extensible is licensed just like Ext JS, dual GPL / commercial. ...more details to follow...</p>
+<p>Currently Extensible is licensed under the GPL v3.  Additionally we plan to offer commercial license options for anyone who does not wish to be bound by the GPL.  Commercial licenses are not yet available, but will be available prior to the 1.0 release.  Extensible will be dual-licensed under the same terms as Ext JS itself.</p>
+
+<p><a href="gpl-v3.txt">View GPL v3 license terms</a></p>
