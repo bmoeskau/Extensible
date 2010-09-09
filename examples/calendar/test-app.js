@@ -138,7 +138,6 @@
                         listeners: {
                             'eventclick': {
                                 fn: function(vw, rec, el){
-                                    this.showEditWindow(rec, el);
                                     this.clearMsg();
                                 },
                                 scope: this
@@ -189,18 +188,12 @@
                             },
                             'dayclick': {
                                 fn: function(vw, dt, ad, el){
-                                    this.showEditWindow({
-                                        StartDate: dt,
-                                        IsAllDay: ad
-                                    }, el);
                                     this.clearMsg();
                                 },
                                 scope: this
                             },
                             'rangeselect': {
                                 fn: function(win, dates, el, onComplete){
-                                    this.showEditWindow(dates, el);
-                                    this.editWin.on('hide', onComplete, this, {single:true});
                                     this.clearMsg();
                                 },
                                 scope: this
@@ -249,52 +242,6 @@
                 }]
             });
         },
-        
-        // The edit popup window is not part of the CalendarPanel itself -- it is a separate component.
-        // This makes it very easy to swap it out with a different type of window or custom view, or omit
-        // it altogether. Because of this, it's up to the application code to tie the pieces together.
-        // Note that this function is called from various event handlers in the CalendarPanel above.
-		showEditWindow : function(rec, animateTarget){
-	        if(!this.editWin){
-	            this.editWin = new Ext.ensible.ux.cal.EventEditWindow({
-                    calendarStore: this.calendarStore,
-					listeners: {
-						'eventadd': {
-							fn: function(win, rec, animTarget){
-								win.hide(animTarget);
-								rec.data[Ext.ensible.cal.EventMappings.IsNew.name] = false;
-								this.eventStore.add(rec);
-                                this.showMsg('Event '+ rec.data[Ext.ensible.cal.EventMappings.Title.name] +' was added');
-							},
-							scope: this
-						},
-						'eventupdate': {
-							fn: function(win, rec, animTarget){
-								win.hide(animTarget);
-								rec.commit();
-                                this.showMsg('Event '+ rec.data[Ext.ensible.cal.EventMappings.Title.name] +' was updated');
-							},
-							scope: this
-						},
-						'eventdelete': {
-							fn: function(win, rec, animTarget){
-                                win.hide(animTarget);
-								this.eventStore.remove(rec);
-                                this.showMsg('Event '+ rec.data[Ext.ensible.cal.EventMappings.Title.name] +' was deleted');
-							},
-							scope: this
-						},
-                        'editdetails': {
-                            fn: function(win, rec, animTarget){
-                                win.hide(animTarget);
-                                App.calendarPanel.showEditForm(rec);
-                            }
-                        }
-					}
-                });
-	        }
-	        this.editWin.show(rec, animateTarget);
-		},
         
         // The CalendarPanel itself supports the standard Panel title config, but that title
         // only spans the calendar views.  For a title that spans the entire width of the app
