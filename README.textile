@@ -9,8 +9,8 @@
 <p>Extensible should currently be considered <strong>alpha quality code</strong>. Although a stable version of this code was contributed to the Ext JS 3.3 release, the code here is currently under heavy revision and is not yet feature-complete or guaranteed to be free of bugs.</p>
 
 <h2>Building the Source</h2>
-<p>Currently the only build script is a Mac/Unix shell script (build/build.sh).  I'll plan on adding a matching Windows batch file soon.  You must have a current version of Java installed for JSBuilder to work.  You must also edit the build script (build.sh) and update the path variables as needed for your system.</p>
-<p>If you run the build script (e.g., "sh build.sh" in the Mac terminal) it will build everything, create a <code>/deploy</code> folder and also place the *-all files in the root folder.  The jar file for the Ext-doc tool (http://ext-doc.org/) is also included.  If you'd like to generate docs, edit the build script and uncomment the doc generation block.</p>
+<p>Currently the only build script is a Mac/Unix shell script (<code>build/build.sh</code>).  I'll plan on adding a matching Windows batch file soon.  You must have a current version of Java installed for JSBuilder to work.  You must also edit the build script (build.sh) and update the path variables as needed for your system.</p>
+<p>If you run the build script (e.g., "sh build.sh" in the Mac terminal) it will build everything, create a <code>/deploy</code> folder and also place the *-all files in the root folder.  The jar file for the Ext-doc tool ("http://ext-doc.org/":http://ext-doc.org/) is also included.  If you'd like to generate docs, edit the build script and uncomment the doc generation block.</p>
 
 <h2>Installation and Usage</h2>
 
