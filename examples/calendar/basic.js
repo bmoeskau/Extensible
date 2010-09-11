@@ -1,6 +1,7 @@
 Ext.onReady(function(){
     
-    var today = new Date().clearTime();
+    var C = Ext.ensible.cal, // just save some typing
+        today = new Date().clearTime();
     
     //
     // common data store shared by all calendars on the page
@@ -36,17 +37,17 @@ Ext.onReady(function(){
             "end":today.add(Date.HOUR, 15)
         }],
         proxy: new Ext.data.MemoryProxy(),
-        fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange(),
+        fields: C.EventRecord.prototype.fields.getRange(),
         sortInfo: {
-            field: Ext.ensible.cal.EventMappings.StartDate.name,
+            field: C.EventMappings.StartDate.name,
             direction: 'ASC'
         }
     });
     
     //
-    // example 1: simplest possible standalone configuration
+    // example 1: simplest possible stand-alone configuration
     //
-    new Ext.ensible.cal.CalendarPanel({
+    new C.CalendarPanel({
         eventStore: eventStore,
         renderTo: 'simple',
         title: 'Basic Calendar',
@@ -58,7 +59,7 @@ Ext.onReady(function(){
     // example 2: shows off some common Ext.Panel configs as well as a 
     // few extra CalendarPanel-specific configs
     //
-    new Ext.ensible.cal.CalendarPanel({
+    new C.CalendarPanel({
         id: 'cal-example2',
         eventStore: eventStore,
         renderTo: 'panel',
@@ -66,6 +67,8 @@ Ext.onReady(function(){
         activeItem: 1, // default to week view
         width: 700,
         height: 500,
+        //readOnly: true,
+        
         // Ext.Panel configs:
         frame: true,
         collapsible: true,
@@ -74,7 +77,11 @@ Ext.onReady(function(){
         listeners: {
             'eventclick': {
                 fn: function(panel, rec, el){
+                    // override the default edit handling
                     Ext.Msg.alert('App Click', 'Editing: ' + rec.data.Title);
+                    
+                    // return false to tell the CalendarPanel that we've handled the click and it 
+                    // should ignore it (e.g., do not show the default edit window)
                     return false;
                 },
                 scope: this

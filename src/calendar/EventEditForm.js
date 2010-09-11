@@ -15,7 +15,7 @@
     bodyStyle: 'background:transparent;padding:20px 20px 10px;',
     border: false,
     buttonAlign: 'center',
-    autoHeight: true,
+    autoHeight: true, // to allow for the notes field to autogrow
     cls: 'ext-evt-edit-form',
 </code></pre>
  * @constructor

@@ -57,7 +57,7 @@ Ext.ensible.ux.cal.EventEditWindow = function(config){
 		deletingMessage: 'Deleting event...',
 		
         fbar:[{
-            xtype: 'tbtext', text: '<a href="#" id="tblink">Edit Details...</a>'
+            xtype: 'tbtext', text: '<a href="#" class="tblink">Edit Details...</a>'
         },'->',{
             text:'Save', disabled:false, handler:this.onSave, scope:this
         },{
@@ -132,11 +132,19 @@ Ext.extend(Ext.ensible.ux.cal.EventEditWindow, Ext.Window, {
 		
 		this.el.addClass('ext-cal-event-win');
         
-        Ext.get('tblink').on('click', function(e){
-            e.stopEvent();
-            this.updateRecord();
-            this.fireEvent('editdetails', this, this.activeRecord, this.animateTarget);
-        }, this);
+//        Ext.get('tblink').on('click', function(e){
+//            e.stopEvent();
+//            this.updateRecord();
+//            this.fireEvent('editdetails', this, this.activeRecord, this.animateTarget);
+//        }, this);
+        this.el.select('.tblink').on('click', this.onEditDetailsClick, this);
+    },
+    
+    // private
+    onEditDetailsClick: function(e){
+        e.stopEvent();
+        this.updateRecord();
+        this.fireEvent('editdetails', this, this.activeRecord, this.animateTarget);
     },
 	
 	/**

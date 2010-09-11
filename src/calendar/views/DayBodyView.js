@@ -18,8 +18,17 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         
         this.addEvents({
             /**
+             * @event beforeeventresize
+             * Fires after the user drags the resize handle of an event to resize it, but before the resize operation is carried out.
+             * This is a cancelable event, so returning false from a handler will cancel the resize operation.
+             * @param {Ext.ensible.cal.DayBodyView} this
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was resized
+             * containing the updated start and end dates
+             */
+            beforeeventresize: true,
+            /**
              * @event eventresize
-             * Fires after the user drags the resize handle of an event to resize it
+             * Fires after the user drags the resize handle of an event and the resize operation is complete.
              * @param {Ext.ensible.cal.DayBodyView} this
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was resized
              * containing the updated start and end dates
@@ -128,21 +137,24 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     // private
     forceSize: Ext.emptyFn,
     
-    // private
+    // private -- called from DayViewDropZone
     onEventResize : function(rec, data){
-        var D = Ext.ensible.Date,
-            start = Ext.ensible.cal.EventMappings.StartDate.name,
-            end = Ext.ensible.cal.EventMappings.EndDate.name;
+        if(this.fireEvent('beforeeventresize', this, rec) !== false){
+            var D = Ext.ensible.Date,
+                start = Ext.ensible.cal.EventMappings.StartDate.name,
+                end = Ext.ensible.cal.EventMappings.EndDate.name;
+                
+            if(D.compare(rec.data[start], data.StartDate) === 0 &&
+                D.compare(rec.data[end], data.EndDate) === 0){
+                // no changes
+                return;
+            } 
+            rec.set(start, data.StartDate);
+            rec.set(end, data.EndDate);
+            this.onEventUpdate(null, rec);
             
-        if(D.compare(rec.data[start], data.StartDate) === 0 &&
-            D.compare(rec.data[end], data.EndDate) === 0){
-            // no changes
-            return;
-        } 
-        rec.set(start, data.StartDate);
-        rec.set(end, data.EndDate);
-        
-        this.fireEvent('eventresize', this, rec);
+            this.fireEvent('eventresize', this, rec);
+        }
     },
 
     // inherited docs
@@ -391,20 +403,6 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             } 
         }
     },
-    
-    // private
-    onContextMenu : function(e, t){
-        var match = false;
-        
-        if(el = e.getTarget(this.eventSelector, 5, true)){
-            this.showEventMenu(el, e.getXY());
-            match = true;
-        }
-        
-        if(match || this.suppressBrowserContextMenu === true){
-            e.preventDefault();
-        }
-    },
 
     // private
     onClick : function(e, t){
@@ -420,13 +418,15 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         if(el){
             if(el.id && el.id.indexOf(this.dayElIdDelimiter) > -1){
                 var dt = this.getDateFromId(el.id, this.dayElIdDelimiter);
-                this.fireEvent('dayclick', this, Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt, true)));
+                //this.fireEvent('dayclick', this, Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt, true)));
+                this.onDayClick(Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt, true)));
                 return;
             }
         }
         var day = this.getDayAt(e.xy[0], e.xy[1]);
         if(day && day.date){
-            this.fireEvent('dayclick', this, day.date, false, null);
+            //this.fireEvent('dayclick', this, day.date, false, null);
+            this.onDayClick(day.date, false, null);
         }
     }
 });

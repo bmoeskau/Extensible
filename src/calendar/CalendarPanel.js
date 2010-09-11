@@ -62,6 +62,8 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      */
     showTime: true,
     
+    readOnly: false,
+    
     showNavToday: true,
     showNavJump: true,
     showNavNextPrev: true,
@@ -223,10 +225,20 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              */
             eventupdate: true,
             /**
-             * @event eventdelete
-             * Fires after an event is removed from the underlying store
+             * @event beforeeventdelete
+             * Fires before an event is deleted by the user. This is a cancelable event, so returning false from a handler 
+             * will cancel the delete operation.
              * @param {Ext.ensible.cal.CalendarPanel} this
-             * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was removed
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was deleted
+             * @param {Ext.Element} el The target element
+             */
+            beforeeventdelete: true,
+            /**
+             * @event eventdelete
+             * Fires after an event is deleted by the user.
+             * @param {Ext.ensible.cal.CalendarPanel} this
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was deleted
+             * @param {Ext.Element} el The target element
              */
             eventdelete: true,
             /**
@@ -249,23 +261,68 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              * </ul></div>
              */
             viewchange: true,
+            /**
+             * @event eventclick
+             * <p>Fires after the user clicks on an event element.</p>
+             * <p><strong>NOTE:</strong> This version of <code>eventclick</code> differs from the same event fired directly by
+             * {@link Ext.ensible.cal.CalendarView CalendarView} subclasses in that it provides a default implementation (showing
+             * the default edit window) and is also cancelable (if a handler returns <code>false</code> the edit window will not be shown).
+             * This event when fired from a view class is simply a notification that an event was clicked and has no default behavior.
+             * @param {Ext.ensible.cal.CalendarPanel} this
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was clicked on
+             * @param {HTMLNode} el The DOM node that was clicked on
+             */
+            //eventclick: true,
+            /**
+             * @event rangeselect
+             * Fires after the user drags on the calendar to select a range of dates/times in which to create an event
+             * @param {Ext.ensible.cal.CalendarPanel} this
+             * @param {Object} dates An object containing the start (StartDate property) and end (EndDate property) dates selected
+             * @param {Function} callback A callback function that MUST be called after the event handling is complete so that
+             * the view is properly cleaned up (shim elements are persisted in the view while the user is prompted to handle the
+             * range selection). The callback is already created in the proper scope, so it simply needs to be executed as a standard
+             * function call (e.g., callback()).
+             */
+            //rangeselect: true,
+            /**
+             * @event eventmove
+             * Fires after an event element is dragged by the user and dropped in a new position
+             * @param {Ext.ensible.cal.CalendarPanel} this
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was moved with
+             * updated start and end dates
+             */
+            eventmove: true,
+            /**
+             * @event dayclick
+             * Fires after the user clicks within a day/week view container and not on an event element
+             * @param {Ext.ensible.cal.CalendarPanel} this
+             * @param {Date} dt The date/time that was clicked on
+             * @param {Boolean} allday True if the day clicked on represents an all-day box, else false.
+             * @param {Ext.Element} el The Element that was clicked on
+             */
+            //dayclick: true,
+            /**
+             * @event editdetails
+             * Fires when the user selects the option in this window to continue editing in the detailed edit form
+             * (by default, an instance of {@link Ext.ensible.cal.EventEditForm}. Handling code should hide this window
+             * and transfer the current event record to the appropriate instance of the detailed form by showing it
+             * and calling {@link Ext.ensible.cal.EventEditForm#loadRecord loadRecord}.
+             * @param {Ext.ensible.cal.CalendarPanel} this
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} that is currently being edited
+             * @param {Ext.Element} el The target element
+             */
+            editdetails: true
+            
             
             //
             // NOTE: CalendarPanel also relays the following events from contained views as if they originated from this:
             //
+            
             /**
              * @event eventsrendered
              * Fires after events are finished rendering in the view
              * @param {Ext.ensible.cal.CalendarPanel} this 
              */
-            /**
-             * @event eventclick
-             * Fires after the user clicks on an event element
-             * @param {Ext.ensible.cal.CalendarPanel} this
-             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was clicked on
-             * @param {HTMLNode} el The DOM node that was clicked on
-             */
-            eventclick: true,
             /**
              * @event eventover
              * Fires anytime the mouse is over an event element
@@ -281,6 +338,17 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              * @param {HTMLNode} el The DOM node that was exited
              */
             /**
+             * @event beforedatechange
+             * Fires before the start date of the view changes, giving you an opportunity to save state or anything else you may need
+             * to do prior to the UI view changing. This is a cancelable event, so returning false from a handler will cancel both the
+             * view change and the setting of the start date.
+             * @param {Ext.ensible.cal.CalendarPanel} this
+             * @param {Date} startDate The current start date of the view (as explained in {@link #getStartDate}
+             * @param {Date} newStartDate The new start date that will be set when the view changes
+             * @param {Date} viewStart The first displayed date in the current view
+             * @param {Date} viewEnd The last displayed date in the current view
+             */
+            /**
              * @event datechange
              * Fires after the start date of the view changes
              * @param {Ext.ensible.cal.CalendarPanel} this
@@ -289,16 +357,12 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              * @param {Date} viewEnd The last displayed date in the view
              */
             /**
-             * @event rangeselect
-             * Fires after the user drags on the calendar to select a range of dates/times in which to create an event
+             * @event beforeeventmove
+             * Fires before an event element is dragged by the user and dropped in a new position. This is a cancelable event, so 
+             * returning false from a handler will cancel the move operation.
              * @param {Ext.ensible.cal.CalendarPanel} this
-             * @param {Object} dates An object containing the start (StartDate property) and end (EndDate property) dates selected
-             * @param {Function} callback A callback function that MUST be called after the event handling is complete so that
-             * the view is properly cleaned up (shim elements are persisted in the view while the user is prompted to handle the
-             * range selection). The callback is already created in the proper scope, so it simply needs to be executed as a standard
-             * function call (e.g., callback()).
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that will be moved
              */
-            rangeselect: true,
             /**
              * @event eventmove
              * Fires after an event element is dragged by the user and dropped in a new position
@@ -306,44 +370,41 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was moved with
              * updated start and end dates
              */
-            eventmove: true,
             /**
              * @event initdrag
              * Fires when a drag operation is initiated in the view
              * @param {Ext.ensible.cal.CalendarPanel} this
              */
             /**
-             * @event eventresize
-             * Fires after the user drags the resize handle of an event to resize it
+             * @event dayover
+             * Fires while the mouse is over a day element 
+             * @param {Ext.ensible.cal.CalendarPanel} this
+             * @param {Date} dt The date that is being moused over
+             * @param {Ext.Element} el The day Element that is being moused over
+             */
+            /**
+             * @event dayout
+             * Fires when the mouse exits a day element 
+             * @param {Ext.ensible.cal.CalendarPanel} this
+             * @param {Date} dt The date that is exited
+             * @param {Ext.Element} el The day Element that is exited
+             */
+            /**
+             * @event beforeeventresize
+             * Fires after the user drags the resize handle of an event to resize it, but before the resize operation is carried out.
+             * This is a cancelable event, so returning false from a handler will cancel the resize operation. <strong>NOTE:</strong>
+             * This event is only fired from views that support event resizing.
              * @param {Ext.ensible.cal.CalendarPanel} this
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was resized
              * containing the updated start and end dates
              */
-            eventresize: true,
             /**
-             * @event dayclick
-             * Fires after the user clicks within a day/week view container and not on an event element
+             * @event eventresize
+             * Fires after the user drags the resize handle of an event and the resize operation is complete. <strong>NOTE:</strong>
+             * This event is only fired from views that support event resizing.
              * @param {Ext.ensible.cal.CalendarPanel} this
-             * @param {Date} dt The date/time that was clicked on
-             * @param {Boolean} allday True if the day clicked on represents an all-day box, else false.
-             * @param {Ext.Element} el The Element that was clicked on
-             */
-            dayclick: true
-            /**
-             * @event editdetails
-             * Fires when the user selects the option in this window to continue editing in the detailed edit form
-             * (by default, an instance of {@link Ext.ensible.cal.EventEditForm}. Handling code should hide this window
-             * and transfer the current event record to the appropriate instance of the detailed form by showing it
-             * and calling {@link Ext.ensible.cal.EventEditForm#loadRecord loadRecord}.
-             * @param {Ext.ensible.cal.EventEditWindow} this
-             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} that is currently being edited
-             */
-            /**
-             * @event eventdelete
-             * Fires after an event element is deleted by the user. Not currently implemented directly at the view level -- currently 
-             * deletes only happen from one of the forms.
-             * @param {Ext.ensible.cal.CalendarView} this
-             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was deleted
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was resized
+             * containing the updated start and end dates
              */
         });
         
@@ -352,7 +413,8 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         var sharedViewCfg = {
             showToday: this.showToday,
             showTodayText: this.showTodayText,
-            showTime: this.showTime
+            showTime: this.showTime,
+            readOnly: this.readOnly
         };
         
         if(this.showDayView){
@@ -442,12 +504,17 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         cfg.listeners = cfg.listeners || {};
         cfg.listeners.afterrender = {
             fn: function(c){
-                // relay the view events so that app code only has to handle them in one place
-                this.relayEvents(c, ['eventsrendered','eventover','eventout','datechange','eventdelete','initdrag','editdetails']);
+                // relay view events so that app code only has to handle them in one place.
+                // these events require no special handling by the calendar panel 
+                this.relayEvents(c, ['eventsrendered','eventclick','dayclick','eventover','eventout','beforedatechange',
+                    'datechange','rangeselect','beforeeventmove','eventmove','initdrag','dayover','dayout','beforeeventresize','eventresize']);
                 
-                c.on('eventclick', this.onEventClick, this);
-                c.on('dayclick', this.onDayClick, this);
-                c.on('rangeselect', this.onRangeSelect, this);
+                // these events can be fired either by a contained view or by the panel itself, and they have
+                // default handling code, so the handler functions are defined in this class
+                //c.on('eventclick', this.onEventClick, this);
+                //c.on('dayclick', this.onDayClick, this);
+                //c.on('rangeselect', this.onRangeSelect, this);
+                c.on('editdetails', this.onEditDetails, this);
             },
             scope: this,
             single: true
@@ -469,94 +536,109 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         }
     },
     
-    // private 
-    onEventClick: function(vw, rec, el){
-        if(this.fireEvent('eventclick', this, rec, el) !== false){
-            this.showEditWindow(rec, el);
-        }
-    },
+//    // private 
+//    onEventClick: function(vw, rec, el){
+//        if(this.fireEvent('eventclick', this, rec, el) !== false){
+//            this.showEditWindow(rec, el);
+//        }
+//    },
+//    
+//    showEditWindow : function(rec, animateTarget){
+//        // only create one instance of the edit window, even if there are multiple CalendarPanels
+//        this.editWin = this.editWin || Ext.WindowMgr.get('ext-cal-editwin');
+//        
+//        if(!this.editWin){
+//            this.editWin = new Ext.ensible.ux.cal.EventEditWindow({
+//                id: 'ext-cal-editwin',
+//                calendarStore: this.calendarStore,
+//                listeners: {
+//                    'eventadd': {
+//                        fn: function(win, rec, animTarget){
+//                            win.hide(animTarget);
+//                            this.onEventAdd(null, rec);
+//                        },
+//                        scope: this
+//                    },
+//                    'eventupdate': {
+//                        fn: function(win, rec, animTarget){
+//                            win.hide(animTarget);
+//                            this.onEventUpdate(null, rec);
+//                        },
+//                        scope: this
+//                    },
+//                    'eventdelete': {
+//                        fn: function(win, rec, animTarget){
+//                            win.hide(animTarget);
+//                            this.onEventDelete(null, rec);
+//                        },
+//                        scope: this
+//                    },
+//                    'editdetails': {
+//                        fn: function(win, rec, animTarget){
+//                            win.hide(animTarget);
+//                            this.showEditForm(rec);
+//                        },
+//                        scope: this
+//                    },
+//                    'eventcancel': {
+//                        fn: function(win, rec, animTarget){
+//                            win.hide(animateTarget);
+//                            this.onEventCancel();
+//                        },
+//                        scope: this
+//                    }
+//                }
+//            });
+//        }
+//        this.editWin.show(rec, animateTarget);
+//    },
+//    
+//    // private 
+//    onDayClick: function(vw, dt, ad, el){
+//        if(this.fireEvent('dayclick', this, dt, ad, el) !== false){
+//            this.showEditWindow({
+//                StartDate: dt,
+//                IsAllDay: ad
+//            }, el);
+//        }
+//    },
+//    
+//    // private
+//    onRangeSelect: function(win, dates, el, onComplete){
+//        if(this.fireEvent('rangeselect', this, dates, el, onComplete) !== false){
+//            this.showEditWindow(dates, el);
+//            this.editWin.on('hide', onComplete, this, {single:true});
+//        }
+//    },
     
-    showEditWindow : function(rec, animateTarget){
-        // only create one instance of the edit window, even if there are multiple CalendarPanels
-        this.editWin = this.editWin || Ext.WindowMgr.get('ext-cal-editwin');
-        
-        if(!this.editWin){
-            this.editWin = new Ext.ensible.ux.cal.EventEditWindow({
-                id: 'ext-cal-editwin',
-                calendarStore: this.calendarStore,
-                listeners: {
-                    'eventadd': {
-                        fn: function(win, rec, animTarget){
-                            win.hide(animTarget);
-                            this.onEventAdd(null, rec);
-                        },
-                        scope: this
-                    },
-                    'eventupdate': {
-                        fn: function(win, rec, animTarget){
-                            win.hide(animTarget);
-                            this.onEventUpdate(null, rec);
-                        },
-                        scope: this
-                    },
-                    'eventdelete': {
-                        fn: function(win, rec, animTarget){
-                            win.hide(animTarget);
-                            this.onEventDelete(null, rec);
-                        },
-                        scope: this
-                    },
-                    'editdetails': {
-                        fn: function(win, rec, animTarget){
-                            win.hide(animTarget);
-                            this.showEditForm(rec);
-                        },
-                        scope: this
-                    },
-                    'eventcancel': {
-                        fn: function(win, rec, animTarget){
-                            win.hide(animateTarget);
-                            this.onEventCancel();
-                        },
-                        scope: this
-                    }
-                }
-            });
-        }
-        this.editWin.show(rec, animateTarget);
-    },
-    
-    // private 
-    onDayClick: function(vw, dt, ad, el){
-        if(this.fireEvent('dayclick', this, dt, ad, el) !== false){
-            this.showEditWindow({
-                StartDate: dt,
-                IsAllDay: ad
-            }, el);
+    // private
+    onEditDetails: function(vw, rec, el){
+        if(this.fireEvent('editdetails', this, vw, rec, el) !== false){
+            this.showEditForm(rec);
         }
     },
     
     // private
-    onRangeSelect: function(win, dates, el, onComplete){
-        if(this.fireEvent('rangeselect', this, dates, el, onComplete) !== false){
-            this.showEditWindow(dates, el);
-            this.editWin.on('hide', onComplete, this, {single:true});
+    onEventDelete: function(vw, rec, el){
+        if(this.fireEvent('beforeeventdelete', this, rec, el) !== false){
+            this.store.remove(rec);
+            this.fireEvent('eventdelete', this, rec, el);
         }
     },
     
-    // private
-    onEventMove: function(vw, rec){
-        if(this.fireEvent('eventmove', this, rec) !== false){
-            this.onEventUpdate(null, rec);
-        }
-    },
+//    // private
+//    onEventMove: function(vw, rec){
+//        if(this.fireEvent('eventmove', this, rec) !== false){
+//            this.onEventUpdate(null, rec);
+//        }
+//    },
     
-    // private
-    onEventResize: function(vw, rec){
-        if(this.fireEvent('eventresize', this, rec) !== false){
-            this.onEventUpdate(null, rec);
-        }
-    },
+//    // private
+//    onEventResize: function(vw, rec){
+//        if(this.fireEvent('eventresize', this, rec) !== false){
+//            this.onEventUpdate(null, rec);
+//        }
+//    },
     
     // private
     onEventAdd: function(form, rec){

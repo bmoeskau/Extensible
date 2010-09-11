@@ -162,7 +162,7 @@
                             },
                             'eventdelete': {
                                 fn: function(cp, rec){
-                                    this.eventStore.remove(rec);
+                                    //this.eventStore.remove(rec);
                                     this.showMsg('Event '+ rec.data[Ext.ensible.cal.EventMappings.Title.name] +' was deleted');
                                 },
                                 scope: this
@@ -193,7 +193,7 @@
                                 scope: this
                             },
                             'rangeselect': {
-                                fn: function(win, dates, el, onComplete){
+                                fn: function(vw, dates, onComplete){
                                     this.clearMsg();
                                 },
                                 scope: this
@@ -228,14 +228,6 @@
                                     }
                                 },
                                 scope: this
-                            },
-                            'editdetails': {
-                                fn: function(vw, rec, animTarget){
-                                    if(this.editWin && this.editWin.isVisible()){
-                                        this.editWin.hide(animTarget);
-                                    }
-                                    App.calendarPanel.showEditForm(rec);
-                                }
                             }
                         }
                     }]

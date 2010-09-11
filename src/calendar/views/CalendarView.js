@@ -118,7 +118,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     
     /**
      * Returns a string of HTML template markup to be used as the body portion of the event template created
-     * by {@link #getEventTemplate}. This provdes the flexibility to customize what's in the body without
+     * by {@link #getEventTemplate}. This provides the flexibility to customize what's in the body without
      * having to override the entire XTemplate. This string can include any valid {@link Ext.Template} code, and
      * any data tokens accessible to the containing event template can be referenced in this string.
      * @return {String} The body template string
@@ -131,7 +131,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * by default generates different markup for browsers that support CSS border radius and those that don't.
      * This method can be overridden as needed to customize the markup generated.</p>
      * <p>Note that this method calls {@link #getEventBodyMarkup} to retrieve the body markup for events separately
-     * from the surrounding container markup.  This provdes the flexibility to customize what's in the body without
+     * from the surrounding container markup.  This provides the flexibility to customize what's in the body without
      * having to override the entire XTemplate. If you do override this method, you should make sure that your 
      * overridden version also does the same.</p>
      * @return {Ext.XTemplate} The event XTemplate
@@ -176,6 +176,18 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
              */
             eventout: true,
             /**
+             * @event beforedatechange
+             * Fires before the start date of the view changes, giving you an opportunity to save state or anything else you may need
+             * to do prior to the UI view changing. This is a cancelable event, so returning false from a handler will cancel both the
+             * view change and the setting of the start date.
+             * @param {Ext.ensible.cal.CalendarView} this
+             * @param {Date} startDate The current start date of the view (as explained in {@link #getStartDate}
+             * @param {Date} newStartDate The new start date that will be set when the view changes
+             * @param {Date} viewStart The first displayed date in the current view
+             * @param {Date} viewEnd The last displayed date in the current view
+             */
+            beforedatechange: true,
+            /**
              * @event datechange
              * Fires after the start date of the view changes
              * @param {Ext.ensible.cal.CalendarView} this
@@ -195,6 +207,14 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
              * function call (e.g., callback()).
              */
 			rangeselect: true,
+            /**
+             * @event beforeeventmove
+             * Fires before an event element is dragged by the user and dropped in a new position. This is a cancelable event, so 
+             * returning false from a handler will cancel the move operation.
+             * @param {Ext.ensible.cal.CalendarView} this
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that will be moved
+             */
+            beforeeventmove: true,
             /**
              * @event eventmove
              * Fires after an event element is dragged by the user and dropped in a new position
@@ -237,9 +257,17 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
              */
             editdetails: true,
             /**
+             * @event beforeeventdelete
+             * Fires before an event is deleted by the user. This is a cancelable event, so returning false from a handler 
+             * will cancel the delete operation.
+             * @param {Ext.ensible.cal.CalendarView} this
+             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was deleted
+             * @param {Ext.Element} el The target element
+             */
+            beforeeventdelete: true,
+            /**
              * @event eventdelete
-             * Fires after an event element is deleted by the user. Not currently implemented directly at the view level -- currently 
-             * deletes only happen from one of the forms.
+             * Fires after an event is deleted by the user.
              * @param {Ext.ensible.cal.CalendarView} this
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was deleted
              * @param {Ext.Element} el The target element
@@ -266,7 +294,8 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             scope: this
         });
         
-        if(this.enableContextMenus){
+        // currently the context menu only contains CRUD actions so do not show it if read-only
+        if(this.enableContextMenus && this.readOnly !== true){
             this.el.on('contextmenu', this.onContextMenu, this);
         }
 		
@@ -278,7 +307,6 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         
         this.on('eventsrendered', this.forceSize);
         this.forceSize.defer(100, this);
-    
     },
     
     // private
@@ -473,28 +501,17 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         this.moveEvent(rec, dt);
 	},
     
-    moveEvent : function(rec, dt){
-        if(Ext.ensible.Date.compare(rec.data[Ext.ensible.cal.EventMappings.StartDate.name], dt) === 0){
-            // no changes
-            return;
-        }
-        var diff = dt.getTime() - rec.data[Ext.ensible.cal.EventMappings.StartDate.name].getTime();
-        rec.set(Ext.ensible.cal.EventMappings.StartDate.name, dt);
-        rec.set(Ext.ensible.cal.EventMappings.EndDate.name, rec.data[Ext.ensible.cal.EventMappings.EndDate.name].add(Date.MILLI, diff));
-        
-        this.fireEvent('eventmove', this, rec);
-    },
-    
     // private
 	onCalendarEndDrag : function(start, end, onComplete){
         // set this flag for other event handlers that might conflict while we're waiting
         this.dragPending = true;
-        // have to wait for the user to save or cancel before finalizing the dd interation
-        var o = {};//, el = this.getDayEl(start);
-        o[Ext.ensible.cal.EventMappings.StartDate.name] = start;
-        o[Ext.ensible.cal.EventMappings.EndDate.name] = end;
+        // have to wait for the user to save or cancel before finalizing the dd interaction
+        var dates = {};
+        dates[Ext.ensible.cal.EventMappings.StartDate.name] = start;
+        dates[Ext.ensible.cal.EventMappings.EndDate.name] = end;
         
-		this.fireEvent('rangeselect', this, o, null, this.onCalendarEndDragComplete.createDelegate(this, [onComplete]));
+		//this.fireEvent('rangeselect', this, o, null, this.onCalendarEndDragComplete.createDelegate(this, [onComplete]));
+        this.onRangeSelect(dates, null, this.onCalendarEndDragComplete.createDelegate(this, [onComplete]));
 	},
     
     // private
@@ -519,7 +536,6 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 			}
         }
     },
-
     
 	doUpdateFx : function(els, o){
 		this.highlightEvent(els, null, o);
@@ -718,18 +734,20 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * @param {Date} dt The date used to calculate the new view boundaries
      */
     setStartDate : function(start, refresh){
-        this.startDate = start.clearTime();
-        this.setViewBounds(start);
-        this.store.load({
-            params: {
-                start: this.viewStart.format('m-d-Y'),
-                end: this.viewEnd.format('m-d-Y')
+        if(this.fireEvent('beforedatechange', this, this.startDate, start, this.viewStart, this.viewEnd) !== false){
+            this.startDate = start.clearTime();
+            this.setViewBounds(start);
+            this.store.load({
+                params: {
+                    start: this.viewStart.format('m-d-Y'),
+                    end: this.viewEnd.format('m-d-Y')
+                }
+            });
+            if(refresh === true){
+                this.refresh();
             }
-        });
-        if(refresh === true){
-            this.refresh();
+            this.fireEvent('datechange', this, this.startDate, this.viewStart, this.viewEnd);
         }
-        this.fireEvent('datechange', this, this.startDate, this.viewStart, this.viewEnd);
     },
     
     // private
@@ -938,6 +956,98 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         return this.startDate.format('F Y');
     },
     
+    showEditWindow : function(rec, animateTarget){
+        // only create one instance of the edit window, even if there are multiple CalendarPanels
+        this.editWin = this.editWin || Ext.WindowMgr.get('ext-cal-editwin');
+        
+        if(!this.editWin){
+            this.editWin = new Ext.ensible.ux.cal.EventEditWindow({
+                id: 'ext-cal-editwin',
+                calendarStore: this.calendarStore,
+                listeners: {
+                    'eventadd': {
+                        fn: function(win, rec, animTarget){
+                            win.hide(animTarget);
+                            this.onEventAdd(null, rec);
+                        },
+                        scope: this
+                    },
+                    'eventupdate': {
+                        fn: function(win, rec, animTarget){
+                            win.hide(animTarget);
+                            this.onEventUpdate(null, rec);
+                        },
+                        scope: this
+                    },
+                    'eventdelete': {
+                        fn: function(win, rec, animTarget){
+                            win.hide(animTarget);
+                            this.onEventDelete(null, rec);
+                        },
+                        scope: this
+                    },
+                    'editdetails': {
+                        fn: function(win, rec, animTarget, view){
+                            win.hide(animTarget);
+                            this.fireEvent('editdetails', this, rec, animTarget);
+                        },
+                        scope: this
+                    },
+                    'eventcancel': {
+                        fn: function(win, rec, animTarget){
+                            win.hide(animateTarget);
+                            this.onEventCancel();
+                        },
+                        scope: this
+                    }
+                }
+            });
+        }
+        this.editWin.show(rec, animateTarget, this);
+    },
+    
+    // private
+    onEventAdd: function(form, rec){
+        rec.data[Ext.ensible.cal.EventMappings.IsNew.name] = false;
+        this.store.add(rec);
+        this.fireEvent('eventadd', this, rec);
+    },
+    
+    // private
+    onEventUpdate: function(form, rec){
+        rec.commit();
+        this.fireEvent('eventupdate', this, rec);
+    },
+    
+    // private
+    onEventDelete: function(form, rec){
+        this.store.remove(rec);
+        this.fireEvent('eventdelete', this, rec);
+    },
+    
+    // private
+    onEventCancel: function(form, rec){
+        this.fireEvent('eventcancel', this, rec);
+    },
+    
+    // private -- called from subclasses
+    onDayClick: function(dt, ad, el){
+        if(this.fireEvent('dayclick', this, dt, ad, el) !== false){
+            this.showEditWindow({
+                StartDate: dt,
+                IsAllDay: ad
+            }, el);
+        }
+    },
+    
+    // private
+    onRangeSelect: function(dates, el, onComplete){
+        if(this.fireEvent('rangeselect', this, dates, el, onComplete) !== false){
+            this.showEditWindow(dates, el);
+            this.editWin.on('hide', onComplete, this, {single:true});
+        }
+    },
+    
     // private
     showEventMenu : function(el, xy){
         if(!this.eventMenu){
@@ -965,7 +1075,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
                     scope: this,
                     handler:function(){
                         this.menuActive = false;
-                        this.fireEvent('eventdelete', this, this.eventMenu.rec, this.eventMenu.ctxEl);
+                        this.deleteEvent(this.eventMenu.rec, this.eventMenu.ctxEl);
                     }
                 },'-',{
                     iconCls:'extensible-cal-icon-evt-move',
@@ -987,9 +1097,47 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         this.menuActive = true;
     },
     
+    moveEvent : function(rec, dt){
+        if(Ext.ensible.Date.compare(rec.data[Ext.ensible.cal.EventMappings.StartDate.name], dt) === 0){
+            // no changes
+            return;
+        }
+        if(this.fireEvent('beforeeventmove', this, rec) !== false){
+            var diff = dt.getTime() - rec.data[Ext.ensible.cal.EventMappings.StartDate.name].getTime();
+            rec.set(Ext.ensible.cal.EventMappings.StartDate.name, dt);
+            rec.set(Ext.ensible.cal.EventMappings.EndDate.name, rec.data[Ext.ensible.cal.EventMappings.EndDate.name].add(Date.MILLI, diff));
+            this.onEventUpdate(null, rec);
+            
+            this.fireEvent('eventmove', this, rec);
+        }
+    },
+    
+    // private
+    deleteEvent: function(rec, el){
+        if(this.fireEvent('beforeeventdelete', this, rec, el) !== false){
+            this.store.remove(rec);
+            this.fireEvent('eventdelete', this, rec, el);
+        }
+    },
+    
+    // private
     onEventContextHide : function(){
         if(this.eventMenu.ctxEl){
             this.eventMenu.ctxEl = null;
+        }
+    },
+    
+    // private
+    onContextMenu : function(e, t){
+        var match = false;
+        
+        if(el = e.getTarget(this.eventSelector, 5, true)){
+            this.showEventMenu(el, e.getXY());
+            match = true;
+        }
+        
+        if(match || this.suppressBrowserContextMenu === true){
+            e.preventDefault();
         }
     },
     
@@ -1006,8 +1154,12 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         }
         var el = e.getTarget(this.eventSelector, 5);
         if(el){
-            var id = this.getEventIdFromEl(el);
-            this.fireEvent('eventclick', this, this.getEventRecord(id), el);
+            var id = this.getEventIdFromEl(el),
+                rec = this.getEventRecord(id);
+            
+            if(this.fireEvent('eventclick', this, rec, el) !== false){
+                this.showEditWindow(rec, el);
+            }
             return true;
         }
     },
@@ -1079,9 +1231,6 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             }
         }
     },
-	
-    // private, optionally may be implemented by subclasses
-    onContextMenu : Ext.emptyFn,
     
     // private, MUST be implemented by subclasses
     renderItems : function(){

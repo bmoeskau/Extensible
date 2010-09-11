@@ -394,20 +394,6 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 		}
 		this.detailPanel.getComponent(this.id+'-details-view').update(dt);
 	},
-    
-    // private
-    onContextMenu : function(e, t){
-        var match = false;
-        
-        if(el = e.getTarget(this.eventSelector, 5, true)){
-            this.showEventMenu(el, e.getXY());
-            match = true;
-        }
-        
-        if(match || this.suppressBrowserContextMenu === true){
-            e.preventDefault();
-        }
-    },
 	
     // private
 	onDetailViewUpdated : function(view, dt, numEvents){
@@ -460,7 +446,8 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
                 var parts = el.id.split(this.dayElIdDelimiter),
                     dt = parts[parts.length-1];
                     
-                this.fireEvent('dayclick', this, Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
+                //this.fireEvent('dayclick', this, Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
+                this.onDayClick(Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
                 return;
             }
         }
