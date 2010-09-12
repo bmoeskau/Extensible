@@ -20,6 +20,7 @@ Ext.ensible.ux.cal.EventEditWindow = Ext.extend(Ext.Window, {
     labelWidth: 65,
     savingMessage: 'Saving changes...',
     deletingMessage: 'Deleting event...',
+    editDetailsLinkClass: 'edit-dtl-link',
     
     // private
 	newId: 10000,
@@ -73,7 +74,7 @@ Ext.ensible.ux.cal.EventEditWindow = Ext.extend(Ext.Window, {
         });
         
         this.fbar = [{
-            xtype: 'tbtext', text: '<a href="#" class="tblink">Edit Details...</a>'
+            xtype: 'tbtext', text: '<a href="#" class="'+this.editDetailsLinkClass+'">Edit Details...</a>'
         },'->',{
             text:'Save', disabled:false, handler:this.onSave, scope:this
         },{
@@ -128,7 +129,7 @@ Ext.ensible.ux.cal.EventEditWindow = Ext.extend(Ext.Window, {
         Ext.ensible.ux.cal.EventEditWindow.superclass.afterRender.call(this);
 		
 		this.el.addClass('ext-cal-event-win');
-        this.el.select('.tblink').on('click', this.onEditDetailsClick, this);
+        this.el.select('.'+this.editDetailsLinkClass).on('click', this.onEditDetailsClick, this);
     },
     
     // private
