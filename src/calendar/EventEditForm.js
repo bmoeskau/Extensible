@@ -26,7 +26,7 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
     title: 'Event Form',
     titleTextAdd: 'Add Event',
     titleTextEdit: 'Edit Event',
-    bodyStyle: 'background:transparent;padding:20px 20px 10px;',
+    bodyStyle: 'padding:20px 20px 10px;',
     border: false,
     buttonAlign: 'center',
     autoHeight: true, // to allow for the notes field to autogrow
@@ -112,13 +112,13 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         };
         
         this.items = [{
-            id: 'left-col',
+            id: this.id+'-left-col',
             columnWidth: .65,
             layout: 'form',
             border: false,
             items: leftFields
         },{
-            id: 'right-col',
+            id: this.id+'-right-col',
             columnWidth: .35,
             layout: 'form',
             border: false,

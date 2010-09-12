@@ -8,78 +8,25 @@ Ext.ns('Ext.ensible.ux.cal');
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.ux.cal.EventEditWindow = function(config){
-	var formPanelCfg = {
-		xtype: 'form',
-        labelWidth: 65,
-        frame: false,
-        bodyStyle: 'background:transparent;padding:5px 10px 10px;',
-        bodyBorder: false,
-        border: false,
-        items:[{
-            id: 'title',
-            name: Ext.ensible.cal.EventMappings.Title.name,
-            fieldLabel: 'Title',
-            xtype: 'textfield',
-            anchor: '100%'
-        },{
-            xtype: 'daterangefield',
-            id: 'date-range',
-            anchor: '100%',
-            fieldLabel: 'When'
-		}]
-    };
+Ext.ensible.ux.cal.EventEditWindow = Ext.extend(Ext.Window, {
+    titleTextAdd: 'Add Event',
+    titleTextEdit: 'Edit Event',
+    width: 600,
+    border: true,
+    closeAction: 'hide',
+    modal: false,
+    resizable: false,
+    buttonAlign: 'left',
+    labelWidth: 65,
+    savingMessage: 'Saving changes...',
+    deletingMessage: 'Deleting event...',
     
-    if(config.calendarStore){
-        this.calendarStore = config.calendarStore;
-        delete config.calendarStore;
-        
-        formPanelCfg.items.push({
-            xtype: 'calendarpicker',
-            id: 'calendar',
-            name: 'calendar',
-            anchor: '100%',
-            store: this.calendarStore
-        });
-    }
-
-    Ext.ensible.ux.cal.EventEditWindow.superclass.constructor.call(this, Ext.apply({
-        titleTextAdd: 'Add Event',
-		titleTextEdit: 'Edit Event',
-        width: 600,
-        autocreate: true,
-        border: true,
-        closeAction: 'hide',
-        modal: false,
-        resizable: false,
-		buttonAlign: 'left',
-		savingMessage: 'Saving changes...',
-		deletingMessage: 'Deleting event...',
-		
-        fbar:[{
-            xtype: 'tbtext', text: '<a href="#" class="tblink">Edit Details...</a>'
-        },'->',{
-            text:'Save', disabled:false, handler:this.onSave, scope:this
-        },{
-            id:'delete-btn', text:'Delete', disabled:false, handler:this.onDelete, scope:this, hideMode:'offsets'
-        },{
-            text:'Cancel', disabled:false, handler:this.onCancel, scope:this
-        }],
-        items: formPanelCfg
-    }, config));
-};
-
-Ext.extend(Ext.ensible.ux.cal.EventEditWindow, Ext.Window, {
     // private
 	newId: 10000,
 	
     // private
     initComponent: function(){
-        Ext.ensible.ux.cal.EventEditWindow.superclass.initComponent.call(this);
-		
-		this.formPanel = this.items.items[0];
-		
-		this.addEvents({
+        this.addEvents({
             /**
              * @event eventadd
              * Fires after a new event is added
@@ -124,6 +71,56 @@ Ext.extend(Ext.ensible.ux.cal.EventEditWindow, Ext.Window, {
              */
             editdetails: true
         });
+        
+        this.fbar = [{
+            xtype: 'tbtext', text: '<a href="#" class="tblink">Edit Details...</a>'
+        },'->',{
+            text:'Save', disabled:false, handler:this.onSave, scope:this
+        },{
+            id:this.id+'-delete-btn', text:'Delete', disabled:false, handler:this.onDelete, scope:this, hideMode:'offsets'
+        },{
+            text:'Cancel', disabled:false, handler:this.onCancel, scope:this
+        }];
+        
+        Ext.ensible.ux.cal.EventEditWindow.superclass.initComponent.call(this);
+    },
+    
+    // private
+    onRender : function(ct, position){
+        this.deleteBtn = Ext.getCmp(this.id+'-delete-btn');
+        
+        this.titleField = new Ext.form.TextField({
+            name: Ext.ensible.cal.EventMappings.Title.name,
+            fieldLabel: 'Title',
+            anchor: '100%'
+        });
+        this.dateRangeField = new Ext.ensible.cal.DateRangeField({
+            anchor: '100%',
+            fieldLabel: 'When'
+        });
+        
+        var items = [this.titleField, this.dateRangeField];
+        
+        if(this.calendarStore){
+            this.calendarField = new Ext.ensible.cal.CalendarPicker({
+                name: Ext.ensible.cal.EventMappings.CalendarId.name,
+                anchor: '100%',
+                store: this.calendarStore
+            });
+            items.push(this.calendarField);
+        }
+        
+        this.formPanel = new Ext.FormPanel({
+            labelWidth: this.labelWidth,
+            frame: false,
+            bodyBorder: false,
+            border: false,
+            items: items
+        });
+        
+        this.add(this.formPanel);
+        
+        Ext.ensible.ux.cal.EventEditWindow.superclass.onRender.call(this, ct, position);
     },
 
     // private
@@ -131,12 +128,6 @@ Ext.extend(Ext.ensible.ux.cal.EventEditWindow, Ext.Window, {
         Ext.ensible.ux.cal.EventEditWindow.superclass.afterRender.call(this);
 		
 		this.el.addClass('ext-cal-event-win');
-        
-//        Ext.get('tblink').on('click', function(e){
-//            e.stopEvent();
-//            this.updateRecord();
-//            this.fireEvent('editdetails', this, this.activeRecord, this.animateTarget);
-//        }, this);
         this.el.select('.tblink').on('click', this.onEditDetailsClick, this);
     },
     
@@ -161,9 +152,9 @@ Ext.extend(Ext.ensible.ux.cal.EventEditWindow, Ext.Window, {
 		var anim = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget;
 
 		Ext.ensible.ux.cal.EventEditWindow.superclass.show.call(this, anim, function(){
-            Ext.getCmp('title').focus(false, 100);
+            this.titleField.focus(false, 100);
         });
-        Ext.getCmp('delete-btn')[o.data && o.data[Ext.ensible.cal.EventMappings.EventId.name] ? 'show' : 'hide']();
+        this.deleteBtn[o.data && o.data[Ext.ensible.cal.EventMappings.EventId.name] ? 'show' : 'hide']();
         
         var rec, f = this.formPanel.form;
 
@@ -203,9 +194,9 @@ Ext.extend(Ext.ensible.ux.cal.EventEditWindow, Ext.Window, {
         }
         
         if(this.calendarStore){
-            Ext.getCmp('calendar').setValue(rec.data[Ext.ensible.cal.EventMappings.CalendarId.name]);
+            this.calendarField.setValue(rec.data[Ext.ensible.cal.EventMappings.CalendarId.name]);
         }
-        Ext.getCmp('date-range').setValue(rec.data);
+        this.dateRangeField.setValue(rec.data);
         this.activeRecord = rec;
         
 		return this;
@@ -241,7 +232,7 @@ Ext.extend(Ext.ensible.ux.cal.EventEditWindow, Ext.Window, {
     // private
     updateRecord: function(){
         var f = this.formPanel.form,
-            dates = Ext.getCmp('date-range').getValue(),
+            dates = this.dateRangeField.getValue(),
             M = Ext.ensible.cal.EventMappings;
             
         f.updateRecord(this.activeRecord);
@@ -249,7 +240,7 @@ Ext.extend(Ext.ensible.ux.cal.EventEditWindow, Ext.Window, {
         this.activeRecord.set(M.EndDate.name, dates[1]);
         this.activeRecord.set(M.IsAllDay.name, dates[2]);
         if(this.calendarStore){
-            this.activeRecord.set(M.CalendarId.name, this.formPanel.form.findField('calendar').getValue());
+            this.activeRecord.set(M.CalendarId.name, this.calendarField.getValue());
         }
     },
     

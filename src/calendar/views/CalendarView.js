@@ -956,10 +956,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         return this.startDate.format('F Y');
     },
     
-    showEditWindow : function(rec, animateTarget){
+    getEditWindow : function(){
         // only create one instance of the edit window, even if there are multiple CalendarPanels
         this.editWin = this.editWin || Ext.WindowMgr.get('ext-cal-editwin');
-        
+         
         if(!this.editWin){
             this.editWin = new Ext.ensible.ux.cal.EventEditWindow({
                 id: 'ext-cal-editwin',
@@ -968,42 +968,49 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
                     'eventadd': {
                         fn: function(win, rec, animTarget){
                             win.hide(animTarget);
-                            this.onEventAdd(null, rec);
+                            win.currentView.onEventAdd(null, rec);
                         },
                         scope: this
                     },
                     'eventupdate': {
                         fn: function(win, rec, animTarget){
                             win.hide(animTarget);
-                            this.onEventUpdate(null, rec);
+                            win.currentView.onEventUpdate(null, rec);
                         },
                         scope: this
                     },
                     'eventdelete': {
                         fn: function(win, rec, animTarget){
                             win.hide(animTarget);
-                            this.onEventDelete(null, rec);
+                            win.currentView.onEventDelete(null, rec);
                         },
                         scope: this
                     },
                     'editdetails': {
                         fn: function(win, rec, animTarget, view){
                             win.hide(animTarget);
-                            this.fireEvent('editdetails', this, rec, animTarget);
+                            win.currentView.fireEvent('editdetails', win.currentView, rec, animTarget);
                         },
                         scope: this
                     },
                     'eventcancel': {
                         fn: function(win, rec, animTarget){
-                            win.hide(animateTarget);
-                            this.onEventCancel();
+                            win.hide(animTarget);
+                            win.currentView.onEventCancel();
                         },
                         scope: this
                     }
                 }
             });
         }
-        this.editWin.show(rec, animateTarget, this);
+        
+        // allows the window to reference the current scope in its callbacks
+        this.editWin.currentView = this;
+        return this.editWin;
+    },
+    
+    showEditWindow : function(rec, animateTarget){
+        this.getEditWindow().show(rec, animateTarget, this);
     },
     
     // private

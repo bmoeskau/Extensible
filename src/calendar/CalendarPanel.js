@@ -409,6 +409,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         });
         
         this.layout = 'card'; // do not allow override
+        this.addClass('x-cal-panel');
         
         var sharedViewCfg = {
             showToday: this.showToday,
@@ -524,6 +525,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     // private
     afterRender: function(){
         Ext.ensible.cal.CalendarPanel.superclass.afterRender.call(this);
+        this.body.addClass('x-cal-body');
         this.fireViewChange();
     },
     

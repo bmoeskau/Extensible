@@ -78,11 +78,11 @@ Ext.onReady(function(){
             'eventclick': {
                 fn: function(panel, rec, el){
                     // override the default edit handling
-                    Ext.Msg.alert('App Click', 'Editing: ' + rec.data.Title);
+                    //Ext.Msg.alert('App Click', 'Editing: ' + rec.data.Title);
                     
                     // return false to tell the CalendarPanel that we've handled the click and it 
                     // should ignore it (e.g., do not show the default edit window)
-                    return false;
+                    //return false;
                 },
                 scope: this
             },

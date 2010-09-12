@@ -48,6 +48,27 @@
             "text": "WeekEventRenderer.js",
             "path": "src/calendar/"
         },{
+            "text":"CalendarPicker.js",
+            "path":"src/calendar/widgets/"
+        },{
+            "text": "RecurrenceCombo.js",
+            "path": "src/calendar/widgets/"
+        },{
+            "text": "RecurrenceField.js",
+            "path": "src/calendar/widgets/"
+        },{
+            "text": "DateRangeField.js",
+            "path": "src/calendar/widgets/"
+        },{
+            "text": "ReminderField.js",
+            "path": "src/calendar/widgets/"
+        },{
+            "text": "EventEditForm.js",
+            "path": "src/calendar/"
+        },{
+            "text": "EventEditWindow.js",
+            "path": "src/calendar/"
+        },{
             "text": "CalendarView.js",
             "path": "src/calendar/views/"
         },{
@@ -74,27 +95,6 @@
         },{
             "text": "MonthDayDetailView.js",
             "path": "src/calendar/views/"
-        },{
-            "text":"CalendarPicker.js",
-            "path":"src/calendar/widgets/"
-        },{
-            "text": "RecurrenceCombo.js",
-            "path": "src/calendar/widgets/"
-        },{
-            "text": "RecurrenceField.js",
-            "path": "src/calendar/widgets/"
-        },{
-            "text": "DateRangeField.js",
-            "path": "src/calendar/widgets/"
-        },{
-            "text": "ReminderField.js",
-            "path": "src/calendar/widgets/"
-        },{
-            "text": "EventEditForm.js",
-            "path": "src/calendar/"
-        },{
-            "text": "EventEditWindow.js",
-            "path": "src/calendar/"
         },{
             "text": "CalendarPanel.js",
             "path": "src/calendar/"

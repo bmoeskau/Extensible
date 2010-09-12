@@ -24,7 +24,11 @@
     position: relative;
     font-family: helvetica, arial, sans-serif;
 }
-.x-panel-mc .x-panel-body .ext-cal-ct {
+.x-cal-panel .x-panel-body {
+    background: white !important;
+}
+.x-panel-mc .x-panel-body .ext-cal-ct,
+.x-panel-mc .x-panel-body .ext-evt-edit-form {
     border-left:1px solid #99BBE8;
     border-right:1px solid #99BBE8;
 }
@@ -761,11 +765,6 @@ td.ext-cal-dtitle-today div {
 	background: #C3D9FF;
 }
 
-.ext-cal-event-win a:link,
-.ext-cal-event-win a:visited {
-    color: #15428B;
-}
-
 /* StatusProxy override styles */
 .ext-dd-ghost-ct {
 	color:#000;
@@ -833,11 +832,28 @@ td.ext-cal-dtitle-today div {
 
 /*******************************************
  * 
- * Calendar form styles
+ * Calendar editor window styles
  *
  ******************************************/
 .ext-gecko .ext-cal-event-win .x-window-body .x-form-item {
     overflow: hidden;
+}
+.ext-cal-event-win .x-window-body .x-form {
+    background: transparent;
+    padding: 5px 10px 10px;
+}
+.ext-cal-event-win a:link,
+.ext-cal-event-win a:visited {
+    color: #15428B;
+}
+
+/*******************************************
+ * 
+ * Calendar form styles
+ *
+ ******************************************/
+.ext-evt-edit-form {
+    height: 100%;
 }
 .ext-evt-edit-form .x-form-item {
     margin-bottom: 8px;
@@ -852,6 +868,9 @@ td.ext-cal-dtitle-today div {
     font-family: helvetica, arial, sans-serif;
     border-top: 0;
     border-bottom: 1px solid #BBCCFF;
+}
+.x-panel-mc .ext-evt-edit-form .x-panel-header {
+   border-top: 1px solid #99BBE8;
 }
 .ext-evt-edit-form .x-panel-fbar {
     padding: 5px 10px;
