@@ -149,6 +149,7 @@
     padding: 0;
     line-height: normal;
     background: #eee;
+    margin-top: 1px;
 }
 .ext-cal-dayview .ext-cal-body-ct .ext-cal-bg-tbl {
     height: 1008px;
