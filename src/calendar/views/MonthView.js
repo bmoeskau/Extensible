@@ -304,7 +304,8 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 			h = box.height / this.getWeekCount();
 		
 		if(contentOnly){
-			var hd = this.el.select('.ext-cal-dtitle').first().parent('tr');
+            // measure last row instead of first in case text wraps in first row
+			var hd = this.el.select('.ext-cal-dtitle').last().parent('tr');
 			h = hd ? h-hd.getHeight(true) : h;
 		}
 		return {height: h, width: w};
