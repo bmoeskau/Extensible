@@ -954,21 +954,17 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             viewEnd: this.viewEnd,
             startDate: this.startDate,
             dayCount: this.dayCount,
-            weekCount: this.weekCount,
-            title: this.getTitle()
+            weekCount: this.weekCount
         };
     },
     
-    getTitle : function(){
-        return this.startDate.format('F Y');
-    },
-    
-    getEditWindow : function(){
+    // private
+    getEventEditor : function(){
         // only create one instance of the edit window, even if there are multiple CalendarPanels
         this.editWin = this.editWin || Ext.WindowMgr.get('ext-cal-editwin');
          
         if(!this.editWin){
-            this.editWin = new Ext.ensible.ux.cal.EventEditWindow({
+            this.editWin = new Ext.ensible.cal.EventEditWindow({
                 id: 'ext-cal-editwin',
                 calendarStore: this.calendarStore,
                 listeners: {
@@ -1016,8 +1012,16 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         return this.editWin;
     },
     
-    showEditWindow : function(rec, animateTarget){
-        this.getEditWindow().show(rec, animateTarget, this);
+    /**
+     * Show the currently configured event editor view (by default the shared instance of 
+     * {@link Ext.ensible.cal.EventEditWindow EventEditWindow}).
+     * @param {Ext.ensible.cal.EventRecord} rec The event record
+     * @param {Ext.Element/HTMLNode} animateTarget The reference element that is being edited. By default this is
+     * used as the target for animating the editor window opening and closing. If this method is being overridden to
+     * supply a custom editor this parameter can be ignored if it does not apply.
+     */
+    showEventEditor : function(rec, animateTarget){
+        this.getEventEditor().show(rec, animateTarget, this);
     },
     
     // private
@@ -1047,7 +1051,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     // private -- called from subclasses
     onDayClick: function(dt, ad, el){
         if(this.fireEvent('dayclick', this, dt, ad, el) !== false){
-            this.showEditWindow({
+            this.showEventEditor({
                 StartDate: dt,
                 IsAllDay: ad
             }, el);
@@ -1057,7 +1061,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     // private
     onRangeSelect: function(dates, el, onComplete){
         if(this.fireEvent('rangeselect', this, dates, el, onComplete) !== false){
-            this.showEditWindow(dates, el);
+            this.showEventEditor(dates, el);
             this.editWin.on('hide', onComplete, this, {single:true});
         }
     },
@@ -1172,7 +1176,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
                 rec = this.getEventRecord(id);
             
             if(this.fireEvent('eventclick', this, rec, el) !== false){
-                this.showEditWindow(rec, el);
+                this.showEventEditor(rec, el);
             }
             return true;
         }
