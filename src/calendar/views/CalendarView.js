@@ -580,7 +580,14 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     },
 	
 	doRemoveFx : function(els, o){
-        els.fadeOut(o);
+        if(els.getCount() == 0 && Ext.isFunction(o.callback)){
+            // if there are no matching elements in the view make sure the callback still runs.
+            // this can happen when an event accessed from the "more" popup is deleted.
+            o.callback.call(o.scope || this);
+        }
+        else{
+            els.fadeOut(o);
+        }
 	},
 	
 	/**

@@ -405,7 +405,6 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 			dayEl = this.getDayEl(dt),
 			box = dayEl.getBox();
 		
-		p.updateBox(box);
 		p.setHeight(bodyH);
 		p.setWidth(Math.max(box.width, 220));
 		p.show();

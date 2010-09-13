@@ -74,6 +74,8 @@ Ext.ensible.cal.MonthDayDetailView = Ext.extend(Ext.BoxComponent, {
 	            return startsOnDate || spansDate;
 	        }, this);
 		
+        Ext.ensible.cal.CalendarView.prototype.sortEventRecordsForDay.call(this, evts);
+        
 		evts.each(function(evt){
             var item = evt.data,
                 M = Ext.ensible.cal.EventMappings;
