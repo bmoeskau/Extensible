@@ -11,7 +11,7 @@ Ext.ns('Ext.ensible.ux.cal');
 Ext.ensible.ux.cal.EventEditWindow = Ext.extend(Ext.Window, {
     titleTextAdd: 'Add Event',
     titleTextEdit: 'Edit Event',
-    width: 600,
+    width: 580,
     border: true,
     closeAction: 'hide',
     modal: false,

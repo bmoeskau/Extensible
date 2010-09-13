@@ -16,6 +16,22 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
      * The text to display as the label for the all day checkbox (defaults to 'All day')
      */
     allDayText: 'All day',
+    /**
+     * @cfg {String/Boolean} singleLine
+     * This value can be set explicitly to <code>true</code> or <code>false</code> to force the field to render on
+     * one line or two lines respectively.  The default value is <code>'auto'</code> which means that the field will
+     * calculate its container's width and compare it to {@link singleLineMinWidth} to determine whether to render 
+     * on one line or two automatically.  Note that this only applies at render time -- once the field is rendered
+     * the layout cannot be changed.
+     */
+    singleLine: 'auto',
+    /**
+     * @cfg {Number} singleLineMinWidth
+     * If {@link singleLine} is set to 'auto' it will use this value to determine whether to render the field on one
+     * line or two. This value is the approximate minimum width required to render the field on a single line, so if
+     * the field's container is narrower than this value it will automatically be rendered on two lines.
+     */
+    singleLineMinWidth: 490,
     
     // private
     onRender: function(ct, position){
@@ -93,23 +109,35 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
                 text: this.toText
             });
             
+            var singleLine = this.singleLine;
+            if(singleLine == 'auto'){
+                var el, w = this.ownerCt.getWidth() - this.ownerCt.getEl().getPadding('lr');
+                if(el = this.ownerCt.getEl().child('.x-panel-body')){
+                    w -= el.getPadding('lr');
+                }
+                if(el = this.ownerCt.getEl().child('.x-form-item-label')){
+                    w -= el.getWidth() - el.getPadding('lr');
+                }
+                singleLine = w <= this.singleLineMinWidth ? false : true;
+            }
+            
             this.fieldCt = new Ext.Container({
                 autoEl: {id:this.id}, //make sure the container el has the field's id
                 cls: 'ext-dt-range',
                 renderTo: ct,
-                layout:'table',
+                layout: 'table',
                 layoutConfig: {
-                    columns: 6
+                    columns: singleLine ? 6 : 3
                 },
                 defaults: {
                     hideParent: true
                 },
                 items:[
-                    this.startDate, 
-                    this.startTime, 
+                    this.startDate,
+                    this.startTime,
                     this.toLabel,
-                    this.endTime, 
-                    this.endDate,
+                    singleLine ? this.endTime : this.endDate,
+                    singleLine ? this.endDate : this.endTime,
                     this.allDay
                 ]
             });
@@ -119,7 +147,12 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
             this.items = new Ext.util.MixedCollection();
             this.items.addAll([this.startDate, this.endDate, this.toLabel, this.startTime, this.endTime, this.allDay]);
         }
+        
         Ext.ensible.cal.DateRangeField.superclass.onRender.call(this, ct, position);
+        
+        if(!singleLine){
+            this.el.child('tr').addClass('ext-dt-range-row1');
+        }
     },
     
     // private
