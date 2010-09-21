@@ -68,7 +68,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     showNavJump: true,
     showNavNextPrev: true,
     
-    todayText: 'Today',
     jumpToText: 'Jump to:',
     goText: 'Go',
     
