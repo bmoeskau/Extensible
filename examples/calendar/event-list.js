@@ -63,8 +63,7 @@ var eventList = {
         "t":"An old event",
         "start":today.add(Date.DAY, -30),
         "end":today.add(Date.DAY, -28),
-        "ad":true,
-        "notes":"Get cash on the way"
+        "ad":true
     },{
         "id":1009,
         "cid":2,
