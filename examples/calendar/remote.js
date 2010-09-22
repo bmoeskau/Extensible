@@ -32,7 +32,8 @@ Ext.onReady(function(){
         proxy: proxy,
         reader: reader,
         writer: writer,
-        autoSave: true
+        autoSave: true,
+        autoLoad: true
     });
     
     new Ext.ensible.cal.CalendarPanel({

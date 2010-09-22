@@ -744,14 +744,16 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         if(this.fireEvent('beforedatechange', this, this.startDate, start, this.viewStart, this.viewEnd) !== false){
             this.startDate = start.clearTime();
             this.setViewBounds(start);
-            this.store.load({
-                params: {
-                    start: this.viewStart.format('m-d-Y'),
-                    end: this.viewEnd.format('m-d-Y')
+            if(this.rendered){
+                this.store.load({
+                    params: {
+                        start: this.viewStart.format('m-d-Y'),
+                        end: this.viewEnd.format('m-d-Y')
+                    }
+                });
+                if(refresh === true){
+                    this.refresh();
                 }
-            });
-            if(refresh === true){
-                this.refresh();
             }
             this.fireEvent('datechange', this, this.startDate, this.viewStart, this.viewEnd);
         }
@@ -933,9 +935,6 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             store.on("clear", this.refresh, this);
         }
         this.store = store;
-        if(store && store.getCount() > 0){
-            this.refresh();
-        }
     },
 	
     getEventRecord : function(id){
