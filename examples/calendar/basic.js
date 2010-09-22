@@ -85,7 +85,7 @@ Ext.onReady(function(){
                     //return false;
                 },
                 scope: this
-            },
+            }
         }
     });
 });
