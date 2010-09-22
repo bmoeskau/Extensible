@@ -35,7 +35,6 @@ function getDT($format) {
 
 function getData() {
 	// Load the default starting data. Should match the data in examples/calendar/event-list.js
-	$today = date('Y-m-d', time());
     return array(
         array('id' => 1001, 'cid' => 1, 'start' => getDT('-20 day +10 hour'), 'end' => getDT('-10 day +15 hour'), 'title' => 'Vacation', 'notes' => 'Have fun'),
         array('id' => 1002, 'cid' => 2, 'start' => getDT('+11 hour +30 minute'), 'end' => getDT('+13 hour'), 'title' => 'Lunch with Matt', 'loc' => 'Chuy\'s', 'url' => 'http://chuys.com', 'notes' => 'Order the queso'),
