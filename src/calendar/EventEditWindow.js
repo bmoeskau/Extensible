@@ -10,7 +10,7 @@
 Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
     titleTextAdd: 'Add Event',
     titleTextEdit: 'Edit Event',
-    width: 580,
+    width: 600,
     border: true,
     closeAction: 'hide',
     modal: false,
@@ -20,6 +20,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
     savingMessage: 'Saving changes...',
     deletingMessage: 'Deleting event...',
     editDetailsLinkClass: 'edit-dtl-link',
+    bodyStyle: 'padding:5px 10px;',
     
     // private
 	newId: 10000,

@@ -77,6 +77,7 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         });
         this.dateRangeField = new Ext.ensible.cal.DateRangeField({
             fieldLabel: 'When',
+            singleLine: false,
             anchor: '90%'
         });
         this.reminderField = new Ext.ensible.cal.ReminderField({
