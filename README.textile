@@ -1,11 +1,9 @@
 <h1>Extensible</h1>
 
 <h2>An Ext JS Component Library</h2>
-
 <p>by Brian Moeskau</p>
 
 <h2>Current Status</h2>
-
 <p>Extensible should currently be considered <strong>alpha quality code</strong>. Although a stable version of this code was contributed to the Ext JS 3.3 release, the code here is currently under heavy revision and is not yet feature-complete or guaranteed to be free of bugs.</p>
 
 <h2>Building the Source</h2>
@@ -14,8 +12,7 @@
 <p><strong>NOTE:</strong> If you would prefer not to build the source yourself, you can also "download":http://github.com/bmoeskau/Extensible/downloads the latest available build.</p>
 
 <h2>Installation and Usage</h2>
-
-<p>Extensible requires the Ext JS framework (version 3.2 or later). You should download the "latest version":http://www.sencha.com/products/js/download.php of Ext JS and install Extensible in a sibling directory.</p>
+<p>Extensible requires the Ext JS framework (version 3.2 or later). By default the examples link to Ext 3.2.0 via cachefly.net.  Alternately you can download the "latest version":http://www.sencha.com/products/js/download.php of Ext JS and install Extensible in a sibling directory, adjusting the example paths as needed.</p>
 
 <p>To use Extensible in your application simply include the base Extensible file after the standard Ext JS includes. For example:</p>
 
@@ -31,6 +28,9 @@
 </code></pre></p>
 
 <p>If you are using individual source files then it's up to you to include them all, in the proper order. Look under the <code>/examples</code> folder to get a jump start on how to use the included components.</p>
+
+<h2>Support</h2>
+<p>For additional help in setting up or using this library, or to report bugs, visit the "Extensible forums":http://ext.ensible.com/forum/.</p>
 
 <h2>Licensing</h2>
 <p>Currently Extensible is licensed under the GPL v3.  Additionally we plan to offer commercial license options for anyone who does not wish to be bound by the GPL.  Commercial licenses are not yet available, but will be available prior to the 1.0 release.  Extensible will be dual-licensed under the same terms as Ext JS itself.</p>
