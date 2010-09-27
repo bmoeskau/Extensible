@@ -755,7 +755,7 @@ td.ext-cal-dtitle-today div {
 
 /* Shim for drag/drop operations on calendar views */
 .ext-dd-shim {
-    z-index:1000;
+    z-index:10000;
     overflow:hidden;
     position:absolute;
     left:0;top:0;
@@ -836,6 +836,9 @@ td.ext-cal-dtitle-today div {
  * Calendar editor window styles
  *
  ******************************************/
+.ext-cal-evt-win {
+    z-index: 12100;
+}
 .ext-gecko .ext-cal-event-win .x-window-body .x-form-item {
     overflow: hidden;
 }

@@ -57,7 +57,7 @@ Ext.onReady(function(){
     
     //
     // example 2: shows off some common Ext.Panel configs as well as a 
-    // few extra CalendarPanel-specific configs
+    // few extra CalendarPanel-specific configs + a calendar store
     //
     new C.CalendarPanel({
         id: 'cal-example2',
@@ -88,4 +88,27 @@ Ext.onReady(function(){
             }
         }
     });
+    
+    //
+    // example 3: show a calendar in a modal window
+    //
+    var showWindow = function(){
+        if(!this.calendarWin){
+            this.calendarWin = new Ext.Window({
+                layout: 'fit',
+                title: 'Calendar Window',
+                width: 700,
+                height: 500,
+                modal: true,
+                closeAction: 'hide',
+                items: {
+                    xtype: 'extensible.calendarpanel',
+                    eventStore: eventStore
+                }
+            });
+        }
+        this.calendarWin.show();
+    };
+    
+    Ext.fly('cal-win').on('click', showWindow, this);
 });

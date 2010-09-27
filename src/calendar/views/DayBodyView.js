@@ -62,7 +62,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             hthresh: -1,
             frequency: 50,
             increment: 100,
-            ddGroup: 'DayViewDD'
+            ddGroup: this.ddGroup || this.id+'-DayViewDD'
         };
         this.dragZone = new Ext.ensible.cal.DayViewDragZone(this.el, Ext.apply({
             view: this,

@@ -92,7 +92,7 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 			view: this,
 			createText: this.ddCreateEventText,
 			moveText: this.ddMoveEventText,
-            ddGroup : 'MonthViewDD'
+            ddGroup : this.ddGroup || this.id+'-MonthViewDD'
 		};
         
         this.dragZone = new Ext.ensible.cal.DragZone(this.el, cfg);

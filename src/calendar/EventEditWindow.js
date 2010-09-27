@@ -199,6 +199,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
         }
         this.dateRangeField.setValue(rec.data);
         this.activeRecord = rec;
+        this.el.setStyle('z-index', 12000);
         
 		return this;
     },
