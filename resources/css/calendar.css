@@ -50,6 +50,14 @@
     font-size: 11px;
 }
 
+/* Window specific rules */
+.x-window .x-window-mc .x-cal-body {
+    border: 0 !important;
+}
+.x-window .ext-cal-toolbar {
+    border: 0 !important;
+}
+
 /* Background layout table for week rows */
 .ext-cal-bg-tbl {
     height:100%;

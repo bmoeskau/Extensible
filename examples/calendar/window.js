@@ -3,9 +3,6 @@ Ext.onReady(function(){
     var C = Ext.ensible.cal, // just save some typing
         today = new Date().clearTime();
     
-    //
-    // common data store shared by all calendars on the page
-    //
     var eventStore = new Ext.data.JsonStore({
         id: 'eventStore',
         data: [{
@@ -44,48 +41,25 @@ Ext.onReady(function(){
         }
     });
     
-    //
-    // example 1: simplest possible stand-alone configuration
-    //
-    new C.CalendarPanel({
-        eventStore: eventStore,
-        renderTo: 'simple',
-        title: 'Basic Calendar',
-        width: 700,
-        height: 500
-    });
-    
-    //
-    // example 2: shows off some common Ext.Panel configs as well as a 
-    // few extra CalendarPanel-specific configs + a calendar store
-    //
-    new C.CalendarPanel({
-        id: 'cal-example2',
-        eventStore: eventStore,
-        renderTo: 'panel',
-        title: 'Calendar with Panel Configs',
-        activeItem: 1, // default to week view
-        width: 700,
-        height: 500,
-        //readOnly: true,
-        
-        // Ext.Panel configs:
-        frame: true,
-        collapsible: true,
-        bbar: [{text: 'A Button'}],
-        
-        listeners: {
-            'eventclick': {
-                fn: function(panel, rec, el){
-                    // override the default edit handling
-                    //Ext.Msg.alert('App Click', 'Editing: ' + rec.data.Title);
-                    
-                    // return false to tell the CalendarPanel that we've handled the click and it 
-                    // should ignore it (e.g., do not show the default edit window)
-                    //return false;
-                },
-                scope: this
-            }
+    var showWindow = function(){
+        if(!this.calendarWin){
+            this.calendarWin = new Ext.Window({
+                layout: 'fit',
+                title: 'Calendar Window',
+                width: 700,
+                height: 500,
+                modal: true,
+                closeAction: 'hide',
+                animateTarget: 'cal-win',
+                items: {
+                    // xtype is supported:
+                    xtype: 'extensible.calendarpanel',
+                    eventStore: eventStore
+                }
+            });
         }
-    });
+        this.calendarWin.show();
+    };
+    
+    Ext.fly('cal-win').on('click', showWindow, this);
 });
