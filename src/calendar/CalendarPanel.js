@@ -414,7 +414,9 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             showToday: this.showToday,
             showTodayText: this.showTodayText,
             showTime: this.showTime,
-            readOnly: this.readOnly
+            readOnly: this.readOnly,
+            store: this.store || this.eventStore,
+            calendarStore: this.calendarStore
         };
         
         if(this.showDayView){
@@ -425,7 +427,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             
             day = Ext.apply(Ext.apply(day, this.viewConfig), this.dayViewCfg);
             day.id = this.id+'-day';
-            day.store = day.store || this.eventStore;
             this.initEventRelay(day);
             this.add(day);
         }
@@ -437,7 +438,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             
             mday = Ext.apply(Ext.apply(mday, this.viewConfig), this.multiDayViewCfg);
             mday.id = this.id+'-multiday';
-            mday.store = mday.store || this.eventStore;
             this.initEventRelay(mday);
             this.add(mday);
         }
@@ -449,7 +449,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             
             wk = Ext.apply(Ext.apply(wk, this.viewConfig), this.weekViewCfg);
             wk.id = this.id+'-week';
-            wk.store = wk.store || this.eventStore;
             this.initEventRelay(wk);
             this.add(wk);
         }
@@ -461,7 +460,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             
             mwk = Ext.apply(Ext.apply(mwk, this.viewConfig), this.multiWeekViewCfg);
             mwk.id = this.id+'-multiweek';
-            mwk.store = mwk.store || this.eventStore;
             this.initEventRelay(mwk);
             this.add(mwk);
         }
@@ -481,7 +479,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             
             month = Ext.apply(Ext.apply(month, this.viewConfig), this.monthViewCfg);
             month.id = this.id+'-month';
-            month.store = month.store || this.eventStore;
             this.initEventRelay(month);
             this.add(month);
         }
