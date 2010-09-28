@@ -56,6 +56,4 @@ Ext.onReady(function(){
             pattern.update(v.length > 0 ? v : '(Empty)');
         }
     });
-    
-    pattern.setValue(recurField.getValue());
 });
