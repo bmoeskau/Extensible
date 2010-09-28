@@ -46,7 +46,6 @@ class Request {
                 $params = json_decode(stripslashes($raw));
                 $this->params = $params->data;
             }
-
         }
         // Quickndirty PATH_INFO parser
         if (isset($_SERVER["PATH_INFO"])){
