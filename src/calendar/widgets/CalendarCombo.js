@@ -1,5 +1,5 @@
 /**
- * @class Ext.ensible.cal.CalendarPicker
+ * @class Ext.ensible.cal.CalendarCombo
  * @extends Ext.form.ComboBox
  * <p>A custom combo used for choosing from the list of available calendars to assign an event to. You must
  * pass a populated calendar store as the store config or the combo will not work.</p>
@@ -16,7 +16,7 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.CalendarPicker = Ext.extend(Ext.form.ComboBox, {
+Ext.ensible.cal.CalendarCombo = Ext.extend(Ext.form.ComboBox, {
     fieldLabel: 'Calendar',
     triggerAction: 'all',
     mode: 'local',
@@ -29,7 +29,7 @@ Ext.ensible.cal.CalendarPicker = Ext.extend(Ext.form.ComboBox, {
     
     // private
     initComponent: function(){
-        Ext.ensible.cal.CalendarPicker.superclass.initComponent.call(this);
+        Ext.ensible.cal.CalendarCombo.superclass.initComponent.call(this);
         
         this.tpl = this.tpl ||
               '<tpl for="."><div class="x-combo-list-item {' + Ext.ensible.cal.CalendarMappings.StyleClass.name +
@@ -38,7 +38,7 @@ Ext.ensible.cal.CalendarPicker = Ext.extend(Ext.form.ComboBox, {
     
     // private
     afterRender: function(){
-        Ext.ensible.cal.CalendarPicker.superclass.afterRender.call(this);
+        Ext.ensible.cal.CalendarCombo.superclass.afterRender.call(this);
         
         this.wrap = this.el.up('.x-form-field-wrap');
         this.wrap.addClass('ext-calendar-picker');
@@ -59,9 +59,9 @@ Ext.ensible.cal.CalendarPicker = Ext.extend(Ext.form.ComboBox, {
     setValue: function(value) {
         this.wrap.removeClass(this.getStyleClass(this.getValue()));
         value = value || this.store.getAt(0).data[Ext.ensible.cal.CalendarMappings.CalendarId.name];
-        Ext.ensible.cal.CalendarPicker.superclass.setValue.call(this, value);
+        Ext.ensible.cal.CalendarCombo.superclass.setValue.call(this, value);
         this.wrap.addClass(this.getStyleClass(value));
     }
 });
 
-Ext.reg('calendarpicker', Ext.ensible.cal.CalendarPicker);
+Ext.reg('extensible.calendarcombo', Ext.ensible.cal.CalendarCombo);

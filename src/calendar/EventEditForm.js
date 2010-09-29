@@ -105,7 +105,7 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
             rightFields = [this.notesField, this.locationField, this.urlField];
         
         if(this.calendarStore){
-            this.calendarField = new Ext.ensible.cal.CalendarPicker({
+            this.calendarField = new Ext.ensible.cal.CalendarCombo({
                 store: this.calendarStore,
                 name: Ext.ensible.cal.EventMappings.CalendarId.name
             });

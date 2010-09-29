@@ -103,7 +103,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
         var items = [this.titleField, this.dateRangeField];
         
         if(this.calendarStore){
-            this.calendarField = new Ext.ensible.cal.CalendarPicker({
+            this.calendarField = new Ext.ensible.cal.CalendarCombo({
                 name: Ext.ensible.cal.EventMappings.CalendarId.name,
                 anchor: '100%',
                 store: this.calendarStore

@@ -51,7 +51,7 @@
             "text": "WeekEventRenderer.js",
             "path": "src/calendar/"
         },{
-            "text":"CalendarPicker.js",
+            "text":"CalendarCombo.js",
             "path":"src/calendar/widgets/"
         },{
             "text": "RecurrenceCombo.js",
