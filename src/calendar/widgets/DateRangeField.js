@@ -304,4 +304,4 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
     setRawValue : Ext.emptyFn
 });
 
-Ext.reg('daterangefield', Ext.ensible.cal.DateRangeField);
+Ext.reg('extensible.daterangefield', Ext.ensible.cal.DateRangeField);

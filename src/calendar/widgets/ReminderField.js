@@ -66,4 +66,4 @@ Ext.ensible.cal.ReminderField = Ext.extend(Ext.form.ComboBox, {
     }
 });
 
-Ext.reg('reminderfield', Ext.ensible.cal.ReminderField);
+Ext.reg('extensible.reminderfield', Ext.ensible.cal.ReminderField);
