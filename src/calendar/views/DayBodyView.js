@@ -251,8 +251,13 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         this.getTemplateEventBox(evt);
         
         data._selectorCls = selector;
-        data._colorCls = 'ext-color-' + (evt[M.CalendarId.name] ? 
-                evt[M.CalendarId.name] : 'default') + (evt._renderAsAllDay ? '-ad' : '');
+        var colorCls = 'x-cal-default';
+        
+        if(this.calendarStore && evt[M.CalendarId.name]){
+            var rec = this.calendarStore.getById(evt[M.CalendarId.name]);
+            colorCls = rec.data[Ext.ensible.cal.CalendarMappings.StyleClass.name];
+        }
+        data._colorCls = colorCls + (evt._renderAsAllDay ? '-ad' : '');
         data._elId = selector + (evt._weekIndex ? '-' + evt._weekIndex : '');
         data._isRecurring = evt.Recurrence && evt.Recurrence != '';
         data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] != '';

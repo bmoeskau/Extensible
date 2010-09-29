@@ -1,0 +1,121 @@
+/*******************************************
+ * 
+ * Calendar event colors
+ * 
+ ******************************************/
+/*
+ * This is the text color for all-day and span events.
+ * Changing this will affect all events across all calendars.
+ */
+.ext-cal-evr,
+.ext-cal-evi,
+.ext-cal-evt dl {
+    color: #fff;
+}
+
+/*========================================================
+ * The following block defines the default event styles 
+ * used when no calendar info is available. It includes all
+ * of the rules necessary to style a specific calendar.
+ */
+/* The text color for non-all-day events that have no background color */
+.x-cal-default,
+.ext-ie .x-cal-default-ad,
+.ext-opera .x-cal-default-ad {
+    color: #668CB3;
+}
+/* 
+ * The background color for all-day and span events.  Sorry for all the rules,
+ * they are mostly to accomodate browsers that do not handle border-radius.
+ */
+.ext-cal-day-col .x-cal-default,
+.ext-dd-drag-proxy .x-cal-default,
+.x-cal-default-ad,
+.x-cal-default-ad .ext-cal-evm,
+.x-cal-default .ext-cal-picker-icon,
+.x-cal-default-x dl,
+.x-cal-default-x .ext-cal-evb {
+    background: #668CB3;
+}
+/* The border color for events in the Day and MultiDay views */
+.x-cal-default.ext-cal-evr,
+.x-cal-default-x .ext-cal-evb,
+.x-cal-default-x dl {
+    border-color: #29527A;
+}
+/*  END of default event styles
+ * ========================================================
+ */
+
+/*
+ * The block above defines the 3 rules required to style one calendar.
+ * The following blocks are the exact same rules, but with different 
+ * color definitions for each unique calendar.  Each specific calendar
+ * has the default class name prefix "x-cal-" plus the calendar's unique class
+ * id. To customize these colors you can simply alter the colors of existing
+ * calendars, or you can create new style definitions as below, just making
+ * sure that the class name you choose matches the StyleClass defined in your 
+ * calendar store.
+ */
+/* x-cal-1 */
+.x-cal-1,
+.ext-ie .x-cal-1-ad,
+.ext-opera .x-cal-1-ad {
+    color: #668CB3;
+}
+.ext-cal-day-col .x-cal-1,
+.ext-dd-drag-proxy .x-cal-1,
+.x-cal-1-ad,
+.x-cal-1-ad .ext-cal-evm,
+.x-cal-1 .ext-cal-picker-icon,
+.x-cal-1-x dl,
+.x-cal-1-x .ext-cal-evb {
+    background: #668CB3;
+}
+.x-cal-1.ext-cal-evr,
+.x-cal-1-x .ext-cal-evb,
+.x-cal-1-x dl {
+    border-color: #29527A;
+}
+
+/* x-cal-2 */
+.x-cal-2,
+.ext-ie .x-cal-2-ad,
+.ext-opera .x-cal-2-ad {
+    color: #c33;
+}
+.ext-cal-day-col .x-cal-2,
+.ext-dd-drag-proxy .x-cal-2,
+.x-cal-2-ad,
+.x-cal-2-ad .ext-cal-evm,
+.x-cal-2 .ext-cal-picker-icon,
+.x-cal-2-x dl,
+.x-cal-2-x .ext-cal-evb {
+    background: #c33;
+}
+.x-cal-2.ext-cal-evr,
+.x-cal-2-x .ext-cal-evb,
+.x-cal-2-x dl {
+    border-color: #711616;
+}
+
+/* x-cal-3 */
+.x-cal-3,
+.ext-ie .x-cal-3-ad,
+.ext-opera .x-cal-3-ad {
+    color: #e80;
+}
+.ext-cal-day-col .x-cal-3,
+.ext-dd-drag-proxy .x-cal-3,
+.x-cal-3-ad,
+.x-cal-3-ad .ext-cal-evm,
+.x-cal-3 .ext-cal-picker-icon,
+.x-cal-3-x dl,
+.x-cal-3-x .ext-cal-evb {
+    background: #e80;
+}
+.x-cal-3.ext-cal-evr,
+.x-cal-3-x .ext-cal-evb,
+.x-cal-3-x dl {
+    border-color: #8C500B;
+}

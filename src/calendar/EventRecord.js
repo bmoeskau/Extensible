@@ -1,7 +1,7 @@
 /**
  * @class Ext.ensible.cal.EventMappings
  * @extends Object
- * A simple object that provides the field definitions for EventRecords so that they can be easily overridden.
+ * A simple object that provides the field definitions for {@link Ext.ensible.cal.EventRecord EventRecord}s so that they can be easily overridden.
  */
 Ext.ensible.cal.EventMappings = {
     EventId: {name: 'EventId', mapping:'id', type:'int'},
@@ -35,7 +35,7 @@ rec = new Ext.ensible.cal.EventRecord({
     Notes: 'Some notes'
 });
 </code></pre>
- * If you have overridden any of the record's data mappings via the Ext.ensible.cal.EventMappings object
+ * If you have overridden any of the record's data mappings via the {@link Ext.ensible.cal.EventMappings EventMappings} object
  * you may need to set the values using this alternate syntax to ensure that the fields match up correctly:<pre><code>
 var M = Ext.ensible.cal.EventMappings;
 

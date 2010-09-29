@@ -4,9 +4,7 @@
             
             Ext.BLANK_IMAGE_URL = 'http://extjs.cachefly.net/ext-3.1.0/resources/images/default/s.gif';
 
-            // This is an example calendar store that enables the events to have
-            // different colors based on CalendarId. This is not a fully-realized
-            // multi-calendar implementation, which is beyond the scope of this sample app
+            // This is an example calendar store that enables event color-coding
             this.calendarStore = new Ext.data.JsonStore({
                 storeId: 'calendarStore',
                 root: 'calendars',
@@ -14,10 +12,7 @@
                 data: calendarList, // defined in calendar-list.js
                 proxy: new Ext.data.MemoryProxy(),
                 autoLoad: true,
-                fields: [
-                    {name:'CalendarId', mapping: 'id', type: 'int'},
-                    {name:'Title', mapping: 'title', type: 'string'}
-                ],
+                fields: Ext.ensible.cal.CalendarRecord.prototype.fields.getRange(),
                 sortInfo: {
                     field: 'CalendarId',
                     direction: 'ASC'

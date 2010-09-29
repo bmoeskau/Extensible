@@ -45,6 +45,9 @@
             "text": "EventRecord.js",
             "path": "src/calendar/"
         },{
+            "text": "CalendarRecord.js",
+            "path": "src/calendar/"
+        },{
             "text": "WeekEventRenderer.js",
             "path": "src/calendar/"
         },{
@@ -104,6 +107,9 @@
        "file": "resources/css/extensible-all.css",
        "fileIncludes": [{
            "text": "calendar.css",
+           "path": "resources/css/"
+       },{
+           "text": "calendar-colors.css",
            "path": "resources/css/"
        },{
            "text": "recurrence.css",

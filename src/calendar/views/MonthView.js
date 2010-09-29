@@ -237,12 +237,19 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
     getTemplateEventData : function(evt){
 		var M = Ext.ensible.cal.EventMappings,
             selector = this.getEventSelectorCls(evt[M.EventId.name]),
-		    title = evt[M.Title.name];
-            
+		    title = evt[M.Title.name],
+            colorCls = 'x-cal-default';
+        
+        if(this.calendarStore && evt[M.CalendarId.name]){
+            var rec = this.calendarStore.getById(evt[M.CalendarId.name]);
+            colorCls = rec.data[Ext.ensible.cal.CalendarMappings.StyleClass.name];
+        }
+        
         return Ext.applyIf({
 			_selectorCls: selector,
-			_colorCls: 'ext-color-' + (evt[M.CalendarId.name] ? 
-                evt[M.CalendarId.name] : 'default') + (evt._renderAsAllDay ? '-ad' : ''),
+            _colorCls: colorCls + (evt._renderAsAllDay ? '-ad' : ''),
+//			_colorCls: 'ext-color-' + (evt[M.CalendarId.name] ? 
+//                evt[M.CalendarId.name] : 'default') + (evt._renderAsAllDay ? '-ad' : ''),
             _elId: selector + '-' + evt._weekIndex,
             _isRecurring: evt.Recurrence && evt.Recurrence != '',
             _isReminder: evt[M.Reminder.name] && evt[M.Reminder.name] != '',
