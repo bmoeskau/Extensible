@@ -1146,7 +1146,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     
     // private
     onContextMenu : function(e, t){
-        var match = false;
+        var el, match = false;
         
         if(el = e.getTarget(this.eventSelector, 5, true)){
             this.showEventMenu(el, e.getXY());
