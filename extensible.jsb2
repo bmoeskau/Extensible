@@ -66,6 +66,9 @@
             "text": "ReminderField.js",
             "path": "src/calendar/widgets/"
         },{
+            "text": "CalendarList.js",
+            "path": "src/calendar/widgets/"
+        },{
             "text": "EventEditForm.js",
             "path": "src/calendar/"
         },{

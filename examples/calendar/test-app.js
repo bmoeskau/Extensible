@@ -64,6 +64,11 @@
                     title: '...', // will be updated to the current view's date range
                     region: 'center',
                     layout: 'border',
+                    listeners: {
+                        'afterrender': function(){
+                            Ext.getCmp('app-center').header.addClass('app-center-header');
+                        }
+                    },
                     items: [{
                         id:'app-west',
                         region: 'west',
@@ -81,6 +86,10 @@
                                     scope: this
                                 }
                             }
+                        },{
+                            xtype: 'extensible.calendarlist',
+                            store: this.calendarStore,
+                            width: 175
                         }]
                     },{
                         xtype: 'extensible.calendarpanel',
