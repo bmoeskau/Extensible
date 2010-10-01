@@ -34,7 +34,8 @@
 .x-cal-default-ad .ext-cal-evm,
 .x-cal-default .ext-cal-picker-icon,
 .x-cal-default-x dl,
-.x-cal-default-x .ext-cal-evb {
+.x-cal-default-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-default {
     background: #668CB3;
 }
 /* The border color for events in the Day and MultiDay views */
@@ -69,7 +70,8 @@
 .x-cal-1-ad .ext-cal-evm,
 .x-cal-1 .ext-cal-picker-icon,
 .x-cal-1-x dl,
-.x-cal-1-x .ext-cal-evb {
+.x-cal-1-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-1 {
     background: #668CB3;
 }
 .x-cal-1.ext-cal-evr,
@@ -90,7 +92,8 @@
 .x-cal-2-ad .ext-cal-evm,
 .x-cal-2 .ext-cal-picker-icon,
 .x-cal-2-x dl,
-.x-cal-2-x .ext-cal-evb {
+.x-cal-2-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-2 {
     background: #c33;
 }
 .x-cal-2.ext-cal-evr,
@@ -111,7 +114,8 @@
 .x-cal-3-ad .ext-cal-evm,
 .x-cal-3 .ext-cal-picker-icon,
 .x-cal-3-x dl,
-.x-cal-3-x .ext-cal-evb {
+.x-cal-3-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-3 {
     background: #e80;
 }
 .x-cal-3.ext-cal-evr,

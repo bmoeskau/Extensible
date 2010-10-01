@@ -834,3 +834,49 @@ td.ext-cal-dtitle-today div {
 .extensible-cal-icon-evt-move {
     background-image:url(../images/default/silk/date_go.png) !important;
 }
+
+/*******************************************
+ * 
+ * CalendarList styles
+ *
+ ******************************************/
+.x-calendar-list .x-panel-body {
+    padding: 4px 2px 2px;
+    background: #fff !important;
+    font-family: helvetica, arial, sans-serif;
+    font-size: 12px;
+}
+.x-calendar-list li {
+    position: relative;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+.x-calendar-list li em {
+    background-image: url(../images/default/calendar-sprites.gif);
+    background-repeat: no-repeat;
+    display: inline-block;
+    position: absolute;
+    height: 9px;
+    line-height: 9px;
+    width: 10px;
+    top: 3px;
+    background-position: -38px 0;
+    right: 3px;
+}
+.x-calendar-list .hover em {
+    background-position: -28px 0;
+    right: 4px;
+}
+.x-calendar-list .ext-cal-evr {
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+}
+.x-calendar-list .ext-cal-hidden {
+    opacity:.5;
+    -moz-opacity:.5;
+    -khtml-opacity:.5;
+}
+.ext-ie .x-calendar-list .ext-cal-hidden {
+    filter: alpha(opacity=50);
+}
