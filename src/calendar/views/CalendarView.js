@@ -257,6 +257,27 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
              */
             editdetails: true,
             /**
+             * @event eventadd
+             * Fires after a new event is added to the underlying store
+             * @param {Ext.ensible.cal.CalendarView} this
+             * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was added
+             */
+            eventadd: true,
+            /**
+             * @event eventupdate
+             * Fires after an existing event is updated
+             * @param {Ext.ensible.cal.CalendarView} this
+             * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was updated
+             */
+            eventupdate: true,
+            /**
+             * @event eventcancel
+             * Fires after an event add/edit operation is canceled by the user and no store update took place
+             * @param {Ext.ensible.cal.CalendarView} this
+             * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was canceled
+             */
+            eventcancel: true,
+            /**
              * @event beforeeventdelete
              * Fires before an event is deleted by the user. This is a cancelable event, so returning false from a handler 
              * will cancel the delete operation.

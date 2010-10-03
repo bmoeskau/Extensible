@@ -504,7 +504,8 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
                 // relay view events so that app code only has to handle them in one place.
                 // these events require no special handling by the calendar panel 
                 this.relayEvents(c, ['eventsrendered','eventclick','dayclick','eventover','eventout','beforedatechange',
-                    'datechange','rangeselect','beforeeventmove','eventmove','initdrag','dayover','dayout','beforeeventresize','eventresize']);
+                    'datechange','rangeselect','beforeeventmove','eventmove','initdrag','dayover','dayout','beforeeventresize',
+                    'eventresize','eventadd','eventupdate','eventdelete','eventcancel']);
                 
                 // these events can be fired either by a contained view or by the panel itself, and they have
                 // default handling code, so the handler functions are defined in this class
