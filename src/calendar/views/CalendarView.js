@@ -285,6 +285,9 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         if(this.store){
             this.setStore(this.store, true);
         }
+        if(this.calendarStore){
+            this.setCalendarStore(this.calendarStore, true);
+        }
 
         this.el.on({
             'mouseover': this.onMouseOver,
@@ -935,6 +938,26 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             store.on("clear", this.refresh, this);
         }
         this.store = store;
+    },
+    
+    /**
+     * Sets the calendar store used by the calendar (contains records of type {@link Ext.ensible.cal.CalendarRecord CalendarRecord}).
+     * @param {Ext.data.Store} store
+     */
+    setCalendarStore : function(store, initial){
+        if(!initial && this.calendarStore){
+            this.calendarStore.un("datachanged", this.refresh, this);
+            this.calendarStore.un("add", this.refresh, this);
+            this.calendarStore.un("remove", this.refresh, this);
+            this.calendarStore.un("update", this.refresh, this);
+        }
+        if(store){
+            store.on("datachanged", this.refresh, this);
+            store.on("add", this.refresh, this);
+            store.on("remove", this.refresh, this);
+            store.on("update", this.refresh, this);
+        }
+        this.calendarStore = store;
     },
 	
     getEventRecord : function(id){

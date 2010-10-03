@@ -24,8 +24,8 @@ Ext.ensible.cal.ColorPalette = Ext.extend(Ext.ColorPalette, {
     initComponent: function(){
         Ext.ensible.cal.ColorPalette.superclass.initComponent.call(this);
         this.addClass('x-calendar-palette');
-        this.tpl = new Ext.XTemplate('<tpl for="."><a class="x-cal-color" id="' + this.id +
-            '-color-{.}" href="#" unselectable="on" hidefocus="on"><em><span class="x-cal-{.}">&#160;</span></em></a></tpl>');
+        this.tpl = new Ext.XTemplate('<tpl for="."><a class="x-unselectable x-cal-color" id="' + this.id +
+            '-color-{.}" href="#" hidefocus="on"><em><span class="x-cal-{.}">&#160;</span></em></a></tpl>');
             
         if(this.handler){
             this.on('select', this.handler, this.scope || this);
@@ -34,7 +34,6 @@ Ext.ensible.cal.ColorPalette = Ext.extend(Ext.ColorPalette, {
     
     // private
     handleClick : function(e, t){
-        //e.preventDefault();
         var el = e.getTarget('.x-cal-color', 3, true);
         if(el){
             var id = el.id.split('-color-')[1];

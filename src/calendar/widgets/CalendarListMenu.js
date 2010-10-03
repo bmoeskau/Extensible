@@ -75,9 +75,8 @@ Ext.ensible.cal.CalendarListMenu = Ext.extend(Ext.menu.Menu, {
         Ext.ensible.cal.CalendarListMenu.superclass.afterRender.call(this);
         this.palette = this.findByType('extensible.calendarcolorpalette')[0];
         
-        if(this.initColorId){
-            this.palette.select(this.initColorId, true);
-            delete this.initColorId;
+        if(this.colorId){
+            this.palette.select(this.colorId, true);
         }
     },
     
@@ -87,8 +86,9 @@ Ext.ensible.cal.CalendarListMenu = Ext.extend(Ext.menu.Menu, {
     },
     
     // private
-    handleColorSelect: function(cp, colorId){
-        this.fireEvent('colorchange', this, this.calendarId, colorId);
+    handleColorSelect: function(cp, selColorId){
+        this.fireEvent('colorchange', this, this.calendarId, selColorId, this.colorId);
+        this.colorId = selColorId;
         this.menuHide();
     },
     
@@ -101,11 +101,10 @@ Ext.ensible.cal.CalendarListMenu = Ext.extend(Ext.menu.Menu, {
      */
     setCalendar: function(id, cid){
         this.calendarId = id;
+        this.colorId = cid;
+        
         if(this.rendered){
             this.palette.select(cid, true);
-        }
-        else{
-            this.initColorId = cid;
         }
         return this;
     },

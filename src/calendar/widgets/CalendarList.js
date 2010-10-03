@@ -52,10 +52,8 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
     getListTemplate : function(){
         if(!this.tpl){
             this.tpl = new Ext.XTemplate(
-                '<ul><tpl for=".">',
-                    '<li id="{cmpId}__{' + Ext.ensible.cal.CalendarMappings.CalendarId.name + '}" class="ext-cal-evr x-cal-{' + 
-                    Ext.ensible.cal.CalendarMappings.ColorId.name + '}-ad {hiddenCls}">{' + 
-                    Ext.ensible.cal.CalendarMappings.Title.name + '}<em>&#160;</em></li>',
+                '<ul class="x-unselectable"><tpl for=".">',
+                    '<li id="{cmpId}" class="ext-cal-evr {colorCls} {hiddenCls}">{title}<em>&#160;</em></li>',
                 '</tpl></ul>'
             );
             this.tpl.compile();
@@ -93,17 +91,27 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
      * event that a manual refresh is ever needed.
      */
     refresh: function(){
-        var data = [], i = 0, 
+        var data = [], i = 0, o = null, 
             recs = this.store.getRange(),
             len = recs.length;
             
         for(; i < len; i++){
-            data[data.length] = Ext.apply({cmpId: this.id}, recs[i].data);
+            o = {
+                cmpId: this.id + '__' + recs[i].data[Ext.ensible.cal.CalendarMappings.CalendarId.name],
+                title: recs[i].data[Ext.ensible.cal.CalendarMappings.Title.name],
+                colorCls: this.getColorCls(recs[i].data[Ext.ensible.cal.CalendarMappings.ColorId.name]),
+            };
             if(this.isHidden(recs[i].data[Ext.ensible.cal.CalendarMappings.CalendarId.name])){
-                data[data.length-1].hiddenCls = 'ext-cal-hidden';
+                o.hiddenCls = 'ext-cal-hidden';
             }
+            data[data.length] = o;
         }
         this.getListTemplate().overwrite(this.body, data);
+    },
+    
+    // private
+    getColorCls: function(colorId){
+        return 'x-cal-'+colorId+'-ad';
     },
 
     // private
@@ -182,6 +190,10 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
         return parseInt(el.id.split('__')[1]);
     },
     
+    getCalendarItemEl: function(calendarId){
+        return Ext.get(this.id+'__'+calendarId);
+    },
+    
     // private
     onClick : function(e, t){
         var el;
@@ -193,8 +205,10 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
         } 
     },
     
-    handleColorChange: function(menu, id, colorId){
-        alert('calendar ' + id + ', color ' + colorId);
+    handleColorChange: function(menu, id, colorId, origColorId){
+        var rec = this.store.getById(id);
+        rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name] = colorId;
+        rec.commit();
     },
     
     handleRadioCalendar: function(menu, id){
@@ -209,6 +223,7 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
             
         if(!this.menu){
             this.menu = new Ext.ensible.cal.CalendarListMenu();
+            //this.relayEvents(this.menu, ['colorchange', 'radiocalendar', 'showcalendar', 'hidecalendar']);
             this.menu.on('colorchange', this.handleColorChange, this);
             this.menu.on('radiocalendar', this.handleRadioCalendar, this);
         }
