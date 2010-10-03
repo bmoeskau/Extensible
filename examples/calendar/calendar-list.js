@@ -6,15 +6,15 @@ var calendarList = {
     },{
         "id":2,
         "title":"Work",
-        "color":19
+        "color":22
     },{
         "id":3,
         "title":"School",
-        "color":6
+        "color":7
     },{
         "id":4,
         "title":"Sports",
         "hidden":true,
-        "color":27
+        "color":26
     }]
 };

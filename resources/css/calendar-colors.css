@@ -56,7 +56,7 @@
 .x-cal-1,
 .ext-ie .x-cal-1-ad,
 .ext-opera .x-cal-1-ad {
-    color: #fa8980;
+    color: #fa7166;
 }
 .ext-cal-day-col .x-cal-1,
 .ext-dd-drag-proxy .x-cal-1,
@@ -66,7 +66,7 @@
 .x-cal-1-x dl,
 .x-cal-1-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-1 {
-    background: #fa8980;
+    background: #fa7166;
 }
 
 /* ===== x-cal-2 ===== */
@@ -129,7 +129,7 @@
 .x-cal-5,
 .ext-ie .x-cal-5-ad,
 .ext-opera .x-cal-5-ad {
-    color: #cf792c;
+    color: #ca7609;
 }
 .ext-cal-day-col .x-cal-5,
 .ext-dd-drag-proxy .x-cal-5,
@@ -139,7 +139,7 @@
 .x-cal-5-x dl,
 .x-cal-5-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-5 {
-    background: #cf792c;
+    background: #ca7609;
 }
 
 /* ===== x-cal-6 ===== */
@@ -163,7 +163,7 @@
 .x-cal-7,
 .ext-ie .x-cal-7-ad,
 .ext-opera .x-cal-7-ad {
-    color: #dca946;
+    color: #eda12a;
 }
 .ext-cal-day-col .x-cal-7,
 .ext-dd-drag-proxy .x-cal-7,
@@ -173,14 +173,14 @@
 .x-cal-7-x dl,
 .x-cal-7-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-7 {
-    background: #dca946;
+    background: #eda12a;
 }
 
 /* ===== x-cal-8 ===== */
 .x-cal-8,
 .ext-ie .x-cal-8-ad,
 .ext-opera .x-cal-8-ad {
-    color: #f6cc7b;
+    color: #d5b816;
 }
 .ext-cal-day-col .x-cal-8,
 .ext-dd-drag-proxy .x-cal-8,
@@ -190,7 +190,7 @@
 .x-cal-8-x dl,
 .x-cal-8-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-8 {
-    background: #f6cc7b;
+    background: #d5b816;
 }
 
 /* ===== x-cal-9 ===== */
@@ -299,7 +299,7 @@
 .x-cal-15,
 .ext-ie .x-cal-15-ad,
 .ext-opera .x-cal-15-ad {
-    color: #9b66cc;
+    color: #8763ca;
 }
 .ext-cal-day-col .x-cal-15,
 .ext-dd-drag-proxy .x-cal-15,
@@ -309,14 +309,14 @@
 .x-cal-15-x dl,
 .x-cal-15-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-15 {
-    background: #9b66cc;
+    background: #8763ca;
 }
 
 /* ===== x-cal-16 ===== */
 .x-cal-16,
 .ext-ie .x-cal-16-ad,
 .ext-opera .x-cal-16-ad {
-    color: #c590f7;
+    color: #b586e2;
 }
 .ext-cal-day-col .x-cal-16,
 .ext-dd-drag-proxy .x-cal-16,
@@ -326,14 +326,14 @@
 .x-cal-16-x dl,
 .x-cal-16-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-16 {
-    background: #c590f7;
+    background: #b586e2;
 }
 
 /* ===== x-cal-17 ===== */
 .x-cal-17,
 .ext-ie .x-cal-17-ad,
 .ext-opera .x-cal-17-ad {
-    color: #7f84e3;
+    color: #7399f9;
 }
 .ext-cal-day-col .x-cal-17,
 .ext-dd-drag-proxy .x-cal-17,
@@ -343,14 +343,14 @@
 .x-cal-17-x dl,
 .x-cal-17-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-17 {
-    background: #7f84e3;
+    background: #7399f9;
 }
 
 /* ===== x-cal-18 ===== */
 .x-cal-18,
 .ext-ie .x-cal-18-ad,
 .ext-opera .x-cal-18-ad {
-    color: #555bd6;
+    color: #4e79e6;
 }
 .ext-cal-day-col .x-cal-18,
 .ext-dd-drag-proxy .x-cal-18,
@@ -360,14 +360,14 @@
 .x-cal-18-x dl,
 .x-cal-18-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-18 {
-    background: #555bd6;
+    background: #4e79e6;
 }
 
 /* ===== x-cal-19 ===== */
 .x-cal-19,
 .ext-ie .x-cal-19-ad,
 .ext-opera .x-cal-19-ad {
-    color: #3b41ba;
+    color: #2951b9;
 }
 .ext-cal-day-col .x-cal-19,
 .ext-dd-drag-proxy .x-cal-19,
@@ -377,14 +377,14 @@
 .x-cal-19-x dl,
 .x-cal-19-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-19 {
-    background: #3b41ba;
+    background: #2951b9;
 }
 
 /* ===== x-cal-20 ===== */
 .x-cal-20,
 .ext-ie .x-cal-20-ad,
 .ext-opera .x-cal-20-ad {
-    color: #1b2192;
+    color: #133897;
 }
 .ext-cal-day-col .x-cal-20,
 .ext-dd-drag-proxy .x-cal-20,
@@ -394,14 +394,14 @@
 .x-cal-20-x dl,
 .x-cal-20-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-20 {
-    background: #1b2192;
+    background: #133897;
 }
 
 /* ===== x-cal-21 ===== */
 .x-cal-21,
 .ext-ie .x-cal-21-ad,
 .ext-opera .x-cal-21-ad {
-    color: #196c84;
+    color: #1a5173;
 }
 .ext-cal-day-col .x-cal-21,
 .ext-dd-drag-proxy .x-cal-21,
@@ -411,14 +411,14 @@
 .x-cal-21-x dl,
 .x-cal-21-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-21 {
-    background: #196c84;
+    background: #1a5173;
 }
 
 /* ===== x-cal-22 ===== */
 .x-cal-22,
 .ext-ie .x-cal-22-ad,
 .ext-opera .x-cal-22-ad {
-    color: #348fa9;
+    color: #1a699c;
 }
 .ext-cal-day-col .x-cal-22,
 .ext-dd-drag-proxy .x-cal-22,
@@ -428,14 +428,14 @@
 .x-cal-22-x dl,
 .x-cal-22-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-22 {
-    background: #348fa9;
+    background: #1a699c;
 }
 
 /* ===== x-cal-23 ===== */
 .x-cal-23,
 .ext-ie .x-cal-23-ad,
 .ext-opera .x-cal-23-ad {
-    color: #5fb1c9;
+    color: #3694b7;
 }
 .ext-cal-day-col .x-cal-23,
 .ext-dd-drag-proxy .x-cal-23,
@@ -445,14 +445,14 @@
 .x-cal-23-x dl,
 .x-cal-23-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-23 {
-    background: #5fb1c9;
+    background: #3694b7;
 }
 
 /* ===== x-cal-24 ===== */
 .x-cal-24,
 .ext-ie .x-cal-24-ad,
 .ext-opera .x-cal-24-ad {
-    color: #70d7f5;
+    color: #64b9d9;
 }
 .ext-cal-day-col .x-cal-24,
 .ext-dd-drag-proxy .x-cal-24,
@@ -462,14 +462,14 @@
 .x-cal-24-x dl,
 .x-cal-24-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-24 {
-    background: #70d7f5;
+    background: #64b9d9;
 }
 
 /* ===== x-cal-25 ===== */
 .x-cal-25,
 .ext-ie .x-cal-25-ad,
 .ext-opera .x-cal-25-ad {
-    color: #b9ee65;
+    color: #a8c67b;
 }
 .ext-cal-day-col .x-cal-25,
 .ext-dd-drag-proxy .x-cal-25,
@@ -479,14 +479,14 @@
 .x-cal-25-x dl,
 .x-cal-25-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-25 {
-    background: #b9ee65;
+    background: #a8c67b;
 }
 
 /* ===== x-cal-26 ===== */
 .x-cal-26,
 .ext-ie .x-cal-26-ad,
 .ext-opera .x-cal-26-ad {
-    color: #92c149;
+    color: #83ad47;
 }
 .ext-cal-day-col .x-cal-26,
 .ext-dd-drag-proxy .x-cal-26,
@@ -496,14 +496,14 @@
 .x-cal-26-x dl,
 .x-cal-26-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-26 {
-    background: #92c149;
+    background: #83ad47;
 }
 
 /* ===== x-cal-27 ===== */
 .x-cal-27,
 .ext-ie .x-cal-27-ad,
 .ext-opera .x-cal-27-ad {
-    color: #729d2e;
+    color: #2e8f0c;
 }
 .ext-cal-day-col .x-cal-27,
 .ext-dd-drag-proxy .x-cal-27,
@@ -513,14 +513,14 @@
 .x-cal-27-x dl,
 .x-cal-27-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-27 {
-    background: #729d2e;
+    background: #2e8f0c;
 }
 
 /* ===== x-cal-28 ===== */
 .x-cal-28,
 .ext-ie .x-cal-28-ad,
 .ext-opera .x-cal-28-ad {
-    color: #557f12;
+    color: #176413;
 }
 .ext-cal-day-col .x-cal-28,
 .ext-dd-drag-proxy .x-cal-28,
@@ -530,14 +530,14 @@
 .x-cal-28-x dl,
 .x-cal-28-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-28 {
-    background: #557f12;
+    background: #176413;
 }
 
 /* ===== x-cal-29 ===== */
 .x-cal-29,
 .ext-ie .x-cal-29-ad,
 .ext-opera .x-cal-29-ad {
-    color: #14763b;
+    color: #0f4c30;
 }
 .ext-cal-day-col .x-cal-29,
 .ext-dd-drag-proxy .x-cal-29,
@@ -547,14 +547,14 @@
 .x-cal-29-x dl,
 .x-cal-29-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-29 {
-    background: #14763b;
+    background: #0f4c30;
 }
 
 /* ===== x-cal-30 ===== */
 .x-cal-30,
 .ext-ie .x-cal-30-ad,
 .ext-opera .x-cal-30-ad {
-    color: #33a15f;
+    color: #386651;
 }
 .ext-cal-day-col .x-cal-30,
 .ext-dd-drag-proxy .x-cal-30,
@@ -564,14 +564,14 @@
 .x-cal-30-x dl,
 .x-cal-30-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-30 {
-    background: #33a15f;
+    background: #386651;
 }
 
 /* ===== x-cal-31 ===== */
 .x-cal-31,
 .ext-ie .x-cal-31-ad,
 .ext-opera .x-cal-31-ad {
-    color: #58c584;
+    color: #3ea987;
 }
 .ext-cal-day-col .x-cal-31,
 .ext-dd-drag-proxy .x-cal-31,
@@ -581,14 +581,14 @@
 .x-cal-31-x dl,
 .x-cal-31-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-31 {
-    background: #58c584;
+    background: #3ea987;
 }
 
 /* ===== x-cal-32 ===== */
 .x-cal-32,
 .ext-ie .x-cal-32-ad,
 .ext-opera .x-cal-32-ad {
-    color: #86e9ae;
+    color: #7bc3b5;
 }
 .ext-cal-day-col .x-cal-32,
 .ext-dd-drag-proxy .x-cal-32,
@@ -598,5 +598,5 @@
 .x-cal-32-x dl,
 .x-cal-32-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-32 {
-    background: #86e9ae;
+    background: #7bc3b5;
 }
