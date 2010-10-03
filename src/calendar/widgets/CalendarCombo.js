@@ -48,10 +48,11 @@ Ext.ensible.cal.CalendarCombo = Ext.extend(Ext.form.ComboBox, {
         });
     },
     
+    // private
     getStyleClass: function(calendarId){
         if(calendarId && calendarId !== ''){
             var rec = this.store.getById(calendarId);
-            return rec.data[Ext.ensible.cal.CalendarMappings.StyleClass.name];
+            return 'x-cal-' + rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name];
         }
     },
     
