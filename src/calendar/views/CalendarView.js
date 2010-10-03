@@ -680,11 +680,20 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     
     // private
     isEventVisible : function(evt){
+        var M = Ext.ensible.cal.EventMappings,
+            data = evt.data ? evt.data : evt,
+            calId = data[M.CalendarId.name],
+            calRec = this.calendarStore ? this.calendarStore.getById(calId) : null;
+            
+        if(calRec && calRec.data[Ext.ensible.cal.CalendarMappings.IsHidden.name] === true){
+            // if the event is on a hidden calendar then no need to test the date boundaries
+            return false;
+        }
+            
         var start = this.viewStart.getTime(),
             end = this.viewEnd.getTime(),
-            M = Ext.ensible.cal.EventMappings,
-            evStart = (evt.data ? evt.data[M.StartDate.name] : evt[M.StartDate.name]).getTime(),
-            evEnd = (evt.data ? evt.data[M.EndDate.name] : evt[M.EndDate.name]).add(Date.SECOND, -1).getTime(),
+            evStart = data[M.StartDate.name].getTime(),
+            evEnd = data[M.EndDate.name].add(Date.SECOND, -1).getTime(),
             
             startsInRange = (evStart >= start && evStart <= end),
             endsInRange = (evEnd >= start && evEnd <= end),

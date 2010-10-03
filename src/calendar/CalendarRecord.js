@@ -7,7 +7,8 @@ Ext.ensible.cal.CalendarMappings = {
     CalendarId: {name:'CalendarId', mapping: 'id', type: 'int'},
     Title: {name:'Title', mapping: 'title', type: 'string'},
     Description: {name:'Description', mapping: 'desc', type: 'string'},
-    ColorId: {name:'ColorId', mapping: 'color', type: 'int'}
+    ColorId: {name:'ColorId', mapping: 'color', type: 'int'},
+    IsHidden: {name:'IsHidden', mapping: 'hidden', type: 'boolean'}
 };
 
 /**
@@ -53,7 +54,8 @@ rec.data[M.ColorId.name] = 3;
         M.CalendarId,
         M.Title,
         M.Description,
-        M.ColorId
+        M.ColorId,
+        M.IsHidden
     ]);
 
     /**
@@ -64,7 +66,8 @@ rec.data[M.ColorId.name] = 3;
             M.CalendarId,
             M.Title,
             M.Description,
-            M.ColorId
+            M.ColorId,
+            M.IsHidden
         ]);
     };
 })();

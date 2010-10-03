@@ -10,6 +10,7 @@ var calendarList = {
     },{
         "id":3,
         "title":"School",
-        "color":3
+        "color":3,
+        "hidden":true
     }]
 };

@@ -90,7 +90,6 @@
                             xtype: 'extensible.calendarlist',
                             store: this.calendarStore,
                             border: false,
-                            hiddenCalendarIds: [2],
                             width: 175
                         }]
                     },{

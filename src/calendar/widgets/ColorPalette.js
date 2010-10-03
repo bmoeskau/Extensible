@@ -34,6 +34,7 @@ Ext.ensible.cal.ColorPalette = Ext.extend(Ext.ColorPalette, {
     
     // private
     handleClick : function(e, t){
+        e.preventDefault();
         var el = e.getTarget('.x-cal-color', 3, true);
         if(el){
             var id = el.id.split('-color-')[1];
@@ -41,6 +42,11 @@ Ext.ensible.cal.ColorPalette = Ext.extend(Ext.ColorPalette, {
         }
     },
     
+    /**
+     * Selects the specified color in the palette (fires the {@link #select} event)
+     * @param {Number} colorId The id that identifies the selected color and relates it to a calendar
+     * @param {Boolean} suppressEvent (optional) True to stop the select event from firing. Defaults to <tt>false</tt>.
+     */
     select : function(colorId, suppressEvent){
         if(colorId != this.value){
             if(this.value){
