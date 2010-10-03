@@ -14,7 +14,7 @@
                 autoLoad: true,
                 fields: Ext.ensible.cal.CalendarRecord.prototype.fields.getRange(),
                 sortInfo: {
-                    field: 'CalendarId',
+                    field: Ext.ensible.cal.CalendarMappings.Title.name,
                     direction: 'ASC'
                 }
             });
