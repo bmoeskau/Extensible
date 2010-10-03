@@ -38,12 +38,6 @@
 .x-calendar-list-menu li em .x-cal-default {
     background: #668CB3;
 }
-/* The border color for events in the Day and MultiDay views */
-.x-cal-default.ext-cal-evr,
-.x-cal-default-x .ext-cal-evb,
-.x-cal-default-x dl {
-    border-color: #29527A;
-}
 /*  END of default event styles
  * ========================================================
  */
@@ -58,11 +52,11 @@
  * sure that the class name you choose matches the StyleClass defined in your 
  * calendar store.
  */
-/* x-cal-1 */
+/* ===== x-cal-1 ===== */
 .x-cal-1,
 .ext-ie .x-cal-1-ad,
 .ext-opera .x-cal-1-ad {
-    color: #668CB3;
+    color: #fa8980;
 }
 .ext-cal-day-col .x-cal-1,
 .ext-dd-drag-proxy .x-cal-1,
@@ -72,19 +66,14 @@
 .x-cal-1-x dl,
 .x-cal-1-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-1 {
-    background: #668CB3;
-}
-.x-cal-1.ext-cal-evr,
-.x-cal-1-x .ext-cal-evb,
-.x-cal-1-x dl {
-    border-color: #29527A;
+    background: #fa8980;
 }
 
-/* x-cal-2 */
+/* ===== x-cal-2 ===== */
 .x-cal-2,
 .ext-ie .x-cal-2-ad,
 .ext-opera .x-cal-2-ad {
-    color: #c33;
+    color: #cf2424;
 }
 .ext-cal-day-col .x-cal-2,
 .ext-dd-drag-proxy .x-cal-2,
@@ -94,19 +83,19 @@
 .x-cal-2-x dl,
 .x-cal-2-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-2 {
-    background: #c33;
+    background: #cf2424;
 }
 .x-cal-2.ext-cal-evr,
 .x-cal-2-x .ext-cal-evb,
 .x-cal-2-x dl {
-    border-color: #711616;
+    xborder-color: #555;
 }
 
-/* x-cal-3 */
+/* ===== x-cal-3 ===== */
 .x-cal-3,
 .ext-ie .x-cal-3-ad,
 .ext-opera .x-cal-3-ad {
-    color: #e80;
+    color: #a01a1a;
 }
 .ext-cal-day-col .x-cal-3,
 .ext-dd-drag-proxy .x-cal-3,
@@ -116,18 +105,14 @@
 .x-cal-3-x dl,
 .x-cal-3-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-3 {
-    background: #e80;
+    background: #a01a1a;
 }
-.x-cal-3.ext-cal-evr,
-.x-cal-3-x .ext-cal-evb,
-.x-cal-3-x dl {
-    border-color: #8C500B;
-}
-/* x-cal-4 */
+
+/* ===== x-cal-4 ===== */
 .x-cal-4,
 .ext-ie .x-cal-4-ad,
 .ext-opera .x-cal-4-ad {
-    color: #109618;
+    color: #7e3838;
 }
 .ext-cal-day-col .x-cal-4,
 .ext-dd-drag-proxy .x-cal-4,
@@ -137,10 +122,481 @@
 .x-cal-4-x dl,
 .x-cal-4-x .ext-cal-evb,
 .x-calendar-list-menu li em .x-cal-4 {
-    background: #109618;
+    background: #7e3838;
 }
-.x-cal-4.ext-cal-evr,
-.x-cal-4-x .ext-cal-evb,
-.x-cal-4-x dl {
-    border-color: #125F17;
+
+/* ===== x-cal-5 ===== */
+.x-cal-5,
+.ext-ie .x-cal-5-ad,
+.ext-opera .x-cal-5-ad {
+    color: #cf792c;
+}
+.ext-cal-day-col .x-cal-5,
+.ext-dd-drag-proxy .x-cal-5,
+.x-cal-5-ad,
+.x-cal-5-ad .ext-cal-evm,
+.x-cal-5 .ext-cal-picker-icon,
+.x-cal-5-x dl,
+.x-cal-5-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-5 {
+    background: #cf792c;
+}
+
+/* ===== x-cal-6 ===== */
+.x-cal-6,
+.ext-ie .x-cal-6-ad,
+.ext-opera .x-cal-6-ad {
+    color: #f88015;
+}
+.ext-cal-day-col .x-cal-6,
+.ext-dd-drag-proxy .x-cal-6,
+.x-cal-6-ad,
+.x-cal-6-ad .ext-cal-evm,
+.x-cal-6 .ext-cal-picker-icon,
+.x-cal-6-x dl,
+.x-cal-6-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-6 {
+    background: #f88015;
+}
+
+/* ===== x-cal-7 ===== */
+.x-cal-7,
+.ext-ie .x-cal-7-ad,
+.ext-opera .x-cal-7-ad {
+    color: #dca946;
+}
+.ext-cal-day-col .x-cal-7,
+.ext-dd-drag-proxy .x-cal-7,
+.x-cal-7-ad,
+.x-cal-7-ad .ext-cal-evm,
+.x-cal-7 .ext-cal-picker-icon,
+.x-cal-7-x dl,
+.x-cal-7-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-7 {
+    background: #dca946;
+}
+
+/* ===== x-cal-8 ===== */
+.x-cal-8,
+.ext-ie .x-cal-8-ad,
+.ext-opera .x-cal-8-ad {
+    color: #f6cc7b;
+}
+.ext-cal-day-col .x-cal-8,
+.ext-dd-drag-proxy .x-cal-8,
+.x-cal-8-ad,
+.x-cal-8-ad .ext-cal-evm,
+.x-cal-8 .ext-cal-picker-icon,
+.x-cal-8-x dl,
+.x-cal-8-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-8 {
+    background: #f6cc7b;
+}
+
+/* ===== x-cal-9 ===== */
+.x-cal-9,
+.ext-ie .x-cal-9-ad,
+.ext-opera .x-cal-9-ad {
+    color: #e281ca;
+}
+.ext-cal-day-col .x-cal-9,
+.ext-dd-drag-proxy .x-cal-9,
+.x-cal-9-ad,
+.x-cal-9-ad .ext-cal-evm,
+.x-cal-9 .ext-cal-picker-icon,
+.x-cal-9-x dl,
+.x-cal-9-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-9 {
+    background: #e281ca;
+}
+
+/* ===== x-cal-10 ===== */
+.x-cal-10,
+.ext-ie .x-cal-10-ad,
+.ext-opera .x-cal-10-ad {
+    color: #bf53a4;
+}
+.ext-cal-day-col .x-cal-10,
+.ext-dd-drag-proxy .x-cal-10,
+.x-cal-10-ad,
+.x-cal-10-ad .ext-cal-evm,
+.x-cal-10 .ext-cal-picker-icon,
+.x-cal-10-x dl,
+.x-cal-10-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-10 {
+    background: #bf53a4;
+}
+
+/* ===== x-cal-11 ===== */
+.x-cal-11,
+.ext-ie .x-cal-11-ad,
+.ext-opera .x-cal-11-ad {
+    color: #9d3283;
+}
+.ext-cal-day-col .x-cal-11,
+.ext-dd-drag-proxy .x-cal-11,
+.x-cal-11-ad,
+.x-cal-11-ad .ext-cal-evm,
+.x-cal-11 .ext-cal-picker-icon,
+.x-cal-11-x dl,
+.x-cal-11-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-11 {
+    background: #9d3283;
+}
+
+/* ===== x-cal-12 ===== */
+.x-cal-12,
+.ext-ie .x-cal-12-ad,
+.ext-opera .x-cal-12-ad {
+    color: #7a0f60;
+}
+.ext-cal-day-col .x-cal-12,
+.ext-dd-drag-proxy .x-cal-12,
+.x-cal-12-ad,
+.x-cal-12-ad .ext-cal-evm,
+.x-cal-12 .ext-cal-picker-icon,
+.x-cal-12-x dl,
+.x-cal-12-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-12 {
+    background: #7a0f60;
+}
+
+/* ===== x-cal-13 ===== */
+.x-cal-13,
+.ext-ie .x-cal-13-ad,
+.ext-opera .x-cal-13-ad {
+    color: #542382;
+}
+.ext-cal-day-col .x-cal-13,
+.ext-dd-drag-proxy .x-cal-13,
+.x-cal-13-ad,
+.x-cal-13-ad .ext-cal-evm,
+.x-cal-13 .ext-cal-picker-icon,
+.x-cal-13-x dl,
+.x-cal-13-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-13 {
+    background: #542382;
+}
+
+/* ===== x-cal-14 ===== */
+.x-cal-14,
+.ext-ie .x-cal-14-ad,
+.ext-opera .x-cal-14-ad {
+    color: #7742a9;
+}
+.ext-cal-day-col .x-cal-14,
+.ext-dd-drag-proxy .x-cal-14,
+.x-cal-14-ad,
+.x-cal-14-ad .ext-cal-evm,
+.x-cal-14 .ext-cal-picker-icon,
+.x-cal-14-x dl,
+.x-cal-14-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-14 {
+    background: #7742a9;
+}
+
+/* ===== x-cal-15 ===== */
+.x-cal-15,
+.ext-ie .x-cal-15-ad,
+.ext-opera .x-cal-15-ad {
+    color: #9b66cc;
+}
+.ext-cal-day-col .x-cal-15,
+.ext-dd-drag-proxy .x-cal-15,
+.x-cal-15-ad,
+.x-cal-15-ad .ext-cal-evm,
+.x-cal-15 .ext-cal-picker-icon,
+.x-cal-15-x dl,
+.x-cal-15-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-15 {
+    background: #9b66cc;
+}
+
+/* ===== x-cal-16 ===== */
+.x-cal-16,
+.ext-ie .x-cal-16-ad,
+.ext-opera .x-cal-16-ad {
+    color: #c590f7;
+}
+.ext-cal-day-col .x-cal-16,
+.ext-dd-drag-proxy .x-cal-16,
+.x-cal-16-ad,
+.x-cal-16-ad .ext-cal-evm,
+.x-cal-16 .ext-cal-picker-icon,
+.x-cal-16-x dl,
+.x-cal-16-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-16 {
+    background: #c590f7;
+}
+
+/* ===== x-cal-17 ===== */
+.x-cal-17,
+.ext-ie .x-cal-17-ad,
+.ext-opera .x-cal-17-ad {
+    color: #7f84e3;
+}
+.ext-cal-day-col .x-cal-17,
+.ext-dd-drag-proxy .x-cal-17,
+.x-cal-17-ad,
+.x-cal-17-ad .ext-cal-evm,
+.x-cal-17 .ext-cal-picker-icon,
+.x-cal-17-x dl,
+.x-cal-17-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-17 {
+    background: #7f84e3;
+}
+
+/* ===== x-cal-18 ===== */
+.x-cal-18,
+.ext-ie .x-cal-18-ad,
+.ext-opera .x-cal-18-ad {
+    color: #555bd6;
+}
+.ext-cal-day-col .x-cal-18,
+.ext-dd-drag-proxy .x-cal-18,
+.x-cal-18-ad,
+.x-cal-18-ad .ext-cal-evm,
+.x-cal-18 .ext-cal-picker-icon,
+.x-cal-18-x dl,
+.x-cal-18-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-18 {
+    background: #555bd6;
+}
+
+/* ===== x-cal-19 ===== */
+.x-cal-19,
+.ext-ie .x-cal-19-ad,
+.ext-opera .x-cal-19-ad {
+    color: #3b41ba;
+}
+.ext-cal-day-col .x-cal-19,
+.ext-dd-drag-proxy .x-cal-19,
+.x-cal-19-ad,
+.x-cal-19-ad .ext-cal-evm,
+.x-cal-19 .ext-cal-picker-icon,
+.x-cal-19-x dl,
+.x-cal-19-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-19 {
+    background: #3b41ba;
+}
+
+/* ===== x-cal-20 ===== */
+.x-cal-20,
+.ext-ie .x-cal-20-ad,
+.ext-opera .x-cal-20-ad {
+    color: #1b2192;
+}
+.ext-cal-day-col .x-cal-20,
+.ext-dd-drag-proxy .x-cal-20,
+.x-cal-20-ad,
+.x-cal-20-ad .ext-cal-evm,
+.x-cal-20 .ext-cal-picker-icon,
+.x-cal-20-x dl,
+.x-cal-20-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-20 {
+    background: #1b2192;
+}
+
+/* ===== x-cal-21 ===== */
+.x-cal-21,
+.ext-ie .x-cal-21-ad,
+.ext-opera .x-cal-21-ad {
+    color: #196c84;
+}
+.ext-cal-day-col .x-cal-21,
+.ext-dd-drag-proxy .x-cal-21,
+.x-cal-21-ad,
+.x-cal-21-ad .ext-cal-evm,
+.x-cal-21 .ext-cal-picker-icon,
+.x-cal-21-x dl,
+.x-cal-21-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-21 {
+    background: #196c84;
+}
+
+/* ===== x-cal-22 ===== */
+.x-cal-22,
+.ext-ie .x-cal-22-ad,
+.ext-opera .x-cal-22-ad {
+    color: #348fa9;
+}
+.ext-cal-day-col .x-cal-22,
+.ext-dd-drag-proxy .x-cal-22,
+.x-cal-22-ad,
+.x-cal-22-ad .ext-cal-evm,
+.x-cal-22 .ext-cal-picker-icon,
+.x-cal-22-x dl,
+.x-cal-22-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-22 {
+    background: #348fa9;
+}
+
+/* ===== x-cal-23 ===== */
+.x-cal-23,
+.ext-ie .x-cal-23-ad,
+.ext-opera .x-cal-23-ad {
+    color: #5fb1c9;
+}
+.ext-cal-day-col .x-cal-23,
+.ext-dd-drag-proxy .x-cal-23,
+.x-cal-23-ad,
+.x-cal-23-ad .ext-cal-evm,
+.x-cal-23 .ext-cal-picker-icon,
+.x-cal-23-x dl,
+.x-cal-23-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-23 {
+    background: #5fb1c9;
+}
+
+/* ===== x-cal-24 ===== */
+.x-cal-24,
+.ext-ie .x-cal-24-ad,
+.ext-opera .x-cal-24-ad {
+    color: #70d7f5;
+}
+.ext-cal-day-col .x-cal-24,
+.ext-dd-drag-proxy .x-cal-24,
+.x-cal-24-ad,
+.x-cal-24-ad .ext-cal-evm,
+.x-cal-24 .ext-cal-picker-icon,
+.x-cal-24-x dl,
+.x-cal-24-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-24 {
+    background: #70d7f5;
+}
+
+/* ===== x-cal-25 ===== */
+.x-cal-25,
+.ext-ie .x-cal-25-ad,
+.ext-opera .x-cal-25-ad {
+    color: #b9ee65;
+}
+.ext-cal-day-col .x-cal-25,
+.ext-dd-drag-proxy .x-cal-25,
+.x-cal-25-ad,
+.x-cal-25-ad .ext-cal-evm,
+.x-cal-25 .ext-cal-picker-icon,
+.x-cal-25-x dl,
+.x-cal-25-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-25 {
+    background: #b9ee65;
+}
+
+/* ===== x-cal-26 ===== */
+.x-cal-26,
+.ext-ie .x-cal-26-ad,
+.ext-opera .x-cal-26-ad {
+    color: #92c149;
+}
+.ext-cal-day-col .x-cal-26,
+.ext-dd-drag-proxy .x-cal-26,
+.x-cal-26-ad,
+.x-cal-26-ad .ext-cal-evm,
+.x-cal-26 .ext-cal-picker-icon,
+.x-cal-26-x dl,
+.x-cal-26-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-26 {
+    background: #92c149;
+}
+
+/* ===== x-cal-27 ===== */
+.x-cal-27,
+.ext-ie .x-cal-27-ad,
+.ext-opera .x-cal-27-ad {
+    color: #729d2e;
+}
+.ext-cal-day-col .x-cal-27,
+.ext-dd-drag-proxy .x-cal-27,
+.x-cal-27-ad,
+.x-cal-27-ad .ext-cal-evm,
+.x-cal-27 .ext-cal-picker-icon,
+.x-cal-27-x dl,
+.x-cal-27-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-27 {
+    background: #729d2e;
+}
+
+/* ===== x-cal-28 ===== */
+.x-cal-28,
+.ext-ie .x-cal-28-ad,
+.ext-opera .x-cal-28-ad {
+    color: #557f12;
+}
+.ext-cal-day-col .x-cal-28,
+.ext-dd-drag-proxy .x-cal-28,
+.x-cal-28-ad,
+.x-cal-28-ad .ext-cal-evm,
+.x-cal-28 .ext-cal-picker-icon,
+.x-cal-28-x dl,
+.x-cal-28-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-28 {
+    background: #557f12;
+}
+
+/* ===== x-cal-29 ===== */
+.x-cal-29,
+.ext-ie .x-cal-29-ad,
+.ext-opera .x-cal-29-ad {
+    color: #14763b;
+}
+.ext-cal-day-col .x-cal-29,
+.ext-dd-drag-proxy .x-cal-29,
+.x-cal-29-ad,
+.x-cal-29-ad .ext-cal-evm,
+.x-cal-29 .ext-cal-picker-icon,
+.x-cal-29-x dl,
+.x-cal-29-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-29 {
+    background: #14763b;
+}
+
+/* ===== x-cal-30 ===== */
+.x-cal-30,
+.ext-ie .x-cal-30-ad,
+.ext-opera .x-cal-30-ad {
+    color: #33a15f;
+}
+.ext-cal-day-col .x-cal-30,
+.ext-dd-drag-proxy .x-cal-30,
+.x-cal-30-ad,
+.x-cal-30-ad .ext-cal-evm,
+.x-cal-30 .ext-cal-picker-icon,
+.x-cal-30-x dl,
+.x-cal-30-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-30 {
+    background: #33a15f;
+}
+
+/* ===== x-cal-31 ===== */
+.x-cal-31,
+.ext-ie .x-cal-31-ad,
+.ext-opera .x-cal-31-ad {
+    color: #58c584;
+}
+.ext-cal-day-col .x-cal-31,
+.ext-dd-drag-proxy .x-cal-31,
+.x-cal-31-ad,
+.x-cal-31-ad .ext-cal-evm,
+.x-cal-31 .ext-cal-picker-icon,
+.x-cal-31-x dl,
+.x-cal-31-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-31 {
+    background: #58c584;
+}
+
+/* ===== x-cal-32 ===== */
+.x-cal-32,
+.ext-ie .x-cal-32-ad,
+.ext-opera .x-cal-32-ad {
+    color: #86e9ae;
+}
+.ext-cal-day-col .x-cal-32,
+.ext-dd-drag-proxy .x-cal-32,
+.x-cal-32-ad,
+.x-cal-32-ad .ext-cal-evm,
+.x-cal-32 .ext-cal-picker-icon,
+.x-cal-32-x dl,
+.x-cal-32-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-32 {
+    background: #86e9ae;
 }

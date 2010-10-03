@@ -411,10 +411,6 @@ td.ext-cal-dtitle-today div {
 	text-overflow: ellipsis;
     border: 0;
 }
-.ext-cal-day-col .ext-cal-evr {
-    border-width: 1px;
-    border-style: solid;
-}
 /* Nested event divs (IE/Opera) */
 .ext-cal-evo { /* outer */
     border-top: 1px solid;
@@ -845,6 +841,10 @@ td.ext-cal-dtitle-today div {
     background: #fff !important;
     font-family: helvetica, arial, sans-serif;
     font-size: 12px;
+    border-bottom: 1px solid #99BBE8;
+}
+.x-calendar-list .x-panel-header-text {
+    color: #555;
 }
 .x-calendar-list li {
     position: relative;
@@ -875,8 +875,12 @@ td.ext-cal-dtitle-today div {
 .x-calendar-list .ext-cal-hidden {
     opacity:.5;
     -moz-opacity:.5;
-    -khtml-opacity:.5;
-}
-.ext-ie .x-calendar-list .ext-cal-hidden {
     filter: alpha(opacity=50);
+    zoom: 1;
+}
+.extensible-cal-icon-cal-show {
+    background-image:url(../images/default/silk/calendar_view_month.png) !important;
+}
+.extensible-cal-icon-cal-colors {
+    background-image:url(../images/default/silk/color_wheel.png) !important;
 }

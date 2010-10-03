@@ -9,7 +9,9 @@
  * @xtype extensible.calendarcolorpalette
  */
 Ext.ensible.cal.ColorPalette = Ext.extend(Ext.ColorPalette, {
-    colors: [1,2,3,4],
+
+    // private
+    colorCount: 32,
     
     /**
      * @cfg {Function} handler
@@ -29,6 +31,11 @@ Ext.ensible.cal.ColorPalette = Ext.extend(Ext.ColorPalette, {
             
         if(this.handler){
             this.on('select', this.handler, this.scope || this);
+        }
+        
+        this.colors = [];
+        for(var i=1; i<=this.colorCount; i++){
+            this.colors.push(i);
         }
     },
     

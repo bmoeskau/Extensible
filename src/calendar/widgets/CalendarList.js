@@ -44,11 +44,21 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
     // private
     getListTemplate : function(){
         if(!this.tpl){
-            this.tpl = new Ext.XTemplate(
-                '<ul class="x-unselectable"><tpl for=".">',
-                    '<li id="{cmpId}" class="ext-cal-evr {colorCls} {hiddenCls}">{title}<em>&#160;</em></li>',
-                '</tpl></ul>'
-            );
+            this.tpl = !(Ext.isIE || Ext.isOpera) ? 
+                new Ext.XTemplate(
+                    '<ul class="x-unselectable"><tpl for=".">',
+                        '<li id="{cmpId}" class="ext-cal-evr {colorCls} {hiddenCls}">{title}<em>&#160;</em></li>',
+                    '</tpl></ul>'
+                )
+                : new Ext.XTemplate(
+                    '<ul class="x-unselectable"><tpl for=".">',
+                        '<li id="{cmpId}" class="ext-cal-evo {colorCls} {hiddenCls}">',
+                            '<div class="ext-cal-evm">',
+                                '<div class="ext-cal-evi">{title}<em>&#160;</em></div>',
+                            '</div>',
+                        '</li>',
+                    '</tpl></ul>'
+                );
             this.tpl.compile();
         }
         return this.tpl;
