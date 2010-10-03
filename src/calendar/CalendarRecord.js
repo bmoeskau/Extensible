@@ -7,7 +7,7 @@ Ext.ensible.cal.CalendarMappings = {
     CalendarId: {name:'CalendarId', mapping: 'id', type: 'int'},
     Title: {name:'Title', mapping: 'title', type: 'string'},
     Description: {name:'Description', mapping: 'desc', type: 'string'},
-    StyleClass: {name:'StyleClass', mapping: 'cls', type: 'string'}
+    ColorId: {name:'ColorId', mapping: 'color', type: 'int'}
 };
 
 /**
@@ -23,7 +23,7 @@ rec = new Ext.ensible.cal.CalendarRecord({
     CalendarId: 5,
     Title: 'My Holidays',
     Description: 'My personal holiday schedule',
-    StyleClass: 'my-holidays' // a CSS classname for styling events for this calendar
+    ColorId: 3
 });
 </code></pre>
  * If you have overridden any of the record's data mappings via the {@link Ext.ensible.cal.CalendarMappings CalendarMappings} object
@@ -34,7 +34,7 @@ rec = new Ext.ensible.cal.CalendarRecord();
 rec.data[M.CalendarId.name] = 5;
 rec.data[M.Title.name] = 'My Holidays';
 rec.data[M.Description.name] = 'My personal holiday schedule';
-rec.data[M.StyleClass.name] = 'my-holidays';
+rec.data[M.ColorId.name] = 3;
 </code></pre>
  * @constructor
  * @param {Object} data (Optional) An object, the properties of which provide values for the new Record's
@@ -53,7 +53,7 @@ rec.data[M.StyleClass.name] = 'my-holidays';
         M.CalendarId,
         M.Title,
         M.Description,
-        M.StyleClass
+        M.ColorId
     ]);
 
     /**
@@ -64,7 +64,7 @@ rec.data[M.StyleClass.name] = 'my-holidays';
             M.CalendarId,
             M.Title,
             M.Description,
-            M.StyleClass
+            M.ColorId
         ]);
     };
 })();

@@ -69,6 +69,9 @@
             "text": "ColorPalette.js",
             "path": "src/calendar/widgets/"
         },{
+            "text": "CalendarListMenu.js",
+            "path": "src/calendar/widgets/"
+        },{
             "text": "CalendarList.js",
             "path": "src/calendar/widgets/"
         },{

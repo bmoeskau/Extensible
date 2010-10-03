@@ -123,3 +123,24 @@
 .x-cal-3-x dl {
     border-color: #8C500B;
 }
+/* x-cal-4 */
+.x-cal-4,
+.ext-ie .x-cal-4-ad,
+.ext-opera .x-cal-4-ad {
+    color: #109618;
+}
+.ext-cal-day-col .x-cal-4,
+.ext-dd-drag-proxy .x-cal-4,
+.x-cal-4-ad,
+.x-cal-4-ad .ext-cal-evm,
+.x-cal-4 .ext-cal-picker-icon,
+.x-cal-4-x dl,
+.x-cal-4-x .ext-cal-evb,
+.x-calendar-list-menu li em .x-cal-4 {
+    background: #109618;
+}
+.x-cal-4.ext-cal-evr,
+.x-cal-4-x .ext-cal-evb,
+.x-cal-4-x dl {
+    border-color: #125F17;
+}

@@ -12,7 +12,7 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
     autoHeight: true,
     layout: 'fit',
     menuSelector: 'em',
-    hiddenCalendarIds: [2],
+    hiddenCalendarIds: [],
     width: 100, // this should be overridden by this container's layout
     
     /**
@@ -26,6 +26,12 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
     initComponent: function(){
         this.addClass('x-calendar-list');
         Ext.ensible.cal.CalendarList.superclass.initComponent.call(this);
+        
+        this.addEvents(
+            'hide',
+            'show',
+            'colorchange'
+        );
     },
     
     // private
@@ -47,8 +53,8 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
         if(!this.tpl){
             this.tpl = new Ext.XTemplate(
                 '<ul><tpl for=".">',
-                    '<li id="{cmpId}__{' + Ext.ensible.cal.CalendarMappings.CalendarId.name + '}" class="ext-cal-evr {' + 
-                    Ext.ensible.cal.CalendarMappings.StyleClass.name + '}-ad {hiddenCls}">{' + 
+                    '<li id="{cmpId}__{' + Ext.ensible.cal.CalendarMappings.CalendarId.name + '}" class="ext-cal-evr x-cal-{' + 
+                    Ext.ensible.cal.CalendarMappings.ColorId.name + '}-ad {hiddenCls}">{' + 
                     Ext.ensible.cal.CalendarMappings.Title.name + '}<em>&#160;</em></li>',
                 '</tpl></ul>'
             );
@@ -114,46 +120,46 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
     },
         
     // private
-    isHidden: function(calendarId){
-        return this.getHiddenCalendarIndex(calendarId) > -1;
+    isHidden: function(id){
+        return this.getHiddenCalendarIndex(id) > -1;
     },
     
     // private
-    toggleCalendar: function(calendarId){
-        var i = this.getHiddenCalendarIndex(calendarId);
+    toggleCalendar: function(id){
+        var i = this.getHiddenCalendarIndex(id);
         if(i > -1){
-            this.showCalendar(calendarId);
+            this.showCalendar(id);
         }
         else {
-            this.hideCalendar(calendarId);
+            this.hideCalendar(id);
         }
     },
     
     // private
-    showCalendar: function(calendarId){
-        if(this.isHidden(calendarId)){
-            this.hiddenCalendarIds.splice(this.getHiddenCalendarIndex(calendarId), 1);
-            Ext.fly(this.id+'__'+calendarId).removeClass('ext-cal-hidden');
+    showCalendar: function(id){
+        if(this.isHidden(id)){
+            this.hiddenCalendarIds.splice(this.getHiddenCalendarIndex(id), 1);
+            Ext.fly(this.id+'__'+id).removeClass('ext-cal-hidden');
         }
     },
     
     // private
-    hideCalendar: function(calendarId){
-        if(!this.isHidden(calendarId)){
-            this.hiddenCalendarIds.push(calendarId);
-            Ext.fly(this.id+'__'+calendarId).addClass('ext-cal-hidden');
+    hideCalendar: function(id){
+        if(!this.isHidden(id)){
+            this.hiddenCalendarIds.push(id);
+            Ext.fly(this.id+'__'+id).addClass('ext-cal-hidden');
         }
     },
     
     // private
-    hideOtherCalendars: function(calendarId){
+    radioCalendar: function(id){
         var i = 0, recId,
             recs = this.store.getRange(),
             len = recs.length;
             
         for(; i < len; i++){
             recId = recs[i].data[Ext.ensible.cal.CalendarMappings.CalendarId.name];
-            if(recId == calendarId){
+            if(recId === id){
                 this.showCalendar(recId);
             }
             else{
@@ -172,6 +178,10 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
         Ext.fly(t).removeClass('hover');
     },
     
+    getCalendarId: function(el){
+        return parseInt(el.id.split('__')[1]);
+    },
+    
     // private
     onClick : function(e, t){
         var el;
@@ -179,48 +189,30 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
             this.showEventMenu(el, e.getXY());
         }
         else if(el = e.getTarget('li', 3, true)){
-            this.toggleCalendar(el.id.split('__')[1]);
+            this.toggleCalendar(this.getCalendarId(el));
         } 
     },
     
-    // private
-    onEventContextHide : function(){
-        if(this.menu.ctxEl){
-            this.menu.ctxEl = null;
-        }
+    handleColorChange: function(menu, id, colorId){
+        alert('calendar ' + id + ', color ' + colorId);
+    },
+    
+    handleRadioCalendar: function(menu, id){
+        this.radioCalendar(id);
     },
     
     // private
     showEventMenu : function(el, xy){
+        var id = this.getCalendarId(el.parent('li')),
+            rec = this.store.getById(id),
+            colorId = rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name];
+            
         if(!this.menu){
-            this.menu = new Ext.menu.Menu({
-                id: this.id+'-cal-menu',
-                cls: 'x-calendar-list-menu',
-                plain: true,
-                items: [{
-                    text: 'Display only this calendar',
-                    scope: this,
-                    handler: function(){
-                        this.hideOtherCalendars(this.menu.ctxEl.id.split('__')[1]);
-                    }
-                }, '-', {
-                    xtype: 'extensible.calendarcolorpalette',
-                    listeners: {
-                        'select': {
-                            fn: function(cp, color){
-                                //alert(color);
-                            },
-                            scope: this
-                        }
-                    }
-                }]
-            });
-            this.menu.on('hide', this.onEventContextHide, this);
+            this.menu = new Ext.ensible.cal.CalendarListMenu();
+            this.menu.on('colorchange', this.handleColorChange, this);
+            this.menu.on('radiocalendar', this.handleRadioCalendar, this);
         }
-        if(this.menu.ctxEl){
-            this.menu.ctxEl = null;
-        }
-        this.menu.ctxEl = el.parent('li');
+        this.menu.setCalendar(id, colorId);
         this.menu.showAt(xy);
     }
 });

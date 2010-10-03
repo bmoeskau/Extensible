@@ -242,7 +242,7 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
         
         if(this.calendarStore && evt[M.CalendarId.name]){
             var rec = this.calendarStore.getById(evt[M.CalendarId.name]);
-            colorCls = rec.data[Ext.ensible.cal.CalendarMappings.StyleClass.name];
+            colorCls = 'x-cal-' + rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name];
         }
         
         return Ext.applyIf({
