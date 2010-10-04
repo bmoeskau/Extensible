@@ -24,7 +24,12 @@
 </head>
 <body>
     <h1>Remote Calendar Example</h1>
-
+    <p>This sample uses a simple MVC-style PHP + REST implementation to demonstrate the ease with which you can hook a CalendarPanel
+    up to a back end. In fact, the only changes are in the store (giving it a remote proxy and defining the REST API). The PHP code
+    uses the session object for storage, allowing you to refresh the page without losing data.</p>
+    <p>You can also use Firebug (or any other tool that allows you to inspect XHR requests) to examine each request and verify that the
+    proper HTTP verbs are being used when calling the RESTful API.</p>
+    
     <div id="remote" class="sample-ct"></div>
 </body>
 </html>
