@@ -87,7 +87,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      */
     jumpToText: 'Jump to:',
     /**
-     * @cfg {String} jumpToText
+     * @cfg {String} goText
      * Text to use for the 'Go' navigation button.
      */
     goText: 'Go',
@@ -280,14 +280,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
              * </ul></div>
              */
             viewchange: true,
-            /**
-             * @event eventmove
-             * Fires after an event element is dragged by the user and dropped in a new position
-             * @param {Ext.ensible.cal.CalendarPanel} this
-             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was moved with
-             * updated start and end dates
-             */
-            eventmove: true,
             /**
              * @event editdetails
              * Fires when the user selects the option in this window to continue editing in the detailed edit form

@@ -18,7 +18,7 @@ Ext.ensible.cal.CalendarMappings = {
  * {@link Ext.ensible.cal.CalendarPanel CalendarPanel}'s calendar store. If your model fields 
  * are named differently you should update the <b>mapping</b> configs accordingly.</p>
  * <p>The only required fields when creating a new calendar record instance are CalendarId and
- * Title.  All other fields are either optional are will be defaulted if blank.</p>
+ * Title.  All other fields are either optional or will be defaulted if blank.</p>
  * <p>Here is a basic example for how to create a new record of this type:<pre><code>
 rec = new Ext.ensible.cal.CalendarRecord({
     CalendarId: 5,

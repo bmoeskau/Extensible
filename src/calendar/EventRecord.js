@@ -26,7 +26,7 @@ Ext.ensible.cal.EventMappings = {
  * not be altered. If your model fields are named differently you should update the <b>mapping</b>
  * configs accordingly.</p>
  * <p>The only required fields when creating a new event record instance are StartDate and
- * EndDate.  All other fields are either optional are will be defaulted if blank.</p>
+ * EndDate.  All other fields are either optional or will be defaulted if blank.</p>
  * <p>Here is a basic example for how to create a new record of this type:<pre><code>
 rec = new Ext.ensible.cal.EventRecord({
     StartDate: '2101-01-12 12:00:00',

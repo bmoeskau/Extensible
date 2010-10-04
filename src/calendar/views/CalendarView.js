@@ -616,7 +616,6 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	
 	/**
 	 * Visually highlights an event using {@link Ext.Fx#highlight} config options.
-	 * If {@link #highlightEventActions} is false this method will have no effect.
 	 * @param {Ext.CompositeElement} els The element(s) to highlight
 	 * @param {Object} color (optional) The highlight color. Should be a 6 char hex 
 	 * color without the leading # (defaults to yellow: 'ffff9c')
