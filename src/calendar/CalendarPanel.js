@@ -611,16 +611,22 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     
     // private
     setActiveView: function(id){
-        var l = this.layout;
+        var l = this.layout,
+            tb = this.getTopToolbar();
+            
         l.setActiveItem(id);
         
         if(id == this.id+'-edit'){
-            this.getTopToolbar().hide();
+            if(tb){
+                tb.hide();
+            }
             this.doLayout();
         }
         else{
             l.activeItem.refresh();
-            this.getTopToolbar().show();
+            if(tb){
+               tb.show();
+           }
             this.updateNavState();
         }
         this.activeView = l.activeItem;
