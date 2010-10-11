@@ -1,0 +1,24 @@
+h1. Release Notes
+
+h2. 1.0 (Alpha 2)
+
+_Oct. 4, 2010_
+
+New Features
+* Multi-calendar support
+* Calendar selection sidebar widget
+* CalendarListMenu component
+* Remote calendar implementation example (PHP)
+* New sample for showing calendar in an Ext.Window
+
+Bugs Fixed
+* Clicks in day header not showing edit window
+* Propagate calendarStore to views correctly
+* Renamed CalendarPicker -> CalendarCombo for consistency
+* Various minor bug fixes and doc updates
+
+h2. 1.0 (Alpha 1)
+
+_Sept. 13, 2010_
+
+* Original release

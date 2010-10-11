@@ -15,10 +15,11 @@ Ext.ensible.cal.DayHeaderView = Ext.extend(Ext.ensible.cal.MonthView, {
     allDayOnly: true,
     monitorResize: false,
     
+    // The event is declared in MonthView but we're overriding the docs:
     /**
      * @event dayclick
      * Fires after the user clicks within the day view container and not on an event element
-     * @param {Ext.ensible.cal.DayBodyView} this
+     * @param {Ext.ensible.cal.DayHeaderView} this
      * @param {Date} dt The date/time that was clicked on
      * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks within the 
      * DayHeaderView always return true for this param.
@@ -85,7 +86,7 @@ Ext.ensible.cal.DayHeaderView = Ext.extend(Ext.ensible.cal.MonthView, {
                 var parts = el.id.split(this.dayElIdDelimiter),
                     dt = parts[parts.length-1];
                     
-                this.fireEvent('dayclick', this, Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt)));
+                this.onDayClick(Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt, true)));
                 return;
             }
         }

@@ -255,7 +255,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         
         if(this.calendarStore && evt[M.CalendarId.name]){
             var rec = this.calendarStore.getById(evt[M.CalendarId.name]);
-            colorCls = rec.data[Ext.ensible.cal.CalendarMappings.StyleClass.name];
+            colorCls = 'x-cal-' + rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name];
         }
         data._colorCls = colorCls + (evt._renderAsAllDay ? '-ad' : '');
         data._elId = selector + (evt._weekIndex ? '-' + evt._weekIndex : '');
@@ -423,14 +423,12 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         if(el){
             if(el.id && el.id.indexOf(this.dayElIdDelimiter) > -1){
                 var dt = this.getDateFromId(el.id, this.dayElIdDelimiter);
-                //this.fireEvent('dayclick', this, Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt, true)));
-                this.onDayClick(Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt, true)));
+                this.onDayClick(Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt)));
                 return;
             }
         }
         var day = this.getDayAt(e.xy[0], e.xy[1]);
         if(day && day.date){
-            //this.fireEvent('dayclick', this, day.date, false, null);
             this.onDayClick(day.date, false, null);
         }
     }

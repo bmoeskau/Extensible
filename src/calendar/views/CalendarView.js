@@ -265,6 +265,27 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
              */
             editdetails: true,
             /**
+             * @event eventadd
+             * Fires after a new event is added to the underlying store
+             * @param {Ext.ensible.cal.CalendarView} this
+             * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was added
+             */
+            eventadd: true,
+            /**
+             * @event eventupdate
+             * Fires after an existing event is updated
+             * @param {Ext.ensible.cal.CalendarView} this
+             * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was updated
+             */
+            eventupdate: true,
+            /**
+             * @event eventcancel
+             * Fires after an event add/edit operation is canceled by the user and no store update took place
+             * @param {Ext.ensible.cal.CalendarView} this
+             * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was canceled
+             */
+            eventcancel: true,
+            /**
              * @event beforeeventdelete
              * Fires before an event is deleted by the user. This is a cancelable event, so returning false from a handler 
              * will cancel the delete operation.
@@ -292,6 +313,9 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         
         if(this.store){
             this.setStore(this.store, true);
+        }
+        if(this.calendarStore){
+            this.setCalendarStore(this.calendarStore, true);
         }
 
         this.el.on({
@@ -600,7 +624,6 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	
 	/**
 	 * Visually highlights an event using {@link Ext.Fx#highlight} config options.
-	 * If {@link #highlightEventActions} is false this method will have no effect.
 	 * @param {Ext.CompositeElement} els The element(s) to highlight
 	 * @param {Object} color (optional) The highlight color. Should be a 6 char hex 
 	 * color without the leading # (defaults to yellow: 'ffff9c')
@@ -685,11 +708,20 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     
     // private
     isEventVisible : function(evt){
+        var M = Ext.ensible.cal.EventMappings,
+            data = evt.data ? evt.data : evt,
+            calId = data[M.CalendarId.name],
+            calRec = this.calendarStore ? this.calendarStore.getById(calId) : null;
+            
+        if(calRec && calRec.data[Ext.ensible.cal.CalendarMappings.IsHidden.name] === true){
+            // if the event is on a hidden calendar then no need to test the date boundaries
+            return false;
+        }
+            
         var start = this.viewStart.getTime(),
             end = this.viewEnd.getTime(),
-            M = Ext.ensible.cal.EventMappings,
-            evStart = (evt.data ? evt.data[M.StartDate.name] : evt[M.StartDate.name]).getTime(),
-            evEnd = (evt.data ? evt.data[M.EndDate.name] : evt[M.EndDate.name]).add(Date.SECOND, -1).getTime(),
+            evStart = data[M.StartDate.name].getTime(),
+            evEnd = data[M.EndDate.name].add(Date.SECOND, -1).getTime(),
             
             startsInRange = (evStart >= start && evStart <= end),
             endsInRange = (evEnd >= start && evEnd <= end),
@@ -944,6 +976,26 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         }
         this.store = store;
     },
+    
+    /**
+     * Sets the calendar store used by the calendar (contains records of type {@link Ext.ensible.cal.CalendarRecord CalendarRecord}).
+     * @param {Ext.data.Store} store
+     */
+    setCalendarStore : function(store, initial){
+        if(!initial && this.calendarStore){
+            this.calendarStore.un("datachanged", this.refresh, this);
+            this.calendarStore.un("add", this.refresh, this);
+            this.calendarStore.un("remove", this.refresh, this);
+            this.calendarStore.un("update", this.refresh, this);
+        }
+        if(store){
+            store.on("datachanged", this.refresh, this);
+            store.on("add", this.refresh, this);
+            store.on("remove", this.refresh, this);
+            store.on("update", this.refresh, this);
+        }
+        this.calendarStore = store;
+    },
 	
     getEventRecord : function(id){
         var idx = this.store.find(Ext.ensible.cal.EventMappings.EventId.name, id);
@@ -1154,7 +1206,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     
     // private
     onContextMenu : function(e, t){
-        var match = false;
+        var el, match = false;
         
         if(el = e.getTarget(this.eventSelector, 5, true)){
             this.showEventMenu(el, e.getXY());

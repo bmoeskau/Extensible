@@ -14,7 +14,7 @@
                 autoLoad: true,
                 fields: Ext.ensible.cal.CalendarRecord.prototype.fields.getRange(),
                 sortInfo: {
-                    field: 'CalendarId',
+                    field: Ext.ensible.cal.CalendarMappings.Title.name,
                     direction: 'ASC'
                 }
             });
@@ -64,6 +64,11 @@
                     title: '...', // will be updated to the current view's date range
                     region: 'center',
                     layout: 'border',
+                    listeners: {
+                        'afterrender': function(){
+                            Ext.getCmp('app-center').header.addClass('app-center-header');
+                        }
+                    },
                     items: [{
                         id:'app-west',
                         region: 'west',
@@ -81,6 +86,11 @@
                                     scope: this
                                 }
                             }
+                        },{
+                            xtype: 'extensible.calendarlist',
+                            store: this.calendarStore,
+                            border: false,
+                            width: 175
                         }]
                     },{
                         xtype: 'extensible.calendarpanel',

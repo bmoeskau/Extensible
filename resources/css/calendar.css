@@ -411,10 +411,6 @@ td.ext-cal-dtitle-today div {
 	text-overflow: ellipsis;
     border: 0;
 }
-.ext-cal-day-col .ext-cal-evr {
-    border-width: 1px;
-    border-style: solid;
-}
 /* Nested event divs (IE/Opera) */
 .ext-cal-evo { /* outer */
     border-top: 1px solid;
@@ -833,4 +829,75 @@ td.ext-cal-dtitle-today div {
 }
 .extensible-cal-icon-evt-move {
     background-image:url(../images/default/silk/date_go.png) !important;
+}
+
+/*******************************************
+ * 
+ * CalendarList styles
+ *
+ ******************************************/
+.x-calendar-list .x-panel-body {
+    padding: 4px 2px 2px;
+    background: #fff !important;
+    font-family: helvetica, arial, sans-serif;
+    font-size: 12px;
+    border-bottom: 1px solid #99BBE8;
+}
+.x-calendar-list .x-panel-header-text {
+    color: #555;
+}
+.x-calendar-list li {
+    position: relative;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+.x-calendar-list li em {
+    background-image: url(../images/default/calendar-sprites.gif);
+    background-repeat: no-repeat;
+    display: inline-block;
+    position: absolute;
+    height: 11px;
+    line-height: 11px;
+    width: 12px;
+    top: 2px;
+    background-position: -40px 0;
+    right: 0;
+}
+.x-calendar-list .hover em {
+    background-position: -28px 0;
+    right: 2px;
+    opacity:.7;
+    -moz-opacity:.7;
+}
+.x-calendar-list .ext-cal-evr {
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+}
+.x-calendar-list .ext-cal-hidden,
+/* IE/Opera: */
+.x-calendar-list .ext-cal-hidden .ext-cal-evi {
+    background-image: url(../images/default/ext-cal-list-hidden.png);
+    background-repeat: no-repeat;
+    background-position: top right;
+    opacity:.5;
+    -moz-opacity:.5;
+}
+.ext-ie .x-calendar-list .ext-cal-hidden {
+    filter: alpha(opacity=50);
+    zoom: 1;
+}
+.ext-ie .x-calendar-list .ext-cal-hidden .ext-cal-evi  {
+    /* the following works around an IE bug that won't apply the opacity filter correctly without dimensions */
+    width: 100%;
+    height: 100%;
+}
+.ext-ie6 .x-calendar-list .ext-cal-hidden .ext-cal-evi {
+    background-image: url(../images/default/ext-cal-list-hidden-ie6.png);
+}
+.extensible-cal-icon-cal-show {
+    background-image:url(../images/default/silk/calendar_view_month.png) !important;
+}
+.extensible-cal-icon-cal-colors {
+    background-image:url(../images/default/silk/color_wheel.png) !important;
 }

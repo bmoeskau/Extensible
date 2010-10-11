@@ -27,12 +27,13 @@ App = function() {
                 fields : [
                     'Id', 
                     'Name',
-                    'Type'
+                    'Type',
+                    'ColorId'
                 ],
                 data: [
-                    {Id : '1', Name : 'Rob', Type : 'Sales'},
-                    {Id : '2', Name : 'Mike', Type : 'Sales'},
-                    {Id : '3', Name : 'Kate', Type : 'Product manager'}
+                    {Id : '1', Name : 'Rob', Type : 'Sales', ColorId : 1},
+                    {Id : '2', Name : 'Mike', Type : 'Sales', ColorId : 11},
+                    {Id : '3', Name : 'Kate', Type : 'Product manager', ColorId : 21}
 //                    {id : '4', Name : 'Lisa', Type : 'Developer'},
 //                    {id : '5', Name : 'Dave', Type : 'Developer'},
 //                    {id : '6', Name : 'Arnold', Type : 'Developer'},
@@ -295,12 +296,16 @@ App = function() {
             Ext.ensible.cal.EventMappings.CalendarId.name = 'ResourceId';
             Ext.ensible.cal.EventRecord.reconfigure();
             
+            Ext.ensible.cal.CalendarMappings.CalendarId.name = 'Id';
+            Ext.ensible.cal.CalendarMappings.Title.name = 'Name';
+            Ext.ensible.cal.CalendarRecord.reconfigure();
+            
             new Ext.ensible.cal.CalendarPanel({
                 eventStore: this.eventStore,
                 calendarStore: this.resourceStore,
                 renderTo: Ext.getBody(),
                 width: 1000,
-                height: 500
+                height: 600
             });
         },
         

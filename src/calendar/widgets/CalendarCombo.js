@@ -32,7 +32,7 @@ Ext.ensible.cal.CalendarCombo = Ext.extend(Ext.form.ComboBox, {
         Ext.ensible.cal.CalendarCombo.superclass.initComponent.call(this);
         
         this.tpl = this.tpl ||
-              '<tpl for="."><div class="x-combo-list-item {' + Ext.ensible.cal.CalendarMappings.StyleClass.name +
+              '<tpl for="."><div class="x-combo-list-item x-cal-{' + Ext.ensible.cal.CalendarMappings.ColorId.name +
               '}"><div class="ext-cal-picker-icon">&nbsp;</div>{' + this.displayField + '}</div></tpl>';
     },
     
@@ -48,10 +48,11 @@ Ext.ensible.cal.CalendarCombo = Ext.extend(Ext.form.ComboBox, {
         });
     },
     
+    // private
     getStyleClass: function(calendarId){
         if(calendarId && calendarId !== ''){
             var rec = this.store.getById(calendarId);
-            return rec.data[Ext.ensible.cal.CalendarMappings.StyleClass.name];
+            return 'x-cal-' + rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name];
         }
     },
     
