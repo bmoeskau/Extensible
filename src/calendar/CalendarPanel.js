@@ -13,6 +13,14 @@
  */
 Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     /**
+     * @cfg {Boolean} enableRecurrence
+     * True to show the recurrence field, false to hide it (default). Note that recurrence requires
+     * something on the server-side that can parse the iCal RRULE format in order to generate the
+     * instances of recurring events to display on the calendar, so this field should only be enabled
+     * if the server supports it.
+     */
+    enableRecurrence: false,
+    /**
      * @cfg {Boolean} showDayView
      * True to include the day view (and toolbar button), false to hide them (defaults to true).
      */
@@ -415,6 +423,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             showTodayText: this.showTodayText,
             showTime: this.showTime,
             readOnly: this.readOnly,
+            enableRecurrence: this.enableRecurrence,
             store: this.store || this.eventStore,
             calendarStore: this.calendarStore
         };
@@ -487,6 +496,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             xtype: 'extensible.eventeditform',
             id: this.id+'-edit',
             calendarStore: this.calendarStore,
+            enableRecurrence: this.enableRecurrence,
             listeners: {
                 'eventadd':    { scope: this, fn: this.onEventAdd },
                 'eventupdate': { scope: this, fn: this.onEventUpdate },

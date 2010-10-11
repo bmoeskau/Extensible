@@ -12,6 +12,14 @@
  */
 Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     /**
+     * @cfg {Boolean} enableRecurrence
+     * True to show the recurrence field, false to hide it (default). Note that recurrence requires
+     * something on the server-side that can parse the iCal RRULE format in order to generate the
+     * instances of recurring events to display on the calendar, so this field should only be enabled
+     * if the server supports it.
+     */
+    enableRecurrence: false,
+    /**
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */

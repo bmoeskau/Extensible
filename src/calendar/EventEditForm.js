@@ -32,6 +32,15 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
     autoHeight: true, // to allow for the notes field to autogrow
     cls: 'ext-evt-edit-form',
     
+    /**
+     * @cfg {Boolean} enableRecurrence
+     * True to show the recurrence field, false to hide it (default). Note that recurrence requires
+     * something on the server-side that can parse the iCal RRULE format in order to generate the
+     * instances of recurring events to display on the calendar, so this field should only be enabled
+     * if the server supports it.
+     */
+    enableRecurrence: false,
+    
     // private properties:
     newId: 10000,
     layout: 'column',
@@ -103,6 +112,14 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         
         var leftFields = [this.titleField, this.dateRangeField, this.reminderField], 
             rightFields = [this.notesField, this.locationField, this.urlField];
+            
+        if(this.enableRecurrence){
+            this.recurrenceField = new Ext.ensible.cal.RecurrenceField({
+                name: Ext.ensible.cal.EventMappings.RRule.name,
+                anchor: '100%'
+            });
+            leftFields.splice(2, 0, this.recurrenceField);
+        }
         
         if(this.calendarStore){
             this.calendarField = new Ext.ensible.cal.CalendarCombo({

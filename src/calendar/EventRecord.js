@@ -4,17 +4,18 @@
  * A simple object that provides the field definitions for {@link Ext.ensible.cal.EventRecord EventRecord}s so that they can be easily overridden.
  */
 Ext.ensible.cal.EventMappings = {
-    EventId: {name: 'EventId', mapping:'id', type:'int'},
-    CalendarId: {name:'CalendarId', mapping: 'cid', type: 'int'},
-    Title: {name:'Title', mapping: 'title', type: 'string'},
-    StartDate: {name:'StartDate', mapping: 'start', type: 'date', dateFormat: 'c'},
-    EndDate: {name:'EndDate', mapping: 'end', type: 'date', dateFormat: 'c'},
-    Location: {name:'Location', mapping: 'loc', type: 'string'},
-    Notes: {name:'Notes', mapping: 'notes', type: 'string'},
-    Url: {name:'Url', mapping: 'url', type: 'string'},
-    IsAllDay: {name:'IsAllDay', mapping: 'ad', type: 'boolean'},
-    Reminder: {name:'Reminder', mapping: 'rem', type: 'string'},
-    IsNew: {name:'IsNew', mapping: 'n', type: 'boolean'}
+    EventId:     {name: 'EventId', mapping:'id', type:'int'},
+    CalendarId:  {name: 'CalendarId', mapping: 'cid', type: 'int'},
+    Title:       {name: 'Title', mapping: 'title', type: 'string'},
+    StartDate:   {name: 'StartDate', mapping: 'start', type: 'date', dateFormat: 'c'},
+    EndDate:     {name: 'EndDate', mapping: 'end', type: 'date', dateFormat: 'c'},
+    RRule:       {name: 'RRule', mapping: 'rr', type: 'string'},
+    Location:    {name: 'Location', mapping: 'loc', type: 'string'},
+    Notes:       {name: 'Notes', mapping: 'notes', type: 'string'},
+    Url:         {name: 'Url', mapping: 'url', type: 'string'},
+    IsAllDay:    {name: 'IsAllDay', mapping: 'ad', type: 'boolean'},
+    Reminder:    {name: 'Reminder', mapping: 'rem', type: 'string'},
+    IsNew:       {name: 'IsNew', mapping: 'n', type: 'boolean'}
 };
 
 /**
@@ -64,6 +65,7 @@ rec.data[M.Notes.name] = 'Some notes';
         M.Title,
         M.StartDate,
         M.EndDate,
+        M.RRule,
         M.Location,
         M.Notes,
         M.Url,
@@ -82,6 +84,7 @@ rec.data[M.Notes.name] = 'Some notes';
             M.Title,
             M.StartDate,
             M.EndDate,
+            M.RRule,
             M.Location,
             M.Notes,
             M.Url,
