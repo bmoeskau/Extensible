@@ -43,7 +43,7 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
                 listeners: {
                     'change': {
                         fn: function(){
-                            this.checkDates('date', 'start');
+                            this.onFieldChange('date', 'start');
                         },
                         scope: this
                     }
@@ -58,7 +58,7 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
                 listeners: {
                     'select': {
                         fn: function(){
-                            this.checkDates('time', 'start');
+                            this.onFieldChange('time', 'start');
                         },
                         scope: this
                     }
@@ -73,7 +73,7 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
                 listeners: {
                     'select': {
                         fn: function(){
-                            this.checkDates('time', 'end');
+                            this.onFieldChange('time', 'end');
                         },
                         scope: this
                     }
@@ -87,7 +87,7 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
                 listeners: {
                     'change': {
                         fn: function(){
-                            this.checkDates('date', 'end');
+                            this.onFieldChange('date', 'end');
                         },
                         scope: this
                     }
@@ -154,7 +154,13 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
             this.el.child('tr').addClass('ext-dt-range-row1');
         }
     },
-    
+
+    // private
+    onFieldChange: function(type, startend){
+        this.checkDates(type, startend);
+        this.fireEvent('change', this, this.getValue());
+    },
+        
     // private
     checkDates: function(type, startend){
         var startField = Ext.getCmp(this.id+'-start-'+type),

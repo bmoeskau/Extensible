@@ -87,7 +87,10 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         this.dateRangeField = new Ext.ensible.cal.DateRangeField({
             fieldLabel: 'When',
             singleLine: false,
-            anchor: '90%'
+            anchor: '90%',
+            listeners: {
+                'change': this.onDateChange.createDelegate(this)
+            }
         });
         this.reminderField = new Ext.ensible.cal.ReminderField({
             name: 'Reminder'
@@ -152,6 +155,13 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         }];
         
         Ext.ensible.cal.EventEditForm.superclass.initComponent.call(this);
+    },
+    
+    // private
+    onDateChange: function(dateRangeField, val){
+        if(this.recurrenceField){
+            this.recurrenceField.setStartDate(val[0]);
+        }
     },
     
     // inherited docs

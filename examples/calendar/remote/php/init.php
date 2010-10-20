@@ -8,6 +8,7 @@
     require(dirname(__FILE__).'/lib/model.php');
     require(dirname(__FILE__).'/lib/request.php');
     require(dirname(__FILE__).'/lib/response.php');
+    require(dirname(__FILE__).'/lib/recur.php');
 
     // require /models (Should iterate app/models and auto-include all files there)
     require(dirname(__FILE__).'/app/models/event.php');
