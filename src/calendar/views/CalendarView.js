@@ -356,7 +356,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         }
     },
 
-    refresh : function(){
+    refresh : function(reloadData){
+        if(reloadData){
+            this.reloadStore();
+        }
         this.prepareData();
         this.renderTemplate();
         this.renderItems();
@@ -560,7 +563,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 			return;
 		}
         if(operation == Ext.data.Record.COMMIT){
-            this.refresh();
+            this.refresh(rec.data[Ext.ensible.cal.EventMappings.RRule.name] != '');
 			if(this.enableFx && this.enableUpdateFx){
 				this.doUpdateFx(this.getEventEls(rec.data[Ext.ensible.cal.EventMappings.EventId.name]), {
                     scope: this
@@ -580,7 +583,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 		}
 		var rec = records[0];
 		this.tempEventId = rec.id;
-		this.refresh();
+		this.refresh(rec.data[Ext.ensible.cal.EventMappings.RRule.name] != '');
 		
 		if(this.enableFx && this.enableAddFx){
 			this.doAddFx(this.getEventEls(rec.data[Ext.ensible.cal.EventMappings.EventId.name]), {
@@ -598,16 +601,18 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 		if(this.monitorStoreEvents === false) {
 			return;
 		}
+        var isRecurring = rec.data[Ext.ensible.cal.EventMappings.RRule.name] != '';
+        
 		if(this.enableFx && this.enableRemoveFx){
 			this.doRemoveFx(this.getEventEls(rec.data[Ext.ensible.cal.EventMappings.EventId.name]), {
 	            remove: true,
 	            scope: this,
-				callback: this.refresh
+				callback: this.refresh.createDelegate(this, [isRecurring])
 			});
 		}
 		else{
 			this.getEventEls(rec.data[Ext.ensible.cal.EventMappings.EventId.name]).remove();
-            this.refresh();
+            this.refresh(isRecurring);
 		}
     },
 	
@@ -649,16 +654,30 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	 * Retrieve an Event object's id from its corresponding node in the DOM.
 	 * @param {String/Element/HTMLElement} el An {@link Ext.Element}, DOM node or id
 	 */
-	getEventIdFromEl : function(el){
-		el = Ext.get(el);
-		var id = el.id.split(this.eventElIdDelimiter)[1];
-        if(id.indexOf('-') > -1){
-            //This id has the index of the week it is rendered in as the suffix.
-            //This allows events that span across weeks to still have reproducibly-unique DOM ids.
-            id = id.split('-')[0];
-        }
+//	getEventIdFromEl : function(el){
+//		el = Ext.get(el);
+//		var id = el.id.split(this.eventElIdDelimiter)[1];
+//        if(id.indexOf('-w_') > -1){
+//            //This id has the index of the week it is rendered in as part of the suffix.
+//            //This allows events that span across weeks to still have reproducibly-unique DOM ids.
+//            id = id.split('-w_')[0];
+//        }
+//        return id;
+//	},
+    getEventIdFromEl : function(el){
+        el = Ext.get(el);
+        var parts, id = '', cls, classes = el.dom.className.split(' ');
+        
+        Ext.each(classes, function(cls){
+            parts = cls.split(this.eventElIdDelimiter);
+            if(parts.length > 1){
+                id = parts[1];
+                return false;
+            }
+        }, this);
+        
         return id;
-	},
+    },
 	
 	// private
 	getEventId : function(eventId){
@@ -785,18 +804,22 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             this.startDate = start.clearTime();
             this.setViewBounds(start);
             if(this.rendered){
-                this.store.load({
-                    params: {
-                        start: this.viewStart.format('m-d-Y'),
-                        end: this.viewEnd.format('m-d-Y')
-                    }
-                });
+                this.reloadStore();
                 if(refresh === true){
                     this.refresh();
                 }
             }
             this.fireEvent('datechange', this, this.startDate, this.viewStart, this.viewEnd);
         }
+    },
+    
+    reloadStore : function(){
+        this.store.load({
+            params: {
+                start: this.viewStart.format('m-d-Y'),
+                end: this.viewEnd.format('m-d-Y')
+            }
+        });
     },
     
     // private

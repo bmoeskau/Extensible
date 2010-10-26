@@ -4,6 +4,7 @@ Ext.onReady(function(){
         apiRoot = 'remote/php/app.php/events/';
     
     var proxy = new Ext.data.HttpProxy({
+        disableCaching: false, // no need for cache busting when loading via Ajax
         api: {
             read:    apiRoot+'view',
             create:  apiRoot+'create',
@@ -41,9 +42,6 @@ Ext.onReady(function(){
         eventStore: store,
         renderTo: 'remote',
         title: 'Remote Calendar',
-        // since this sample works remotely we can handle RRULE parsing within
-        // the PHP code, so let's show the recurrence field:
-        enableRecurrence: true,
         width: 900,
         height: 600
     });

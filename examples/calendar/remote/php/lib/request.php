@@ -48,6 +48,7 @@ class Request {
             }
         }
         // Quickndirty PATH_INFO parser
+        //var_dump($_SERVER["PATH_INFO"]);
         if (isset($_SERVER["PATH_INFO"])){
             $cai = '/^\/([a-z]+\w)\/([a-z]+\w)\/([0-9]+)$/';  // /controller/action/id
             $ca =  '/^\/([a-z]+\w)\/([a-z]+)$/';              // /controller/action

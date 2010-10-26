@@ -75,11 +75,10 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     },
     
     //private
-    refresh : function(){
+    refresh : function(reloadData){
         var top = this.el.getScroll().top;
-        this.prepareData();
-        this.renderTemplate();
-        this.renderItems();
+        
+        Ext.ensible.cal.DayBodyView.superclass.refresh.call(this, reloadData);
         
         // skip this if the initial render scroll position has not yet been set.
         // necessary since IE/Opera must be deferred, so the first refresh will
@@ -222,12 +221,14 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             
             tpl = !(Ext.isIE || Ext.isOpera) ? 
                 new Ext.XTemplate(
-                    '<div id="{_elId}" class="{_selectorCls} {_colorCls} {values.spanCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
+                    //'<div id="{_elId}" class="{_selectorCls} {_colorCls} {values.spanCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
+                    '<div class="{_selectorCls} {_colorCls} {values.spanCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                         body,
                     '</div>'
                 ) 
                 : new Ext.XTemplate(
-                    '<div id="{_elId}" class="ext-cal-evt" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
+                    //'<div id="{_elId}" class="ext-cal-evt" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
+                    '<div class="ext-cal-evt" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                     '<div class="{_selectorCls} {values.spanCls} {_colorCls} ext-cal-evo">',
                         '<div class="ext-cal-evm">',
                             '<div class="ext-cal-evi">',
@@ -244,9 +245,10 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     
     // private
     getTemplateEventData : function(evt){
-        var selector = this.getEventSelectorCls(evt[Ext.ensible.cal.EventMappings.EventId.name]),
+        var M = Ext.ensible.cal.EventMappings,
+            selector = this.getEventSelectorCls(evt[M.EventId.name]),
             data = {},
-            M = Ext.ensible.cal.EventMappings;
+            recurring = evt[M.RRule.name] != '';
         
         this.getTemplateEventBox(evt);
         
@@ -258,7 +260,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             colorCls = 'x-cal-' + rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name];
         }
         data._colorCls = colorCls + (evt._renderAsAllDay ? '-ad' : '');
-        data._elId = selector + (evt._weekIndex ? '-' + evt._weekIndex : '');
+        //data._elId = selector + (evt._weekIndex ? '-w_' + evt._weekIndex : '') + (recurring ? '-r_' + evt[M.RInstanceId.name] : '');
         data._isRecurring = evt.Recurrence && evt.Recurrence != '';
         data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] != '';
         var title = evt[M.Title.name];
