@@ -22,7 +22,7 @@ Ext.ensible.cal.BoxLayoutTemplate = function(config){
                     '<tbody>',
                         '<tr>',
                             '<tpl for=".">',
-                                 '<td id="{[this.id]}-day-{date:date("Ymd")}" class="{cellCls}">&nbsp;</td>',
+                                 '<td id="{[this.id]}-day-{date:date("Ymd")}" class="{cellCls}">&#160;</td>',
                             '</tpl>',
                         '</tr>',
                     '</tbody>',
@@ -75,7 +75,7 @@ Ext.extend(Ext.ensible.cal.BoxLayoutTemplate, Ext.XTemplate, {
                 if(dt.getDay() == 1){
                     // The ISO week format 'W' is relative to a Monday week start. If we
                     // make this check on Sunday the week number will be off.
-                    weeks[w].weekNum = this.showWeekNumbers ? dt.format('W') : '&nbsp;';
+                    weeks[w].weekNum = this.showWeekNumbers ? dt.format('W') : '&#160;';
                     weeks[w].weekLinkId = 'ext-cal-week-'+dt.format('Ymd');
                 }
                 
@@ -120,7 +120,7 @@ Ext.extend(Ext.ensible.cal.BoxLayoutTemplate, Ext.XTemplate, {
             todayText = this.showTodayText !== false ? this.todayText : '',
             timeText = this.showTime !== false ? ' <span id="'+this.id+'-clock" class="ext-cal-dtitle-time">' + 
                     new Date().format('g:i a') + '</span>' : '',
-            separator = todayText.length > 0 || timeText.length > 0 ? ' &mdash; ' : '';
+            separator = todayText.length > 0 || timeText.length > 0 ? ' &#8212; ' : ''; // &#8212; == &mdash;
         
         if(this.dayCount == 1){
             return dt + separator + todayText + timeText;

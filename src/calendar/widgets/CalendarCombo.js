@@ -33,7 +33,7 @@ Ext.ensible.cal.CalendarCombo = Ext.extend(Ext.form.ComboBox, {
         
         this.tpl = this.tpl ||
               '<tpl for="."><div class="x-combo-list-item x-cal-{' + Ext.ensible.cal.CalendarMappings.ColorId.name +
-              '}"><div class="ext-cal-picker-icon">&nbsp;</div>{' + this.displayField + '}</div></tpl>';
+              '}"><div class="ext-cal-picker-icon">&#160;</div>{' + this.displayField + '}</div></tpl>';
     },
     
     // private

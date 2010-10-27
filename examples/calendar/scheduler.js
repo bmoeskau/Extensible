@@ -55,7 +55,7 @@ App = function() {
                 var bookingStart = item.get('StartDate');
                 return {
                     headerText : bookingStart.format("G:i"),
-                    footerText : item.get('Title') || '&nbsp;'
+                    footerText : item.get('Title') || '&#160;'
                 };
             };
             
@@ -228,7 +228,7 @@ App = function() {
                     '<dl class="eventTip">', 
                         '<dt class="icon-clock">Time</dt><dd>{[values.StartDate.format("Y-m-d G:i")]}</dd>',
                         '<dt class="icon-task">Task</dt><dd>{Title}</dd>',
-                        '<dt class="icon-earth">Location</dt><dd>{Location}&nbsp;</dd>',
+                        '<dt class="icon-earth">Location</dt><dd>{Location}&#160;</dd>',
                     '</dl>').compile(),
                 
                 plugins : [

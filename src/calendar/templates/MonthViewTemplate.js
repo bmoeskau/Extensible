@@ -16,7 +16,7 @@ Ext.ensible.cal.MonthViewTemplate = function(config){
     this.weekTpl = new Ext.ensible.cal.BoxLayoutTemplate(config);
     this.weekTpl.compile();
     
-    var weekLinkTpl = this.showWeekLinks ? '<div class="ext-cal-week-link-hd">&nbsp;</div>' : '';
+    var weekLinkTpl = this.showWeekLinks ? '<div class="ext-cal-week-link-hd">&#160;</div>' : '';
     
     Ext.ensible.cal.MonthViewTemplate.superclass.constructor.call(this,
 	    '<div class="ext-cal-inner-ct {extraClasses}">',
