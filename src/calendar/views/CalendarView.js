@@ -757,7 +757,8 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             start1 = ev1[M.StartDate.name].getTime(),
             end1 = ev1[M.EndDate.name].add(Date.SECOND, -1).getTime(),
             start2 = ev2[M.StartDate.name].getTime(),
-            end2 = ev2[M.EndDate.name].add(Date.SECOND, -1).getTime();
+            end2 = ev2[M.EndDate.name].add(Date.SECOND, -1).getTime(),
+            startDiff = Ext.ensible.Date.diff(ev1[M.StartDate.name], ev2[M.StartDate.name], 'm');
             
             if(end1<start1){
                 end1 = start1;
@@ -768,9 +769,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             
             var ev1startsInEv2 = (start1 >= start2 && start1 <= end2),
             ev1EndsInEv2 = (end1 >= start2 && end1 <= end2),
-            ev1SpansEv2 = (start1 < start2 && end1 > end2);
+            ev1SpansEv2 = (start1 < start2 && end1 > end2),
+            ev1MinHeightOverlapsEv2 = (startDiff > -30 && startDiff < 30);
         
-        return (ev1startsInEv2 || ev1EndsInEv2 || ev1SpansEv2);
+        return (ev1startsInEv2 || ev1EndsInEv2 || ev1SpansEv2 || ev1MinHeightOverlapsEv2);
     },
     
     getDayEl : function(dt){

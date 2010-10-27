@@ -21,16 +21,44 @@
         */
 	    Date : {
             /**
-             * Calculates the number of days between two dates, ignoring time values.
+             * Returns the time duration between two dates in the specified units. For finding the number
+             * of calendar days (ignoring time) between two dates use {@link Ext.ensible.Date.diffDays diffDays} instead.
              * @param {Date} start The start date
              * @param {Date} end The end date
-             * @return {Number} The number of days difference between the dates
+             * @param {String} unit The time unit to return. Valid values are 'ms' (milliseconds, the default), 's' (seconds),
+             * 'm' (minutes) or 'h' (hours).
+             * @return {Number} The time difference between the dates in the units specified by the unit param
              */
-	        diffDays : function(start, end){
-	            day = 1000*60*60*24;
-	            diff = end.clearTime(true).getTime() - start.clearTime(true).getTime();
-	            return Math.ceil(diff/day);
-	        },
+            diff : function(start, end, unit){
+                var denom = 1,
+                    diff = end.getTime() - start.getTime();
+                
+                if(unit == 's'){ 
+                    denom = 1000;
+                }
+                else if(unit == 'm'){
+                    denom = 1000*60;
+                }
+                else if(unit == 'h'){
+                    denom = 1000*60*60;
+                }
+                return Math.round(diff/denom);
+            },
+            
+            /**
+             * Calculates the number of calendar days between two dates, ignoring time values. 
+             * A time span that starts at 11pm (23:00) on Monday and ends at 1am (01:00) on Wednesday is 
+             * only 26 total hours, but it spans 3 calendar days, so this function would return 3. For the
+             * exact time difference, use {@link Ext.ensible.Date.diff diff} instead.
+             * @param {Date} start The start date
+             * @param {Date} end The end date
+             * @return {Number} The number of calendar days difference between the dates
+             */
+            diffDays : function(start, end){
+                day = 1000*60*60*24;
+                diff = end.clearTime(true).getTime() - start.clearTime(true).getTime();
+                return Math.ceil(diff/day);
+            },
             
             /**
              * Copies the time value from one date object into another without altering the target's 
