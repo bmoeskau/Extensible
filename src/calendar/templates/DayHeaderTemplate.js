@@ -27,7 +27,7 @@ Ext.ensible.cal.DayHeaderTemplate = function(config){
                         '<td class="ext-cal-hd-days-td"><div class="ext-cal-hd-ad-inner">{allDayTpl}</div></td>',
                         '<td class="ext-cal-gutter-rt"></td>',
                     '</tr>',
-                '</tobdy>',
+                '</tbody>',
             '</table>',
         '</div>'
     );
