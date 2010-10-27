@@ -169,8 +169,10 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         this.form.loadRecord.apply(this.form, arguments);
         this.activeRecord = rec;
         this.dateRangeField.setValue(rec.data);
-        this.recurrenceField.setStartDate(rec.data[Ext.ensible.cal.EventMappings.StartDate.name]);
         
+        if(this.recurrenceField){
+            this.recurrenceField.setStartDate(rec.data[Ext.ensible.cal.EventMappings.StartDate.name]);
+        }
         if(this.calendarStore){
             this.form.setValues({'calendar': rec.data[Ext.ensible.cal.EventMappings.CalendarId.name]});
         }
