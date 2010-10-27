@@ -418,15 +418,17 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             max = this.maxEventsPerDay ? this.maxEventsPerDay : 999;
         
         evts.each(function(evt){
-            var M = Ext.ensible.cal.EventMappings,
-                days = Ext.ensible.Date.diffDays(
-                Ext.ensible.Date.max(this.viewStart, evt.data[M.StartDate.name]),
-                Ext.ensible.Date.min(this.viewEnd, evt.data[M.EndDate.name])) + 1;
+            var M = Ext.ensible.cal.EventMappings;
             
-            if(days > 1 || Ext.ensible.Date.diffDays(evt.data[M.StartDate.name], evt.data[M.EndDate.name]) > 1){
-                this.prepareEventGridSpans(evt, this.eventGrid, w, d, days);
-                this.prepareEventGridSpans(evt, this.allDayGrid, w, d, days, true);
-            }else{
+            if(Ext.ensible.Date.diffDays(evt.data[M.StartDate.name], evt.data[M.EndDate.name]) > 0){
+                var daysInView = Ext.ensible.Date.diffDays(
+                    Ext.ensible.Date.max(this.viewStart, evt.data[M.StartDate.name]),
+                    Ext.ensible.Date.min(this.viewEnd, evt.data[M.EndDate.name])) + 1;
+                    
+                this.prepareEventGridSpans(evt, this.eventGrid, w, d, daysInView);
+                this.prepareEventGridSpans(evt, this.allDayGrid, w, d, daysInView, true);
+            }
+            else{
                 row = this.findEmptyRowIndex(w,d);
                 this.eventGrid[w][d] = this.eventGrid[w][d] || [];
                 this.eventGrid[w][d][row] = evt;
