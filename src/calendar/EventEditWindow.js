@@ -179,7 +179,6 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
             this.setTitle(this.titleTextAdd);
 
             var M = Ext.ensible.cal.EventMappings,
-                eventId = M.EventId.name,
                 start = o[M.StartDate.name],
                 end = o[M.EndDate.name] || start.add('h', 1);
                 

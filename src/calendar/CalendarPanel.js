@@ -633,11 +633,11 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             this.doLayout();
         }
         else{
-            l.activeItem.refresh();
+            l.activeItem.setStartDate(this.startDate, true);
             if(tb){
                tb.show();
            }
-            this.updateNavState();
+           this.updateNavState();
         }
         this.activeView = l.activeItem;
         this.fireViewChange();
@@ -649,7 +649,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             view = this.layout.activeItem;
             
         if(view.getViewBounds){
-            vb = view.getViewBounds(),
+            var vb = view.getViewBounds(),
             info = {
                 activeDate: view.getStartDate(),
                 viewStart: vb.start,
@@ -679,6 +679,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      * @return {Ext.ensible.cal.CalendarPanel} this
      */
     setStartDate: function(dt){
+        this.startDate = dt;
         this.layout.activeItem.setStartDate(dt, true);
         this.updateNavState();
         this.fireViewChange();

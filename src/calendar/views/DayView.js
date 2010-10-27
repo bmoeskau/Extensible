@@ -148,43 +148,48 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
     /**
      * Updates the view to contain the passed date
      * @param {Date} dt The date to display
+     * @return {Date} The new date
      */
     moveTo : function(dt, noRefresh){
         this.header.moveTo(dt, noRefresh);
-        this.body.moveTo(dt, noRefresh);
+        return this.body.moveTo(dt, noRefresh);
     },
     
     /**
      * Updates the view to the next consecutive date(s)
+     * @return {Date} The new date
      */
     moveNext : function(noRefresh){
         this.header.moveNext(noRefresh);
-        this.body.moveNext(noRefresh);
+        return this.body.moveNext(noRefresh);
     },
     
     /**
      * Updates the view to the previous consecutive date(s)
+     * @return {Date} The new date
      */
     movePrev : function(noRefresh){
         this.header.movePrev(noRefresh);
-        this.body.movePrev(noRefresh);
+        return this.body.movePrev(noRefresh);
     },
 
     /**
      * Shifts the view by the passed number of days relative to the currently set date
      * @param {Number} value The number of days (positive or negative) by which to shift the view
+     * @return {Date} The new date
      */
     moveDays : function(value, noRefresh){
         this.header.moveDays(value, noRefresh);
-        this.body.moveDays(value, noRefresh);
+        return this.body.moveDays(value, noRefresh);
     },
     
     /**
      * Updates the view to show today
+     * @return {Date} Today's date
      */
     moveToday : function(noRefresh){
         this.header.moveToday(noRefresh);
-        this.body.moveToday(noRefresh);
+        return this.body.moveToday(noRefresh);
     }
 });
 

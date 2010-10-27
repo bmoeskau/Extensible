@@ -936,6 +936,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 
     /**
      * Updates the view to the next consecutive date(s)
+     * @return {Date} The new date
      */
     moveNext : function(noRefresh){
         return this.moveTo(this.viewEnd.add(Date.DAY, 1));
@@ -943,6 +944,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 
     /**
      * Updates the view to the previous consecutive date(s)
+     * @return {Date} The new date
      */
     movePrev : function(noRefresh){
         var days = Ext.ensible.Date.diffDays(this.viewStart, this.viewEnd)+1;
@@ -952,6 +954,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     /**
      * Shifts the view by the passed number of months relative to the currently set date
      * @param {Number} value The number of months (positive or negative) by which to shift the view
+     * @return {Date} The new date
      */
     moveMonths : function(value, noRefresh){
         return this.moveTo(this.startDate.add(Date.MONTH, value), noRefresh);
@@ -960,6 +963,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     /**
      * Shifts the view by the passed number of weeks relative to the currently set date
      * @param {Number} value The number of weeks (positive or negative) by which to shift the view
+     * @return {Date} The new date
      */
     moveWeeks : function(value, noRefresh){
         return this.moveTo(this.startDate.add(Date.DAY, value*7), noRefresh);
@@ -968,6 +972,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     /**
      * Shifts the view by the passed number of days relative to the currently set date
      * @param {Number} value The number of days (positive or negative) by which to shift the view
+     * @return {Date} The new date
      */
     moveDays : function(value, noRefresh){
         return this.moveTo(this.startDate.add(Date.DAY, value), noRefresh);
@@ -975,6 +980,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     
     /**
      * Updates the view to show today
+     * @return {Date} Today's date
      */
     moveToday : function(noRefresh){
         return this.moveTo(new Date(), noRefresh);
