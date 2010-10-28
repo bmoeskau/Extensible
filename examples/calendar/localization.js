@@ -4,7 +4,7 @@ Ext.ensible.LocaleSample = function(){
             Ext.QuickTips.init();
             
             var localeStore = new Ext.data.ArrayStore({
-                fields: ['code', 'locale'],
+                fields: ['code', 'desc'],
                 data : [
                     ['en', 'English (US)'],
                     ['fr', 'French (France)']
@@ -14,15 +14,18 @@ Ext.ensible.LocaleSample = function(){
             var localeCombo = new Ext.form.ComboBox({
                 renderTo: 'locales',
                 store: localeStore,
-                displayField: 'locale',
+                displayField: 'desc',
+                valueField: 'code',
                 typeAhead: true,
                 mode: 'local',
                 triggerAction: 'all',
                 emptyText: 'Select a locale...',
                 selectOnFocus: true,
+                value: 'en',
                 listeners: {
                     'select': {
                         fn: function(cbo, rec, idx){
+                            this.calendar.getEl().mask('Loading '+rec.data.desc+'...');
                             this.currentLocale = rec.data.code; 
                             this.loadLocale();
                         },

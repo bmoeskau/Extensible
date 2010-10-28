@@ -120,6 +120,11 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * that allow resizing of events.
      */
     ddResizeEventText: 'Update event to {0}',
+    /**
+     * @cfg {String} defaultEventTitleText
+     * The default text to display as the title of an event that has a null or empty string title value (defaults to '(No title)')
+     */
+    defaultEventTitleText: '(No title)',
     
     //private properties -- do not override:
     weekCount: 1,
@@ -1350,5 +1355,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     // private, MUST be implemented by subclasses
     renderItems : function(){
         throw 'This method must be implemented by a subclass';
+    },
+    
+    destroy: function(){
+        Ext.ensible.cal.CalendarView.superclass.destroy.call(this);
+        Ext.destroy(this.editWin, this.eventMenu);
     }
 });

@@ -17,8 +17,15 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
     resizable: false,
     buttonAlign: 'left',
     labelWidth: 65,
+    detailsLinkText: 'Edit Details...',
     savingMessage: 'Saving changes...',
     deletingMessage: 'Deleting event...',
+    saveButtonText: 'Save',
+    deleteButtonText: 'Delete',
+    cancelButtonText: 'Cancel',
+    titleLabelText: 'Title',
+    datesLabelText: 'When',
+    calendarLabelText: 'Calendar',
     editDetailsLinkClass: 'edit-dtl-link',
     bodyStyle: 'padding:5px 10px;',
     
@@ -74,13 +81,13 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
         });
         
         this.fbar = [{
-            xtype: 'tbtext', text: '<a href="#" class="'+this.editDetailsLinkClass+'">Edit Details...</a>'
+            xtype: 'tbtext', text: '<a href="#" class="'+this.editDetailsLinkClass+'">'+this.detailsLinkText+'</a>'
         },'->',{
-            text:'Save', disabled:false, handler:this.onSave, scope:this
+            text:this.saveButtonText, disabled:false, handler:this.onSave, scope:this
         },{
-            id:this.id+'-delete-btn', text:'Delete', disabled:false, handler:this.onDelete, scope:this, hideMode:'offsets'
+            id:this.id+'-delete-btn', text:this.deleteButtonText, disabled:false, handler:this.onDelete, scope:this, hideMode:'offsets'
         },{
-            text:'Cancel', disabled:false, handler:this.onCancel, scope:this
+            text:this.cancelButtonText, disabled:false, handler:this.onCancel, scope:this
         }];
         
         Ext.ensible.cal.EventEditWindow.superclass.initComponent.call(this);
@@ -92,12 +99,12 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
         
         this.titleField = new Ext.form.TextField({
             name: Ext.ensible.cal.EventMappings.Title.name,
-            fieldLabel: 'Title',
+            fieldLabel: this.titleLabelText,
             anchor: '100%'
         });
         this.dateRangeField = new Ext.ensible.cal.DateRangeField({
             anchor: '100%',
-            fieldLabel: 'When'
+            fieldLabel: this.datesLabelText
         });
         
         var items = [this.titleField, this.dateRangeField];
@@ -106,6 +113,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
             this.calendarField = new Ext.ensible.cal.CalendarCombo({
                 name: Ext.ensible.cal.EventMappings.CalendarId.name,
                 anchor: '100%',
+                fieldLabel: this.calendarLabelText,
                 store: this.calendarStore
             });
             items.push(this.calendarField);

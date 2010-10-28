@@ -24,33 +24,54 @@ Ext.ensible.cal.ReminderField = Ext.extend(Ext.form.ComboBox, {
     displayField: 'desc',
     valueField: 'value',
     
+    noneText: 'None',
+    atStartTimeText: 'At start time',
+    minutesText: 'minutes',
+    hourText: 'hour',
+    hoursText: 'hours',
+    dayText: 'day',
+    daysText: 'days',
+    weekText: 'week',
+    weeksText: 'weeks',
+    reminderValueFormat: '{0} {1} before start',
+    
+    /**
+     * Returns the list of reminder values used as the contents of the combo list. This method is provided so that
+     * the value list can be easily overridden as needed.
+     * @return {Array} A 2-dimensional array of type [{String}, {String}] which contains the value and description
+     * respectively of each item in the combo list. By default the value is the number of minutes for the selected 
+     * time value (e.g., value 120 == '2 hours') with empty string for no value, but these can be set to anything.
+     */
+    getValueList: function(){
+        return [
+            ['', this.noneText],
+            ['0', this.atStartTimeText],
+            ['5', String.format(this.reminderValueFormat, '5', this.minutesText)],
+            ['15', String.format(this.reminderValueFormat, '15', this.minutesText)],
+            ['30', String.format(this.reminderValueFormat, '30', this.minutesText)],
+            ['60', String.format(this.reminderValueFormat, '1', this.hourText)],
+            ['90', String.format(this.reminderValueFormat, '1.5', this.hoursText)],
+            ['120', String.format(this.reminderValueFormat, '2', this.hoursText)],
+            ['180', String.format(this.reminderValueFormat, '3', this.hoursText)],
+            ['360', String.format(this.reminderValueFormat, '6', this.hoursText)],
+            ['720', String.format(this.reminderValueFormat, '12', this.hoursText)],
+            ['1440', String.format(this.reminderValueFormat, '1', this.dayText)],
+            ['2880', String.format(this.reminderValueFormat, '2', this.daysText)],
+            ['4320', String.format(this.reminderValueFormat, '3', this.daysText)],
+            ['5760', String.format(this.reminderValueFormat, '4', this.daysText)],
+            ['7200', String.format(this.reminderValueFormat, '5', this.daysText)],
+            ['10080', String.format(this.reminderValueFormat, '1', this.weekText)],
+            ['20160', String.format(this.reminderValueFormat, '2', this.weeksText)]
+        ]
+    },
+    
     // private
     initComponent: function(){
         Ext.ensible.cal.ReminderField.superclass.initComponent.call(this);
-        
         this.store = this.store || new Ext.data.ArrayStore({
-            fields: ['value', 'desc'],
+            fields: [this.valueField, this.displayField],
             idIndex: 0,
-            data: [
-                ['', 'None'],
-                ['0', 'At start time'],
-                ['5', '5 minutes before start'],
-                ['15', '15 minutes before start'],
-                ['30', '30 minutes before start'],
-                ['60', '1 hour before start'],
-                ['90', '1.5 hours before start'],
-                ['120', '2 hours before start'],
-                ['180', '3 hours before start'],
-                ['360', '6 hours before start'],
-                ['720', '12 hours before start'],
-                ['1440', '1 day before start'],
-                ['2880', '2 days before start'],
-                ['4320', '3 days before start'],
-                ['5760', '4 days before start'],
-                ['7200', '5 days before start'],
-                ['10080', '1 week before start'],
-                ['20160', '2 weeks before start']
-            ]
+            data: this.getValueList()
         });
     },
     

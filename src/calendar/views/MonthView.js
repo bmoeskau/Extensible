@@ -9,6 +9,13 @@
  */
 Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
     /**
+     * @cfg {String} moreText
+     * The text to display in a day box when there are more events than can be displayed and a link is provided to
+     * show a popup window with all events for that day (defaults to '+{0} more...', where {0} will be 
+     * replaced by the number of additional events that are not currently displayed for the day).
+     */
+    moreText: '+{0} more...',
+    /**
      * @cfg {Boolean} showTime
      * True to display the current time in today's box in the calendar, false to not display it (defautls to true)
      */
@@ -250,7 +257,7 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             //_elId: selector + '-w_' + evt._weekIndex + (recurring ? '-r_' + evt[M.RInstanceId.name] : ''),
             _isRecurring: evt.Recurrence && evt.Recurrence != '',
             _isReminder: evt[M.Reminder.name] && evt[M.Reminder.name] != '',
-            Title: (evt[M.IsAllDay.name] ? '' : evt[M.StartDate.name].format('g:ia ')) + (!title || title.length == 0 ? '(No title)' : title)
+            Title: (evt[M.IsAllDay.name] ? '' : evt[M.StartDate.name].format('g:ia ')) + (!title || title.length == 0 ? this.defaultEventTitleText : title)
         }, evt);
     },
     
@@ -277,7 +284,8 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             templateDataFn: this.getTemplateEventData.createDelegate(this),
             evtMaxCount: this.evtMaxCount,
             weekCount: this.weekCount,
-            dayCount: this.dayCount
+            dayCount: this.dayCount,
+            moreText: this.moreText
         });
         this.fireEvent('eventsrendered', this);
     },

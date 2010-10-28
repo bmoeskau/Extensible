@@ -26,6 +26,17 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
     title: 'Event Form',
     titleTextAdd: 'Add Event',
     titleTextEdit: 'Edit Event',
+    titleLabelText: 'Title',
+    datesLabelText: 'When',
+    reminderLabelText: 'Reminder',
+    notesLabelText: 'Notes',
+    locationLabelText: 'Location',
+    webLinkLabelText: 'Web Link',
+    calendarLabelText: 'Calendar',
+    repeatsLabelText: 'Repeats',
+    saveButtonText: 'Save',
+    deleteButtonText: 'Delete',
+    cancelButtonText: 'Cancel',
     bodyStyle: 'padding:20px 20px 10px;',
     border: false,
     buttonAlign: 'center',
@@ -80,12 +91,12 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         });
                 
         this.titleField = new Ext.form.TextField({
-            fieldLabel: 'Title',
+            fieldLabel: this.titleLabelText,
             name: Ext.ensible.cal.EventMappings.Title.name,
             anchor: '90%'
         });
         this.dateRangeField = new Ext.ensible.cal.DateRangeField({
-            fieldLabel: 'When',
+            fieldLabel: this.datesLabelText,
             singleLine: false,
             anchor: '90%',
             listeners: {
@@ -93,22 +104,23 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
             }
         });
         this.reminderField = new Ext.ensible.cal.ReminderField({
-            name: 'Reminder'
+            name: 'Reminder',
+            fieldLabel: this.reminderLabelText
         });
         this.notesField = new Ext.form.TextArea({
-            fieldLabel: 'Notes',
+            fieldLabel: this.notesLabelText,
             name: Ext.ensible.cal.EventMappings.Notes.name,
             grow: true,
             growMax: 150,
             anchor: '100%'
         });
         this.locationField = new Ext.form.TextField({
-            fieldLabel: 'Location',
+            fieldLabel: this.locationLabelText,
             name: Ext.ensible.cal.EventMappings.Location.name,
             anchor: '100%'
         });
         this.urlField = new Ext.form.TextField({
-            fieldLabel: 'Web Link',
+            fieldLabel: this.webLinkLabelText,
             name: Ext.ensible.cal.EventMappings.Url.name,
             anchor: '100%'
         });
@@ -119,6 +131,7 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         if(this.enableRecurrence){
             this.recurrenceField = new Ext.ensible.cal.RecurrenceField({
                 name: Ext.ensible.cal.EventMappings.RRule.name,
+                fieldLabel: this.repeatsLabelText,
                 anchor: '100%'
             });
             leftFields.splice(2, 0, this.recurrenceField);
@@ -127,6 +140,7 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         if(this.calendarStore){
             this.calendarField = new Ext.ensible.cal.CalendarCombo({
                 store: this.calendarStore,
+                fieldLabel: this.calendarLabelText,
                 name: Ext.ensible.cal.EventMappings.CalendarId.name
             });
             leftFields.splice(2, 0, this.calendarField);
@@ -147,11 +161,11 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         }];
         
         this.fbar = [{
-            text:'Save', scope: this, handler: this.onSave
+            text:this.saveButtonText, scope: this, handler: this.onSave
         },{
-            cls:'ext-del-btn', text:'Delete', scope:this, handler:this.onDelete
+            cls:'ext-del-btn', text:this.deleteButtonText, scope:this, handler:this.onDelete
         },{
-            text:'Cancel', scope: this, handler: this.onCancel
+            text:this.cancelButtonText, scope: this, handler: this.onCancel
         }];
         
         Ext.ensible.cal.EventEditForm.superclass.initComponent.call(this);
