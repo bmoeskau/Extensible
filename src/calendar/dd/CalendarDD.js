@@ -77,7 +77,12 @@ Ext.ensible.cal.DragZone = Ext.extend(Ext.dd.DragZone, {
     
     afterInvalidDrop : function(e, id){
         Ext.select('.ext-dd-shim').hide();
-    }
+    },
+    
+    destroy : function(){
+        Ext.ensible.cal.DragZone.superclass.destroy.call(this);
+        delete Ext.ensible.cal._statusProxyInstance;
+    }    
 });
 
 /*

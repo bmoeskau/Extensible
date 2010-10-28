@@ -429,6 +429,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         
         var sharedViewCfg = {
             showToday: this.showToday,
+            todayText: this.todayText,
             showTodayText: this.showTodayText,
             showTime: this.showTime,
             readOnly: this.readOnly,

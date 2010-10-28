@@ -19,11 +19,6 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
      */
     showTodayText: true,
     /**
-     * @cfg {String} todayText
-     * The text to display in the current day's box in the calendar when {@link #showTodayText} is true (defaults to 'Today')
-     */
-    todayText: 'Today',
-    /**
      * @cfg {Boolean} showHeader
      * True to display a header beneath the navigation bar containing the week names above each week's column, false not to 
      * show it and instead display the week names in the first row of days in the calendar (defaults to false).

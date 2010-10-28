@@ -96,6 +96,11 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      */
     monitorResize: true,
     /**
+     * @cfg {String} todayText
+     * The text to display in the current day's box in the calendar when {@link #showTodayText} is true (defaults to 'Today')
+     */
+    todayText: 'Today',
+    /**
      * @cfg {String} ddCreateEventText
      * The text to display inside the drag proxy while dragging over the calendar to create a new event (defaults to 
      * 'Create event for {0}' where {0} is a date range supplied by the view)

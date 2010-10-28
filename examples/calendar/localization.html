@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>Extensible : Localized Calendar</title>
+    <!-- This is required for most non-English locales! -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8">
+    
+    <!-- Ext includes -->
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.0/resources/css/ext-all.css" />
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/adapter/ext/ext-base-debug.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/ext-all-debug.js"></script>
+    <!-- Any Ext overrides go here -->
+    
+    <!-- Extensible includes -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/extensible-all.css" />
+    <script type="text/javascript" src="../../extensible-all-debug.js"></script>
+    <!-- Any Extensible overrides go here -->
+    
+    <!-- Page-specific includes -->
+    <link rel="stylesheet" type="text/css" href="../examples.css" />
+    <script type="text/javascript" src="localization.js"></script>
+    
+    <style>
+        #cal {
+            margin: 15px 0;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Localized Calendar Example</h1>
+    <p>A simple example showing how to display the calendar components in different locales. If you would like to contribute
+    an additional locale, please translate the most current English locale file and post it to the 
+    <a href="http://ext.ensible.com/forum/viewforum.php?f=10">Extensible forums</a>.</p>
+    <div>
+        <div style="float:left;padding:5px 10px 0 0;">Selected Locale:</div>
+        <div id="locales" style="float:left;"></div>
+        <div style="clear:left;"></div>
+    </div>
+    <div id="cal"></div>
+</body>
+</html>
