@@ -72,6 +72,9 @@
             "text": "CalendarListMenu.js",
             "path": "src/calendar/widgets/"
         },{
+            "text": "EventContextMenu.js",
+            "path": "src/calendar/widgets/"
+        },{
             "text": "CalendarList.js",
             "path": "src/calendar/widgets/"
         },{

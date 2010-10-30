@@ -1171,52 +1171,35 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     // private
     showEventMenu : function(el, xy){
         if(!this.eventMenu){
-            var dateMenu = new Ext.menu.DateMenu({
-                handler: function(dp, dt){
-                    this.menuActive = false;
-                    dt = Ext.ensible.Date.copyTime(this.eventMenu.rec.data[Ext.ensible.cal.EventMappings.StartDate.name], dt);
-                    this.moveEvent(this.eventMenu.rec, dt);
-                },
-                scope: this
+            this.eventMenu = new Ext.ensible.cal.EventContextMenu({
+                listeners: {
+                    'editdetails': this.onEditDetails.createDelegate(this),
+                    'eventdelete': this.onDeleteEvent.createDelegate(this),
+                    'eventmove': this.onMoveEvent.createDelegate(this)
+                }
             });
-            this.eventMenu = new Ext.menu.Menu({
-                id: this.id+'-evt-ctxmenu',
-                items: [{
-                    iconCls:'extensible-cal-icon-evt-edit',
-                    text: 'Edit Details',
-                    scope: this,
-                    handler: function(){
-                        this.menuActive = false;
-                        this.fireEvent('editdetails', this, this.eventMenu.rec, this.eventMenu.ctxEl);
-                    }
-                },{
-                    text: 'Delete',
-                    iconCls:'extensible-cal-icon-evt-del',
-                    scope: this,
-                    handler:function(){
-                        this.menuActive = false;
-                        this.deleteEvent(this.eventMenu.rec, this.eventMenu.ctxEl);
-                    }
-                },'-',{
-                    iconCls:'extensible-cal-icon-evt-move',
-                    text:'Move to...',
-                    scope: this,
-                    menu: dateMenu
-                }]
-            });
-            this.eventMenu.on('hide', this.onEventContextHide, this);
-            this.eventMenu.datePicker = dateMenu.picker;
         }
-        if(this.eventMenu.ctxEl){
-            this.eventMenu.ctxEl = null;
-        }
-        this.eventMenu.ctxEl = el;
-        this.eventMenu.rec = this.getEventRecordFromEl(el); 
-        this.eventMenu.datePicker.setValue(this.eventMenu.rec.data[Ext.ensible.cal.EventMappings.StartDate.name]);
-        this.eventMenu.showAt(xy);
+        this.eventMenu.showForEvent(this.getEventRecordFromEl(el), el, xy);
         this.menuActive = true;
     },
     
+    // private
+    onEditDetails : function(menu, rec, el){
+        this.fireEvent('editdetails', this, rec, el);
+        this.menuActive = false;
+    },
+    
+    // private
+    onMoveEvent : function(menu, rec, dt){
+        this.moveEvent(rec, dt);
+        this.menuActive = false;
+    },
+    
+    /**
+     * Move the event to a new start date, preserving the original event duration.
+     * @param {Object} rec The event {@link Ext.ensible.cal.EventRecord record}
+     * @param {Object} dt The new start date
+     */
     moveEvent : function(rec, dt){
         if(Ext.ensible.Date.compare(rec.data[Ext.ensible.cal.EventMappings.StartDate.name], dt) === 0){
             // no changes
@@ -1226,24 +1209,27 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             var diff = dt.getTime() - rec.data[Ext.ensible.cal.EventMappings.StartDate.name].getTime();
             rec.set(Ext.ensible.cal.EventMappings.StartDate.name, dt);
             rec.set(Ext.ensible.cal.EventMappings.EndDate.name, rec.data[Ext.ensible.cal.EventMappings.EndDate.name].add(Date.MILLI, diff));
-            this.onEventUpdate(null, rec);
             
+            this.onEventUpdate(null, rec);
             this.fireEvent('eventmove', this, rec);
         }
     },
     
     // private
+    onDeleteEvent: function(menu, rec, el){
+        this.deleteEvent(rec, el);
+        this.menuActive = false;
+    },
+    
+    /**
+     * Delete the specified event.
+     * @param {Object} rec The event {@link Ext.ensible.cal.EventRecord record}
+     * @param {Object} el The {@link Ext.Element Element} corresponding to the event
+     */
     deleteEvent: function(rec, el){
         if(this.fireEvent('beforeeventdelete', this, rec, el) !== false){
             this.store.remove(rec);
             this.fireEvent('eventdelete', this, rec, el);
-        }
-    },
-    
-    // private
-    onEventContextHide : function(){
-        if(this.eventMenu.ctxEl){
-            this.eventMenu.ctxEl = null;
         }
     },
     

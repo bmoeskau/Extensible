@@ -120,3 +120,11 @@ if(Ext.ensible.cal.ReminderField) {
         reminderValueFormat: '{0} {1} before start' // e.g. "2 hours before start"
     });
 }
+
+if(Ext.ensible.cal.EventContextMenu) {
+    Ext.apply(Ext.ensible.cal.EventContextMenu.prototype, {
+        editDetailsText: 'Edit Details',
+        deleteText: 'Delete',
+        moveToText: 'Move to...'
+    });
+}
