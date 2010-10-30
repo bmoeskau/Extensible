@@ -209,20 +209,17 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             
 	        tpl = !(Ext.isIE || Ext.isOpera) ? 
 				new Ext.XTemplate(
-		            //'<div id="{_elId}" class="{_selectorCls} {_colorCls} {values.spanCls} ext-cal-evt ext-cal-evr">',
                     '<div class="{_selectorCls} {_colorCls} {values.spanCls} ext-cal-evt ext-cal-evr">',
 		                body,
 		            '</div>'
 		        ) 
 				: new Ext.XTemplate(
 		            '<tpl if="_renderAsAllDay">',
-		                //'<div id="{_elId}" class="{_selectorCls} {values.spanCls} {_colorCls} ext-cal-evt ext-cal-evo">',
                         '<div class="{_selectorCls} {values.spanCls} {_colorCls} ext-cal-evt ext-cal-evo">',
 		                    '<div class="ext-cal-evm">',
 		                        '<div class="ext-cal-evi">',
 		            '</tpl>',
 		            '<tpl if="!_renderAsAllDay">',
-		                //'<div id="{_elId}" class="{_selectorCls} {_colorCls} ext-cal-evt ext-cal-evr">',
                         '<div class="{_selectorCls} {_colorCls} ext-cal-evt ext-cal-evr">',
 		            '</tpl>',
 		            body,
@@ -254,7 +251,6 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
         return Ext.applyIf({
 			_selectorCls: selector,
             _colorCls: colorCls + (evt._renderAsAllDay ? '-ad' : ''),
-            //_elId: selector + '-w_' + evt._weekIndex + (recurring ? '-r_' + evt[M.RInstanceId.name] : ''),
             _isRecurring: evt.Recurrence && evt.Recurrence != '',
             _isReminder: evt[M.Reminder.name] && evt[M.Reminder.name] != '',
             Title: (evt[M.IsAllDay.name] ? '' : evt[M.StartDate.name].format('g:ia ')) + (!title || title.length == 0 ? this.defaultEventTitleText : title)

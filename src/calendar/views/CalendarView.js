@@ -1343,6 +1343,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         throw 'This method must be implemented by a subclass';
     },
     
+    // private
     destroy: function(){
         Ext.ensible.cal.CalendarView.superclass.destroy.call(this);
         Ext.destroy(this.editWin, this.eventMenu);

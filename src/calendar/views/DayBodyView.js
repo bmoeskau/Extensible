@@ -221,13 +221,11 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             
             tpl = !(Ext.isIE || Ext.isOpera) ? 
                 new Ext.XTemplate(
-                    //'<div id="{_elId}" class="{_selectorCls} {_colorCls} {values.spanCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                     '<div class="{_selectorCls} {_colorCls} {values.spanCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                         body,
                     '</div>'
                 ) 
                 : new Ext.XTemplate(
-                    //'<div id="{_elId}" class="ext-cal-evt" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                     '<div class="ext-cal-evt" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                     '<div class="{_selectorCls} {values.spanCls} {_colorCls} ext-cal-evo">',
                         '<div class="ext-cal-evm">',
@@ -260,7 +258,6 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             colorCls = 'x-cal-' + rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name];
         }
         data._colorCls = colorCls + (evt._renderAsAllDay ? '-ad' : '');
-        //data._elId = selector + (evt._weekIndex ? '-w_' + evt._weekIndex : '') + (recurring ? '-r_' + evt[M.RInstanceId.name] : '');
         data._isRecurring = evt.Recurrence && evt.Recurrence != '';
         data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] != '';
         var title = evt[M.Title.name];
