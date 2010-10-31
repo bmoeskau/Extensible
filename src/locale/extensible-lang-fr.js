@@ -1,6 +1,6 @@
 /*
  * French (France) locale
- * By devil1591 (Oct-26-2010)
+ * Contributors: devil1591, Alain Deseine, Yannick Torres
  */
 
 Ext.ensible.Date.use24HourTime = true;
@@ -19,7 +19,7 @@ if(Ext.ensible.cal.CalendarView) {
 if(Ext.ensible.cal.MonthView) {
     Ext.apply(Ext.ensible.cal.MonthView.prototype, {
         moreText: '+{0} autres ...',
-        detailsTitleDateFormat: 'F j'
+        detailsTitleDateFormat: 'd F'
     });
 }
 
@@ -30,7 +30,7 @@ if(Ext.ensible.cal.CalendarPanel) {
         weekText: 'Semaine',
         monthText: 'Mois',
         jumpToText: 'Aller au :',
-        goText: 'OK',
+        goText: 'Ok',
         multiDayText: '{0} jours',
         weekText: 'Semaine',
         multiWeekText: '{0} semaines'
@@ -132,45 +132,45 @@ if(Ext.ensible.cal.ReminderField) {
 
 if(Ext.ensible.cal.DateRangeField) {
     Ext.apply(Ext.ensible.cal.DateRangeField.prototype, {
-        dateFormat: 'n/j/Y'
+        dateFormat: 'd/m/Y'
     });
 }
 
 if(Ext.ensible.cal.EventContextMenu) {
     Ext.apply(Ext.ensible.cal.EventContextMenu.prototype, {
-        editDetailsText: 'Edit Details',
-        deleteText: 'Delete',
-        moveToText: 'Move to...'
+        editDetailsText: 'Éditer les détails',
+        deleteText: 'Effacer',
+        moveToText: 'Déplacer au...'
     });
 }
 
 if(Ext.ensible.cal.DropZone) {
     Ext.apply(Ext.ensible.cal.DropZone.prototype, {
         dateRangeFormat: '{0}-{1}',
-        dateFormat: 'n/j'
+        dateFormat: 'd/m'
     });
 }
 
 if(Ext.ensible.cal.DayViewDropZone) {
     Ext.apply(Ext.ensible.cal.DayViewDropZone.prototype, {
         dateRangeFormat: '{0}-{1}',
-        dateFormat : 'n/j'
+        dateFormat : 'd/m'
     });
 }
 
 if(Ext.ensible.cal.BoxLayoutTemplate) {
     Ext.apply(Ext.ensible.cal.BoxLayoutTemplate.prototype, {
-        firstWeekDateFormat: 'D j',
-        otherWeeksDateFormat: 'j',
-        singleDayDateFormat: 'l, F j, Y',
-        multiDayFirstDayFormat: 'M j, Y',
-        multiDayMonthStartFormat: 'M j'
+        firstWeekDateFormat: 'D d',
+        otherWeeksDateFormat: 'd',
+        singleDayDateFormat: 'l d F Y',
+        multiDayFirstDayFormat: 'd M Y',
+        multiDayMonthStartFormat: 'd M'
     });
 }
 
 if(Ext.ensible.cal.MonthViewTemplate) {
     Ext.apply(Ext.ensible.cal.MonthViewTemplate.prototype, {
         dayHeaderFormat: 'D',
-        dayHeaderTitleFormat: 'l, F j, Y'
+        dayHeaderTitleFormat: 'l d F Y'
     });
 }
