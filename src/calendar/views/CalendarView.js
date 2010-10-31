@@ -1351,6 +1351,11 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     // private
     destroy: function(){
         Ext.ensible.cal.CalendarView.superclass.destroy.call(this);
-        Ext.destroy(this.editWin, this.eventMenu);
+        Ext.destroy(
+            this.editWin, 
+            this.eventMenu,
+            this.dragZone,
+            this.dropZone
+        );
     }
 });

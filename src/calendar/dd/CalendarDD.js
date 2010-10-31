@@ -245,11 +245,6 @@ Ext.ensible.cal.DropZone = Ext.extend(Ext.dd.DropZone, {
     onContainerDrop : function(dd, e, data){
         this.onCalendarDragComplete();
         return false;
-    },
-    
-    destroy: function(){
-        Ext.ensible.cal.DropZone.superclass.destroy.call(this);
-        Ext.destroy(this.shimCt);
     }
 });
 
