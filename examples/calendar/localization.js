@@ -26,8 +26,7 @@ Ext.ensible.LocaleSample = function(){
                     'select': {
                         fn: function(cbo, rec, idx){
                             this.calendar.getEl().mask('Loading '+rec.data.desc+'...');
-                            this.currentLocale = rec.data.code; 
-                            this.loadLocale();
+                            this.loadLocale(rec.data.code);
                         },
                         scope: this
                     }
@@ -37,35 +36,27 @@ Ext.ensible.LocaleSample = function(){
             this.renderUI();
         },
         
-        includeExtLocale: function(){
-            var head = document.getElementsByTagName('head')[0],
-                script = document.createElement('script');
-            
-            script.setAttribute('type', 'text/javascript');
-            script.setAttribute('src', 'http://extjs.cachefly.net/ext-3.2.0/src/locale/ext-lang-'+this.currentLocale+'.js');
-            head.appendChild(script);
-        },
-        
-        loadLocale: function(){
-            this.includeExtLocale();
-            
+        doLoad: function(url, successFn){
             Ext.Ajax.request({
-                url: '../../src/locale/extensible-lang-'+this.currentLocale+'.js',
+                url: url,
                 disableCaching: false,
-                success: this.onSuccess,
-                failure: this.onFailure,
+                success: successFn,
+                failure: function(){
+                    Ext.Msg.alert('Failure', 'Failed to load locale file.');
+                    this.renderUI();
+                },
                 scope: this 
             });
         },
         
-        onSuccess: function(response, opts) {
-            eval(response.responseText); // apply the locale overrides
-            this.renderUI();
-        },
-        
-        onFailure: function() {
-            Ext.Msg.alert('Failure', 'Failed to load locale file.');
-            this.renderUI();
+        loadLocale: function(code){
+            this.doLoad('ext-locales/ext-lang-'+code+'.js', function(resp, opts){
+                eval(resp.responseText); // apply the Ext locale overrides
+                this.doLoad('../../src/locale/extensible-lang-'+code+'.js', function(resp, opts){
+                    eval(resp.responseText); // apply the Extensible locale overrides
+                    this.renderUI();
+                });
+            });
         },
         
         renderUI: function() {
@@ -111,7 +102,6 @@ Ext.ensible.LocaleSample = function(){
             if(this.calendar){
                 Ext.destroy(this.calendar);
             }
-
             this.calendar = new Ext.ensible.cal.CalendarPanel({
                 eventStore: eventStore,
                 renderTo: 'cal',

@@ -103,7 +103,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
             anchor: '100%'
         });
         this.dateRangeField = new Ext.ensible.cal.DateRangeField({
-            anchor: '100%',
+            anchor: '95%',
             fieldLabel: this.datesLabelText
         });
         

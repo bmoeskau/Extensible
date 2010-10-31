@@ -9,7 +9,7 @@ if(Ext.ensible.cal.CalendarView) {
     Ext.apply(Ext.ensible.cal.CalendarView.prototype, {
         startDay: 1,
         todayText: 'Aujourd\'hui',
-        defaultEventTitleText: '(No title)',
+        defaultEventTitleText: '(Pas de titre)',
         ddCreateEventText: 'Créer évènement le {0}',
         ddMoveEventText: 'Déplacer évènement le {0}',
         ddResizeEventText: 'Mettre à jour l\'événement au {0}'
@@ -39,7 +39,7 @@ if(Ext.ensible.cal.CalendarPanel) {
 
 if(Ext.ensible.cal.EventEditWindow) {
     Ext.apply(Ext.ensible.cal.EventEditWindow.prototype, {
-        width: 640,
+        width: 650,
         labelWidth: 65,
         titleTextAdd: 'Ajouter évènement',
         titleTextEdit: 'Editer évènement',
