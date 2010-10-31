@@ -125,6 +125,11 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * The default text to display as the title of an event that has a null or empty string title value (defaults to '(No title)')
      */
     defaultEventTitleText: '(No title)',
+    /**
+     * @cfg {String} dateParamFormat
+     * The format to use for date parameters sent with requests to retrieve events for the calendar (defaults to 'm-d-Y', e.g. '10-31-2010')
+     */
+    dateParamFormat: 'm-d-Y',
     
     //private properties -- do not override:
     weekCount: 1,
@@ -830,8 +835,8 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     reloadStore : function(){
         this.store.load({
             params: {
-                start: this.viewStart.format('m-d-Y'),
-                end: this.viewEnd.format('m-d-Y')
+                start: this.viewStart.format(this.dateParamFormat),
+                end: this.viewEnd.format(this.dateParamFormat)
             }
         });
     },

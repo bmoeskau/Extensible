@@ -260,8 +260,9 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         data._colorCls = colorCls + (evt._renderAsAllDay ? '-ad' : '');
         data._isRecurring = evt.Recurrence && evt.Recurrence != '';
         data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] != '';
-        var title = evt[M.Title.name];
-        data.Title = (evt[M.IsAllDay.name] ? '' : evt[M.StartDate.name].format('g:ia ')) + (!title || title.length == 0 ? this.defaultEventTitleText : title);
+        var title = evt[M.Title.name],
+            fmt = Ext.ensible.Date.use24HourTime ? 'G:i ' : 'g:ia ';
+        data.Title = (evt[M.IsAllDay.name] ? '' : evt[M.StartDate.name].format(fmt)) + (!title || title.length == 0 ? this.defaultEventTitleText : title);
         
         return Ext.applyIf(data, evt);
     },

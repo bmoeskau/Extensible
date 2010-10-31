@@ -16,6 +16,12 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
      */
     moreText: '+{0} more...',
     /**
+     * @cfg {String} detailsTitleDateFormat
+     * The date format for the title of the details panel that shows when there are hidden events and the "more" link 
+     * is clicked (defaults to 'F j').
+     */
+    detailsTitleDateFormat: 'F j',
+    /**
      * @cfg {Boolean} showTime
      * True to display the current time in today's box in the calendar, false to not display it (defautls to true)
      */
@@ -167,7 +173,7 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
                         
                     if(t.getDay() == this.prevClockDay){
                         if(el){
-                            el.update(t.format('g:i a'));
+                            el.update(t.format(Ext.ensible.Date.use24HourTime ? 'G:i' : 'g:ia'));
                         }
                     }
                     else{
@@ -241,7 +247,8 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             selector = this.getEventSelectorCls(evt[M.EventId.name]),
             recurring = evt[M.RRule.name] != '',
 		    title = evt[M.Title.name],
-            colorCls = 'x-cal-default';
+            colorCls = 'x-cal-default',
+            fmt = Ext.ensible.Date.use24HourTime ? 'G:i ' : 'g:ia ';
         
         if(this.calendarStore && evt[M.CalendarId.name]){
             var rec = this.calendarStore.getById(evt[M.CalendarId.name]);
@@ -253,7 +260,7 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             _colorCls: colorCls + (evt._renderAsAllDay ? '-ad' : ''),
             _isRecurring: evt.Recurrence && evt.Recurrence != '',
             _isReminder: evt[M.Reminder.name] && evt[M.Reminder.name] != '',
-            Title: (evt[M.IsAllDay.name] ? '' : evt[M.StartDate.name].format('g:ia ')) + (!title || title.length == 0 ? this.defaultEventTitleText : title)
+            Title: (evt[M.IsAllDay.name] ? '' : evt[M.StartDate.name].format(fmt)) + (!title || title.length == 0 ? this.defaultEventTitleText : title)
         }, evt);
     },
     
@@ -376,7 +383,7 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 		if(!this.detailPanel){
 	        this.detailPanel = new Ext.Panel({
 				id: this.id+'-details-panel',
-				title: dt.format('F j'),
+				title: dt.format(this.detailsTitleDateFormat),
 				layout: 'fit',
 				floating: true,
 				renderTo: Ext.getBody(),
@@ -399,7 +406,7 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 			});
 		}
 		else{
-			this.detailPanel.setTitle(dt.format('F j'));
+			this.detailPanel.setTitle(dt.format(this.detailsTitleDateFormat));
 		}
 		this.detailPanel.getComponent(this.id+'-details-view').update(dt);
 	},

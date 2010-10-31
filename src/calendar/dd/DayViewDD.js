@@ -50,9 +50,13 @@ Ext.ensible.cal.DayViewDragZone = Ext.extend(Ext.ensible.cal.DragZone, {
  */
 Ext.ensible.cal.DayViewDropZone = Ext.extend(Ext.ensible.cal.DropZone, {
     ddGroup : 'DayViewDD',
+    dateRangeFormat : '{0}-{1}',
+    dateFormat : 'n/j',
     
     onNodeOver : function(n, dd, e, data){
-        var dt, text = this.createText;
+        var dt, text = this.createText,
+            timeFormat = Ext.ensible.Date.use24HourTime ? 'G:i' : 'g:ia';
+            
         if(data.type == 'caldrag'){
             if(!this.dragStartMarker){
                 // Since the container can scroll, this gets a little tricky.
@@ -86,7 +90,7 @@ Ext.ensible.cal.DayViewDropZone = Ext.extend(Ext.ensible.cal.DropZone, {
             this.dragStartDate = Ext.ensible.Date.min(this.dragCreateDt, curr);
             this.dragEndDate = endDt || Ext.ensible.Date.max(this.dragCreateDt, curr);
                 
-            dt = this.dragStartDate.format('g:ia-') + this.dragEndDate.format('g:ia');
+            dt = String.format(this.dateRangeFormat, this.dragStartDate.format(timeFormat), this.dragEndDate.format(timeFormat));
         }
         else{
             var evtEl = Ext.get(data.ddel),
@@ -103,7 +107,7 @@ Ext.ensible.cal.DayViewDropZone = Ext.extend(Ext.ensible.cal.DropZone, {
                 else{
                     box.y = n.timeBox.y;
                 }
-                dt = n.date.format('n/j g:ia');
+                dt = n.date.format(this.dateFormat + ' ' + timeFormat);
                 box.x = n.el.getLeft();
                 
                 this.shim(n.date, box);
@@ -131,7 +135,7 @@ Ext.ensible.cal.DayViewDropZone = Ext.extend(Ext.ensible.cal.DropZone, {
                     StartDate: start,
                     EndDate: end
                 }
-                dt = start.format('g:ia-') + end.format('g:ia');
+                dt = String.format(this.dateRangeFormat, start.format(timeFormat), end.format(timeFormat));
                 text = this.resizeText;
             }
         }

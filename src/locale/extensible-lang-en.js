@@ -3,15 +3,23 @@
  * By Extensible, LLC
  */
 
+Ext.ensible.Date.use24HourTime = false;
+
 if(Ext.ensible.cal.CalendarView) {
     Ext.apply(Ext.ensible.cal.CalendarView.prototype, {
         startDay: 0,
         todayText: 'Today',
-        moreText: '+{0} more...',
         defaultEventTitleText: '(No title)',
         ddCreateEventText: 'Create event for {0}',
         ddMoveEventText: 'Move event to {0}',
         ddResizeEventText: 'Update event to {0}'
+    });
+}
+
+if(Ext.ensible.cal.MonthView) {
+    Ext.apply(Ext.ensible.cal.MonthView.prototype, {
+        moreText: '+{0} more...',
+        detailsTitleDateFormat: 'F j'
     });
 }
 
@@ -50,6 +58,7 @@ if(Ext.ensible.cal.EventEditWindow) {
 if(Ext.ensible.cal.EventEditForm) {
     Ext.apply(Ext.ensible.cal.EventEditForm.prototype, {
         labelWidth: 65,
+        labelWidthRightCol: 65,
         title: 'Event Form',
         titleTextAdd: 'Add Event',
         titleTextEdit: 'Edit Event',
@@ -121,10 +130,47 @@ if(Ext.ensible.cal.ReminderField) {
     });
 }
 
+if(Ext.ensible.cal.DateRangeField) {
+    Ext.apply(Ext.ensible.cal.DateRangeField.prototype, {
+        dateFormat: 'n/j/Y'
+    });
+}
+
 if(Ext.ensible.cal.EventContextMenu) {
     Ext.apply(Ext.ensible.cal.EventContextMenu.prototype, {
         editDetailsText: 'Edit Details',
         deleteText: 'Delete',
         moveToText: 'Move to...'
+    });
+}
+
+if(Ext.ensible.cal.DropZone) {
+    Ext.apply(Ext.ensible.cal.DropZone.prototype, {
+        dateRangeFormat: '{0}-{1}',
+        dateFormat: 'n/j'
+    });
+}
+
+if(Ext.ensible.cal.DayViewDropZone) {
+    Ext.apply(Ext.ensible.cal.DayViewDropZone.prototype, {
+        dateRangeFormat: '{0}-{1}',
+        dateFormat : 'n/j'
+    });
+}
+
+if(Ext.ensible.cal.BoxLayoutTemplate) {
+    Ext.apply(Ext.ensible.cal.BoxLayoutTemplate.prototype, {
+        firstWeekDateFormat: 'D j',
+        otherWeeksDateFormat: 'j',
+        singleDayDateFormat: 'l, F j, Y',
+        multiDayFirstDayFormat: 'M j, Y',
+        multiDayMonthStartFormat: 'M j'
+    });
+}
+
+if(Ext.ensible.cal.MonthViewTemplate) {
+    Ext.apply(Ext.ensible.cal.MonthViewTemplate.prototype, {
+        dayHeaderFormat: 'D',
+        dayHeaderTitleFormat: 'l, F j, Y'
     });
 }

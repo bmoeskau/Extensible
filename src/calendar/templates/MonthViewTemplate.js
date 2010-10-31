@@ -26,7 +26,7 @@ Ext.ensible.cal.MonthViewTemplate = function(config){
 		            '<tbody>',
                         '<tr>',
                             '<tpl for="days">',
-		                        '<th class="ext-cal-hd-day{[xindex==1 ? " ext-cal-day-first" : ""]}" title="{.:date("l, F j, Y")}">{.:date("D")}</th>',
+		                        '<th class="ext-cal-hd-day{[xindex==1 ? " ext-cal-day-first" : ""]}" title="{title}">{name}</th>',
 		                    '</tpl>',
                         '</tr>',
 		            '</tbody>',
@@ -38,6 +38,9 @@ Ext.ensible.cal.MonthViewTemplate = function(config){
 };
 
 Ext.extend(Ext.ensible.cal.MonthViewTemplate, Ext.XTemplate, {
+    dayHeaderFormat: 'D',
+    dayHeaderTitleFormat: 'l, F j, Y',
+    
     // private
     applyTemplate : function(o){
         var days = [],
@@ -45,7 +48,11 @@ Ext.extend(Ext.ensible.cal.MonthViewTemplate, Ext.XTemplate, {
             dt = o.viewStart;
         
         for(var i = 0; i < 7; i++){
-            days.push(dt.add(Date.DAY, i));
+            var d = dt.add(Date.DAY, i);
+            days.push({
+                name: d.format(this.dayHeaderFormat),
+                title: d.format(this.dayHeaderTitleFormat)
+            });
         }
         
         var extraClasses = this.showHeader === true ? '' : 'ext-cal-noheader';
@@ -56,7 +63,7 @@ Ext.extend(Ext.ensible.cal.MonthViewTemplate, Ext.XTemplate, {
         return Ext.ensible.cal.MonthViewTemplate.superclass.applyTemplate.call(this, {
             days: days,
             weeks: weeks,
-            extraClasses: extraClasses 
+            extraClasses: extraClasses
         });
     }
 });

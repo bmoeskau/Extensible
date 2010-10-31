@@ -32,13 +32,18 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
      * the field's container is narrower than this value it will automatically be rendered on two lines.
      */
     singleLineMinWidth: 490,
+    /**
+     * @cfg {String} dateFormat
+     * The date display format used by the date fields (defaults to 'n/j/Y') 
+     */
+    dateFormat: 'n/j/Y',
     
     // private
     onRender: function(ct, position){
         if(!this.el){
             this.startDate = new Ext.form.DateField({
                 id: this.id+'-start-date',
-                format: 'n/j/Y',
+                format: this.dateFormat,
                 width:100,
                 listeners: {
                     'change': {
@@ -81,7 +86,7 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
             })
             this.endDate = new Ext.form.DateField({
                 id: this.id+'-end-date',
-                format: 'n/j/Y',
+                format: this.dateFormat,
                 hideLabel:true,
                 width:100,
                 listeners: {

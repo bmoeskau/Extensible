@@ -92,6 +92,8 @@ Ext.ensible.cal.DragZone = Ext.extend(Ext.dd.DragZone, {
 Ext.ensible.cal.DropZone = Ext.extend(Ext.dd.DropZone, {
     ddGroup : 'CalendarDD',
     eventSelector : '.ext-cal-evt',
+    dateRangeFormat : '{0}-{1}',
+    dateFormat : 'n/j',
     
     // private
     shims : [],
@@ -115,9 +117,11 @@ Ext.ensible.cal.DropZone = Ext.extend(Ext.dd.DropZone, {
             this.dragEndDate = end.clearTime().add(Date.DAY, 1).add(Date.MILLI, -1);
             this.shim(start, end);
             
-            var range = start.format('n/j');
+            var range = start.format(this.dateFormat);
+                
             if(D.diffDays(start, end) > 0){
-                range += '-'+end.format('n/j');
+                end = end.format(this.dateFormat);
+                range = String.format(this.dateRangeFormat, range, end);
             }
             var msg = String.format(data.type == 'eventdrag' ? this.moveText : this.createText, range);
             data.proxy.updateMsg(msg);

@@ -23,6 +23,9 @@
  */
 Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
     labelWidth: 65,
+    labelWidthRightCol: 65,
+    colWidthLeft: .6,
+    colWidthRight: .4,
     title: 'Event Form',
     titleTextAdd: 'Add Event',
     titleTextEdit: 'Edit Event',
@@ -104,7 +107,7 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
             }
         });
         this.reminderField = new Ext.ensible.cal.ReminderField({
-            name: 'Reminder',
+            name: Ext.ensible.cal.EventMappings.Reminder.name,
             fieldLabel: this.reminderLabelText
         });
         this.notesField = new Ext.form.TextArea({
@@ -148,14 +151,15 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         
         this.items = [{
             id: this.id+'-left-col',
-            columnWidth: .65,
+            columnWidth: this.colWidthLeft,
             layout: 'form',
             border: false,
             items: leftFields
         },{
             id: this.id+'-right-col',
-            columnWidth: .35,
+            columnWidth: this.colWidthRight,
             layout: 'form',
+            labelWidth: this.labelWidthRightCol || this.labelWidth,
             border: false,
             items: rightFields
         }];

@@ -64,9 +64,12 @@ Ext.extend(Ext.ensible.cal.DayBodyTemplate, Ext.XTemplate, {
             days[i] = dt.add(Date.DAY, i);
         }
 
-        var times = [], dt = new Date().clearTime();
+        var times = [], 
+            dt = new Date().clearTime(),
+            fmt = Ext.ensible.Date.use24HourTime ? 'G:i' : 'ga';
+        
         for(i=0; i<24; i++){
-            times.push(dt.format('ga'));
+            times.push(dt.format(fmt));
             dt = dt.add(Date.HOUR, 1);
         }
         

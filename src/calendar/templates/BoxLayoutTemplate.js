@@ -49,6 +49,37 @@ Ext.ensible.cal.BoxLayoutTemplate = function(config){
 };
 
 Ext.extend(Ext.ensible.cal.BoxLayoutTemplate, Ext.XTemplate, {
+    /**
+     * @cfg {String} firstWeekDateFormat
+     * The date format used for the day boxes in the first week of the view only (subsequent weeks
+     * use the {@link #otherWeeksDateFormat} config). Defaults to 'D j'. Note that if the day names header is displayed
+     * above the first row (e.g., {@link Ext.ensible.cal.MonthView#showHeader MonthView.showHeader} = true)
+     * then this value is ignored and {@link #otherWeeksDateFormat} will be used instead.
+     */
+    firstWeekDateFormat: 'D j',
+    /**
+     * @cfg {String} otherWeeksDateFormat
+     * The date format used for the date in day boxes (other than the first week, which is controlled by
+     * {@link #firstWeekDateFormat}). Defaults to 'j'.
+     */
+    otherWeeksDateFormat: 'j',
+    /**
+     * @cfg {String} singleDayDateFormat
+     * The date format used for the date in the header when in single-day view (defaults to 'l, F j, Y').
+     */
+    singleDayDateFormat: 'l, F j, Y',
+    /**
+     * @cfg {String} multiDayFirstDayFormat
+     * The date format used for the date in the header when more than one day are visible (defaults to 'M j, Y').
+     */
+    multiDayFirstDayFormat: 'M j, Y',
+    /**
+     * @cfg {String} multiDayMonthStartFormat
+     * The date format to use for the first day in a month when more than one day are visible (defaults to 'M j').
+     * Note that if this day falls on the first day within the view, {@link #multiDayFirstDayFormat} takes precedence.
+     */
+    multiDayMonthStartFormat: 'M j',
+    
     // private
     applyTemplate : function(o){
         
@@ -84,11 +115,12 @@ Ext.extend(Ext.ensible.cal.BoxLayoutTemplate, Ext.XTemplate, {
                         title = this.getTodayText();
                     }
                     else{
-                        title = dt.format(this.dayCount == 1 ? 'l, F j, Y' : (first ? 'M j, Y' : 'M j'));
+                        title = dt.format(this.dayCount == 1 ? this.singleDayDateFormat : 
+                                (first ? this.multiDayFirstDayFormat : this.multiDayMonthStartFormat));
                     }
                 }
                 else{
-                    var dayFmt = (w == 0 && this.showHeader !== true) ? 'D j' : 'j';
+                    var dayFmt = (w == 0 && this.showHeader !== true) ? this.firstWeekDateFormat : this.otherWeeksDateFormat;
                     title = isToday ? this.getTodayText() : dt.format(dayFmt);
                 }
                 
@@ -116,16 +148,16 @@ Ext.extend(Ext.ensible.cal.BoxLayoutTemplate, Ext.XTemplate, {
     
     // private
     getTodayText : function(){
-        var dt = new Date().format('l, F j, Y'),
+        var timeFmt = Ext.ensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
             todayText = this.showTodayText !== false ? this.todayText : '',
             timeText = this.showTime !== false ? ' <span id="'+this.id+'-clock" class="ext-cal-dtitle-time">' + 
-                    new Date().format('g:i a') + '</span>' : '',
+                    new Date().format(timeFmt) + '</span>' : '',
             separator = todayText.length > 0 || timeText.length > 0 ? ' &#8212; ' : ''; // &#8212; == &mdash;
         
         if(this.dayCount == 1){
-            return dt + separator + todayText + timeText;
+            return new Date().format(this.singleDayDateFormat) + separator + todayText + timeText;
         }
-        fmt = this.weekCount == 1 ? 'D j' : 'j';
+        fmt = this.weekCount == 1 ? this.firstWeekDateFormat : this.otherWeeksFormat;
         return todayText.length > 0 ? todayText + timeText : new Date().format(fmt) + timeText;
     }
 });
