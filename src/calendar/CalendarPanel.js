@@ -13,6 +13,13 @@
  */
 Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     /**
+     * @cfg {Number} activeItem
+     * The 0-based index within the available views to set as the default active view (defaults to null). If not 
+     * specified the default view will be set as the last one added to the panel. You can retrieve a reference to the
+     * active {@link Ext.ensible.cal.CalendarView view} at any time using the {@link #activeView} property.
+     */
+    activeItem: null,
+    /**
      * @cfg {Boolean} enableRecurrence
      * True to show the recurrence field, false to hide it (default). Note that recurrence requires
      * something on the server-side that can parse the iCal RRULE format in order to generate the
@@ -150,6 +157,12 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     /**
      * @cfg {Object} monthViewCfg
      * 
+     */
+    
+    /**
+     * A reference to the {@link Ext.ensible.cal.CalendarView view} that is currently active.
+     * @type {Ext.ensible.cal.CalendarView}
+     * @property activeView
      */
     
     // private
