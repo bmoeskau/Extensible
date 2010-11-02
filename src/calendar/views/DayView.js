@@ -15,21 +15,18 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      * @cfg {String} todayText
      * The text to display in the current day's box in the calendar when {@link #showTodayText} is true (defaults to 'Today')
      */
-    
     /**
      * @cfg {String} ddCreateEventText
      * The text to display inside the drag proxy while dragging over the calendar to create a new event (defaults to 
      * 'Create event for {0}' where {0} is a date range supplied by the view)
      */
     ddCreateEventText: Ext.ensible.cal.CalendarView.prototype.ddCreateEventText,
-    
     /**
      * @cfg {String} ddMoveEventText
      * The text to display inside the drag proxy while dragging an event to reposition it (defaults to 
      * 'Move event to {0}' where {0} is the updated event start date/time supplied by the view)
      */
     ddMoveEventText: Ext.ensible.cal.CalendarView.prototype.ddMoveEventText,
-    
     /**
      * @cfg {Boolean} showTime
      * True to display the current time in today's box in the calendar, false to not display it (defautls to true)
@@ -45,6 +42,12 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      * The number of days to display in the view (defaults to 1). Only values from 1 to 7 are allowed.
      */
     dayCount: 1,
+    /**
+     * @cfg {Boolena} enableEventResize
+     * True to allow events in the view's scrolling area to be updated by a resize handle at the 
+     * bottom of the event, false to disallow it (defaults to true).
+     */
+    enableEventResize: true,
     
     // private
     initComponent : function(){
@@ -65,6 +68,7 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
         
         var body = Ext.applyIf({
             xtype: 'extensible.daybodyview',
+            enableEventResize: this.enableEventResize,
             id: this.id+'-bd'
         }, cfg);
         

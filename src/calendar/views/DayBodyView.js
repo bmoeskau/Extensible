@@ -9,6 +9,12 @@
  * @param {Object} config The config object
  */
 Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
+    /**
+     * @cfg {Boolena} enableEventResize
+     * True to allow events to be updated by a resize handle at the bottom of the event, false to disallow it (defaults to true).
+     */
+    enableEventResize: true,
+    
     //private
     dayColumnElIdDelimiter: '-day-col-',
     
@@ -184,7 +190,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
                 new Ext.XTemplate(
                     '<div id="{_elId}" class="{_selectorCls} {_colorCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                         '<div class="ext-evt-bd">', this.getEventBodyMarkup(), '</div>',
-                        '<div class="ext-evt-rsz"><div class="ext-evt-rsz-h">&#160;</div></div>',
+                        this.enableEventResize ? '<div class="ext-evt-rsz"><div class="ext-evt-rsz-h">&#160;</div></div>' : '',
                     '</div>'
                 )
                 : new Ext.XTemplate(
@@ -194,7 +200,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
                             '<dd class="ext-evt-bd">',
                                 this.getEventBodyMarkup(),
                             '</dd>',
-                            '<div class="ext-evt-rsz"><div class="ext-evt-rsz-h">&#160;</div></div>',
+                            this.enableEventResize ? '<div class="ext-evt-rsz"><div class="ext-evt-rsz-h">&#160;</div></div>' : '',
                         '</dl>',
                         '<div class="ext-cal-evb">&#160;</div>',
                     '</div>'
