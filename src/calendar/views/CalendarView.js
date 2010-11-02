@@ -327,6 +327,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         this.renderTemplate();
         
         if(this.store){
+            this.saveRequired = !this.store.autoSave;
             this.setStore(this.store, true);
         }
         if(this.calendarStore){
@@ -1131,22 +1132,31 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         this.getEventEditor().show(rec, animateTarget, this);
     },
     
+    save: function(){
+        if(this.saveRequired){
+            this.store.save();
+        }
+    },
+    
     // private
     onEventAdd: function(form, rec){
         rec.data[Ext.ensible.cal.EventMappings.IsNew.name] = false;
         this.store.add(rec);
+        this.save();
         this.fireEvent('eventadd', this, rec);
     },
     
     // private
     onEventUpdate: function(form, rec){
         rec.commit();
+        this.save();
         this.fireEvent('eventupdate', this, rec);
     },
     
     // private
     onEventDelete: function(form, rec){
         this.store.remove(rec);
+        this.save();
         this.fireEvent('eventdelete', this, rec);
     },
     
@@ -1217,6 +1227,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             rec.set(Ext.ensible.cal.EventMappings.EndDate.name, rec.data[Ext.ensible.cal.EventMappings.EndDate.name].add(Date.MILLI, diff));
             rec.endEdit();
             rec.commit();
+            this.save();
             
             this.fireEvent('eventmove', this, rec);
         }
@@ -1236,6 +1247,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     deleteEvent: function(rec, el){
         if(this.fireEvent('beforeeventdelete', this, rec, el) !== false){
             this.store.remove(rec);
+            this.save();
             this.fireEvent('eventdelete', this, rec, el);
         }
     },

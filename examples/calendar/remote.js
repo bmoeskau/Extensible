@@ -33,7 +33,6 @@ Ext.onReady(function(){
         proxy: proxy,
         reader: reader,
         writer: writer,
-        autoSave: true,
         autoLoad: true
     });
     
