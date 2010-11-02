@@ -1212,10 +1212,12 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         }
         if(this.fireEvent('beforeeventmove', this, rec) !== false){
             var diff = dt.getTime() - rec.data[Ext.ensible.cal.EventMappings.StartDate.name].getTime();
+            rec.beginEdit();
             rec.set(Ext.ensible.cal.EventMappings.StartDate.name, dt);
             rec.set(Ext.ensible.cal.EventMappings.EndDate.name, rec.data[Ext.ensible.cal.EventMappings.EndDate.name].add(Date.MILLI, diff));
+            rec.endEdit();
+            rec.commit();
             
-            this.onEventUpdate(null, rec);
             this.fireEvent('eventmove', this, rec);
         }
     },
