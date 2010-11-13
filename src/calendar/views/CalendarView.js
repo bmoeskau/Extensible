@@ -1143,7 +1143,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     },
     
     onSave: function(store, batch, data){
-        console.dir(data);
+        //console.dir(data);
     },
     
     // private
