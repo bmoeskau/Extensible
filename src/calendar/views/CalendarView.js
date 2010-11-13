@@ -857,7 +857,9 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             case -1: // auto by month
                 start = start.getFirstDateOfMonth();
                 offset = start.getDay() - this.startDay;
-                    
+                if(offset < 0){
+                    offset += 7;
+                }
                 this.viewStart = start.add(Date.DAY, -offset).clearTime(true);
                 
                 // start from current month start, not view start:
@@ -1015,6 +1017,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             this.store.un("remove", this.onRemove, this);
             this.store.un("update", this.onUpdate, this);
             this.store.un("clear", this.refresh, this);
+            this.store.un("save", this.onSave, this);
         }
         if(store){
             store.on("datachanged", this.onDataChanged, this);
@@ -1022,6 +1025,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             store.on("remove", this.onRemove, this);
             store.on("update", this.onUpdate, this);
             store.on("clear", this.refresh, this);
+            store.on("save", this.onSave, this);
         }
         this.store = store;
     },
@@ -1136,6 +1140,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         if(this.saveRequired){
             this.store.save();
         }
+    },
+    
+    onSave: function(store, batch, data){
+        console.dir(data);
     },
     
     // private
