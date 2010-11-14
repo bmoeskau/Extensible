@@ -47,6 +47,7 @@ Ext.ensible.cal.DayHeaderView = Ext.extend(Ext.ensible.cal.MonthView, {
     
     // private
     refresh : function(reloadData){
+        Ext.ensible.log('refresh (DayHeaderView)');
         Ext.ensible.cal.DayHeaderView.superclass.refresh.call(this, reloadData);
         this.recalcHeaderBox();
     },

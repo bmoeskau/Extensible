@@ -266,6 +266,7 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
     
     // private
 	refresh : function(reloadData){
+        Ext.ensible.log('refresh (MonthView)');
 		if(this.detailPanel){
 			this.detailPanel.hide();
 		}

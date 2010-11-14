@@ -5,7 +5,7 @@
  */
 (function(){
     
-    Ext.ns('Ext.ensible.ux','Ext.ensible.cal');
+    Ext.ns('Ext.ensible.ux', 'Ext.ensible.plugins', 'Ext.ensible.cal');
     
     Ext.apply(Ext.ensible, {
         /**
@@ -25,6 +25,10 @@
         },
         
         hasBorderRadius : !(Ext.isIE || Ext.isOpera),
+        
+        log : function(s){
+            //console.log(s);
+        },
     
        /**
         * @class Ext.ensible.cal.Date

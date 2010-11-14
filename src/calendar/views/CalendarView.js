@@ -164,7 +164,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     // private
     initComponent : function(){
         this.setStartDate(this.startDate || new Date());
-
+        
         Ext.ensible.cal.CalendarView.superclass.initComponent.call(this);
 		
         this.addEvents({
@@ -329,6 +329,14 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         if(this.store){
             this.saveRequired = !this.store.autoSave;
             this.setStore(this.store, true);
+            
+            if(this.store.deferLoad){
+                this.reloadStore(this.store.deferLoad);
+                delete this.store.deferLoad;
+            }
+            else {
+                this.store.initialParams = this.getStoreParams();
+            }
         }
         if(this.calendarStore){
             this.setCalendarStore(this.calendarStore, true);
@@ -357,6 +365,22 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         this.forceSize.defer(100, this);
     },
     
+    getStoreParams : function(){
+        return {
+            start: this.viewStart.format(this.dateParamFormat),
+            end: this.viewEnd.format(this.dateParamFormat)
+        };
+    },
+    
+    reloadStore : function(o){
+        Ext.ensible.log('reloadStore');
+        o = Ext.isObject(o) ? o : {};
+        o.params = o.params || {};
+        
+        Ext.apply(o.params, this.getStoreParams());
+        this.store.load(o);
+    },
+    
     // private
     forceSize: function(){
         if(this.el && this.el.child){
@@ -373,6 +397,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     },
 
     refresh : function(reloadData){
+        Ext.ensible.log('refresh (base), reload = '+reloadData);
         if(reloadData){
             this.reloadStore();
         }
@@ -577,6 +602,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	
     // private
     onUpdate : function(ds, rec, operation){
+        Ext.ensible.log('onUpdate');
 		if(this.monitorStoreEvents === false) {
 			return;
 		}
@@ -596,6 +622,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	
     // private
     onAdd : function(ds, records, index){
+        Ext.ensible.log('onAdd');
 		if(this.monitorStoreEvents === false) {
 			return;
 		}
@@ -616,6 +643,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	
     // private
     onRemove : function(ds, rec){
+        Ext.ensible.log('onRemove');
 		if(this.monitorStoreEvents === false) {
 			return;
 		}
@@ -740,6 +768,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 
     // private
     onDataChanged : function(store){
+        Ext.ensible.log('onDataChanged');
         this.refresh();
     },
     
@@ -820,6 +849,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * @param {Date} dt The date used to calculate the new view boundaries
      */
     setStartDate : function(start, refresh){
+        Ext.ensible.log('setStartDate (base)');
         if(this.fireEvent('beforedatechange', this, this.startDate, start, this.viewStart, this.viewEnd) !== false){
             this.startDate = start.clearTime();
             this.setViewBounds(start);
@@ -831,15 +861,6 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             }
             this.fireEvent('datechange', this, this.startDate, this.viewStart, this.viewEnd);
         }
-    },
-    
-    reloadStore : function(){
-        this.store.load({
-            params: {
-                start: this.viewStart.format(this.dateParamFormat),
-                end: this.viewEnd.format(this.dateParamFormat)
-            }
-        });
     },
     
     // private
@@ -1143,6 +1164,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     },
     
     onSave: function(store, batch, data){
+        Ext.ensible.log('onSave');
         //console.dir(data);
     },
     

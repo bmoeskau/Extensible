@@ -82,6 +82,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     
     //private
     refresh : function(reloadData){
+        Ext.ensible.log('refresh (DayBodyView)');
         var top = this.el.getScroll().top;
         
         Ext.ensible.cal.DayBodyView.superclass.refresh.call(this, reloadData);

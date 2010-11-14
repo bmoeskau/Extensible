@@ -42,6 +42,9 @@
             "text": "DayViewDD.js",
             "path": "src/calendar/dd/"
         },{
+            "text": "EventStore.js",
+            "path": "src/calendar/"
+        },{
             "text": "EventRecord.js",
             "path": "src/calendar/"
         },{

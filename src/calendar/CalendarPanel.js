@@ -692,6 +692,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      * @return {Ext.ensible.cal.CalendarPanel} this
      */
     setStartDate: function(dt){
+        Ext.ensible.log('setStartDate (CalendarPanel');
         this.startDate = dt;
         this.layout.activeItem.setStartDate(dt, true);
         this.updateNavState();

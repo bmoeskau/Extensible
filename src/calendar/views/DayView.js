@@ -89,6 +89,7 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
     
     // private
     refresh : function(reloadData){
+        Ext.ensible.log('refresh (DayView)');
         this.header.refresh(reloadData);
         this.body.refresh();
     },
