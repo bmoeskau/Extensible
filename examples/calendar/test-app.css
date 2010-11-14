@@ -1,3 +1,7 @@
+h1 span {
+    font-size: 50%;
+    color: #9F2727;
+}
 #app-header {
     text-align: center;
     font-family: arial;

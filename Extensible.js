@@ -8,8 +8,21 @@
     Ext.ns('Ext.ensible.ux','Ext.ensible.cal');
     
     Ext.apply(Ext.ensible, {
-    
-        version : '1.0-alpha-1',
+        /**
+         * The version of the framework
+         * @type String
+         */
+        version : '1.0-beta-1',
+        /**
+         * The version of the framework, broken out into its numeric parts. This returns an
+         * object that contains the following integer properties: major, minor and patch.
+         * @type Object
+         */
+        versionDetails : {
+            major: 1,
+            minor: 0,
+            patch: 0
+        },
         
         hasBorderRadius : !(Ext.isIE || Ext.isOpera),
     
@@ -25,7 +38,7 @@
              * of calendar days (ignoring time) between two dates use {@link Ext.ensible.Date.diffDays diffDays} instead.
              * @param {Date} start The start date
              * @param {Date} end The end date
-             * @param {String} unit The time unit to return. Valid values are 'ms' (milliseconds, the default), 's' (seconds),
+             * @param {String} unit (optional) The time unit to return. Valid values are 'ms' (milliseconds, the default), 's' (seconds),
              * 'm' (minutes) or 'h' (hours).
              * @return {Number} The time difference between the dates in the units specified by the unit param
              */
