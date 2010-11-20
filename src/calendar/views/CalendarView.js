@@ -130,7 +130,12 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * The format to use for date parameters sent with requests to retrieve events for the calendar (defaults to 'm-d-Y', e.g. '10-31-2010')
      */
     dateParamFormat: 'm-d-Y',
-    
+	/**
+	 * @cfg {Integer} incrementsPerHour
+	 * the number of time increments to show per hour.  2 = thirty minute increments, 6 = ten minute increments
+	 */
+	incrementsPerHour: 2,
+
     //private properties -- do not override:
     weekCount: 1,
     dayCount: 1,
