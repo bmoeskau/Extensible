@@ -566,7 +566,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	
     // private
 	onResize : function(){
-		this.refresh();
+		this.refresh(false);
 	},
 	
     // private
@@ -602,11 +602,11 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	
     // private
     onUpdate : function(ds, rec, operation){
-        Ext.ensible.log('onUpdate');
-		if(this.monitorStoreEvents === false) {
-			return;
-		}
+        if(this.hidden === true || this.monitorStoreEvents === false){
+            return;
+        }
         if(operation == Ext.data.Record.COMMIT){
+            Ext.ensible.log('onUpdate');
             this.refresh(rec.data[Ext.ensible.cal.EventMappings.RRule.name] != '');
 			if(this.enableFx && this.enableUpdateFx){
 				this.doUpdateFx(this.getEventEls(rec.data[Ext.ensible.cal.EventMappings.EventId.name]), {
@@ -622,10 +622,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	
     // private
     onAdd : function(ds, records, index){
+        if(this.hidden === true || this.monitorStoreEvents === false){
+            return;
+        }
         Ext.ensible.log('onAdd');
-		if(this.monitorStoreEvents === false) {
-			return;
-		}
 		var rec = records[0];
 		this.tempEventId = rec.id;
 		this.refresh(rec.data[Ext.ensible.cal.EventMappings.RRule.name] != '');
@@ -643,10 +643,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	
     // private
     onRemove : function(ds, rec){
+        if(this.hidden === true || this.monitorStoreEvents === false){
+            return;
+        }
         Ext.ensible.log('onRemove');
-		if(this.monitorStoreEvents === false) {
-			return;
-		}
         var isRecurring = rec.data[Ext.ensible.cal.EventMappings.RRule.name] != '';
         
 		if(this.enableFx && this.enableRemoveFx){
@@ -854,10 +854,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             this.startDate = start.clearTime();
             this.setViewBounds(start);
             if(this.rendered){
-                this.reloadStore();
-                if(refresh === true){
+//                this.reloadStore();
+//                if(refresh === true){
                     this.refresh();
-                }
+//                }
             }
             this.fireEvent('datechange', this, this.startDate, this.viewStart, this.viewEnd);
         }
@@ -968,7 +968,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         if(Ext.isDate(dt)){
             this.setStartDate(dt);
             if(noRefresh!==false){
-                this.refresh();
+                //this.refresh();
             }
             return this.startDate;
         }

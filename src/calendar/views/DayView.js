@@ -113,6 +113,15 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
         this.forceSize();
     },
     
+    /*
+     * We have to "relay" this Component method so that the hidden
+     * state will be properly reflected when the views' active state changes
+     */
+    doHide: function(){
+        this.header.doHide.apply(this, arguments);
+        this.body.doHide.apply(this, arguments);
+    },
+    
     // private
     getViewBounds : function(){
         return this.header.getViewBounds();
@@ -135,7 +144,7 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      */
     setStartDate: function(dt){
         this.header.setStartDate(dt, true);
-        this.body.setStartDate(dt, true);
+        this.body.setStartDate(dt, false);
     },
 
     // private
