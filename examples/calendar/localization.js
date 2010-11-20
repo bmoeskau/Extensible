@@ -7,7 +7,8 @@ Ext.ensible.LocaleSample = function(){
                 fields: ['code', 'desc'],
                 data : [
                     ['en', 'English (US)'],
-                    ['fr', 'French (France)']
+                    ['fr', 'French (France)'],
+                    ['ro', 'Romanian']
                 ]
             });
             
