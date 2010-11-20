@@ -40,7 +40,7 @@ cp $EXTENSIBLE_ROOT/*.textile $EXTENSIBLE_OUTPUT/$VER/
 # Docs
 if [ "$docs" = "1" ]; then
 	echo Generating docs...
-	java -jar ext-doc.jar -p extensible.xml -o $EXTENSIBLE_OUTPUT/$VER/docs -t template/ext/template.xml -verbose
+	java -jar ext-doc.jar -p extensible.xml -o $EXTENSIBLE_OUTPUT/$VER/docs -t template/ext/template.xml
 fi
 
 echo All done!
