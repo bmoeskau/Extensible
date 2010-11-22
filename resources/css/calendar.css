@@ -468,6 +468,7 @@ td.ext-cal-dtitle-today div {
     border: 1px solid;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px
+    border-radius: 3px;
 }
 .ext-cal-evdm dt {
     margin-top: 0
@@ -482,7 +483,7 @@ td.ext-cal-dtitle-today div {
 .ext-cal-evb {
     height: 1px;
     overflow: hidden;
-    margin: 0 1px;
+    margin: 0 2px;
     border-top-width: 1px;
     border-top-style: solid;
 }
