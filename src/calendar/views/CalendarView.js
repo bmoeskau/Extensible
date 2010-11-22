@@ -753,7 +753,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	 * boundary will contain more than one internal Element.
 	 */
 	getEventEls : function(eventId){
-		var els = Ext.select(this.getEventSelectorCls(this.getEventId(eventId), true), false, this.el.id);
+		var els = this.el.select(this.getEventSelectorCls(this.getEventId(eventId), true), false);
 		return new Ext.CompositeElement(els);
 	},
     
