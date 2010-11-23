@@ -879,6 +879,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
                 start = start.getFirstDateOfMonth();
                 offset = start.getDay() - this.startDay;
                 if(offset < 0){
+                    // if the offset is negative then some days will be in the previous week so add a week to the offset
                     offset += 7;
                 }
                 this.viewStart = start.add(Date.DAY, -offset).clearTime(true);
@@ -886,7 +887,12 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
                 // start from current month start, not view start:
                 var end = start.add(Date.MONTH, 1).add(Date.SECOND, -1);
                 // fill out to the end of the week:
-                this.viewEnd = end.add(Date.DAY, 6-end.getDay()); 
+                offset = this.startDay;
+                if(offset > end.getDay()){
+                    // if the offset is larger than the end day index then the last row will be empty so skip it
+                    offset -= 7;
+                }
+                this.viewEnd = end.add(Date.DAY, 6-end.getDay()+offset);
                 return;
             
             default:
