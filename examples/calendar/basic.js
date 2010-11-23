@@ -72,7 +72,9 @@ Ext.onReady(function(){
         // Ext.Panel configs:
         frame: true,
         collapsible: true,
-        bbar: [{text: 'A Button'}],
+        bbar: [{text: 'A Button', handler: function(){
+            Ext.Msg.alert('Button', 'I work!');
+        }}],
         
         listeners: {
             'eventclick': {
