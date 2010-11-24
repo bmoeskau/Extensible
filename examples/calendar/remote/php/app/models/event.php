@@ -3,6 +3,30 @@
  * @class Event
  */
 class Event extends Model {
+    static function range($start, $end) {
+        global $dbh;
+        $found = array();
+        $startTime = strtotime($start);
+        // add a day to the range end to include event times on that day
+        $endTime = new DateTime($end);
+        $endTime->modify('+1 day');
+        $endTime = strtotime($endTime->format('Y-m-d H:i:s'));
+        
+        foreach ($dbh->rs() as $rec) {
+            //var_dump($rec);
+            $recStart = strtotime($rec['start']);
+            $recEnd = strtotime($rec['end']);
+            
+            $startsInRange = ($recStart >= $startTime && $recStart <= $endTime);
+            $endsInRange = ($recEnd >= $startTime && $recEnd <= $endTime);
+            $spansRange = ($recStart < $startTime && $recEnd > $endTime);
+            
+            if ($startsInRange || $endsInRange || $spansRange) {
+                array_push($found, $rec);
+            }
+        }
+        return $found;
+    }
 //    static function all() {
 //        global $dbh;
 //        $rs = array();

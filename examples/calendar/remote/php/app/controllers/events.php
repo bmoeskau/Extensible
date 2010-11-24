@@ -12,7 +12,14 @@ class Events extends ApplicationController {
 		$res = new Response();
 		$res->success = true;
 		$res->message = "Loaded data";
-		$res->data = Event::all();
+		//var_dump($this->request);
+        if (isset($_REQUEST['start'])) {
+            $this->startDate = $_REQUEST['start'];
+            $this->endDate = $_REQUEST['end'];
+            $res->data = Event::range($this->startDate, $this->endDate);
+        } else {
+        	$res->data = Event::all();
+        }
 		return $res->to_json();
 	}
 	/**
