@@ -127,9 +127,9 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     defaultEventTitleText: '(No title)',
     /**
      * @cfg {String} dateParamFormat
-     * The format to use for date parameters sent with requests to retrieve events for the calendar (defaults to 'm-d-Y', e.g. '10-31-2010')
+     * The format to use for date parameters sent with requests to retrieve events for the calendar (defaults to 'Y-m-d', e.g. '2010-10-31')
      */
-    dateParamFormat: 'm-d-Y',
+    dateParamFormat: 'Y-m-d',
     
     //private properties -- do not override:
     weekCount: 1,
