@@ -708,7 +708,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     
     // private
     onTodayClick: function(){
-        this.startDate = this.layout.activeItem.moveToday();
+        this.startDate = this.layout.activeItem.moveToday(true);
         this.updateNavState();
         this.fireViewChange();
     },
@@ -717,7 +717,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     onJumpClick: function(){
         var dt = Ext.getCmp(this.id+'-tb-jump-dt').getValue();
         if(dt !== ''){
-            this.startDate = this.layout.activeItem.moveTo(dt);
+            this.startDate = this.layout.activeItem.moveTo(dt, true);
             this.updateNavState();
             // TODO: check that view actually changed:
             this.fireViewChange();
@@ -726,14 +726,14 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     
     // private
     onPrevClick: function(){
-        this.startDate = this.layout.activeItem.movePrev();
+        this.startDate = this.layout.activeItem.movePrev(true);
         this.updateNavState();
         this.fireViewChange();
     },
     
     // private
     onNextClick: function(){
-        this.startDate = this.layout.activeItem.moveNext();
+        this.startDate = this.layout.activeItem.moveNext(true);
         this.updateNavState();
         this.fireViewChange();
     },

@@ -362,12 +362,12 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
     
     // inherited docs
     moveNext : function(){
-        return this.moveMonths(1);
+        return this.moveMonths(1, true);
     },
     
     // inherited docs
     movePrev : function(){
-        return this.moveMonths(-1);
+        return this.moveMonths(-1, true);
     },
     
     // private

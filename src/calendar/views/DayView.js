@@ -88,9 +88,9 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
     },
     
     // private
-    refresh : function(reloadData){
+    refresh : function(){
         Ext.ensible.log('refresh (DayView)');
-        this.header.refresh(reloadData);
+        this.header.refresh();
         this.body.refresh();
     },
     
@@ -144,7 +144,7 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      */
     setStartDate: function(dt){
         this.header.setStartDate(dt, true);
-        this.body.setStartDate(dt, false);
+        this.body.setStartDate(dt);
     },
 
     // private
@@ -166,18 +166,18 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      * @param {Date} dt The date to display
      * @return {Date} The new date
      */
-    moveTo : function(dt, noRefresh){
-        this.header.moveTo(dt, noRefresh);
-        return this.body.moveTo(dt, noRefresh);
+    moveTo : function(dt){
+        this.header.moveTo(dt);
+        return this.body.moveTo(dt, true);
     },
     
     /**
      * Updates the view to the next consecutive date(s)
      * @return {Date} The new date
      */
-    moveNext : function(noRefresh){
-        this.header.moveNext(noRefresh);
-        return this.body.moveNext(noRefresh);
+    moveNext : function(){
+        this.header.moveNext();
+        return this.body.moveNext(true);
     },
     
     /**
@@ -185,8 +185,8 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      * @return {Date} The new date
      */
     movePrev : function(noRefresh){
-        this.header.movePrev(noRefresh);
-        return this.body.movePrev(noRefresh);
+        this.header.movePrev();
+        return this.body.movePrev(true);
     },
 
     /**
@@ -194,18 +194,18 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      * @param {Number} value The number of days (positive or negative) by which to shift the view
      * @return {Date} The new date
      */
-    moveDays : function(value, noRefresh){
-        this.header.moveDays(value, noRefresh);
-        return this.body.moveDays(value, noRefresh);
+    moveDays : function(value){
+        this.header.moveDays(value);
+        return this.body.moveDays(value, true);
     },
     
     /**
      * Updates the view to show today
      * @return {Date} Today's date
      */
-    moveToday : function(noRefresh){
-        this.header.moveToday(noRefresh);
-        return this.body.moveToday(noRefresh);
+    moveToday : function(){
+        this.header.moveToday();
+        return this.body.moveToday(true);
     }
 });
 

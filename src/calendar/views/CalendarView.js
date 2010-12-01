@@ -626,9 +626,13 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             return;
         }
         Ext.ensible.log('onAdd');
-		var rec = records[0];
+		var rec = records[0],
+            rrule = rec.data[Ext.ensible.cal.EventMappings.RRule.name];
+            
 		this.tempEventId = rec.id;
-		this.refresh(rec.data[Ext.ensible.cal.EventMappings.RRule.name] != '');
+        // if the new event has a recurrence rule we have to reload the store in case
+        // new event instances were generated on the server
+		this.refresh(rrule !== undefined && rrule !== '');
 		
 		if(this.enableFx && this.enableAddFx){
 			this.doAddFx(this.getEventEls(rec.data[Ext.ensible.cal.EventMappings.EventId.name]), {
@@ -647,7 +651,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             return;
         }
         Ext.ensible.log('onRemove');
-        var isRecurring = rec.data[Ext.ensible.cal.EventMappings.RRule.name] != '';
+        var rrule = rec.data[Ext.ensible.cal.EventMappings.RRule.name],
+            // if the new event has a recurrence rule we have to reload the store in case
+            // new event instances were generated on the server
+            isRecurring = rrule !== undefined && rrule !== '';
         
 		if(this.enableFx && this.enableRemoveFx){
 			this.doRemoveFx(this.getEventEls(rec.data[Ext.ensible.cal.EventMappings.EventId.name]), {
@@ -787,13 +794,9 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         var start = this.viewStart.getTime(),
             end = this.viewEnd.getTime(),
             evStart = data[M.StartDate.name].getTime(),
-            evEnd = data[M.EndDate.name].add(Date.SECOND, -1).getTime(),
+            evEnd = data[M.EndDate.name].add(Date.SECOND, -1).getTime();
             
-            startsInRange = (evStart >= start && evStart <= end),
-            endsInRange = (evEnd >= start && evEnd <= end),
-            spansRange = (evStart < start && evEnd > end);
-        
-        return (startsInRange || endsInRange || spansRange);
+        return Ext.ensible.Date.rangesOverlap(start, end, evStart, evEnd);
     },
     
     // private
@@ -814,12 +817,14 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
                 end2 = start2;
             }
             
-            var ev1startsInEv2 = (start1 >= start2 && start1 <= end2),
-            ev1EndsInEv2 = (end1 >= start2 && end1 <= end2),
-            ev1SpansEv2 = (start1 < start2 && end1 > end2),
-            ev1MinHeightOverlapsEv2 = (startDiff > -30 && startDiff < 30);
+//            var ev1startsInEv2 = (start1 >= start2 && start1 <= end2),
+//            ev1EndsInEv2 = (end1 >= start2 && end1 <= end2),
+//            ev1SpansEv2 = (start1 < start2 && end1 > end2),
+            var evtsOverlap = Ext.ensible.Date.rangesOverlap(start1, end1, start2, end2),
+                ev1MinHeightOverlapsEv2 = (startDiff > -30 && startDiff < 30);
         
-        return (ev1startsInEv2 || ev1EndsInEv2 || ev1SpansEv2 || ev1MinHeightOverlapsEv2);
+        //return (ev1startsInEv2 || ev1EndsInEv2 || ev1SpansEv2 || ev1MinHeightOverlapsEv2);
+        return (evtsOverlap || ev1MinHeightOverlapsEv2);
     },
     
     getDayEl : function(dt){
@@ -848,16 +853,16 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * earliest and latest dates that match the view requirements and contain the date passed to this function.
      * @param {Date} dt The date used to calculate the new view boundaries
      */
-    setStartDate : function(start, refresh){
-        Ext.ensible.log('setStartDate (base)');
+    setStartDate : function(start, /*private*/reload){
+        Ext.ensible.log('setStartDate (base) '+start.format('Y-m-d'));
         if(this.fireEvent('beforedatechange', this, this.startDate, start, this.viewStart, this.viewEnd) !== false){
             this.startDate = start.clearTime();
             this.setViewBounds(start);
             if(this.rendered){
-//                this.reloadStore();
-//                if(refresh === true){
-                    this.refresh();
-//                }
+                if(reload === true){
+                    this.reloadStore();
+                }
+                this.refresh();
             }
             this.fireEvent('datechange', this, this.startDate, this.viewStart, this.viewEnd);
         }
@@ -970,12 +975,9 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * Updates the view to contain the passed date
      * @param {Date} dt The date to display
      */
-    moveTo : function(dt, noRefresh){
+    moveTo : function(dt, /*private*/reload){
         if(Ext.isDate(dt)){
-            this.setStartDate(dt);
-            if(noRefresh!==false){
-                //this.refresh();
-            }
+            this.setStartDate(dt, reload);
             return this.startDate;
         }
         return dt;
@@ -985,17 +987,17 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * Updates the view to the next consecutive date(s)
      * @return {Date} The new date
      */
-    moveNext : function(noRefresh){
-        return this.moveTo(this.viewEnd.add(Date.DAY, 1));
+    moveNext : function(/*private*/reload){
+        return this.moveTo(this.viewEnd.add(Date.DAY, 1), reload);
     },
 
     /**
      * Updates the view to the previous consecutive date(s)
      * @return {Date} The new date
      */
-    movePrev : function(noRefresh){
+    movePrev : function(/*private*/reload){
         var days = Ext.ensible.Date.diffDays(this.viewStart, this.viewEnd)+1;
-        return this.moveDays(-days, noRefresh);
+        return this.moveDays(-days, reload);
     },
     
     /**
@@ -1003,8 +1005,8 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * @param {Number} value The number of months (positive or negative) by which to shift the view
      * @return {Date} The new date
      */
-    moveMonths : function(value, noRefresh){
-        return this.moveTo(this.startDate.add(Date.MONTH, value), noRefresh);
+    moveMonths : function(value, /*private*/reload){
+        return this.moveTo(this.startDate.add(Date.MONTH, value), reload);
     },
     
     /**
@@ -1012,8 +1014,8 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * @param {Number} value The number of weeks (positive or negative) by which to shift the view
      * @return {Date} The new date
      */
-    moveWeeks : function(value, noRefresh){
-        return this.moveTo(this.startDate.add(Date.DAY, value*7), noRefresh);
+    moveWeeks : function(value, /*private*/reload){
+        return this.moveTo(this.startDate.add(Date.DAY, value*7), reload);
     },
     
     /**
@@ -1021,16 +1023,16 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * @param {Number} value The number of days (positive or negative) by which to shift the view
      * @return {Date} The new date
      */
-    moveDays : function(value, noRefresh){
-        return this.moveTo(this.startDate.add(Date.DAY, value), noRefresh);
+    moveDays : function(value, /*private*/reload){
+        return this.moveTo(this.startDate.add(Date.DAY, value), reload);
     },
     
     /**
      * Updates the view to show today
      * @return {Date} Today's date
      */
-    moveToday : function(noRefresh){
-        return this.moveTo(new Date(), noRefresh);
+    moveToday : function(/*private*/reload){
+        return this.moveTo(new Date(), reload);
     },
     
     /**

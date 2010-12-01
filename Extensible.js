@@ -147,7 +147,28 @@
              */
 			min : function(){
 	            return this.maxOrMin.apply(this, [false, arguments]);
-	        }
+	        },
+            
+            isInRange : function(dt, rangeStart, rangeEnd) {
+                return  (dt >= rangeStart && dt <= rangeEnd);
+            },
+            
+            /**
+             * Returns true if two date ranges overlap (either one starts or ends within the other, or one completely
+             * overlaps the start and end of the other), else false if they do not.
+             * @param {Date} start1 The start date of range 1
+             * @param {Date} end1   The end date of range 1
+             * @param {Date} start2 The start date of range 2
+             * @param {Date} end2   The end date of range 2
+             * @return {Booelan} True if the ranges overlap, else false
+             */
+            rangesOverlap : function(start1, end1, start2, end2){
+                var startsInRange = (start1 >= start2 && start1 <= end2),
+                    endsInRange = (end1 >= start2 && end1 <= end2),
+                    spansRange = (start1 < start2 && end1 > end2);
+                
+                return (startsInRange || endsInRange || spansRange);
+            }
 	    }
     });
 })();

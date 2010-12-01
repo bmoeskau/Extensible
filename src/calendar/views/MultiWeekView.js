@@ -15,12 +15,12 @@ Ext.ensible.cal.MultiWeekView = Ext.extend(Ext.ensible.cal.MonthView, {
     
     // inherited docs
     moveNext : function(){
-        return this.moveWeeks(this.weekCount);
+        return this.moveWeeks(this.weekCount, true);
     },
     
     // inherited docs
     movePrev : function(){
-        return this.moveWeeks(-this.weekCount);
+        return this.moveWeeks(-this.weekCount, true);
     }
 });
 

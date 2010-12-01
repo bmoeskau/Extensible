@@ -1,5 +1,5 @@
 
-Ext.ensible.cal.EventStore = Ext.extend(Ext.data.Store, {    
+Ext.ensible.cal.EventStore = Ext.extend(Ext.data.Store, {
     constructor: function(config){
         // By default autoLoad will cause the store to load itself during the
         // constructor, before the owning calendar view has a chance to set up
@@ -9,12 +9,18 @@ Ext.ensible.cal.EventStore = Ext.extend(Ext.data.Store, {
         this.deferLoad = config.autoLoad;
         config.autoLoad = false;
         
+        //this._dateCache = [];
+        
         Ext.ensible.cal.EventStore.superclass.constructor.apply(this, arguments);
     },
     
     load : function(o){
         Ext.ensible.log('store load');
         
+        // if params are passed delete the one-time defaults
+        if(o.params){
+            delete this.initialParams;
+        }
         // this.initialParams will only be set if the store is being loaded manually
         // for the first time (autoLoad = false) so the owning calendar view set
         // the initial start and end date params to use. Every load after that will
@@ -28,6 +34,25 @@ Ext.ensible.cal.EventStore = Ext.extend(Ext.data.Store, {
         
         Ext.ensible.cal.EventStore.superclass.load.call(this, o);
     }
+    
+//    execute : function(action, rs, options, /* private */ batch) {
+//        if(action=='read'){
+//            var i = 0, 
+//                dc = this._dateCache, 
+//                len = dc.length,
+//                range,
+//                p = options.params,
+//                start = p.start,
+//                end = p.end;
+//                
+//            //options.add = true;
+//            for(i; i<len; i++){
+//                range = dc[i];
+//                
+//            }
+//        }
+//        Ext.ensible.cal.EventStore.superclass.execute.apply(this, arguments);
+//    }
 });
 
 Ext.reg('extensible.eventstore', Ext.ensible.cal.EventStore);

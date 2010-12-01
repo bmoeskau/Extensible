@@ -71,13 +71,13 @@ Ext.ensible.cal.DayHeaderView = Ext.extend(Ext.ensible.cal.MonthView, {
     },
     
     // private
-    moveNext : function(noRefresh){
-        this.moveDays(this.dayCount, noRefresh);
+    moveNext : function(){
+        this.moveDays(this.dayCount);
     },
 
     // private
-    movePrev : function(noRefresh){
-        this.moveDays(-this.dayCount, noRefresh);
+    movePrev : function(){
+        this.moveDays(-this.dayCount);
     },
     
     // private
