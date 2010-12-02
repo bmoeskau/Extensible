@@ -157,7 +157,7 @@ Ext.extend(Ext.ensible.cal.BoxLayoutTemplate, Ext.XTemplate, {
         if(this.dayCount == 1){
             return new Date().format(this.singleDayDateFormat) + separator + todayText + timeText;
         }
-        fmt = this.weekCount == 1 ? this.firstWeekDateFormat : this.otherWeeksFormat;
+        fmt = this.weekCount == 1 ? this.firstWeekDateFormat : this.otherWeeksDateFormat;
         return todayText.length > 0 ? todayText + timeText : new Date().format(fmt) + timeText;
     }
 });
