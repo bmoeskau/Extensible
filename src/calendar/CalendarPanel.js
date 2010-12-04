@@ -132,6 +132,13 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      * Text to use for the 'Month' nav bar button.
      */
     monthText: 'Month',
+    /**
+     * @cfg {Boolean} editModal
+     * True to show the default event editor window modally over the entire page, false to allow user interaction with the page
+     * while showing the window (the default). Note that if you replace the default editor window with some alternate component this
+     * config will no longer apply. 
+     */
+    editModal: false,
     
     /**
      * @cfg {Object} viewConfig
@@ -447,7 +454,8 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             readOnly: this.readOnly,
             enableRecurrence: this.enableRecurrence,
             store: this.store || this.eventStore,
-            calendarStore: this.calendarStore
+            calendarStore: this.calendarStore,
+            editModal: this.editModal
         };
         
         if(this.showDayView){

@@ -130,6 +130,13 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * The format to use for date parameters sent with requests to retrieve events for the calendar (defaults to 'Y-m-d', e.g. '2010-10-31')
      */
     dateParamFormat: 'Y-m-d',
+    /**
+     * @cfg {Boolean} editModal
+     * True to show the default event editor window modally over the entire page, false to allow user interaction with the page
+     * while showing the window (the default). Note that if you replace the default editor window with some alternate component this
+     * config will no longer apply. 
+     */
+    editModal: false,
     
     //private properties -- do not override:
     weekCount: 1,
@@ -1108,6 +1115,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             this.editWin = new Ext.ensible.cal.EventEditWindow({
                 id: 'ext-cal-editwin',
                 calendarStore: this.calendarStore,
+                modal: this.editModal,
                 listeners: {
                     'eventadd': {
                         fn: function(win, rec, animTarget){
