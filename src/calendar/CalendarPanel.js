@@ -677,6 +677,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
                 viewEnd: vb.end
             }
         }
+        view.dismissEventEditor();
         this.fireEvent('viewchange', this, view, info);
     },
     

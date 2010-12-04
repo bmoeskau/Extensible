@@ -444,9 +444,6 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             // The superclass handled the click already so exit
             return;
         }
-		if(this.dropZone){
-			this.dropZone.clearShims();
-		}
         if(el = e.getTarget(this.weekLinkSelector, 3)){
             var dt = el.id.split(this.weekLinkIdDelimiter)[1];
             this.fireEvent('weekclick', this, Date.parseDate(dt, 'Ymd'));

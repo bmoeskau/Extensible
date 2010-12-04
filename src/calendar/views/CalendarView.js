@@ -1168,9 +1168,27 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * @param {Ext.Element/HTMLNode} animateTarget The reference element that is being edited. By default this is
      * used as the target for animating the editor window opening and closing. If this method is being overridden to
      * supply a custom editor this parameter can be ignored if it does not apply.
+     * @return {Ext.ensible.cal.CalendarView} this
      */
     showEventEditor : function(rec, animateTarget){
         this.getEventEditor().show(rec, animateTarget, this);
+        return this;
+    },
+    
+    /**
+     * Dismiss the currently configured event editor view (by default the shared instance of 
+     * {@link Ext.ensible.cal.EventEditWindow EventEditWindow}, which will be hidden).
+     * @param {String} dismissMethod (optional) The method name to call on the editor that will dismiss it 
+     * (defaults to 'hide' which will be called on the default editor window)
+     * @return {Ext.ensible.cal.CalendarView} this
+     */
+    dismissEventEditor : function(dismissMethod){
+        // grab the manager's ref so that we dismiss it properly even if the active view has changed
+        var editWin = Ext.WindowMgr.get('ext-cal-editwin');
+        if(editWin){
+            editWin[dismissMethod ? dismissMethod : 'hide']();
+        }
+        return this;
     },
     
     save: function(){
@@ -1303,7 +1321,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         var el, match = false;
         
         if(el = e.getTarget(this.eventSelector, 5, true)){
-            this.showEventMenu(el, e.getXY());
+            this.dismissEventEditor().showEventMenu(el, e.getXY());
             match = true;
         }
         
@@ -1318,6 +1336,9 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * can handle the click (and so the subclass should ignore it) else false.
      */
     onClick : function(e, t){
+        if(this.dropZone){
+            this.dropZone.clearShims();
+        }
         if(this.menuActive === true){
             // ignore the first click if a context menu is active (let it close)
             this.menuActive = false;
