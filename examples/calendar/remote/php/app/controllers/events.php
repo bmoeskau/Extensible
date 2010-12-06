@@ -36,10 +36,17 @@ class Events extends ApplicationController {
 			$res->success = true;
 			$res->message = "Created " . count($res->data) . ' records';
 		} else {
-			if ($rec =  Event::create($this->params)) {
-				$res->success = true;
+			if ($rec = Event::create($this->params)) {
 				$res->data = $rec->to_hash();
-				$res->message = "Created record";
+				
+				// SIMULATE ERROR:  All records with title = "ERROR" will fail
+                if ($rec->attributes["title"] == "ERROR") {
+					$res->success = false;
+					$res->message = "SIMULATED ERROR: The record could not be created.";
+                } else {
+                    $res->success = true;
+                    $res->message = "Created record";
+                }
 			} else {
 				$res->success = false;
 				$res->message = "Failed to create record";
@@ -67,10 +74,10 @@ class Events extends ApplicationController {
 			if ($rec = Event::update($this->params->id, $this->params)) {
 				$res->data = $rec->to_hash();
 
-				// SIMULATE ERROR:  All records having odd-numbered ID have error.
-				if ($rec->id % 2) {
+				// SIMULATE ERROR:  All records with title = "ERROR" will fail
+				if ($rec->attributes["title"] == "ERROR") {
 					$res->success = false;
-					$res->message = "SIMULATED ERROR:  Lorem ipsum dolor sit amet, placerat consectetuer, nec lacus imperdiet velit dui interdum vestibulum, sagittis lectus morbi, urna aliquet minus natoque commodo egestas non, libero libero arcu sed sed.";
+					$res->message = "SIMULATED ERROR: The record could not be saved.";
 				} else {
 					$res->success = true;
 					$res->message = "Updated record";
@@ -101,8 +108,14 @@ class Events extends ApplicationController {
 			$res->message = 'Destroyed ' . count($destroyed) . ' records';
 		} else {
 			if ($rec = Event::destroy($this->id)) {
-				$res->message = "Destroyed event";
-				$res->success = true;
+                // SIMULATE ERROR:  All records with title = "DEL ERROR" will fail
+                if ($rec->attributes["title"] == "DEL ERROR") {
+                    $res->success = false;
+                    $res->message = "SIMULATED ERROR: The record could not be deleted.";
+                } else {
+                    $res->success = true;
+                    $res->message = "Destroyed record";
+                }
 			} else {
 				$res->message = "Failed to Destroy event";
 			}
