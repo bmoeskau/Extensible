@@ -230,7 +230,7 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      */
     dismissEventEditor : function(dismissMethod){
         return Ext.ensible.cal.CalendarView.prototype.dismissEventEditor.apply(this, arguments);
-    },
+    }
 });
 
 Ext.reg('extensible.dayview', Ext.ensible.cal.DayView);
