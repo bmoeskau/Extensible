@@ -440,8 +440,9 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
         if(this.detailPanel){
             this.detailPanel.hide();
         }
-        if(Ext.ensible.cal.MonthView.superclass.onClick.apply(this, arguments)){
-            // The superclass handled the click already so exit
+        if(el = e.getTarget(this.moreSelector, 3)){
+            var dt = el.id.split(this.moreElIdDelimiter)[1];
+            this.onMoreClick(Date.parseDate(dt, 'Ymd'));
             return;
         }
         if(el = e.getTarget(this.weekLinkSelector, 3)){
@@ -449,11 +450,10 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             this.fireEvent('weekclick', this, Date.parseDate(dt, 'Ymd'));
             return;
         }
-		if(el = e.getTarget(this.moreSelector, 3)){
-			var dt = el.id.split(this.moreElIdDelimiter)[1];
-			this.onMoreClick(Date.parseDate(dt, 'Ymd'));
-			return;
-		}
+        if(Ext.ensible.cal.MonthView.superclass.onClick.apply(this, arguments)){
+            // The superclass handled the click already so exit
+            return;
+        }
         if(el = e.getTarget('td', 3)){
             if(el.id && el.id.indexOf(this.dayElIdDelimiter) > -1){
                 var parts = el.id.split(this.dayElIdDelimiter),

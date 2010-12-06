@@ -59,7 +59,8 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
         cfg.showTodayText = this.showTodayText;
         cfg.todayText = this.todayText;
         cfg.dayCount = this.dayCount;
-        cfg.weekCount = 1; 
+        cfg.weekCount = 1;
+        cfg.readOnly = this.readOnly;
         
         var header = Ext.applyIf({
             xtype: 'extensible.dayheaderview',

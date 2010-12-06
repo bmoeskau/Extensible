@@ -323,6 +323,10 @@
 .ext-cal-dtitle {
     cursor: pointer;
 }
+.ext-cal-readonly .ext-cal-day,
+.ext-cal-readonly .ext-cal-dtitle {
+    cursor: default;
+} 
 .ext-day-over {
     background: #D1EAEF !important;
 }

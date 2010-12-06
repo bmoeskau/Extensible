@@ -119,6 +119,7 @@
                         },
                         
                         // Some optional CalendarPanel configs to experiment with:
+                        readOnly: true,
                         //showDayView: false,
                         //showMultiDayView: true,
                         //showWeekView: false,

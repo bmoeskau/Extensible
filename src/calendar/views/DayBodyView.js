@@ -12,6 +12,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     /**
      * @cfg {Boolena} enableEventResize
      * True to allow events to be updated by a resize handle at the bottom of the event, false to disallow it (defaults to true).
+     * If {@link #readOnly} is true event resizing will be disabled automatically.
      */
     enableEventResize: true,
     
@@ -21,6 +22,10 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     //private
     initComponent : function(){
         Ext.ensible.cal.DayBodyView.superclass.initComponent.call(this);
+        
+        if(this.readOnly === true){
+            this.enableEventResize = false;
+        }
         
         this.addEvents({
             /**

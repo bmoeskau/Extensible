@@ -173,6 +173,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         this.setStartDate(this.startDate || new Date());
         
         Ext.ensible.cal.CalendarView.superclass.initComponent.call(this);
+        
+        if(this.readOnly === true){
+            this.addClass('ext-cal-readonly');
+        }
 		
         this.addEvents({
             /**
@@ -364,7 +368,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 		
 		this.el.unselectable();
         
-        if(this.enableDD && this.initDD){
+        if(this.enableDD && this.readOnly !== true && this.initDD){
 			this.initDD();
         }
         
@@ -1231,6 +1235,9 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     
     // private -- called from subclasses
     onDayClick: function(dt, ad, el){
+        if(this.readOnly === true){
+            return;
+        }
         if(this.fireEvent('dayclick', this, dt, ad, el) !== false){
             this.showEventEditor({
                 StartDate: dt,
@@ -1336,6 +1343,9 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * can handle the click (and so the subclass should ignore it) else false.
      */
     onClick : function(e, t){
+        if(this.readOnly === true){
+            return true;
+        }
         if(this.dropZone){
             this.dropZone.clearShims();
         }
