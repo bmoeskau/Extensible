@@ -38,6 +38,15 @@
         */
 	    Date : {
             /**
+             * Determines whether times used throughout all Extensible components should be displayed as
+             * 12 hour times with am/pm (default) or 24 hour / military format. Note that some locale files
+             * may override this value by default.
+             * @type Boolean
+             * @property use24HourTime
+             */
+            use24HourTime : false,
+            
+            /**
              * Returns the time duration between two dates in the specified units. For finding the number
              * of calendar days (ignoring time) between two dates use {@link Ext.ensible.Date.diffDays diffDays} instead.
              * @param {Date} start The start date
