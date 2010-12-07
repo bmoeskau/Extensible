@@ -887,7 +887,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         switch(this.weekCount){
             case 0:
             case 1:
-                this.viewStart = this.dayCount < 7 ? start : start.add(Date.DAY, -offset).clearTime(true);
+                this.viewStart = this.dayCount < 7 && !this.startDayIsStatic ? start : start.add(Date.DAY, -offset).clearTime(true);
                 this.viewEnd = this.viewStart.add(Date.DAY, this.dayCount || 7).add(Date.SECOND, -1);
                 return;
             
