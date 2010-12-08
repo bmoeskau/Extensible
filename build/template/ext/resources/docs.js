@@ -139,8 +139,8 @@ MainPanel = function(){
             title: 'API Home',
             autoLoad: {url: 'welcome.html', callback: this.initSearch, scope: this},
             iconCls:'icon-docs',
-            autoScroll: true,
-			tbar: [
+            autoScroll: true
+			/*tbar: [
 				'Search: ', ' ',
                 new Ext.ux.SelectBox({
                     listClass:'x-combo-list-small',
@@ -159,7 +159,7 @@ MainPanel = function(){
 					store: this.searchStore,
 					paramName: 'q'
 	            })
-            ]
+            ]*/
         }
     });
 };
