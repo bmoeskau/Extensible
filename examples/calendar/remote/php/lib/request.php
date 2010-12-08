@@ -24,9 +24,11 @@ class Request {
             fclose($httpContent);
             $params = array();
             parse_str($raw, $params);
+            
+            $this->fail = $params['fail'];
 
             if (isset($params['data'])) {
-                $this->params =  json_decode(stripslashes($params['data']));
+                $this->params = json_decode(stripslashes($params['data']));
             } else {
                 $params = json_decode(stripslashes($raw));
                 $this->params = $params->data;
@@ -34,9 +36,10 @@ class Request {
         } else {
             // grab JSON data if there...
             $this->params = (isset($_REQUEST['data'])) ? json_decode(stripslashes($_REQUEST['data'])) : null;
-
+            
             if (isset($_REQUEST['data'])) {
-                $this->params =  json_decode(stripslashes($_REQUEST['data']));
+                $this->params = json_decode(stripslashes($_REQUEST['data']));
+                $this->fail = $_REQUEST['fail'];
             } else {
                 $raw  = '';
                 $httpContent = fopen('php://input', 'r');
@@ -45,8 +48,15 @@ class Request {
                 }
                 $params = json_decode(stripslashes($raw));
                 $this->params = $params->data;
+                
+                if($this->method == 'DELETE'){
+                	$this->fail = (strpos($params, 'fail=') !== false);
+                } else {
+                	$this->fail = $params->fail;
+                }
             }
         }
+        
         // Quickndirty PATH_INFO parser
         //var_dump($_SERVER["PATH_INFO"]);
         if (isset($_SERVER["PATH_INFO"])){

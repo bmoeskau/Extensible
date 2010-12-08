@@ -11,6 +11,11 @@ Ext.onReady(function(){
             create:  apiRoot+'create',
             update:  apiRoot+'update',
             destroy: apiRoot+'destroy'
+        },
+        listeners: {
+            exception: function(proxy, type, action, o, res, arg){
+                //Ext.Msg.alert('Error', res.message);
+            }
         }
     });
     
@@ -34,6 +39,11 @@ Ext.onReady(function(){
         proxy: proxy,
         reader: reader,
         writer: writer,
+        
+        // force an error response to test handling. this param is only implemented
+        // in the back end code for this sample -- it's not default behavior.
+        //baseParams: { fail: true },
+        
         // the view will automatically set start / end date params for you. You can
         // also pass a valid config object as specified by Ext.data.Store.load()
         // and the start / end params will be appended to it.

@@ -30,9 +30,6 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
     bodyStyle: 'padding:5px 10px;',
     
     // private
-	newId: 10000,
-	
-    // private
     initComponent: function(){
         this.addEvents({
             /**
@@ -169,11 +166,11 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
 
         if(o.data){
             rec = o;
-			this.isAdd = !!rec.data[Ext.ensible.cal.EventMappings.IsNew.name];
-			if(this.isAdd){
+			//this.isAdd = !!rec.data[Ext.ensible.cal.EventMappings.IsNew.name];
+			if(rec.phantom){
 				// Enable adding the default record that was passed in
 				// if it's new even if the user makes no changes 
-				rec.markDirty();
+				//rec.markDirty();
 				this.setTitle(this.titleTextAdd);
 			}
 			else{
@@ -183,7 +180,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
             f.loadRecord(rec);
         }
         else{
-			this.isAdd = true;
+			//this.isAdd = true;
             this.setTitle(this.titleTextAdd);
 
             var M = Ext.ensible.cal.EventMappings,
@@ -191,7 +188,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
                 end = o[M.EndDate.name] || start.add('h', 1);
                 
             rec = new Ext.ensible.cal.EventRecord();
-            rec.data[M.EventId.name] = this.newId++;
+            //rec.data[M.EventId.name] = this.newId++;
             rec.data[M.StartDate.name] = start;
             rec.data[M.EndDate.name] = end;
             rec.data[M.IsAllDay.name] = !!o[M.IsAllDay.name] || start.getDate() != end.clone().add(Date.MILLI, 1).getDate();
@@ -265,7 +262,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
 			return;
 		}
 		
-		this.fireEvent(this.isAdd ? 'eventadd' : 'eventupdate', this, this.activeRecord, this.animateTarget);
+		this.fireEvent(this.activeRecord.phantom ? 'eventadd' : 'eventupdate', this, this.activeRecord, this.animateTarget);
     },
     
     // private

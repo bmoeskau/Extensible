@@ -247,6 +247,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
              * returning false from a handler will cancel the move operation.
              * @param {Ext.ensible.cal.CalendarView} this
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that will be moved
+             * @param {Date} dt The new start date to be set (the end date will be automaticaly adjusted to match the event duration)
              */
             beforeeventmove: true,
             /**
@@ -618,6 +619,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         }
         if(operation == Ext.data.Record.COMMIT){
             Ext.ensible.log('onUpdate');
+            this.dismissEventEditor();
             this.refresh(rec.data[Ext.ensible.cal.EventMappings.RRule.name] != '');
 			if(this.enableFx && this.enableUpdateFx){
 				this.doUpdateFx(this.getEventEls(rec.data[Ext.ensible.cal.EventMappings.EventId.name]), {
@@ -633,13 +635,20 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	
     // private
     onAdd : function(ds, records, index){
-        if(this.hidden === true || this.monitorStoreEvents === false){
+        if(this.hidden === true || this.monitorStoreEvents === false || records[0].phantom){
             return;
         }
+        if(records[0]._deleting){
+            delete records[0]._deleting;
+            return;
+        }
+        
         Ext.ensible.log('onAdd');
+        
 		var rec = records[0],
             rrule = rec.data[Ext.ensible.cal.EventMappings.RRule.name];
-            
+        
+        this.dismissEventEditor();    
 		this.tempEventId = rec.id;
         // if the new event has a recurrence rule we have to reload the store in case
         // new event instances were generated on the server
@@ -661,7 +670,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         if(this.hidden === true || this.monitorStoreEvents === false){
             return;
         }
+        
         Ext.ensible.log('onRemove');
+        this.dismissEventEditor();
+        
         var rrule = rec.data[Ext.ensible.cal.EventMappings.RRule.name],
             // if the new event has a recurrence rule we have to reload the store in case
             // new event instances were generated on the server
@@ -1051,13 +1063,16 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * @param {Ext.data.Store} store
      */
     setStore : function(store, initial){
-        if(!initial && this.store){
-            this.store.un("datachanged", this.onDataChanged, this);
-            this.store.un("add", this.onAdd, this);
-            this.store.un("remove", this.onRemove, this);
-            this.store.un("update", this.onUpdate, this);
-            this.store.un("clear", this.refresh, this);
-            this.store.un("save", this.onSave, this);
+        var currStore = this.store;
+        
+        if(!initial && currStore){
+            currStore.un("datachanged", this.onDataChanged, this);
+            currStore.un("add", this.onAdd, this);
+            currStore.un("remove", this.onRemove, this);
+            currStore.un("update", this.onUpdate, this);
+            currStore.un("clear", this.refresh, this);
+            currStore.un("save", this.onSave, this);
+            currStore.un("exception", this.onException, this);
         }
         if(store){
             store.on("datachanged", this.onDataChanged, this);
@@ -1066,8 +1081,16 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             store.on("update", this.onUpdate, this);
             store.on("clear", this.refresh, this);
             store.on("save", this.onSave, this);
+            store.on("exception", this.onException, this);
         }
         this.store = store;
+    },
+    
+    onException : function(proxy, type, action, o, res, arg){
+        //console.log('exception');
+        if(arg.reject){
+            arg.reject();
+        }
     },
     
     /**
@@ -1123,21 +1146,21 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
                 listeners: {
                     'eventadd': {
                         fn: function(win, rec, animTarget){
-                            win.hide(animTarget);
+                            //win.hide(animTarget);
                             win.currentView.onEventAdd(null, rec);
                         },
                         scope: this
                     },
                     'eventupdate': {
                         fn: function(win, rec, animTarget){
-                            win.hide(animTarget);
+                            //win.hide(animTarget);
                             win.currentView.onEventUpdate(null, rec);
                         },
                         scope: this
                     },
                     'eventdelete': {
                         fn: function(win, rec, animTarget){
-                            win.hide(animTarget);
+                            //win.hide(animTarget);
                             win.currentView.onEventDelete(null, rec);
                         },
                         scope: this
@@ -1208,15 +1231,15 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     
     // private
     onEventAdd: function(form, rec){
-        rec.data[Ext.ensible.cal.EventMappings.IsNew.name] = false;
+        //rec.data[Ext.ensible.cal.EventMappings.IsNew.name] = false;
         this.store.add(rec);
-        this.save();
+        //this.store.save();
         this.fireEvent('eventadd', this, rec);
     },
     
     // private
     onEventUpdate: function(form, rec){
-        rec.commit();
+        //rec.commit();
         this.save();
         this.fireEvent('eventupdate', this, rec);
     },
@@ -1224,7 +1247,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     // private
     onEventDelete: function(form, rec){
         this.store.remove(rec);
-        this.save();
+        //this.save();
         this.fireEvent('eventdelete', this, rec);
     },
     
@@ -1291,13 +1314,13 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             // no changes
             return;
         }
-        if(this.fireEvent('beforeeventmove', this, rec) !== false){
+        if(this.fireEvent('beforeeventmove', this, rec, dt) !== false){
             var diff = dt.getTime() - rec.data[Ext.ensible.cal.EventMappings.StartDate.name].getTime();
             rec.beginEdit();
             rec.set(Ext.ensible.cal.EventMappings.StartDate.name, dt);
             rec.set(Ext.ensible.cal.EventMappings.EndDate.name, rec.data[Ext.ensible.cal.EventMappings.EndDate.name].add(Date.MILLI, diff));
             rec.endEdit();
-            rec.commit();
+            //rec.commit();
             this.save();
             
             this.fireEvent('eventmove', this, rec);
@@ -1306,6 +1329,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     
     // private
     onDeleteEvent: function(menu, rec, el){
+        rec._deleting = true;
         this.deleteEvent(rec, el);
         this.menuActive = false;
     },
@@ -1318,7 +1342,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     deleteEvent: function(rec, el){
         if(this.fireEvent('beforeeventdelete', this, rec, el) !== false){
             this.store.remove(rec);
-            this.save();
+            //this.save();
             this.fireEvent('eventdelete', this, rec, el);
         }
     },

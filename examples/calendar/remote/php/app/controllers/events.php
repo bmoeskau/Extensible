@@ -38,15 +38,8 @@ class Events extends ApplicationController {
 		} else {
 			if ($rec = Event::create($this->params)) {
 				$res->data = $rec->to_hash();
-				
-				// SIMULATE ERROR:  All records with title = "ERROR" will fail
-                if ($rec->attributes["title"] == "ERROR") {
-					$res->success = false;
-					$res->message = "SIMULATED ERROR: The record could not be created.";
-                } else {
-                    $res->success = true;
-                    $res->message = "Created record";
-                }
+                $res->success = true;
+                $res->message = "Created record";
 			} else {
 				$res->success = false;
 				$res->message = "Failed to create record";
@@ -73,15 +66,8 @@ class Events extends ApplicationController {
 		} else {
 			if ($rec = Event::update($this->params->id, $this->params)) {
 				$res->data = $rec->to_hash();
-
-				// SIMULATE ERROR:  All records with title = "ERROR" will fail
-				if ($rec->attributes["title"] == "ERROR") {
-					$res->success = false;
-					$res->message = "SIMULATED ERROR: The record could not be saved.";
-				} else {
-					$res->success = true;
-					$res->message = "Updated record";
-				}
+				$res->success = true;
+				$res->message = "Updated record";
 			} else {
 				$res->message = "Failed to updated record " . $this->params->id;
 				$res->success = false;
@@ -108,14 +94,8 @@ class Events extends ApplicationController {
 			$res->message = 'Destroyed ' . count($destroyed) . ' records';
 		} else {
 			if ($rec = Event::destroy($this->id)) {
-                // SIMULATE ERROR:  All records with title = "DEL ERROR" will fail
-                if ($rec->attributes["title"] == "DEL ERROR") {
-                    $res->success = false;
-                    $res->message = "SIMULATED ERROR: The record could not be deleted.";
-                } else {
-                    $res->success = true;
-                    $res->message = "Destroyed record";
-                }
+                $res->success = true;
+                $res->message = "Destroyed record";
 			} else {
 				$res->message = "Failed to Destroy event";
 			}

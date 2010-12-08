@@ -14,6 +14,10 @@ class ApplicationController {
         $this->id = $request->id;
         $this->params = $request->params;
 
+        // the client can pass 'fail=true' to force a server error response for testing CUD (not R) actions
+        if ($request->fail && $request->method != 'GET') {
+        	return '{"success":false,"message":"Server error"}';
+        }
         if ($request->isRestful()) {
             return $this->dispatchRestful();
         }
