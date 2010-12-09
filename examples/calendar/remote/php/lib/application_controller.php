@@ -16,7 +16,7 @@ class ApplicationController {
 
         // the client can pass 'fail=true' to force a server error response for testing CUD (not R) actions
         if ($request->fail && $request->method != 'GET') {
-        	return '{"success":false,"message":"Server error"}';
+        	return '{"success":false,"message":"The remote action could not be completed."}';
         }
         if ($request->isRestful()) {
             return $this->dispatchRestful();

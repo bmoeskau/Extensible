@@ -40,3 +40,91 @@ Ext.override(Ext.form.DateField, {
         }
     }
 });
+
+
+/* This override applies to the current 3.3.x line to fix duplicate remote actions */
+Ext.override(Ext.data.Store, {
+    afterEdit : function(record){
+        if(!record.phantom){
+            if(this.modified.indexOf(record) == -1){
+                this.modified.push(record);
+            }
+            this.fireEvent('update', this, record, Ext.data.Record.EDIT);
+        }
+    },
+    add : function(records) {
+        var i, record, index;
+        
+        records = [].concat(records);
+        if (records.length < 1) {
+            return;
+        }
+        
+        for (i = 0, len = records.length; i < len; i++) {
+            record = records[i];
+            
+            record.join(this);
+            
+            if ((record.dirty || record.phantom) && this.modified.indexOf(record) == -1) {
+                this.modified.push(record);
+            }
+        }
+        
+        index = this.data.length;
+        this.data.addAll(records);
+        
+        if (this.snapshot) {
+            this.snapshot.addAll(records);
+        }
+        
+        this.fireEvent('add', this, records, index);
+    },
+    insert : function(index, records) {
+        var i, record;
+        
+        records = [].concat(records);
+        for (i = 0, len = records.length; i < len; i++) {
+            record = records[i];
+            
+            this.data.insert(index + i, record);
+            record.join(this);
+            
+            if ((record.dirty || record.phantom) && this.modified.indexOf(record) == -1) {
+                this.modified.push(record);
+            }
+        }
+        
+        if (this.snapshot) {
+            this.snapshot.addAll(records);
+        }
+        
+        this.fireEvent('add', this, records, index);
+    },
+    
+    // Interestingly, this method has no changes, but is included here because without it a very strange
+    // race condition occurs. This method is used as a callback internally for the add event which
+    // is fired from the add method (overridden above). As long as both methods are here everything is OK
+    // but with createRecords removed and defaulted to the original class you end up with duplicate copies
+    // of added records in the store's modified collection (since both methods add to it). Not sure exactly
+    // how that happens, but including this fixes it.
+    createRecords : function(store, records, index) {
+        var modified = this.modified,
+            length   = records.length,
+            record, i;
+        
+        for (i = 0; i < length; i++) {
+            record = records[i];
+            
+            if (record.phantom && record.isValid()) {
+                record.markDirty();  // <-- Mark new records dirty (Ed: why?)
+                
+                if (modified.indexOf(record) == -1) {
+                    modified.push(record);
+                }
+            }
+        }
+        if (this.autoSave === true) {
+            this.save();
+        }
+    }
+});

@@ -56,7 +56,6 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
     enableRecurrence: false,
     
     // private properties:
-    newId: 10000,
     layout: 'column',
     
     // private
@@ -195,9 +194,9 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
             this.form.setValues({'calendar': rec.data[Ext.ensible.cal.EventMappings.CalendarId.name]});
         }
         
-        this.isAdd = !!rec.data[Ext.ensible.cal.EventMappings.IsNew.name];
-        if(this.isAdd){
-            rec.markDirty();
+        //this.isAdd = !!rec.data[Ext.ensible.cal.EventMappings.IsNew.name];
+        if(rec.phantom){
+            //rec.markDirty();
             this.setTitle(this.titleTextAdd);
             Ext.select('.ext-del-btn').setDisplayed(false);
         }
@@ -248,7 +247,7 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
             return;
         }
         
-        this.fireEvent(this.isAdd ? 'eventadd' : 'eventupdate', this, this.activeRecord);
+        this.fireEvent(this.activeRecord.phantom ? 'eventadd' : 'eventupdate', this, this.activeRecord);
     },
 
     // private

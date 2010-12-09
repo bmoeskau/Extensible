@@ -446,6 +446,12 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         this.layout = 'card'; // do not allow override
         this.addClass('x-cal-panel');
         
+        if(this.eventStore){
+            this.store = this.eventStore;
+            delete this.eventStore;
+        }
+        this.setStore(this.store);
+        
         var sharedViewCfg = {
             showToday: this.showToday,
             todayText: this.todayText,
@@ -453,7 +459,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             showTime: this.showTime,
             readOnly: this.readOnly,
             enableRecurrence: this.enableRecurrence,
-            store: this.store || this.eventStore,
+            store: this.store,
             calendarStore: this.calendarStore,
             editModal: this.editModal
         };
@@ -571,6 +577,50 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         }
     },
     
+    /**
+     * Sets the event store used by the calendar to display {@link Ext.ensible.cal.EventRecord events}.
+     * @param {Ext.data.Store} store
+     */
+    setStore : function(store, initial){
+        var currStore = this.store;
+        
+        if(!initial && currStore){
+            currStore.un("add", this.onStoreAdd, this);
+            currStore.un("remove", this.onStoreRemove, this);
+            currStore.un("update", this.onStoreUpdate, this);
+        }
+        if(store){
+            store.on("add", this.onStoreAdd, this);
+            store.on("remove", this.onStoreRemove, this);
+            store.on("update", this.onStoreUpdate, this);
+        }
+        this.store = store;
+    },
+    
+    // private
+    onStoreAdd : function(ds, records, index){
+        if(records[0].phantom){
+            return;
+        }
+        if(records[0]._deleting){
+            delete records[0]._deleting;
+            return;
+        }
+        this.hideEditForm();
+    },
+    
+    // private
+    onStoreUpdate : function(ds, rec, operation){
+        if(operation == Ext.data.Record.COMMIT){
+            this.hideEditForm();
+        }
+    },
+
+    // private
+    onStoreRemove : function(ds, rec){
+        this.hideEditForm();
+    },
+    
     // private
     onEditDetails: function(vw, rec, el){
         if(this.fireEvent('editdetails', this, vw, rec, el) !== false){
@@ -579,32 +629,28 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     },
     
     // private
-    onEventDelete: function(vw, rec, el){
-        if(this.fireEvent('beforeeventdelete', this, rec, el) !== false){
-            this.store.remove(rec);
-            this.fireEvent('eventdelete', this, rec, el);
-        }
-    },
-    
-    // private
     onEventAdd: function(form, rec){
-        rec.data[Ext.ensible.cal.EventMappings.IsNew.name] = false;
-        this.eventStore.add(rec);
-        this.hideEditForm();
+        //rec.data[Ext.ensible.cal.EventMappings.IsNew.name] = false;
+        this.store.add(rec);
+        //this.hideEditForm();
         this.fireEvent('eventadd', this, rec);
     },
     
     // private
     onEventUpdate: function(form, rec){
-        rec.commit();
-        this.hideEditForm();
+        if(!this.store.autoSave){
+            this.store.save();
+        }
+        //rec.commit();
+        //this.hideEditForm();
         this.fireEvent('eventupdate', this, rec);
     },
     
     // private
     onEventDelete: function(form, rec){
-        this.eventStore.remove(rec);
-        this.hideEditForm();
+        rec._deleting = true;
+        this.store.remove(rec);
+        //this.hideEditForm();
         this.fireEvent('eventdelete', this, rec);
     },
     

@@ -1087,7 +1087,9 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     },
     
     onException : function(proxy, type, action, o, res, arg){
-        //console.log('exception');
+        // form edits are explicitly canceled, but we may not know if a drag/drop operation
+        // succeeded until after a server round trip. if the update failed we have to explicitly
+        // reject the changes so that the record doesn't stick around in the store's modified list 
         if(arg.reject){
             arg.reject();
         }

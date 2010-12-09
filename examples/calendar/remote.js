@@ -4,6 +4,8 @@ Ext.onReady(function(){
     var today = new Date().clearTime();
         apiRoot = 'remote/php/app.php/events/';
     
+    Ext.Msg.minWidth = 300;
+    
     var proxy = new Ext.data.HttpProxy({
         disableCaching: false, // no need for cache busting when loading via Ajax
         api: {
@@ -15,7 +17,8 @@ Ext.onReady(function(){
         listeners: {
             exception: function(proxy, type, action, o, res, arg){
                 var msg = res.message ? res.message : Ext.decode(res.responseText).message;
-                Ext.Msg.alert('Error', msg);
+                // ideally an app would provide a less intrusive message display
+                Ext.Msg.alert('Server Error', msg);
             }
         }
     });
