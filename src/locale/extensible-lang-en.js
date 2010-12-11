@@ -32,7 +32,6 @@ if(Ext.ensible.cal.CalendarPanel) {
         jumpToText: 'Jump to:',
         goText: 'Go',
         multiDayText: '{0} Days',
-        weekText: 'Week',
         multiWeekText: '{0} Weeks'
     });
 }
