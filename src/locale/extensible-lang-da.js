@@ -1,6 +1,6 @@
 /*
- * Default Danish (DK) locale
- * By Extensible, LLC
+ * Danish locale
+ * By Niels Olsen
  */
 
 Ext.ensible.Date.use24HourTime = true;
