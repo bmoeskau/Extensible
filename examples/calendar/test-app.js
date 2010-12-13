@@ -19,16 +19,13 @@
                 }
             });
             
-            // This is an example for how you can provide custom data mappings. The JSON data
-            // in event-list.js uses "t" as the title key, but by default Ext.ensible.cal.EventRecord
-            // expects "title". To resolve this you can simply update the mapping on the
-            // Ext.ensible.cal.EventMappings object and call EventRecord.reconfigure() after all
-            // mappings are updated. You can also update any other properties in the 
-            // EventMappings object the same way, including name, type, etc. Make sure you
+            // This is an example for how you can provide custom data mappings. Make sure you
             // reconfigure the EventRecord if necessary before configuring your store.
-            Ext.ensible.cal.EventMappings.Title.mapping = 't';
-            //Ext.ensible.cal.EventMappings.Title.name = 'Foo';
-            Ext.ensible.cal.EventRecord.reconfigure();
+            /*
+             * Ext.ensible.cal.EventMappings.Title.mapping = 't';
+             * Ext.ensible.cal.EventMappings.Title.name = 'Foo';
+             * Ext.ensible.cal.EventRecord.reconfigure();
+             */
 
             // A sample event store that loads static JSON from a local file. Obviously a real
             // implementation would likely be loading remote data via an HttpProxy, but the

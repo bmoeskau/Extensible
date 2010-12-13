@@ -3,14 +3,14 @@ var eventList = {
     "evts":[{
         "id":1001,
         "cid":1,
-        "t":"Vacation",
+        "title":"Vacation",
         "start":today.add(Date.DAY, -20).add(Date.HOUR, 10),
         "end":today.add(Date.DAY, -10).add(Date.HOUR, 15),
 		"notes":"Have fun"
     },{
         "id":1002,
         "cid":2,
-        "t":"Lunch with Matt",
+        "title":"Lunch with Matt",
         "start":today.add(Date.HOUR, 11).add(Date.MINUTE, 30),
         "end":today.add(Date.HOUR, 13),
         "loc":"Chuy's!",
@@ -20,13 +20,13 @@ var eventList = {
     },{
         "id":1003,
         "cid":3,
-        "t":"Project due",
+        "title":"Project due",
         "start":today.add(Date.HOUR, 15),
         "end":today.add(Date.HOUR, 15)
     },{
         "id":1004,
         "cid":1,
-        "t":"Sarah's birthday",
+        "title":"Sarah's birthday",
         "start":today,
         "end":today,
         "notes":"Need to get a gift",
@@ -34,14 +34,14 @@ var eventList = {
     },{
         "id":1005,
         "cid":2,
-        "t":"A long one...",
+        "title":"A long one...",
         "start":today.add(Date.DAY, -12),
         "end":today.add(Date.DAY, 10).add(Date.SECOND, -1),
         "ad":true
     },{
         "id":1006,
         "cid":3,
-        "t":"School holiday",
+        "title":"School holiday",
         "start":today.add(Date.DAY, 5),
         "end":today.add(Date.DAY, 7).add(Date.SECOND, -1),
         "ad":true,
@@ -49,21 +49,21 @@ var eventList = {
     },{
         "id":1007,
         "cid":1,
-        "t":"Haircut",
+        "title":"Haircut",
         "start":today.add(Date.HOUR, 9),
         "end":today.add(Date.HOUR, 9).add(Date.MINUTE, 30),
 		"notes":"Get cash on the way"
     },{
         "id":1008,
         "cid":3,
-        "t":"An old event",
+        "title":"An old event",
         "start":today.add(Date.DAY, -30),
         "end":today.add(Date.DAY, -28),
         "ad":true
     },{
         "id":1009,
         "cid":2,
-        "t":"Board meeting",
+        "title":"Board meeting",
         "start":today.add(Date.DAY, -2).add(Date.HOUR, 13),
         "end":today.add(Date.DAY, -2).add(Date.HOUR, 18),
         "loc":"ABC Inc.",
@@ -71,14 +71,14 @@ var eventList = {
     },{
         "id":1010,
         "cid":3,
-        "t":"Jenny's final exams",
+        "title":"Jenny's final exams",
         "start":today.add(Date.DAY, -2),
         "end":today.add(Date.DAY, 3).add(Date.SECOND, -1),
         "ad":true
     },{
         "id":1011,
         "cid":1,
-        "t":"Movie night",
+        "title":"Movie night",
         "start":today.add(Date.DAY, 2).add(Date.HOUR, 19),
         "end":today.add(Date.DAY, 2).add(Date.HOUR, 23),
         "notes":"Don't forget the tickets!",
@@ -86,13 +86,13 @@ var eventList = {
     },{
         "id":1012,
         "cid":4,
-        "t":"Gina's basketball tournament",
+        "title":"Gina's basketball tournament",
         "start":today.add(Date.DAY, 8).add(Date.HOUR, 8),
         "end":today.add(Date.DAY, 10).add(Date.HOUR, 17)
     },{
         "id":1013,
         "cid":4,
-        "t":"Toby's soccer game",
+        "title":"Toby's soccer game",
         "start":today.add(Date.DAY, 5).add(Date.HOUR, 10),
         "end":today.add(Date.DAY, 5).add(Date.HOUR, 12)
     }]
