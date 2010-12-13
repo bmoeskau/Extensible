@@ -1,53 +1,11 @@
 Ext.onReady(function(){
     
-    var C = Ext.ensible.cal, // just save some typing
-        today = new Date().clearTime();
-    
-    //
-    // common data store shared by all calendars on the page
-    //
-    var eventStore = new Ext.data.JsonStore({
-        id: 'eventStore',
-        data: [{
-            "id":100,
-            "title":"Vacation",
-            // this event spans multiple days so it will automatically be rendered as all-day
-            "start":today.add(Date.DAY, -5).add(Date.HOUR, 10),
-            "end":today.add(Date.DAY, 5).add(Date.HOUR, 15),
-            "notes":"Have fun"
-        },{
-            "id":101,
-            "title":"Lunch with Matt",
-            "start":today.add(Date.HOUR, 11).add(Date.MINUTE, 30),
-            "end":today.add(Date.HOUR, 13),
-            "loc":"Chuy's!",
-            "url":"http://chuys.com",
-            "notes":"Order the queso",
-            "rem":"15"
-        },{
-            "id":102,
-            "title":"Brian's birthday",
-            "start":today.add(Date.HOUR, 15),
-            "end":today.add(Date.HOUR, 15),
-            "ad":true // explicit all-day event
-        },{
-            // id, start and end dates are the only truly required data elements to render an event:
-            "id":103,
-            "start":today.add(Date.HOUR, 15),
-            "end":today.add(Date.HOUR, 15)
-        }],
-        proxy: new Ext.data.MemoryProxy(),
-        fields: C.EventRecord.prototype.fields.getRange(),
-        sortInfo: {
-            field: C.EventMappings.StartDate.name,
-            direction: 'ASC'
-        }
-    });
+    this.eventStore = new Ext.ensible.ux.MemoryEventStore({data: eventList});
     
     //
     // example 1: simplest possible stand-alone configuration
     //
-    new C.CalendarPanel({
+    new Ext.ensible.cal.CalendarPanel({
         eventStore: eventStore,
         renderTo: 'simple',
         title: 'Basic Calendar',
@@ -59,7 +17,7 @@ Ext.onReady(function(){
     // example 2: shows off some common Ext.Panel configs as well as a 
     // few extra CalendarPanel-specific configs + a calendar store
     //
-    new C.CalendarPanel({
+    new Ext.ensible.cal.CalendarPanel({
         id: 'cal-example2',
         eventStore: eventStore,
         renderTo: 'panel',
@@ -67,9 +25,8 @@ Ext.onReady(function(){
         activeItem: 1, // default to week view
         width: 700,
         height: 500,
-        //readOnly: true,
         
-        // Ext.Panel configs:
+        // Standard Ext.Panel configs:
         frame: true,
         collapsible: true,
         bbar: [{text: 'A Button', handler: function(){
@@ -77,6 +34,8 @@ Ext.onReady(function(){
         }}],
         
         listeners: {
+            // A simple example showing how to handle a custom calendar event to
+            // override default behavior. See the docs for all available events.
             'eventclick': {
                 fn: function(panel, rec, el){
                     // override the default edit handling

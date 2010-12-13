@@ -32,19 +32,8 @@
 
             // A sample event store that loads static JSON from a local file. Obviously a real
             // implementation would likely be loading remote data via an HttpProxy, but the
-            // underlying store functionality is the same.  Note that if you would like to 
-            // provide custom data mappings for events, see EventRecord.js.
-		    this.eventStore = new Ext.data.JsonStore({
-		        id: 'eventStore',
-		        root: 'evts',
-		        data: eventList, // defined in event-list.js
-				proxy: new Ext.data.MemoryProxy(),
-		        fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange(),
-		        sortInfo: {
-		            field: Ext.ensible.cal.EventMappings.StartDate.name,
-		            direction: 'ASC'
-		        }
-		    });
+            // underlying store functionality is the same.
+            this.eventStore = new Ext.ensible.ux.MemoryEventStore({data: eventList});
             
             // This is the app UI layout code.  All of the calendar views are subcomponents of
             // CalendarPanel, but the app title bar and sidebar/navigation calendar are separate
