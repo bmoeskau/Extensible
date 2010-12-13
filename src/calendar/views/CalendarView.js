@@ -1241,7 +1241,6 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
     
     // private
     onEventUpdate: function(form, rec){
-        //rec.commit();
         this.save();
         this.fireEvent('eventupdate', this, rec);
     },
@@ -1322,7 +1321,6 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             rec.set(Ext.ensible.cal.EventMappings.StartDate.name, dt);
             rec.set(Ext.ensible.cal.EventMappings.EndDate.name, rec.data[Ext.ensible.cal.EventMappings.EndDate.name].add(Date.MILLI, diff));
             rec.endEdit();
-            //rec.commit();
             this.save();
             
             this.fireEvent('eventmove', this, rec);

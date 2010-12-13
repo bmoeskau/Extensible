@@ -10,16 +10,14 @@ App = function() {
         },
         
         initStores : function(){
-            this.eventStore = new Ext.data.JsonStore({
-                sortInfo:{field: 'ResourceId', direction: "ASC"},
-                proxy: new Ext.data.MemoryProxy(),
+            this.eventStore = new Ext.ensible.ux.MemoryEventStore({
                 fields : [
                     {name: 'ResourceId'},
                     {name: 'Title'},
                     {name: 'StartDate', type : 'date'},
                     {name: 'EndDate', type : 'date'},
                     'Location'
-                ]
+                ]                
             });
             this.resourceStore = new Ext.data.JsonStore({
                 sortInfo:{field: 'Id', direction: "ASC"},
