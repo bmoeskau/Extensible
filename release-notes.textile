@@ -1,17 +1,44 @@
 h1. Release Notes
 
+h2. 1.0 (Beta 1)
+
+_Dec. 9, 2010_
+
+*API Changes*
+* The default value for <tt>CalendarView.dateParamFormat</tt> is now 'Y-m-d' (instead of 'm-d-Y'). This was done for consistency and also because it is a more sensible default. If you are currently using the default format and handling it on your server you may need to either set this config to the old value or change the date format expected on the back end to match 'Y-m-d'.
+
+*New Features*
+* Full localization support + new sample with 4 locales
+* Full remote error handling support (fully tested using the DataWriter API)
+* Basic read-only calendar support
+* New config to enable/disable event resizing in day/week view
+* New config option to enable event editor window as modal
+* New config to force a static startDay in the MultiDayView to allow for custom views
+
+*Bugs Fixed*
+* Calendar display bug for events spanning sat-sun in some cases
+* Multiple GET requests on day/week view load
+* Initial page load no longer executes GET with no date params
+* Selected calendar date now persists consistently across page navigation
+* Overlapping event display bug in day/week view for events < 30 minute duration
+* Update event via DnD causes multiple duplicate PUTs
+* startDay != 0 causes several boundary display bugs
+* Replaced HTML char entities with XHTML-compliant codes
+* Missing rounded corners on events in IE
+* Null error after setting showTodayText = false
+
 h2. 1.0 (Alpha 2)
 
 _Oct. 4, 2010_
 
-New Features
+*New Features*
 * Multi-calendar support
 * Calendar selection sidebar widget
 * CalendarListMenu component
 * Remote calendar implementation example (PHP)
 * New sample for showing calendar in an Ext.Window
 
-Bugs Fixed
+*Bugs Fixed*
 * Clicks in day header not showing edit window
 * Propagate calendarStore to views correctly
 * Renamed CalendarPicker -> CalendarCombo for consistency
