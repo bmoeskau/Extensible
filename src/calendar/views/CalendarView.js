@@ -1263,10 +1263,13 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             return;
         }
         if(this.fireEvent('dayclick', this, dt, ad, el) !== false){
-            this.showEventEditor({
-                StartDate: dt,
-                IsAllDay: ad
-            }, el);
+            var M = Ext.ensible.cal.EventMappings,
+                data = {};
+                
+            data[M.StartDate.name] = dt;
+            data[M.IsAllDay.name] = ad;
+                
+            this.showEventEditor(data, el);
         }
     },
     
