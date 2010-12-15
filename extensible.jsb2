@@ -43,13 +43,19 @@
             "path": "src/calendar/dd/"
         },{
             "text": "EventStore.js",
-            "path": "src/calendar/"
+            "path": "src/calendar/data/"
+        },{
+            "text": "EventMappings.js",
+            "path": "src/calendar/data/"
+        },{
+            "text": "CalendarMappings.js",
+            "path": "src/calendar/data/"
         },{
             "text": "EventRecord.js",
-            "path": "src/calendar/"
+            "path": "src/calendar/data/"
         },{
             "text": "CalendarRecord.js",
-            "path": "src/calendar/"
+            "path": "src/calendar/data/"
         },{
             "text": "WeekEventRenderer.js",
             "path": "src/calendar/"
