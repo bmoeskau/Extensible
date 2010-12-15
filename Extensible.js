@@ -5,7 +5,7 @@
  */
 (function(){
     
-    Ext.ns('Ext.ensible.ux', 'Ext.ensible.plugins', 'Ext.ensible.cal');
+    Ext.ns('Ext.ensible.ux', 'Ext.ensible.sample', 'Ext.ensible.plugins', 'Ext.ensible.cal');
     
     Ext.apply(Ext.ensible, {
         /**

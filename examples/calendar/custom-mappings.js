@@ -31,9 +31,15 @@ Ext.onReady(function(){
     // must be done PRIOR to initializing your data store, otherwise the changes will
     // not be reflected in the store's records.
      
-    this.eventStore = new Ext.ensible.ux.MemoryEventStore({
+    var eventStore = new Ext.ensible.ux.MemoryEventStore({
         // defined in event-list-custom.js
         data: eventListCustom
+    });
+    
+    // Enable event color-coding:
+    var calendarStore = new Ext.ensible.sample.CalendarStore({
+        // defined in calendar-list.js
+        data: calendarList
     });
     
     //
@@ -41,6 +47,7 @@ Ext.onReady(function(){
     //
     new Ext.ensible.cal.CalendarPanel({
         eventStore: eventStore,
+        calendarStore: calendarStore,
         renderTo: 'cal',
         title: 'Custom Event Mappings',
         width: 800,

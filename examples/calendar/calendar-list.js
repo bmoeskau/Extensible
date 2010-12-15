@@ -14,7 +14,7 @@ var calendarList = {
     },{
         "id":4,
         "title":"Sports",
-        "hidden":true,
+        //"hidden":true, // optionally init this calendar as hidden by default
         "color":26
     }]
 };
