@@ -156,6 +156,10 @@
         "dest": "examples/",
         "filters": ".*[\\.html|\\.jpg|\\.png|\\.gif|\\.css|\\.js|\\.php]"
     },{
+        "src": "welcome/",
+        "dest": "welcome/",
+        "filters": ".*[\\.html|\\.jpg|\\.png|\\.gif|\\.css|\\.js|\\.php]"
+    },{
         "src": "resources/",
         "dest": "resources/",
         "filters": ".*"

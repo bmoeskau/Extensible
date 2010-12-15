@@ -1,0 +1,241 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Welcome to Extensible</title>
+<link rel="shortcut icon" href="http://ext.ensible.com/favicon.ico" />
+<style type="text/css">
+
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: #fff;
+    color: #333;
+    font: normal 12px/1.3 Helvetica, sans-serif;
+    margin: 0 auto 0;
+    padding: 0;
+    width: 800px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizelegibility;
+}
+p {
+    margin: 0 0 1em;
+}
+a:link,
+a:visited {
+    color: #0464BB;
+    text-decoration: none;
+}
+a:hover,
+a:focus,
+a:active {
+    color: #0464BB;
+    text-decoration: underline;
+}
+h1,h2,h3,h4,h5,h6 {
+    color: #222;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.1;    
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+a#logo {
+    background: url(welcome/images/logo-extensible.gif) no-repeat 0 100%;
+    display: block;
+    height: 50px;
+    margin: 30px 0 15px;
+    overflow: hidden;
+    padding-top: 20px;
+    text-indent: 150%;
+    white-space: nowrap;
+    width: 229px;
+}
+#header {
+    background: url(welcome/images/cal-screenshot.jpg) no-repeat 100% 0;
+    height: 275px;
+}
+#header h1 {
+    font-size: 32px;
+    margin: 35px 0 12px;
+    width: 350px;
+}
+#header p {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.5;
+    width: 400px;
+}
+div.button-wrap {
+    padding: 0 0 1em;
+}
+.button:link,
+.button:visited {
+    background: #2a64a6;
+    border: 1px solid;
+    border-color: transparent transparent rgba(0,0,0,0.4) transparent;
+    -webkit-border-radius: 13px;
+    -moz-border-radius:    13px;
+    border-radius:         13px;
+    color: #fff;
+    display: table-cell;
+    font-size: 13px;
+    font-weight: bold;
+    height: 13px;
+    padding: 2px 15px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+    white-space: nowrap;
+}
+.button:hover,
+.button:focus {
+    background: #265B98;
+}
+.button:active {
+    background: #1F4C7E;
+    border-color: rgba(0,0,0,0.4) transparent transparent transparent;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
+}
+h2 {
+    font-size: 18px;
+}
+#header {
+    display: block;
+    margin: 0 0 24px;
+    padding: 0;
+}
+div#container {
+    margin: 0 auto;
+    overflow: hidden;
+    width: 800px;
+}
+.section {
+    float: left;
+    margin-right: 50px;
+    width: 233px;
+}
+.section h2 {
+    line-height: 30px;
+    margin: 0;
+    padding: 0;
+}
+#engage ul li {
+    height: 16px;
+    line-height: 16px;
+}
+#engage ul#social li a {
+    color: #777;
+    display: block;
+    height: 16px;
+    line-height: 16px;
+    margin: 6px 0 0;
+    padding-left: 22px;
+    text-decoration: none;
+}
+#engage ul#social li a span {
+    color: #0464BB;
+    font-weight: bold;
+    text-decoration: none;
+}
+#engage ul#social li a:hover {
+    color: #777;
+    text-decoration: none;
+}
+#engage ul#social li a:hover span {
+    color: #0464BB;
+    text-decoration: underline;
+}
+#engage a#twitter {
+    background: url(welcome/images/social_sprite.gif) no-repeat 0 0;
+}
+#engage a#twitter:hover {
+    background: url(welcome/images/social_sprite.gif) no-repeat 0 -16px;
+}
+#engage a#facebook {
+    background: url(welcome/images/social_sprite.gif) no-repeat 0 -64px;
+}
+#engage a#facebook:hover {
+    background: url(welcome/images/social_sprite.gif) no-repeat 0 -80px;
+}
+#engage a#blog {
+    background: url(welcome/images/social_sprite.gif) no-repeat 0 -96px;
+}
+#engage a#blog:hover {
+    background: url(welcome/images/social_sprite.gif) no-repeat 0 -112px;
+}
+#engage a#email {
+    background: url(welcome/images/social_sprite.gif) no-repeat 0 -128px;
+}
+#engage a#email:hover {
+    background: url(welcome/images/social_sprite.gif) no-repeat 0 -144px;
+}
+#license {
+    margin-right: 0;
+}
+ul, ul li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#learn ul li,
+#license ul li {
+    background: url(welcome/images/li.png) no-repeat 1px 2px;
+    padding: 0 0 0.5em 10px;
+    margin-left: 0px;
+}
+</style>
+</head>
+<body>
+<div id="page">
+<div id="header">
+<a href="http://ext.ensible.com/" id="logo">Sencha - Ext JS - Amazing Web Apps Built on Web Standards</a>
+<h1>Welcome to Extensible</h1>
+<p>Thank you for downloading Extensible + Ext Calendar Pro &mdash; Professional strength components for Ext JS.</p>
+<div class="button-wrap">
+    <a href="examples/" id="examples" class="button"><span>View Demos</span></a>
+</div>
+</div>
+<div id="container">
+<div id="learn" class="section">
+<h2>Learn</h2>
+<ul>
+<li>Try out our <a href="examples/index.html">interactive demos</a> with full source comments</li>
+<li>Browse our extensive <a href="docs/">API documentation</a></li>
+<li>For advanced, hands-on support, please see our premium <a href="http://ext.ensible.com/store">support subscriptions</a></li>
+</ul>
+</div>
+
+<div id="engage" class="section">
+<h2>Engage</h2>
+<p>Our <a href="http://ext.ensible.com/forum/">community forums</a> are a great place to ask questions and interact with other Extensible developers.</p>
+
+<div class="button-wrap">
+    <a href="http://ext.ensible.com/forum/" id="join_us" class="button"><span>Visit Extensible Forum</span></a>
+</div>
+
+<ul id="social">
+<li><a href="http://twitter.com/ext_ensible" id="twitter"><span>Follow @Ext_ensible</span> on Twitter</a></li>
+<li><a href="http://www.facebook.com/pages/Extensible/102984609755873" id="facebook"><span>Become a fan</span> on Facebook</a></li>
+<li><a href="http://ext.ensible.com/blog/" id="blog"><span>Read</span> the official blog</a></li>
+<li><a href="http://eepurl.com/SCRr" id="email"><span>Subscribe</span> to our email newsletter</a></li>
+</ul>
+</div>
+
+<div id="license" class="section">
+<h2>License</h2>
+<p>Extensible is dual-licensed commercial + GPL, just like <a href="http://www.sencha.com/company/dual.php">Ext JS</a>. This means:</p>
+<ul>
+<li>Free to use and test in your local development environment</li>
+<li>Free to use in your open source projects</li>
+<li>Purchase a developer license if you don&rsquo;t plan on releasing your website or application&rsquo;s code as open source</li>
+</ul>
+<p>To purchase a commercial license, please visit our <a href="http://ext.ensible.com/store/">store page</a>.</p>
+</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -20,8 +20,10 @@ xcopy "%EXTENSIBLE_OUTPUT%\%VER%\extensible-all.js" "%EXTENSIBLE_ROOT%" /H /Y
 xcopy "%EXTENSIBLE_OUTPUT%\%VER%\extensible-all-debug.js" "%EXTENSIBLE_ROOT%" /H /Y
 xcopy "%EXTENSIBLE_OUTPUT%\%VER%\resources\css\extensible-all.css" "%EXTENSIBLE_ROOT%\resources\css" /H /Y
 
-:: Copy textile files to output
+:: Copy other resource files to output
 xcopy "%EXTENSIBLE_ROOT%\*.textile" "%EXTENSIBLE_OUTPUT%\%VER%\" /H /Y
+xcopy "%EXTENSIBLE_ROOT%\*.txt" "%EXTENSIBLE_OUTPUT%\%VER%\" /H /Y
+xcopy "%EXTENSIBLE_ROOT%\*.html" "%EXTENSIBLE_OUTPUT%\%VER%\" /H /Y
 
 IF "%1" == "-d" (
    echo Generating docs...

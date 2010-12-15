@@ -34,8 +34,10 @@ cp $EXTENSIBLE_OUTPUT/$VER/extensible-all.js $EXTENSIBLE_ROOT
 cp $EXTENSIBLE_OUTPUT/$VER/extensible-all-debug.js $EXTENSIBLE_ROOT
 cp $EXTENSIBLE_OUTPUT/$VER/resources/css/extensible-all.css $EXTENSIBLE_ROOT/resources/css
 
-# Copy textile files to output
+# Copy other resource files to output
 cp $EXTENSIBLE_ROOT/*.textile $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/*.txt $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/*.html $EXTENSIBLE_OUTPUT/$VER/
 
 # Docs
 if [ "$docs" = "1" ]; then
