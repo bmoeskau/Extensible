@@ -24,15 +24,18 @@ Ext.ensible.cal.CalendarCombo = Ext.extend(Ext.form.ComboBox, {
     width: 200,
     defaultCls: 'x-cal-default',
     
-    valueField: Ext.ensible.cal.CalendarMappings.CalendarId.name,
-    displayField: Ext.ensible.cal.CalendarMappings.Title.name,
-    
     // private
     initComponent: function(){
-        Ext.ensible.cal.CalendarCombo.superclass.initComponent.call(this);
+        var C = Ext.ensible.cal,
+            M = C.CalendarMappings;
+        
+        C.CalendarCombo.superclass.initComponent.call(this);
+        
+        this.valueField = M.CalendarId.name;
+        this.displayField = M.Title.name;
         
         this.tpl = this.tpl ||
-              '<tpl for="."><div class="x-combo-list-item x-cal-{' + Ext.ensible.cal.CalendarMappings.ColorId.name +
+              '<tpl for="."><div class="x-combo-list-item x-cal-{' + M.ColorId.name +
               '}"><div class="ext-cal-picker-icon">&#160;</div>{' + this.displayField + '}</div></tpl>';
     },
     
