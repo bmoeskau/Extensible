@@ -929,7 +929,18 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         }
     },
     
-    // private
+    /**
+     * Returns the start and end boundary dates currently displayed in the view. The method
+     * returns an object literal that contains the following properties:<ul>
+     * <li><b>start</b> Date : <div class="sub-desc">The start date of the view</div></li>
+     * <li><b>end</b> Date : <div class="sub-desc">The end date of the view</div></li></ul>
+     * For example:<pre><code>
+var bounds = view.getViewBounds();
+alert('Start: '+bounds.start);
+alert('End: '+bounds.end);
+</code></pre>
+     * @return {Object} An object literal containing the start and end values
+     */
     getViewBounds : function(){
         return {
             start: this.viewStart,
