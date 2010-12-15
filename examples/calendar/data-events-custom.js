@@ -1,5 +1,5 @@
 var today = new Date().clearTime();
-var eventListCustom = {
+Ext.ensible.sample.EventDataCustom = {
     "evts":[{
         "evt_id":1001,
         "cal_id":1,

@@ -32,14 +32,14 @@ Ext.onReady(function(){
     // not be reflected in the store's records.
      
     var eventStore = new Ext.ensible.ux.MemoryEventStore({
-        // defined in event-list-custom.js
-        data: eventListCustom
+        // defined in data-events-custom.js
+        data: Ext.ensible.sample.EventDataCustom
     });
     
     // Enable event color-coding:
     var calendarStore = new Ext.ensible.sample.CalendarStore({
-        // defined in calendar-list.js
-        data: calendarList
+        // defined in data-calendars.js
+        data: Ext.ensible.sample.CalendarData
     });
     
     //

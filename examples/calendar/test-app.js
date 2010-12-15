@@ -6,22 +6,17 @@
 
             // This is an example calendar store that enables event color-coding
             this.calendarStore = new Ext.ensible.sample.CalendarStore({
-                // defined in calendar-list.js
-                data: calendarList
+                // defined in data-calendars.js
+                data: Ext.ensible.sample.CalendarData
             });
-            
-            // This is an example for how you can provide custom data mappings. Make sure you
-            // reconfigure the EventRecord if necessary before configuring your store.
-            /*
-             * Ext.ensible.cal.EventMappings.Title.mapping = 't';
-             * Ext.ensible.cal.EventMappings.Title.name = 'Foo';
-             * Ext.ensible.cal.EventRecord.reconfigure();
-             */
 
             // A sample event store that loads static JSON from a local file. Obviously a real
             // implementation would likely be loading remote data via an HttpProxy, but the
             // underlying store functionality is the same.
-            this.eventStore = new Ext.ensible.ux.MemoryEventStore({data: eventList});
+            this.eventStore = new Ext.ensible.ux.MemoryEventStore({
+                // defined in data-events.js
+                data: Ext.ensible.sample.EventData
+            });
             
             // This is the app UI layout code.  All of the calendar views are subcomponents of
             // CalendarPanel, but the app title bar and sidebar/navigation calendar are separate

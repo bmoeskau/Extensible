@@ -1,4 +1,4 @@
-var calendarList = {
+Ext.ensible.sample.CalendarData = {
     "calendars":[{
         "id":1,
         "title":"Home",

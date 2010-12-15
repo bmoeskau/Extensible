@@ -1,8 +1,8 @@
 Ext.onReady(function(){
     
     this.eventStore = new Ext.ensible.ux.MemoryEventStore({
-        // defined in event-list.js
-        data: eventList
+        // defined in data-events.js
+        data: Ext.ensible.sample.EventData
     });
     
     //

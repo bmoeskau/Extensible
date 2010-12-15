@@ -1,7 +1,4 @@
 Ext.onReady(function(){
-    
-    var eventStore = new Ext.ensible.ux.MemoryEventStore({data: eventList});
-    
     var showWindow = function(){
         if(!this.calendarWin){
             this.calendarWin = new Ext.Window({
@@ -15,7 +12,10 @@ Ext.onReady(function(){
                 items: {
                     // xtype is supported:
                     xtype: 'extensible.calendarpanel',
-                    eventStore: eventStore
+                    eventStore: new Ext.ensible.ux.MemoryEventStore({
+                        // defined in data-events.js
+                        data: Ext.ensible.sample.EventData
+                    })
                 }
             });
         }
