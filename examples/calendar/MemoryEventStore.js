@@ -19,8 +19,9 @@ Ext.ensible.ux.MemoryEventStore = Ext.extend(Ext.data.Store, {
             root: 'evts',
             proxy: new Ext.data.MemoryProxy(),
             writer: new Ext.data.DataWriter(),
-            fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange()
-        })
+            fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange(),
+            idProperty: Ext.ensible.cal.EventMappings.EventId.mapping || 'id'
+        });
         this.reader = new Ext.data.JsonReader(config);
         Ext.ensible.ux.MemoryEventStore.superclass.constructor.call(this, config);
     },

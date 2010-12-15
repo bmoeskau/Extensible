@@ -183,7 +183,7 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
     
     // inherited docs
     loadRecord: function(rec){
-        this.form.loadRecord.apply(this.form, arguments);
+        this.form.reset().loadRecord.apply(this.form, arguments);
         this.activeRecord = rec;
         this.dateRangeField.setValue(rec.data);
         
