@@ -183,12 +183,13 @@ Ext.ensible.cal.DropZone = Ext.extend(Ext.dd.DropZone, {
     },
     
     createShim : function(){
+        var owner = this.view.ownerCalendarPanel ? this.view.ownerCalendarPanel : this.view;
         if(!this.shimCt){
-            this.shimCt = Ext.get('ext-dd-shim-ct');
+            this.shimCt = Ext.get('ext-dd-shim-ct-'+owner.id);
             if(!this.shimCt){
                 this.shimCt = document.createElement('div');
-                this.shimCt.id = 'ext-dd-shim-ct';
-                Ext.getBody().appendChild(this.shimCt);
+                this.shimCt.id = 'ext-dd-shim-ct-'+owner.id;
+                owner.getEl().parent().appendChild(this.shimCt);
             }
         }
         var el = document.createElement('div');

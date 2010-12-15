@@ -64,13 +64,15 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
         
         var header = Ext.applyIf({
             xtype: 'extensible.dayheaderview',
-            id: this.id+'-hd'
+            id: this.id+'-hd',
+            ownerCalendarPanel: this.ownerCalendarPanel
         }, cfg);
         
         var body = Ext.applyIf({
             xtype: 'extensible.daybodyview',
             enableEventResize: this.enableEventResize,
-            id: this.id+'-bd'
+            id: this.id+'-bd',
+            ownerCalendarPanel: this.ownerCalendarPanel
         }, cfg);
         
         this.items = [header, body];

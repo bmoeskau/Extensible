@@ -461,7 +461,8 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             enableRecurrence: this.enableRecurrence,
             store: this.store,
             calendarStore: this.calendarStore,
-            editModal: this.editModal
+            editModal: this.editModal,
+            ownerCalendarPanel: this
         };
         
         if(this.showDayView){
