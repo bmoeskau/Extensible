@@ -19,7 +19,6 @@ Ext.onReady(function(){
         Url:         {name: 'LinkUrl', mapping: 'link_url'},
         IsAllDay:    {name: 'AllDay', mapping: 'all_day', type: 'boolean'},
         Reminder:    {name: 'Reminder', mapping: 'reminder'},
-        IsNew:       {name: 'New', mapping: 'new', type: 'boolean'},
         
         // We can also add some new fields that do not exist in the standard EventRecord:
         CreatedBy:   {name: 'CreatedBy', mapping: 'created_by'},

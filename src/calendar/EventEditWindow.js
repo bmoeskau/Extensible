@@ -192,7 +192,6 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
             rec.data[M.StartDate.name] = start;
             rec.data[M.EndDate.name] = end;
             rec.data[M.IsAllDay.name] = !!o[M.IsAllDay.name] || start.getDate() != end.clone().add(Date.MILLI, 1).getDate();
-            rec.data[M.IsNew.name] = true;
             
             f.reset();
             f.loadRecord(rec);
