@@ -36,6 +36,10 @@ Ext.onReady(function(){
         data: Ext.ensible.sample.EventDataCustom
     });
     
+    // Although it's not shown here, the calendar mappings could also be customized in
+    // exactly the same manner as the event mappings are above. For details see the header
+    // documentation for the CalendarMappings class.
+    
     // Enable event color-coding:
     var calendarStore = new Ext.ensible.sample.CalendarStore({
         // defined in data-calendars.js
