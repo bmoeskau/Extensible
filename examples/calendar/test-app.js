@@ -13,7 +13,7 @@
             // A sample event store that loads static JSON from a local file. Obviously a real
             // implementation would likely be loading remote data via an HttpProxy, but the
             // underlying store functionality is the same.
-            this.eventStore = new Ext.ensible.ux.MemoryEventStore({
+            this.eventStore = new Ext.ensible.sample.MemoryEventStore({
                 // defined in data-events.js
                 data: Ext.ensible.sample.EventData
             });

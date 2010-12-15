@@ -1,6 +1,6 @@
 Ext.onReady(function(){
     
-    this.eventStore = new Ext.ensible.ux.MemoryEventStore({
+    this.eventStore = new Ext.ensible.sample.MemoryEventStore({
         // defined in data-events.js
         data: Ext.ensible.sample.EventData
     });

@@ -31,7 +31,7 @@ Ext.onReady(function(){
     // must be done PRIOR to initializing your data store, otherwise the changes will
     // not be reflected in the store's records.
      
-    var eventStore = new Ext.ensible.ux.MemoryEventStore({
+    var eventStore = new Ext.ensible.sample.MemoryEventStore({
         // defined in data-events-custom.js
         data: Ext.ensible.sample.EventDataCustom
     });

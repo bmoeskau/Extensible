@@ -10,7 +10,7 @@ App = function() {
         },
         
         initStores : function(){
-            this.eventStore = new Ext.ensible.ux.MemoryEventStore({
+            this.eventStore = new Ext.ensible.sample.MemoryEventStore({
                 fields : [
                     {name: 'ResourceId'},
                     {name: 'Title'},

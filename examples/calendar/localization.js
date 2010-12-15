@@ -71,7 +71,7 @@ Ext.ensible.LocaleSample = function(){
                 title: 'Localized Calendar',
                 width: 800,
                 height: 600,
-                eventStore: new Ext.ensible.ux.MemoryEventStore({
+                eventStore: new Ext.ensible.sample.MemoryEventStore({
                     // defined in data-events.js
                     data: Ext.ensible.sample.EventData
                 })

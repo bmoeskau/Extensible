@@ -12,7 +12,7 @@
  * 
  * For a real-world store implementation see the remote sample (remote.js).
  */
-Ext.ensible.ux.MemoryEventStore = Ext.extend(Ext.data.Store, {
+Ext.ensible.sample.MemoryEventStore = Ext.extend(Ext.data.Store, {
     constructor: function(config){
         config = Ext.applyIf(config || {}, {
             storeId: 'eventStore',
@@ -23,7 +23,7 @@ Ext.ensible.ux.MemoryEventStore = Ext.extend(Ext.data.Store, {
             idProperty: Ext.ensible.cal.EventMappings.EventId.mapping || 'id'
         });
         this.reader = new Ext.data.JsonReader(config);
-        Ext.ensible.ux.MemoryEventStore.superclass.constructor.call(this, config);
+        Ext.ensible.sample.MemoryEventStore.superclass.constructor.call(this, config);
     },
     
     // In real implementations the store is responsible for committing records
