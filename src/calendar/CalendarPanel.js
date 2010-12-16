@@ -565,8 +565,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     afterRender: function(){
         Ext.ensible.cal.CalendarPanel.superclass.afterRender.call(this);
         this.body.addClass('x-cal-body');
-        this.fireViewChange();
-        this.layout.activeItem.refresh();
+        this.activeView = this.getLayout().activeItem;
     },
     
     // private
