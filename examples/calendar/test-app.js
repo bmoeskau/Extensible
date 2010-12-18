@@ -76,6 +76,9 @@
                         // Any generic view options that should be applied to all sub views:
                         viewConfig: {
                             //enableFx: false
+                            getEventClass: function(cp, view, rec) {
+                                return ('custom-class');
+                            }
                         },
                         
                         // View options specific to a certain view (if the same options exist in viewConfig

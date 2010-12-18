@@ -289,7 +289,9 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             evtMaxCount: this.evtMaxCount,
             weekCount: this.weekCount,
             dayCount: this.dayCount,
-            moreText: this.moreText
+            moreText: this.moreText,
+            view: this,
+            calendarPanel: this.ownerCalendarPanel
         });
         this.fireEvent('eventsrendered', this);
     },

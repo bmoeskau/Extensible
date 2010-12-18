@@ -20,6 +20,8 @@ Ext.ensible.cal.WeekEventRenderer = function(){
     return {
         render: function(o){
             var w = 0, grid = o.eventGrid, 
+                view = o.view,
+                calendarPanel = o.calendarPanel,
                 dt = o.viewStart.clone(),
                 eventTpl = o.tpl,
                 max = o.maxEventsPerDay != undefined ? o.maxEventsPerDay : 999,
@@ -79,6 +81,7 @@ Ext.ensible.cal.WeekEventRenderer = function(){
                                 evt = day[ev];
                                 
                                 if(!evt.isSpan || evt.isSpanStart){ //skip non-starting span cells
+                                    var eventRec = evt.event || evt;
                                     var item = evt.data || evt.event.data;
                                     item._weekIndex = w;
                                     item._renderAsAllDay = item[Ext.ensible.cal.EventMappings.IsAllDay.name] || evt.isSpanStart;
@@ -86,11 +89,16 @@ Ext.ensible.cal.WeekEventRenderer = function(){
                                     item.spanRight = item[Ext.ensible.cal.EventMappings.EndDate.name].getTime() > endOfWeek.getTime();
                                     item.spanCls = (item.spanLeft ? (item.spanRight ? 'ext-cal-ev-spanboth' : 
                                         'ext-cal-ev-spanleft') : (item.spanRight ? 'ext-cal-ev-spanright' : ''));
+                                    
+                                    var eventCls=['ext-cal-ev'];
+                                    if(view.getEventClass){
+                                        eventCls.push(view.getEventClass(calendarPanel, view, eventRec));
+                                    }
                                             
                                     var row = getEventRow(o.id, w, ev),
                                         cellCfg = {
                                             tag: 'td',
-                                            cls: 'ext-cal-ev',
+                                            cls: eventCls.join(' '),
                                             cn : eventTpl.apply(o.templateDataFn(item))
                                         },
                                         diff = Ext.ensible.Date.diffDays(dt, item[Ext.ensible.cal.EventMappings.EndDate.name]) + 1,
