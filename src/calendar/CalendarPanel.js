@@ -179,6 +179,9 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     
     // private property
     startDate: new Date(),
+
+    // private property
+    idHash: [],
     
     // private
     initComponent : function(){
@@ -451,6 +454,8 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             delete this.eventStore;
         }
         this.setStore(this.store);
+        //The store might already have been loaded, so need to hash the ids.
+        this.onStoreLoad(this.store);
         
         var sharedViewCfg = {
             showToday: this.showToday,
@@ -585,16 +590,91 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         var currStore = this.store;
         
         if(!initial && currStore){
+            currStore.un("load", this.onStoreLoad, this);
             currStore.un("add", this.onStoreAdd, this);
             currStore.un("remove", this.onStoreRemove, this);
             currStore.un("update", this.onStoreUpdate, this);
         }
         if(store){
+            store.on("load", this.onStoreLoad, this);
             store.on("add", this.onStoreAdd, this);
             store.on("remove", this.onStoreRemove, this);
             store.on("update", this.onStoreUpdate, this);
         }
         this.store = store;
+    },
+
+    // private
+    getHashFromEventId: function(eventId) {
+        for (var j = 0; j < this.idHash.length; j++) {
+            if (this.idHash[j].eventId == eventId) {
+                return (this.idHash[j]);
+            }
+        }
+
+        return (null);
+    },
+
+    // private
+    getHashFromElId: function(elId) {
+        for (var j = 0; j < this.idHash.length; j++) {
+            if (this.idHash[j].elId == elId) {
+                return (this.idHash[j]);
+            }
+        }
+
+        return (null);
+    },
+
+    // private
+    getHashFromEvent: function(rec) {
+        var id = rec.data[Ext.ensible.cal.EventMappings.EventId.name];
+        if (id === undefined && rec.phantom) {
+            id = rec.id;
+        }
+
+        return (this.getHashFromEventId(id));
+    },
+
+    // private
+    hashEvents: function(records) {
+        var i, j, found;
+
+        records = [].concat(records);
+        var M = Ext.ensible.cal.EventMappings;
+
+        for (i = 0; i < records.length; i++) {
+            var rec = records[i];
+            var hash = this.getHashFromEvent(rec);
+
+            if (hash == null) {
+                var id = rec.data[M.EventId.name];
+                if (id === undefined && rec.phantom) {
+                    id = rec.id;
+                }
+
+                this.idHash.push({
+                    eventId: id,
+                    elId: Ext.id()
+                });
+            }
+        }
+    },
+
+    // private
+    onStoreLoad: function(ds, records, options) {
+        this.idHash = [];
+        //Remember the store might be filtered, but we need to collect all event ids to hash them.
+        var items = ds.snapshot ? ds.snapshot.items : ds.data.items;
+        if (!items) return;
+
+        var M = Ext.ensible.cal.EventMappings;
+        for (var i = 0; i < items.length; i++) {
+            this.idHash.push({
+                eventId: items[i].data[M.EventId.name],
+                elId: Ext.id()
+            });
+        }
     },
     
     // private
@@ -606,18 +686,26 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             delete records[0]._deleting;
             return;
         }
+
+        this.hashEvents(records);
         this.hideEditForm();
     },
     
     // private
     onStoreUpdate : function(ds, rec, operation){
         if(operation == Ext.data.Record.COMMIT){
+            this.hashEvents(rec);
             this.hideEditForm();
         }
     },
 
     // private
     onStoreRemove : function(ds, rec){
+        //ExtJs Array.remove does nothing, if object is not found.
+        //EDIT: Cannot remove the hash for the removed event as that hash is required by views for removing UI elements.
+        //It does ont cause any harm leaving the hash behind for the deleted event.
+        //this.idHash.remove(this.getHashFromEvent(rec));
+
         this.hideEditForm();
     },
     

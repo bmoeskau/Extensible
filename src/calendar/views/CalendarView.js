@@ -649,7 +649,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             rrule = rec.data[Ext.ensible.cal.EventMappings.RRule.name];
         
         this.dismissEventEditor();    
-		this.tempEventId = rec.id;
+		this.ownerCalendarPanel.hashEvents(rec);
         // if the new event has a recurrence rule we have to reload the store in case
         // new event instances were generated on the server
 		this.refresh(rrule !== undefined && rrule !== '');
@@ -752,17 +752,16 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             }
         }, this);
         
-        return id;
+        var hash = this.ownerCalendarPanel.getHashFromElId(id);
+        return hash.eventId;
     },
 	
 	// private
-	getEventId : function(eventId){
-		if(eventId === undefined && this.tempEventId){
-            // temp record id assigned during an add, will be overwritten later
-			eventId = this.tempEventId;
-		}
-		return eventId;
-	},
+    getElIdFromEventId: function(eventId) {
+        var elId = this.ownerCalendarPanel.getHashFromEventId(eventId).elId;
+
+        return elId;
+    },
 	
 	/**
 	 * 
@@ -772,7 +771,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	 */
 	getEventSelectorCls : function(eventId, forSelect){
 		var prefix = forSelect ? '.' : '';
-		return prefix + this.id + this.eventElIdDelimiter + this.getEventId(eventId);
+		return prefix + this.id + this.eventElIdDelimiter + this.getElIdFromEventId(eventId);
 	},
 
 	/**
@@ -783,7 +782,7 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	 * boundary will contain more than one internal Element.
 	 */
 	getEventEls : function(eventId){
-		var els = this.el.select(this.getEventSelectorCls(this.getEventId(eventId), true), false);
+		var els = this.el.select(this.getEventSelectorCls(eventId, true), false);
 		return new Ext.CompositeElement(els);
 	},
     
