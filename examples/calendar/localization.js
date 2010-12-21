@@ -9,7 +9,7 @@ Ext.ensible.LocaleSample = function(){
                     ['da', 'Danish'],
                     ['en', 'English (US)'],
                     ['fr', 'French (France)'],
-                    ['pt_BR', 'Portugese (Brazil)'],
+                    ['pt_BR', 'Portuguese (Brazil)'],
                     ['ro', 'Romanian'],
                     ['sv_SE', 'Swedish']
                 ]
