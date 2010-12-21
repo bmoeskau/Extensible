@@ -3,7 +3,7 @@ Ext.ensible.LocaleSample = function(){
         init: function(){
             Ext.QuickTips.init();
             
-            var localeStore = new Ext.data.ArrayStore({
+            this.localeStore = new Ext.data.ArrayStore({
                 fields: ['code', 'desc'],
                 data : [
                     ['da', 'Danish'],
@@ -15,9 +15,9 @@ Ext.ensible.LocaleSample = function(){
                 ]
             });
             
-            var localeCombo = new Ext.form.ComboBox({
+            this.localeCombo = new Ext.form.ComboBox({
                 renderTo: 'locales',
-                store: localeStore,
+                store: this.localeStore,
                 displayField: 'desc',
                 valueField: 'code',
                 typeAhead: true,
@@ -31,6 +31,7 @@ Ext.ensible.LocaleSample = function(){
                         fn: function(cbo, rec, idx){
                             this.calendar.getEl().mask('Loading '+rec.data.desc+'...');
                             this.loadLocale(rec.data.code);
+                            this.locale = rec.data.desc;
                         },
                         scope: this
                     }
@@ -70,7 +71,7 @@ Ext.ensible.LocaleSample = function(){
             this.calendar = new Ext.ensible.cal.CalendarPanel({
                 id: 'locale-calendar',
                 renderTo: 'cal',
-                title: 'Localized Calendar',
+                title: 'Localized Calendar: '+(this.locale || 'English (US)'),
                 width: 800,
                 height: 600,
                 eventStore: new Ext.ensible.sample.MemoryEventStore({
