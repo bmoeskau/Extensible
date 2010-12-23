@@ -700,7 +700,9 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             this.doLayout();
         }
         else{
-            l.activeItem.setStartDate(this.startDate, true);
+            if(id !== this.preEditView){
+                l.activeItem.setStartDate(this.startDate, true);
+            }
             if(tb){
                tb.show();
            }

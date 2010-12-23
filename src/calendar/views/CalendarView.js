@@ -620,7 +620,12 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
         if(operation == Ext.data.Record.COMMIT){
             Ext.ensible.log('onUpdate');
             this.dismissEventEditor();
-            this.refresh(rec.data[Ext.ensible.cal.EventMappings.RRule.name] != '');
+            
+            var rrule = rec.data[Ext.ensible.cal.EventMappings.RRule.name];
+            // if the event has a recurrence rule we have to reload the store in case
+            // any event instances were updated on the server
+            this.refresh(rrule !== undefined && rrule !== '');
+            
 			if(this.enableFx && this.enableUpdateFx){
 				this.doUpdateFx(this.getEventEls(rec.data[Ext.ensible.cal.EventMappings.EventId.name]), {
                     scope: this
