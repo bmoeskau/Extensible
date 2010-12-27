@@ -633,6 +633,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     // private
     onEventAdd: function(form, rec){
         //rec.data[Ext.ensible.cal.EventMappings.IsNew.name] = false;
+        this.newRecord = rec;
         this.store.add(rec);
         //this.hideEditForm();
         this.fireEvent('eventadd', this, rec);
@@ -681,6 +682,11 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      * @return {Ext.ensible.cal.CalendarPanel} this
      */
     hideEditForm: function(){
+        if(this.newRecord && this.newRecord.phantom){
+            this.store.remove(this.newRecord);
+        }
+        delete this.newRecord;
+        
         if(this.preEditView){
             this.setActiveView(this.preEditView);
             delete this.preEditView;

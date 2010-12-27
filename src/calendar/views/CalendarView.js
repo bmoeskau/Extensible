@@ -1192,7 +1192,7 @@ alert('End: '+bounds.end);
                     },
                     'eventcancel': {
                         fn: function(win, rec, animTarget){
-                            win.hide(animTarget);
+                            this.dismissEventEditor(animTarget);
                             win.currentView.onEventCancel();
                         },
                         scope: this
@@ -1227,11 +1227,16 @@ alert('End: '+bounds.end);
      * (defaults to 'hide' which will be called on the default editor window)
      * @return {Ext.ensible.cal.CalendarView} this
      */
-    dismissEventEditor : function(dismissMethod){
+    dismissEventEditor : function(dismissMethod, /*private*/ animTarget){
+        if(this.newRecord && this.newRecord.phantom){
+            this.store.remove(this.newRecord);
+        }
+        delete this.newRecord;
+        
         // grab the manager's ref so that we dismiss it properly even if the active view has changed
         var editWin = Ext.WindowMgr.get('ext-cal-editwin');
         if(editWin){
-            editWin[dismissMethod ? dismissMethod : 'hide']();
+            editWin[dismissMethod ? dismissMethod : 'hide'](animTarget);
         }
         return this;
     },
@@ -1250,6 +1255,7 @@ alert('End: '+bounds.end);
     // private
     onEventAdd: function(form, rec){
         //rec.data[Ext.ensible.cal.EventMappings.IsNew.name] = false;
+        this.newRecord = rec;
         this.store.add(rec);
         //this.store.save();
         this.fireEvent('eventadd', this, rec);

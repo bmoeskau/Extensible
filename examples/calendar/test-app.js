@@ -110,10 +110,6 @@
                             this.constructor.prototype.initComponent.apply(this, arguments);
                         },
                         
-//                        plugins: [{
-//                            ptype: 'ext.ensible.cal.contextmenu'
-//                        }],
-                        
                         listeners: {
                             'eventclick': {
                                 fn: function(vw, rec, el){

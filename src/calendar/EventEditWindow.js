@@ -222,7 +222,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
 
     // private
     cleanup: function(hide){
-        if(this.activeRecord && this.activeRecord.dirty){
+        if(this.activeRecord){
             this.activeRecord.reject();
         }
         delete this.activeRecord;
@@ -236,17 +236,47 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
     
     // private
     updateRecord: function(){
-        var f = this.formPanel.form,
-            dates = this.dateRangeField.getValue(),
-            M = Ext.ensible.cal.EventMappings;
+        var dates = this.dateRangeField.getValue(),
+            M = Ext.ensible.cal.EventMappings,
+            rec = this.activeRecord,
+            form = this.formPanel.form,
+            fs = rec.fields,
+            dirty = false;
             
-        f.updateRecord(this.activeRecord);
-        this.activeRecord.set(M.StartDate.name, dates[0]);
-        this.activeRecord.set(M.EndDate.name, dates[1]);
-        this.activeRecord.set(M.IsAllDay.name, dates[2]);
-        if(this.calendarStore){
-            this.activeRecord.set(M.CalendarId.name, this.calendarField.getValue());
-        }
+        rec.beginEdit();
+
+        //TODO: This block is copied directly from BasicForm.updateRecord.
+        // Unfortunately since that method internally calls begin/endEdit all
+        // updates happen and the record dirty status is reset internally to
+        // that call. We need the dirty status, plus currently the DateRangeField
+        // does not map directly to the record values, so for now we'll duplicate
+        // the setter logic here (we need to be able to pick up any custom-added 
+        // fields generically). Need to revisit this later and come up with a better solution.
+        fs.each(function(f){
+            var field = form.findField(f.name);
+            if(field){
+                var value = field.getValue();
+                if (value.getGroupValue) {
+                    value = value.getGroupValue();
+                } 
+                else if (field.eachItem) {
+                    value = [];
+                    field.eachItem(function(item){
+                        value.push(item.getValue());
+                    });
+                }
+                rec.set(f.name, value);
+            }
+        }, this);
+        
+        rec.set(M.StartDate.name, dates[0]);
+        rec.set(M.EndDate.name, dates[1]);
+        rec.set(M.IsAllDay.name, dates[2]);
+        
+        dirty = rec.dirty;
+        rec.endEdit();
+        
+        return dirty;
     },
     
     // private
@@ -254,13 +284,10 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
         if(!this.formPanel.form.isValid()){
             return;
         }
-        this.updateRecord();
-		
-		if(!this.activeRecord.dirty){
+		if(!this.updateRecord()){
 			this.onCancel();
 			return;
 		}
-		
 		this.fireEvent(this.activeRecord.phantom ? 'eventadd' : 'eventupdate', this, this.activeRecord, this.animateTarget);
     },
     
