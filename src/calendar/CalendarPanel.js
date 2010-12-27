@@ -309,11 +309,12 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             viewchange: true,
             /**
              * @event editdetails
-             * Fires when the user selects the option in this window to continue editing in the detailed edit form
-             * (by default, an instance of {@link Ext.ensible.cal.EventEditForm}. Handling code should hide this window
-             * and transfer the current event record to the appropriate instance of the detailed form by showing it
+             * Fires when the user selects the option to edit the selected event in the detailed edit form
+             * (by default, an instance of {@link Ext.ensible.cal.EventEditForm}). Handling code should hide the active
+             * event editor and transfer the current event record to the appropriate instance of the detailed form by showing it
              * and calling {@link Ext.ensible.cal.EventEditForm#loadRecord loadRecord}.
-             * @param {Ext.ensible.cal.CalendarPanel} this
+             * @param {Ext.ensible.cal.CalendarPanel} this The CalendarPanel
+             * @param {Ext.ensible.cal.CalendarView} view The currently active {@link Ext.ensible.cal.CalendarView CalendarView} subclass
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} that is currently being edited
              * @param {Ext.Element} el The target element
              */
