@@ -232,7 +232,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             datechange: true,
             /**
              * @event rangeselect
-             * Fires after the user drags on the calendar to select a range of dates/times in which to create an event
+             * Fires after the user drags on the calendar to select a range of dates/times in which to create an event. This is a 
+             * cancelable event, so returning false from a handler will cancel the drag operation and clean up any drag shim elements
+             * without displaying the event editor view. This could be useful for validating that a user can only create events within
+             * a certain range.
              * @param {Ext.ensible.cal.CalendarView} this
              * @param {Object} dates An object containing the start (StartDate property) and end (EndDate property) dates selected
              * @param {Function} callback A callback function that MUST be called after the event handling is complete so that
@@ -595,13 +598,21 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
 	onCalendarEndDrag : function(start, end, onComplete){
         // set this flag for other event handlers that might conflict while we're waiting
         this.dragPending = true;
-        // have to wait for the user to save or cancel before finalizing the dd interaction
-        var dates = {};
+        
+        var dates = {},
+            onComplete = this.onCalendarEndDragComplete.createDelegate(this, [onComplete]);
+        
         dates[Ext.ensible.cal.EventMappings.StartDate.name] = start;
         dates[Ext.ensible.cal.EventMappings.EndDate.name] = end;
         
-		//this.fireEvent('rangeselect', this, o, null, this.onCalendarEndDragComplete.createDelegate(this, [onComplete]));
-        this.onRangeSelect(dates, null, this.onCalendarEndDragComplete.createDelegate(this, [onComplete]));
+        if(this.fireEvent('rangeselect', this, dates, onComplete) !== false){
+            this.showEventEditor(dates);
+            this.editWin.on('hide', onComplete, this, {single:true});
+        }
+        else{
+            // client code canceled the selection so clean up immediately
+            this.onCalendarEndDragComplete(onComplete);
+        }
 	},
     
     // private
@@ -1292,14 +1303,6 @@ alert('End: '+bounds.end);
             data[M.IsAllDay.name] = ad;
                 
             this.showEventEditor(data, el);
-        }
-    },
-    
-    // private
-    onRangeSelect: function(dates, el, onComplete){
-        if(this.fireEvent('rangeselect', this, dates, el, onComplete) !== false){
-            this.showEventEditor(dates, el);
-            this.editWin.on('hide', onComplete, this, {single:true});
         }
     },
     
