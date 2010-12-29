@@ -39,7 +39,8 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             beforeeventresize: true,
             /**
              * @event eventresize
-             * Fires after the user drags the resize handle of an event and the resize operation is complete.
+             * Fires after the user has drag-dropped the resize handle of an event and the resize operation is complete. If you need 
+             * to cancel the resize operation you should handle the {@link #beforeeventresize} event and return false from your handler function.
              * @param {Ext.ensible.cal.DayBodyView} this
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was resized
              * containing the updated start and end dates
@@ -47,7 +48,9 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             eventresize: true,
             /**
              * @event dayclick
-             * Fires after the user clicks within the day view container and not on an event element
+             * Fires after the user clicks within the view container and not on an event element. This is a cancelable event, so 
+             * returning false from a handler will cancel the click without displaying the event editor view. This could be useful 
+             * for validating that a user can only create events on certain days.
              * @param {Ext.ensible.cal.DayBodyView} this
              * @param {Date} dt The date/time that was clicked on
              * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks within the 

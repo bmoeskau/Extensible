@@ -187,7 +187,9 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             eventsrendered: true,
             /**
              * @event eventclick
-             * Fires after the user clicks on an event element
+             * Fires after the user clicks on an event element. This is a cancelable event, so returning false from a 
+             * handler will cancel the click without displaying the event editor view. This could be useful for 
+             * validating the rules by which events should be editable by the user.
              * @param {Ext.ensible.cal.CalendarView} this
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was clicked on
              * @param {HTMLNode} el The DOM node that was clicked on
@@ -223,7 +225,8 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             beforedatechange: true,
             /**
              * @event datechange
-             * Fires after the start date of the view changes
+             * Fires after the start date of the view has changed. If you need to cancel the date change you should handle the 
+             * {@link #beforedatechange} event and return false from your handler function.
              * @param {Ext.ensible.cal.CalendarView} this
              * @param {Date} startDate The start date of the view (as explained in {@link #getStartDate}
              * @param {Date} viewStart The first displayed date in the view
@@ -247,7 +250,8 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             /**
              * @event beforeeventmove
              * Fires before an event element is dragged by the user and dropped in a new position. This is a cancelable event, so 
-             * returning false from a handler will cancel the move operation.
+             * returning false from a handler will cancel the move operation. This could be useful for validating that a user can 
+             * only move events within a certain date range.
              * @param {Ext.ensible.cal.CalendarView} this
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that will be moved
              * @param {Date} dt The new start date to be set (the end date will be automaticaly adjusted to match the event duration)
@@ -255,7 +259,8 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             beforeeventmove: true,
             /**
              * @event eventmove
-             * Fires after an event element is dragged by the user and dropped in a new position
+             * Fires after an event element has been dragged by the user and dropped in a new position. If you need to cancel the 
+             * move operation you should handle the {@link #beforeeventmove} event and return false from your handler function.
              * @param {Ext.ensible.cal.CalendarView} this
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was moved with
              * updated start and end dates
@@ -296,21 +301,21 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             editdetails: true,
             /**
              * @event eventadd
-             * Fires after a new event is added to the underlying store
+             * Fires after a new event has been added to the underlying store
              * @param {Ext.ensible.cal.CalendarView} this
              * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was added
              */
             eventadd: true,
             /**
              * @event eventupdate
-             * Fires after an existing event is updated
+             * Fires after an existing event has been updated
              * @param {Ext.ensible.cal.CalendarView} this
              * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was updated
              */
             eventupdate: true,
             /**
              * @event eventcancel
-             * Fires after an event add/edit operation is canceled by the user and no store update took place
+             * Fires after an event add/edit operation has been canceled by the user and no store update took place
              * @param {Ext.ensible.cal.CalendarView} this
              * @param {Ext.ensible.cal.EventRecord} rec The new {@link Ext.ensible.cal.EventRecord record} that was canceled
              */
@@ -326,7 +331,8 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
             beforeeventdelete: true,
             /**
              * @event eventdelete
-             * Fires after an event is deleted by the user.
+             * Fires after an event has been deleted by the user. If you need to cancel the delete operation you should handle the 
+             * {@link #beforeeventdelete} event and return false from your handler function.
              * @param {Ext.ensible.cal.CalendarView} this
              * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was deleted
              * @param {Ext.Element} el The target element
