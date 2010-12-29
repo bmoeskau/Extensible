@@ -174,7 +174,7 @@
             rangesOverlap : function(start1, end1, start2, end2){
                 var startsInRange = (start1 >= start2 && start1 <= end2),
                     endsInRange = (end1 >= start2 && end1 <= end2),
-                    spansRange = (start1 < start2 && end1 > end2);
+                    spansRange = (start1 <= start2 && end1 >= end2);
                 
                 return (startsInRange || endsInRange || spansRange);
             }

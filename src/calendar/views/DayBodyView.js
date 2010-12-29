@@ -311,8 +311,14 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
                 if(!evt){
                     continue;
                 }
-                var item = evt.data || evt.event.data;
-                if(item._renderAsAllDay){
+                var item = evt.data || evt.event.data,
+                    M = Ext.ensible.cal.EventMappings,
+                    ad = item[M.IsAllDay.name] === true,
+                    span = Ext.ensible.Date.diffDays(item[M.StartDate.name], item[M.EndDate.name]) > 0,
+                    renderAsAllDay = ad || span;
+                         
+                if(renderAsAllDay){
+                    // this event is already rendered in the header view
                     continue;
                 }
                 Ext.apply(item, {
