@@ -203,7 +203,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
                     '</div>'
                 )
                 : new Ext.XTemplate(
-                    '<div id="{_elId}" class="ext-cal-evt {_extraCls}-x" style="left: {_left}%; width: {_width}%; top: {_top}px;">',
+                    '<div id="{_elId}" class="ext-cal-evt {_extraCls}" style="left: {_left}%; width: {_width}%; top: {_top}px;">',
                         '<div class="ext-cal-evb">&#160;</div>',
                         '<dl style="height: {_height}px;" class="ext-cal-evdm">',
                             '<dd class="ext-evt-bd">',
@@ -272,7 +272,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             var rec = this.calendarStore.getById(evt[M.CalendarId.name]);
             colorCls = 'x-cal-' + rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name];
         }
-        colorCls += (evt._renderAsAllDay ? '-ad' : '');
+        colorCls += (evt._renderAsAllDay ? '-ad' : '') + (Ext.isIE || Ext.isOpera ? '-x' : '');
         extraClasses.push(colorCls);
         
         if(this.getEventClass){
