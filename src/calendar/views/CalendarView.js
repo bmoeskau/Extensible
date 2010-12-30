@@ -168,6 +168,48 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      */
     getEventTemplate : Ext.emptyFn, // must be implemented by a subclass
     
+    /**
+     * This is undefined by default, but can be implemented to allow custom CSS classes and template data to be
+     * conditionally applied to events during rendering. This function will be called with the parameter list shown
+     * below and is expected to return the CSS class name (or empty string '' for none) that will be added to the 
+     * event element's wrapping div. To apply multiple class names, simply return them space-delimited within the 
+     * string (e.g., 'my-class another-class'). Example usage, applied in a CalendarPanel config:
+     * <pre><code>
+// This example assumes a custom field of 'IsHoliday' has been added to EventRecord
+viewConfig: {
+    getEventClass: function(rec, allday, templateData, store){
+        if(rec.data.IsHoliday){
+            templateData.iconCls = 'holiday';
+            return 'evt-holiday';
+        }
+        templateData.iconCls = 'plain';
+        return '';
+    },
+    getEventBodyMarkup : function(){
+        // This is simplified, but shows the symtax for how you could add a
+        // custom placeholder that maps back to the templateData property created
+        // in getEventClass. Note that this is standard Ext template syntax.
+        if(!this.eventBodyMarkup){
+            this.eventBodyMarkup = '&lt;span class="{iconCls}">&lt;/span> {Title}';
+        }
+        return this.eventBodyMarkup;
+    }
+}
+</code></pre>
+     * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} being rendered
+     * @param {Boolean} isAllDay A flag indicating whether the event will be <em>rendered</em> as an all-day event. Note that this
+     * will not necessarily correspond with the value of the <tt>EventRecord.IsAllDay</tt> field &mdash; events that span multiple
+     * days will be rendered using the all-day event template regardless of the field value. If your logic for this function
+     * needs to know whether or not the event will be rendered as an all-day event, this value should be used. 
+     * @param {Object} templateData A plain JavaScript object that is empty by default. You can add custom properties
+     * to this object that will then be passed into the event template for the specific event being rendered. If you have 
+     * overridden the default event template and added custom data placeholders, you can use this object to pass the data
+     * into the template that will replace those placeholders.
+     * @param {Ext.data.Store} store The Event data store in use by the view
+     * @method getEventClass
+     * @return {String} A space-delimited CSS class string (or '')
+     */
+    
     // private
     initComponent : function(){
         this.setStartDate(this.startDate || new Date());

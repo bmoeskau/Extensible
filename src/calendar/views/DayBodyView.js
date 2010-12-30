@@ -197,13 +197,13 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         if(!this.eventTpl){
             this.eventTpl = !(Ext.isIE || Ext.isOpera) ? 
                 new Ext.XTemplate(
-                    '<div id="{_elId}" class="{_selectorCls} {_colorCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
+                    '<div id="{_elId}" class="{_extraCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                         '<div class="ext-evt-bd">', this.getEventBodyMarkup(), '</div>',
                         this.enableEventResize ? '<div class="ext-evt-rsz"><div class="ext-evt-rsz-h">&#160;</div></div>' : '',
                     '</div>'
                 )
                 : new Ext.XTemplate(
-                    '<div id="{_elId}" class="ext-cal-evt {_selectorCls} {_colorCls}-x" style="left: {_left}%; width: {_width}%; top: {_top}px;">',
+                    '<div id="{_elId}" class="ext-cal-evt {_extraCls}-x" style="left: {_left}%; width: {_width}%; top: {_top}px;">',
                         '<div class="ext-cal-evb">&#160;</div>',
                         '<dl style="height: {_height}px;" class="ext-cal-evdm">',
                             '<dd class="ext-evt-bd">',
@@ -236,13 +236,13 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             
             tpl = !(Ext.isIE || Ext.isOpera) ? 
                 new Ext.XTemplate(
-                    '<div class="{_selectorCls} {_colorCls} {values.spanCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
+                    '<div class="{_extraCls} {values.spanCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                         body,
                     '</div>'
                 ) 
                 : new Ext.XTemplate(
                     '<div class="ext-cal-evt" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
-                    '<div class="{_selectorCls} {values.spanCls} {_colorCls} ext-cal-evo">',
+                    '<div class="{_extraCls} {values.spanCls} ext-cal-evo">',
                         '<div class="ext-cal-evm">',
                             '<div class="ext-cal-evi">',
                                 body,
@@ -259,24 +259,31 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     // private
     getTemplateEventData : function(evt){
         var M = Ext.ensible.cal.EventMappings,
-            selector = this.getEventSelectorCls(evt[M.EventId.name]),
+            extraClasses = [this.getEventSelectorCls(evt[M.EventId.name])],
             data = {},
+            colorCls = 'x-cal-default',
+            title = evt[M.Title.name],
+            fmt = Ext.ensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
             recurring = evt[M.RRule.name] != '';
         
         this.getTemplateEventBox(evt);
-        
-        data._selectorCls = selector;
-        var colorCls = 'x-cal-default';
         
         if(this.calendarStore && evt[M.CalendarId.name]){
             var rec = this.calendarStore.getById(evt[M.CalendarId.name]);
             colorCls = 'x-cal-' + rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name];
         }
-        data._colorCls = colorCls + (evt._renderAsAllDay ? '-ad' : '');
+        colorCls += (evt._renderAsAllDay ? '-ad' : '');
+        extraClasses.push(colorCls);
+        
+        if(this.getEventClass){
+            var rec = this.getEventRecord(evt[M.EventId.name]),
+                cls = this.getEventClass(rec, !!evt._renderAsAllDay, data, this.store);
+            extraClasses.push(cls);
+        }
+        
+        data._extraCls = extraClasses.join(' ');
         data._isRecurring = evt.Recurrence && evt.Recurrence != '';
         data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] != '';
-        var title = evt[M.Title.name],
-            fmt = Ext.ensible.Date.use24HourTime ? 'G:i ' : 'g:ia ';
         data.Title = (evt[M.IsAllDay.name] ? '' : evt[M.StartDate.name].format(fmt)) + (!title || title.length == 0 ? this.defaultEventTitleText : title);
         
         return Ext.applyIf(data, evt);

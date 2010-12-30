@@ -217,18 +217,18 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             
 	        tpl = !(Ext.isIE || Ext.isOpera) ? 
 				new Ext.XTemplate(
-                    '<div class="{_selectorCls} {_colorCls} {values.spanCls} ext-cal-evt ext-cal-evr">',
+                    '<div class="{_extraCls} {values.spanCls} ext-cal-evt ext-cal-evr">',
 		                body,
 		            '</div>'
 		        ) 
 				: new Ext.XTemplate(
 		            '<tpl if="_renderAsAllDay">',
-                        '<div class="{_selectorCls} {values.spanCls} {_colorCls} ext-cal-evt ext-cal-evo">',
+                        '<div class="{_extraCls} {values.spanCls} ext-cal-evt ext-cal-evo">',
 		                    '<div class="ext-cal-evm">',
 		                        '<div class="ext-cal-evi">',
 		            '</tpl>',
 		            '<tpl if="!_renderAsAllDay">',
-                        '<div class="{_selectorCls} {_colorCls} ext-cal-evt ext-cal-evr">',
+                        '<div class="{_extraCls} ext-cal-evt ext-cal-evr">',
 		            '</tpl>',
 		            body,
 		            '<tpl if="_renderAsAllDay">',
@@ -246,24 +246,32 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
     // private
     getTemplateEventData : function(evt){
 		var M = Ext.ensible.cal.EventMappings,
-            selector = this.getEventSelectorCls(evt[M.EventId.name]),
+            extraClasses = [this.getEventSelectorCls(evt[M.EventId.name])],
+            data = {},
             recurring = evt[M.RRule.name] != '',
-		    title = evt[M.Title.name],
             colorCls = 'x-cal-default',
+		    title = evt[M.Title.name],
             fmt = Ext.ensible.Date.use24HourTime ? 'G:i ' : 'g:ia ';
         
         if(this.calendarStore && evt[M.CalendarId.name]){
             var rec = this.calendarStore.getById(evt[M.CalendarId.name]);
             colorCls = 'x-cal-' + rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name];
         }
+        colorCls += (evt._renderAsAllDay ? '-ad' : '');
+        extraClasses.push(colorCls);
         
-        return Ext.applyIf({
-			_selectorCls: selector,
-            _colorCls: colorCls + (evt._renderAsAllDay ? '-ad' : ''),
-            _isRecurring: evt.Recurrence && evt.Recurrence != '',
-            _isReminder: evt[M.Reminder.name] && evt[M.Reminder.name] != '',
-            Title: (evt[M.IsAllDay.name] ? '' : evt[M.StartDate.name].format(fmt)) + (!title || title.length == 0 ? this.defaultEventTitleText : title)
-        }, evt);
+        if(this.getEventClass){
+            var rec = this.getEventRecord(evt[M.EventId.name]),
+                cls = this.getEventClass(rec, !!evt._renderAsAllDay, data, this.store);
+            extraClasses.push(cls);
+        }
+        
+		data._extraCls = extraClasses.join(' ');
+        data._isRecurring = evt.Recurrence && evt.Recurrence != '';
+        data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] != '';
+        data.Title = (evt[M.IsAllDay.name] ? '' : evt[M.StartDate.name].format(fmt)) + (!title || title.length == 0 ? this.defaultEventTitleText : title);
+        
+        return Ext.applyIf(data, evt);
     },
     
     // private
