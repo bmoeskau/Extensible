@@ -1,5 +1,26 @@
 h1. Release Notes
 
+h2. 1.0 (Beta 2)
+
+_Dec. 30, 2010_
+
+*New Features*
+* Added CalendarView.getEventClass for customizing events at render time (works like GridView.getRowClass)
+* Added Swedish, Portuguese (Portugal) and Portuguese (Brazil) locales
+* Added Windows .bat build script
+
+*Bugs Fixed*
+* EventMappings not followed correctly on DayView click to show editor
+* Midnight boundary display bug in DayView
+* DayView/WeekView container scroll broken
+* Extraneous GET request after update from edit form
+* CalendarMappings not applied correctly in CalendarCombo
+* Event "eventupdate" not fired correctly from views
+* CalendarView.activeView undefined on initial render
+* DD shims not showing on window sample (z-index issue)
+* "rangeselect" event args inconsistent
+* Layout bug when starting with day or week view active
+
 h2. 1.0 (Beta 1)
 
 _Dec. 9, 2010_
