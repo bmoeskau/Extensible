@@ -114,6 +114,7 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
     // private
     onResize : function(){
         this.forceSize();
+        this.refresh.defer(1, this); //IE needs the defer
     },
     
     /*
