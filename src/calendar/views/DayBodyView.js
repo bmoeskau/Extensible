@@ -64,9 +64,11 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     //private
     initDD : function(){
         var cfg = {
+            view: this,
             createText: this.ddCreateEventText,
             moveText: this.ddMoveEventText,
-            resizeText: this.ddResizeEventText
+            resizeText: this.ddResizeEventText,
+            ddGroup: this.ddGroup || this.id+'-DayViewDD'
         };
 
         this.el.ddScrollConfig = {
@@ -78,14 +80,12 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             increment: 100,
             ddGroup: this.ddGroup || this.id+'-DayViewDD'
         };
+        
         this.dragZone = new Ext.ensible.cal.DayViewDragZone(this.el, Ext.apply({
-            view: this,
             containerScroll: true
         }, cfg));
         
-        this.dropZone = new Ext.ensible.cal.DayViewDropZone(this.el, Ext.apply({
-            view: this
-        }, cfg));
+        this.dropZone = new Ext.ensible.cal.DayViewDropZone(this.el, cfg);
     },
     
     //private
