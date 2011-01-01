@@ -131,6 +131,11 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      */
     dateParamFormat: 'Y-m-d',
     /**
+	 * @cfg {Integer} incrementsPerHour
+	 * the number of time increments to show per hour.  2 = thirty minute increments, 6 = ten minute increments
+	 */
+	incrementsPerHour: 2,
+    /**
      * @cfg {Boolean} editModal
      * True to show the default event editor window modally over the entire page, false to allow user interaction with the page
      * while showing the window (the default). Note that if you replace the default editor window with some alternate component this
