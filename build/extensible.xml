@@ -54,7 +54,7 @@
     </sources>
     <tags>
         <tag name="author" title="Brian Moeskau"/>
-        <tag name="version" title="1.0-beta1"/>
+        <tag name="version" title="1.0-beta2"/>
         <tag name="note" format="&lt;i&gt;NOTE: {0}&lt;/i&gt;"/>
         <tag name="demo" title="Demo" format="&lt;a href=&quot;{0}&quot;&gt;{0}&lt;/a&gt;" />        
     </tags>
