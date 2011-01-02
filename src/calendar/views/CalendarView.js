@@ -913,7 +913,7 @@ viewConfig: {
 //            ev1EndsInEv2 = (end1 >= start2 && end1 <= end2),
 //            ev1SpansEv2 = (start1 < start2 && end1 > end2),
             var evtsOverlap = Ext.ensible.Date.rangesOverlap(start1, end1, start2, end2),
-                ev1MinHeightOverlapsEv2 = (startDiff > -30 && startDiff < 30);
+                ev1MinHeightOverlapsEv2 = (startDiff > -(60 / this.incrementsPerHour) && startDiff < (60 / this.incrementsPerHour));
         
         //return (ev1startsInEv2 || ev1EndsInEv2 || ev1SpansEv2 || ev1MinHeightOverlapsEv2);
         return (evtsOverlap || ev1MinHeightOverlapsEv2);
