@@ -44,14 +44,6 @@ Ext.override(Ext.form.DateField, {
 
 /* This override applies to the current 3.3.x line to fix duplicate remote actions */
 Ext.override(Ext.data.Store, {
-    afterEdit : function(record){
-        if(!record.phantom){
-            if(this.modified.indexOf(record) == -1){
-                this.modified.push(record);
-            }
-            this.fireEvent('update', this, record, Ext.data.Record.EDIT);
-        }
-    },
     add : function(records) {
         var i, record, index;
         
@@ -65,6 +57,7 @@ Ext.override(Ext.data.Store, {
             
             record.join(this);
             
+            //Extensible: Added the modified.indexOf check to avoid adding duplicate recs
             if ((record.dirty || record.phantom) && this.modified.indexOf(record) == -1) {
                 this.modified.push(record);
             }
@@ -89,6 +82,7 @@ Ext.override(Ext.data.Store, {
             this.data.insert(index + i, record);
             record.join(this);
             
+            //Extensible: Added the modified.indexOf check to avoid adding duplicate recs
             if ((record.dirty || record.phantom) && this.modified.indexOf(record) == -1) {
                 this.modified.push(record);
             }
@@ -118,6 +112,7 @@ Ext.override(Ext.data.Store, {
             if (record.phantom && record.isValid()) {
                 record.markDirty();  // <-- Mark new records dirty (Ed: why?)
                 
+                //Extensible: Added the modified.indexOf check to avoid adding duplicate recs
                 if (modified.indexOf(record) == -1) {
                     modified.push(record);
                 }
