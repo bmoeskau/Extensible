@@ -131,6 +131,11 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      */
     dateParamFormat: 'Y-m-d',
     /**
+	 * @cfg {Integer} incrementsPerHour
+	 * the number of time increments to show per hour.  2 = thirty minute increments, 6 = ten minute increments
+	 */
+	incrementsPerHour: 2,
+    /**
      * @cfg {Boolean} editModal
      * True to show the default event editor window modally over the entire page, false to allow user interaction with the page
      * while showing the window (the default). Note that if you replace the default editor window with some alternate component this
@@ -908,7 +913,7 @@ viewConfig: {
 //            ev1EndsInEv2 = (end1 >= start2 && end1 <= end2),
 //            ev1SpansEv2 = (start1 < start2 && end1 > end2),
             var evtsOverlap = Ext.ensible.Date.rangesOverlap(start1, end1, start2, end2),
-                ev1MinHeightOverlapsEv2 = (startDiff > -30 && startDiff < 30);
+                ev1MinHeightOverlapsEv2 = (startDiff > -(60 / this.incrementsPerHour) && startDiff < (60 / this.incrementsPerHour));
         
         //return (ev1startsInEv2 || ev1EndsInEv2 || ev1SpansEv2 || ev1MinHeightOverlapsEv2);
         return (evtsOverlap || ev1MinHeightOverlapsEv2);

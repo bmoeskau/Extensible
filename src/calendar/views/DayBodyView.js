@@ -412,10 +412,10 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             dayIndex = Math.floor(relX / daySize.width), // clicked col index
             scroll = this.el.getScroll(),
             row = this.el.child('.ext-cal-bg-row'), // first avail row, just to calc size
-            rowH = row.getHeight() / 2, // 30 minute increment since a row is 60 minutes
+            rowH = row.getHeight() / this.incrementsPerHour, // use the incrementsPerHour config variable
             relY = y - viewBox.y - rowH + scroll.top,
             rowIndex = Math.max(0, Math.ceil(relY / rowH)),
-            mins = rowIndex * 30,
+            mins = rowIndex * (60 / this.incrementsPerHour),
             dt = this.viewStart.add(Date.DAY, dayIndex).add(Date.MINUTE, mins),
             el = this.getDayEl(dt),
             timeX = x;
@@ -430,7 +430,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             // this is the box for the specific time block in the day that was clicked on:
             timeBox: {
                 x: timeX,
-                y: (rowIndex * 21) + viewBox.y - scroll.top,
+                y: (rowIndex * 42 / this.incrementsPerHour) + viewBox.y - scroll.top,
                 width: daySize.width,
                 height: rowH
             } 
