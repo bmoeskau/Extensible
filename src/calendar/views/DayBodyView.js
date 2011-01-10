@@ -26,6 +26,10 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         if(this.readOnly === true){
             this.enableEventResize = false;
         }
+        this.incrementsPerHour = 60 / this.ddIncrement;
+        
+        //TODO: This needs to be based on a measurement of row height and configured time increment
+        this.minEventHeight = this.minEventDisplayMinutes / (60 / 42);
         
         this.addEvents({
             /**
@@ -68,6 +72,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             createText: this.ddCreateEventText,
             moveText: this.ddMoveEventText,
             resizeText: this.ddResizeEventText,
+            ddIncrement: this.ddIncrement,
             ddGroup: this.ddGroup || this.id+'-DayViewDD'
         };
 
@@ -301,7 +306,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         evt._left = 0;
         evt._width = 100;
         evt._top = Math.round(startMins * heightFactor) + 1;
-        evt._height = Math.max((diffMins * heightFactor) - 2, 15);
+        evt._height = Math.max((diffMins * heightFactor) - 2, this.minEventHeight);
     },
 
     // private
@@ -412,7 +417,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             dayIndex = Math.floor(relX / daySize.width), // clicked col index
             scroll = this.el.getScroll(),
             row = this.el.child('.ext-cal-bg-row'), // first avail row, just to calc size
-            rowH = row.getHeight() / this.incrementsPerHour, // use the incrementsPerHour config variable
+            rowH = row.getHeight() / this.incrementsPerHour,
             relY = y - viewBox.y - rowH + scroll.top,
             rowIndex = Math.max(0, Math.ceil(relY / rowH)),
             mins = rowIndex * (60 / this.incrementsPerHour),
