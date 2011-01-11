@@ -48,6 +48,27 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      * bottom of the event, false to disallow it (defaults to true).
      */
     enableEventResize: true,
+    /**
+     * @cfg {Integer} ddIncrement
+     * <p>The number of minutes between each step during various drag/drop operations in the view (defaults to 30).
+     * This controls the number of times the dragged object will "snap" to the view during a drag operation, and does
+     * not have to match with the time boundaries displayed in the view. E.g., the view could be displayed in 30 minute
+     * increments (the default) but you could configure ddIncrement to 10, which would snap a dragged object to the
+     * view at 10 minute increments.</p>
+     * <p>This config currently applies while dragging to move an event, resizing an event by its handle or dragging 
+     * on the view to create a new event.</p>
+     */
+    ddIncrement: 30,
+    /**
+     * @cfg {Integer} minEventDisplayMinutes
+     * This is the minimum <b>display</b> height, in minutes, for events shown in the view (defaults to 30). This setting
+     * ensures that events with short duration are still readable (e.g., by default any event where the start and end
+     * times were the same would have 0 height). It also applies when calculating whether multiple events should be
+     * displayed as overlapping. In datetime terms, an event that starts and ends at 9:00 and another event that starts
+     * and ends at 9:05 do not overlap, but visually the second event would obscure the first in the view. This setting
+     * provides a way to ensure that such events will still be calculated as overlapping and displayed correctly.
+     */
+    minEventDisplayMinutes: 30,
     
     // private
     initComponent : function(){
@@ -61,6 +82,8 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
         cfg.dayCount = this.dayCount;
         cfg.weekCount = 1;
         cfg.readOnly = this.readOnly;
+        cfg.ddIncrement = this.ddIncrement;
+        cfg.minEventDisplayMinutes = this.minEventDisplayMinutes;
         
         var header = Ext.applyIf({
             xtype: 'extensible.dayheaderview',
