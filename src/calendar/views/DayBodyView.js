@@ -313,19 +313,27 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     // private
     getTemplateEventBox : function(evt){
         var heightFactor = this.hourHeight / this.hourIncrement,
-            //heightFactor = .7, // each hour is 42 pixels high -- this divided by 60 minutes = .7, which is the height ratio to apply to events
             start = evt[Ext.ensible.cal.EventMappings.StartDate.name],
             end = evt[Ext.ensible.cal.EventMappings.EndDate.name],
-            startHour = Math.max(start.getHours() - this.viewStartHour, 0),
-            endHour = Math.min(end.getHours() - this.viewStartHour, this.viewEndHour - this.viewStartHour),
-            startMins = startHour * this.hourIncrement + start.getMinutes(),
-            endMins = endHour * this.hourIncrement + end.getMinutes(),
-            diffMins = endMins - startMins;
-        
+            startOffset = Math.max(start.getHours() - this.viewStartHour, 0),
+            endOffset = Math.min(end.getHours() - this.viewStartHour, this.viewEndHour - this.viewStartHour),
+            startMins = startOffset * this.hourIncrement,
+            endMins = endOffset * this.hourIncrement,
+            viewEndDt = end.clearTime(true).add(Date.HOUR, this.viewEndHour);
+            
+        if(start.getHours() >= this.viewStartHour){
+            // only add the minutes if the start is visible, otherwise it offsets the event incorrectly
+            startMins += start.getMinutes();
+        }
+        if(end <= viewEndDt){
+            // only add the minutes if the end is visible, otherwise it offsets the event incorrectly
+            endMins += end.getMinutes();
+        }
+
         evt._left = 0;
         evt._width = 100;
-        evt._top = Math.round(startMins * heightFactor) + 1; // +1 offset looks better
-        evt._height = Math.max((diffMins * heightFactor) - 2, this.minEventHeight - 2); // -2 to account for +1 position offset
+        evt._top = startMins * heightFactor + 1; // +1 offset looks better
+        evt._height = Math.max(((endMins - startMins) * heightFactor), this.minEventHeight) - 2; // -2 to account for +1 position offset
     },
 
     // private
