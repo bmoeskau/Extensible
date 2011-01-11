@@ -16,6 +16,10 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
      */
     enableEventResize: true,
     
+    viewStartHour: 0,
+    viewEndHour: 24,
+    minTimeIncrement: 60,
+    
     //private
     dayColumnElIdDelimiter: '-day-col-',
     
@@ -140,7 +144,10 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
                 dayCount: this.dayCount,
                 showTodayText: this.showTodayText,
                 todayText: this.todayText,
-                showTime: this.showTime
+                showTime: this.showTime,
+                viewStartHour: this.viewStartHour,
+                viewEndHour: this.viewEndHour,
+                minTimeIncrement: this.minTimeIncrement
             });
         }
         this.tpl.compile();
@@ -296,17 +303,19 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     
     // private
     getTemplateEventBox : function(evt){
-        var heightFactor = .7,
+        var heightFactor = .7, // each hour is 42 pixels high -- this divided by 60 minutes = .7, which is the height ratio to apply to events
             start = evt[Ext.ensible.cal.EventMappings.StartDate.name],
             end = evt[Ext.ensible.cal.EventMappings.EndDate.name],
-            startMins = start.getHours() * 60 + start.getMinutes(),
-            endMins = end.getHours() * 60 + end.getMinutes(), 
+            startHour = Math.max(start.getHours() - this.viewStartHour, 0),
+            endHour = Math.min(end.getHours() - this.viewStartHour, this.viewEndHour - this.viewStartHour),
+            startMins = startHour * 60 + start.getMinutes(),
+            endMins = endHour * 60 + end.getMinutes(),
             diffMins = endMins - startMins;
         
         evt._left = 0;
         evt._width = 100;
-        evt._top = Math.round(startMins * heightFactor) + 1;
-        evt._height = Math.max((diffMins * heightFactor) - 2, this.minEventHeight);
+        evt._top = Math.round(startMins * heightFactor) + 1; // +1 offset looks better
+        evt._height = Math.max((diffMins * heightFactor) - 2, this.minEventHeight - 2); // -2 to account for +1 position offset
     },
 
     // private

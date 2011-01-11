@@ -71,12 +71,15 @@
                         border: false,
                         id:'app-calendar',
                         region: 'center',
-                        activeItem: 3, // month view
+                        activeItem: 0, // month view
                         
                         // Any generic view options that should be applied to all sub views:
                         viewConfig: {
                             //enableFx: false,
                             //ddIncrement: 10 //only applies to DayView and subclasses, but convenient to put it here
+                            viewStartHour: 6,
+                            viewEndHour: 18,
+                            minTimeIncrement: 60
                         },
                         
                         // View options specific to a certain view (if the same options exist in viewConfig
