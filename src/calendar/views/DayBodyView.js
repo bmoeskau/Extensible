@@ -16,11 +16,12 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
      */
     enableEventResize: true,
     
+    //TODO: move these to DayView
     showHourSeparator: true,
     viewStartHour: 0,
     viewEndHour: 24,
     scrollStartHour: 7,
-    hourHeight: 84,
+    hourHeight: 42,
     
     //private
     dayColumnElIdDelimiter: '-day-col-',
@@ -439,7 +440,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             relY = y - viewBox.y - rowH + scroll.top,
             rowIndex = Math.max(0, Math.ceil(relY / rowH)),
             mins = rowIndex * (this.hourIncrement / this.incrementsPerHour),
-            dt = this.viewStart.add(Date.DAY, dayIndex).add(Date.MINUTE, mins),
+            dt = this.viewStart.add(Date.DAY, dayIndex).add(Date.MINUTE, mins).add(Date.HOUR, this.viewStartHour),
             el = this.getDayEl(dt),
             timeX = x;
         
