@@ -1,0 +1,62 @@
+<html>
+<head>
+    <title>Extensible : Custom Calendar Views</title>
+    <!-- Ext includes -->
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.0/resources/css/ext-all.css" />
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/adapter/ext/ext-base-debug.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/ext-all-debug.js"></script>
+    <!-- Any Ext overrides go here -->
+    
+    <!-- Extensible includes -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/extensible-all.css" />
+    <script type="text/javascript" src="../../extensible-all-debug.js"></script>
+    <!-- Any Extensible overrides go here -->
+    
+    <!-- Page-specific includes -->
+    <link rel="stylesheet" type="text/css" href="../examples.css" />
+    <script type="text/javascript" src="data-events.js"></script>
+    <script type="text/javascript" src="MemoryEventStore.js"></script>
+    <script type="text/javascript" src="custom-views.js"></script>
+    
+    <style>
+        .sample-ct {
+            /* pre-size the container for smoother rendering, should match the panel's height config */
+            height: 700px;
+        }
+        /*
+         * Customize the default event color: 
+         */
+        .x-cal-default,
+        .x-cal-default-x .ext-cal-evb,
+        .ext-ie .x-cal-default-ad,
+        .ext-opera .x-cal-default-ad {
+            color: #59638F;
+        }
+        .ext-cal-day-col .x-cal-default,
+        .ext-dd-drag-proxy .x-cal-default,
+        .x-cal-default-ad,
+        .x-cal-default-ad .ext-cal-evm,
+        .x-cal-default .ext-cal-picker-icon,
+        .x-cal-default-x dl,
+        .x-calendar-list-menu li em .x-cal-default {
+            background: #59638F;
+        }
+    </style>
+</head>
+<body>
+    <div id="sample-overview">
+        <h1>Custom Calendar Views</h1>
+        <p>This example shows how you can create custom views using standard configs. The default event color 
+        has also been customized by overriding a few CSS rules (view source to see that). The CalendarPanel contains the following views:</p>
+        <ul>
+            <li><strong>3 Days:</strong> Using only <tt>showMultiDayView:true</tt> we can get a multi-day view</li>
+            <li><strong>Work Week:</strong> This view shows how you could create a work week view that is Monday-Friday, and only business hours.
+            This uses many different options for customizing the view including altering the row heights, providing
+            10-minute drag increments, restricting the start and end times of the view, etc. See the source for complete details.</li>
+            <li><strong>3 Weeks:</strong> A multi-week view with a custom <tt>weekCount</tt></li> 
+        </ul>
+        <p class="view-src"><a target="_blank" href="custom-views.js">View the source</a></p>
+    </div>
+    <div id="simple" class="sample-ct"></div>
+</body>
+</html>
