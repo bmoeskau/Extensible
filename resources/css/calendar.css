@@ -191,6 +191,9 @@
     height: 20px;
     margin-bottom: 20px;
 }
+.ext-cal-dayview .ext-cal-bg-row .no-sep {
+    border-bottom: 0;
+}
 .ext-cal-dayview .ext-row-1 {
     border-top: 0;
 }

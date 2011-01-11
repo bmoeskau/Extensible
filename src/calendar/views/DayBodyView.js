@@ -16,12 +16,15 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
      */
     enableEventResize: true,
     
+    showHourSeparator: true,
     viewStartHour: 0,
     viewEndHour: 24,
-    minTimeIncrement: 60,
+    scrollStartHour: 7,
+    hourHeight: 84,
     
     //private
     dayColumnElIdDelimiter: '-day-col-',
+    hourIncrement: 60,
     
     //private
     initComponent : function(){
@@ -30,10 +33,8 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         if(this.readOnly === true){
             this.enableEventResize = false;
         }
-        this.incrementsPerHour = 60 / this.ddIncrement;
-        
-        //TODO: This needs to be based on a measurement of row height and configured time increment
-        this.minEventHeight = this.minEventDisplayMinutes / (60 / 42);
+        this.incrementsPerHour = this.hourIncrement / this.ddIncrement;
+        this.minEventHeight = this.minEventDisplayMinutes / (this.hourIncrement / this.hourHeight);
         
         this.addEvents({
             /**
@@ -145,9 +146,11 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
                 showTodayText: this.showTodayText,
                 todayText: this.todayText,
                 showTime: this.showTime,
+                showHourSeparator: this.showHourSeparator,
                 viewStartHour: this.viewStartHour,
                 viewEndHour: this.viewEndHour,
-                minTimeIncrement: this.minTimeIncrement
+                hourIncrement: this.hourIncrement,
+                hourHeight: this.hourHeight
             });
         }
         this.tpl.compile();
@@ -156,8 +159,13 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         
         Ext.ensible.cal.DayBodyView.superclass.afterRender.call(this);
         
-        // default scroll position to 7am:
-        this.scrollTo(7*42);
+        // default scroll position to scrollStartHour (7am by default) or min view hour if later
+        var startHour = Math.max(this.scrollStartHour, this.viewStartHour),
+            scrollStart = Math.max(0, startHour - this.viewStartHour);
+            
+        if(scrollStart > 0){
+            this.scrollTo(scrollStart * this.hourHeight);
+        }
     },
     
     // private
@@ -303,13 +311,14 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     
     // private
     getTemplateEventBox : function(evt){
-        var heightFactor = .7, // each hour is 42 pixels high -- this divided by 60 minutes = .7, which is the height ratio to apply to events
+        var heightFactor = this.hourHeight / this.hourIncrement,
+            //heightFactor = .7, // each hour is 42 pixels high -- this divided by 60 minutes = .7, which is the height ratio to apply to events
             start = evt[Ext.ensible.cal.EventMappings.StartDate.name],
             end = evt[Ext.ensible.cal.EventMappings.EndDate.name],
             startHour = Math.max(start.getHours() - this.viewStartHour, 0),
             endHour = Math.min(end.getHours() - this.viewStartHour, this.viewEndHour - this.viewStartHour),
-            startMins = startHour * 60 + start.getMinutes(),
-            endMins = endHour * 60 + end.getMinutes(),
+            startMins = startHour * this.hourIncrement + start.getMinutes(),
+            endMins = endHour * this.hourIncrement + end.getMinutes(),
             diffMins = endMins - startMins;
         
         evt._left = 0;
@@ -429,7 +438,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             rowH = row.getHeight() / this.incrementsPerHour,
             relY = y - viewBox.y - rowH + scroll.top,
             rowIndex = Math.max(0, Math.ceil(relY / rowH)),
-            mins = rowIndex * (60 / this.incrementsPerHour),
+            mins = rowIndex * (this.hourIncrement / this.incrementsPerHour),
             dt = this.viewStart.add(Date.DAY, dayIndex).add(Date.MINUTE, mins),
             el = this.getDayEl(dt),
             timeX = x;
@@ -444,7 +453,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             // this is the box for the specific time block in the day that was clicked on:
             timeBox: {
                 x: timeX,
-                y: (rowIndex * 42 / this.incrementsPerHour) + viewBox.y - scroll.top,
+                y: (rowIndex * this.hourHeight / this.incrementsPerHour) + viewBox.y - scroll.top,
                 width: daySize.width,
                 height: rowH
             } 

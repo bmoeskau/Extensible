@@ -76,7 +76,7 @@
                         // Any generic view options that should be applied to all sub views:
                         viewConfig: {
                             //enableFx: false,
-                            //ddIncrement: 10 //only applies to DayView and subclasses, but convenient to put it here
+                            ddIncrement: 10, //only applies to DayView and subclasses, but convenient to put it here
                             viewStartHour: 6,
                             viewEndHour: 18,
                             minTimeIncrement: 60
