@@ -52,10 +52,10 @@ Ext.onReady(function(){
     var cp = new Ext.ensible.cal.CalendarPanel({
         id: 'calendar-remote',
         eventStore: store,
-        renderTo: 'remote',
+        renderTo: 'cal',
         title: 'Remote Calendar',
         width: 900,
-        height: 600
+        height: 700
     });
     
     // You can optionally call load() here if you prefer instead of using the 

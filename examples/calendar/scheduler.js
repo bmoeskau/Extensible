@@ -102,7 +102,7 @@ App = function() {
                 //height: 300,
                 height: 200,
                 clicksToEdit: 1,
-                renderTo: Ext.getBody(),
+                renderTo: 'sched',
                 
                 columns : [
                     {header : 'Staff', sortable:true, width:130, dataIndex : 'Name', editor : new Ext.form.TextField()},
@@ -301,7 +301,7 @@ App = function() {
             new Ext.ensible.cal.CalendarPanel({
                 eventStore: this.eventStore,
                 calendarStore: this.resourceStore,
-                renderTo: Ext.getBody(),
+                renderTo: 'cal',
                 width: 1000,
                 height: 600
             });

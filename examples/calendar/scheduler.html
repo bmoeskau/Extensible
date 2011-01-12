@@ -24,11 +24,27 @@
     <script type="text/javascript" src="scheduler/sch-all-eval.js"></script>
     <script type="text/javascript" src="MemoryEventStore.js"></script>
     <script type="text/javascript" src="scheduler.js"></script>
+    
+    <style>
+        #sched {
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        #cal {      
+            height: 600px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Extensible Calendar + Ext Scheduler</h1>
-    <p><strong>NOTE:</strong> This sample is still a work in progress.</p>
-    <p>This is a combination example that makes use of the third-party <a href="http://ext-scheduler.com/">Ext Scheduler</a> component.</p>
-    <br />
+    <div id="sample-overview">
+        <h1>Extensible Calendar + Ext Scheduler</h1>
+        <p><strong>NOTE:</strong> This sample is still a work in progress.</p>
+        <p>This is a combination example that makes use of the third-party <a href="http://ext-scheduler.com/">Ext Scheduler</a> component.</p>
+        
+        <p class="view-src"><a target="_blank" href="scheduler.js">View the source</a></p>
+    </div>
+    
+    <div id="sched"></div>
+    <div id="cal"></div>
 </body>
 </html>

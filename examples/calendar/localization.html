@@ -25,25 +25,33 @@
     <script type="text/javascript" src="localization.js"></script>
     
     <style>
-        #cal {
-            margin: 15px 0;
-            height: 600px;
+        .sample-ct {
+            /* pre-size the container for smoother rendering, should match the panel's height config */
+            height: 700px;
+        }
+        .combo-ct {
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Localized Calendar Example</h1>
-    <p>A simple example showing how to display the calendar components in different locales. Note that the sample events
-    are not localized and will always display in English.</p>
+    <div id="sample-overview">
+        <h1>Localized Calendar Example</h1>
+        <p>A simple example showing how to display the calendar components in different locales. Note that the sample events
+        are not localized and will always display in English.</p>
+        
+        <p>If you would like to contribute an additional locale, please translate the most current English locale file and post it 
+        to the <a href="http://ext.ensible.com/forum/viewforum.php?f=10">Extensible forums</a>.</p>
+        
+        <p class="view-src"><a target="_blank" href="localization.js">View the source</a></p>
+    </div>
     
-    <p>If you would like to contribute an additional locale, please translate the most current English locale file and post it 
-    to the <a href="http://ext.ensible.com/forum/viewforum.php?f=10">Extensible forums</a>.</p>
-    
-    <div>
+    <div class="combo-ct">
         <div style="float:left;padding:5px 10px 0 0;">Selected Locale:</div>
         <div id="locales" style="float:left;"></div>
         <div style="clear:left;"></div>
     </div>
-    <div id="cal"></div>
+    
+    <div id="cal" class="sample-ct"></div>
 </body>
 </html>

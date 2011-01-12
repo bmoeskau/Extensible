@@ -4,11 +4,10 @@ Ext.onReady(function(){
             this.calendarWin = new Ext.Window({
                 layout: 'fit',
                 title: 'Calendar Window',
-                width: 700,
-                height: 500,
+                width: 850,
+                height: 700,
                 modal: true,
                 closeAction: 'hide',
-                animateTarget: 'cal-win',
                 items: {
                     // xtype is supported:
                     xtype: 'extensible.calendarpanel',
@@ -23,4 +22,6 @@ Ext.onReady(function(){
     };
     
     Ext.fly('cal-win').on('click', showWindow, this);
+    
+    showWindow();
 });

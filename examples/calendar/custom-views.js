@@ -10,7 +10,7 @@ Ext.onReady(function(){
     
     new Ext.ensible.cal.CalendarPanel({
         eventStore: eventStore,
-        renderTo: 'simple',
+        renderTo: 'cal',
         title: 'Custom Views',
         width: 800,
         height: 700,

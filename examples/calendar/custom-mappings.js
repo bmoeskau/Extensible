@@ -62,6 +62,6 @@ Ext.onReady(function(){
         renderTo: 'cal',
         title: 'Custom Event Mappings',
         width: 800,
-        height: 800
+        height: 700
     });
 });

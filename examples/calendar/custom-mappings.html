@@ -21,16 +21,21 @@
     <script type="text/javascript" src="custom-mappings.js"></script>
     
     <style>
-        .sample-ct {      
-            height: 500px;      
-            margin-bottom:20px;      
+        .sample-ct {
+            /* pre-size the container for smoother rendering, should match the panel's height config */
+            height: 700px;
         }
     </style>
 </head>
 <body>
-    <h1>Custom Calendar Mappings</h1>
-    <p>This example shows how to map a completely custom Event record between the raw back-end data and the calendar's Store. 
-        It will also demonstrate how to customize the editor forms and include additional custom fields on the Event.</p>
+    <div id="sample-overview">
+        <h1>Custom Calendar Mappings</h1>
+        <p>This example shows how to map a completely custom Event record between the raw back-end data and the calendar's Store. 
+            It will also demonstrate how to customize the editor forms and include additional custom fields on the Event.</p>
+            
+            <p class="view-src"><a target="_blank" href="custom-mappings.js">View the source</a></p>
+    </div>
+    
     <div id="cal" class="sample-ct"></div>
 </body>
 </html>
