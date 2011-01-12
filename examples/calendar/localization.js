@@ -6,12 +6,14 @@ Ext.ensible.LocaleSample = function(){
             this.localeStore = new Ext.data.ArrayStore({
                 fields: ['code', 'desc'],
                 data : [
+                    ['ca', 'Catalan'],
                     ['da', 'Danish'],
                     ['en', 'English (US)'],
                     ['fr', 'French (France)'],
                     ['pt_BR', 'Portuguese (Brazil)'],
                     ['pt_PT', 'Portuguese (Portugal)'],
                     ['ro', 'Romanian'],
+                    ['es', 'Spanish (Spain)'],
                     ['sv_SE', 'Swedish']
                 ]
             });
