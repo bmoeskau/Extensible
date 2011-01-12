@@ -44,8 +44,9 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
     dayCount: 1,
     /**
      * @cfg {Boolena} enableEventResize
-     * True to allow events in the view's scrolling area to be updated by a resize handle at the 
-     * bottom of the event, false to disallow it (defaults to true).
+     * True to allow events in the view's scrolling body area to be updated by a resize handle at the 
+     * bottom of the event, false to disallow it (defaults to true). If {@link #readOnly} is true event 
+     * resizing will be disabled automatically.
      */
     enableEventResize: true,
     /**
@@ -69,6 +70,47 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      * provides a way to ensure that such events will still be calculated as overlapping and displayed correctly.
      */
     minEventDisplayMinutes: 30,
+    /**
+     * @cfg {Boolean} showHourSeparator
+     * True to display a dotted line that separates each hour block in the scrolling body area at the half-hour mark 
+     * (the default), false to hide it.
+     */
+    showHourSeparator: true,
+    /**
+     * @cfg {Integer} viewStartHour
+     * The hour of the day at which to begin the scrolling body area's times (defaults to 0, which equals early 12am / 00:00).
+     * Valid values are integers from 0 to 24, but should be less than the value of {@link viewEndHour}.
+     */
+    viewStartHour: 0,
+    /**
+     * @cfg {Integer} viewEndHour
+     * The hour of the day at which to end the scrolling body area's times (defaults to 24, which equals late 12am / 00:00).
+     * Valid values are integers from 0 to 24, but should be greater than the value of {@link viewStartHour}. 
+     */
+    viewEndHour: 24,
+    /**
+     * @cfg {Integer} scrollStartHour
+     * The default hour of the day at which to set the body scroll position on view load (defaults to 7, which equals 7am / 07:00).
+     * Note that if the body is not sufficiently overflowed to allow this positioning this setting will have no effect.
+     * This setting should be equal to or greater than {@link viewStartHour}.
+     */
+    scrollStartHour: 7,
+    /**
+     * @cfg {Integer} hourHeight
+     * <p>The height, in pixels, of each hour block displayed in the scrolling body area of the view (defautls to 42).</p> 
+     * <br><p><b>Important note:</b> While this config can be set to any reasonable integer value, note that it is also used to 
+     * calculate the ratio used when assigning event heights. By default, an hour is 60 minutes and 42 pixels high, so the
+     * pixel-to-minute ratio is 42 / 60, or 0.7. This same ratio is then used when rendering events. When rendering a 
+     * 30 minute event, the rendered height would be 30 minutes * 0.7 = 21 pixels (as expected).</p>
+     * <p>This is important to understand when changing this value because some browsers may handle pixel rounding in
+     * different ways which could lead to inconsistent visual results in some cases. If you have any problems with pixel
+     * precision in how events are laid out, you might try to stick with hourHeight values that will generate discreet ratios.
+     * This is easily done by simply multiplying 60 minutes by different discreet ratios (.6, .8, 1.1, etc.) to get the 
+     * corresponding hourHeight pixel values (36, 48, 66, etc.) that will map back to those ratios. By contrast, if you 
+     * chose an hourHeight of 50 for example, the resulting height ratio would be 50 / 60 = .833333... This will work just
+     * fine, just be aware that browsers may sometimes round the resulting height values inconsistently.
+     */
+    hourHeight: 42,
     
     // private
     initComponent : function(){
@@ -94,6 +136,11 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
         var body = Ext.applyIf({
             xtype: 'extensible.daybodyview',
             enableEventResize: this.enableEventResize,
+            showHourSeparator: this.showHourSeparator,
+            viewStartHour: this.viewStartHour,
+            viewEndHour: this.viewEndHour,
+            scrollStartHour: this.scrollStartHour,
+            hourHeight: this.hourHeight,
             id: this.id+'-bd',
             ownerCalendarPanel: this.ownerCalendarPanel
         }, cfg);

@@ -1,4 +1,4 @@
-/**S
+/**
  * @class Ext.ensible.cal.DayBodyView
  * @extends Ext.ensible.cal.CalendarView
  * <p>This is the scrolling container within the day and week views where non-all-day events are displayed.
@@ -9,20 +9,6 @@
  * @param {Object} config The config object
  */
 Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
-    /**
-     * @cfg {Boolena} enableEventResize
-     * True to allow events to be updated by a resize handle at the bottom of the event, false to disallow it (defaults to true).
-     * If {@link #readOnly} is true event resizing will be disabled automatically.
-     */
-    enableEventResize: true,
-    
-    //TODO: move these to DayView
-    showHourSeparator: true,
-    viewStartHour: 0,
-    viewEndHour: 24,
-    scrollStartHour: 7,
-    hourHeight: 42,
-    
     //private
     dayColumnElIdDelimiter: '-day-col-',
     hourIncrement: 60,
