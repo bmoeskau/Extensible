@@ -311,6 +311,14 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     },
     
     // private
+    getEventPositionOffsets: function(){
+        return {
+            top: 1,
+            height: -2
+        }
+    },
+    
+    // private
     getTemplateEventBox : function(evt){
         var heightFactor = this.hourHeight / this.hourIncrement,
             start = evt[Ext.ensible.cal.EventMappings.StartDate.name],
@@ -319,7 +327,8 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
             endOffset = Math.min(end.getHours() - this.viewStartHour, this.viewEndHour - this.viewStartHour),
             startMins = startOffset * this.hourIncrement,
             endMins = endOffset * this.hourIncrement,
-            viewEndDt = end.clearTime(true).add(Date.HOUR, this.viewEndHour);
+            viewEndDt = end.clearTime(true).add(Date.HOUR, this.viewEndHour),
+            evtOffsets = this.getEventPositionOffsets();
             
         if(start.getHours() >= this.viewStartHour){
             // only add the minutes if the start is visible, otherwise it offsets the event incorrectly
@@ -332,8 +341,8 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
 
         evt._left = 0;
         evt._width = 100;
-        evt._top = startMins * heightFactor + 1; // +1 offset looks better
-        evt._height = Math.max(((endMins - startMins) * heightFactor), this.minEventHeight) - 2; // -2 to account for +1 position offset
+        evt._top = startMins * heightFactor + evtOffsets.top;
+        evt._height = Math.max(((endMins - startMins) * heightFactor), this.minEventHeight) + evtOffsets.height;
     },
 
     // private
