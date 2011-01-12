@@ -4,7 +4,7 @@
 <p>by Brian Moeskau</p>
 
 <h2>Current Status</h2>
-<p>Extensible should currently be considered <strong>beta quality code</strong>. Although a stable version of this code was contributed to the Ext JS 3.3 release, the code here is currently under heavy revision and is not yet feature-complete or guaranteed to be free of bugs.</p>
+<p>Extensible is in beta status and close to final 1.0 release. The estimated release for 1.0 is early February.</p>
 
 <h2>Building the Source</h2>
 <p>Build scripts for both Mac/Unix (<code>build/build.sh</code>) and Windows (<code>build/build.bat</code>) are included.  You must have a current version of Java installed for JSBuilder to work.  You should also edit the build script and update the path variables as needed for your system.</p>
@@ -30,9 +30,10 @@
 <p>During development you should include <code>extensible-all-debug.js</code>, but then for deployment use the minimized <code>extensible-all.js</code>.  If you are using individual source files then it's up to you to include them all, in the proper order. Look under the <code>/examples</code> folder to get a jump start on how to use the included components.</p>
 
 <h2>Support</h2>
-<p>For additional help in setting up or using this library, or to report bugs, visit the "Extensible forums":http://ext.ensible.com/forum/.</p>
+<p>For help in setting up or using this library, or to report bugs, visit the "Extensible forums":http://ext.ensible.com/forum/.</p>
+<p>We also have "premium support subscriptions":http://ext.ensible.com/store/ available if you need access to more direct assistance.</p>
 
 <h2>Licensing</h2>
-<p>Currently Extensible is licensed under the GPL v3.  Additionally we plan to offer commercial license options for anyone who does not wish to be bound by the GPL.  Commercial licenses are not yet available, but will be available prior to the 1.0 release.  Extensible will be dual-licensed under the same terms as Ext JS itself.</p>
+<p>Extensible is dual-licensed both commercially and under the open source GPL v3, just like "Ext JS":http://www.sencha.com/company/dual.php. For complete details see the "Extensible Licensing Overview":http://ext.ensible.com/products/licensing/. To purchase a commercial license please visit the "Extensible Store":http://ext.ensible.com/store/.</p>
 
 <p><a href="gpl-v3.txt">View GPL v3 license terms</a></p>
