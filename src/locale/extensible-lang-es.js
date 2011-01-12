@@ -9,7 +9,7 @@ if(Ext.ensible.cal.CalendarView) {
     Ext.apply(Ext.ensible.cal.CalendarView.prototype, {
         startDay: 1,
         todayText: 'Hoy',
-        defaultEventTitleText: '(Sin título)',
+        defaultEventTitleText: '(Sin t&iacute;tulo)',
         ddCreateEventText: 'Crear evento desde {0}',
         ddMoveEventText: 'Mover evento a {0}',
         ddResizeEventText: 'Actualizar evento a {0}'
@@ -18,20 +18,20 @@ if(Ext.ensible.cal.CalendarView) {
 
 if(Ext.ensible.cal.MonthView) {
     Ext.apply(Ext.ensible.cal.MonthView.prototype, {
-        moreText: '+{0} más...',
-        detailsTitleDateFormat: 'j de F'
+        moreText: '+{0} m&aacute;s...',
+        detailsTitleDateFormat: 'j \\de F'
     });
 }
 
 if(Ext.ensible.cal.CalendarPanel) {
     Ext.apply(Ext.ensible.cal.CalendarPanel.prototype, {
         todayText: 'Hoy',
-        dayText: 'Día',
+        dayText: 'D&iacute;a',
         weekText: 'Semana',
         monthText: 'Mes',
         jumpToText: 'Ir a:',
         goText: 'Ir',
-        multiDayText: '{0} días',
+        multiDayText: '{0} d&iacute;as',
         multiWeekText: '{0} semanas'
     });
 }
@@ -40,7 +40,7 @@ if(Ext.ensible.cal.EventEditWindow) {
     Ext.apply(Ext.ensible.cal.EventEditWindow.prototype, {
         width: 600,
         labelWidth: 65,
-        titleTextAdd: 'Añadir evento',
+        titleTextAdd: 'A&ntilde;adir evento',
         titleTextEdit: 'Editar evento',
         savingMessage: 'Guardando cambios...',
         deletingMessage: 'Borrando evento...',
@@ -48,7 +48,7 @@ if(Ext.ensible.cal.EventEditWindow) {
         saveButtonText: 'Guardar',
         deleteButtonText: 'Borrar',
         cancelButtonText: 'Cancelar',
-        titleLabelText: 'Título',
+        titleLabelText: 'T&iacute;tulo',
         datesLabelText: 'Cuando',
         calendarLabelText: 'Calendario'
     });
@@ -57,18 +57,18 @@ if(Ext.ensible.cal.EventEditWindow) {
 if(Ext.ensible.cal.EventEditForm) {
     Ext.apply(Ext.ensible.cal.EventEditForm.prototype, {
         labelWidth: 65,
-        labelWidthRightCol: 75,
+        labelWidthRightCol: 65,
         title: 'Formulario de evento',
-        titleTextAdd: 'Añadir evento',
+        titleTextAdd: 'A&ntilde;adir evento',
         titleTextEdit: 'Editar evento',
         saveButtonText: 'Guardar',
         deleteButtonText: 'Borrar',
         cancelButtonText: 'Cancelar',
-        titleLabelText: 'Título',
+        titleLabelText: 'T&iacute;tulo',
         datesLabelText: 'Cuando',
         reminderLabelText: 'Recordatorio',
         notesLabelText: 'Notas',
-        locationLabelText: 'Localización',
+        locationLabelText: 'Localizaci&oacute;n',
         webLinkLabelText: 'Enlace Web',
         calendarLabelText: 'Calendario',
         recurrenceLabelText: 'Repetir'
@@ -78,7 +78,7 @@ if(Ext.ensible.cal.EventEditForm) {
 if(Ext.ensible.cal.DateRangeField) {
     Ext.apply(Ext.ensible.cal.DateRangeField.prototype, {
         toText: 'a',
-        allDayText: 'Todo el día'
+        allDayText: 'Todo el d&iacute;a'
     });
 }
 
@@ -121,8 +121,8 @@ if(Ext.ensible.cal.ReminderField) {
         minutesText: 'minutos',
         hourText: 'hora',
         hoursText: 'horas',
-        dayText: 'día',
-        daysText: 'días',
+        dayText: 'd&iacute;a',
+        daysText: 'd&iacute;as',
         weekText: 'semana',
         weeksText: 'semanas',
         reminderValueFormat: '{0} {1} antes de empezar' // e.g. "2 hours before start"
@@ -161,7 +161,7 @@ if(Ext.ensible.cal.BoxLayoutTemplate) {
     Ext.apply(Ext.ensible.cal.BoxLayoutTemplate.prototype, {
         firstWeekDateFormat: 'D d', // e.g. "Lun 01"
         otherWeeksDateFormat: 'd',
-        singleDayDateFormat: 'l, d de F de Y', // e.g. "Lunes, 12 de Enero de 2011"
+        singleDayDateFormat: 'l, d \\de F \\de Y', // e.g. "Lunes, 12 de Enero de 2011"
         multiDayFirstDayFormat: 'd M, Y', // e.g. "09 Ene, 2011"
         multiDayMonthStartFormat: 'd M' // e.g. "01 Ene"
     });
@@ -170,6 +170,6 @@ if(Ext.ensible.cal.BoxLayoutTemplate) {
 if(Ext.ensible.cal.MonthViewTemplate) {
     Ext.apply(Ext.ensible.cal.MonthViewTemplate.prototype, {
         dayHeaderFormat: 'D',
-        dayHeaderTitleFormat: 'l, d de F de Y', // e.g. "Lunes, 12 de Enero de 2011"
+        dayHeaderTitleFormat: 'l, d \\de F \\de Y', // e.g. "Lunes, 12 de Enero de 2011"
     });
 }

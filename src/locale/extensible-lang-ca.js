@@ -9,7 +9,7 @@ if(Ext.ensible.cal.CalendarView) {
     Ext.apply(Ext.ensible.cal.CalendarView.prototype, {
         startDay: 1,
         todayText: 'Avui',
-        defaultEventTitleText: '(Sense títol)',
+        defaultEventTitleText: '(Sense t&iacute;tol)',
         ddCreateEventText: 'Crear event desde {0}',
         ddMoveEventText: 'Moure event a {0}',
         ddResizeEventText: 'Actualitzar event a {0}'
@@ -18,8 +18,8 @@ if(Ext.ensible.cal.CalendarView) {
 
 if(Ext.ensible.cal.MonthView) {
     Ext.apply(Ext.ensible.cal.MonthView.prototype, {
-        moreText: '+{0} més...',
-        detailsTitleDateFormat: 'j de F'
+        moreText: '+{0} m&eacute;s...',
+        detailsTitleDateFormat: 'j \\de F'
     });
 }
 
@@ -48,7 +48,7 @@ if(Ext.ensible.cal.EventEditWindow) {
         saveButtonText: 'Guardar',
         deleteButtonText: 'Borrar',
         cancelButtonText: 'Cancelar',
-        titleLabelText: 'Títol',
+        titleLabelText: 'T&iacute;tol',
         datesLabelText: 'Quan',
         calendarLabelText: 'Calendari'
     });
@@ -64,12 +64,12 @@ if(Ext.ensible.cal.EventEditForm) {
         saveButtonText: 'Guardar',
         deleteButtonText: 'Borrar',
         cancelButtonText: 'Cancelar',
-        titleLabelText: 'Títol',
+        titleLabelText: 'T&iacute;tol',
         datesLabelText: 'Quan',
         reminderLabelText: 'Recordatori',
         notesLabelText: 'Notes',
-        locationLabelText: 'Localització',
-        webLinkLabelText: 'Enllaç Web',
+        locationLabelText: 'Localitzaci&oacute;',
+        webLinkLabelText: 'Enlla&ccedil; Web',
         calendarLabelText: 'Calendari',
         recurrenceLabelText: 'Repetir'
     });
@@ -96,7 +96,7 @@ if(Ext.ensible.cal.CalendarList) {
 
 if(Ext.ensible.cal.CalendarListMenu) {
     Ext.apply(Ext.ensible.cal.CalendarListMenu.prototype, {
-        displayOnlyThisCalendarText: 'Mostrar només aquest calendari'
+        displayOnlyThisCalendarText: 'Mostrar nom&eacute;s aquest calendari'
     });
 }
 
@@ -117,7 +117,7 @@ if(Ext.ensible.cal.ReminderField) {
     Ext.apply(Ext.ensible.cal.ReminderField.prototype, {
         fieldLabel: 'Recordatori',
         noneText: 'Cap',
-        atStartTimeText: 'Al començament',
+        atStartTimeText: 'Al comen&ccedil;ament',
         minutesText: 'minuts',
         hourText: 'hora',
         hoursText: 'hores',
@@ -125,7 +125,7 @@ if(Ext.ensible.cal.ReminderField) {
         daysText: 'dies',
         weekText: 'setmana',
         weeksText: 'setmanes',
-        reminderValueFormat: '{0} {1} abans de començar' // e.g. "2 hours before start"
+        reminderValueFormat: '{0} {1} abans de comen&ccedil;ar' // e.g. "2 hours before start"
     });
 }
 
@@ -161,7 +161,7 @@ if(Ext.ensible.cal.BoxLayoutTemplate) {
     Ext.apply(Ext.ensible.cal.BoxLayoutTemplate.prototype, {
         firstWeekDateFormat: 'D d', // e.g. "Lun 01"
         otherWeeksDateFormat: 'd',
-        singleDayDateFormat: 'l, d de F de Y', // e.g. "Lunes, 12 de Enero de 2011"
+        singleDayDateFormat: 'l, d \\de F \\de Y', // e.g. "Lunes, 12 de Enero de 2011"
         multiDayFirstDayFormat: 'd M, Y', // e.g. "09 Ene, 2011"
         multiDayMonthStartFormat: 'd M' // e.g. "01 Ene"
     });
@@ -170,6 +170,6 @@ if(Ext.ensible.cal.BoxLayoutTemplate) {
 if(Ext.ensible.cal.MonthViewTemplate) {
     Ext.apply(Ext.ensible.cal.MonthViewTemplate.prototype, {
         dayHeaderFormat: 'D',
-        dayHeaderTitleFormat: 'l, d de F de Y', // e.g. "Lunes, 12 de Enero de 2011"
+        dayHeaderTitleFormat: 'l, d \\de F \\de Y', // e.g. "Lunes, 12 de Enero de 2011"
     });
 }
