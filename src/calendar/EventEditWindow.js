@@ -4,6 +4,28 @@
  * <p>A custom window containing a basic edit form used for quick editing of events.</p>
  * <p>This window also provides custom events specific to the calendar so that other calendar components can be easily
  * notified when an event has been edited via this component.</p>
+ * <p>The default configs are as follows:</p><pre><code>
+titleTextAdd: 'Add Event',
+titleTextEdit: 'Edit Event',
+width: 600,
+border: true,
+closeAction: 'hide',
+modal: false,
+resizable: false,
+buttonAlign: 'left',
+labelWidth: 65,
+detailsLinkText: 'Edit Details...',
+savingMessage: 'Saving changes...',
+deletingMessage: 'Deleting event...',
+saveButtonText: 'Save',
+deleteButtonText: 'Delete',
+cancelButtonText: 'Cancel',
+titleLabelText: 'Title',
+datesLabelText: 'When',
+calendarLabelText: 'Calendar',
+editDetailsLinkClass: 'edit-dtl-link',
+bodyStyle: 'padding:5px 10px;'
+</code></pre>
  * @constructor
  * @param {Object} config The config object
  */

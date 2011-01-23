@@ -1,4 +1,4 @@
-/*
+/* @private
  * Internal drag zone implementation for the calendar components. This provides base functionality
  * and is primarily for the month view -- DayViewDD adds day/week view-specific functionality.
  */
@@ -85,7 +85,7 @@ Ext.ensible.cal.DragZone = Ext.extend(Ext.dd.DragZone, {
     }    
 });
 
-/*
+/* @private
  * Internal drop zone implementation for the calendar components. This provides base functionality
  * and is primarily for the month view -- DayViewDD adds day/week view-specific functionality.
  */

@@ -62,7 +62,8 @@ Ext.ensible.cal.EventRecord.reconfigure();
  * 
  * <p>Another important note is that if you alter the default mapping for <tt>EventId</tt>, make sure to add
  * that mapping as the <tt>idProperty</tt> of your data reader, otherwise it won't recognize how to
- * access the data correctly and will treat existing records as phantoms. For example:</p>
+ * access the data correctly and will treat existing records as phantoms. Here's an easy way to make sure
+ * your mapping is always valid:</p>
  * <pre><code>
 var reader = new Ext.data.JsonReader({
     totalProperty: 'total',

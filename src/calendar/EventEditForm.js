@@ -8,15 +8,28 @@
  * <p>This form also provides custom events specific to the calendar so that other calendar components can be easily
  * notified when an event has been edited via this component.</p>
  * <p>The default configs are as follows:</p><pre><code>
-    labelWidth: 65,
-    title: 'Event Form',
-    titleTextAdd: 'Add Event',
-    titleTextEdit: 'Edit Event',
-    bodyStyle: 'background:transparent;padding:20px 20px 10px;',
-    border: false,
-    buttonAlign: 'center',
-    autoHeight: true, // to allow for the notes field to autogrow
-    cls: 'ext-evt-edit-form',
+labelWidth: 65,
+labelWidthRightCol: 65,
+colWidthLeft: .6,
+colWidthRight: .4,
+title: 'Event Form',
+titleTextAdd: 'Add Event',
+titleTextEdit: 'Edit Event',
+titleLabelText: 'Title',
+datesLabelText: 'When',
+reminderLabelText: 'Reminder',
+notesLabelText: 'Notes',
+locationLabelText: 'Location',
+webLinkLabelText: 'Web Link',
+calendarLabelText: 'Calendar',
+repeatsLabelText: 'Repeats',
+saveButtonText: 'Save',
+deleteButtonText: 'Delete',
+cancelButtonText: 'Cancel',
+bodyStyle: 'padding:20px 20px 10px;',
+border: false,
+buttonAlign: 'center',
+autoHeight: true // to allow for the notes field to autogrow
 </code></pre>
  * @constructor
  * @param {Object} config The config object
@@ -44,9 +57,8 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
     border: false,
     buttonAlign: 'center',
     autoHeight: true, // to allow for the notes field to autogrow
-    cls: 'ext-evt-edit-form',
     
-    /**
+    /* // not currently supported
      * @cfg {Boolean} enableRecurrence
      * True to show the recurrence field, false to hide it (default). Note that recurrence requires
      * something on the server-side that can parse the iCal RRULE format in order to generate the
@@ -57,6 +69,7 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
     
     // private properties:
     layout: 'column',
+    cls: 'ext-evt-edit-form',
     
     // private
     initComponent: function(){

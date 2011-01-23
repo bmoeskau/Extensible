@@ -1,12 +1,9 @@
 /**
  * @class Ext.ensible.cal.CalendarPanel
  * @extends Ext.Panel
- * <p>This is the default container for Ext calendar views. It supports day, week and month views as well
+ * <p>This is the default container for calendar views. It supports day, week, multi-week and month views as well
  * as a built-in event edit form. The only requirement for displaying a calendar is passing in a valid
- * {@link #calendarStore} config containing records of type {@link Ext.ensible.cal.EventRecord EventRecord}. In order
- * to make the calendar interactive (enable editing, drag/drop, etc.) you can handle any of the various
- * events fired by the underlying views and exposed through the CalendarPanel.</p>
- * {@link #layoutConfig} option if needed.</p>
+ * {@link #Ext.data.Store store} config containing records of type {@link Ext.ensible.cal.EventRecord EventRecord}.</p>
  * @constructor
  * @param {Object} config The config object
  * @xtype calendarpanel
@@ -75,7 +72,11 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      * (defaults to true).
      */
     showTime: true,
-    /* Not implemented yet */
+    /**
+     * @cfg {Boolean} readOnly
+     * True to prevent clicks on events or calendar views from providing CRUD capabilities, false to enable CRUD 
+     * (the default). This option is passed into all views managed by this CalendarPanel.
+     */
     readOnly: false,
     /**
      * @cfg {Boolean} showNavToday

@@ -34,6 +34,7 @@ Ext.ensible.cal.DayHeaderTemplate = function(config){
 };
 
 Ext.extend(Ext.ensible.cal.DayHeaderTemplate, Ext.XTemplate, {
+    // private
     applyTemplate : function(o){
         return Ext.ensible.cal.DayHeaderTemplate.superclass.applyTemplate.call(this, {
             allDayTpl: this.allDayTpl.apply(o)

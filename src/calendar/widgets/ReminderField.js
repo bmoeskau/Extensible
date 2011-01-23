@@ -4,13 +4,23 @@
  * <p>A custom combo used for choosing a reminder setting for an event.</p>
  * <p>This is pretty much a standard combo that is simply pre-configured for the options needed by the
  * calendar components. The default configs are as follows:<pre><code>
-    width: 200,
-    fieldLabel: 'Reminder',
-    mode: 'local',
-    triggerAction: 'all',
-    forceSelection: true,
-    displayField: 'desc',
-    valueField: 'value'
+width: 200,
+fieldLabel: 'Reminder',
+mode: 'local',
+triggerAction: 'all',
+forceSelection: true,
+displayField: 'desc',
+valueField: 'value',
+noneText: 'None',
+atStartTimeText: 'At start time',
+minutesText: 'minutes',
+hourText: 'hour',
+hoursText: 'hours',
+dayText: 'day',
+daysText: 'days',
+weekText: 'week',
+weeksText: 'weeks',
+reminderValueFormat: '{0} {1} before start'
 </code></pre>
  * @constructor
  * @param {Object} config The config object
@@ -23,7 +33,6 @@ Ext.ensible.cal.ReminderField = Ext.extend(Ext.form.ComboBox, {
     forceSelection: true,
     displayField: 'desc',
     valueField: 'value',
-    
     noneText: 'None',
     atStartTimeText: 'At start time',
     minutesText: 'minutes',

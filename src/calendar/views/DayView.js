@@ -16,6 +16,10 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      * The text to display in the current day's box in the calendar when {@link #showTodayText} is true (defaults to 'Today')
      */
     /**
+     * @cfg {Boolean} readOnly
+     * True to prevent clicks on events or the view from providing CRUD capabilities, false to enable CRUD (the default).
+     */
+    /**
      * @cfg {String} ddCreateEventText
      * The text to display inside the drag proxy while dragging over the calendar to create a new event (defaults to 
      * 'Create event for {0}' where {0} is a date range supplied by the view)
@@ -43,7 +47,7 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      */
     dayCount: 1,
     /**
-     * @cfg {Boolena} enableEventResize
+     * @cfg {Boolean} enableEventResize
      * True to allow events in the view's scrolling body area to be updated by a resize handle at the 
      * bottom of the event, false to disallow it (defaults to true). If {@link #readOnly} is true event 
      * resizing will be disabled automatically.

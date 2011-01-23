@@ -30,20 +30,20 @@ Ext.ensible.cal.CalendarRecord.reconfigure();
 </code></pre>
  * 
  * <p>If you are overriding a significant number of field definitions it may be more convenient 
- * to simply redefine the entire EventMappings object from scratch. The following example
- * redefines the same fields that exist in the standard EventRecord object but the names and 
+ * to simply redefine the entire CalendarMappings object from scratch. The following example
+ * redefines the same fields that exist in the standard CalendarRecord object but the names and 
  * mappings have all been customized. Note that the name of each field definition object 
- * (e.g., 'EventId') should <b>NOT</b> be changed for the default EventMappings fields as it 
+ * (e.g., 'CalendarId') should <b>NOT</b> be changed for the default CalendarMappings fields as it 
  * is the key used to access the field data programmatically.</p>
  * <pre><code>
 Ext.ensible.cal.CalendarMappings = {
-    CalendarId:   {name:'CalendarId', mapping: 'id', type: 'int'},
-    Title:        {name:'Title', mapping: 'title', type: 'string'},
-    Description:  {name:'Description', mapping: 'desc', type: 'string'},
-    ColorId:      {name:'ColorId', mapping: 'color', type: 'int'},
-    IsHidden:     {name:'IsHidden', mapping: 'hidden', type: 'boolean'},
+    CalendarId:   {name:'ID', mapping: 'id', type: 'int'},
+    Title:        {name:'CalTitle', mapping: 'title', type: 'string'},
+    Description:  {name:'Desc', mapping: 'desc', type: 'string'},
+    ColorId:      {name:'Color', mapping: 'color', type: 'int'},
+    IsHidden:     {name:'Hidden', mapping: 'hidden', type: 'boolean'},
     
-    // We can also add some new fields that do not exist in the standard EventRecord:
+    // We can also add some new fields that do not exist in the standard CalendarRecord:
     Owner:        {name: 'Owner', mapping: 'owner'}
 };
 // Don't forget to reconfigure!
@@ -55,7 +55,8 @@ Ext.ensible.cal.CalendarRecord.reconfigure();
  * 
  * <p>Another important note is that if you alter the default mapping for <tt>CalendarId</tt>, make sure to add
  * that mapping as the <tt>idProperty</tt> of your data reader, otherwise it won't recognize how to
- * access the data correctly and will treat existing records as phantoms. For example:</p>
+ * access the data correctly and will treat existing records as phantoms. Here's an easy way to make sure
+ * your mapping is always valid:</p>
  * <pre><code>
 var reader = new Ext.data.JsonReader({
     totalProperty: 'total',

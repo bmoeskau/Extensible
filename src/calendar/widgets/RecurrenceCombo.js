@@ -1,3 +1,6 @@
+/* @private
+ * Currently not used
+ */
 Ext.ensible.cal.RecurrenceCombo = Ext.extend(Ext.form.ComboBox, {
     width: 160,
     fieldLabel: 'Repeats',

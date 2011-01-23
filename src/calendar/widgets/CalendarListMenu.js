@@ -60,7 +60,7 @@ Ext.ensible.cal.CalendarListMenu = Ext.extend(Ext.menu.Menu, {
     /**
      * @property palette
      * @type ColorPalette
-     * The {@link Ext.ensible.cal.ColorPalette} instance for this CalendarListMenu
+     * The {@link Ext.ensible.cal.ColorPalette ColorPalette} instance for this CalendarListMenu
      */
     
     // private

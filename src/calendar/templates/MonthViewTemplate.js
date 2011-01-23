@@ -38,7 +38,16 @@ Ext.ensible.cal.MonthViewTemplate = function(config){
 };
 
 Ext.extend(Ext.ensible.cal.MonthViewTemplate, Ext.XTemplate, {
+    /**
+     * @cfg {String} dayHeaderFormat
+     * The date format to use for day headers, if used (defaults to 'D', e.g. 'Mon' for Monday)
+     */
     dayHeaderFormat: 'D',
+    /**
+     * @cfg {String} dayHeaderTitleFormat
+     * The date format to use for the day header's HTML title attribute displayed on mouseover 
+     * (defaults to 'l, F j, Y', e.g. 'Monday, December 27, 2010')
+     */
     dayHeaderTitleFormat: 'l, F j, Y',
     
     // private

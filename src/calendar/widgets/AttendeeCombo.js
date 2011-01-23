@@ -1,3 +1,7 @@
+
+/*
+ * Not currently in use, may or may not be implemented...
+ */
 Ext.ensible.cal.AttendeeCombo = Ext.extend(Ext.ux.form.SuperBoxSelect, {
     fieldLabel: 'Attendees',
     name: 'attendees',

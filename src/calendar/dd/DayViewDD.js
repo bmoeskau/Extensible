@@ -1,4 +1,4 @@
-/*
+/* @private
  * Internal drag zone implementation for the calendar day and week views.
  */
 Ext.ensible.cal.DayViewDragZone = Ext.extend(Ext.ensible.cal.DragZone, {
@@ -45,7 +45,7 @@ Ext.ensible.cal.DayViewDragZone = Ext.extend(Ext.ensible.cal.DragZone, {
     }
 });
 
-/*
+/* @private
  * Internal drop zone implementation for the calendar day and week views.
  */
 Ext.ensible.cal.DayViewDropZone = Ext.extend(Ext.ensible.cal.DropZone, {

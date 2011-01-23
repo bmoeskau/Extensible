@@ -1,7 +1,10 @@
 /**
  * @class Ext.ensible.cal.ColorPalette
  * @extends Ext.ColorPalette
- * Simple color palette class for choosing colors specifically for calendars.
+ * Simple color palette class for choosing colors specifically for calendars. This is a lightly modified version
+ * of the default Ext ColorPalette that is based on calendar ids rather than hex color codes so that the colors
+ * can be easily modified via CSS and automatically applied to calendars. The specific colors used by default are
+ * also chosen to provide good color contrast when displayed in calendars.
 </code></pre>
  * @constructor
  * Create a new ColorPalette

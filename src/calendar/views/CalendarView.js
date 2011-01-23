@@ -20,6 +20,10 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      */
     //enableRecurrence: false,
     /**
+     * @cfg {Boolean} readOnly
+     * True to prevent clicks on events or the view from providing CRUD capabilities, false to enable CRUD (the default).
+     */
+    /**
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */
