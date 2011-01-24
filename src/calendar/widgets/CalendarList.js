@@ -74,17 +74,25 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
             this.store.un("datachanged", this.refresh, this);
             this.store.un("add", this.refresh, this);
             this.store.un("remove", this.refresh, this);
-            this.store.un("update", this.refresh, this);
+            this.store.un("update", this.onUpdate, this);
             this.store.un("clear", this.refresh, this);
         }
         if(store){
             store.on("datachanged", this.refresh, this);
             store.on("add", this.refresh, this);
             store.on("remove", this.refresh, this);
-            store.on("update", this.refresh, this);
+            store.on("update", this.onUpdate, this);
             store.on("clear", this.refresh, this);
         }
         this.store = store;
+    },
+    
+    // private
+    onUpdate : function(ds, rec, operation){
+        // ignore EDIT notifications, only refresh after a commit
+        if(operation == Ext.data.Record.COMMIT){
+            this.refresh();
+        }
     },
     
     /**
@@ -94,17 +102,21 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
      * event that a manual refresh is ever needed.
      */
     refresh: function(){
-        var data = [], i = 0, o = null, 
+        if(this.skipRefresh){
+            return;
+        }
+        var data = [], i = 0, o = null,
+            CM = Ext.ensible.cal.CalendarMappings,
             recs = this.store.getRange(),
             len = recs.length;
             
         for(; i < len; i++){
             o = {
-                cmpId: this.id + '__' + recs[i].data[Ext.ensible.cal.CalendarMappings.CalendarId.name],
-                title: recs[i].data[Ext.ensible.cal.CalendarMappings.Title.name],
-                colorCls: this.getColorCls(recs[i].data[Ext.ensible.cal.CalendarMappings.ColorId.name])
+                cmpId: this.id + '__' + recs[i].data[CM.CalendarId.name],
+                title: recs[i].data[CM.Title.name],
+                colorCls: this.getColorCls(recs[i].data[CM.ColorId.name])
             };
-            if(recs[i].data[Ext.ensible.cal.CalendarMappings.IsHidden.name] === true){
+            if(recs[i].data[CM.IsHidden.name] === true){
                 o.hiddenCls = 'ext-cal-hidden';
             }
             data[data.length] = o;
@@ -118,45 +130,58 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
     },
     
     // private
-    toggleCalendar: function(id){
+    toggleCalendar: function(id, commit){
         var rec = this.store.getById(id),
-            isHidden = rec.data[Ext.ensible.cal.CalendarMappings.IsHidden.name]; 
+            CM = Ext.ensible.cal.CalendarMappings,
+            isHidden = rec.data[CM.IsHidden.name]; 
         
-        rec.data[Ext.ensible.cal.CalendarMappings.IsHidden.name] = !isHidden;
-        rec.commit();
-    },
-    
-    // private
-    showCalendar: function(id){
-        var rec = this.store.getById(id);
-        if(rec.data[Ext.ensible.cal.CalendarMappings.IsHidden.name] === true){
-            this.toggleCalendar(id);
+        rec.set([CM.IsHidden.name], !isHidden);
+        
+        if(commit !== false){
+            rec.commit();
         }
     },
     
     // private
-    hideCalendar: function(id){
+    showCalendar: function(id, commit){
+        var rec = this.store.getById(id);
+        if(rec.data[Ext.ensible.cal.CalendarMappings.IsHidden.name] === true){
+            this.toggleCalendar(id, commit);
+        }
+    },
+    
+    // private
+    hideCalendar: function(id, commit){
         var rec = this.store.getById(id);
         if(rec.data[Ext.ensible.cal.CalendarMappings.IsHidden.name] !== true){
-            this.toggleCalendar(id);
+            this.toggleCalendar(id, commit);
         }
     },
     
     // private
     radioCalendar: function(id){
         var i = 0, recId,
+            calendarName = Ext.ensible.cal.CalendarMappings.CalendarId.name,
             recs = this.store.getRange(),
             len = recs.length;
             
         for(; i < len; i++){
-            recId = recs[i].data[Ext.ensible.cal.CalendarMappings.CalendarId.name];
+            recId = recs[i].data[calendarName];
             if(recId === id){
-                this.showCalendar(recId);
+                this.showCalendar(recId, false);
             }
             else{
-                this.hideCalendar(recId);
+                this.hideCalendar(recId, false);
             }
         }
+        
+        // store.commitChanges() just loops over each modified record and calls rec.commit(),
+        // which in turns fires an update event that would cause a full refresh for each record.
+        // To avoid this we simply set a flag and make sure we only refresh once per commit set.
+        this.skipRefresh = true;
+        this.store.commitChanges();
+        delete this.skipRefresh;
+        this.refresh();
     },
     
     // private
