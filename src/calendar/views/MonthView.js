@@ -410,6 +410,7 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 					date: dt,
 					view: this,
 					store: this.store,
+                    calendarStore: this.calendarStore,
 					listeners: {
 						'eventsrendered': this.onDetailViewUpdated.createDelegate(this)
 					}

@@ -63,9 +63,17 @@ Ext.ensible.cal.MonthDayDetailView = Ext.extend(Ext.BoxComponent, {
 			
 			evts = this.store.queryBy(function(rec){
 				var thisDt = this.date.clearTime(true).getTime(),
-					recStart = rec.data[Ext.ensible.cal.EventMappings.StartDate.name].clearTime(true).getTime(),
+                    M = Ext.ensible.cal.EventMappings,
+					recStart = rec.data[M.StartDate.name].clearTime(true).getTime(),
 	            	startsOnDate = (thisDt == recStart),
-					spansDate = false;
+					spansDate = false,
+                    calId = rec.data[M.CalendarId.name],
+                    calRec = this.calendarStore ? this.calendarStore.getById(calId) : null;
+                    
+                if(calRec && calRec.data[Ext.ensible.cal.CalendarMappings.IsHidden.name] === true){
+                    // if the event is on a hidden calendar then no need to test the date boundaries
+                    return false;
+                }
 				
 				if(!startsOnDate){
 					var recEnd = rec.data[Ext.ensible.cal.EventMappings.EndDate.name].clearTime(true).getTime();
