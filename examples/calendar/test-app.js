@@ -105,6 +105,7 @@
                         //showTodayText: false,
                         //showTime: false,
                         //editModal: true,
+                        //enableEditDetails: false,
                         //title: 'My Calendar', // the header of the calendar, could be a subtitle for the app
                         
                         // Once this component inits it will set a reference to itself as an application

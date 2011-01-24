@@ -140,6 +140,12 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      * config will no longer apply. 
      */
     editModal: false,
+    /**
+     * @cfg {Boolean} enableEditDetails
+     * True to show a link on the event edit window to allow switching to the detailed edit form (the default), false to remove the
+     * link and disable detailed event editing. 
+     */
+    enableEditDetails: true,
     
     /**
      * @cfg {Object} viewConfig
@@ -469,6 +475,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             store: this.store,
             calendarStore: this.calendarStore,
             editModal: this.editModal,
+            enableEditDetails: this.enableEditDetails,
             ownerCalendarPanel: this
         };
         

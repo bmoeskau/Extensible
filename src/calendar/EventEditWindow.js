@@ -24,7 +24,8 @@ titleLabelText: 'Title',
 datesLabelText: 'When',
 calendarLabelText: 'Calendar',
 editDetailsLinkClass: 'edit-dtl-link',
-bodyStyle: 'padding:5px 10px;'
+bodyStyle: 'padding:5px 10px;',
+enableEditDetails: true
 </code></pre>
  * @constructor
  * @param {Object} config The config object
@@ -50,6 +51,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
     calendarLabelText: 'Calendar',
     editDetailsLinkClass: 'edit-dtl-link',
     bodyStyle: 'padding:5px 10px;',
+    enableEditDetails: true,
     
     // private
     initComponent: function(){
@@ -99,15 +101,19 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
             editdetails: true
         });
         
-        this.fbar = [{
-            xtype: 'tbtext', text: '<a href="#" class="'+this.editDetailsLinkClass+'">'+this.detailsLinkText+'</a>'
-        },'->',{
+        this.fbar = ['->',{
             text:this.saveButtonText, disabled:false, handler:this.onSave, scope:this
         },{
             id:this.id+'-delete-btn', text:this.deleteButtonText, disabled:false, handler:this.onDelete, scope:this, hideMode:'offsets'
         },{
             text:this.cancelButtonText, disabled:false, handler:this.onCancel, scope:this
         }];
+        
+        if(this.enableEditDetails !== false){
+            this.fbar.unshift({
+                xtype: 'tbtext', text: '<a href="#" class="'+this.editDetailsLinkClass+'">'+this.detailsLinkText+'</a>'
+            });
+        }
         
         Ext.ensible.cal.EventEditWindow.superclass.initComponent.call(this);
     },

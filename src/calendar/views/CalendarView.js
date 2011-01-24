@@ -141,6 +141,12 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * config will no longer apply. 
      */
     editModal: false,
+    /**
+     * @cfg {Boolean} enableEditDetails
+     * True to show a link on the event edit window to allow switching to the detailed edit form (the default), false to remove the
+     * link and disable detailed event editing. 
+     */
+    enableEditDetails: true,
     
     //private properties -- do not override:
     weekCount: 1,
@@ -1222,6 +1228,7 @@ alert('End: '+bounds.end);
                 id: 'ext-cal-editwin',
                 calendarStore: this.calendarStore,
                 modal: this.editModal,
+                enableEditDetails: this.enableEditDetails,
                 listeners: {
                     'eventadd': {
                         fn: function(win, rec, animTarget){
