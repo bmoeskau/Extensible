@@ -465,7 +465,7 @@ viewConfig: {
 
     refresh : function(reloadData){
         Ext.ensible.log('refresh (base), reload = '+reloadData);
-        if(reloadData){
+        if(reloadData === true){
             this.reloadStore();
         }
         this.prepareData();
@@ -867,7 +867,7 @@ viewConfig: {
     // private
     onDataChanged : function(store){
         Ext.ensible.log('onDataChanged');
-        this.refresh();
+        this.refresh(false);
     },
     
     // private
@@ -951,10 +951,7 @@ viewConfig: {
             this.startDate = start.clearTime();
             this.setViewBounds(start);
             if(this.rendered){
-                if(reload === true){
-                    this.reloadStore();
-                }
-                this.refresh();
+                this.refresh(reload);
             }
             this.fireEvent('datechange', this, this.startDate, this.viewStart, this.viewEnd);
         }
