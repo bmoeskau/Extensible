@@ -143,27 +143,32 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     
     /**
      * @cfg {Object} viewConfig
-     * 
+     * A config object that will be applied to all {@link Ext.ensible.cal.CalendarView views} managed by this CalendarPanel. Any
+     * options on this object that do not apply to any particular view will simply be ignored.
      */
     /**
      * @cfg {Object} dayViewCfg
-     * 
+     * A config object that will be applied only to the {@link Ext.ensible.cal.DayView DayView} managed by this CalendarPanel.
      */
     /**
      * @cfg {Object} multiDayViewCfg
-     * 
+     * A config object that will be applied only to the {@link Ext.ensible.cal.MultiDayView MultiDayView} managed by this CalendarPanel.
      */
     /**
      * @cfg {Object} weekViewCfg
-     * 
+     * A config object that will be applied only to the {@link Ext.ensible.cal.WeekView WeekView} managed by this CalendarPanel.
      */
     /**
      * @cfg {Object} multiWeekViewCfg
-     * 
+     * A config object that will be applied only to the {@link Ext.ensible.cal.MultiWeekView MultiWeekView} managed by this CalendarPanel.
      */
     /**
      * @cfg {Object} monthViewCfg
-     * 
+     * A config object that will be applied only to the {@link Ext.ensible.cal.MonthView MonthView} managed by this CalendarPanel.
+     */
+    /**
+     * @cfg {Object} editViewCfg
+     * A config object that will be applied only to the {@link Ext.ensible.cal.EventEditForm EventEditForm} managed by this CalendarPanel.
      */
     
     /**
