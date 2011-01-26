@@ -664,7 +664,7 @@ viewConfig: {
         dates[Ext.ensible.cal.EventMappings.EndDate.name] = end;
         
         if(this.fireEvent('rangeselect', this, dates, onComplete) !== false){
-            this.showEventEditor(dates);
+            this.showEventEditor(dates, null);
             this.editWin.on('hide', onComplete, this, {single:true});
         }
         else{
