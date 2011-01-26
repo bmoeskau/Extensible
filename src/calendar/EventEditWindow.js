@@ -183,12 +183,13 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
      */
     show: function(o, animateTarget){
 		// Work around the CSS day cell height hack needed for initial render in IE8/strict:
-		var anim = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget;
+		var anim = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget,
+            M = Ext.ensible.cal.EventMappings;
 
 		Ext.ensible.cal.EventEditWindow.superclass.show.call(this, anim, function(){
             this.titleField.focus(false, 100);
         });
-        this.deleteBtn[o.data && o.data[Ext.ensible.cal.EventMappings.EventId.name] ? 'show' : 'hide']();
+        this.deleteBtn[o.data && o.data[M.EventId.name] ? 'show' : 'hide']();
         
         var rec, f = this.formPanel.form;
 
@@ -211,8 +212,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
 			//this.isAdd = true;
             this.setTitle(this.titleTextAdd);
 
-            var M = Ext.ensible.cal.EventMappings,
-                start = o[M.StartDate.name],
+            var start = o[M.StartDate.name],
                 end = o[M.EndDate.name] || start.add('h', 1);
                 
             rec = new Ext.ensible.cal.EventRecord();
@@ -226,7 +226,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
         }
         
         if(this.calendarStore){
-            this.calendarField.setValue(rec.data[Ext.ensible.cal.EventMappings.CalendarId.name]);
+            this.calendarField.setValue(rec.data[M.CalendarId.name]);
         }
         this.dateRangeField.setValue(rec.data);
         this.activeRecord = rec;
