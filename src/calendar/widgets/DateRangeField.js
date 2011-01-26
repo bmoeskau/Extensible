@@ -213,7 +213,7 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
         else{
             return null;
         };
-        if(time != '' && this[startend+'Time'].isVisible()){
+        if(time != ''){
             return Date.parseDate(dt+' '+time, this[startend+'Date'].format+' '+this[startend+'Time'].format);
         }
         return Date.parseDate(dt, this[startend+'Date'].format);

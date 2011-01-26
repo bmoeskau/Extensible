@@ -114,7 +114,7 @@ Ext.ensible.cal.DropZone = Ext.extend(Ext.dd.DropZone, {
         
         if(!this.dragStartDate || !this.dragEndDate || (D.diffDays(start, this.dragStartDate) != 0) || (D.diffDays(end, this.dragEndDate) != 0)){
             this.dragStartDate = start;
-            this.dragEndDate = end.clearTime().add(Date.DAY, 1).add(Date.MILLI, -1);
+            this.dragEndDate = end.clearTime().add(Date.DAY, 1).add(Date.MINUTE, -30);
             this.shim(start, end);
             
             var range = start.format(this.dateFormat);
