@@ -891,7 +891,7 @@ viewConfig: {
         var start = this.viewStart.getTime(),
             end = this.viewEnd.getTime(),
             evStart = data[M.StartDate.name].getTime(),
-            evEnd = data[M.EndDate.name].add(Date.SECOND, -1).getTime();
+            evEnd = data[M.EndDate.name].getTime();
             
         return Ext.ensible.Date.rangesOverlap(start, end, evStart, evEnd);
     },
