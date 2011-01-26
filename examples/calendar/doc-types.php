@@ -1,0 +1,70 @@
+<?php
+    $dtname = $_REQUEST['doctype'];
+    $dtd = $_REQUEST['dtd'];
+    $doctype = '';
+    
+    if(isset($dtd) && $dtd != ''){
+        if($dtd == 'html5'){
+            $doctype = '<!DOCTYPE html>';
+        }
+        else {
+            $doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD '.$dtname.'//EN" "http://www.w3.org/TR/'.$dtd.'.dtd">';
+        }
+    }
+    echo $doctype;
+?>
+<html>
+<head>
+    <title>Extensible : Doctype Tester</title>
+    <!-- Ext includes -->
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.0/resources/css/ext-all.css" />
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/adapter/ext/ext-base-debug.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/ext-all-debug.js"></script>
+    <!-- Any Ext overrides go here -->
+    
+    <!-- Extensible includes -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/extensible-all.css" />
+    <script type="text/javascript" src="../../extensible-all-debug.js"></script>
+    <!-- Any Extensible overrides go here -->
+    
+    <!-- Page-specific includes -->
+    <link rel="stylesheet" type="text/css" href="../examples.css" />
+    <script type="text/javascript" src="data-events.js"></script>
+    <script type="text/javascript" src="data-calendars.js"></script>
+    <script type="text/javascript" src="CalendarStore.js"></script>
+    <script type="text/javascript" src="MemoryEventStore.js"></script>
+    <script type="text/javascript" src="doc-types.js"></script>
+    
+    <style>
+        .sample-ct {
+            /* pre-size the container for smoother rendering, should match the panel's height config */
+            height: 700px;
+        }
+        .combo-ct {
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="sample-overview">
+        <h1>Doctype Tester</h1>
+        <p><strong>NOTE:</strong> PHP is required to run this example.</p>
+        <p>This example simply allows you to test the calendar layout using most of the common HTML doc types. The "Doctype Markup"
+        shown below is exactly the doc type rendered into the page, which you can see if you view source.</p>
+            
+            <p class="view-src"><a target="_blank" href="doc-types.js">View the source</a></p>
+    </div>
+    
+    <div class="combo-ct">
+        <div style="float:left;padding:5px 10px 0 0;">Selected Doctype:</div>
+        <div id="doctypes" style="float:left;"></div>
+        <div style="clear:left;"></div>
+        
+        <div style="float:left;padding:5px 10px 0 0;margin-top:10px;">Doctype Markup:</div>
+        <div id="markup" style="float:left;margin-top:15px;color:#555;"><tt><?php echo $doctype != '' ? htmlentities($doctype) : '(none)'; ?></tt></div>
+        <div style="clear:left;"></div>
+    </div>
+    
+    <div id="cal" class="sample-ct"></div>
+</body>
+</html>
