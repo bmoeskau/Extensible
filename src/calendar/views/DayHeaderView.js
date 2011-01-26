@@ -61,15 +61,10 @@ Ext.ensible.cal.DayHeaderView = Ext.extend(Ext.ensible.cal.MonthView, {
         
         this.el.setHeight(h+7);
         
-        if(Ext.isIE && Ext.isStrict){
-            this.el.child('.ext-cal-hd-ad-inner').setHeight(h+4);
-        }
-        if(Ext.isOpera){
-            //TODO: figure out why Opera refuses to refresh height when
-            //the new height is lower than the previous one
-//            var ct = this.el.child('.ext-cal-hd-ct');
-//            ct.repaint();
-        }
+        // These should be auto-height, but since that does not work reliably
+        // across browser / doc type, we have to size them manually
+        this.el.child('.ext-cal-hd-ad-inner').setHeight(h+5);
+        this.el.child('.ext-cal-bg-tbl').setHeight(h+5);
     },
     
     // private
