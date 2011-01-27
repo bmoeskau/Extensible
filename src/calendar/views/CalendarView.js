@@ -918,8 +918,8 @@ viewConfig: {
 //            ev1EndsInEv2 = (end1 >= start2 && end1 <= end2),
 //            ev1SpansEv2 = (start1 < start2 && end1 > end2),
             var evtsOverlap = Ext.ensible.Date.rangesOverlap(start1, end1, start2, end2),
-                minHeight = this.minEventHeight || 0,
-                ev1MinHeightOverlapsEv2 = minHeight > 0 && (startDiff > -minHeight && startDiff < minHeight);
+                minimumMinutes = this.minEventDisplayMinutes || 0, // applies in day/week body view only for vertical overlap
+                ev1MinHeightOverlapsEv2 = minimumMinutes > 0 && (startDiff > -minimumMinutes && startDiff < minimumMinutes);
         
         //return (ev1startsInEv2 || ev1EndsInEv2 || ev1SpansEv2 || ev1MinHeightOverlapsEv2);
         return (evtsOverlap || ev1MinHeightOverlapsEv2);
