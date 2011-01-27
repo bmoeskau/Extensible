@@ -12,7 +12,7 @@
          * The version of the framework
          * @type String
          */
-        version : '1.0-beta-2',
+        version : '1.0-rc1',
         /**
          * The version of the framework, broken out into its numeric parts. This returns an
          * object that contains the following integer properties: major, minor and patch.

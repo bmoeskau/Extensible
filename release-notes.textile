@@ -1,5 +1,28 @@
 h1. Release Notes
 
+h2. 1.0 (RC 1)
+
+_Jan. 26, 2011_
+
+*New Features*
+* Lots of new options to customize the time increments and boundaries that can be shown (<tt>showHourSeparator</tt>, <tt>viewStartHour</tt>, <tt>viewEndHour</tt>, <tt>scrollStartHour</tt>, <tt>hourHeight</tt>, <tt>ddIncrement</tt>, <tt>minEventDisplayMinutes</tt>). This enables highly customizable calendar layouts, as shown in the new sample custom-views.html.
+* New option <tt>enableEditDetails</tt> to hide/show the "edit details" link on the edit window
+* New sample doc-types.php for easily testing various HTML doctype combinations
+* Catalan and Spanish (Spain) locale files
+
+*Bugs Fixed*
+* Day/week header does not display when using many doctype combinations
+* Removed store override that could break other data bound components that rely on phantom record support
+* Click on week view all day header with no events present always shows first date of week in edit window
+* "More events" popup window should exclude events from hidden calendars
+* <tt>CalendarList.radioCalendar</tt> causes many unnecessary store.load calls
+* Event store reloaded improperly when <tt>view.refresh</tt> is passed as a callback function
+* String calendar ids should be allowed
+* End date boundary bug in <tt>isEventVisible</tt>
+* Revised event overlap logic for day/week views to support minimum event display height
+* WeekView sometimes stays on the same week when moving forward/back using the arrow buttons
+* MemoryEventStore's add event listener gets overwritten when other listeners are added by external code (applies to samples only)
+
 h2. 1.0 (Beta 2)
 
 _Dec. 30, 2010_

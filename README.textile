@@ -4,7 +4,7 @@
 <p>by Brian Moeskau</p>
 
 <h2>Current Status</h2>
-<p>Extensible is in beta status and close to final 1.0 release. The estimated release for 1.0 is early February.</p>
+<p>Extensible is in "release candidate" status and close to final 1.0 release. The estimated release for 1.0 is early February.</p>
 
 <h2>Building the Source</h2>
 <p>Build scripts for both Mac/Unix (<code>build/build.sh</code>) and Windows (<code>build/build.bat</code>) are included.  You must have a current version of Java installed for JSBuilder to work.  You should also edit the build script and update the path variables as needed for your system.</p>
