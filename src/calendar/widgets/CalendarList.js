@@ -161,13 +161,14 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
     // private
     radioCalendar: function(id){
         var i = 0, recId,
-            calendarName = Ext.ensible.cal.CalendarMappings.CalendarId.name,
+            calendarId = Ext.ensible.cal.CalendarMappings.CalendarId.name,
             recs = this.store.getRange(),
             len = recs.length;
             
         for(; i < len; i++){
-            recId = recs[i].data[calendarName];
-            if(recId === id){
+            recId = recs[i].data[calendarId];
+            // make a truthy check so that either numeric or string ids can match
+            if(recId == id){
                 this.showCalendar(recId, false);
             }
             else{
@@ -196,7 +197,7 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
     
     // private
     getCalendarId: function(el){
-        return parseInt(el.id.split('__')[1]);
+        return el.id.split('__')[1];
     },
     
     // private
