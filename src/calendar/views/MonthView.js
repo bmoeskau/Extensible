@@ -355,7 +355,8 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 	getMaxEventsPerDay : function(){
 		var dayHeight = this.getDaySize(true).height,
 			h = this.getEventHeight(),
-            max = Math.max(Math.floor((dayHeight-h) / h), 0);
+            bottomPad = 5,
+            max = Math.max(Math.floor((dayHeight-h-bottomPad) / h), 0);
 		
 		return max;
 	},
