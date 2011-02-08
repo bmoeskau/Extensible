@@ -33,12 +33,12 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
     ddMoveEventText: Ext.ensible.cal.CalendarView.prototype.ddMoveEventText,
     /**
      * @cfg {Boolean} showTime
-     * True to display the current time in today's box in the calendar, false to not display it (defautls to true)
+     * True to display the current time in today's box in the calendar, false to not display it (defaults to true)
      */
     showTime: true,
     /**
      * @cfg {Boolean} showTodayText
-     * True to display the {@link #todayText} string in today's box in the calendar, false to not display it (defautls to true)
+     * True to display the {@link #todayText} string in today's box in the calendar, false to not display it (defaults to true)
      */
     showTodayText: true,
     /**
@@ -101,7 +101,7 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
     scrollStartHour: 7,
     /**
      * @cfg {Integer} hourHeight
-     * <p>The height, in pixels, of each hour block displayed in the scrolling body area of the view (defautls to 42).</p> 
+     * <p>The height, in pixels, of each hour block displayed in the scrolling body area of the view (defaults to 42).</p> 
      * <br><p><b>Important note:</b> While this config can be set to any reasonable integer value, note that it is also used to 
      * calculate the ratio used when assigning event heights. By default, an hour is 60 minutes and 42 pixels high, so the
      * pixel-to-minute ratio is 42 / 60, or 0.7. This same ratio is then used when rendering events. When rendering a 

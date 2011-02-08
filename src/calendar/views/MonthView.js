@@ -23,12 +23,12 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
     detailsTitleDateFormat: 'F j',
     /**
      * @cfg {Boolean} showTime
-     * True to display the current time in today's box in the calendar, false to not display it (defautls to true)
+     * True to display the current time in today's box in the calendar, false to not display it (defaults to true)
      */
     showTime: true,
     /**
      * @cfg {Boolean} showTodayText
-     * True to display the {@link #todayText} string in today's box in the calendar, false to not display it (defautls to true)
+     * True to display the {@link #todayText} string in today's box in the calendar, false to not display it (defaults to true)
      */
     showTodayText: true,
     /**
