@@ -125,7 +125,7 @@ Ext.ensible.cal.WeekEventRenderer = function(){
                                 id: o.id+'-empty-day-'+dt.format('Ymd')
                             };
                             if(o.evtMaxCount[w] > 1){
-                                cellCfg.rowSpan = o.evtMaxCount[w];
+                                cellCfg.rowspan = o.evtMaxCount[w];
                             }
                             Ext.DomHelper.append(row, cellCfg);
                         }
