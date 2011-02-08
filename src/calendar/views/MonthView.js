@@ -341,7 +341,12 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
     getEventHeight : function(){
         if(!this.eventHeight){
             var evt = this.el.select('.ext-cal-evt').first();
-            this.eventHeight = evt ? evt.parent('tr').getHeight() : 18;
+            if(evt){
+                this.eventHeight = evt.parent('tr').getHeight();
+            }
+            else {
+                return 16; // no events rendered, so try setting this.eventHeight again later
+            }
         }
         return this.eventHeight;
     },
