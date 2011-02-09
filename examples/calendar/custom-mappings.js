@@ -8,8 +8,8 @@ Ext.onReady(function(){
         // names and mappings have all been customized. Note that the name of each field
         // definition object (e.g., 'EventId') should NOT be changed for the default fields
         // as it is the key used to access the field data programmatically.
-        EventId:     {name: 'ID', mapping:'evt_id', type:'int'},
-        CalendarId:  {name: 'CalID', mapping: 'cal_id', type: 'int'},
+        EventId:     {name: 'ID', mapping:'evt_id', type:'string'}, // int by default
+        CalendarId:  {name: 'CalID', mapping: 'cal_id', type: 'string'}, // int by default
         Title:       {name: 'EvtTitle', mapping: 'evt_title'},
         StartDate:   {name: 'StartDt', mapping: 'start_dt', type: 'date', dateFormat: 'c'},
         EndDate:     {name: 'EndDt', mapping: 'end_dt', type: 'date', dateFormat: 'c'},
@@ -38,7 +38,7 @@ Ext.onReady(function(){
     
     Ext.ensible.cal.CalendarMappings = {
         // Same basic concept for the CalendarMappings as above
-        CalendarId:   {name:'ID', mapping: 'cal_id', type: 'int'},
+        CalendarId:   {name:'ID', mapping: 'cal_id', type: 'string'}, // int by default
         Title:        {name:'CalTitle', mapping: 'cal_title', type: 'string'},
         Description:  {name:'Desc', mapping: 'cal_desc', type: 'string'},
         ColorId:      {name:'Color', mapping: 'cal_color', type: 'int'},
