@@ -29,8 +29,8 @@
     
     <!-- Page-specific includes -->
     <link rel="stylesheet" type="text/css" href="../examples.css" />
-    <script type="text/javascript" src="data-events.js"></script>
-    <script type="text/javascript" src="data-calendars.js"></script>
+    <script type="text/javascript" src="data/events.js"></script>
+    <script type="text/javascript" src="data/calendars.js"></script>
     <script type="text/javascript" src="CalendarStore.js"></script>
     <script type="text/javascript" src="MemoryEventStore.js"></script>
     <script type="text/javascript" src="doc-types.js"></script>

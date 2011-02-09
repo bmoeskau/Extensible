@@ -47,9 +47,11 @@ Ext.onReady(function(){
     
     new Ext.ensible.cal.CalendarPanel({
         eventStore: new Ext.ensible.sample.MemoryEventStore({
+            // defined in data/events.js
             data: Ext.ensible.sample.EventData
         }),
         calendarStore: new Ext.ensible.sample.CalendarStore({
+            // defined in data/calendars.js
             data: Ext.ensible.sample.CalendarData
         }),
         renderTo: 'cal',

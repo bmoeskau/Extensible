@@ -12,7 +12,7 @@ Ext.onReady(function(){
                     // xtype is supported:
                     xtype: 'extensible.calendarpanel',
                     eventStore: new Ext.ensible.sample.MemoryEventStore({
-                        // defined in data-events.js
+                        // defined in data/events.js
                         data: Ext.ensible.sample.EventData
                     })
                 }

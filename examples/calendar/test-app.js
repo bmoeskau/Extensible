@@ -6,7 +6,7 @@
 
             // This is an example calendar store that enables event color-coding
             this.calendarStore = new Ext.ensible.sample.CalendarStore({
-                // defined in data-calendars.js
+                // defined in data/calendars.js
                 data: Ext.ensible.sample.CalendarData
             });
 
@@ -14,7 +14,7 @@
             // implementation would likely be loading remote data via an HttpProxy, but the
             // underlying store functionality is the same.
             this.eventStore = new Ext.ensible.sample.MemoryEventStore({
-                // defined in data-events.js
+                // defined in data/events.js
                 data: Ext.ensible.sample.EventData
             });
             

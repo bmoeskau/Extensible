@@ -78,7 +78,7 @@ Ext.ensible.LocaleSample = function(){
                 width: 800,
                 height: 600,
                 eventStore: new Ext.ensible.sample.MemoryEventStore({
-                    // defined in data-events.js
+                    // defined in data/events.js
                     data: Ext.ensible.sample.EventData
                 })
             });
