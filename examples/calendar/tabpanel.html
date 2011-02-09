@@ -1,0 +1,45 @@
+<html>
+<head>
+    <title>Extensible : Calendar Within a TabPanel</title>
+    <!-- Ext includes -->
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.0/resources/css/ext-all.css" />
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/adapter/ext/ext-base-debug.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/ext-all-debug.js"></script>
+    <!-- Any Ext overrides go here -->
+    
+    <!-- Extensible includes -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/extensible-all.css" />
+    <script type="text/javascript" src="../../extensible-all-debug.js"></script>
+    <!-- Any Extensible overrides go here -->
+    
+    <!-- Page-specific includes -->
+    <link rel="stylesheet" type="text/css" href="../examples.css" />
+    <script type="text/javascript" src="data-events.js"></script>
+    <script type="text/javascript" src="MemoryEventStore.js"></script>
+    <script type="text/javascript" src="tabpanel.js"></script>
+    
+    <style>
+        .sample-ct {      
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="sample-overview">
+        <h1>Calendar Within a TabPanel</h1>
+        <p>A simple example of a common layout style. This shows a CalendarPanel that is lazy-rendered inside a TabPanel.</p>
+        
+        <p class="view-src"><a target="_blank" href="tabpanel.js">View the source</a></p>
+    </div>
+    
+    <div id="tabpanel" class="sample-ct"></div>
+    
+    <div style="display:none;">
+        <div id="general-tab">
+            <h1>General Info</h1>
+            <p>Some general content. Click the Calendar tab to see a calendar!</p>
+            <p>Note that if you inspect the generated page source right now you'll see that the CalendarPanel is not even rendered into the DOM until the tab is first shown.</p>
+        </div>
+    </div>
+</body>
+</html>
