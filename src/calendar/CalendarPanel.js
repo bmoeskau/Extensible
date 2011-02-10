@@ -148,6 +148,19 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     enableEditDetails: true,
     
     /**
+     * @cfg {Ext.data.Store} eventStore
+     * The {@link Ext.data.Store store} which is bound to this calendar and contains {@link Ext.ensible.cal.EventRecord EventRecords}.
+     * Note that this is an alias to the default {@link #store} config (to differentiate that from the optional {@link #calendarStore}
+     * config), and either can be used interchangeably.
+     */
+    /**
+     * @cfg {Ext.data.Store} calendarStore
+     * The {@link Ext.data.Store store} which is bound to this calendar and contains {@link Ext.ensible.cal.CalendarRecord CalendarRecords}.
+     * This is an optional store that provides multi-calendar (and multi-color) support. If available an additional field for selecting the
+     * calendar in which to save an event will be shown in the edit forms. If this store is not available then all events will simply use
+     * the default calendar (and color).
+     */
+    /**
      * @cfg {Object} viewConfig
      * A config object that will be applied to all {@link Ext.ensible.cal.CalendarView views} managed by this CalendarPanel. Any
      * options on this object that do not apply to any particular view will simply be ignored.
