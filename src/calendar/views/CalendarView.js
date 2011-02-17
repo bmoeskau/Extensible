@@ -143,6 +143,18 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      */
     defaultEventTitleText: '(No title)',
     /**
+     * @cfg {String} dateParamStart
+     * The param name representing the start date of the current view range that's passed in requests to retrieve events
+     * when loading the view (defauts to 'start').
+     */
+    dateParamStart: 'start',
+    /**
+     * @cfg {String} dateParamEnd
+     * The param name representing the end date of the current view range that's passed in requests to retrieve events
+     * when loading the view (defauts to 'end').
+     */
+    dateParamEnd: 'end',
+    /**
      * @cfg {String} dateParamFormat
      * The format to use for date parameters sent with requests to retrieve events for the calendar (defaults to 'Y-m-d', e.g. '2010-10-31')
      */
@@ -451,13 +463,45 @@ viewConfig: {
         this.forceSize.defer(100, this);
     },
     
-    getStoreParams : function(){
-        return {
-            start: this.viewStart.format(this.dateParamFormat),
-            end: this.viewEnd.format(this.dateParamFormat)
-        };
+    /**
+     * Returns an object containing the start and end dates to be passed as params in all calls
+     * to load the event store. The param names are customizable using {@link #dateParamStart}
+     * and {@link #dateParamEnd} and the date format used in requests is defined by {@link #dateParamFormat}.
+     * If you need to add additional parameters to be sent when loading the store see {@link #getStoreParams}.
+     * @return {Object} An object containing the start and end dates
+     */
+    getStoreDateParams : function(){
+        var o = {};
+        o[this.dateParamStart] = this.viewStart.format(this.dateParamFormat);
+        o[this.dateParamEnd] = this.viewEnd.format(this.dateParamFormat);
+        return o;
     },
     
+    /**
+     * Returns an object containing all key/value params to be passed when loading the event store.
+     * By default the returned object will simply be the same object returned by {@link #getStoreDateParams},
+     * but this method is intended to be overridden if you need to pass anything in addition to start and end dates.
+     * See the inline code comments when overriding for details.
+     * @return {Object} An object containing all params to be sent when loading the event store
+     */
+    getStoreParams : function(){
+        // This is needed if you require the default start and end dates to be included
+        var params = this.getStoreDateParams();
+        
+        // Here is where you can add additional custom params, e.g.:
+        // params.now = new Date().format(this.dateParamFormat);
+        // params.foo = 'bar';
+        // params.number = 123;
+        
+        return params;
+    },
+    
+    /**
+     * Reloads the view's underlying event store using the params returned from {@link #getStoreParams}.
+     * Reloading the store is typically managed automatically by the view itself, but the method is
+     * available in case a manual reload is ever needed.
+     * @param {Object} options (optional) An object matching the format used by Store's {@link Ext.data.Store#load load} method
+     */
     reloadStore : function(o){
         Ext.ensible.log('reloadStore');
         o = Ext.isObject(o) ? o : {};
@@ -482,6 +526,13 @@ viewConfig: {
         }
     },
 
+    /**
+     * Refresh the current view, optionally reloading the event store also. While this is normally
+     * managed internally on any navigation and/or CRUD action, there are times when you might want
+     * to refresh the view manually (e.g., if you'd like to reload using different {@link #getStoreParams params}).
+     * @param {Boolean} reloadData True to reload the store data first, false to simply redraw the view using current 
+     * data (defaults to false)
+     */
     refresh : function(reloadData){
         Ext.ensible.log('refresh (base), reload = '+reloadData);
         if(reloadData === true){
@@ -492,6 +543,7 @@ viewConfig: {
         this.renderItems();
     },
     
+    // private
     getWeekCount : function(){
         var days = Ext.ensible.Date.diffDays(this.viewStart, this.viewEnd);
         return Math.ceil(days / this.dayCount);
@@ -639,15 +691,26 @@ viewConfig: {
         }
     },
     
+    /**
+     * Disable store event monitoring within this view. Note that if you do this the view will no longer
+     * refresh itself automatically when CRUD actions occur. To enable store events see {@link #enableStoreEvents}.
+     * @return {CalendarView} this
+     */
 	disableStoreEvents : function(){
 		this.monitorStoreEvents = false;
+        return this;
 	},
 	
+    /**
+     * Enable store event monitoring within this view if disabled by {@link #disbleStoreEvents}.
+     * @return {CalendarView} this
+     */
 	enableStoreEvents : function(refresh){
 		this.monitorStoreEvents = true;
 		if(refresh === true){
 			this.refresh();
 		}
+        return this;
 	},
 	
     // private
@@ -716,6 +779,16 @@ viewConfig: {
         }
     },
     
+    /**
+     * Provides the element effect(s) to run after an event is updated. The method is passed a {@link Ext.CompositeElement}
+     * that contains one or more elements in the DOM representing the event that was updated. The default 
+     * effect is {@link Ext.Element#highlight highlight}. Note that this method will only be called when 
+     * {@link #enableUpdateFx} is true (it is false by default).
+     * @param {Ext.CompositeElement} el The {@link Ext.CompositeElement} representing the updated event
+     * @param {Object} options An options object to be passed through to any Element.Fx methods. By default this
+     * object only contains the current scope (<tt>{scope:this}</tt>) but you can also add any additional fx-specific 
+     * options that might be needed for a particular effect to this object.
+     */
 	doUpdateFx : function(els, o){
 		this.highlightEvent(els, null, o);
 	},
@@ -748,6 +821,16 @@ viewConfig: {
 		};
     },
 	
+    /**
+     * Provides the element effect(s) to run after an event is added. The method is passed a {@link Ext.CompositeElement}
+     * that contains one or more elements in the DOM representing the event that was added. The default 
+     * effect is {@link Ext.Element#fadeIn fadeIn}. Note that this method will only be called when 
+     * {@link #enableAddFx} is true (it is true by default).
+     * @param {Ext.CompositeElement} el The {@link Ext.CompositeElement} representing the added event
+     * @param {Object} options An options object to be passed through to any Element.Fx methods. By default this
+     * object only contains the current scope (<tt>{scope:this}</tt>) but you can also add any additional fx-specific 
+     * options that might be needed for a particular effect to this object.
+     */
 	doAddFx : function(els, o){
 		els.fadeIn(Ext.apply(o, {duration:2}));
 	},
@@ -779,13 +862,38 @@ viewConfig: {
 		}
     },
 	
+    /**
+     * Provides the element effect(s) to run after an event is removed. The method is passed a {@link Ext.CompositeElement}
+     * that contains one or more elements in the DOM representing the event that was removed. The default 
+     * effect is {@link Ext.Element#fadeOut fadeOut}. Note that this method will only be called when 
+     * {@link #enableRemoveFx} is true (it is true by default).
+     * @param {Ext.CompositeElement} el The {@link Ext.CompositeElement} representing the removed event
+     * @param {Object} options An options object to be passed through to any Element.Fx methods. By default this
+     * object contains the following properties:
+     * <pre><code>
+{
+   remove: true, // required by fadeOut to actually remove the element(s)
+   scope: this,  // required for the callback
+   callback: fn  // required to refresh the view after the fx finish
+} 
+     * </code></pre>
+     * While you can modify this options object as needed if you change the effect used, please note that the
+     * callback method (and scope) MUST still be passed in order for the view to refresh correctly after the removal.
+     * Please see the inline code comments before overriding this method. 
+     */
 	doRemoveFx : function(els, o){
+        // Please make sure you keep this entire code block or removing events might not work correctly!
+        // Removing is a little different because we have to wait for the fx to finish, then we have to actually
+        // refresh the view AFTER the fx are run (this is different than add and update).
         if(els.getCount() == 0 && Ext.isFunction(o.callback)){
             // if there are no matching elements in the view make sure the callback still runs.
             // this can happen when an event accessed from the "more" popup is deleted.
             o.callback.call(o.scope || this);
         }
         else{
+            // If you'd like to customize the remove fx do so here. Just make sure you
+            // DO NOT override the default callback property on the options object, and that
+            // you still pass that object in whatever fx method you choose.
             els.fadeOut(o);
         }
 	},
@@ -938,10 +1046,12 @@ viewConfig: {
         return (evtsOverlap || ev1MinHeightOverlapsEv2);
     },
     
+    // private
     getDayEl : function(dt){
         return Ext.get(this.getDayId(dt));
     },
     
+    // private
     getDayId : function(dt){
         if(Ext.isDate(dt)){
             dt = dt.format('Ymd');
@@ -1182,6 +1292,7 @@ alert('End: '+bounds.end);
         this.store = store;
     },
     
+    // private
     onException : function(proxy, type, action, o, res, arg){
         // form edits are explicitly canceled, but we may not know if a drag/drop operation
         // succeeded until after a server round trip. if the update failed we have to explicitly
@@ -1211,11 +1322,13 @@ alert('End: '+bounds.end);
         this.calendarStore = store;
     },
 	
+    // private
     getEventRecord : function(id){
         var idx = this.store.find(Ext.ensible.cal.EventMappings.EventId.name, id);
         return this.store.getAt(idx);
     },
 	
+    // private
 	getEventRecordFromEl : function(el){
 		return this.getEventRecord(this.getEventIdFromEl(el));
 	},
@@ -1322,12 +1435,14 @@ alert('End: '+bounds.end);
         return this;
     },
     
+    // private
     save: function(){
         if(this.saveRequired){
             this.store.save();
         }
     },
     
+    // private
     onSave: function(store, batch, data){
         Ext.ensible.log('onSave');
         //console.dir(data);
