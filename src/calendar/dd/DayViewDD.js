@@ -33,7 +33,7 @@ Ext.ensible.cal.DayViewDragZone = Ext.extend(Ext.ensible.cal.DragZone, {
         
         // If not dragging/resizing an event then we are dragging on 
         // the calendar to add a new event
-        t = this.view.getDayAt(e.getPageX(), e.getPageY());
+        t = this.view.getDayAt(e.xy[0], e.xy[1]);
         if(t.el){
             return {
                 type: 'caldrag',
@@ -70,8 +70,9 @@ Ext.ensible.cal.DayViewDropZone = Ext.extend(Ext.ensible.cal.DropZone, {
                 this.dragStartMarker = n.el.parent().createChild({
                     style: 'position:absolute;'
                 });
-                this.dragStartMarker.setBox(n.timeBox);
-                this.dragCreateDt = n.date;
+                // use the original dayInfo values from the drag start
+                this.dragStartMarker.setBox(data.dayInfo.timeBox);
+                this.dragCreateDt = data.dayInfo.date;
             }
             var endDt, box = this.dragStartMarker.getBox();
             box.height = Math.ceil(Math.abs(e.xy[1] - box.y) / n.timeBox.height) * n.timeBox.height;

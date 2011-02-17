@@ -30,7 +30,7 @@ Ext.ensible.cal.DragZone = Ext.extend(Ext.dd.DragZone, {
         
         // If not dragging an event then we are dragging on 
         // the calendar to add a new event
-        t = this.view.getDayAt(e.getPageX(), e.getPageY());
+        t = this.view.getDayAt(e.xy[0], e.xy[1]);
         if(t.el){
             return {
                 type: 'caldrag',
