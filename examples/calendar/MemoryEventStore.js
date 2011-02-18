@@ -23,31 +23,18 @@ Ext.ensible.sample.MemoryEventStore = Ext.extend(Ext.data.Store, {
             idProperty: Ext.ensible.cal.EventMappings.EventId.mapping || 'id'
         });
         this.reader = new Ext.data.JsonReader(config);
-        
         Ext.ensible.sample.MemoryEventStore.superclass.constructor.call(this, config);
-        
-        this.on('add', this.onAdd, this);
     },
-    
-    // In real implementations the store is responsible for committing records
-    // after a remote transaction has returned success = true. Since we never do
-    // a real transaction, we never get any of the normal store callbacks telling
-    // us that an edit occurred. This simple hack works around that for the purposes
-    // of the local samples, but should NEVER actually be done in real code.
-    afterEdit : function(rec){
-        rec.commit();
-    },
-    
-    onAdd: function(store, rec){
-        // Since MemoeryProxy has no "create" implementation, added events
-        // get stuck as phantoms without an EventId. The calendar does not support
-        // batching transactions and expects records to be non-phantoms, so for
-        // the purpose of local samples we can hack that into place. In real remote
-        // scenarios this is handled automatically by the store, and so you should
-        // NEVER actually do something like this.
-        var r = rec[0];
-        r.data[Ext.ensible.cal.EventMappings.EventId.name] = r.id;
-        r.phantom = false;
-        r.commit();
+
+    // Since MemoeryProxy has no "create" implementation, added events
+    // get stuck as phantoms without an EventId. The calendar does not support
+    // batching transactions and expects records to be non-phantoms, so for
+    // the purpose of local samples we can hack that into place. In real remote
+    // scenarios this is handled automatically by the store, and so you should
+    // NEVER actually do something like this.
+    onCreateRecords : function(success, rs, data) {
+        rs.phantom = false;
+        rs.data[Ext.ensible.cal.EventMappings.EventId.name] = rs.id;
+        rs.commit();
     }
 });

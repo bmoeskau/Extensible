@@ -154,7 +154,7 @@ Ext.extend(Ext.data.MemoryProxy, Ext.data.DataProxy, {
                 callback.call(scope, null, arg, false);
                 return;
             }
-            callback.call(scope, result, arg, true);
         }
+        callback.call(scope, result, arg, true);
     }
 });

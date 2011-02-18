@@ -613,26 +613,18 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         var currStore = this.store;
         
         if(!initial && currStore){
-            currStore.un("add", this.onStoreAdd, this);
-            currStore.un("remove", this.onStoreRemove, this);
-            currStore.un("update", this.onStoreUpdate, this);
+            currStore.un("write", this.onWrite, this);
         }
         if(store){
-            store.on("add", this.onStoreAdd, this);
-            store.on("remove", this.onStoreRemove, this);
-            store.on("update", this.onStoreUpdate, this);
+            store.on("write", this.onWrite, this);
         }
         this.store = store;
     },
     
     // private
-    onStoreAdd : function(ds, records, index){
-        if(records[0].phantom){
-            return;
-        }
-        if(records[0]._deleting){
-            // this means that the delete failed, so the rec was added back into the store
-            delete records[0]._deleting;
+    onStoreAdd : function(ds, recs, index){
+        var rec = Ext.isArray(recs) ? recs[0] : recs;
+        if(rec.phantom){
             return;
         }
         this.hideEditForm();
@@ -651,6 +643,21 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     },
     
     // private
+    onWrite: function(store, action, data, resp, rec){
+        switch(action){
+            case 'create': 
+                this.onStoreAdd(store, rec);
+                break;
+            case 'update':
+                this.onStoreUpdate(store, rec, Ext.data.Record.COMMIT);
+                break;
+            case 'destroy':
+                this.onStoreRemove(store, rec);
+                break;
+        }
+    },
+    
+    // private
     onEditDetails: function(vw, rec, el){
         if(this.fireEvent('editdetails', this, vw, rec, el) !== false){
             this.showEditForm(rec);
@@ -664,7 +671,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     
     // private
     onEventAdd: function(form, rec){
-        this.newRecord = rec;
         this.store.add(rec);
         this.save();
         this.fireEvent('eventadd', this, rec);
@@ -678,7 +684,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     
     // private
     onEventDelete: function(form, rec){
-        rec._deleting = true;
         this.store.remove(rec);
         this.save();
         this.fireEvent('eventdelete', this, rec);
@@ -709,11 +714,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
      * @return {Ext.ensible.cal.CalendarPanel} this
      */
     hideEditForm: function(){
-        if(this.newRecord && this.newRecord.phantom){
-            this.store.remove(this.newRecord);
-        }
-        delete this.newRecord;
-        
         if(this.preEditView){
             this.setActiveView(this.preEditView);
             delete this.preEditView;

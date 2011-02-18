@@ -794,19 +794,19 @@ viewConfig: {
 	},
 	
     // private
-    onAdd : function(ds, records, index){
-        if(this.hidden === true || this.monitorStoreEvents === false || records[0].phantom){
+    onAdd : function(ds, recs, index){
+        var rec = Ext.isArray(recs) ? recs[0] : recs; 
+        if(this.hidden === true || this.monitorStoreEvents === false || rec.phantom){
             return;
         }
-        if(records[0]._deleting){
-            delete records[0]._deleting;
+        if(rec._deleting){
+            delete rec._deleting;
             return;
         }
         
         Ext.ensible.log('onAdd');
         
-		var rec = records[0],
-            rrule = rec.data[Ext.ensible.cal.EventMappings.RRule.name];
+		var rrule = rec.data[Ext.ensible.cal.EventMappings.RRule.name];
         
         this.dismissEventEditor();    
 		this.tempEventId = rec.id;
@@ -1273,20 +1273,14 @@ alert('End: '+bounds.end);
         
         if(!initial && currStore){
             currStore.un("datachanged", this.onDataChanged, this);
-            currStore.un("add", this.onAdd, this);
-            currStore.un("remove", this.onRemove, this);
-            currStore.un("update", this.onUpdate, this);
             currStore.un("clear", this.refresh, this);
-            currStore.un("save", this.onSave, this);
+            currStore.un("write", this.onWrite, this);
             currStore.un("exception", this.onException, this);
         }
         if(store){
             store.on("datachanged", this.onDataChanged, this);
-            store.on("add", this.onAdd, this);
-            store.on("remove", this.onRemove, this);
-            store.on("update", this.onUpdate, this);
             store.on("clear", this.refresh, this);
-            store.on("save", this.onSave, this);
+            store.on("write", this.onWrite, this);
             store.on("exception", this.onException, this);
         }
         this.store = store;
@@ -1441,9 +1435,18 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onSave: function(store, batch, data){
-        Ext.ensible.log('onSave');
-        //console.dir(data);
+    onWrite: function(store, action, data, resp, rec){
+        switch(action){
+            case 'create': 
+                this.onAdd(store, rec);
+                break;
+            case 'update':
+                this.onUpdate(store, rec, Ext.data.Record.COMMIT);
+                break;
+            case 'destroy':
+                this.onRemove(store, rec);
+                break;
+        }
     },
     
     // private
