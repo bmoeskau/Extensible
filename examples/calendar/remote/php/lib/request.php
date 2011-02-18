@@ -50,7 +50,7 @@ class Request {
                 $this->params = $params->data;
                 
                 if($this->method == 'DELETE'){
-                	$this->fail = (strpos($params, 'fail=') !== false);
+                	$this->fail = (strpos($raw, 'fail=') !== false);
                 } else {
                 	$this->fail = $params->fail;
                 }
