@@ -259,6 +259,7 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         rec.set(M.IsAllDay.name, dates[2]);
         
         dirty = rec.dirty;
+        delete rec.store; // make sure the record does not try to autosave
         rec.endEdit();
         
         return dirty;

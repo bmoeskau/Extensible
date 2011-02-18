@@ -72,6 +72,7 @@ Ext.override(Ext.data.Store, {
         
         this.fireEvent('add', this, records, index);
     },
+    
     insert : function(index, records) {
         var i, record;
         
