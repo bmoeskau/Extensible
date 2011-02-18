@@ -422,6 +422,7 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 					}
 				}
 			});
+            this.detailPanel.body.on('contextmenu', this.onContextMenu, this);
 		}
 		else{
 			this.detailPanel.setTitle(dt.format(this.detailsTitleDateFormat));
@@ -491,6 +492,14 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             return;
         }
         Ext.ensible.cal.MonthView.superclass.handleDayMouseEvent.apply(this, arguments);
+    },
+    
+    // private
+    destroy: function(){
+        Ext.ensible.cal.MonthView.superclass.destroy.call(this);
+        if(this.detailsPanel){
+            this.detailPanel.body.un('contextmenu', this.onContextMenu, this);
+        }
     }
 });
 
