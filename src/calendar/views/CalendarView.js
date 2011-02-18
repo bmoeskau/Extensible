@@ -425,7 +425,7 @@ viewConfig: {
         this.renderTemplate();
         
         if(this.store){
-            this.saveRequired = !this.store.autoSave;
+            this.store.autoSave = false; // not supported, the calendar will manage saving
             this.setStore(this.store, true);
             
             if(this.store.deferLoad){
@@ -1437,9 +1437,7 @@ alert('End: '+bounds.end);
     
     // private
     save: function(){
-        if(this.saveRequired){
-            this.store.save();
-        }
+        this.store.save();
     },
     
     // private
@@ -1450,10 +1448,9 @@ alert('End: '+bounds.end);
     
     // private
     onEventAdd: function(form, rec){
-        //rec.data[Ext.ensible.cal.EventMappings.IsNew.name] = false;
         this.newRecord = rec;
         this.store.add(rec);
-        //this.store.save();
+        this.save();
         this.fireEvent('eventadd', this, rec);
     },
     
@@ -1466,7 +1463,7 @@ alert('End: '+bounds.end);
     // private
     onEventDelete: function(form, rec){
         this.store.remove(rec);
-        //this.save();
+        this.save();
         this.fireEvent('eventdelete', this, rec);
     },
     
@@ -1555,7 +1552,7 @@ alert('End: '+bounds.end);
     deleteEvent: function(rec, el){
         if(this.fireEvent('beforeeventdelete', this, rec, el) !== false){
             this.store.remove(rec);
-            //this.save();
+            this.save();
             this.fireEvent('eventdelete', this, rec, el);
         }
     },

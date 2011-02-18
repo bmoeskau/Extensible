@@ -631,6 +631,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             return;
         }
         if(records[0]._deleting){
+            // this means that the delete failed, so the rec was added back into the store
             delete records[0]._deleting;
             return;
         }
@@ -657,21 +658,21 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     },
     
     // private
+    save: function(){
+        this.store.save();
+    },
+    
+    // private
     onEventAdd: function(form, rec){
-        //rec.data[Ext.ensible.cal.EventMappings.IsNew.name] = false;
         this.newRecord = rec;
         this.store.add(rec);
-        //this.hideEditForm();
+        this.save();
         this.fireEvent('eventadd', this, rec);
     },
     
     // private
     onEventUpdate: function(form, rec){
-        if(!this.store.autoSave){
-            this.store.save();
-        }
-        //rec.commit();
-        //this.hideEditForm();
+        this.save();
         this.fireEvent('eventupdate', this, rec);
     },
     
@@ -679,7 +680,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     onEventDelete: function(form, rec){
         rec._deleting = true;
         this.store.remove(rec);
-        //this.hideEditForm();
+        this.save();
         this.fireEvent('eventdelete', this, rec);
     },
     
