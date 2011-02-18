@@ -19,6 +19,7 @@ Ext.ensible.cal.CalendarCombo = Ext.extend(Ext.form.ComboBox, {
     triggerAction: 'all',
     mode: 'local',
     forceSelection: true,
+    selectOnFocus: true,
     width: 200,
     
     // private
