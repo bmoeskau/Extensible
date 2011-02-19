@@ -160,7 +160,8 @@ Ext.extend(Ext.data.MemoryProxy, Ext.data.DataProxy, {
 
 // This heinous override is required to fix IE9's removal of createContextualFragment.
 // Unfortunately since DomHelper is a singleton there's not much of a way around it.
-Ext.DomHelper = function(){
+Ext.apply(Ext.DomHelper,
+function(){
     var tempTableEl = null,
         emptyTags = /^(?:br|frame|hr|img|input|link|meta|range|spacer|wbr|area|param|col)$/i,
         tableRe = /^table|tbody|tr|td$/i,
@@ -459,4 +460,4 @@ Ext.DomHelper = function(){
         createHtml : createHtml
     };
     return pub;
-}();
+}());
