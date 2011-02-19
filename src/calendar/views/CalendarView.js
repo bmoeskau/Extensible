@@ -1091,6 +1091,10 @@ viewConfig: {
         var start = startDate || this.startDate,
             offset = start.getDay() - this.startDay;
         
+        if(offset < 0){
+            // if the offset is negative then some days will be in the previous week so add a week to the offset
+            offset += 7;
+        }
         switch(this.weekCount){
             case 0:
             case 1:
