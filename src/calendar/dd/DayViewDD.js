@@ -13,6 +13,7 @@ Ext.ensible.cal.DayViewDragZone = Ext.extend(Ext.ensible.cal.DragZone, {
             
             return {
                 type: 'eventresize',
+                xy: e.xy,
                 ddel: p.dom,
                 eventStart: rec.data[Ext.ensible.cal.EventMappings.StartDate.name],
                 eventEnd: rec.data[Ext.ensible.cal.EventMappings.EndDate.name],
@@ -24,6 +25,7 @@ Ext.ensible.cal.DayViewDragZone = Ext.extend(Ext.ensible.cal.DragZone, {
             var rec = this.view.getEventRecordFromEl(t);
             return {
                 type: 'eventdrag',
+                xy: e.xy,
                 ddel: t,
                 eventStart: rec.data[Ext.ensible.cal.EventMappings.StartDate.name],
                 eventEnd: rec.data[Ext.ensible.cal.EventMappings.EndDate.name],
@@ -102,8 +104,8 @@ Ext.ensible.cal.DayViewDropZone = Ext.extend(Ext.ensible.cal.DropZone, {
             
             if(data.type == 'eventdrag'){
                 if(this.dragOffset === undefined){
-                    this.dragOffset = n.timeBox.y-box.y;
-                    box.y = n.timeBox.y-this.dragOffset;
+                    this.dragOffset = data.xy[1]-box.y;
+                    box.y = data.xy[1]-this.dragOffset;
                 }
                 else{
                     box.y = n.timeBox.y;
