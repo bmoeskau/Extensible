@@ -6,6 +6,13 @@
  ******************************************/
 
 /* -----------------------------------------
+ * Ext overrides 
+ */
+.ext-strict .ext-webkit .x-small-editor .x-form-field-wrap .x-form-trigger {
+    height: 21px;
+}
+
+/* -----------------------------------------
  * Shared calendar view containers 
  */
 .x-panel-tbar .ext-cal-toolbar {
