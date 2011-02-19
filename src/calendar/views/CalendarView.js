@@ -1679,7 +1679,9 @@ alert('End: '+bounds.end);
     // private
     destroy: function(){
         Ext.ensible.cal.CalendarView.superclass.destroy.call(this);
-        this.el.un('contextmenu', this.onContextMenu, this);
+        if(this.el){
+            this.el.un('contextmenu', this.onContextMenu, this);
+        }
         Ext.destroy(
             this.editWin, 
             this.eventMenu,
