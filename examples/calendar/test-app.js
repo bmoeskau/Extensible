@@ -15,7 +15,11 @@
             // underlying store functionality is the same.
             this.eventStore = new Ext.ensible.sample.MemoryEventStore({
                 // defined in data/events.js
-                data: Ext.ensible.sample.EventData
+                data: Ext.ensible.sample.EventData,
+                // This disables the automatic CRUD messaging built into the sample data store.
+                // This test application will provide its own custom messaging. See the source
+                // of MemoryEventStore to see how automatic store messaging is implemented.
+                autoMsg: false
             });
             
             // This is the app UI layout code.  All of the calendar views are subcomponents of

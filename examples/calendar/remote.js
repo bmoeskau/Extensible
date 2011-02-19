@@ -46,7 +46,28 @@ Ext.onReady(function(){
         // the view will automatically set start / end date params for you. You can
         // also pass a valid config object as specified by Ext.data.Store.load()
         // and the start / end params will be appended to it.
-        autoLoad: true
+        autoLoad: true,
+        
+        // It's easy to provide generic CRUD messaging without having to handle events on every individual view.
+        // Note that while the store provides individual add, update and remove events, those fire BEFORE the
+        // remote transaction returns from the server -- they only signify that records were added to the store,
+        // NOT that your changes were actually persisted correctly in the back end. The 'write' event is the best
+        // option for generically messaging after CRUD persistance has succeeded.
+        listeners: {
+            'write': function(store, action, data, resp, rec){
+                switch(action){
+                    case 'create': 
+                        Ext.ensible.sample.msg('Add', 'Added "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
+                        break;
+                    case 'update':
+                        Ext.ensible.sample.msg('Update', 'Updated "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
+                        break;
+                    case 'destroy':
+                        Ext.ensible.sample.msg('Delete', 'Deleted "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
+                        break;
+                }
+            }
+        }
     });
     
     var cp = new Ext.ensible.cal.CalendarPanel({
