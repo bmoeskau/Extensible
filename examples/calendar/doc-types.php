@@ -13,6 +13,7 @@
     }
     echo $doctype;
 ?>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Extensible : Doctype Tester</title>
