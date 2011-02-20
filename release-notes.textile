@@ -1,5 +1,35 @@
 h1. Release Notes
 
+h2. 1.0 (RC 2)
+
+_Feb. 20, 2011_
+
+*New Features*
+* New TabPanel example
+* Added Polish locale
+* New CalendarView configs <tt>dateParamStart</tt> &amp; <tt>dateParamEnd</tt> to allow overriding the param names sent for read requests
+* Switched CalendarView <tt>getStoreParams</tt>, <tt>reloadStore</tt> and <tt>refresh</tt> methods from private to public/documented
+* Added new CalendarView <tt>getStoreDateParams</tt> method to separate default date params from custom param logic
+* The CalendarCombo widget now defaults to <tt>selectOnFocus:true</tt>
+* Enabled context menu support on "More events" popup panel
+* Added default CRUD user messaging to all the examples
+
+*Bugs Fixed*
+* Case typo in event rowspan code that caused problems in Chrome
+* "More events" window height grows after each display
+* Improved logic that calculates size for the "more events" link
+* Drag-to-create start position bug in day/week views
+* CalendarCombo invalid value could break the example application
+* Double POST after remote save fails
+* Disable store autoSave if set so that the calendar can properly manage saving instead
+* MemoryProxy override fix to always process the callback fn after any request
+* Switched store logic to handle 'write' event instead of individual CRUD events for proper remote response handling
+* PHP 'fail' test flag (specific to the remote sample) not working for DELETE transactions in some cases
+* DomHelpr override for IE9's apparent removal of <tt>createContextualFragment</tt> which breaks everything (general to Ext also)
+* Switched all examples to HTML5 doc type to default to standards mode rendering (mainly for IE)
+* Drag offset bug when dragging quickly to move an event
+* Display offset bug in setting the calendar view bounds when startDay > 0
+
 h2. 1.0 (RC 1)
 
 _Jan. 26, 2011_
