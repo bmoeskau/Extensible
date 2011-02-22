@@ -71,7 +71,7 @@ if(Ext.ensible.cal.EventEditForm) {
         locationLabelText: 'Placering',
         webLinkLabelText: 'Webblänk',
         calendarLabelText: 'Kalender',
-        recurrenceLabelText: 'Upprepa'
+        repeatsLabelText: 'Upprepa'
     });
 }
 

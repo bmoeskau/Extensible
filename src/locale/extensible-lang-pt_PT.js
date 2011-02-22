@@ -72,7 +72,7 @@ if(Ext.ensible.cal.EventEditForm) {
         locationLabelText: 'Local',
         webLinkLabelText: 'Site',
         calendarLabelText: 'Calend&aacute;rio',
-        recurrenceLabelText: 'Repeti&ccedil;oes'
+        repeatsLabelText: 'Repeti&ccedil;oes'
     });
 }
 
