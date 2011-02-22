@@ -58,6 +58,11 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
     buttonAlign: 'center',
     autoHeight: true, // to allow for the notes field to autogrow
     
+    /* Added by Alain Deseine, february 22, 2011 */
+    customLeftFields: [], // Array of custom fields to display on the left column
+    customRightFields: [], // Array of custom fields to display on the left column
+    /* End of Alain Deseine modifications */
+
     /* // not currently supported
      * @cfg {Boolean} enableRecurrence
      * True to show the recurrence field, false to hide it (default). Note that recurrence requires
@@ -161,6 +166,16 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
             leftFields.splice(2, 0, this.calendarField);
         };
         
+    	/* Added by Alain Deseine, february 22, 2011 */
+    	if ( this.customLeftFields.length != 0 ){
+    		leftFields.push( this.customLeftFields );
+    	}
+    	
+    	if ( this.customRightFields.length != 0 ){
+    		rightFields.push( this.customRightFields );
+    	}
+    	/* End of Alain Deseine modifications */
+
         this.items = [{
             id: this.id+'-left-col',
             columnWidth: this.colWidthLeft,
