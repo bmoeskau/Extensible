@@ -51,16 +51,23 @@ Ext.ensible.sample.MemoryEventStore = Ext.extend(Ext.data.Store, {
     // private
     onWrite: function(store, action, data, resp, rec){
         if(Ext.ensible.sample.msg){
-            switch(action){
-                case 'create': 
-                    Ext.ensible.sample.msg('Add', 'Added "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
-                    break;
-                case 'update':
-                    Ext.ensible.sample.msg('Update', 'Updated "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
-                    break;
-                case 'destroy':
-                    Ext.ensible.sample.msg('Delete', 'Deleted "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
-                    break;
+            if(Ext.isArray(rec)){
+                Ext.each(rec, function(r){
+                    this.onWrite.call(this, store, action, data, resp, r);
+                }, this);
+            }
+            else {
+                switch(action){
+                    case 'create': 
+                        Ext.ensible.sample.msg('Add', 'Added "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
+                        break;
+                    case 'update':
+                        Ext.ensible.sample.msg('Update', 'Updated "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
+                        break;
+                    case 'destroy':
+                        Ext.ensible.sample.msg('Delete', 'Deleted "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
+                        break;
+                }
             }
         }
     },
@@ -73,8 +80,15 @@ Ext.ensible.sample.MemoryEventStore = Ext.extend(Ext.data.Store, {
         // the purpose of local samples we can hack that into place. In real remote
         // scenarios this is handled either automatically by the store or by your own
         // application CRUD code, and so you should NEVER actually do something like this.
-        rs.phantom = false;
-        rs.data[Ext.ensible.cal.EventMappings.EventId.name] = rs.id;
-        rs.commit();
+        if(Ext.isArray(rs)){
+            Ext.each(rs, function(rec){
+                this.onCreateRecords.call(this, success, rec, data);
+            }, this);
+        }
+        else {
+            rs.phantom = false;
+            rs.data[Ext.ensible.cal.EventMappings.EventId.name] = rs.id;
+            rs.commit();
+        }
     }
 });
