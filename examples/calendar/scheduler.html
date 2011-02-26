@@ -3,36 +3,40 @@
 <head>
     <title>Extensible Calendar + Ext Scheduler</title>
     <!-- Ext includes -->
-    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.0/resources/css/ext-all.css" />
-    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/adapter/ext/ext-base-debug.js"></script>
-    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/ext-all-debug.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.3.1/resources/css/ext-all.css" />
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.3.1/adapter/ext/ext-base-debug.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.3.1/ext-all-debug.js"></script>
     <!-- Any Ext overrides go here -->
     
     <!-- Extensible includes -->
     <link rel="stylesheet" type="text/css" href="../../resources/css/extensible-all.css" />
     <script type="text/javascript" src="../../extensible-all-debug.js"></script>
+    <script type="text/javascript" src="MemoryEventStore.js"></script>
     <!-- Any Extensible overrides go here -->
     
     <!-- Shared example includes -->
     <link rel="stylesheet" type="text/css" href="../examples.css" />
     <script type="text/javascript" src="../examples.js"></script>
     
-    <!-- Page-specific includes -->
-    <link href="http://extjs.cachefly.net/ext-3.1.1/examples/ux/css/Spinner.css" rel="stylesheet" type="text/css" />
+    <!-- Scheduler components -->
+    <link href="http://extjs.cachefly.net/ext-3.3.1/examples/ux/css/Spinner.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="scheduler/css/sch-all.css" />
     <link href="scheduler/editor.css" rel="stylesheet" type="text/css" />
-    <link href="scheduler/editor.eventstyle.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.1.1/examples/ux/Spinner.js"></script>
-    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.1.1/examples/ux/SpinnerField.js"></script>
-    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.1.1/examples/ux/LockingGridView.js"></script>
+    <!--link href="scheduler/editor.eventstyle.css" rel="stylesheet" type="text/css" /-->
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.3.1/examples/ux/Spinner.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.3.1/examples/ux/SpinnerField.js"></script>
+    <script type="text/javascript" src="scheduler/ext.ux.form.datetime.js"></script>
     <script type="text/javascript" src="scheduler/sch-all-eval.js"></script>
-    <script type="text/javascript" src="MemoryEventStore.js"></script>
+    
+    <!-- Page-specific code -->
+    <script src="scheduler/DemoEditor.js" type="text/javascript"></script>
+    <script src="scheduler/DemoScheduler.js" type="text/javascript"></script>
     <script type="text/javascript" src="scheduler.js"></script>
     
     <style>
         #sched {
             height: 200px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         #cal {      
             height: 600px;
