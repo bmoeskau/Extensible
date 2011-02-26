@@ -1554,9 +1554,8 @@ alert('End: '+bounds.end);
     /**
      * Delete the specified event.
      * @param {Object} rec The event {@link Ext.ensible.cal.EventRecord record}
-     * @param {Object} el The {@link Ext.Element Element} corresponding to the event
      */
-    deleteEvent: function(rec, el){
+    deleteEvent: function(rec, /* private */el){
         if(this.fireEvent('beforeeventdelete', this, rec, el) !== false){
             this.store.remove(rec);
             this.save();
