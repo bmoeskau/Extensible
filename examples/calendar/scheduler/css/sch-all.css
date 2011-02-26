@@ -557,3 +557,79 @@ td.ux-grid-hd-nogroup-cell {
 {
     padding-top:2px;
 }
+
+
+/**  Examples **/
+
+/**
+ * Some of the examples make use of the Silk icon set by Mark James http://www.famfamfam.com/lab/icons/silk/
+ *
+ */
+
+.icon-prev
+{
+    background: url(../images/arrow_left.png) no-repeat center center !important;
+}
+
+.icon-next
+{
+    background: url(../images/arrow_right.png) no-repeat center center !important;
+}
+
+body {
+    font-family:helvetica,tahoma,verdana,sans-serif;
+    padding:20px;
+    padding-top:32px;
+    font-size:13px;
+}
+p {
+    margin-bottom:15px;
+}
+h1 {
+    font-size:large;
+    margin-bottom:20px;
+}
+h2 {
+    font-size:14px;
+    color:#333;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+pre.code{
+    background: #F8F8F8;
+    border: 1px solid #e8e8e8;
+    padding:10px;
+    margin:10px;
+    margin-left:0px;
+    border-left:5px solid #e8e8e8;
+    font-size: 12px !important;
+    line-height:14px !important;
+}
+
+a
+{
+    text-decoration:none;
+}
+
+a:hover
+{
+    text-decoration:underline;
+}
+
+
+.sch-event-endsoutside
+{
+    -moz-border-radius-topright:0 !important;
+    -moz-border-radius-bottomright:0 !important;
+    -webkit-border-radius-top-right:0 !important;
+    -webkit-border-radius-bottom-right:0 !important;
+}
+
+.sch-event-startsoutside
+{
+    -moz-border-radius-topleft:0 !important;
+    -moz-border-radius-bottomleft:0 !important;
+    -webkit-border-radius-top-left:0 !important;
+    -webkit-border-radius-bottom-left:0 !important;
+}

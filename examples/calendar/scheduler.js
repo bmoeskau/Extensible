@@ -1,9 +1,7 @@
 App = function() {
     return {
         init : function() {
-            //Ext.BLANK_IMAGE_URL = 'http://extjs.cachefly.net/ext-3.2.0/resources/images/default/s.gif';
             Ext.QuickTips.init();
-            
             this.initStores();
             this.createScheduler();
             this.createCalendar();
@@ -12,13 +10,18 @@ App = function() {
         initStores : function(){
             this.eventStore = new Ext.ensible.sample.MemoryEventStore({
                 fields : [
-                    { name: 'ResourceId' },
-                    { name: 'Title' },
-                    { name: 'StartDate', type: 'date', dateFormat: 'Y-m-d g:i' },
-                    { name: 'EndDate', type: 'date', dateFormat: 'Y-m-d g:i' },
-                    'Location'
-                ]                
+                    'ResourceId',
+                    'Title',
+                    'Location',
+                {
+                    name: 'StartDate', type: 'date', dateFormat: 'Y-m-d g:i'
+                },{
+                    name: 'EndDate', type: 'date', dateFormat: 'Y-m-d g:i'
+                }]
             });
+            
+            var profileBase = 'scheduler/images/profiles/';
+            
             this.resourceStore = new Ext.data.JsonStore({
                 sortInfo:{field: 'Id', direction: "ASC"},
                 idProperty : 'Id',
@@ -27,13 +30,16 @@ App = function() {
                     'Name',
                     'Type',
                     'ImgUrl',
-                    'ColorId'
+                    'ColorId', // used by calendar
+                    'Color'    // used by scheduler
                 ],
-                data: [
-                    {Id : '1', Name : 'Rob', Type : 'Sales', ColorId : 1},
-                    {Id : '2', Name : 'Mike', Type : 'Sales', ColorId : 11},
-                    {Id : '3', Name : 'Kate', Type : 'Product manager', ColorId : 21}
-                ]
+                data: [{
+                    Id: '1', Name: 'Dave', Type: 'Engineering', ImgUrl: profileBase+'dave.jpg', ColorId: 1, Color: '#FA7166'
+                },{
+                    Id: '2', Name: 'Arnold', Type: 'Sales', ImgUrl: profileBase+'arnold.jpg', ColorId: 11, Color: '#9D3283'
+                },{ 
+                    Id: '3', Name: 'Lisa', Type: 'Product Manager', ImgUrl: profileBase+'lisa.jpg', ColorId: 21, Color: '#1A5173'
+                }]
             });
         },
         
@@ -63,21 +69,13 @@ App = function() {
                 calendarStore: this.resourceStore,
                 renderTo: 'cal',
                 width: 1000,
-                height: 300,
-                activeItem: 2
+                height: 400,
+                activeItem: 2,
+                showMonthView: false,
+                viewConfig: {
+                    startDay: 1
+                }
             });
-        },
-        
-        onSave : function(formPanel, newStart, newEnd, record) {
-            var values = formPanel.getForm().getValues();
-            
-            record.beginEdit();
-            record.set('StartDate', newStart);
-            record.set('EndDate', newEnd);
-            record.set('Title', values.Title);
-            record.set('Location', values.Location);
-            record.endEdit();
-            formPanel.collapse();
         }
     }
 }();
