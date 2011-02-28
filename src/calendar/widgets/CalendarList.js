@@ -71,12 +71,14 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
      */
     setStore : function(store, initial){
         if(!initial && this.store){
+            this.store.un("load", this.refresh, this);
             this.store.un("add", this.refresh, this);
             this.store.un("remove", this.refresh, this);
             this.store.un("update", this.onUpdate, this);
             this.store.un("clear", this.refresh, this);
         }
         if(store){
+            store.on("load", this.refresh, this);
             store.on("add", this.refresh, this);
             store.on("remove", this.refresh, this);
             store.on("update", this.onUpdate, this);
