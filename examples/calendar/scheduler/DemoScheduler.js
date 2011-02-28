@@ -1,7 +1,7 @@
 DemoScheduler = Ext.extend(Sch.SchedulerPanel, {
     clicksToEdit: 1,
     rowHeight : 30,
-    snapToIncrement: true,
+    snapToIncrement: false,
     
     eventRenderer: function (item, resourceRec, tplData, row, col, ds) {
         var bookingStart = item.get('StartDate');
@@ -95,29 +95,30 @@ DemoScheduler = Ext.extend(Sch.SchedulerPanel, {
                     id: 'span2',
                     enableToggle: true,
                     pressed: true,
-                    text: '2 weeks',
+                    text: '1 week',
                     toggleGroup: 'span',
                     scope : this,
                     handler: function () {
                         var s = this, 
                             start = s.getStart();
+                        
                         start.clearTime();
-
-                        s.switchViewPreset('weekAndDay');
+                        s.switchViewPreset('weekAndDay', start, start.add(Date.DAY, 7));
                     }
                 },
                 '            ',
                 {
                     id: 'span3',
                     enableToggle: true,
-                    text: '6 weeks',
+                    text: '2 weeks',
                     toggleGroup: 'span',
                     scope : this,
                     handler: function () {
                         var s = this, 
                             start = s.getStart();
 
-                        s.switchViewPreset('weekAndMonth');
+                        start.clearTime();
+                        s.switchViewPreset('weekAndDay', start, start.add(Date.DAY, 14));
                     }
                 }
 //                '->',

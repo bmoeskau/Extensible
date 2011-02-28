@@ -44,6 +44,11 @@ App = function() {
         },
         
         createScheduler : function() {
+            Sch.BasicViewPresets.weekAndDay.headerConfig.middle.dateFormat = 'l, M d';
+            Sch.BasicViewPresets.weekAndDay.headerConfig.bottom.dateFormat = 'n/d';
+            Sch.BasicViewPresets.hourAndDay.headerConfig.top.dateFormat = 'l, M d';
+            Sch.BasicViewPresets.hourAndDay.headerConfig.middle.dateFormat = 'g:i A';
+            
             this.scheduler = new DemoScheduler({
                 width: 1000,
                 height: 200,
