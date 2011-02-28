@@ -666,9 +666,15 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     
     // private
     save: function(){
-        this.store.save();
+        // If the store is configured as autoSave:true the record's endEdit
+        // method will have already internally caused a save to execute on
+        // the store. We only need to save manually when autoSave is false,
+        // otherwise we'll create duplicate transactions.
+        if(!this.store.autoSave){
+            this.store.save();
+        }
     },
-    
+        
     // private
     onEventAdd: function(form, rec){
         this.store.add(rec);

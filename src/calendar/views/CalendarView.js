@@ -425,9 +425,7 @@ viewConfig: {
         this.renderTemplate();
         
         if(this.store){
-            this.store.autoSave = false; // not supported, the calendar will manage saving
             this.setStore(this.store, true);
-            
             if(this.store.deferLoad){
                 this.reloadStore(this.store.deferLoad);
                 delete this.store.deferLoad;
@@ -1435,7 +1433,13 @@ alert('End: '+bounds.end);
     
     // private
     save: function(){
-        this.store.save();
+        // If the store is configured as autoSave:true the record's endEdit
+        // method will have already internally caused a save to execute on
+        // the store. We only need to save manually when autoSave is false,
+        // otherwise we'll create duplicate transactions.
+        if(!this.store.autoSave){
+            this.store.save();
+        }
     },
     
     // private
@@ -1456,8 +1460,10 @@ alert('End: '+bounds.end);
     // private
     onEventAdd: function(form, rec){
         this.newRecord = rec;
-        this.store.add(rec);
-        this.save();
+        if(!rec.store){
+            this.store.add(rec);
+            this.save();
+        }
         this.fireEvent('eventadd', this, rec);
     },
     
@@ -1469,7 +1475,9 @@ alert('End: '+bounds.end);
     
     // private
     onEventDelete: function(form, rec){
-        this.store.remove(rec);
+        if(rec.store){
+            this.store.remove(rec);
+        }
         this.save();
         this.fireEvent('eventdelete', this, rec);
     },
