@@ -19,6 +19,12 @@ Ext.ensible.cal.DragZone = Ext.extend(Ext.dd.DragZone, {
         var t = e.getTarget(this.eventSelector, 3);
         if(t){
             var rec = this.view.getEventRecordFromEl(t);
+            if(!rec){
+                // if rec is null here it usually means there was a timing issue between drag 
+                // start and the browser reporting it properly. Simply ignore and it will 
+                // resolve correctly once the browser catches up.
+                return;
+            }
             return {
                 type: 'eventdrag',
                 ddel: t,
