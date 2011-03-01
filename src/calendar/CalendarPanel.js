@@ -677,8 +677,10 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         
     // private
     onEventAdd: function(form, rec){
-        this.store.add(rec);
-        this.save();
+        if(!rec.store){
+            this.store.add(rec);
+            this.save();
+        }
         this.fireEvent('eventadd', this, rec);
     },
     

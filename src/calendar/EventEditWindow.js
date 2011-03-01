@@ -168,7 +168,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
     // private
     onEditDetailsClick: function(e){
         e.stopEvent();
-        this.updateRecord();
+        this.updateRecord(true);
         this.fireEvent('editdetails', this, this.activeRecord, this.animateTarget);
     },
 	
@@ -263,7 +263,7 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
     },
     
     // private
-    updateRecord: function(){
+    updateRecord: function(keepEditing){
         var dates = this.dateRangeField.getValue(),
             M = Ext.ensible.cal.EventMappings,
             rec = this.activeRecord,
@@ -302,8 +302,10 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
         rec.set(M.IsAllDay.name, dates[2]);
         
         dirty = rec.dirty;
-        //delete rec.store; // make sure the record does not try to autosave
-        rec.endEdit();
+        
+        if(!keepEditing){
+            rec.endEdit();
+        }
         
         return dirty;
     },
