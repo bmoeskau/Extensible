@@ -1,5 +1,23 @@
 h1. Release Notes
 
+h2. 1.0
+
+_March 1, 2011_
+
+*New Features*
+* Updated the calendar + scheduler combo example
+
+*Bugs Fixed*
+* Changed "recurrenceLabelText" to "repeatsLabelText" in locale files to match code
+* Fix CalendarPanel to properly relay the view's <tt>beforeeventdelete</tt> event
+* Fix so that file order is not important when declaring classes in the <tt>Ext.ensible.sample</tt> namespace
+* Updates to <tt>MemoryEventStore</tt> to handle batched records and initial record phantom status
+* Fix null error on remote calendar list store load
+* Fixed issues related to store <tt>autoSave</tt> support
+* Fix intermittent null error on event drag when browser is slow to respond
+* Various minor fixes related to managing event data during remote save/errors
+* Remove extra body top border added by Ext when there is no panel header
+
 h2. 1.0 (RC 2)
 
 _Feb. 20, 2011_
