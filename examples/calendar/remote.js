@@ -6,6 +6,24 @@ Ext.onReady(function(){
     
     Ext.Msg.minWidth = 300;
     
+    // Let's load the calendar store remotely also. All you have to do to get
+    // color-coding is include this store with the CalendarPanel.
+    var calendarStore = new Ext.data.JsonStore({
+        storeId: 'calendarStore',
+        url: 'data/calendars.json',
+        root: 'calendars',
+        idProperty: Ext.ensible.cal.CalendarMappings.CalendarId.mapping || 'id',
+        fields: Ext.ensible.cal.CalendarRecord.prototype.fields.getRange(),
+        remoteSort: true,
+        sortInfo: {
+            field: Ext.ensible.cal.CalendarMappings.Title.name,
+            direction: 'ASC'
+        }
+    });
+    // Make sure this loads first so that the calendar records are available
+    // when the event store loads and triggers the view to render
+    calendarStore.load();
+    
     var proxy = new Ext.data.HttpProxy({
         disableCaching: false, // no need for cache busting when loading via Ajax
         api: {
@@ -67,22 +85,6 @@ Ext.onReady(function(){
                         break;
                 }
             }
-        }
-    });
-    
-    // Let's load the calendar store remotely also. All you have to do to get
-    // color-coding is include this store with the CalendarPanel.
-    var calendarStore = new Ext.data.JsonStore({
-        storeId: 'calendarStore',
-        url: 'data/calendars.json',
-        root: 'calendars',
-        autoLoad: true,
-        idProperty: Ext.ensible.cal.CalendarMappings.CalendarId.mapping || 'id',
-        fields: Ext.ensible.cal.CalendarRecord.prototype.fields.getRange(),
-        remoteSort: true,
-        sortInfo: {
-            field: Ext.ensible.cal.CalendarMappings.Title.name,
-            direction: 'ASC'
         }
     });
     
