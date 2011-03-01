@@ -46,6 +46,17 @@ Ext.ensible.sample.MemoryEventStore = Ext.extend(Ext.data.Store, {
             // CRUD persistance has actually succeeded.
             this.on('write', this.onWrite, this);
         }
+        
+        this.initRecs();
+    },
+    
+    // If the store started with preloaded inline data, we have to make sure the records are set up
+    // properly as valid "saved" records otherwise they may get "added" on initial edit.
+    initRecs: function(){
+        this.each(function(rec){
+            rec.store = this;
+            rec.phantom = false;
+        }, this);
     },
     
     // private
