@@ -56,6 +56,10 @@
 .ext-cal-mdv td {
     font-size: 11px;
 }
+.x-cal-body {
+    /* override the default -noheader style ext uses when there is no panel header */
+    border-top: 0 !important;
+}
 
 /* Window specific rules */
 .x-window .x-window-mc .x-cal-body {
