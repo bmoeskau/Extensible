@@ -84,6 +84,7 @@ App = function() {
         },
         
         createScheduler : function() {
+            // Customize the scheduler date/time formatting
             Sch.BasicViewPresets.weekAndDay.headerConfig.middle.dateFormat = 'l, M d';
             Sch.BasicViewPresets.weekAndDay.headerConfig.bottom.dateFormat = 'n/d';
             Sch.BasicViewPresets.hourAndDay.headerConfig.top.dateFormat = 'l, M d';
