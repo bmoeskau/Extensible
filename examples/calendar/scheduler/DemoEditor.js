@@ -1,5 +1,4 @@
 // A simple preconfigured editor plugin
-
 DemoEditor = Ext.extend(Sch.plugins.EventEditor, {
     height : 180,
     width : 270,
@@ -50,21 +49,21 @@ DemoEditor = Ext.extend(Sch.plugins.EventEditor, {
         });
 
         this.on('expand', this.titleField.focus, this.titleField);
-        
         DemoEditor.superclass.initComponent.apply(this, arguments);
     },
 
     show : function(eventRecord) {
         // Load the image of the resource
         this.img.el.dom.src = this.scheduler.getResourceByEventRecord(eventRecord).get('ImgUrl');
-
         DemoEditor.superclass.show.apply(this, arguments);
     },
     
-    onEventCreated : function(s, newEventRecord, resourceRecord, e) {
-        // Overridden to provide some default values
-        //newEventRecord.set('Title', 'New task...');
-        newEventRecord.set('Location', 'Local office');
-        DemoEditor.superclass.onEventCreated.apply(this, arguments);
+    onEventCreated : function(newEventRecord, resourceRecord, e) {
+        if(newEventRecord.phantom){
+            // Overridden to provide some default values on create
+            newEventRecord.set('Title', 'New task...');
+            newEventRecord.set('Location', 'Local office');
+            DemoEditor.superclass.onEventCreated.apply(this, arguments);
+        }
     }
 });

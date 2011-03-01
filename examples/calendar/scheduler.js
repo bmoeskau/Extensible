@@ -8,8 +8,11 @@ App = function() {
         },
         
         initStores : function(){
+            var today = new Date().clearTime();
             this.eventStore = new Ext.ensible.sample.MemoryEventStore({
                 fields : [
+                /* These fields are shared by both components: */
+                    'EventId',
                     'ResourceId',
                     'Title',
                     'Location',
@@ -17,7 +20,44 @@ App = function() {
                     name: 'StartDate', type: 'date', dateFormat: 'Y-m-d g:i'
                 },{
                     name: 'EndDate', type: 'date', dateFormat: 'Y-m-d g:i'
-                }]
+                },
+                /* These are specific to calendar events only, but still must be defined
+                 * in the store or they won't be saved into the records from the form
+                 */
+                'IsAllDay', 'Reminder', 'Notes', 'Url'
+                ],
+                data: {
+                    evts: [{
+                        EventId: 100,
+                        ResourceId: '1',
+                        Title: 'Some task', 
+                        StartDate: today.add(Date.HOUR, 8),
+                        EndDate: today.add(Date.HOUR, 16),
+                        Location: 'Some office',
+                        Reminder: '15'
+                    },{
+                        EventId: 101,
+                        ResourceId: '2',
+                        Title: 'Some other task', 
+                        StartDate: today.add(Date.HOUR, 24),
+                        EndDate: today.add(Date.HOUR, 100),
+                        Location: 'Home office'
+                    },{
+                        EventId: 102,
+                        ResourceId: '3',
+                        Title: 'A basic task', 
+                        StartDate: today.add(Date.HOUR, 72),
+                        EndDate: today.add(Date.HOUR, 120),
+                        Location: 'Customer office'
+                    },{
+                        EventId: 103,
+                        ResourceId: '1',
+                        Title: 'Another task', 
+                        StartDate: today.add(Date.HOUR, 110),
+                        EndDate: today.add(Date.HOUR, 160),
+                        Location: 'Austin'
+                    }]
+                }
             });
             
             var profileBase = 'scheduler/images/profiles/';
@@ -69,13 +109,18 @@ App = function() {
             Cal.CalendarMappings.Title.name = 'Name';
             Cal.CalendarRecord.reconfigure();
             
+            // Override the default calendar field labels to match the scheduler
+            Ext.ensible.cal.EventEditWindow.prototype.calendarLabelText = 'Staff';
+            Ext.ensible.cal.EventEditForm.prototype.calendarLabelText = 'Staff';
+            
             this.calendar = new Cal.CalendarPanel({
                 eventStore: this.eventStore,
                 calendarStore: this.resourceStore,
                 renderTo: 'cal',
                 width: 1000,
                 height: 400,
-                activeItem: 2,
+                activeItem: 1,
+                editModal: true,
                 showMonthView: false,
                 viewConfig: {
                     startDay: 1

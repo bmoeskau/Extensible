@@ -1,7 +1,7 @@
 DemoScheduler = Ext.extend(Sch.SchedulerPanel, {
     clicksToEdit: 1,
     rowHeight : 30,
-    snapToIncrement: false,
+    snapToIncrement: true,
     
     eventRenderer: function (item, resourceRec, tplData, row, col, ds) {
         var bookingStart = item.get('StartDate');
@@ -27,7 +27,6 @@ DemoScheduler = Ext.extend(Sch.SchedulerPanel, {
                         selectOnFocus: true
                     })
                 },
-                //{ header: 'Task Color', sortable: false, width: 100, dataIndex: 'Color', editor: new Ext.form.TextField() },
                 {
                     xtype: 'actioncolumn',
                     width: 30,
@@ -75,7 +74,6 @@ DemoScheduler = Ext.extend(Sch.SchedulerPanel, {
                 },
                 {
                     id: 'span1',
-                    //pressed: true,
                     text: '1 Day',
                     enableToggle: true,
                     toggleGroup: 'span',
@@ -121,16 +119,6 @@ DemoScheduler = Ext.extend(Sch.SchedulerPanel, {
                         s.switchViewPreset('weekAndDay', start, start.add(Date.DAY, 14));
                     }
                 }
-//                '->',
-//                {
-//                    iconCls: 'icon-cleardatabase',
-//                    tooltip: 'Clear database',
-//                    scale: 'medium',
-//                    scope : this,
-//                    handler: function () {
-//                        this.eventStore.removeAll();
-//                    }
-//                }
             ],
 
             tooltipTpl: new Ext.XTemplate(

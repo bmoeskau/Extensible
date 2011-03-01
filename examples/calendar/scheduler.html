@@ -40,13 +40,31 @@
         #cal {      
             height: 600px;
         }
+        /* 
+         * Override some styles from the scheduler's default example CSS to 
+         * be consistent with other calendar example pages:
+         */
+        body { 
+            padding:0; 
+            font-size:12px;
+            font-family: arial, sans-serif; 
+        }
+        h1 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
     <div id="sample-overview">
         <h1>Extensible Calendar + Ext Scheduler</h1>
-        <p><strong>NOTE:</strong> This sample is still a work in progress.</p>
-        <p>This is a combination example that makes use of the third-party <a href="http://ext-scheduler.com/">Ext Scheduler</a> component.</p>
+        <p>This is a combination example that makes use of the excellent third-party <a href="http://ext-scheduler.com/">Ext Scheduler</a> component.
+        You can update the "staff" field in the calendar events or drag an event from one person to another within the scheduler to reassign it.
+        The "location" field can also be updated in either component (you have to go to the details form in the calendar to update it) and
+        it will automatically be reflected in both.</p>
+        
+        <p>Note that Ext Scheduler is a commercial component, and the version included here by permission is an evaluation copy. Please visit
+        <a href="http://ext-scheduler.com/examples.html">ext-scheduler.com</a> to see more examples of the scheduler component in action.</p>
         
         <p class="view-src"><a target="_blank" href="scheduler.js">View the source</a></p>
     </div>
