@@ -173,3 +173,17 @@ if(Ext.ensible.cal.MonthViewTemplate) {
         dayHeaderTitleFormat: 'l, F j, Y'
     });
 }
+
+// This is an override of Ext's default dayNames. Ext uses HTML char equivalents
+// like &aacute; but in abbreviations it's wrong. E.g., Sábado is
+// abbreviated as S&a. This seems to be a bug in Ext's abbreviation logic
+// so for our purposes just include the actual chars here.
+Date.dayNames = [
+   "Domingo",
+   "Segunda",
+   "Terça",
+   "Quarta",
+   "Quinta",
+   "Sexta",
+   "Sábado"
+];
