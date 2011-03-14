@@ -2,6 +2,15 @@
  * Default English (US) locale
  * By Extensible, LLC
  */
+/*
+ * A general note regarding pluralization... Some locales require conditional logic
+ * to properly pluralize certain terms. When this might be required there is an additional
+ * "get*" method in addition to the standard config. By default these simply return the
+ * same value as the corresponding config, but if your locale requires such logic simply
+ * implement the appropriate method bodies. The configs in these cases are still listed for
+ * backwards compatibility, but they are deprecated and will be removed in a future release.
+ * The Czech locale (extensible-lang-cs.js) is an example that uses these method overrides.
+ */
 
 Ext.ensible.Date.use24HourTime = false;
 
@@ -18,7 +27,10 @@ if(Ext.ensible.cal.CalendarView) {
 
 if(Ext.ensible.cal.MonthView) {
     Ext.apply(Ext.ensible.cal.MonthView.prototype, {
-        moreText: '+{0} more...',
+        moreText: '+{0} more...', // deprecated
+        getMoreText: function(numEvents){
+            return '+{0} more...';
+        },
         detailsTitleDateFormat: 'F j'
     });
 }
@@ -31,8 +43,14 @@ if(Ext.ensible.cal.CalendarPanel) {
         monthText: 'Month',
         jumpToText: 'Jump to:',
         goText: 'Go',
-        multiDayText: '{0} Days',
-        multiWeekText: '{0} Weeks'
+        multiDayText: '{0} Days', // deprecated
+        multiWeekText: '{0} Weeks', // deprecated
+        getMultiDayText: function(numDays){
+            return '{0} Days';
+        },
+        getMultiWeekText: function(numWeeks){
+            return '{0} Weeks';
+        }
     });
 }
 
@@ -118,13 +136,18 @@ if(Ext.ensible.cal.ReminderField) {
         fieldLabel: 'Reminder',
         noneText: 'None',
         atStartTimeText: 'At start time',
-        minutesText: 'minutes',
-        hourText: 'hour',
-        hoursText: 'hours',
-        dayText: 'day',
-        daysText: 'days',
-        weekText: 'week',
-        weeksText: 'weeks',
+        getMinutesText: function(numMinutes){
+            return numMinutes === 1 ? 'minute' : 'minutes';
+        },
+        getHoursText: function(numHours){
+            return numHours === 1 ? 'hour' : 'hours';
+        },
+        getDaysText: function(numDays){
+            return numDays === 1 ? 'day' : 'days';
+        },
+        getWeeksText: function(numWeeks){
+            return numWeeks === 1 ? 'week' : 'weeks';
+        },
         reminderValueFormat: '{0} {1} before start' // e.g. "2 hours before start"
     });
 }

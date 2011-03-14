@@ -9,7 +9,7 @@ if(Ext.ensible.cal.CalendarView) {
     Ext.apply(Ext.ensible.cal.CalendarView.prototype, {
         startDay: 1,
         todayText: 'Hoy',
-        defaultEventTitleText: '(Sin t&iacute;tulo)',
+        defaultEventTitleText: '(Sin título)',
         ddCreateEventText: 'Crear evento desde {0}',
         ddMoveEventText: 'Mover evento a {0}',
         ddResizeEventText: 'Actualizar evento a {0}'
@@ -19,6 +19,9 @@ if(Ext.ensible.cal.CalendarView) {
 if(Ext.ensible.cal.MonthView) {
     Ext.apply(Ext.ensible.cal.MonthView.prototype, {
         moreText: '+{0} m&aacute;s...',
+        getMoreText: function(numEvents){
+            return '+{0} m&aacute;s...';
+        },
         detailsTitleDateFormat: 'j \\de F'
     });
 }
@@ -26,13 +29,19 @@ if(Ext.ensible.cal.MonthView) {
 if(Ext.ensible.cal.CalendarPanel) {
     Ext.apply(Ext.ensible.cal.CalendarPanel.prototype, {
         todayText: 'Hoy',
-        dayText: 'D&iacute;a',
+        dayText: 'Día',
         weekText: 'Semana',
         monthText: 'Mes',
         jumpToText: 'Ir a:',
         goText: 'Ir',
-        multiDayText: '{0} d&iacute;as',
-        multiWeekText: '{0} semanas'
+        multiDayText: '{0} días',
+        multiWeekText: '{0} semanas',
+        getMultiDayText: function(numDays){
+            return '{0} días';
+        },
+        getMultiWeekText: function(numWeeks){
+            return '{0} semanas';
+        }
     });
 }
 
@@ -48,7 +57,7 @@ if(Ext.ensible.cal.EventEditWindow) {
         saveButtonText: 'Guardar',
         deleteButtonText: 'Borrar',
         cancelButtonText: 'Cancelar',
-        titleLabelText: 'T&iacute;tulo',
+        titleLabelText: 'Título',
         datesLabelText: 'Cuando',
         calendarLabelText: 'Calendario'
     });
@@ -56,15 +65,15 @@ if(Ext.ensible.cal.EventEditWindow) {
 
 if(Ext.ensible.cal.EventEditForm) {
     Ext.apply(Ext.ensible.cal.EventEditForm.prototype, {
-        labelWidth: 65,
-        labelWidthRightCol: 65,
+        labelWidth: 75,
+        labelWidthRightCol: 75,
         title: 'Formulario de evento',
         titleTextAdd: 'A&ntilde;adir evento',
         titleTextEdit: 'Editar evento',
         saveButtonText: 'Guardar',
         deleteButtonText: 'Borrar',
         cancelButtonText: 'Cancelar',
-        titleLabelText: 'T&iacute;tulo',
+        titleLabelText: 'Título',
         datesLabelText: 'Cuando',
         reminderLabelText: 'Recordatorio',
         notesLabelText: 'Notas',
@@ -78,7 +87,7 @@ if(Ext.ensible.cal.EventEditForm) {
 if(Ext.ensible.cal.DateRangeField) {
     Ext.apply(Ext.ensible.cal.DateRangeField.prototype, {
         toText: 'a',
-        allDayText: 'Todo el d&iacute;a'
+        allDayText: 'Todo el día'
     });
 }
 
@@ -118,13 +127,18 @@ if(Ext.ensible.cal.ReminderField) {
         fieldLabel: 'Recordatorio',
         noneText: 'Ninguno',
         atStartTimeText: 'Al inicio',
-        minutesText: 'minutos',
-        hourText: 'hora',
-        hoursText: 'horas',
-        dayText: 'd&iacute;a',
-        daysText: 'd&iacute;as',
-        weekText: 'semana',
-        weeksText: 'semanas',
+        getMinutesText: function(numMinutes){
+            return numMinutes === 1 ? 'minuto' : 'minutos';
+        },
+        getHoursText: function(numHours){
+            return numHours === 1 ? 'hora' : 'horas';
+        },
+        getDaysText: function(numDays){
+            return numDays === 1 ? 'día' : 'días';
+        },
+        getWeeksText: function(numWeeks){
+            return numWeeks === 1 ? 'semana' : 'semanas';
+        },
         reminderValueFormat: '{0} {1} antes de empezar' // e.g. "2 hours before start"
     });
 }

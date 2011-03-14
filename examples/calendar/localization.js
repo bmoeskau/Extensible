@@ -7,6 +7,7 @@ Ext.ensible.LocaleSample = function(){
                 fields: ['code', 'desc'],
                 data : [
                     ['ca', 'Catalan'],
+                    ['cs', 'Czech'],
                     ['da', 'Danish'],
                     ['en', 'English (US)'],
                     ['fr', 'French (France)'],
@@ -79,6 +80,13 @@ Ext.ensible.LocaleSample = function(){
                 title: 'Localized Calendar: '+(this.locale || 'English (US)'),
                 width: 800,
                 height: 600,
+                multiWeekViewCfg: {
+                    weekCount: 3
+                },
+                showMultiDayView: true,
+                multiDayViewCfg: {
+                    dayCount: 5
+                },
                 eventStore: new Ext.ensible.sample.MemoryEventStore({
                     // defined in data/events.js
                     data: Ext.ensible.sample.EventData

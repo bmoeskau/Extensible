@@ -19,6 +19,9 @@ if(Ext.ensible.cal.CalendarView) {
 if(Ext.ensible.cal.MonthView) {
     Ext.apply(Ext.ensible.cal.MonthView.prototype, {
         moreText: '+{0} ytterligare...',
+        getMoreText: function(numEvents){
+            return '+{0} ytterligare...';
+        },
         detailsTitleDateFormat: 'd F'
     });
 }
@@ -32,7 +35,13 @@ if(Ext.ensible.cal.CalendarPanel) {
         jumpToText: 'Gå till:',
         goText: 'Gå',
         multiDayText: '{0} dagar',
-        multiWeekText: '{0} veckor'
+        multiWeekText: '{0} veckor',
+        getMultiDayText: function(numDays){
+            return '{0} dagar';
+        },
+        getMultiWeekText: function(numWeeks){
+            return '{0} veckor';
+        }
     });
 }
 
@@ -118,13 +127,18 @@ if(Ext.ensible.cal.ReminderField) {
         fieldLabel: 'Påminnelse',
         noneText: 'Ingen',
         atStartTimeText: 'Vid start',
-        minutesText: 'minuter',
-        hourText: 'timme',
-        hoursText: 'timmar',
-        dayText: 'dag',
-        daysText: 'dagar',
-        weekText: 'vecka',
-        weeksText: 'veckor',
+        getMinutesText: function(numMinutes){
+            return numMinutes === 1 ? 'minut' : 'minuter';
+        },
+        getHoursText: function(numHours){
+            return numHours === 1 ? 'timme' : 'timmar';
+        },
+        getDaysText: function(numDays){
+            return numDays === 1 ? 'dag' : 'daggar';
+        },
+        getWeeksText: function(numWeeks){
+            return numWeeks === 1 ? 'veka' : 'veckor';
+        },
         reminderValueFormat: '{0} {1} före start' // f.eks. "2 timmar före start"
     });
 }

@@ -10,9 +10,11 @@
 Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
     /**
      * @cfg {String} moreText
-     * The text to display in a day box when there are more events than can be displayed and a link is provided to
+     * <p><b>Deprecated.</b> Please override {@link #getMoreText} instead.</p>
+     * <p>The text to display in a day box when there are more events than can be displayed and a link is provided to
      * show a popup window with all events for that day (defaults to '+{0} more...', where {0} will be 
-     * replaced by the number of additional events that are not currently displayed for the day).
+     * replaced by the number of additional events that are not currently displayed for the day).</p>
+     * @deprecated
      */
     moreText: '+{0} more...',
     /**
@@ -188,6 +190,17 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             });
         }
     },
+    
+    /**
+     * <p>Returns the text to display in a day box when there are more events than can be displayed and a link is 
+     * provided to show a popup window with all events for that day (defaults to '+{0} more...', where {0} will be 
+     * replaced by the number of additional events that are not currently displayed for the day).</p>
+     * @param {Integer} numEvents The number of events currently hidden from view
+     * @return {String} The text to display for the "more" link 
+     */
+    getMoreText: function(numEvents){
+        return this.moreText;
+    },
 
     // inherited docs
     getEventBodyMarkup : function(){
@@ -301,7 +314,7 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             evtMaxCount: this.evtMaxCount,
             weekCount: this.weekCount,
             dayCount: this.dayCount,
-            moreText: this.moreText
+            getMoreText: this.getMoreText.createDelegate(this)
         });
         this.fireEvent('eventsrendered', this);
     },

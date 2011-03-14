@@ -19,6 +19,9 @@ if(Ext.ensible.cal.CalendarView) {
 if(Ext.ensible.cal.MonthView) {
     Ext.apply(Ext.ensible.cal.MonthView.prototype, {
         moreText: '+ încă {0}...',
+        getMoreText: function(numEvents){
+            return '+ încă {0}...';
+        },
         detailsTitleDateFormat: 'F j'
     });
 }
@@ -32,7 +35,13 @@ if(Ext.ensible.cal.CalendarPanel) {
         jumpToText: 'Sari la:',
         goText: 'Vezi',
         multiDayText: '{0} Zile',
-        multiWeekText: '{0} Săptămâni'
+        multiWeekText: '{0} Săptămâni',
+        getMultiDayText: function(numDays){
+            return '{0} Zile';
+        },
+        getMultiWeekText: function(numWeeks){
+            return '{0} Săptămâni';
+        }
     });
 }
 
@@ -118,13 +127,18 @@ if(Ext.ensible.cal.ReminderField) {
         fieldLabel: 'Anunță-mă',
         noneText: 'Niciodată',
         atStartTimeText: 'La începutul evenimentului',
-        minutesText: 'minute',
-        hourText: 'ora',
-        hoursText: 'ore',
-        dayText: 'zi',
-        daysText: 'zile',
-        weekText: 'săptămână',
-        weeksText: 'săptămâni',
+        getMinutesText: function(numMinutes){
+            return numMinutes === 1 ? 'minut' : 'minute';
+        },
+        getHoursText: function(numHours){
+            return numHours === 1 ? 'ora' : 'ore';
+        },
+        getDaysText: function(numDays){
+            return numDays === 1 ? 'zi' : 'zile';
+        },
+        getWeeksText: function(numWeeks){
+            return numWeeks === 1 ? 'săptămână' : 'săptămâni';
+        },
         reminderValueFormat: '{0} {1} înainte de început' // e.g. "2 hours before start"
     });
 }

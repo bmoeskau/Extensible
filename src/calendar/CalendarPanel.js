@@ -113,8 +113,10 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     dayText: 'Day',
     /**
      * @cfg {String} multiDayText
-     * Text to use for the 'X Days' nav bar button (defaults to "{0} Days" where {0} is automatically replaced by the
-     * value of the {@link #multDayViewCfg}'s dayCount value if available, otherwise it uses the view default of 3).
+     * <p><b>Deprecated.</b> Please override {@link #getMultiDayText} instead.</p>
+     * <p>Text to use for the 'X Days' nav bar button (defaults to "{0} Days" where {0} is automatically replaced by the
+     * value of the {@link #multDayViewCfg}'s dayCount value if available, otherwise it uses the view default of 3).</p>
+     * @deprecated
      */
     multiDayText: '{0} Days',
     /**
@@ -124,8 +126,10 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     weekText: 'Week',
     /**
      * @cfg {String} multiWeekText
-     * Text to use for the 'X Weeks' nav bar button (defaults to "{0} Weeks" where {0} is automatically replaced by the
-     * value of the {@link #multiWeekViewCfg}'s weekCount value if available, otherwise it uses the view default of 2).
+     * <p><b>Deprecated.</b> Please override {@link #getMultiWeekText} instead.</p>
+     * <p>Text to use for the 'X Weeks' nav bar button (defaults to "{0} Weeks" where {0} is automatically replaced by the
+     * value of the {@link #multiWeekViewCfg}'s weekCount value if available, otherwise it uses the view default of 2).</p>
+     * @deprecated
      */
     multiWeekText: '{0} Weeks',
     /**
@@ -215,6 +219,9 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         
         this.viewCount = 0;
         
+        var multiDayViewCount = (this.multiDayViewCfg && this.multiDayViewCfg.dayCount) || 3,
+            multiWeekViewCount = (this.multiWeekViewCfg && this.multiWeekViewCfg.weekCount) || 2;
+        
         if(this.showNavToday){
             this.tbar.items.push({
                 id: this.id+'-tb-today', text: this.todayText, handler: this.onTodayClick, scope: this
@@ -243,7 +250,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             this.viewCount++;
         }
         if(this.showMultiDayView){
-            var text = String.format(this.multiDayText, (this.multiDayViewCfg && this.multiDayViewCfg.dayCount) || 3);
+            var text = String.format(this.getMultiDayText(multiDayViewCount), multiDayViewCount);
             this.tbar.items.push({
                 id: this.id+'-tb-multiday', text: text, handler: this.onMultiDayNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
@@ -256,7 +263,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             this.viewCount++;
         }
         if(this.showMultiWeekView){
-            var text = String.format(this.multiWeekText, (this.multiWeekViewCfg && this.multiWeekViewCfg.weekCount) || 2);
+            var text = String.format(this.getMultiWeekText(multiWeekViewCount), multiWeekViewCount);
             this.tbar.items.push({
                 id: this.id+'-tb-multiweek', text: text, handler: this.onMultiWeekNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
@@ -506,7 +513,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         if(this.showMultiDayView){
             var mday = Ext.apply({
                 xtype: 'extensible.multidayview',
-                title: this.multiDayText
+                title: this.getMultiDayText(multiDayViewCount)
             }, sharedViewCfg);
             
             mday = Ext.apply(Ext.apply(mday, this.viewConfig), this.multiDayViewCfg);
@@ -528,7 +535,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         if(this.showMultiWeekView){
             var mwk = Ext.applyIf({
                 xtype: 'extensible.multiweekview',
-                title: this.multiWeekText
+                title: this.getMultiWeekText(multiWeekViewCount)
             }, sharedViewCfg);
             
             mwk = Ext.apply(Ext.apply(mwk, this.viewConfig), this.multiWeekViewCfg);
@@ -603,6 +610,22 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             this.updateNavState();
             this.navInitComplete = true;
         }
+    },
+    
+    /**
+     * Returns the text to use for the 'X Days' nav bar button (defaults to "{0} Days" where {0} is automatically replaced by the
+     * value of the {@link #multDayViewCfg}'s dayCount value if available, otherwise it uses the view default of 3).
+     */
+    getMultiDayText: function(numDays){
+        return this.multiDayText;
+    },
+    
+    /**
+     * Returns the text to use for the 'X Weeks' nav bar button (defaults to "{0} Weeks" where {0} is automatically replaced by the
+     * value of the {@link #multiWeekViewCfg}'s weekCount value if available, otherwise it uses the view default of 2).
+     */
+    getMultiWeekText: function(numWeeks){
+        return this.multiWeekText;
     },
     
     /**

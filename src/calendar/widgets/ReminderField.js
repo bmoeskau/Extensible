@@ -13,15 +13,10 @@ displayField: 'desc',
 valueField: 'value',
 noneText: 'None',
 atStartTimeText: 'At start time',
-minutesText: 'minutes',
-hourText: 'hour',
-hoursText: 'hours',
-dayText: 'day',
-daysText: 'days',
-weekText: 'week',
-weeksText: 'weeks',
 reminderValueFormat: '{0} {1} before start'
 </code></pre>
+ * <p>To customize the descriptions in the dropdown list override the following methods: 
+ * {@link #getMinutesText}, {@link #getHoursText}, {@link #getDaysText} and {@link #getWeeksText}.</p>
  * @constructor
  * @param {Object} config The config object
  */
@@ -35,6 +30,10 @@ Ext.ensible.cal.ReminderField = Ext.extend(Ext.form.ComboBox, {
     valueField: 'value',
     noneText: 'None',
     atStartTimeText: 'At start time',
+    reminderValueFormat: '{0} {1} before start',
+    
+    // the following are all deprecated in favor of the corresponding get* template methods.
+    // they are still here only for backwards-compatibility and will be removed in a future release.
     minutesText: 'minutes',
     hourText: 'hour',
     hoursText: 'hours',
@@ -42,7 +41,6 @@ Ext.ensible.cal.ReminderField = Ext.extend(Ext.form.ComboBox, {
     daysText: 'days',
     weekText: 'week',
     weeksText: 'weeks',
-    reminderValueFormat: '{0} {1} before start',
     
     /**
      * Returns the list of reminder values used as the contents of the combo list. This method is provided so that
@@ -52,26 +50,67 @@ Ext.ensible.cal.ReminderField = Ext.extend(Ext.form.ComboBox, {
      * time value (e.g., value 120 == '2 hours') with empty string for no value, but these can be set to anything.
      */
     getValueList: function(){
+        var me = this,
+            fmt = me.reminderValueFormat,
+            stringFormat = String.format;
+            
         return [
-            ['', this.noneText],
-            ['0', this.atStartTimeText],
-            ['5', String.format(this.reminderValueFormat, '5', this.minutesText)],
-            ['15', String.format(this.reminderValueFormat, '15', this.minutesText)],
-            ['30', String.format(this.reminderValueFormat, '30', this.minutesText)],
-            ['60', String.format(this.reminderValueFormat, '1', this.hourText)],
-            ['90', String.format(this.reminderValueFormat, '1.5', this.hoursText)],
-            ['120', String.format(this.reminderValueFormat, '2', this.hoursText)],
-            ['180', String.format(this.reminderValueFormat, '3', this.hoursText)],
-            ['360', String.format(this.reminderValueFormat, '6', this.hoursText)],
-            ['720', String.format(this.reminderValueFormat, '12', this.hoursText)],
-            ['1440', String.format(this.reminderValueFormat, '1', this.dayText)],
-            ['2880', String.format(this.reminderValueFormat, '2', this.daysText)],
-            ['4320', String.format(this.reminderValueFormat, '3', this.daysText)],
-            ['5760', String.format(this.reminderValueFormat, '4', this.daysText)],
-            ['7200', String.format(this.reminderValueFormat, '5', this.daysText)],
-            ['10080', String.format(this.reminderValueFormat, '1', this.weekText)],
-            ['20160', String.format(this.reminderValueFormat, '2', this.weeksText)]
+            ['', me.noneText],
+            ['0', me.atStartTimeText],
+            ['5', stringFormat(fmt, '5', me.getMinutesText(5))],
+            ['15', stringFormat(fmt, '15', me.getMinutesText(15))],
+            ['30', stringFormat(fmt, '30', me.getMinutesText(30))],
+            ['60', stringFormat(fmt, '1', me.getHoursText(1))],
+            ['90', stringFormat(fmt, '1.5', me.getHoursText(1.5))],
+            ['120', stringFormat(fmt, '2', me.getHoursText(2))],
+            ['180', stringFormat(fmt, '3', me.getHoursText(3))],
+            ['360', stringFormat(fmt, '6', me.getHoursText(6))],
+            ['720', stringFormat(fmt, '12', me.getHoursText(12))],
+            ['1440', stringFormat(fmt, '1', me.getDaysText(1))],
+            ['2880', stringFormat(fmt, '2', me.getDaysText(2))],
+            ['4320', stringFormat(fmt, '3', me.getDaysText(3))],
+            ['5760', stringFormat(fmt, '4', me.getDaysText(4))],
+            ['7200', stringFormat(fmt, '5', me.getDaysText(5))],
+            ['10080', stringFormat(fmt, '1', me.getWeeksText(1))],
+            ['20160', stringFormat(fmt, '2', me.getWeeksText(2))]
         ]
+    },
+    
+    /**
+     * Returns the unit text to use for a reminder that has a specified number of minutes
+     * prior to the due time (defaults to 'minute' when the passed value === 1, else 'minutes').
+     * @param {Number} numMinutes The number of minutes prior to the due time
+     * @return {String} The unit text
+     */
+    getMinutesText: function(numMinutes){
+        return numMinutes === 1 ? this.minuteText : this.minutesText;
+    },
+    /**
+     * Returns the unit text to use for a reminder that has a specified number of hours
+     * prior to the due time (defaults to 'hour' when the passed value === 1, else 'hours').
+     * @param {Number} numHours The number of hours prior to the due time
+     * @return {String} The unit text
+     */
+    getHoursText: function(numHours){
+        return numHours === 1 ? this.hourText : this.hoursText;
+    },
+    /**
+     * Returns the unit text to use for a reminder that has a specified number of days
+     * prior to the due time (defaults to 'day' when the passed value === 1, else 'days').
+     * @param {Number} numDays The number of days prior to the due time
+     * @return {String} The unit text
+     */
+    getDaysText: function(numDays){
+        return numDays === 1 ? this.dayText : this.daysText;
+    },
+    /**
+     * Returns the unit text to use for a reminder that has a specified number of weeks
+     * prior to the due time (defaults to 'week' when the passed value === 1, else 'weeks').
+     * @param {Number} numWeeks The number of weeks prior to the due time
+     * @return {String} The unit text
+     */
+    getWeeksText: function(numWeeks){
+        return numWeeks === 1 ? this.weekText : this.weeksText;
     },
     
     // private

@@ -95,7 +95,7 @@ Ext.ensible.cal.WeekEventRenderer = function(){
                                 id: 'ext-cal-ev-more-'+dt.format('Ymd'),
                                 cn: {
                                     tag: 'a',
-                                    html: String.format(o.moreText, skipped)
+                                    html: String.format(o.getMoreText(skipped), skipped)
                                 }
                             });
                         }

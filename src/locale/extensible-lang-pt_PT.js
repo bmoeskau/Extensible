@@ -20,6 +20,9 @@ if(Ext.ensible.cal.CalendarView) {
 if(Ext.ensible.cal.MonthView) {
     Ext.apply(Ext.ensible.cal.MonthView.prototype, {
         moreText: '+{0} mais...',
+        getMoreText: function(numEvents){
+            return '+{0} mais...';
+        },
         detailsTitleDateFormat: 'F j'
     });
 }
@@ -33,7 +36,13 @@ if(Ext.ensible.cal.CalendarPanel) {
         jumpToText: 'Ir para:',
         goText: 'Prosseguir',
         multiDayText: '{0} Dias',
-        multiWeekText: '{0} Semanas'
+        multiWeekText: '{0} Semanas',
+        getMultiDayText: function(numDays){
+            return '{0} Dias';
+        },
+        getMultiWeekText: function(numWeeks){
+            return '{0} Semanas';
+        }
     });
 }
 
@@ -118,14 +127,19 @@ if(Ext.ensible.cal.ReminderField) {
     Ext.apply(Ext.ensible.cal.ReminderField.prototype, {
         fieldLabel: 'Lembrete',
         noneText: 'Nenhum',
-        atStartTimeText: 'H&aacute; hora de in&iacute;cio',
-        minutesText: 'minutos',
-        hourText: 'hora',
-        hoursText: 'horas',
-        dayText: 'dia',
-        daysText: 'dias',
-        weekText: 'semana',
-        weeksText: 'semanas',
+        atStartTimeText: 'Há hora de início',
+        getMinutesText: function(numMinutes){
+            return numMinutes === 1 ? 'minuto' : 'minutos';
+        },
+        getHoursText: function(numHours){
+            return numHours === 1 ? 'hora' : 'horas';
+        },
+        getDaysText: function(numDays){
+            return numDays === 1 ? 'dia' : 'dias';
+        },
+        getWeeksText: function(numWeeks){
+            return numWeeks === 1 ? 'semana' : 'semanas';
+        },
         reminderValueFormat: '{0} {1} antes do programado'
     });
 }
