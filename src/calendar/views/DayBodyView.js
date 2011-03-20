@@ -29,8 +29,9 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
              * Fires after the user drags the resize handle of an event to resize it, but before the resize operation is carried out.
              * This is a cancelable event, so returning false from a handler will cancel the resize operation.
              * @param {Ext.ensible.cal.DayBodyView} this
-             * @param {Ext.ensible.cal.EventRecord} rec The {@link Ext.ensible.cal.EventRecord record} for the event that was resized
-             * containing the updated start and end dates
+             * @param {Ext.ensible.cal.EventRecord} rec The original {@link Ext.ensible.cal.EventRecord record} for the event that was resized
+             * @param {Object} data An object containing the new start and end dates that will be set into the event record if the
+             * event is not canceled. Format of the object is: {StartDate: [date], EndDate: [date]}
              */
             beforeeventresize: true,
             /**
@@ -160,7 +161,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     
     // private -- called from DayViewDropZone
     onEventResize : function(rec, data){
-        if(this.fireEvent('beforeeventresize', this, rec) !== false){
+        if(this.fireEvent('beforeeventresize', this, rec, data) !== false){
             var D = Ext.ensible.Date,
                 start = Ext.ensible.cal.EventMappings.StartDate.name,
                 end = Ext.ensible.cal.EventMappings.EndDate.name;
