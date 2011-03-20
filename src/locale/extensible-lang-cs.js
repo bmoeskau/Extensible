@@ -67,7 +67,7 @@ if(Ext.ensible.cal.EventEditForm) {
         title: 'Událost',
         titleTextAdd: 'Přidat událost',
         titleTextEdit: 'Upravit událost',
-        saveButtonText: 'Uložiz',
+        saveButtonText: 'Uložit',
         deleteButtonText: 'Smazat',
         cancelButtonText: 'Storno',
         titleLabelText: 'Název',
@@ -194,5 +194,15 @@ if(Ext.ensible.cal.MonthViewTemplate) {
     Ext.apply(Ext.ensible.cal.MonthViewTemplate.prototype, {
         dayHeaderFormat: 'D',
         dayHeaderTitleFormat: 'l, j. F Y'
+    });
+}
+
+if(Ext.form.TimeField){
+    Ext.apply(Ext.form.TimeField.prototype, {
+        minText : "Čas v tomto poli musí být stejný nebo pozdější než {0}",
+        maxText : "Čas v tomto poli musí být stejný nebo dřívější než {0}",
+        invalidText : "{0} není platný čas",
+        format : "H:i",
+        altFormats : "g:ia|g:iA|g:i a|g:i A|h:i|g:i|H:i|ga|ha|gA|h a|g a|g A|gi|hi|gia|hia|g|H"
     });
 }
