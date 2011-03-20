@@ -35,7 +35,7 @@
 .x-cal-default-ad .ext-cal-evm,
 .x-cal-default .ext-cal-picker-icon,
 .x-cal-default-x dl,
-.x-calendar-list-menu li em .x-cal-default {
+.x-calendar-palette em .x-cal-default {
     background: #668CB3;
 }
 /*  END of default event styles
@@ -65,7 +65,7 @@
 .x-cal-1-ad .ext-cal-evm,
 .x-cal-1 .ext-cal-picker-icon,
 .x-cal-1-x dl,
-.x-calendar-list-menu li em .x-cal-1 {
+.x-calendar-palette em .x-cal-1 {
     background: #fa7166;
 }
 
@@ -82,7 +82,7 @@
 .x-cal-2-ad .ext-cal-evm,
 .x-cal-2 .ext-cal-picker-icon,
 .x-cal-2-x dl,
-.x-calendar-list-menu li em .x-cal-2 {
+.x-calendar-palette em .x-cal-2 {
     background: #cf2424;
 }
 .x-cal-2.ext-cal-evr,
@@ -104,7 +104,7 @@
 .x-cal-3-ad .ext-cal-evm,
 .x-cal-3 .ext-cal-picker-icon,
 .x-cal-3-x dl,
-.x-calendar-list-menu li em .x-cal-3 {
+.x-calendar-palette em .x-cal-3 {
     background: #a01a1a;
 }
 
@@ -121,7 +121,7 @@
 .x-cal-4-ad .ext-cal-evm,
 .x-cal-4 .ext-cal-picker-icon,
 .x-cal-4-x dl,
-.x-calendar-list-menu li em .x-cal-4 {
+.x-calendar-palette em .x-cal-4 {
     background: #7e3838;
 }
 
@@ -138,7 +138,7 @@
 .x-cal-5-ad .ext-cal-evm,
 .x-cal-5 .ext-cal-picker-icon,
 .x-cal-5-x dl,
-.x-calendar-list-menu li em .x-cal-5 {
+.x-calendar-palette em .x-cal-5 {
     background: #ca7609;
 }
 
@@ -155,7 +155,7 @@
 .x-cal-6-ad .ext-cal-evm,
 .x-cal-6 .ext-cal-picker-icon,
 .x-cal-6-x dl,
-.x-calendar-list-menu li em .x-cal-6 {
+.x-calendar-palette em .x-cal-6 {
     background: #f88015;
 }
 
@@ -172,7 +172,7 @@
 .x-cal-7-ad .ext-cal-evm,
 .x-cal-7 .ext-cal-picker-icon,
 .x-cal-7-x dl,
-.x-calendar-list-menu li em .x-cal-7 {
+.x-calendar-palette em .x-cal-7 {
     background: #eda12a;
 }
 
@@ -189,7 +189,7 @@
 .x-cal-8-ad .ext-cal-evm,
 .x-cal-8 .ext-cal-picker-icon,
 .x-cal-8-x dl,
-.x-calendar-list-menu li em .x-cal-8 {
+.x-calendar-palette em .x-cal-8 {
     background: #d5b816;
 }
 
@@ -206,7 +206,7 @@
 .x-cal-9-ad .ext-cal-evm,
 .x-cal-9 .ext-cal-picker-icon,
 .x-cal-9-x dl,
-.x-calendar-list-menu li em .x-cal-9 {
+.x-calendar-palette em .x-cal-9 {
     background: #e281ca;
 }
 
@@ -223,7 +223,7 @@
 .x-cal-10-ad .ext-cal-evm,
 .x-cal-10 .ext-cal-picker-icon,
 .x-cal-10-x dl,
-.x-calendar-list-menu li em .x-cal-10 {
+.x-calendar-palette em .x-cal-10 {
     background: #bf53a4;
 }
 
@@ -240,7 +240,7 @@
 .x-cal-11-ad .ext-cal-evm,
 .x-cal-11 .ext-cal-picker-icon,
 .x-cal-11-x dl,
-.x-calendar-list-menu li em .x-cal-11 {
+.x-calendar-palette em .x-cal-11 {
     background: #9d3283;
 }
 
@@ -257,7 +257,7 @@
 .x-cal-12-ad .ext-cal-evm,
 .x-cal-12 .ext-cal-picker-icon,
 .x-cal-12-x dl,
-.x-calendar-list-menu li em .x-cal-12 {
+.x-calendar-palette em .x-cal-12 {
     background: #7a0f60;
 }
 
@@ -274,7 +274,7 @@
 .x-cal-13-ad .ext-cal-evm,
 .x-cal-13 .ext-cal-picker-icon,
 .x-cal-13-x dl,
-.x-calendar-list-menu li em .x-cal-13 {
+.x-calendar-palette em .x-cal-13 {
     background: #542382;
 }
 
@@ -291,7 +291,7 @@
 .x-cal-14-ad .ext-cal-evm,
 .x-cal-14 .ext-cal-picker-icon,
 .x-cal-14-x dl,
-.x-calendar-list-menu li em .x-cal-14 {
+.x-calendar-palette em .x-cal-14 {
     background: #7742a9;
 }
 
@@ -308,7 +308,7 @@
 .x-cal-15-ad .ext-cal-evm,
 .x-cal-15 .ext-cal-picker-icon,
 .x-cal-15-x dl,
-.x-calendar-list-menu li em .x-cal-15 {
+.x-calendar-palette em .x-cal-15 {
     background: #8763ca;
 }
 
@@ -325,7 +325,7 @@
 .x-cal-16-ad .ext-cal-evm,
 .x-cal-16 .ext-cal-picker-icon,
 .x-cal-16-x dl,
-.x-calendar-list-menu li em .x-cal-16 {
+.x-calendar-palette em .x-cal-16 {
     background: #b586e2;
 }
 
@@ -342,7 +342,7 @@
 .x-cal-17-ad .ext-cal-evm,
 .x-cal-17 .ext-cal-picker-icon,
 .x-cal-17-x dl,
-.x-calendar-list-menu li em .x-cal-17 {
+.x-calendar-palette em .x-cal-17 {
     background: #7399f9;
 }
 
@@ -359,7 +359,7 @@
 .x-cal-18-ad .ext-cal-evm,
 .x-cal-18 .ext-cal-picker-icon,
 .x-cal-18-x dl,
-.x-calendar-list-menu li em .x-cal-18 {
+.x-calendar-palette em .x-cal-18 {
     background: #4e79e6;
 }
 
@@ -376,7 +376,7 @@
 .x-cal-19-ad .ext-cal-evm,
 .x-cal-19 .ext-cal-picker-icon,
 .x-cal-19-x dl,
-.x-calendar-list-menu li em .x-cal-19 {
+.x-calendar-palette em .x-cal-19 {
     background: #2951b9;
 }
 
@@ -393,7 +393,7 @@
 .x-cal-20-ad .ext-cal-evm,
 .x-cal-20 .ext-cal-picker-icon,
 .x-cal-20-x dl,
-.x-calendar-list-menu li em .x-cal-20 {
+.x-calendar-palette em .x-cal-20 {
     background: #133897;
 }
 
@@ -410,7 +410,7 @@
 .x-cal-21-ad .ext-cal-evm,
 .x-cal-21 .ext-cal-picker-icon,
 .x-cal-21-x dl,
-.x-calendar-list-menu li em .x-cal-21 {
+.x-calendar-palette em .x-cal-21 {
     background: #1a5173;
 }
 
@@ -427,7 +427,7 @@
 .x-cal-22-ad .ext-cal-evm,
 .x-cal-22 .ext-cal-picker-icon,
 .x-cal-22-x dl,
-.x-calendar-list-menu li em .x-cal-22 {
+.x-calendar-palette em .x-cal-22 {
     background: #1a699c;
 }
 
@@ -444,7 +444,7 @@
 .x-cal-23-ad .ext-cal-evm,
 .x-cal-23 .ext-cal-picker-icon,
 .x-cal-23-x dl,
-.x-calendar-list-menu li em .x-cal-23 {
+.x-calendar-palette em .x-cal-23 {
     background: #3694b7;
 }
 
@@ -461,7 +461,7 @@
 .x-cal-24-ad .ext-cal-evm,
 .x-cal-24 .ext-cal-picker-icon,
 .x-cal-24-x dl,
-.x-calendar-list-menu li em .x-cal-24 {
+.x-calendar-palette em .x-cal-24 {
     background: #64b9d9;
 }
 
@@ -478,7 +478,7 @@
 .x-cal-25-ad .ext-cal-evm,
 .x-cal-25 .ext-cal-picker-icon,
 .x-cal-25-x dl,
-.x-calendar-list-menu li em .x-cal-25 {
+.x-calendar-palette em .x-cal-25 {
     background: #a8c67b;
 }
 
@@ -495,7 +495,7 @@
 .x-cal-26-ad .ext-cal-evm,
 .x-cal-26 .ext-cal-picker-icon,
 .x-cal-26-x dl,
-.x-calendar-list-menu li em .x-cal-26 {
+.x-calendar-palette em .x-cal-26 {
     background: #83ad47;
 }
 
@@ -512,7 +512,7 @@
 .x-cal-27-ad .ext-cal-evm,
 .x-cal-27 .ext-cal-picker-icon,
 .x-cal-27-x dl,
-.x-calendar-list-menu li em .x-cal-27 {
+.x-calendar-palette em .x-cal-27 {
     background: #2e8f0c;
 }
 
@@ -529,7 +529,7 @@
 .x-cal-28-ad .ext-cal-evm,
 .x-cal-28 .ext-cal-picker-icon,
 .x-cal-28-x dl,
-.x-calendar-list-menu li em .x-cal-28 {
+.x-calendar-palette em .x-cal-28 {
     background: #176413;
 }
 
@@ -546,7 +546,7 @@
 .x-cal-29-ad .ext-cal-evm,
 .x-cal-29 .ext-cal-picker-icon,
 .x-cal-29-x dl,
-.x-calendar-list-menu li em .x-cal-29 {
+.x-calendar-palette em .x-cal-29 {
     background: #0f4c30;
 }
 
@@ -563,7 +563,7 @@
 .x-cal-30-ad .ext-cal-evm,
 .x-cal-30 .ext-cal-picker-icon,
 .x-cal-30-x dl,
-.x-calendar-list-menu li em .x-cal-30 {
+.x-calendar-palette em .x-cal-30 {
     background: #386651;
 }
 
@@ -580,7 +580,7 @@
 .x-cal-31-ad .ext-cal-evm,
 .x-cal-31 .ext-cal-picker-icon,
 .x-cal-31-x dl,
-.x-calendar-list-menu li em .x-cal-31 {
+.x-calendar-palette em .x-cal-31 {
     background: #3ea987;
 }
 
@@ -597,6 +597,6 @@
 .x-cal-32-ad .ext-cal-evm,
 .x-cal-32 .ext-cal-picker-icon,
 .x-cal-32-x dl,
-.x-calendar-list-menu li em .x-cal-32 {
+.x-calendar-palette em .x-cal-32 {
     background: #7bc3b5;
 }
