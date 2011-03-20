@@ -68,9 +68,11 @@ Ext.extend(Ext.ensible.cal.DayBodyTemplate, Ext.XTemplate, {
             start = this.viewStartHour,
             end = this.viewEndHour,
             mins = this.hourIncrement,
-            dt = new Date().clearTime().add(Date.HOUR, start),
             dayHeight = this.hourHeight * (end - start)
             fmt = Ext.ensible.Date.use24HourTime ? 'G:i' : 'ga';
+        
+        // use a fixed DST-safe date so times don't get skipped on DST boundaries
+        dt = new Date('1/1/2010').clearTime().add(Date.HOUR, start);
         
         for(i=start; i<end; i++){
             times.push(dt.format(fmt));

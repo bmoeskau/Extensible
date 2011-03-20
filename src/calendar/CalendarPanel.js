@@ -735,6 +735,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
             tb = this.getTopToolbar();
             
         l.setActiveItem(id);
+        this.activeView = l.activeItem;
         
         if(id == this.id+'-edit'){
             if(tb){
@@ -751,7 +752,6 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
            }
            this.updateNavState();
         }
-        this.activeView = l.activeItem;
         this.fireViewChange();
     },
     
