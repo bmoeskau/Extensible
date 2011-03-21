@@ -7,6 +7,8 @@ Ext.ensible.LocaleSample = function(){
                 fields: ['code', 'desc'],
                 data : [
                     ['ca', 'Catalan'],
+                    ['zh_CN', 'Chinese (Simplified)'],
+                    ['zh_TW', 'Chinese (Traditional)'],
                     ['cs', 'Czech'],
                     ['da', 'Danish'],
                     ['en', 'English (US)'],
