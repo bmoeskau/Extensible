@@ -177,6 +177,24 @@
                     spansRange = (start1 <= start2 && end1 >= end2);
                 
                 return (startsInRange || endsInRange || spansRange);
+            },
+            
+            /**
+             * Returns true if the specified date is a Saturday or Sunday, else false.
+             * @param {Date} dt The date to test
+             * @return {Boolean} True if the date is a weekend day, else false 
+             */
+            isWeekend : function(dt){
+                return dt.getDay() % 6 === 0;
+            },
+            
+            /**
+             * Returns true if the specified date falls on a Monday through Fridey, else false.
+             * @param {Date} dt The date to test
+             * @return {Boolean} True if the date is a week day, else false 
+             */
+            isWeekday : function(dt){
+                return dt.getDay() % 6 !== 0;
             }
 	    }
     });

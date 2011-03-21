@@ -85,7 +85,12 @@ Ext.extend(Ext.ensible.cal.BoxLayoutTemplate, Ext.XTemplate, {
         
         Ext.apply(this, o);
         
-        var w = 0, title = '', first = true, isToday = false, showMonth = false, prevMonth = false, nextMonth = false,
+        var w = 0, title = '', first = true, isToday = false, showMonth = false, 
+            prevMonth = false, nextMonth = false, isWeekend = false,
+            weekendCls = o.weekendCls,
+            prevMonthCls = o.prevMonthCls,
+            nextMonthCls = o.nextMonthCls,
+            todayCls = o.todayCls,
             weeks = [[]],
             today = new Date().clearTime(),
             dt = this.viewStart.clone(),
@@ -102,6 +107,7 @@ Ext.extend(Ext.ensible.cal.BoxLayoutTemplate, Ext.XTemplate, {
                 showMonth = first || (dt.getDate() == 1);
                 prevMonth = (dt.getMonth() < thisMonth) && this.weekCount == -1;
                 nextMonth = (dt.getMonth() > thisMonth) && this.weekCount == -1;
+                isWeekend = dt.getDay() % 6 === 0;
                 
                 if(dt.getDay() == 1){
                     // The ISO week format 'W' is relative to a Monday week start. If we
@@ -131,10 +137,11 @@ Ext.extend(Ext.ensible.cal.BoxLayoutTemplate, Ext.XTemplate, {
                         (w==0 ? ' ext-cal-dtitle-first' : '') +
                         (prevMonth ? ' ext-cal-dtitle-prev' : '') + 
                         (nextMonth ? ' ext-cal-dtitle-next' : ''),
-                    cellCls: 'ext-cal-day ' + (isToday ? ' ext-cal-day-today' : '') + 
+                    cellCls: 'ext-cal-day ' + (isToday ? ' '+todayCls : '') + 
                         (d==0 ? ' ext-cal-day-first' : '') +
-                        (prevMonth ? ' ext-cal-day-prev' : '') +
-                        (nextMonth ? ' ext-cal-day-next' : '')
+                        (prevMonth ? ' '+prevMonthCls : '') +
+                        (nextMonth ? ' '+nextMonthCls : '') +
+                        (isWeekend && weekendCls ? ' '+weekendCls : '')
                 });
                 dt = dt.add(Date.DAY, 1);
                 first = false;

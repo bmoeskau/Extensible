@@ -172,6 +172,30 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * link and disable detailed event editing. 
      */
     enableEditDetails: true,
+    /**
+     * @cfg {String} weekendCls
+     * A CSS class to apply to weekend days in the current view (defaults to 'ext-cal-day-we' which highlights weekend days in light blue). 
+     * To disable this styling set the value to null or ''. 
+     */
+    weekendCls: 'ext-cal-day-we',
+    /**
+     * @cfg {String} prevMonthCls
+     * A CSS class to apply to any days that fall in the month previous to the current view's month (defaults to 'ext-cal-day-prev' which 
+     * highlights previous month days in light gray). To disable this styling set the value to null or ''. 
+     */
+    prevMonthCls: 'ext-cal-day-prev',
+    /**
+     * @cfg {String} nextMonthCls
+     * A CSS class to apply to any days that fall in the month after the current view's month (defaults to 'ext-cal-day-next' which 
+     * highlights next month days in light gray). To disable this styling set the value to null or ''. 
+     */
+    nextMonthCls: 'ext-cal-day-next',
+    /**
+     * @cfg {String} todayCls
+     * A CSS class to apply to the current date when it is visible in the current view (defaults to 'ext-cal-day-today' which 
+     * highlights today in yellow). To disable this styling set the value to null or ''.
+     */
+    todayCls: 'ext-cal-day-today',
     
     //private properties -- do not override:
     weekCount: 1,
@@ -683,10 +707,25 @@ viewConfig: {
     // private
     renderTemplate : function(){
         if(this.tpl){
-            this.tpl.overwrite(this.el, this.getParams());
+            this.tpl.overwrite(this.el, this.getTemplateParams());
             this.lastRenderStart = this.viewStart.clone();
             this.lastRenderEnd = this.viewEnd.clone();
         }
+    },
+    
+    // private
+    getTemplateParams : function(){
+        return {
+            viewStart: this.viewStart,
+            viewEnd: this.viewEnd,
+            startDate: this.startDate,
+            dayCount: this.dayCount,
+            weekCount: this.weekCount,
+            weekendCls: this.weekendCls,
+            prevMonthCls: this.prevMonthCls,
+            nextMonthCls: this.nextMonthCls,
+            todayCls: this.todayCls
+        };
     },
     
     /**
@@ -1328,17 +1367,6 @@ alert('End: '+bounds.end);
 	getEventRecordFromEl : function(el){
 		return this.getEventRecord(this.getEventIdFromEl(el));
 	},
-    
-    // private
-    getParams : function(){
-        return {
-            viewStart: this.viewStart,
-            viewEnd: this.viewEnd,
-            startDate: this.startDate,
-            dayCount: this.dayCount,
-            weekCount: this.weekCount
-        };
-    },
     
     // private
     getEventEditor : function(){

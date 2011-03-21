@@ -379,6 +379,10 @@ td.ext-cal-dtitle-today div {
 .ext-cal-dtitle-time {
     font-size: 11px;
 }
+/* Weekend background cell */
+.ext-cal-day-we {
+    background: #EFF9FC;
+}
 /* Today's background cell */
 .ext-cal-day-today {
     background: #FFF4BF;
