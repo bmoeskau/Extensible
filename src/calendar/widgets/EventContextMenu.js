@@ -93,8 +93,14 @@ Ext.ensible.cal.EventContextMenu = Ext.extend(Ext.menu.Menu, {
         Ext.ensible.cal.CalendarListMenu.superclass.initComponent.call(this);
     },
     
-    // private
+    /**
+     * Overrideable method intended for customizing the menu items. This should only to be used for overriding 
+     * or called from a subclass and should not be called directly from application code.
+     */
     buildMenu: function(){
+        if(this.rendered){
+            return;
+        }
         this.dateMenu = new Ext.menu.DateMenu({
             scope: this,
             handler: function(dp, dt){
