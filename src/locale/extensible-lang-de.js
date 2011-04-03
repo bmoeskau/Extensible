@@ -37,7 +37,7 @@ if(Ext.ensible.cal.CalendarPanel) {
         jumpToText: 'Springe zu:',
         goText: 'los',
         multiDayText: '{0} Tage',
-        multiWeekText: '{0} Wochen'.
+        multiWeekText: '{0} Wochen',
         getMultiDayText: function(numDays){
             return '{0} Tage';
         },
