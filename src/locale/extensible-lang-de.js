@@ -1,26 +1,28 @@
 /*
  * German (DE) locale
- * By Tobias Uhlig, http://extthemes.com/
+ * Contributors: 
+ * - Tobias Uhlig, http://extthemes.com/
+ * - Gunnar Beushausen
  */
 
-Ext.ensible.Date.use24HourTime = false;
+Ext.ensible.Date.use24HourTime = true;
 
 if(Ext.ensible.cal.CalendarView) {
     Ext.apply(Ext.ensible.cal.CalendarView.prototype, {
         startDay: 0,
-        todayText: 'Today',
-        defaultEventTitleText: '(Kein Titel)',
-        ddCreateEventText: 'Erstelle Termin für {0}',
-        ddMoveEventText: 'Verschiebe Termin nach {0}',
-        ddResizeEventText: 'Ändere Termin auf {0}'
+        todayText: 'Heute',
+        defaultEventTitleText: '(kein titel)',
+        ddCreateEventText: 'Event erstellen für {0}',
+        ddMoveEventText: 'Event verschieben nach {0}',
+        ddResizeEventText: 'Event updaten nach {0}'
     });
 }
 
 if(Ext.ensible.cal.MonthView) {
     Ext.apply(Ext.ensible.cal.MonthView.prototype, {
-        moreText: '+{0} mehr...',
+        moreText: '+{0} weitere...',
         getMoreText: function(numEvents){
-            return '+{0} mehr...';
+            return '+{0} weitere...';
         },
         detailsTitleDateFormat: 'F j'
     });
@@ -32,10 +34,10 @@ if(Ext.ensible.cal.CalendarPanel) {
         dayText: 'Tag',
         weekText: 'Woche',
         monthText: 'Monat',
-        jumpToText: 'Gehe zu:',
-        goText: 'Go',  // maybe 'Los'
+        jumpToText: 'Springe zu:',
+        goText: 'los',
         multiDayText: '{0} Tage',
-        multiWeekText: '{0} Wochen',
+        multiWeekText: '{0} Wochen'.
         getMultiDayText: function(numDays){
             return '{0} Tage';
         },
@@ -49,16 +51,16 @@ if(Ext.ensible.cal.EventEditWindow) {
     Ext.apply(Ext.ensible.cal.EventEditWindow.prototype, {
         width: 600,
         labelWidth: 65,
-        titleTextAdd: 'Termin hinzufügen',
-        titleTextEdit: 'Termin bearbeiten',
-        savingMessage: 'Änderungen werden gespeichert...',
-        deletingMessage: 'Der Termin wird gelöscht...',
-        detailsLinkText: 'Details bearbeiten...',
-        saveButtonText: 'Speichern',
-        deleteButtonText: 'Entfernen',  // or more directly 'Löschen'
+        titleTextAdd: 'Event erstellen',
+        titleTextEdit: 'Event editieren',
+        savingMessage: 'Speichere Daten...',
+        deletingMessage: 'Lösche events...',
+        detailsLinkText: 'Editiere Details...',
+        saveButtonText: 'speichern',
+        deleteButtonText: 'Löschen',
         cancelButtonText: 'Abbrechen',
         titleLabelText: 'Titel',
-        datesLabelText: 'Wann',  // not sure if the context matches
+        datesLabelText: 'Wann',
         calendarLabelText: 'Kalender'
     });
 }
@@ -67,27 +69,27 @@ if(Ext.ensible.cal.EventEditForm) {
     Ext.apply(Ext.ensible.cal.EventEditForm.prototype, {
         labelWidth: 65,
         labelWidthRightCol: 65,
-        title: 'Termin vom',
-        titleTextAdd: 'Termin hinzufügen',
-        titleTextEdit: 'Termin bearbeiten',
+        title: 'Event Formular',
+        titleTextAdd: 'Event hinzufügen',
+        titleTextEdit: 'Event editieren',
         saveButtonText: 'Speichern',
-        deleteButtonText: 'Entfernen',  // or more directly 'Löschen'
+        deleteButtonText: 'Löschen',
         cancelButtonText: 'Abbrechen',
         titleLabelText: 'Titel',
-        datesLabelText: 'Wann',  // not sure if the context matches
-        reminderLabelText: 'Reminder',  // or 'Erinnerung'
+        datesLabelText: 'Wann',
+        reminderLabelText: 'Erinnerung',
         notesLabelText: 'Notizen',
         locationLabelText: 'Ort',
-        webLinkLabelText: 'Weblink',
+        webLinkLabelText: 'Web Link',
         calendarLabelText: 'Kalender',
-        repeatsLabelText: 'Wiederholungen'  // or 'Serie' -> series
+        repeatsLabelText: 'Wiederholungen'
     });
 }
 
 if(Ext.ensible.cal.DateRangeField) {
     Ext.apply(Ext.ensible.cal.DateRangeField.prototype, {
-        toText: 'bis', // not sure if the context matches
-        allDayText: 'Ganztägig'
+        toText: 'bis',
+        allDayText: 'ganzer Tag'
     });
 }
 
@@ -113,61 +115,61 @@ if(Ext.ensible.cal.RecurrenceCombo) {
     Ext.apply(Ext.ensible.cal.RecurrenceCombo.prototype, {
         fieldLabel: 'Wiederholungen',
         recurrenceText: {
-            none: 'Keine Wiederholungen',
-            daily: 'Täglich',
-            weekly: 'Wöchentlich',
-            monthly: 'Monatlich',
-            yearly: 'Jährlich'
+            none: 'keine Wiederholungen',
+            daily: 'täglich',
+            weekly: 'wöchentlich',
+            monthly: 'monatlich',
+            yearly: 'jährlich'
         }
     });
 }
 
 if(Ext.ensible.cal.ReminderField) {
     Ext.apply(Ext.ensible.cal.ReminderField.prototype, {
-        fieldLabel: 'Reminder', // or 'Erinnerung'
-        noneText: 'Keine',  // depends on context
-        atStartTimeText: 'Zur Startzeit',
+        fieldLabel: 'Erinnerung',
+        noneText: 'keine',
+        atStartTimeText: 'zur Startzeit',
         getMinutesText: function(numMinutes){
-            return numMinutes === 1 ? 'Minute' : 'Minuten';
+            return numMinutes === 1 ? 'minute' : 'minuten';
         },
         getHoursText: function(numHours){
-            return numHours === 1 ? 'Stunde' : 'Stunden';
+            return numHours === 1 ? 'stunde' : 'stunden';
         },
         getDaysText: function(numDays){
-            return numDays === 1 ? 'Tag' : 'Tage';
+            return numDays === 1 ? 'tag' : 'tage';
         },
         getWeeksText: function(numWeeks){
-            return numWeeks === 1 ? 'Woche' : 'Wochen';
+            return numWeeks === 1 ? 'woche' : 'wochen';
         },
-        reminderValueFormat: '{0} {1} vor dem Start' // e.g. "2 hours before start"
+        reminderValueFormat: '{0} {1} vor Terminbeginn' // e.g. "2 hours before start"
     });
 }
 
 if(Ext.ensible.cal.DateRangeField) {
     Ext.apply(Ext.ensible.cal.DateRangeField.prototype, {
-        dateFormat: 'd.m.Y'
+        dateFormat: 'j.n.Y'
     });
 }
 
 if(Ext.ensible.cal.EventContextMenu) {
     Ext.apply(Ext.ensible.cal.EventContextMenu.prototype, {
-        editDetailsText: 'Details bearbeiten',
+        editDetailsText: 'Details editieren',
         deleteText: 'Löschen',
-        moveToText: 'Verschieben nach...'
+        moveToText: 'verschieben nach...'
     });
 }
 
 if(Ext.ensible.cal.DropZone) {
     Ext.apply(Ext.ensible.cal.DropZone.prototype, {
         dateRangeFormat: '{0}-{1}',
-        dateFormat: 'd.m.'
+        dateFormat: 'j.n'
     });
 }
 
 if(Ext.ensible.cal.DayViewDropZone) {
     Ext.apply(Ext.ensible.cal.DayViewDropZone.prototype, {
         dateRangeFormat: '{0}-{1}',
-        dateFormat : 'd.m.'
+        dateFormat : 'j.n'
     });
 }
 
