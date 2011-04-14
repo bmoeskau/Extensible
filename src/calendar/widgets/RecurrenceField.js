@@ -224,6 +224,7 @@ Ext.ensible.cal.RecurrenceField = Ext.extend(Ext.form.Field, {
         Ext.ensible.cal.recurrenceBase = Ext.extend(Ext.Container, {
             fieldLabel: ' ',
             labelSeparator: '',
+            hideLabel: true,
             layout: 'table',
             anchor: '100%',
             startDate: this.startDate,
