@@ -230,13 +230,13 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
             
 	        tpl = !(Ext.isIE || Ext.isOpera) ? 
 				new Ext.XTemplate(
-                    '<div class="{_extraCls} {values.spanCls} ext-cal-evt ext-cal-evr">',
+                    '<div class="{_extraCls} {spanCls} ext-cal-evt ext-cal-evr">',
 		                body,
 		            '</div>'
 		        ) 
 				: new Ext.XTemplate(
 		            '<tpl if="_renderAsAllDay">',
-                        '<div class="{_extraCls} {values.spanCls} ext-cal-evt ext-cal-evo">',
+                        '<div class="{_extraCls} {spanCls} ext-cal-evt ext-cal-evo">',
 		                    '<div class="ext-cal-evm">',
 		                        '<div class="ext-cal-evi">',
 		            '</tpl>',
