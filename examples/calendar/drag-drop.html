@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extensible : Custom Drag &amp; Drop</title>
+    <!-- Ext includes -->
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-3.2.0/resources/css/ext-all.css" />
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/adapter/ext/ext-base-debug.js"></script>
+    <script type="text/javascript" src="http://extjs.cachefly.net/ext-3.2.0/ext-all-debug.js"></script>
+    <!-- Any Ext overrides go here -->
+    
+    <!-- Extensible includes -->
+    <link rel="stylesheet" type="text/css" href="../../resources/css/extensible-all.css" />
+    <script type="text/javascript" src="../../extensible-all-debug.js"></script>
+    <!-- Any Extensible overrides go here -->
+    
+    <!-- Shared example includes -->
+    <link rel="stylesheet" type="text/css" href="../examples.css" />
+    <script type="text/javascript" src="../examples.js"></script>
+    
+    <!-- Page-specific includes -->
+    <script type="text/javascript" src="data/calendars.js"></script>
+    <script type="text/javascript" src="data/events.js"></script>
+    <script type="text/javascript" src="CalendarStore.js"></script>
+    <script type="text/javascript" src="MemoryEventStore.js"></script>
+    <script type="text/javascript" src="drag-drop.js"></script>
+    <script type="text/javascript" src="drag-drop-overrides.js"></script>
+    <style>
+        #ct { 
+            height: 500px; 
+        }
+    </style>
+</head>
+<body>
+    <div id="sample-overview">
+        <h1>Custom Drag &amp; Drop Examples</h1>
+        <p>A basic example for how to enable custom drag-drop from a standard GridPanel to a CalendarPanel.</p>
+        <p><strong>NOTE:</strong> This code is currently proof-of-concept only, and should not be used in production 
+        applications. See the inline code comments for details.</p>
+        
+        <p class="view-src"><a target="_blank" href="drag-drop.js">View the source</a></p>
+    </div>
+
+    <div id="ct"></div>
+</body>
+</html>
