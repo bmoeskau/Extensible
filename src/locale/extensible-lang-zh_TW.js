@@ -20,6 +20,9 @@ if(Ext.ensible.cal.CalendarView) {
 if(Ext.ensible.cal.MonthView) {
     Ext.apply(Ext.ensible.cal.MonthView.prototype, {
         moreText: '+{0}更多……',
+        getMoreText: function(numEvents){
+            return '+{0}更多……';
+        },
         detailsTitleDateFormat: 'F j'
     });
 }
@@ -33,7 +36,13 @@ if(Ext.ensible.cal.CalendarPanel) {
         jumpToText: '調到：',
         goText: '到 ',
         multiDayText: '{0}天',
-        multiWeekText: '{0}星期'
+        multiWeekText: '{0}星期',
+        getMultiDayText: function(numDays){
+            return '{0}天';
+        },
+        getMultiWeekText: function(numWeeks){
+            return '{0}星期';
+        }
     });
 }
 
@@ -119,13 +128,18 @@ if(Ext.ensible.cal.ReminderField) {
         fieldLabel: '提醒器',
         noneText: '沒有',
         atStartTimeText: '于啟動時間',
-        minutesText: '分鐘',
-        hourText: '小時',
-        hoursText: '小時',
-        dayText: '天',
-        daysText: '天',
-        weekText: '星期',
-        weeksText: '星期',
+        getMinutesText: function(numMinutes){
+            return '分鐘';
+        },
+        getHoursText: function(numHours){
+            return '小時';
+        },
+        getDaysText: function(numDays){
+            return '天';
+        },
+        getWeeksText: function(numWeeks){
+            return '星期';
+        },
         reminderValueFormat: '離開始還有{0} {1}' // e.g. "2 hours before start"
     });
 }
