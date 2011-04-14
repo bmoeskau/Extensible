@@ -9,6 +9,7 @@ Ext.ensible.LocaleSample = function(){
                     ['ca', 'Catalan'],
                     ['zh_CN', 'Chinese (Simplified)'],
                     ['zh_TW', 'Chinese (Traditional)'],
+                    ['hr', 'Croatian'],
                     ['cs', 'Czech'],
                     ['da', 'Danish'],
                     ['en', 'English (US)'],
