@@ -128,7 +128,7 @@ if(Ext.ensible.cal.ReminderField) {
         noneText: 'Nema',
         atStartTimeText: 'Na početku',
         getMinutesText: function(numMinutes){
-            return numMinutes === 1 ? 'minut' : 'minuta';
+            return 'minuta';
         },
         getHoursText: function(numHours){
             return numHours === 1 ? 'sat' : 'sati';
