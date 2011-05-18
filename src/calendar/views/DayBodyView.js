@@ -30,7 +30,7 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
              * This is a cancelable event, so returning false from a handler will cancel the resize operation.
              * @param {Ext.ensible.cal.DayBodyView} this
              * @param {Ext.ensible.cal.EventRecord} rec The original {@link Ext.ensible.cal.EventRecord record} for the event that was resized
-             * @param {Object} data An object containing the new start and end dates that will be set into the event record if the 
+             * @param {Object} data An object containing the new start and end dates that will be set into the event record if the
              * event is not canceled. Format of the object is: {StartDate: [date], EndDate: [date]}
              */
             beforeeventresize: true,
