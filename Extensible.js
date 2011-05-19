@@ -81,8 +81,9 @@
              * @return {Number} The number of calendar days difference between the dates
              */
             diffDays : function(start, end){
-                day = 1000*60*60*24;
-                diff = end.clearTime(true).getTime() - start.clearTime(true).getTime();
+                var day = 1000*60*60*24,
+                    diff = end.clearTime(true).getTime() - start.clearTime(true).getTime();
+                
                 return Math.ceil(diff/day);
             },
             
