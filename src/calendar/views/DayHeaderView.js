@@ -14,6 +14,7 @@ Ext.ensible.cal.DayHeaderView = Ext.extend(Ext.ensible.cal.MonthView, {
     dayCount: 1,
     allDayOnly: true,
     monitorResize: false,
+    isHeaderView: true,
     
     // The event is declared in MonthView but we're just overriding the docs:
     /**
