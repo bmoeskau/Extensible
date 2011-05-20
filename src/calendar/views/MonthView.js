@@ -327,10 +327,10 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 	
     // private
 	getDaySize : function(contentOnly){
-		var box = this.el.getBox(), 
-			w = box.width / this.dayCount,
-			h = box.height / this.getWeekCount();
-		
+        var day = this.el.select('.ext-cal-day').first(),
+            w = day.getWidth(),
+            h = day.getHeight();
+            
 		if(contentOnly){
             // measure last row instead of first in case text wraps in first row
 			var hd = this.el.select('.ext-cal-dtitle').last().parent('tr');
@@ -365,10 +365,13 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 	
     // private
 	getDayAt : function(x, y){
-		var box = this.el.getBox(), 
+		var box = this.el.getBox(),
+            topPad = this.showHeader ? this.el.select('.ext-cal-hd-days-tbl').first().getHeight() : 0,
+            leftPad = this.isHeaderView ? this.el.select('.ext-cal-gutter').first().getWidth() :
+                (this.showWeekLinks ? this.el.select('.ext-cal-week-link').first().getWidth() : 0),
 			daySize = this.getDaySize(),
-			dayL = Math.floor(((x - box.x) / daySize.width)),
-			dayT = Math.floor(((y - box.y) / daySize.height)),
+			dayL = Math.floor(((x - box.x - leftPad) / daySize.width)),
+			dayT = Math.floor(((y - box.y - topPad) / daySize.height)),
 			days = (dayT * 7) + dayL;
 		
 		var dt = this.viewStart.add(Date.DAY, days);

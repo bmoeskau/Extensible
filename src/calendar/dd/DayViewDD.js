@@ -116,7 +116,12 @@ Ext.ensible.cal.DayViewDropZone = Ext.extend(Ext.ensible.cal.DropZone, {
             
             if(data.type == 'eventdrag'){
                 if(this.dragOffset === undefined){
-                    this.dragOffset = data.xy[1]-box.y;
+                    // on fast drags there is a lag between the original drag start xy position and
+                    // that first detected within the drop zone's getTargetFromEvent method (which is 
+                    // where n.timeBox comes from). to avoid a bad offset we calculate the
+                    // timeBox based on the initial drag xy, not the current target xy.
+                    var initialTimeBox = this.view.getDayAt(data.xy[0], data.xy[1]).timeBox;
+                    this.dragOffset = initialTimeBox.y - box.y;
                     box.y = data.xy[1]-this.dragOffset;
                 }
                 else{
