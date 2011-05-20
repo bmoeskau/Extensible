@@ -122,7 +122,6 @@ Ext.ensible.cal.DayViewDropZone = Ext.extend(Ext.ensible.cal.DropZone, {
                     // timeBox based on the initial drag xy, not the current target xy.
                     var initialTimeBox = this.view.getDayAt(data.xy[0], data.xy[1]).timeBox;
                     this.dragOffset = initialTimeBox.y - box.y;
-                    box.y = data.xy[1]-this.dragOffset;
                 }
                 else{
                     box.y = n.timeBox.y;
