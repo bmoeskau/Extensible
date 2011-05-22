@@ -9,35 +9,9 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.MonthViewTemplate = function(config){
+Ext.define('Ext.ensible.cal.MonthViewTemplate', {
+    extend: 'Ext.XTemplate',
     
-    Ext.apply(this, config);
-    
-    this.weekTpl = new Ext.ensible.cal.BoxLayoutTemplate(config);
-    this.weekTpl.compile();
-    
-    var weekLinkTpl = this.showWeekLinks ? '<div class="ext-cal-week-link-hd">&#160;</div>' : '';
-    
-    Ext.ensible.cal.MonthViewTemplate.superclass.constructor.call(this,
-	    '<div class="ext-cal-inner-ct {extraClasses}">',
-            '<div class="ext-cal-hd-ct ext-cal-month-hd">',
-                weekLinkTpl,
-		        '<table class="ext-cal-hd-days-tbl" cellpadding="0" cellspacing="0">',
-		            '<tbody>',
-                        '<tr>',
-                            '<tpl for="days">',
-		                        '<th class="ext-cal-hd-day{[xindex==1 ? " ext-cal-day-first" : ""]}" title="{title}">{name}</th>',
-		                    '</tpl>',
-                        '</tr>',
-		            '</tbody>',
-		        '</table>',
-            '</div>',
-	        '<div class="ext-cal-body-ct">{weeks}</div>',
-        '</div>'
-    );
-};
-
-Ext.extend(Ext.ensible.cal.MonthViewTemplate, Ext.XTemplate, {
     /**
      * @cfg {String} dayHeaderFormat
      * The date format to use for day headers, if used (defaults to 'D', e.g. 'Mon' for Monday)
@@ -49,6 +23,35 @@ Ext.extend(Ext.ensible.cal.MonthViewTemplate, Ext.XTemplate, {
      * (defaults to 'l, F j, Y', e.g. 'Monday, December 27, 2010')
      */
     dayHeaderTitleFormat: 'l, F j, Y',
+    
+    // private
+    constructor: function(config){
+        
+        Ext.apply(this, config);
+    
+        this.weekTpl = new Ext.ensible.cal.BoxLayoutTemplate(config);
+        this.weekTpl.compile();
+        
+        var weekLinkTpl = this.showWeekLinks ? '<div class="ext-cal-week-link-hd">&#160;</div>' : '';
+        
+        Ext.ensible.cal.MonthViewTemplate.superclass.constructor.call(this,
+    	    '<div class="ext-cal-inner-ct {extraClasses}">',
+                '<div class="ext-cal-hd-ct ext-cal-month-hd">',
+                    weekLinkTpl,
+    		        '<table class="ext-cal-hd-days-tbl" cellpadding="0" cellspacing="0">',
+    		            '<tbody>',
+                            '<tr>',
+                                '<tpl for="days">',
+    		                        '<th class="ext-cal-hd-day{[xindex==1 ? " ext-cal-day-first" : ""]}" title="{title}">{name}</th>',
+    		                    '</tpl>',
+                            '</tr>',
+    		            '</tbody>',
+    		        '</table>',
+                '</div>',
+    	        '<div class="ext-cal-body-ct">{weeks}</div>',
+            '</div>'
+        );
+    },
     
     // private
     applyTemplate : function(o){

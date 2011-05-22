@@ -20,7 +20,10 @@ reminderValueFormat: '{0} {1} before start'
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.ReminderField = Ext.extend(Ext.form.ComboBox, {
+Ext.define('Ext.ensible.cal.ReminderField', {
+    extend: 'Ext.form.ComboBox',
+    alias: 'widget.reminderfield',
+    
     width: 200,
     fieldLabel: 'Reminder',
     mode: 'local',
@@ -41,6 +44,17 @@ Ext.ensible.cal.ReminderField = Ext.extend(Ext.form.ComboBox, {
     daysText: 'days',
     weekText: 'week',
     weeksText: 'weeks',
+    
+    // private
+    initComponent: function() {
+        this.store = this.store || new Ext.data.ArrayStore({
+            fields: ['value', 'desc'],
+            idIndex: 0,
+            data: this.getValueList()
+        });
+        
+        this.callParent();
+    },
     
     /**
      * Returns the list of reminder values used as the contents of the combo list. This method is provided so that
@@ -113,16 +127,6 @@ Ext.ensible.cal.ReminderField = Ext.extend(Ext.form.ComboBox, {
         return numWeeks === 1 ? this.weekText : this.weeksText;
     },
     
-    // private
-    initComponent: function(){
-        Ext.ensible.cal.ReminderField.superclass.initComponent.call(this);
-        this.store = this.store || new Ext.data.ArrayStore({
-            fields: [this.valueField, this.displayField],
-            idIndex: 0,
-            data: this.getValueList()
-        });
-    },
-    
     // inherited docs
     initValue : function(){
         if(this.value !== undefined){
@@ -134,5 +138,3 @@ Ext.ensible.cal.ReminderField = Ext.extend(Ext.form.ComboBox, {
         this.originalValue = this.getValue();
     }
 });
-
-Ext.reg('extensible.reminderfield', Ext.ensible.cal.ReminderField);

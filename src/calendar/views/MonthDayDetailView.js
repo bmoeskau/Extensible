@@ -4,7 +4,10 @@
  * a link at the bottom to view all events for that day. When clicked, a panel pops up that
  * uses this view to display the events for that day.
  */
-Ext.ensible.cal.MonthDayDetailView = Ext.extend(Ext.BoxComponent, {
+Ext.define('Ext.ensible.cal.MonthDayDetailView', {
+    extend: 'Ext.Component',
+    alias: 'widget.monthdaydetailview',
+    
     initComponent : function(){
         Ext.ensible.cal.CalendarView.superclass.initComponent.call(this);
 		
@@ -107,5 +110,3 @@ Ext.ensible.cal.MonthDayDetailView = Ext.extend(Ext.BoxComponent, {
 		return data;
 	}
 });
-
-Ext.reg('extensible.monthdaydetailview', Ext.ensible.cal.MonthDayDetailView);

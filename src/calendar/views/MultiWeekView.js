@@ -6,7 +6,10 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.MultiWeekView = Ext.extend(Ext.ensible.cal.MonthView, {
+Ext.define('Ext.ensible.cal.MultiWeekView', {
+    extend: 'Ext.ensible.cal.MonthView',
+    alias: 'widget.multiweekview',
+    
     /**
      * @cfg {Number} weekCount
      * The number of weeks to display in the view (defaults to 2)
@@ -23,5 +26,3 @@ Ext.ensible.cal.MultiWeekView = Ext.extend(Ext.ensible.cal.MonthView, {
         return this.moveWeeks(-this.weekCount, true);
     }
 });
-
-Ext.reg('extensible.multiweekview', Ext.ensible.cal.MultiWeekView);

@@ -1,5 +1,7 @@
 
-Ext.ensible.cal.EventStore = Ext.extend(Ext.data.Store, {
+Ext.define('Ext.ensible.cal.EventStore', {
+    extend: 'Ext.data.Store',
+    
     constructor: function(config){
         // By default autoLoad will cause the store to load itself during the
         // constructor, before the owning calendar view has a chance to set up
@@ -54,5 +56,3 @@ Ext.ensible.cal.EventStore = Ext.extend(Ext.data.Store, {
 //        Ext.ensible.cal.EventStore.superclass.execute.apply(this, arguments);
 //    }
 });
-
-Ext.reg('extensible.eventstore', Ext.ensible.cal.EventStore);

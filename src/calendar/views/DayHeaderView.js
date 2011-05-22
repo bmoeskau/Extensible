@@ -8,7 +8,10 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.DayHeaderView = Ext.extend(Ext.ensible.cal.MonthView, {
+Ext.define('Ext.ensible.cal.DayHeaderView', {
+    extend: 'Ext.ensible.cal.MonthView',
+    alias: 'widget.dayheaderview',
+    
     // private configs
     weekCount: 1,
     dayCount: 1,
@@ -57,15 +60,15 @@ Ext.ensible.cal.DayHeaderView = Ext.extend(Ext.ensible.cal.MonthView, {
     
     // private
     recalcHeaderBox : function(){
-        var tbl = this.el.child('.ext-cal-evt-tbl'),
+        var tbl = this.el.down('.ext-cal-evt-tbl'),
             h = tbl.getHeight();
         
         this.el.setHeight(h+7);
         
         // These should be auto-height, but since that does not work reliably
         // across browser / doc type, we have to size them manually
-        this.el.child('.ext-cal-hd-ad-inner').setHeight(h+5);
-        this.el.child('.ext-cal-bg-tbl').setHeight(h+5);
+        this.el.down('.ext-cal-hd-ad-inner').setHeight(h+5);
+        this.el.down('.ext-cal-bg-tbl').setHeight(h+5);
     },
     
     // private
@@ -92,5 +95,3 @@ Ext.ensible.cal.DayHeaderView = Ext.extend(Ext.ensible.cal.MonthView, {
         Ext.ensible.cal.DayHeaderView.superclass.onClick.apply(this, arguments);
     }
 });
-
-Ext.reg('extensible.dayheaderview', Ext.ensible.cal.DayHeaderView);

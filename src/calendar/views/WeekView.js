@@ -7,12 +7,13 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.WeekView = Ext.extend(Ext.ensible.cal.MultiDayView, {
+Ext.define('Ext.ensible.cal.WeekView', {
+    extend: 'Ext.ensible.cal.MultiDayView',
+    alias: 'widget.weekview',
+    
     /**
      * @cfg {Number} dayCount
      * The number of days to display in the view (defaults to 7)
      */
     dayCount: 7
 });
-
-Ext.reg('extensible.weekview', Ext.ensible.cal.WeekView);

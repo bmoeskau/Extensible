@@ -6,7 +6,10 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.MultiDayView = Ext.extend(Ext.ensible.cal.DayView, {
+Ext.define('Ext.ensible.cal.MultiDayView', {
+    extend: 'Ext.ensible.cal.DayView',
+    alias: 'widget.multidayview',
+    
     /**
      * @cfg {Number} dayCount
      * The number of days to display in the view (defaults to 3).  Only values from 1 to 7 are allowed.
@@ -55,5 +58,3 @@ Ext.ensible.cal.MultiDayView = Ext.extend(Ext.ensible.cal.DayView, {
         return this.moveDays(this.startDayIsStatic ? -7 : -this.dayCount, reload);
     }
 });
-
-Ext.reg('extensible.multidayview', Ext.ensible.cal.MultiDayView);

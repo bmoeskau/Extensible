@@ -6,27 +6,9 @@
  * @constructor
  * @param {Object} config
  */
-Ext.ensible.cal.StatusProxy = function(config){
-    Ext.apply(this, config);
-    this.id = this.id || Ext.id();
-    this.el = new Ext.Layer({
-        dh: {
-            id: this.id, cls: 'ext-dd-drag-proxy x-dd-drag-proxy '+this.dropNotAllowed, cn: [
-                {cls: 'x-dd-drop-icon'},
-                {cls: 'ext-dd-ghost-ct', cn:[
-                    {cls: 'x-dd-drag-ghost'},
-                    {cls: 'ext-dd-msg'}
-                ]}
-            ]
-        }, 
-        shadow: !config || config.shadow !== false
-    });
-    this.ghost = Ext.get(this.el.dom.childNodes[1].childNodes[0]);
-    this.message = Ext.get(this.el.dom.childNodes[1].childNodes[1]);
-    this.dropStatus = this.dropNotAllowed;
-};
-
-Ext.extend(Ext.ensible.cal.StatusProxy, Ext.dd.StatusProxy, {
+Ext.define('Ext.ensible.cal.StatusProxy', {
+    extend: 'Ext.dd.StatusProxy',
+    
     /**
      * @cfg {String} moveEventCls
      * The CSS class to apply to the status element when an event is being dragged (defaults to 'ext-cal-dd-move').
@@ -37,6 +19,27 @@ Ext.extend(Ext.ensible.cal.StatusProxy, Ext.dd.StatusProxy, {
      * The CSS class to apply to the status element when drop is not allowed (defaults to 'ext-cal-dd-add').
      */
     addEventCls : 'ext-cal-dd-add',
+    
+    // private
+    constructor: function(config) {
+        Ext.apply(this, config);
+        this.id = this.id || Ext.id();
+        this.el = new Ext.Layer({
+            dh: {
+                id: this.id, cls: 'ext-dd-drag-proxy x-dd-drag-proxy '+this.dropNotAllowed, cn: [
+                    {cls: 'x-dd-drop-icon'},
+                    {cls: 'ext-dd-ghost-ct', cn:[
+                        {cls: 'x-dd-drag-ghost'},
+                        {cls: 'ext-dd-msg'}
+                    ]}
+                ]
+            }, 
+            shadow: !config || config.shadow !== false
+        });
+        this.ghost = Ext.get(this.el.dom.childNodes[1].childNodes[0]);
+        this.message = Ext.get(this.el.dom.childNodes[1].childNodes[1]);
+        this.dropStatus = this.dropNotAllowed;
+    },
 
     // inherit docs
     update : function(html){

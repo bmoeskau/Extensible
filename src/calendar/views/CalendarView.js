@@ -10,7 +10,9 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
+Ext.define('Ext.ensible.cal.CalendarView', {
+    extend: 'Ext.Component',
+    
     /**
      * @cfg {Ext.data.Store} eventStore
      * The {@link Ext.data.Store store} which is bound to this calendar and contains {@link Ext.ensible.cal.EventRecord EventRecords}.
@@ -535,9 +537,9 @@ viewConfig: {
     
     // private
     forceSize: function(){
-        if(this.el && this.el.child){
-            var hd = this.el.child('.ext-cal-hd-ct'),
-                bd = this.el.child('.ext-cal-body-ct');
+        if(this.el && this.el.down){
+            var hd = this.el.down('.ext-cal-hd-ct'),
+                bd = this.el.down('.ext-cal-body-ct');
                 
             if(bd==null || hd==null) return;
                 
@@ -951,7 +953,7 @@ viewConfig: {
 				// Fun IE/Opera handling:
 				els.each(function(el){
 					el.highlight(color, Ext.applyIf({attr:'color'}, o));
-					if(c = el.child('.ext-cal-evm')) {
+					if(c = el.down('.ext-cal-evm')) {
 						c.highlight(color, o);
 					}
 				}, this);

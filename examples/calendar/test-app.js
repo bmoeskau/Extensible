@@ -1,9 +1,6 @@
 ﻿App = function() {
     return {
         init : function() {
-            
-            Ext.BLANK_IMAGE_URL = 'http://extjs.cachefly.net/ext-3.1.0/resources/images/default/s.gif';
-
             // This is an example calendar store that enables event color-coding
             this.calendarStore = new Ext.ensible.sample.CalendarStore({
                 // defined in data/calendars.js
@@ -51,25 +48,25 @@
                         width: 176,
                         border: false,
                         items: [{
-                            xtype: 'datepicker',
-                            id: 'app-nav-picker',
-                            cls: 'ext-cal-nav-picker',
-                            listeners: {
-                                'select': {
-                                    fn: function(dp, dt){
-                                        App.calendarPanel.setStartDate(dt);
-                                    },
-                                    scope: this
-                                }
-                            }
-                        },{
-                            xtype: 'extensible.calendarlist',
+//                            xtype: 'datepicker',
+//                            id: 'app-nav-picker',
+//                            cls: 'ext-cal-nav-picker',
+//                            listeners: {
+//                                'select': {
+//                                    fn: function(dp, dt){
+//                                        App.calendarPanel.setStartDate(dt);
+//                                    },
+//                                    scope: this
+//                                }
+//                            }
+//                        },{
+                            xtype: 'calendarlist',
                             store: this.calendarStore,
                             border: false,
                             width: 175
                         }]
                     },{
-                        xtype: 'extensible.calendarpanel',
+                        xtype: 'calendarpanel',
                         eventStore: this.eventStore,
                         calendarStore: this.calendarStore,
                         border: false,
@@ -114,10 +111,10 @@
                         
                         // Once this component inits it will set a reference to itself as an application
                         // member property for easy reference in other functions within App.
-                        initComponent: function() {
-                            App.calendarPanel = this;
-                            this.constructor.prototype.initComponent.apply(this, arguments);
-                        },
+//                        initComponent: function() {
+//                            App.calendarPanel = this;
+//                            this.constructor.prototype.initComponent.apply(this, arguments);
+//                        },
                         
                         listeners: {
                             'eventclick': {
@@ -164,7 +161,7 @@
                                     };
                                     if(dateInfo !== null){
                                         // will be null when switching to the event edit form so ignore
-                                        Ext.getCmp('app-nav-picker').setValue(dateInfo.activeDate);
+                                        //Ext.getCmp('app-nav-picker').setValue(dateInfo.activeDate);
                                         this.updateTitle(dateInfo.viewStart, dateInfo.viewEnd);
                                     }
                                 },
@@ -254,5 +251,3 @@
         }
     }
 }();
-
-Ext.onReady(App.init, App);

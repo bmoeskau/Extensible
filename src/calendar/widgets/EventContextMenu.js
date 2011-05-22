@@ -4,7 +4,10 @@
  * The context menu displayed for calendar events in any {@link Ext.ensible.cal.CalendarView CalendarView} subclass. 
  * @xtype extensible.eventcontextmenu
  */
-Ext.ensible.cal.EventContextMenu = Ext.extend(Ext.menu.Menu, {
+Ext.define('Ext.ensible.cal.EventContextMenu', {
+    extend: 'Ext.menu.Menu',
+    alias: 'widget.eventcontextmenu',
+    
     /** 
      * @cfg {Boolean} hideOnClick
      * False to continue showing the menu after a color is selected, defaults to true.
@@ -151,5 +154,3 @@ Ext.ensible.cal.EventContextMenu = Ext.extend(Ext.menu.Menu, {
         delete this.ctxEl;
     }
 });
-
-Ext.reg('extensible.eventcontextmenu', Ext.ensible.cal.EventContextMenu);

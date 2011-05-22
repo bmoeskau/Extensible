@@ -9,49 +9,52 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.DayBodyTemplate = function(config){
+Ext.define('Ext.ensible.cal.DayBodyTemplate', {
+    extend: 'Ext.XTemplate',
     
-    Ext.apply(this, config);
+    // private
+    constructor: function(config){
+        
+        Ext.apply(this, config);
     
-    Ext.ensible.cal.DayBodyTemplate.superclass.constructor.call(this,
-        '<table class="ext-cal-bg-tbl" cellspacing="0" cellpadding="0" style="height:{dayHeight}px;">',
-            '<tbody>',
-                '<tr height="1">',
-                    '<td class="ext-cal-gutter"></td>',
-                    '<td colspan="{dayCount}">',
-                        '<div class="ext-cal-bg-rows">',
-                            '<div class="ext-cal-bg-rows-inner">',
-                                '<tpl for="times">',
-                                    '<div class="ext-cal-bg-row ext-row-{[xindex]}" style="height:{parent.hourHeight}px;">',
-                                        '<div class="ext-cal-bg-row-div {parent.hourSeparatorCls}" style="height:{parent.hourSeparatorHeight}px;"></div>',
-                                    '</div>',
-                                '</tpl>',
-                            '</div>',
-                        '</div>',
-                    '</td>',
-                '</tr>',
-                '<tr>',
-                    '<td class="ext-cal-day-times">',
-                        '<tpl for="times">',
-                            '<div class="ext-cal-bg-row" style="height:{parent.hourHeight}px;">',
-                                '<div class="ext-cal-day-time-inner"  style="height:{parent.hourHeight-1}px;">{.}</div>',
-                            '</div>',
-                        '</tpl>',
-                    '</td>',
-                    '<tpl for="days">',
-                        '<td class="ext-cal-day-col">',
-                            '<div class="ext-cal-day-col-inner">',
-                                '<div id="{[this.id]}-day-col-{.:date("Ymd")}" class="ext-cal-day-col-gutter" style="height:{parent.dayHeight}px;"></div>',
+        Ext.ensible.cal.DayBodyTemplate.superclass.constructor.call(this,
+            '<table class="ext-cal-bg-tbl" cellspacing="0" cellpadding="0" style="height:{dayHeight}px;">',
+                '<tbody>',
+                    '<tr height="1">',
+                        '<td class="ext-cal-gutter"></td>',
+                        '<td colspan="{dayCount}">',
+                            '<div class="ext-cal-bg-rows">',
+                                '<div class="ext-cal-bg-rows-inner">',
+                                    '<tpl for="times">',
+                                        '<div class="ext-cal-bg-row ext-row-{[xindex]}" style="height:{parent.hourHeight}px;">',
+                                            '<div class="ext-cal-bg-row-div {parent.hourSeparatorCls}" style="height:{parent.hourSeparatorHeight}px;"></div>',
+                                        '</div>',
+                                    '</tpl>',
+                                '</div>',
                             '</div>',
                         '</td>',
-                    '</tpl>',
-                '</tr>',
-            '</tbody>',
-        '</table>'
-    );
-};
+                    '</tr>',
+                    '<tr>',
+                        '<td class="ext-cal-day-times">',
+                            '<tpl for="times">',
+                                '<div class="ext-cal-bg-row" style="height:{parent.hourHeight}px;">',
+                                    '<div class="ext-cal-day-time-inner"  style="height:{parent.hourHeight-1}px;">{.}</div>',
+                                '</div>',
+                            '</tpl>',
+                        '</td>',
+                        '<tpl for="days">',
+                            '<td class="ext-cal-day-col">',
+                                '<div class="ext-cal-day-col-inner">',
+                                    '<div id="{[this.id]}-day-col-{.:date("Ymd")}" class="ext-cal-day-col-gutter" style="height:{parent.dayHeight}px;"></div>',
+                                '</div>',
+                            '</td>',
+                        '</tpl>',
+                    '</tr>',
+                '</tbody>',
+            '</table>'
+        );
+    },
 
-Ext.extend(Ext.ensible.cal.DayBodyTemplate, Ext.XTemplate, {
     // private
     applyTemplate : function(o){
         this.today = new Date().clearTime();

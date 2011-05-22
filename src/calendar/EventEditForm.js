@@ -34,7 +34,10 @@ autoHeight: true // to allow for the notes field to autogrow
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
+Ext.define('Ext.ensible.cal.EventEditForm', {
+    extend: 'Ext.form.Panel',
+    alias: 'widget.eventeditform',
+    
     labelWidth: 65,
     labelWidthRightCol: 65,
     colWidthLeft: .6,
@@ -300,5 +303,3 @@ Ext.ensible.cal.EventEditForm = Ext.extend(Ext.form.FormPanel, {
         this.fireEvent('eventdelete', this, this.activeRecord);
     }
 });
-
-Ext.reg('extensible.eventeditform', Ext.ensible.cal.EventEditForm);

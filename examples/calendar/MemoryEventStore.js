@@ -13,7 +13,9 @@ Ext.ns('Ext.ensible.sample');
  * 
  * For a real-world store implementation see the remote sample (remote.js).
  */
-Ext.ensible.sample.MemoryEventStore = Ext.extend(Ext.data.Store, {
+Ext.define('Ext.ensible.sample.MemoryEventStore', {
+    extend: 'Ext.data.Store',
+    
     // private
     constructor: function(config){
         config = Ext.applyIf(config || {}, {

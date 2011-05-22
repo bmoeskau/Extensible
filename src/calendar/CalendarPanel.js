@@ -8,7 +8,10 @@
  * @param {Object} config The config object
  * @xtype calendarpanel
  */
-Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
+Ext.define('Ext.ensible.cal.CalendarPanel', {
+    extend: 'Ext.panel.Panel',
+    alias: 'widget.calendarpanel',
+    
     /**
      * @cfg {Number} activeItem
      * The 0-based index within the available views to set as the default active view (defaults to undefined). If not 
@@ -501,7 +504,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         
         if(this.showDayView){
             var day = Ext.apply({
-                xtype: 'extensible.dayview',
+                xtype: 'dayview',
                 title: this.dayText
             }, sharedViewCfg);
             
@@ -512,7 +515,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         }
         if(this.showMultiDayView){
             var mday = Ext.apply({
-                xtype: 'extensible.multidayview',
+                xtype: 'multidayview',
                 title: this.getMultiDayText(multiDayViewCount)
             }, sharedViewCfg);
             
@@ -523,7 +526,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         }
         if(this.showWeekView){
             var wk = Ext.applyIf({
-                xtype: 'extensible.weekview',
+                xtype: 'weekview',
                 title: this.weekText
             }, sharedViewCfg);
             
@@ -534,7 +537,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         }
         if(this.showMultiWeekView){
             var mwk = Ext.applyIf({
-                xtype: 'extensible.multiweekview',
+                xtype: 'multiweekview',
                 title: this.getMultiWeekText(multiWeekViewCount)
             }, sharedViewCfg);
             
@@ -545,7 +548,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         }
         if(this.showMonthView){
             var month = Ext.applyIf({
-                xtype: 'extensible.monthview',
+                xtype: 'monthview',
                 title: this.monthText,
                 listeners: {
                     'weekclick': {
@@ -564,7 +567,7 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         }
 
         this.add(Ext.applyIf({
-            xtype: 'extensible.eventeditform',
+            xtype: 'eventeditform',
             id: this.id+'-edit',
             calendarStore: this.calendarStore,
             enableRecurrence: this.enableRecurrence,
@@ -779,22 +782,24 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     },
     
     // private
-    fireViewChange: function(){
-        var info = null, 
-            view = this.layout.activeItem;
-            
-        if(view.getViewBounds){
-            var vb = view.getViewBounds(),
-            info = {
-                activeDate: view.getStartDate(),
-                viewStart: vb.start,
-                viewEnd: vb.end
+    fireViewChange: function() {
+        if (this.layout && this.layout.getActiveItem) {
+            var view = this.layout.getActiveItem();
+            if (view) {
+                if (view.getViewBounds) {
+                    var vb = view.getViewBounds(),
+                        info = {
+                            activeDate: view.getStartDate(),
+                            viewStart: vb.start,
+                            viewEnd: vb.end
+                        };
+                };
+                if (view.dismissEventEditor){
+                    view.dismissEventEditor();
+                }
+                this.fireEvent('viewchange', this, view, info);
             }
         }
-        if(view.dismissEventEditor){
-            view.dismissEventEditor();
-        }
-        this.fireEvent('viewchange', this, view, info);
     },
     
     // private
@@ -897,5 +902,3 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
         return this.layout.activeItem;
     }
 });
-
-Ext.reg('extensible.calendarpanel', Ext.ensible.cal.CalendarPanel);

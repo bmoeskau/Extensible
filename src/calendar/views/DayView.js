@@ -10,7 +10,10 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
+Ext.define('Ext.ensible.cal.DayView', {
+    extend: 'Ext.Container',
+    alias: 'widget.dayview',
+    
     /**
      * @cfg {String} todayText
      * The text to display in the current day's box in the calendar when {@link #showTodayText} is true (defaults to 'Today')
@@ -132,13 +135,13 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
         cfg.minEventDisplayMinutes = this.minEventDisplayMinutes;
         
         var header = Ext.applyIf({
-            xtype: 'extensible.dayheaderview',
+            xtype: 'dayheaderview',
             id: this.id+'-hd',
             ownerCalendarPanel: this.ownerCalendarPanel
         }, cfg);
         
         var body = Ext.applyIf({
-            xtype: 'extensible.daybodyview',
+            xtype: 'daybodyview',
             enableEventResize: this.enableEventResize,
             showHourSeparator: this.showHourSeparator,
             viewStartHour: this.viewStartHour,
@@ -178,10 +181,10 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
         // so that we can properly calculate sizes.
         (function(){
             var ct = this.el.up('.x-panel-body'),
-                hd = this.el.child('.ext-cal-day-header'),
+                hd = this.el.down('.ext-cal-day-header'),
                 h = ct.getHeight() - hd.getHeight();
             
-            this.el.child('.ext-cal-body-ct').setHeight(h-1);
+            this.el.down('.ext-cal-body-ct').setHeight(h-1);
         }).defer(10, this);
     },
     
@@ -310,5 +313,3 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
         return Ext.ensible.cal.CalendarView.prototype.dismissEventEditor.apply(this, arguments);
     }
 });
-
-Ext.reg('extensible.dayview', Ext.ensible.cal.DayView);

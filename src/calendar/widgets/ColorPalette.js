@@ -11,8 +11,10 @@
  * @param {Object} config The config object
  * @xtype extensible.calendarcolorpalette
  */
-Ext.ensible.cal.ColorPalette = Ext.extend(Ext.ColorPalette, {
-
+Ext.define('Ext.ensible.cal.ColorPalette', {
+    extend: 'Ext.ColorPalette',
+    alias: 'widget.calendarcolorpalette',
+    
     // private
     colorCount: 32,
     
@@ -71,5 +73,3 @@ Ext.ensible.cal.ColorPalette = Ext.extend(Ext.ColorPalette, {
         }
     }
 });
-
-Ext.reg('extensible.calendarcolorpalette', Ext.ensible.cal.ColorPalette);

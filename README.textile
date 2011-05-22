@@ -3,6 +3,11 @@
 <h2>An Ext JS Component Library</h2>
 <p>by Brian Moeskau</p>
 
+<div style="border:2px solid #C33;padding:15px;">
+	<p><strong>IMPORTANT NOTE:</strong> Extensible is currently being upgraded for Ext 4 support, and will be updated to Extensible 2.0 when complete (it will be a free update for all users). Ext 3.x will still be supported in a separate branch, but the master branch will now require Ext 4. If you are still using Ext 3.x, do NOT pull from master -- instead pull from the Extensible 1.x branch.</p>
+	<p>Complete details will be added soon for how versions will be managed going forward, once the upgrade process is complete.</p>
+</div>
+
 <h2>Building the Source</h2>
 <p>Build scripts for both Mac/Unix (<code>build/build.sh</code>) and Windows (<code>build/build.bat</code>) are included.  You must have a current version of Java installed for JSBuilder to work.  You should also edit the build script and update the path variables as needed for your system.</p>
 <p>If you run the build script (e.g., "sh build.sh" in the Mac terminal, or just "build" on the Windows command line) it will build everything (minus docs), create a <code>/deploy</code> folder and also place the <code>*-all</code> files in the root folder.  The jar file for the Ext-doc tool ("http://ext-doc.org/":http://ext-doc.org/) is also included.  If you'd like to generate docs also, simply pass "-d" as a command line arg to the build script (e.g., "sh build.sh -d" or "build -d").</p>

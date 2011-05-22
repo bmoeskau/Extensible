@@ -1,7 +1,10 @@
 /* @private
  * Currently not used
  */
-Ext.ensible.cal.RecurrenceCombo = Ext.extend(Ext.form.ComboBox, {
+Ext.define('Ext.ensible.cal.RecurrenceCombo', {
+    extend: 'Ext.form.ComboBox',
+    alias: 'widget.recurrencecombo',
+    
     width: 160,
     fieldLabel: 'Repeats',
     mode: 'local',
@@ -52,5 +55,3 @@ Ext.ensible.cal.RecurrenceCombo = Ext.extend(Ext.form.ComboBox, {
         return this;
     }
 });
-
-Ext.reg('extensible.recurrencecombo', Ext.ensible.cal.RecurrenceCombo);

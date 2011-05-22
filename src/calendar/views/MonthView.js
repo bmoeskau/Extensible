@@ -7,7 +7,10 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
+Ext.define('Ext.ensible.cal.MonthView', {
+    extend: 'Ext.ensible.cal.CalendarView',
+    alias: 'widget.monthview',
+    
     /**
      * @cfg {String} moreText
      * <p><b>Deprecated.</b> Please override {@link #getMoreText} instead.</p>
@@ -149,11 +152,11 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
     // private
     forceSize: function(){
         // Compensate for the week link gutter width if visible
-        if(this.showWeekLinks && this.el && this.el.child){
+        if(this.showWeekLinks && this.el){
             var hd = this.el.select('.ext-cal-hd-days-tbl'),
                 bgTbl = this.el.select('.ext-cal-bg-tbl'),
                 evTbl = this.el.select('.ext-cal-evt-tbl'),
-                wkLinkW = this.el.child('.ext-cal-week-link').getWidth(),
+                wkLinkW = this.el.select('.ext-cal-week-link').getWidth(),
                 w = this.el.getWidth()-wkLinkW;
             
             hd.setWidth(w);
@@ -520,5 +523,3 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
         }
     }
 });
-
-Ext.reg('extensible.monthview', Ext.ensible.cal.MonthView);

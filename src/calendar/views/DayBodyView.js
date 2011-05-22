@@ -8,7 +8,10 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
+Ext.define('Ext.ensible.cal.DayBodyView', {
+    extend: 'Ext.ensible.cal.CalendarView',
+    alias: 'widget.daybodyview',
+    
     //private
     dayColumnElIdDelimiter: '-day-col-',
     hourIncrement: 60,
@@ -428,20 +431,20 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
     
     // private
     getDaySize : function(){
-        var box = this.el.child('.ext-cal-day-col-inner').getBox();
+        var box = this.el.down('.ext-cal-day-col-inner').getBox();
         return {height: box.height, width: box.width};
     },
     
     // private
     getDayAt : function(x, y){
         var sel = '.ext-cal-body-ct',
-            xoffset = this.el.child('.ext-cal-day-times').getWidth(),
+            xoffset = this.el.down('.ext-cal-day-times').getWidth(),
             viewBox = this.el.getBox(),
             daySize = this.getDaySize(false),
             relX = x - viewBox.x - xoffset,
             dayIndex = Math.floor(relX / daySize.width), // clicked col index
             scroll = this.el.getScroll(),
-            row = this.el.child('.ext-cal-bg-row'), // first avail row, just to calc size
+            row = this.el.down('.ext-cal-bg-row'), // first avail row, just to calc size
             rowH = row.getHeight() / this.incrementsPerHour,
             relY = y - viewBox.y - rowH + scroll.top,
             rowIndex = Math.max(0, Math.ceil(relY / rowH)),
@@ -491,5 +494,3 @@ Ext.ensible.cal.DayBodyView = Ext.extend(Ext.ensible.cal.CalendarView, {
         }
     }
 });
-
-Ext.reg('extensible.daybodyview', Ext.ensible.cal.DayBodyView);

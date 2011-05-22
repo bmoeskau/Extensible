@@ -5,7 +5,10 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
+Ext.define('Ext.ensible.cal.DateRangeField', {
+    extend: 'Ext.form.Field',
+    alias: 'widget.daterangefield',
+    
     /**
      * @cfg {String} toText
      * The text to display in between the date/time fields (defaults to 'to')
@@ -231,6 +234,9 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
      * as defined in {@link Ext.ensible.cal.EventMappings}.</div></li><ul></div>
      */
     setValue: function(v){
+        if(!v) {
+            return;
+        }
         if(Ext.isArray(v)){
             this.setDT(v[0], 'start');
             this.setDT(v[1], 'end');
@@ -314,5 +320,3 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
      */
     setRawValue : Ext.emptyFn
 });
-
-Ext.reg('extensible.daterangefield', Ext.ensible.cal.DateRangeField);

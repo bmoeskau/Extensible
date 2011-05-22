@@ -5,8 +5,11 @@
  * as well as other calendar-specific options.</p>
  * @xtype extensible.calendarlistmenu
  */
-Ext.ensible.cal.CalendarListMenu = Ext.extend(Ext.menu.Menu, {
-    /** 
+Ext.define('Ext.ensible.cal.CalendarListMenu', {
+    extend: 'Ext.menu.Menu',
+    alias: 'widget.calendarlistmenu',
+    
+    /**
      * @cfg {Boolean} hideOnClick
      * False to continue showing the menu after a color is selected, defaults to true.
      */
@@ -131,5 +134,3 @@ Ext.ensible.cal.CalendarListMenu = Ext.extend(Ext.menu.Menu, {
         }
     }
 });
-
-Ext.reg('extensible.calendarlistmenu', Ext.ensible.cal.CalendarListMenu);

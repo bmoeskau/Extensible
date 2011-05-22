@@ -2,7 +2,9 @@
  * Currently not used
  * Rrule info: http://www.kanzaki.com/docs/ical/rrule.html
  */
-Ext.ensible.cal.RecurrenceField = Ext.extend(Ext.form.Field, {
+Ext.define('Ext.ensible.cal.RecurrenceField', {
+    extend: 'Ext.form.Field',
+    alias: 'widget.recurrencefield',
     
     fieldLabel: 'Repeats',
     startDate: new Date().clearTime(),
@@ -624,5 +626,3 @@ Ext.ensible.cal.RecurrenceField = Ext.extend(Ext.form.Field, {
         return [this.repeatEvery, this.weekly, this.monthly, this.yearly, this.until];
     }
 });
-
-Ext.reg('extensible.recurrencefield', Ext.ensible.cal.RecurrenceField);

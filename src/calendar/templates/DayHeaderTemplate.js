@@ -11,29 +11,32 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.DayHeaderTemplate = function(config){
+Ext.define('Ext.ensible.cal.DayHeaderTemplate', {
+    extend: 'Ext.XTemplate',
     
-    Ext.apply(this, config);
+    // private
+    constructor: function(config){
+        
+        Ext.apply(this, config);
     
-    this.allDayTpl = new Ext.ensible.cal.BoxLayoutTemplate(config);
-    this.allDayTpl.compile();
+        this.allDayTpl = new Ext.ensible.cal.BoxLayoutTemplate(config);
+        this.allDayTpl.compile();
+        
+        Ext.ensible.cal.DayHeaderTemplate.superclass.constructor.call(this,
+            '<div class="ext-cal-hd-ct">',
+                '<table class="ext-cal-hd-days-tbl" cellspacing="0" cellpadding="0">',
+                    '<tbody>',
+                        '<tr>',
+                            '<td class="ext-cal-gutter"></td>',
+                            '<td class="ext-cal-hd-days-td"><div class="ext-cal-hd-ad-inner">{allDayTpl}</div></td>',
+                            '<td class="ext-cal-gutter-rt"></td>',
+                        '</tr>',
+                    '</tbody>',
+                '</table>',
+            '</div>'
+        );
+    },
     
-    Ext.ensible.cal.DayHeaderTemplate.superclass.constructor.call(this,
-        '<div class="ext-cal-hd-ct">',
-            '<table class="ext-cal-hd-days-tbl" cellspacing="0" cellpadding="0">',
-                '<tbody>',
-                    '<tr>',
-                        '<td class="ext-cal-gutter"></td>',
-                        '<td class="ext-cal-hd-days-td"><div class="ext-cal-hd-ad-inner">{allDayTpl}</div></td>',
-                        '<td class="ext-cal-gutter-rt"></td>',
-                    '</tr>',
-                '</tbody>',
-            '</table>',
-        '</div>'
-    );
-};
-
-Ext.extend(Ext.ensible.cal.DayHeaderTemplate, Ext.XTemplate, {
     // private
     applyTemplate : function(o){
         return Ext.ensible.cal.DayHeaderTemplate.superclass.applyTemplate.call(this, {

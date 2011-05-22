@@ -30,7 +30,10 @@ enableEditDetails: true
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
+Ext.define('Ext.ensible.cal.EventEditWindow', {
+    extend: 'Ext.window.Window',
+    alias: 'widget.eventeditwindow',
+    
     titleTextAdd: 'Add Event',
     titleTextEdit: 'Edit Event',
     width: 600,
@@ -327,5 +330,3 @@ Ext.ensible.cal.EventEditWindow = Ext.extend(Ext.Window, {
 		this.fireEvent('eventdelete', this, this.activeRecord, this.animateTarget);
     }
 });
-
-Ext.reg('extensible.eventeditwindow', Ext.ensible.cal.EventEditWindow);

@@ -14,7 +14,10 @@ width: 200
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.CalendarCombo = Ext.extend(Ext.form.ComboBox, {
+Ext.define('Ext.ensible.cal.CalendarCombo', {
+    extend: 'Ext.form.field.ComboBox',
+    alias: 'widget.calendarcombo',
+    
     fieldLabel: 'Calendar',
     triggerAction: 'all',
     mode: 'local',
@@ -91,11 +94,15 @@ Ext.ensible.cal.CalendarCombo = Ext.extend(Ext.form.ComboBox, {
     
     // inherited docs
     setValue: function(value) {
-        this.wrap.removeClass(this.getStyleClass(this.getValue()));
+        if (this.wrap) {
+            this.wrap.removeClass(this.getStyleClass(this.getValue()));
+        }
         value = value || this.store.getAt(0).data[Ext.ensible.cal.CalendarMappings.CalendarId.name];
-        Ext.ensible.cal.CalendarCombo.superclass.setValue.call(this, value);
-        this.wrap.addClass(this.getStyleClass(value));
+        
+        this.callParent(arguments);
+        
+        if (this.wrap) {
+            this.wrap.addClass(this.getStyleClass(value));
+        }
     }
 });
-
-Ext.reg('extensible.calendarcombo', Ext.ensible.cal.CalendarCombo);

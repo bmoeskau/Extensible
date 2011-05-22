@@ -6,7 +6,10 @@
  * @param {Object} config The config object
  * @xtype calendarpanel
  */
-Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
+Ext.define('Ext.ensible.cal.CalendarList', {
+    extend: 'Ext.panel.Panel',
+    alias: 'widget.calendarlist',
+    
     title: 'Calendars',
     collapsible: true,
     autoHeight: true,
@@ -243,5 +246,3 @@ Ext.ensible.cal.CalendarList = Ext.extend(Ext.Panel, {
         this.menu.showAt(xy);
     }
 });
-
-Ext.reg('extensible.calendarlist', Ext.ensible.cal.CalendarList);

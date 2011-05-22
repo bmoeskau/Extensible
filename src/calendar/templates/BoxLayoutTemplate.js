@@ -8,47 +8,9 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.ensible.cal.BoxLayoutTemplate = function(config){
+Ext.define('Ext.ensible.cal.BoxLayoutTemplate', {
+    extend: 'Ext.XTemplate',
     
-    Ext.apply(this, config);
-    
-    var weekLinkTpl = this.showWeekLinks ? '<div id="{weekLinkId}" class="ext-cal-week-link">{weekNum}</div>' : '';
-    
-    Ext.ensible.cal.BoxLayoutTemplate.superclass.constructor.call(this,
-        '<tpl for="weeks">',
-            '<div id="{[this.id]}-wk-{[xindex-1]}" class="ext-cal-wk-ct" style="top:{[this.getRowTop(xindex, xcount)]}%; height:{[this.getRowHeight(xcount)]}%;">',
-                weekLinkTpl,
-                '<table class="ext-cal-bg-tbl" cellpadding="0" cellspacing="0">',
-                    '<tbody>',
-                        '<tr>',
-                            '<tpl for=".">',
-                                 '<td id="{[this.id]}-day-{date:date("Ymd")}" class="{cellCls}">&#160;</td>',
-                            '</tpl>',
-                        '</tr>',
-                    '</tbody>',
-                '</table>',
-                '<table class="ext-cal-evt-tbl" cellpadding="0" cellspacing="0">',
-                    '<tbody>',
-                        '<tr>',
-                            '<tpl for=".">',
-                                '<td id="{[this.id]}-ev-day-{date:date("Ymd")}" class="{titleCls}"><div>{title}</div></td>',
-                            '</tpl>',
-                        '</tr>',
-                    '</tbody>',
-                '</table>',
-            '</div>',
-        '</tpl>', {
-            getRowTop: function(i, ln){
-                return ((i-1)*(100/ln));
-            },
-            getRowHeight: function(ln){
-                return 100/ln;
-            }
-        }
-    );
-};
-
-Ext.extend(Ext.ensible.cal.BoxLayoutTemplate, Ext.XTemplate, {
     /**
      * @cfg {String} firstWeekDateFormat
      * The date format used for the day boxes in the first week of the view only (subsequent weeks
@@ -79,6 +41,47 @@ Ext.extend(Ext.ensible.cal.BoxLayoutTemplate, Ext.XTemplate, {
      * Note that if this day falls on the first day within the view, {@link #multiDayFirstDayFormat} takes precedence.
      */
     multiDayMonthStartFormat: 'M j',
+    
+    // private
+    constructor: function(config){
+        
+        Ext.apply(this, config);
+    
+        var weekLinkTpl = this.showWeekLinks ? '<div id="{weekLinkId}" class="ext-cal-week-link">{weekNum}</div>' : '';
+        
+        Ext.ensible.cal.BoxLayoutTemplate.superclass.constructor.call(this,
+            '<tpl for="weeks">',
+                '<div id="{[this.id]}-wk-{[xindex-1]}" class="ext-cal-wk-ct" style="top:{[this.getRowTop(xindex, xcount)]}%; height:{[this.getRowHeight(xcount)]}%;">',
+                    weekLinkTpl,
+                    '<table class="ext-cal-bg-tbl" cellpadding="0" cellspacing="0">',
+                        '<tbody>',
+                            '<tr>',
+                                '<tpl for=".">',
+                                     '<td id="{[this.id]}-day-{date:date("Ymd")}" class="{cellCls}">&#160;</td>',
+                                '</tpl>',
+                            '</tr>',
+                        '</tbody>',
+                    '</table>',
+                    '<table class="ext-cal-evt-tbl" cellpadding="0" cellspacing="0">',
+                        '<tbody>',
+                            '<tr>',
+                                '<tpl for=".">',
+                                    '<td id="{[this.id]}-ev-day-{date:date("Ymd")}" class="{titleCls}"><div>{title}</div></td>',
+                                '</tpl>',
+                            '</tr>',
+                        '</tbody>',
+                    '</table>',
+                '</div>',
+            '</tpl>', {
+                getRowTop: function(i, ln){
+                    return ((i-1)*(100/ln));
+                },
+                getRowHeight: function(ln){
+                    return 100/ln;
+                }
+            }
+        );
+    },
     
     // private
     applyTemplate : function(o){

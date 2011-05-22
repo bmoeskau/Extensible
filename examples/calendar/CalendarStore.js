@@ -2,7 +2,9 @@
  * A simple reusable store that loads static calendar field definitions into memory
  * and can be bound to the CalendarCombo widget and used for calendar color selection.
  */
-Ext.ensible.sample.CalendarStore = Ext.extend(Ext.data.Store, {
+Ext.define('Ext.ensible.sample.CalendarStore', {
+    extend: 'Ext.data.Store',
+    
     constructor: function(config){
         config = Ext.applyIf(config || {}, {
             storeId: 'calendarStore',
@@ -17,6 +19,6 @@ Ext.ensible.sample.CalendarStore = Ext.extend(Ext.data.Store, {
             }
         });
         this.reader = new Ext.data.JsonReader(config);
-        Ext.ensible.sample.CalendarStore.superclass.constructor.call(this, config);
+        this.callParent(arguments);
     }
 });
