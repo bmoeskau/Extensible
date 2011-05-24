@@ -134,9 +134,10 @@ Ext.define('Ext.ensible.cal.MonthView', {
                 showWeekLinks: this.showWeekLinks,
                 showWeekNumbers: this.showWeekNumbers
             });
+            this.tpl.compile();
         }
-        this.tpl.compile();
-        this.addClass('ext-cal-monthview ext-cal-ct');
+        
+        this.addCls('ext-cal-monthview ext-cal-ct');
         
         Ext.ensible.cal.MonthView.superclass.afterRender.call(this);
     },
@@ -509,7 +510,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
     handleDayMouseEvent : function(e, t, type){
         var el = e.getTarget(this.weekLinkSelector, 3, true);
         if(el){
-            el[type == 'over' ? 'addClass' : 'removeClass'](this.weekLinkOverClass);
+            el[type == 'over' ? 'addCls' : 'removeCls'](this.weekLinkOverClass);
             return;
         }
         Ext.ensible.cal.MonthView.superclass.handleDayMouseEvent.apply(this, arguments);

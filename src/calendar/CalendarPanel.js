@@ -736,9 +736,9 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
      * @return {Ext.ensible.cal.CalendarPanel} this
      */
     showEditForm: function(rec){
-        this.preEditView = this.layout.activeItem.id;
+        this.preEditView = this.layout.getActiveItem().id;
         this.setActiveView(this.id+'-edit');
-        this.layout.activeItem.loadRecord(rec);
+        this.layout.getActiveItem().loadRecord(rec);
         return this;
     },
     
@@ -761,7 +761,7 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
             tb = this.getTopToolbar();
             
         l.setActiveItem(id);
-        this.activeView = l.activeItem;
+        this.activeView = l.getActiveItem();
         
         if(id == this.id+'-edit'){
             if(tb){

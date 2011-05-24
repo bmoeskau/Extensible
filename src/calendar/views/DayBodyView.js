@@ -146,7 +146,7 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
         }
         this.tpl.compile();
         
-        this.addClass('ext-cal-body-ct');
+        this.addCls('ext-cal-body-ct');
         
         Ext.ensible.cal.DayBodyView.superclass.afterRender.call(this);
         

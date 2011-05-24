@@ -1706,6 +1706,16 @@ Ext.apply(Ext.menu.Menu.prototype, {
         });
     }
     
+    if (Ext.TaskManager) {
+        Ext.TaskMgr = function() {
+            deprecate({pkg:'Ext.TaskMgr', alt:'Ext.TaskManager'});
+            return Ext.TaskManager;
+        }
+        Ext.TaskMgr.start = Ext.TaskManager.start;
+        Ext.TaskMgr.stop = Ext.TaskManager.stop;
+        Ext.TaskMgr.stopAll = Ext.TaskManager.stopAll;
+    }
+    
 })();
 
 //

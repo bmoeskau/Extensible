@@ -153,7 +153,7 @@ Ext.define('Ext.ensible.cal.DayView', {
         }, cfg);
         
         this.items = [header, body];
-        this.addClass('ext-cal-dayview ext-cal-ct');
+        this.addCls('ext-cal-dayview ext-cal-ct');
         
         Ext.ensible.cal.DayView.superclass.initComponent.call(this);
     },

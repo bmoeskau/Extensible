@@ -43,7 +43,7 @@ Ext.define('Ext.ensible.cal.DayHeaderView', {
             });
         }
         this.tpl.compile();
-        this.addClass('ext-cal-day-header');
+        this.addCls('ext-cal-day-header');
         
         Ext.ensible.cal.DayHeaderView.superclass.afterRender.call(this);
     },

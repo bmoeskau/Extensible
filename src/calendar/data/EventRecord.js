@@ -36,7 +36,8 @@ rec.data[M.Notes.name] = 'Some notes';
  * id is not specified a {@link #phantom}
  * Record will be created with an {@link #Record.id automatically generated id}.
  */
-Ext.ensible.cal.EventRecord = Ext.extend(Ext.data.Record, {
+Ext.define('Ext.ensible.cal.EventRecord', {
+    extend: 'Ext.data.Model',
     fields: new Ext.util.MixedCollection(false, function(field){
         return field.name;
     })

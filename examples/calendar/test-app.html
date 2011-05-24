@@ -36,8 +36,11 @@
 //        Ext.require([
 //        
 //        ]);
+
+        //Ext.Compat.silent = true;
+        //Ext.Compat.showErrors = true;
+        
         Ext.onReady(function(){
-            //Ext.Compat.showErrors = true;
             App.init();
         });
     </script>
@@ -60,6 +63,6 @@
         document.getElementById('logo-body').innerHTML = new Date().getDate();
     }
     updateLogoDt();
-    setInterval(updateLogoDt, 1000);
+    //setInterval(updateLogoDt, 1000);
 </script>
 </html>

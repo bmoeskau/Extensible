@@ -48,18 +48,18 @@
                         width: 176,
                         border: false,
                         items: [{
-//                            xtype: 'datepicker',
-//                            id: 'app-nav-picker',
-//                            cls: 'ext-cal-nav-picker',
-//                            listeners: {
-//                                'select': {
-//                                    fn: function(dp, dt){
-//                                        App.calendarPanel.setStartDate(dt);
-//                                    },
-//                                    scope: this
-//                                }
-//                            }
-//                        },{
+                            xtype: 'datepicker',
+                            id: 'app-nav-picker',
+                            cls: 'ext-cal-nav-picker',
+                            listeners: {
+                                'select': {
+                                    fn: function(dp, dt){
+                                        App.calendarPanel.setStartDate(dt);
+                                    },
+                                    scope: this
+                                }
+                            }
+                        },{
                             xtype: 'calendarlist',
                             store: this.calendarStore,
                             border: false,
@@ -81,6 +81,7 @@
                             //viewStartHour: 6,
                             //viewEndHour: 18,
                             //minEventDisplayMinutes: 15
+                            showTime: false
                         },
                         
                         // View options specific to a certain view (if the same options exist in viewConfig

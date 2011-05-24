@@ -34,7 +34,8 @@ rec.data[M.ColorId.name] = 3;
  * id is not specified a {@link #phantom}
  * Record will be created with an {@link #Record.id automatically generated id}.
  */
-Ext.ensible.cal.CalendarRecord = Ext.extend(Ext.data.Record, {
+Ext.define('Ext.ensible.cal.CalendarRecord', {
+    extend: 'Ext.data.Model',
     fields: new Ext.util.MixedCollection(false, function(field){
         return field.name;
     })

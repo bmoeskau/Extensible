@@ -278,7 +278,7 @@ viewConfig: {
         Ext.ensible.cal.CalendarView.superclass.initComponent.call(this);
         
         if(this.readOnly === true){
-            this.addClass('ext-cal-readonly');
+            this.addCls('ext-cal-readonly');
         }
 		
         this.addEvents({
@@ -1675,7 +1675,7 @@ alert('End: '+bounds.end);
             
             if(this.eventOverClass != ''){
                 var els = this.getEventEls(evtId);
-                els[type == 'over' ? 'addClass' : 'removeClass'](this.eventOverClass);
+                els[type == 'over' ? 'addCls' : 'removeCls'](this.eventOverClass);
             }
             this.fireEvent('event'+type, this, this.getEventRecord(evtId), el);
             return true;
@@ -1704,7 +1704,7 @@ alert('End: '+bounds.end);
                 if(!rel || dt != relDate){
                     var el = this.getDayEl(dt);
                     if(el && this.dayOverClass != ''){
-                        el[type == 'over' ? 'addClass' : 'removeClass'](this.dayOverClass);
+                        el[type == 'over' ? 'addCls' : 'removeCls'](this.dayOverClass);
                     }
                     this.fireEvent('day'+type, this, Date.parseDate(dt, "Ymd"), el);
                 }
