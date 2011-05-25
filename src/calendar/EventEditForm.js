@@ -167,13 +167,13 @@ Ext.define('Ext.ensible.cal.EventEditForm', {
         this.items = [{
             id: this.id+'-left-col',
             columnWidth: this.colWidthLeft,
-            layout: 'form',
+            layout: 'anchor',
             border: false,
             items: leftFields
         },{
             id: this.id+'-right-col',
             columnWidth: this.colWidthRight,
-            layout: 'form',
+            layout: 'anchor',
             labelWidth: this.labelWidthRightCol || this.labelWidth,
             border: false,
             items: rightFields

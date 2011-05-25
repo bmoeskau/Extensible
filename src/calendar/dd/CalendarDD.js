@@ -119,18 +119,18 @@ Ext.define('Ext.ensible.cal.DropZone', {
     onNodeOver : function(n, dd, e, data){
         var D = Ext.ensible.Date,
             start = data.type == 'eventdrag' ? n.date : D.min(data.start, n.date),
-            end = data.type == 'eventdrag' ? n.date.add(Date.DAY, D.diffDays(data.eventStart, data.eventEnd)) : 
+            end = data.type == 'eventdrag' ? D.add(n.date, {days: D.diffDays(data.eventStart, data.eventEnd)}) :
                 D.max(data.start, n.date);
         
         if(!this.dragStartDate || !this.dragEndDate || (D.diffDays(start, this.dragStartDate) != 0) || (D.diffDays(end, this.dragEndDate) != 0)){
             this.dragStartDate = start;
-            this.dragEndDate = end.clearTime().add(Date.DAY, 1).add(Date.MINUTE, -30);
+            this.dragEndDate = D.add(end, {days: 1, millis: -1, clearTime: true});
             this.shim(start, end);
             
-            var range = start.format(this.dateFormat);
+            var range = Ext.Date.format(start, this.dateFormat);
                 
             if(D.diffDays(start, end) > 0){
-                end = end.format(this.dateFormat);
+                end = Ext.Date.format(end, this.dateFormat);
                 range = String.format(this.dateRangeFormat, range, end);
             }
             var msg = String.format(data.type == 'eventdrag' ? this.moveText : this.createText, range);
@@ -141,9 +141,10 @@ Ext.define('Ext.ensible.cal.DropZone', {
     
     shim : function(start, end){
         this.currWeek = -1;
-        var dt = start.clone(),
+        var dt = Ext.Date.clone(start),
             i = 0, shim, box,
-            cnt = Ext.ensible.Date.diffDays(dt, end)+1
+            D = Ext.calendar.Date,
+            cnt = D.diffDays(dt, end) + 1;
         
         Ext.each(this.shims, function(shim){
             if(shim){
@@ -176,7 +177,7 @@ Ext.define('Ext.ensible.cal.DropZone', {
                 }
                 shim.isActive = true;
             }
-            dt = dt.add(Date.DAY, 1);
+            dt = D.add(dt, {days: 1});
         }
         
         Ext.each(this.shims, function(shim){
@@ -243,7 +244,7 @@ Ext.define('Ext.ensible.cal.DropZone', {
             }
             if(data.type == 'caldrag'){
                 this.view.onCalendarEndDrag(this.dragStartDate, this.dragEndDate, 
-                    this.onCalendarDragComplete.createDelegate(this));
+                    Ext.bind(this.onCalendarDragComplete, this));
                 //shims are NOT cleared here -- they stay visible until the handling
                 //code calls the onCalendarDragComplete callback which hides them.
                 return true;

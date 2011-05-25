@@ -82,7 +82,8 @@
              */
             diffDays : function(start, end){
                 var day = 1000*60*60*24,
-                    diff = end.clearTime(true).getTime() - start.clearTime(true).getTime();
+                    clear = Ext.Date.clearTime,
+                    diff = clear(end, true).getTime() - clear(start, true).getTime();
                 
                 return Math.ceil(diff/day);
             },
@@ -95,7 +96,7 @@
              * @return {Date} The new date/time value
              */
             copyTime : function(fromDt, toDt){
-                var dt = toDt.clone();
+                var dt = Ext.Date.clone(toDt);
                 dt.setHours(
                     fromDt.getHours(),
                     fromDt.getMinutes(),
@@ -118,9 +119,9 @@
             compare : function(dt1, dt2, precise){
                 var d1 = dt1, d2 = dt2;
                 if(precise !== true){
-                    d1 = dt1.clone();
+                    d1 = Ext.Date.clone(dt1);
                     d1.setMilliseconds(0);
-                    d2 = dt2.clone();
+                    d2 = Ext.Date.clone(dt2);
                     d2.setMilliseconds(0);
                 }
                 return d2.getTime() - d1.getTime();
@@ -196,6 +197,46 @@
              */
             isWeekday : function(dt){
                 return dt.getDay() % 6 !== 0;
+            },
+            
+            today: function() {
+                return Ext.Date.clearTime(new Date());
+            },
+            
+            add: function(dt, o) {
+                if (!o) {
+                    return dt;
+                }
+                Ext.applyIf(o, {
+                    millis:  0,
+                    seconds: 0,
+                    minutes: 0,
+                    hours:   0,
+                    days:    0,
+                    weeks:   0,
+                    months:  0,
+                    years:   0,
+                    clearTime: false
+                });
+                
+                var ms = o.millis,
+                    s  = o.seconds * 1000,
+                    m  = o.minutes * 1000 * 60,
+                    h  = o.hours   * 1000 * 60 * 60,
+                    d  = o.days    * 1000 * 60 * 60 * 24,
+                    w  = o.weeks   * 1000 * 60 * 60 * 24 * 7,
+                    sumUpToWeeks = ms + s + m + h + d + w,
+                    newDt = new Date();
+                
+                newDt.setTime(dt.getTime() + sumUpToWeeks);
+                
+                if (o.months) {
+                    newDt = Ext.Date.add(newDt, Ext.Date.MONTH, o.months);
+                }
+                if (o.years) {
+                    newDt.setFullYear(newDt.getFullYear() + o.years);
+                }
+                return o.clearTime ? Ext.Date.clearTime(newDt) : newDt;
             }
 	    }
     });

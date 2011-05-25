@@ -185,7 +185,7 @@
                                     rec.commit();
                                     var time = rec.data[Ext.ensible.cal.EventMappings.IsAllDay.name] ? '' : ' \\a\\t g:i a';
                                     this.showMsg('Event '+ rec.data[Ext.ensible.cal.EventMappings.Title.name] +' was moved to '+
-                                        rec.data[Ext.ensible.cal.EventMappings.StartDate.name].format('F jS'+time));
+                                        Ext.Date.format(rec.data[Ext.ensible.cal.EventMappings.StartDate.name], ('F jS'+time)));
                                 },
                                 scope: this
                             },
@@ -222,21 +222,22 @@
         // we added a title to the layout's outer center region that is app-specific. This code
         // updates that outer title based on the currently-selected view range anytime the view changes.
         updateTitle: function(startDt, endDt){
-            var p = Ext.getCmp('app-center');
+            var p = Ext.getCmp('app-center'),
+                fmt = Ext.Date.format;
             
-            if(startDt.clearTime().getTime() == endDt.clearTime().getTime()){
-                p.setTitle(startDt.format('F j, Y'));
+            if(Ext.Date.clearTime(startDt).getTime() == Ext.Date.clearTime(endDt).getTime()){
+                p.setTitle(fmt(startDt, 'F j, Y'));
             }
             else if(startDt.getFullYear() == endDt.getFullYear()){
                 if(startDt.getMonth() == endDt.getMonth()){
-                    p.setTitle(startDt.format('F j') + ' - ' + endDt.format('j, Y'));
+                    p.setTitle(fmt(startDt, 'F j') + ' - ' + fmt(endDt, 'j, Y'));
                 }
                 else{
-                    p.setTitle(startDt.format('F j') + ' - ' + endDt.format('F j, Y'));
+                    p.setTitle(fmt(startDt, 'F j') + ' - ' + fmt(endDt, 'F j, Y'));
                 }
             }
             else{
-                p.setTitle(startDt.format('F j, Y') + ' - ' + endDt.format('F j, Y'));
+                p.setTitle(fmt(startDt, 'F j, Y') + ' - ' + fmt(endDt, 'F j, Y'));
             }
         },
         

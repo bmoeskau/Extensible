@@ -181,7 +181,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
                         
                     if(t.getDay() == this.prevClockDay){
                         if(el){
-                            el.update(t.format(Ext.ensible.Date.use24HourTime ? 'G:i' : 'g:ia'));
+                            el.update(Ext.Date.format(t, Ext.ensible.Date.use24HourTime ? 'G:i' : 'g:ia'));
                         }
                     }
                     else{
@@ -288,7 +288,8 @@ Ext.define('Ext.ensible.cal.MonthView', {
 		data._extraCls = extraClasses.join(' ');
         data._isRecurring = evt.Recurrence && evt.Recurrence != '';
         data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] != '';
-        data.Title = (evt[M.IsAllDay.name] ? '' : evt[M.StartDate.name].format(fmt)) + (!title || title.length == 0 ? this.defaultEventTitleText : title);
+        data.Title = (evt[M.IsAllDay.name] ? '' : Ext.Date.format(evt[M.StartDate.name], fmt)) + 
+                (!title || title.length == 0 ? this.defaultEventTitleText : title);
         
         return Ext.applyIf(data, evt);
     },
@@ -314,7 +315,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
             tpl: this.getEventTemplate(),
             maxEventsPerDay: this.maxEventsPerDay,
             id: this.id,
-            templateDataFn: this.getTemplateEventData.createDelegate(this),
+            templateDataFn: Ext.bind(this.getTemplateEventData, this),
             evtMaxCount: this.evtMaxCount,
             weekCount: this.weekCount,
             dayCount: this.dayCount,
@@ -331,7 +332,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
     // private
 	getDayId : function(dt){
 		if(Ext.isDate(dt)){
-			dt = dt.format('Ymd');
+            dt = Ext.Date.format(dt, 'Ymd');
 		}
 		return this.id + this.dayElIdDelimiter + dt;
 	},
@@ -389,9 +390,9 @@ Ext.define('Ext.ensible.cal.MonthView', {
 			daySize = this.getDaySize(),
 			dayL = Math.floor(((x - box.x - leftPad) / daySize.width)),
 			dayT = Math.floor(((y - box.y - topPad) / daySize.height)),
-			days = (dayT * 7) + dayL;
-		
-		var dt = this.viewStart.add(Date.DAY, days);
+			days = (dayT * 7) + dayL,
+            dt = Ext.ensible.Date.add(this.viewStart, {days: days});
+        
 		return {
 			date: dt,
 			el: this.getDayEl(dt)
@@ -422,7 +423,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
 		if(!this.detailPanel){
 	        this.detailPanel = new Ext.Panel({
 				id: this.id+'-details-panel',
-				title: dt.format(this.detailsTitleDateFormat),
+				title: Ext.Date.format(dt, this.detailsTitleDateFormat),
 				layout: 'fit',
 				floating: true,
 				renderTo: Ext.getBody(),
@@ -440,14 +441,14 @@ Ext.define('Ext.ensible.cal.MonthView', {
 					store: this.store,
                     calendarStore: this.calendarStore,
 					listeners: {
-						'eventsrendered': this.onDetailViewUpdated.createDelegate(this)
+                        'eventsrendered': Ext.bind(this.onDetailViewUpdated, this)
 					}
 				}
 			});
             this.detailPanel.body.on('contextmenu', this.onContextMenu, this);
 		}
 		else{
-			this.detailPanel.setTitle(dt.format(this.detailsTitleDateFormat));
+			this.detailPanel.setTitle(Ext.Date.format.format(dt, this.detailsTitleDateFormat));
 		}
 		this.detailPanel.getComponent(this.id+'-details-view').update(dt);
 	},

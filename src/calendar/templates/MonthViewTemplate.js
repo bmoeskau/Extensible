@@ -57,13 +57,14 @@ Ext.define('Ext.ensible.cal.MonthViewTemplate', {
     applyTemplate : function(o){
         var days = [],
             weeks = this.weekTpl.apply(o),
-            dt = o.viewStart;
+            dt = o.viewStart,
+            D = Ext.ensible.Date;
         
         for(var i = 0; i < 7; i++){
-            var d = dt.add(Date.DAY, i);
+            var d = D.add(dt, {days: i});
             days.push({
-                name: d.format(this.dayHeaderFormat),
-                title: d.format(this.dayHeaderTitleFormat)
+                name: Ext.Date.format(d, this.dayHeaderFormat),
+                title: Ext.Date.format(d, this.dayHeaderTitleFormat)
             });
         }
         

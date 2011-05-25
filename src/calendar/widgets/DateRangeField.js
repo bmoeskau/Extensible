@@ -156,7 +156,7 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
             this.items.addAll([this.startDate, this.endDate, this.toLabel, this.startTime, this.endTime, this.allDay]);
         }
         
-        Ext.ensible.cal.DateRangeField.superclass.onRender.call(this, ct, position);
+        this.callParent(arguments);
         
         if(!singleLine){
             this.el.child('tr').addClass('ext-dt-range-row1');
@@ -211,7 +211,7 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
             dt = this[startend+'Date'].getValue();
             
         if(Ext.isDate(dt)){
-            dt = dt.format(this[startend+'Date'].format);
+            dt = Ext.Date.format(dt, this[startend + 'Date'].format);
         }
         else{
             return null;
@@ -259,8 +259,8 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
     // private setValue helper
     setDT: function(dt, startend){
         if(dt && Ext.isDate(dt)){
-            this[startend+'Date'].setValue(dt);
-            this[startend+'Time'].setValue(dt.format(this[startend+'Time'].format));
+            this[startend + 'Date'].setValue(dt);
+            this[startend + 'Time'].setValue(Ext.Date.format(dt, this[startend + 'Time'].format));
             return true;
         }
     },
@@ -306,7 +306,7 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
     // private
     beforeDestroy: function(){
         Ext.destroy(this.fieldCt);
-        Ext.ensible.cal.DateRangeField.superclass.beforeDestroy.call(this);
+        this.callParent(arguments);
     },
     
     /**

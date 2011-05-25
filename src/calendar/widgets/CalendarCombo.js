@@ -7,7 +7,7 @@
  * calendar components. The default configs are as follows:<pre><code>
 fieldLabel: 'Calendar',
 triggerAction: 'all',
-mode: 'local',
+queryMode: 'local',
 forceSelection: true,
 width: 200
 </code></pre>
@@ -20,7 +20,7 @@ Ext.define('Ext.ensible.cal.CalendarCombo', {
     
     fieldLabel: 'Calendar',
     triggerAction: 'all',
-    mode: 'local',
+    queryMode: 'local',
     forceSelection: true,
     selectOnFocus: true,
     width: 200,
@@ -33,7 +33,7 @@ Ext.define('Ext.ensible.cal.CalendarCombo', {
         var C = Ext.ensible.cal,
             M = C.CalendarMappings;
         
-        C.CalendarCombo.superclass.initComponent.call(this);
+        this.callParent(arguments);
         
         this.valueField = M.CalendarId.name;
         this.displayField = M.Title.name;
@@ -45,7 +45,7 @@ Ext.define('Ext.ensible.cal.CalendarCombo', {
     
     // private
     afterRender: function(){
-        Ext.ensible.cal.CalendarCombo.superclass.afterRender.call(this);
+        this.callParent(arguments);
         
         this.wrap = this.el.up('.x-form-field-wrap');
         this.wrap.addClass('ext-calendar-picker');

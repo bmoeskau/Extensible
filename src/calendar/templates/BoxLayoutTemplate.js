@@ -95,8 +95,8 @@ Ext.define('Ext.ensible.cal.BoxLayoutTemplate', {
             nextMonthCls = o.nextMonthCls,
             todayCls = o.todayCls,
             weeks = [[]],
-            today = new Date().clearTime(),
-            dt = this.viewStart.clone(),
+            today = Ext.ensible.Date.today(),
+            dt = Ext.Date.clone(this.viewStart),
             thisMonth = this.startDate.getMonth();
         
         for(; w < this.weekCount || this.weekCount == -1; w++){
@@ -115,8 +115,8 @@ Ext.define('Ext.ensible.cal.BoxLayoutTemplate', {
                 if(dt.getDay() == 1){
                     // The ISO week format 'W' is relative to a Monday week start. If we
                     // make this check on Sunday the week number will be off.
-                    weeks[w].weekNum = this.showWeekNumbers ? dt.format('W') : '&#160;';
-                    weeks[w].weekLinkId = 'ext-cal-week-'+dt.format('Ymd');
+                    weeks[w].weekNum = this.showWeekNumbers ? Ext.Date.format(dt, 'W') : '&#160;';
+                    weeks[w].weekLinkId = 'ext-cal-week-'+Ext.Date.format(dt, 'Ymd');
                 }
                 
                 if(showMonth){
@@ -124,18 +124,18 @@ Ext.define('Ext.ensible.cal.BoxLayoutTemplate', {
                         title = this.getTodayText();
                     }
                     else{
-                        title = dt.format(this.dayCount == 1 ? this.singleDayDateFormat : 
+                        title = Ext.Date.format(dt, this.dayCount == 1 ? this.singleDayDateFormat : 
                                 (first ? this.multiDayFirstDayFormat : this.multiDayMonthStartFormat));
                     }
                 }
                 else{
                     var dayFmt = (w == 0 && this.showHeader !== true) ? this.firstWeekDateFormat : this.otherWeeksDateFormat;
-                    title = isToday ? this.getTodayText() : dt.format(dayFmt);
+                    title = isToday ? this.getTodayText() : Ext.Date.format(dt, dayFmt);
                 }
                 
                 weeks[w].push({
                     title: title,
-                    date: dt.clone(),
+                    date: Ext.Date.clone(dt),
                     titleCls: 'ext-cal-dtitle ' + (isToday ? ' ext-cal-dtitle-today' : '') + 
                         (w==0 ? ' ext-cal-dtitle-first' : '') +
                         (prevMonth ? ' ext-cal-dtitle-prev' : '') + 
@@ -146,7 +146,7 @@ Ext.define('Ext.ensible.cal.BoxLayoutTemplate', {
                         (nextMonth ? ' '+nextMonthCls : '') +
                         (isWeekend && weekendCls ? ' '+weekendCls : '')
                 });
-                dt = dt.add(Date.DAY, 1);
+                dt = Ext.ensible.Date.add(dt, {days: 1});
                 first = false;
             }
         }
@@ -161,14 +161,14 @@ Ext.define('Ext.ensible.cal.BoxLayoutTemplate', {
         var timeFmt = Ext.ensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
             todayText = this.showTodayText !== false ? this.todayText : '',
             timeText = this.showTime !== false ? ' <span id="'+this.id+'-clock" class="ext-cal-dtitle-time">' + 
-                    new Date().format(timeFmt) + '</span>' : '',
+                    Ext.Date.format(new Date(), timeFmt) + '</span>' : '',
             separator = todayText.length > 0 || timeText.length > 0 ? ' &#8212; ' : ''; // &#8212; == &mdash;
         
         if(this.dayCount == 1){
             return new Date().format(this.singleDayDateFormat) + separator + todayText + timeText;
         }
         fmt = this.weekCount == 1 ? this.firstWeekDateFormat : this.otherWeeksDateFormat;
-        return todayText.length > 0 ? todayText + timeText : new Date().format(fmt) + timeText;
+        return todayText.length > 0 ? todayText + timeText : Ext.Date.format(new Date(), fmt) + timeText;
     }
 });
 

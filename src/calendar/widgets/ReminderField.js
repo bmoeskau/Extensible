@@ -6,7 +6,7 @@
  * calendar components. The default configs are as follows:<pre><code>
 width: 200,
 fieldLabel: 'Reminder',
-mode: 'local',
+queryMode: 'local',
 triggerAction: 'all',
 forceSelection: true,
 displayField: 'desc',
@@ -26,7 +26,7 @@ Ext.define('Ext.ensible.cal.ReminderField', {
     
     width: 200,
     fieldLabel: 'Reminder',
-    mode: 'local',
+    queryMode: 'local',
     triggerAction: 'all',
     forceSelection: true,
     displayField: 'desc',
@@ -53,7 +53,7 @@ Ext.define('Ext.ensible.cal.ReminderField', {
             data: this.getValueList()
         });
         
-        this.callParent();
+        this.callParent(arguments);
     },
     
     /**

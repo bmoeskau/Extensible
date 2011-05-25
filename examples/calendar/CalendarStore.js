@@ -13,10 +13,10 @@ Ext.define('Ext.ensible.sample.CalendarStore', {
             proxy: new Ext.data.MemoryProxy(),
             autoLoad: true,
             fields: Ext.ensible.cal.CalendarRecord.prototype.fields.getRange(),
-            sortInfo: {
-                field: Ext.ensible.cal.CalendarMappings.Title.name,
+            sorters: [{
+                property: Ext.ensible.cal.CalendarMappings.Title.name,
                 direction: 'ASC'
-            }
+            }]
         });
         this.reader = new Ext.data.JsonReader(config);
         this.callParent(arguments);

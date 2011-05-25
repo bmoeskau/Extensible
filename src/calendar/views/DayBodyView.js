@@ -297,7 +297,8 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
         data._extraCls = extraClasses.join(' ');
         data._isRecurring = evt.Recurrence && evt.Recurrence != '';
         data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] != '';
-        data.Title = (evt[M.IsAllDay.name] ? '' : evt[M.StartDate.name].format(fmt)) + (!title || title.length == 0 ? this.defaultEventTitleText : title);
+        data.Title = (evt[M.IsAllDay.name] ? '' : Ext.Date.format(evt[M.StartDate.name], fmt)) + 
+                (!title || title.length == 0 ? this.defaultEventTitleText : title);
         
         return Ext.applyIf(data, evt);
     },
@@ -408,7 +409,7 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
                 evt._left = colWidth * evt._overcol;
             }
             var markup = this.getEventTemplate().apply(evt),
-                target = this.id+'-day-col-'+evts[i].date.format('Ymd');
+                target = this.id + '-day-col-' + Ext.Date.format(evts[i].date, 'Ymd');
                 
             Ext.DomHelper.append(target, markup);
         }
@@ -424,7 +425,7 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
     // private
     getDayId : function(dt){
         if(Ext.isDate(dt)){
-            dt = dt.format('Ymd');
+            dt = Ext.Date.format(dt, 'Ymd');
         }
         return this.id + this.dayColumnElIdDelimiter + dt;
     },

@@ -38,36 +38,42 @@ rec.data[M.Notes.name] = 'Some notes';
  */
 Ext.define('Ext.ensible.cal.EventRecord', {
     extend: 'Ext.data.Model',
-    fields: new Ext.util.MixedCollection(false, function(field){
-        return field.name;
-    })
-});
 
-/**
- * Reconfigures the default record definition based on the current {@link Ext.ensible.cal.EventMappings EventMappings}
- * object. See the header documentation for {@link Ext.ensible.cal.EventMappings} for complete details and 
- * examples of reconfiguring an EventRecord.
- * @method create
- * @static
- * @return {Function} The updated EventRecord constructor function
- */
-Ext.ensible.cal.EventRecord.reconfigure = function(){
-    var C = Ext.ensible.cal,
-        M = C.EventMappings,
-        proto = C.EventRecord.prototype,
-        fields = [];
+    initComponent: function() {
+        this.fields = new Ext.util.MixedCollection(false, function(field){
+            return field.name;
+        });
+        this.callParent(arguments);
+    },
     
-    for(prop in M){
-        if(M.hasOwnProperty(prop)){
-            fields.push(M[prop]);
+    statics: {
+        /**
+         * Reconfigures the default record definition based on the current {@link Ext.ensible.cal.EventMappings EventMappings}
+         * object. See the header documentation for {@link Ext.ensible.cal.EventMappings} for complete details and 
+         * examples of reconfiguring an EventRecord.
+         * @method create
+         * @static
+         * @return {Function} The updated EventRecord constructor function
+         */
+        reconfigure: function() {
+            var C = Ext.ensible.cal,
+                M = C.EventMappings,
+                proto = C.EventRecord.prototype,
+                fields = [];
+            
+            for(prop in M){
+                if(M.hasOwnProperty(prop)){
+                    fields.push(M[prop]);
+                }
+            }
+            proto.fields.clear();
+            for(var i = 0, len = fields.length; i < len; i++){
+                proto.fields.add(new Ext.data.Field(fields[i]));
+            }
+            return C.EventRecord;
         }
     }
-    proto.fields.clear();
-    for(var i = 0, len = fields.length; i < len; i++){
-        proto.fields.add(new Ext.data.Field(fields[i]));
-    }
-    return C.EventRecord;
-};
+});
 
 // Create the default definition now:
 Ext.ensible.cal.EventRecord.reconfigure();

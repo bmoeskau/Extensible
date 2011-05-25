@@ -496,8 +496,8 @@ viewConfig: {
      */
     getStoreDateParams : function(){
         var o = {};
-        o[this.dateParamStart] = this.viewStart.format(this.dateParamFormat);
-        o[this.dateParamEnd] = this.viewEnd.format(this.dateParamFormat);
+        o[this.dateParamStart] = Ext.Date.format(this.viewStart, this.dateParamFormat);
+        o[this.dateParamEnd] = Ext.Date.format(this.viewEnd, this.dateParamFormat);
         return o;
     },
     
@@ -575,9 +575,9 @@ viewConfig: {
     
     // private
     prepareData : function(){
-        var lastInMonth = this.startDate.getLastDateOfMonth(),
+        var lastInMonth = Ext.Date.getLastDateOfMonth(this.startDate),
             w = 0, row = 0,
-            dt = this.viewStart.clone(),
+            dt = Ext.Date.clone(this.viewStart),
             weeks = this.weekCount < 1 ? 6 : this.weekCount;
         
         this.eventGrid = [[]];
@@ -600,15 +600,17 @@ viewConfig: {
             for(d = 0; d < this.dayCount; d++){
                 if(evtsInView.getCount() > 0){
                     var evts = evtsInView.filterBy(function(rec){
-                        var startsOnDate = (dt.getTime() == rec.data[Ext.ensible.cal.EventMappings.StartDate.name].clearTime(true).getTime());
-                        var spansFromPrevView = (w == 0 && d == 0 && (dt > rec.data[Ext.ensible.cal.EventMappings.StartDate.name]));
+                        var startDt = Ext.Date.clearTime(rec.data[Ext.ensible.cal.EventMappings.StartDate.name], true),
+                            startsOnDate = dt.getTime() == startDt.getTime(),
+                            spansFromPrevView = (w == 0 && d == 0 && (dt > rec.data[Ext.ensible.cal.EventMappings.StartDate.name]));
+
                         return startsOnDate || spansFromPrevView;
                     }, this);
                     
                     this.sortEventRecordsForDay(evts);
                     this.prepareEventGrid(evts, w, d);
                 }
-                dt = dt.add(Date.DAY, 1);
+                dt = Ext.ensible.Date.add(dt, {days: 1});
             }
         }
         this.currentWeekCount = w;
@@ -617,7 +619,7 @@ viewConfig: {
     // private
     prepareEventGrid : function(evts, w, d){
         var row = 0,
-            dt = this.viewStart.clone(),
+            dt = Ext.Date.clone(this.viewStart),
             max = this.maxEventsPerDay ? this.maxEventsPerDay : 999;
         
         evts.each(function(evt){
@@ -657,7 +659,7 @@ viewConfig: {
         // the render routine can build the necessary TD spans correctly.
         var w1 = w, d1 = d, 
             row = this.findEmptyRowIndex(w,d,allday),
-            dt = this.viewStart.clone();
+            dt = Ext.Date.clone(this.viewStart);
         
         var start = {
             event: evt,
@@ -670,7 +672,7 @@ viewConfig: {
         grid[w][d][row] = start;
         
         while(--days){
-            dt = dt.add(Date.DAY, 1);
+            dt = Ext.ensible.Date.add(dt, {days: 1});
             if(dt > this.viewEnd){
                 break;
             }
@@ -710,8 +712,8 @@ viewConfig: {
     renderTemplate : function(){
         if(this.tpl){
             this.tpl.overwrite(this.el, this.getTemplateParams());
-            this.lastRenderStart = this.viewStart.clone();
-            this.lastRenderEnd = this.viewEnd.clone();
+            this.lastRenderStart = Ext.Date.clone(this.viewStart);
+            this.lastRenderEnd = Ext.Date.clone(this.viewEnd);
         }
     },
     
@@ -1026,7 +1028,7 @@ viewConfig: {
      * @return {Boolean} True or false
      */
     isToday : function(){
-        var today = new Date().clearTime().getTime();
+        var today = Ext.Date.clearTime(new Date()).getTime();
         return this.viewStart.getTime() <= today && this.viewEnd.getTime() >= today;
     },
 
@@ -1039,7 +1041,7 @@ viewConfig: {
     // private
     isEventVisible : function(evt){
         var M = Ext.ensible.cal.EventMappings,
-            data = evt.data ? evt.data : evt,
+            data = evt.data || evt,
             calId = data[M.CalendarId.name],
             calRec = this.calendarStore ? this.calendarStore.getById(calId) : null;
             
@@ -1062,9 +1064,9 @@ viewConfig: {
             ev2 = evt2.data ? evt2.data : evt2,
             M = Ext.ensible.cal.EventMappings,
             start1 = ev1[M.StartDate.name].getTime(),
-            end1 = ev1[M.EndDate.name].add(Date.SECOND, -1).getTime(),
+            end1 = Ext.ensible.Date.add(ev1[M.EndDate.name], {seconds: -1}).getTime(),
             start2 = ev2[M.StartDate.name].getTime(),
-            end2 = ev2[M.EndDate.name].add(Date.SECOND, -1).getTime(),
+            end2 = Ext.ensible.Date.add(ev2[M.EndDate.name], {seconds: -1}).getTime(),
             startDiff = Ext.ensible.Date.diff(ev1[M.StartDate.name], ev2[M.StartDate.name], 'm');
             
             if(end1<start1){
@@ -1093,7 +1095,7 @@ viewConfig: {
     // private
     getDayId : function(dt){
         if(Ext.isDate(dt)){
-            dt = dt.format('Ymd');
+            dt = Ext.Date.format(dt, 'Ymd');
         }
         return this.id + this.dayElIdDelimiter + dt;
     },
@@ -1116,7 +1118,7 @@ viewConfig: {
     setStartDate : function(start, /*private*/reload){
         Ext.ensible.log('setStartDate (base) '+start.format('Y-m-d'));
         if(this.fireEvent('beforedatechange', this, this.startDate, start, this.viewStart, this.viewEnd) !== false){
-            this.startDate = start.clearTime();
+            this.startDate = Ext.Date.clearTime(start);
             this.setViewBounds(start);
             if(this.rendered){
                 this.refresh(reload);
@@ -1128,8 +1130,9 @@ viewConfig: {
     // private
     setViewBounds : function(startDate){
         var start = startDate || this.startDate,
-            offset = start.getDay() - this.startDay;
-        
+            offset = start.getDay() - this.startDay,
+            Dt = Ext.ensible.Date;
+            
         if(offset < 0){
             // if the offset is negative then some days will be in the previous week so add a week to the offset
             offset += 7;
@@ -1137,33 +1140,36 @@ viewConfig: {
         switch(this.weekCount){
             case 0:
             case 1:
-                this.viewStart = this.dayCount < 7 && !this.startDayIsStatic ? start : start.add(Date.DAY, -offset).clearTime(true);
-                this.viewEnd = this.viewStart.add(Date.DAY, this.dayCount || 7).add(Date.SECOND, -1);
+                this.viewStart = this.dayCount < 7 ? start: Dt.add(start, {days: -offset, clearTime: true});
+                this.viewEnd = Dt.add(this.viewStart, {days: this.dayCount || 7, seconds: -1});
                 return;
             
-            case -1: // auto by month
-                start = start.getFirstDateOfMonth();
+            case -1: 
+                // auto by month
+                start = Ext.Date.getFirstDateOfMonth(start);
                 offset = start.getDay() - this.startDay;
                 if(offset < 0){
                     // if the offset is negative then some days will be in the previous week so add a week to the offset
                     offset += 7;
                 }
-                this.viewStart = start.add(Date.DAY, -offset).clearTime(true);
+                this.viewStart = Dt.add(start, {days: -offset, clearTime: true});
                 
                 // start from current month start, not view start:
-                var end = start.add(Date.MONTH, 1).add(Date.SECOND, -1);
+                var end = Dt.add(start, {months: 1, seconds: -1});
+                
                 // fill out to the end of the week:
                 offset = this.startDay;
                 if(offset > end.getDay()){
                     // if the offset is larger than the end day index then the last row will be empty so skip it
                     offset -= 7;
                 }
-                this.viewEnd = end.add(Date.DAY, 6-end.getDay()+offset);
+                
+                this.viewEnd = Dt.add(end, {days: 6 - end.getDay() + offset});
                 return;
             
             default:
-                this.viewStart = start.add(Date.DAY, -offset).clearTime(true);
-                this.viewEnd = this.viewStart.add(Date.DAY, this.weekCount * 7).add(Date.SECOND, -1);
+                this.viewStart = Dt.add(start, {days: -offset, clearTime: true});
+                this.viewEnd = Dt.add(this.viewStart, {days: this.weekCount * 7, seconds: -1});
         }
     },
     
@@ -1198,8 +1204,9 @@ alert('End: '+bounds.end);
         if(evts.length < 2){
             return;
         }
-		evts.sort('ASC', function(evtA, evtB){
-			var a = evtA.data, b = evtB.data,
+		evts.sortBy(Ext.bind(function(evtA, evtB) {
+			var a = evtA.data, 
+                b = evtB.data,
                 M = Ext.ensible.cal.EventMappings;
 			
 			// Always sort all day events before anything else
@@ -1240,7 +1247,7 @@ alert('End: '+bounds.end);
 				// many such events mixed together closely on the calendar.
 				return a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime();
 			}
-		}.createDelegate(this));
+		}, this));
 	},
     
     /**
@@ -1260,7 +1267,7 @@ alert('End: '+bounds.end);
      * @return {Date} The new date
      */
     moveNext : function(/*private*/reload){
-        return this.moveTo(this.viewEnd.add(Date.DAY, 1), reload);
+        return this.moveTo(Ext.ensible.Date.add(this.viewEnd, {days: 1}), reload);
     },
 
     /**
@@ -1278,7 +1285,7 @@ alert('End: '+bounds.end);
      * @return {Date} The new date
      */
     moveMonths : function(value, /*private*/reload){
-        return this.moveTo(this.startDate.add(Date.MONTH, value), reload);
+        return this.moveTo(Ext.ensible.Date.add(this.startDate, {months: value}), reload);
     },
     
     /**
@@ -1287,7 +1294,7 @@ alert('End: '+bounds.end);
      * @return {Date} The new date
      */
     moveWeeks : function(value, /*private*/reload){
-        return this.moveTo(this.startDate.add(Date.DAY, value*7), reload);
+        return this.moveTo(Ext.ensible.Date.add(this.startDate, {days: value * 7}), reload);
     },
     
     /**
@@ -1296,7 +1303,7 @@ alert('End: '+bounds.end);
      * @return {Date} The new date
      */
     moveDays : function(value, /*private*/reload){
-        return this.moveTo(this.startDate.add(Date.DAY, value), reload);
+        return this.moveTo(Ext.ensible.Date.add(this.startDate, {days: value}), reload);
     },
     
     /**
@@ -1574,7 +1581,7 @@ alert('End: '+bounds.end);
             var diff = dt.getTime() - rec.data[Ext.ensible.cal.EventMappings.StartDate.name].getTime();
             rec.beginEdit();
             rec.set(Ext.ensible.cal.EventMappings.StartDate.name, dt);
-            rec.set(Ext.ensible.cal.EventMappings.EndDate.name, rec.data[Ext.ensible.cal.EventMappings.EndDate.name].add(Date.MILLI, diff));
+            rec.set(Ext.ensible.cal.EventMappings.EndDate.name, Ext.ensible.Date.add(rec.data[Ext.ensible.cal.EventMappings.EndDate.name], {millis: diff}));
             rec.endEdit();
             this.save();
             

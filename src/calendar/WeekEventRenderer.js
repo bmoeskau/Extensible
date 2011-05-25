@@ -21,7 +21,7 @@ Ext.ensible.cal.WeekEventRenderer = function(){
     return {
         render: function(o){
             var w = 0, grid = o.eventGrid, 
-                dt = o.viewStart.clone(),
+                dt = Ext.Date.clone(o.viewStart),
                 eventTpl = o.tpl,
                 max = o.maxEventsPerDay != undefined ? o.maxEventsPerDay : 999,
                 weekCount = o.weekCount < 1 ? 6 : o.weekCount,
@@ -30,11 +30,11 @@ Ext.ensible.cal.WeekEventRenderer = function(){
             for(; w < weekCount; w++){
                 var row, d = 0, wk = grid[w];
                 var startOfWeek = dt.clone();
-                var endOfWeek = startOfWeek.add(Date.DAY, dayCount).add(Date.MILLI, -1);
+                var endOfWeek = Ext.ensible.Date.add(startOfWeek, {days: dayCount, millis: -1});
                 
                 for(; d < dayCount; d++){
                     if(wk && wk[d]){
-                        var ev = emptyCells = skipped = 0, 
+                        var ev = emptyCells = skipped = 0,
                             day = wk[d], ct = day.length, evt;
                         
                         for(; ev < ct; ev++){
@@ -48,7 +48,7 @@ Ext.ensible.cal.WeekEventRenderer = function(){
                                     tag: 'td',
                                     cls: 'ext-cal-ev',
                                     html: '&#160;',
-                                    id: o.id+'-empty-'+ct+'-day-'+dt.format('Ymd')
+                                    id: o.id+'-empty-'+ct+'-day-' + Ext.Date.format(dt, 'Ymd')
                                 }
                                 if(emptyCells > 1 && max-ev > emptyCells){
                                     cellCfg.rowspan = Math.min(emptyCells, max-ev);
@@ -92,10 +92,10 @@ Ext.ensible.cal.WeekEventRenderer = function(){
                             Ext.DomHelper.append(row, {
                                 tag: 'td',
                                 cls: 'ext-cal-ev-more',
-                                id: 'ext-cal-ev-more-'+dt.format('Ymd'),
+                                id: 'ext-cal-ev-more-'+Ext.Date.format(dt, 'Ymd'),
                                 cn: {
                                     tag: 'a',
-                                    html: String.format(o.getMoreText(skipped), skipped)
+                                    html: Ext.String.format(o.getMoreText(skipped), skipped)
                                 }
                             });
                         }
@@ -106,7 +106,7 @@ Ext.ensible.cal.WeekEventRenderer = function(){
                                     tag: 'td',
                                     cls: 'ext-cal-ev',
                                     //html: '&#160;',
-                                    id: o.id+'-empty-'+(ct+1)+'-day-'+dt.format('Ymd')
+                                    id: o.id+'-empty-'+(ct+1)+'-day-'+Ext.Date.format(dt, 'Ymd')
                                 };
                                 var rowspan = o.evtMaxCount[w] - ct;
                                 if(rowspan > 1){
@@ -122,7 +122,7 @@ Ext.ensible.cal.WeekEventRenderer = function(){
                                 tag: 'td',
                                 cls: 'ext-cal-ev',
                                 html: '&#160;',
-                                id: o.id+'-empty-day-'+dt.format('Ymd')
+                                id: o.id+'-empty-day-'+Ext.Date.format(dt, 'Ymd')
                             };
                             if(o.evtMaxCount[w] > 1){
                                 cellCfg.rowspan = o.evtMaxCount[w];
@@ -130,7 +130,7 @@ Ext.ensible.cal.WeekEventRenderer = function(){
                             Ext.DomHelper.append(row, cellCfg);
                         }
                     }
-                    dt = dt.add(Date.DAY, 1);
+                    dt = Ext.ensible.Date.add(dt, {days: 1});
                 }
             }
         }

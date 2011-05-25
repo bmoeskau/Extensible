@@ -118,7 +118,7 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
             });
         }
         
-        Ext.ensible.cal.EventEditWindow.superclass.initComponent.call(this);
+        this.callParent(arguments);
     },
     
     // private
@@ -157,12 +157,12 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
         
         this.add(this.formPanel);
         
-        Ext.ensible.cal.EventEditWindow.superclass.onRender.call(this, ct, position);
+        this.callParent(arguments);
     },
 
     // private
     afterRender: function(){
-        Ext.ensible.cal.EventEditWindow.superclass.afterRender.call(this);
+        this.callParent(arguments);
 		
 		this.el.addClass('ext-cal-event-win');
         this.el.select('.'+this.editDetailsLinkClass).on('click', this.onEditDetailsClick, this);
@@ -189,9 +189,12 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
 		var anim = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget,
             M = Ext.ensible.cal.EventMappings;
 
-		Ext.ensible.cal.EventEditWindow.superclass.show.call(this, anim, function(){
+//		Ext.ensible.cal.EventEditWindow.superclass.show.call(this, anim, function(){
+//            this.titleField.focus(false, 100);
+//        });
+        this.callParent([this, anim, function(){
             this.titleField.focus(false, 100);
-        });
+        }]);
         this.deleteBtn[o.data && o.data[M.EventId.name] ? 'show' : 'hide']();
         
         var rec, f = this.formPanel.form;
@@ -222,7 +225,7 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
             //rec.data[M.EventId.name] = this.newId++;
             rec.data[M.StartDate.name] = start;
             rec.data[M.EndDate.name] = end;
-            rec.data[M.IsAllDay.name] = !!o[M.IsAllDay.name] || start.getDate() != end.clone().add(Date.MILLI, 1).getDate();
+            rec.data[M.IsAllDay.name] = !!o[M.IsAllDay.name] || start.getDate() != Ext.ensible.Date.add(end, {millis: 1}).getDate();
             
             f.reset();
             f.loadRecord(rec);
