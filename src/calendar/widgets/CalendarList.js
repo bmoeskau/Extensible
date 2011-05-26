@@ -26,7 +26,7 @@ Ext.define('Ext.ensible.cal.CalendarList', {
     
     // private
     initComponent: function(){
-        this.addClass('x-calendar-list');
+        this.addCls('x-calendar-list');
         Ext.ensible.cal.CalendarList.superclass.initComponent.call(this);
     },
     
@@ -190,12 +190,12 @@ Ext.define('Ext.ensible.cal.CalendarList', {
     
     // private
     onMouseOver: function(e, t){
-        Ext.fly(t).addClass('hover');
+        Ext.fly(t).addCls('hover');
     },
     
     // private
     onMouseOut: function(e, t){
-        Ext.fly(t).removeClass('hover');
+        Ext.fly(t).removeCls('hover');
     },
     
     // private

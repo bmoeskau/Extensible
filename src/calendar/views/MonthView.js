@@ -412,7 +412,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
     // private
 	onInitDrag : function(){
         Ext.ensible.cal.MonthView.superclass.onInitDrag.call(this);
-		Ext.select(this.daySelector).removeClass(this.dayOverClass);
+		Ext.select(this.daySelector).removeCls(this.dayOverClass);
 		if(this.detailPanel){
 			this.detailPanel.hide();
 		}

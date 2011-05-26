@@ -164,7 +164,7 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
     afterRender: function(){
         this.callParent(arguments);
 		
-		this.el.addClass('ext-cal-event-win');
+		this.el.addCls('ext-cal-event-win');
         this.el.select('.'+this.editDetailsLinkClass).on('click', this.onEditDetailsClick, this);
     },
     

@@ -285,7 +285,7 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
         
         if(this.showNavBar === false){
             delete this.tbar;
-            this.addClass('x-calendar-nonav');
+            this.addCls('x-calendar-nonav');
         }
         
         Ext.ensible.cal.CalendarPanel.superclass.initComponent.call(this);
@@ -480,7 +480,7 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
         });
         
         this.layout = 'card'; // do not allow override
-        this.addClass('x-cal-panel');
+        this.addCls('x-cal-panel');
         
         if(this.eventStore){
             this.store = this.eventStore;
@@ -601,7 +601,7 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
     // private
     afterRender: function(){
         Ext.ensible.cal.CalendarPanel.superclass.afterRender.call(this);
-        this.body.addClass('x-cal-body');
+        this.body.addCls('x-cal-body');
         this.activeView = this.getLayout().activeItem;
         this.fireViewChange();
     },

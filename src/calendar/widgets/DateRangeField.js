@@ -159,7 +159,7 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
         this.callParent(arguments);
         
         if(!singleLine){
-            this.el.child('tr').addClass('ext-dt-range-row1');
+            this.el.child('tr').addCls('ext-dt-range-row1');
         }
     },
 

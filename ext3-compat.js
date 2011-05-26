@@ -937,6 +937,23 @@ Ext.apply(Ext.menu.Menu.prototype, {
     }
     
     /*-------------------------------------------------------------
+     * Window
+     *-------------------------------------------------------------*/
+    if (Ext.window.Window) {
+        Ext.apply(Ext.window.Window.prototype, {
+            constructor: Ext.Function.createInterceptor(Ext.window.Window.prototype.constructor, function(config) {
+                if (config.closeAction === 'close') {
+                    deprecate({pkg:'Ext.Window', member:'closeAction', type:'config', 
+                        msg:'The default value of "close" is no longer valid. Use "destroy" instead.'});
+                        
+                    delete config.closeAction;
+                    this.closeAction = 'destroy';
+                }
+            })
+        });
+    }
+    
+    /*-------------------------------------------------------------
      * Forms
      *-------------------------------------------------------------*/
     if (Ext.form.Basic) {
@@ -1210,10 +1227,10 @@ Ext.apply(Ext.menu.Menu.prototype, {
         Ext.apply(Ext.form.field.ComboBox.prototype, {
             initComponent: Ext.Function.createInterceptor(Ext.form.field.ComboBox.prototype.initComponent, function() {
                 var me = this,
-                    isDef = Ext.isDefined,
+                    isDef = Ext.isDefined;
                 
                 // shortcut for configs that just changed names:
-                remap = function(cfg, alt){
+                var remap = function(cfg, alt){
                     if(isDef(me[cfg])){
                         deprecate({pkg:'Ext.form.field.ComboBox', member:cfg, type:'config', alt:alt});
                         me[alt] = me[cfg];
@@ -1228,9 +1245,13 @@ Ext.apply(Ext.menu.Menu.prototype, {
                 var listConfig = me.listConfig || (me.listConfig = {}),
                 remapToListConfig = function(cfg, alt) {
                     if(isDef(me[cfg])){
-                        deprecate({pkg:'Ext.form.field.ComboBox', member:cfg, type:'config', alt:'listConfig.' + alt});
-                        listConfig[alt] = me[cfg];
-                        delete me[cfg];
+                        // the defaultListConfig has been applied at this point, so check that this 
+                        // option was not simply the default value applied by the superclass
+                        if(!isDef(me.defaultListConfig[cfg]) || me.defaultListConfig[cfg] !== me[cfg]) {
+                            deprecate({pkg:'Ext.form.field.ComboBox', member:cfg, type:'config', alt:'listConfig.' + alt});
+                            listConfig[alt] = me[cfg];
+                            delete me[cfg];
+                        }
                     }
                 };
                 remapToListConfig('itemSelector', 'itemSelector');
@@ -1414,18 +1435,19 @@ Ext.apply(Ext.menu.Menu.prototype, {
         Ext.apply(Ext.data.Store.prototype, {
             constructor: Ext.Function.createInterceptor(Ext.data.Store.prototype.constructor, function(config) {
                 if (config.data && Ext.isObject(config.data)) {
-                    deprecate({pkg:'Ext.data.Store', member:'data<Object>', type:'config', alt:'data<Array>',
-                        msg:'Passing inline data to store\'s constructor as an object is no longer supported. Pass a '+
-                            'plain array of record data or use one of the standard proxy configurations for loading data.'});
+                // Seems to be still supported officially for now
+//                    deprecate({pkg:'Ext.data.Store', member:'data<Object>', type:'config', alt:'data<Array>',
+//                        msg:'Passing inline data to store\'s constructor as an object is no longer supported. Pass a '+
+//                            'plain array of record data or use one of the standard proxy configurations for loading data.'});
                     
                     if(config.root){
                         this.inlineData = config.data[config.root];
                         delete config.data;
                     }
-                    else {
-                        breaking({pkg:'Ext.data.Store', 
-                            msg:'Passing inline data as an object to the Store constructor without specifying a root property is not supported.'});
-                    }
+//                    else {
+//                        breaking({pkg:'Ext.data.Store', 
+//                            msg:'Passing inline data as an object to the Store constructor without specifying a root property is not supported.'});
+//                    }
                 }
                 if (config.sortInfo) {
                     deprecate({pkg:'Ext.data.Store', member:'sortInfo', type:'config', alt:'sorters'});
@@ -1433,6 +1455,11 @@ Ext.apply(Ext.menu.Menu.prototype, {
                         property: config.sortInfo.field,
                         direction: config.sortInfo.direction
                     }];
+                }
+                if (config.autoSave) {
+                    deprecate({pkg:'Ext.data.Store', member:'autoSave', type:'config', alt:'autoSync'});
+                    this.autoSync = config.autoSave;
+                    delete config.autoSave;
                 }
             }),
             
@@ -1446,6 +1473,11 @@ Ext.apply(Ext.menu.Menu.prototype, {
                     property: field,
                     direction: dir ? dir.toUpperCase() : 'ASC'
                 }));
+            },
+            
+            save: function() {
+                deprecate({pkg:'Ext.data.Store', member:'save', alt:'sync'});
+                return this.sync.apply(this, arguments);
             }
         });
         

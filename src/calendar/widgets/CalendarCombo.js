@@ -48,7 +48,7 @@ Ext.define('Ext.ensible.cal.CalendarCombo', {
         this.callParent(arguments);
         
         this.wrap = this.el.up('.x-form-field-wrap');
-        this.wrap.addClass('ext-calendar-picker');
+        this.wrap.addCls('ext-calendar-picker');
         
         this.icon = Ext.DomHelper.append(this.wrap, {
             tag: 'div', cls: 'ext-cal-picker-icon ext-cal-picker-mainicon'
@@ -95,14 +95,14 @@ Ext.define('Ext.ensible.cal.CalendarCombo', {
     // inherited docs
     setValue: function(value) {
         if (this.wrap) {
-            this.wrap.removeClass(this.getStyleClass(this.getValue()));
+            this.wrap.removeCls(this.getStyleClass(this.getValue()));
         }
         value = value || this.store.getAt(0).data[Ext.ensible.cal.CalendarMappings.CalendarId.name];
         
         this.callParent(arguments);
         
         if (this.wrap) {
-            this.wrap.addClass(this.getStyleClass(value));
+            this.wrap.addCls(this.getStyleClass(value));
         }
     }
 });
