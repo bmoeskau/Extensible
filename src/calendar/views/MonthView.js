@@ -340,9 +340,10 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 	
     // private
 	getDaySize : function(contentOnly){
-        var day = this.el.select('.ext-cal-day').first(),
-            w = day.getWidth(),
-            h = day.getHeight();
+        var box = this.el.getBox(),
+            padding = this.getViewPadding(),
+            w = (box.width - padding.width) / this.dayCount,
+            h = (box.height - padding.height) / this.getWeekCount();
             
 		if(contentOnly){
             // measure last row instead of first in case text wraps in first row
@@ -375,16 +376,41 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 		
 		return max;
 	},
+    
+    // private
+    getViewPadding: function(sides) {
+        var sides = sides || 'tlbr',
+            top = sides.indexOf('t') > -1,
+            left = sides.indexOf('l') > -1,
+            right = sides.indexOf('r') > -1,
+            height = this.showHeader && top ? this.el.select('.ext-cal-hd-days-tbl').first().getHeight() : 0,
+            width = 0;
+        
+        if (this.isHeaderView) {
+            if (left) {
+                width = this.el.select('.ext-cal-gutter').first().getWidth();
+            }
+            if (right) {
+                width += this.el.select('.ext-cal-gutter-rt').first().getWidth();
+            }
+        }
+        else if (this.showWeekLinks && left) {
+            width = this.el.select('.ext-cal-week-link').first().getWidth();
+        }
+        
+        return {
+            height: height,
+            width: width
+        }
+    },
 	
     // private
 	getDayAt : function(x, y){
 		var box = this.el.getBox(),
-            topPad = this.showHeader ? this.el.select('.ext-cal-hd-days-tbl').first().getHeight() : 0,
-            leftPad = this.isHeaderView ? this.el.select('.ext-cal-gutter').first().getWidth() :
-                (this.showWeekLinks ? this.el.select('.ext-cal-week-link').first().getWidth() : 0),
+            padding = this.getViewPadding('tl'), // top/left only since we only want the xy offsets
 			daySize = this.getDaySize(),
-			dayL = Math.floor(((x - box.x - leftPad) / daySize.width)),
-			dayT = Math.floor(((y - box.y - topPad) / daySize.height)),
+			dayL = Math.floor(((x - box.x - padding.width) / daySize.width)),
+			dayT = Math.floor(((y - box.y - padding.height) / daySize.height)),
 			days = (dayT * 7) + dayL;
 		
 		var dt = this.viewStart.add(Date.DAY, days);
