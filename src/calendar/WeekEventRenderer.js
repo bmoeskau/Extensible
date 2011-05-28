@@ -29,7 +29,7 @@ Ext.ensible.cal.WeekEventRenderer = function(){
             
             for(; w < weekCount; w++){
                 var row, d = 0, wk = grid[w];
-                var startOfWeek = dt.clone();
+                var startOfWeek = Ext.Date.clone(dt);
                 var endOfWeek = Ext.ensible.Date.add(startOfWeek, {days: dayCount, millis: -1});
                 
                 for(; d < dayCount; d++){

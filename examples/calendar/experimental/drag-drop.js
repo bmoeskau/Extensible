@@ -42,7 +42,7 @@ Ext.onReady(function(){
                 rec = calendarStore.getById(val);
             
             // the "x-cal-[color id]" classes just set the foreground color to the calendar color
-            return String.format('<span class="x-cal-{0}">{1}</span>', rec.data[M.ColorId.name], rec.data[M.Title.name]);
+            return Ext.String.format('<span class="x-cal-{0}">{1}</span>', rec.data[M.ColorId.name], rec.data[M.Title.name]);
         }
     };
     

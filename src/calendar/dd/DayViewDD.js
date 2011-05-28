@@ -169,7 +169,7 @@ Ext.define('Ext.ensible.cal.DayViewDropZone', {
             }
         }
         
-        data.proxy.updateMsg(String.format(text, dt));
+        data.proxy.updateMsg(Ext.String.format(text, dt));
         return this.dropAllowed;
     },
     
@@ -213,7 +213,7 @@ Ext.define('Ext.ensible.cal.DayViewDropZone', {
                 delete this.dragStartMarker;
                 delete this.dragCreateDt;
                 this.view.onCalendarEndDrag(this.dragStartDate, this.dragEndDate, 
-                    this.onCalendarDragComplete.createDelegate(this));
+                    Ext.bind(this.onCalendarDragComplete, this));
                 //shims are NOT cleared here -- they stay visible until the handling
                 //code calls the onCalendarDragComplete callback which hides them.
                 return true;

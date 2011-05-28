@@ -484,7 +484,7 @@ viewConfig: {
         }
         
         this.on('eventsrendered', this.forceSize);
-        this.forceSize.defer(100, this);
+        Ext.defer(this.forceSize, 100, this);
     },
     
     /**
@@ -513,7 +513,7 @@ viewConfig: {
         var params = this.getStoreDateParams();
         
         // Here is where you can add additional custom params, e.g.:
-        // params.now = new Date().format(this.dateParamFormat);
+        // params.now = Ext.Date.format(new Date(), this.dateParamFormat);
         // params.foo = 'bar';
         // params.number = 123;
         
@@ -775,7 +775,7 @@ viewConfig: {
         this.dragPending = true;
         
         var dates = {},
-            onComplete = this.onCalendarEndDragComplete.createDelegate(this, [onComplete]);
+            onComplete = Ext.bind(this.onCalendarEndDragComplete, this, [onComplete]);
         
         dates[Ext.ensible.cal.EventMappings.StartDate.name] = start;
         dates[Ext.ensible.cal.EventMappings.EndDate.name] = end;
@@ -894,7 +894,7 @@ viewConfig: {
 			this.doRemoveFx(this.getEventEls(rec.data[Ext.ensible.cal.EventMappings.EventId.name]), {
 	            remove: true,
 	            scope: this,
-				callback: this.refresh.createDelegate(this, [isRecurring])
+				callback: Ext.bind(this.refresh, this, [isRecurring])
 			});
 		}
 		else{
@@ -1116,7 +1116,7 @@ viewConfig: {
      * @param {Date} dt The date used to calculate the new view boundaries
      */
     setStartDate : function(start, /*private*/reload){
-        Ext.ensible.log('setStartDate (base) '+start.format('Y-m-d'));
+        Ext.ensible.log('setStartDate (base) '+Ext.Date.format(start, 'Y-m-d'));
         if(this.fireEvent('beforedatechange', this, this.startDate, start, this.viewStart, this.viewEnd) !== false){
             this.startDate = Ext.Date.clearTime(start);
             this.setViewBounds(start);
@@ -1545,9 +1545,9 @@ alert('End: '+bounds.end);
         if(!this.eventMenu){
             this.eventMenu = new Ext.ensible.cal.EventContextMenu({
                 listeners: {
-                    'editdetails': this.onEditDetails.createDelegate(this),
-                    'eventdelete': this.onDeleteEvent.createDelegate(this),
-                    'eventmove': this.onMoveEvent.createDelegate(this)
+                    'editdetails': Ext.bind(this.onEditDetails, this),
+                    'eventdelete': Ext.bind(this.onDeleteEvent, this),
+                    'eventmove'  : Ext.bind(this.onMoveEvent, this)
                 }
             });
         }
@@ -1713,7 +1713,7 @@ alert('End: '+bounds.end);
                     if(el && this.dayOverClass != ''){
                         el[type == 'over' ? 'addCls' : 'removeCls'](this.dayOverClass);
                     }
-                    this.fireEvent('day'+type, this, Date.parseDate(dt, "Ymd"), el);
+                    this.fireEvent('day'+type, this, Ext.Date.parseDate(dt, "Ymd"), el);
                 }
             }
         }

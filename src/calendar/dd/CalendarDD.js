@@ -131,9 +131,9 @@ Ext.define('Ext.ensible.cal.DropZone', {
                 
             if(D.diffDays(start, end) > 0){
                 end = Ext.Date.format(end, this.dateFormat);
-                range = String.format(this.dateRangeFormat, range, end);
+                range = Ext.String.format(this.dateRangeFormat, range, end);
             }
-            var msg = String.format(data.type == 'eventdrag' ? this.moveText : this.createText, range);
+            var msg = Ext.String.format(data.type == 'eventdrag' ? this.moveText : this.createText, range);
             data.proxy.updateMsg(msg);
         }
         return this.dropAllowed;

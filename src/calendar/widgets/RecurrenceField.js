@@ -7,7 +7,7 @@ Ext.define('Ext.ensible.cal.RecurrenceField', {
     alias: 'widget.recurrencefield',
     
     fieldLabel: 'Repeats',
-    startDate: new Date().clearTime(),
+    startDate: Ext.Date.clearTime(new Date()),
     enableFx: true,
     
     initComponent : function(){
@@ -259,13 +259,13 @@ Ext.define('Ext.ensible.cal.RecurrenceField', {
                     store = cbo.getStore(),
                     last = dt.getLastDateOfMonth().getDate(),
                     dayNum = dt.getDate(),
-                    nthDate = dt.format('jS') + ' day',
+                    nthDate = Ext.Date.format(dt, 'jS') + ' day',
                     isYearly = this.id.indexOf('-yearly') > -1,
-                    yearlyText = ' in ' + dt.format('F'),
+                    yearlyText = ' in ' + Ext.Date.format(dt, 'F'),
                     nthDayNum, nthDay, lastDay, lastDate, idx, data, s;
                     
                 nthDayNum = Math.ceil(dayNum / 7);
-                nthDay = nthDayNum + this.getSuffix(nthDayNum) + dt.format(' l');
+                nthDay = nthDayNum + this.getSuffix(nthDayNum) + Ext.Date.format(dt, ' l');
                 if(isYearly){
                     nthDate += yearlyText;
                     nthDay += yearlyText;
@@ -274,7 +274,7 @@ Ext.define('Ext.ensible.cal.RecurrenceField', {
                 
                 s = isYearly ? yearlyText : '';
                 if(last-dayNum < 7){
-                    data.push(['last '+dt.format('l')+s]);
+                    data.push(['last '+Ext.Date.format(dt, 'l')+s]);
                 }
                 if(last == dayNum){
                     data.push(['last day'+s]);
@@ -350,7 +350,7 @@ Ext.define('Ext.ensible.cal.RecurrenceField', {
                     this.type = type ? type.toLowerCase() : this.type || 'day';
                     var lbl = Ext.getCmp(this.id+'-label');
                     if(lbl.rendered){
-                        lbl.update(this.type + s + ' beginning ' + this.startDate.format('l, F j'));
+                        lbl.update(this.type + s + ' beginning ' + Ext.Date.format(this.startDate, 'l, F j'));
                     }
                 }
                 return this;
@@ -389,7 +389,7 @@ Ext.define('Ext.ensible.cal.RecurrenceField', {
             },
             selectToday: function(){
                 this.clearValue();
-                var day = this.startDate.format('D').substring(0,2).toUpperCase();
+                var day = Ext.Date.format(this.startDate, 'D').substring(0,2).toUpperCase();
                 Ext.getCmp(this.id + '-days').setValue(day, true);
             },
             clearValue: function(){
@@ -403,7 +403,7 @@ Ext.define('Ext.ensible.cal.RecurrenceField', {
                     }
                     v += chk.name;
                 });
-                var day = this.startDate.format('D').substring(0,2).toUpperCase();
+                var day = Ext.Date.format(this.startDate, 'D').substring(0,2).toUpperCase();
                 return v.length > 0 && v != day ? ';BYDAY='+v : '';
             },
             setValue : function(v){
@@ -463,11 +463,11 @@ Ext.define('Ext.ensible.cal.RecurrenceField', {
                     store = cbo.getStore(),
                     idx = store.find('field1', cbo.getValue()),
                     dt = this.startDate,
-                    day = dt.format('D').substring(0,2).toUpperCase();
+                    day = Ext.Date.format(dt, 'D').substring(0,2).toUpperCase();
                 
                 if (idx > -1) {
                     switch(idx){
-                        case 0:  return ';BYMONTHDAY='+dt.format('j');
+                        case 0:  return ';BYMONTHDAY='+Ext.Date.format(dt, 'j');
                         case 1:  return ';BYDAY='+cbo.getValue()[0].substring(0,1)+day;
                         case 2:  return ';BYDAY=-1'+day;
                         default: return ';BYMONTHDAY=-1';
@@ -507,7 +507,7 @@ Ext.define('Ext.ensible.cal.RecurrenceField', {
                     store = cbo.getStore(),
                     idx = store.find('field1', cbo.getValue()),
                     dt = this.startDate,
-                    day = dt.format('D').substring(0,2).toUpperCase(),
+                    day = Ext.Date.format(dt, 'D').substring(0,2).toUpperCase(),
                     byMonth = ';BYMONTH='+dt.format('n');
                 
                 if(idx > -1){
@@ -593,7 +593,7 @@ Ext.define('Ext.ensible.cal.RecurrenceField', {
             getValue: function(){
                 var dt = Ext.getCmp(this.id+'-date');
                 if(dt.isVisible()){
-                    return ';UNTIL='+dt.getValue().format(this.untilDateFormat);
+                    return ';UNTIL='+Ext.String.format(dt.getValue(), this.untilDateFormat);
                 }
                 var ct = Ext.getCmp(this.id+'-num');
                 if(ct.isVisible()){

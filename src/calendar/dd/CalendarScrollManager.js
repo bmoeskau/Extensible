@@ -113,8 +113,8 @@ Ext.dd.ScrollManager = function(){
         clearProc();
     };
     
-    ddm.fireEvents = ddm.fireEvents.createSequence(onFire, ddm);
-    ddm.stopDrag = ddm.stopDrag.createSequence(onStop, ddm);
+    ddm.fireEvents = Ext.Function.createSequence(ddm.fireEvents, onFire, ddm);
+    ddm.stopDrag = Ext.Function.createSequence(ddm.stopDrag, onStop, ddm);
     
     return {
         /**

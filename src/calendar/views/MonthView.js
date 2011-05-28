@@ -154,10 +154,10 @@ Ext.define('Ext.ensible.cal.MonthView', {
     forceSize: function(){
         // Compensate for the week link gutter width if visible
         if(this.showWeekLinks && this.el){
-            var hd = this.el.select('.ext-cal-hd-days-tbl'),
+            var hd = this.el.down('.ext-cal-hd-days-tbl'),
                 bgTbl = this.el.select('.ext-cal-bg-tbl'),
                 evTbl = this.el.select('.ext-cal-evt-tbl'),
-                wkLinkW = this.el.select('.ext-cal-week-link').getWidth(),
+                wkLinkW = this.el.down('.ext-cal-week-link').getWidth(),
                 w = this.el.getWidth()-wkLinkW;
             
             hd.setWidth(w);
@@ -319,7 +319,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
             evtMaxCount: this.evtMaxCount,
             weekCount: this.weekCount,
             dayCount: this.dayCount,
-            getMoreText: this.getMoreText.createDelegate(this)
+            getMoreText: Ext.bind(this.getMoreText, this)
         });
         this.fireEvent('eventsrendered', this);
     },
@@ -474,7 +474,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
             this.detailPanel.body.on('contextmenu', this.onContextMenu, this);
 		}
 		else{
-			this.detailPanel.setTitle(Ext.Date.format.format(dt, this.detailsTitleDateFormat));
+			this.detailPanel.setTitle(Ext.Date.format(dt, this.detailsTitleDateFormat));
 		}
 		this.detailPanel.getComponent(this.id+'-details-view').update(dt);
 	},
@@ -509,12 +509,12 @@ Ext.define('Ext.ensible.cal.MonthView', {
         }
         if(el = e.getTarget(this.moreSelector, 3)){
             var dt = el.id.split(this.moreElIdDelimiter)[1];
-            this.onMoreClick(Date.parseDate(dt, 'Ymd'));
+            this.onMoreClick(Ext.Date.parseDate(dt, 'Ymd'));
             return;
         }
         if(el = e.getTarget(this.weekLinkSelector, 3)){
             var dt = el.id.split(this.weekLinkIdDelimiter)[1];
-            this.fireEvent('weekclick', this, Date.parseDate(dt, 'Ymd'));
+            this.fireEvent('weekclick', this, Ext.Date.parseDate(dt, 'Ymd'));
             return;
         }
         if(Ext.ensible.cal.MonthView.superclass.onClick.apply(this, arguments)){
@@ -526,8 +526,8 @@ Ext.define('Ext.ensible.cal.MonthView', {
                 var parts = el.id.split(this.dayElIdDelimiter),
                     dt = parts[parts.length-1];
                     
-                //this.fireEvent('dayclick', this, Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
-                this.onDayClick(Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
+                //this.fireEvent('dayclick', this, Ext.Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
+                this.onDayClick(Ext.Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
                 return;
             }
         }

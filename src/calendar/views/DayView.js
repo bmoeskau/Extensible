@@ -179,19 +179,19 @@ Ext.define('Ext.ensible.cal.DayView', {
         // The defer call is mainly for good ol' IE, but it doesn't hurt in
         // general to make sure that the window resize is good and done first
         // so that we can properly calculate sizes.
-        (function(){
+        Ext.defer(function(){
             var ct = this.el.up('.x-panel-body'),
                 hd = this.el.down('.ext-cal-day-header'),
                 h = ct.getHeight() - hd.getHeight();
             
             this.el.down('.ext-cal-body-ct').setHeight(h-1);
-        }).defer(10, this);
+        }, 10, this);
     },
     
     // private
     onResize : function(){
         this.forceSize();
-        this.refresh.defer(1, this); //IE needs the defer
+        Ext.defer(this.refresh, 1, this); //IE needs the defer
     },
     
     /*

@@ -66,7 +66,7 @@ Ext.define('Ext.ensible.cal.ReminderField', {
     getValueList: function(){
         var me = this,
             fmt = me.reminderValueFormat,
-            stringFormat = String.format;
+            stringFormat = Ext.String.format;
             
         return [
             ['', me.noneText],

@@ -39,7 +39,7 @@
                     layout: 'border',
                     listeners: {
                         'afterrender': function(){
-                            Ext.getCmp('app-center').header.addClass('app-center-header');
+                            Ext.getCmp('app-center').header.addCls('app-center-header');
                         }
                     },
                     items: [{
@@ -245,11 +245,11 @@
         // This could be replaced with a function to do "toast" style messages, growl messages, etc. This will
         // vary based on application requirements, which is why it's not baked into the CalendarPanel.
         showMsg: function(msg){
-            Ext.fly('app-msg').update(msg).removeClass('x-hidden');
+            Ext.fly('app-msg').update(msg).removeCls('x-hidden');
         },
         
         clearMsg: function(){
-            Ext.fly('app-msg').update('').addClass('x-hidden');
+            Ext.fly('app-msg').update('').addCls('x-hidden');
         }
     }
 }();

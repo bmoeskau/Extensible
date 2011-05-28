@@ -79,10 +79,10 @@ Ext.define('Ext.ensible.cal.CalendarListMenu', {
             items: [{
                 text: this.displayOnlyThisCalendarText,
                 iconCls: 'extensible-cal-icon-cal-show',
-                handler: this.handleRadioCalendarClick.createDelegate(this)
+                handler: Ext.bind(this.handleRadioCalendarClick, this)
             }, '-', {
                 xtype: 'extensible.calendarcolorpalette',
-                handler: this.handleColorSelect.createDelegate(this)
+                handler: Ext.bind(this.handleColorSelect, this)
             }]
         });
         Ext.ensible.cal.CalendarListMenu.superclass.initComponent.call(this);

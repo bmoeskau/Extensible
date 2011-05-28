@@ -117,10 +117,10 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
     scrollTo : function(y, defer){
         defer = defer || (Ext.isIE || Ext.isOpera);
         if(defer){
-            (function(){
+            Ext.defer(function(){
                 this.el.scrollTo('top', y);
                 this.scrollReady = true;
-            }).defer(10, this);
+            }, 10, this);
         }
         else{
             this.el.scrollTo('top', y);
@@ -320,7 +320,7 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
             endOffset = Math.min(end.getHours() - this.viewStartHour, this.viewEndHour - this.viewStartHour),
             startMins = startOffset * this.hourIncrement,
             endMins = endOffset * this.hourIncrement,
-            viewEndDt = end.clearTime(true).add(Date.HOUR, this.viewEndHour),
+            viewEndDt = Ext.ensible.Date.add(Ext.Date.clone(end), {hours: this.viewEndHour, clearTime: true}),
             evtOffsets = this.getEventPositionOffsets();
             
         if(start.getHours() >= this.viewStartHour){
@@ -368,7 +368,7 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
                 });
                 evts.push({
                     data: this.getTemplateEventData(item),
-                    date: this.viewStart.add(Date.DAY, day)
+                    date: Ext.ensible.Date.add(this.viewStart, {days: day})
                 });
             }
         }
@@ -450,7 +450,7 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
             relY = y - viewBox.y - rowH + scroll.top,
             rowIndex = Math.max(0, Math.ceil(relY / rowH)),
             mins = rowIndex * (this.hourIncrement / this.incrementsPerHour),
-            dt = this.viewStart.add(Date.DAY, dayIndex).add(Date.MINUTE, mins).add(Date.HOUR, this.viewStartHour),
+            dt = Ext.ensible.Date.add(this.viewStart, {days: dayIndex, minutes: mins, hours: this.viewStartHour}),
             el = this.getDayEl(dt),
             timeX = x;
         
@@ -485,7 +485,7 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
         if(el){
             if(el.id && el.id.indexOf(this.dayElIdDelimiter) > -1){
                 var dt = this.getDateFromId(el.id, this.dayElIdDelimiter);
-                this.onDayClick(Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt)));
+                this.onDayClick(Ext.Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt)));
                 return;
             }
         }

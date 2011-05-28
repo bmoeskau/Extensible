@@ -253,7 +253,7 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
             this.viewCount++;
         }
         if(this.showMultiDayView){
-            var text = String.format(this.getMultiDayText(multiDayViewCount), multiDayViewCount);
+            var text = Ext.String.format(this.getMultiDayText(multiDayViewCount), multiDayViewCount);
             this.tbar.items.push({
                 id: this.id+'-tb-multiday', text: text, handler: this.onMultiDayNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
@@ -266,7 +266,7 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
             this.viewCount++;
         }
         if(this.showMultiWeekView){
-            var text = String.format(this.getMultiWeekText(multiWeekViewCount), multiWeekViewCount);
+            var text = Ext.String.format(this.getMultiWeekText(multiWeekViewCount), multiWeekViewCount);
             this.tbar.items.push({
                 id: this.id+'-tb-multiweek', text: text, handler: this.onMultiWeekNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });

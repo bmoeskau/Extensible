@@ -118,7 +118,7 @@ Ext.define('Ext.ensible.cal.EventEditForm', {
             singleLine: false,
             anchor: '90%',
             listeners: {
-                'change': this.onDateChange.createDelegate(this)
+                'change': Ext.bind(this.onDateChange, this)
             }
         });
         this.reminderField = new Ext.ensible.cal.ReminderField({
