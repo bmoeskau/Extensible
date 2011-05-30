@@ -134,7 +134,7 @@ Ext.define('Ext.ensible.cal.CalendarList', {
     
     // private
     toggleCalendar: function(id, commit){
-        var rec = this.store.getById(id),
+        var rec = this.store.findRecord(Ext.ensible.cal.CalendarMappings.CalendarId.name, id);
             CM = Ext.ensible.cal.CalendarMappings,
             isHidden = rec.data[CM.IsHidden.name]; 
         
@@ -147,7 +147,7 @@ Ext.define('Ext.ensible.cal.CalendarList', {
     
     // private
     showCalendar: function(id, commit){
-        var rec = this.store.getById(id);
+        var rec = this.store.findRecord(Ext.ensible.cal.CalendarMappings.CalendarId.name, id);
         if(rec.data[Ext.ensible.cal.CalendarMappings.IsHidden.name] === true){
             this.toggleCalendar(id, commit);
         }
@@ -155,7 +155,7 @@ Ext.define('Ext.ensible.cal.CalendarList', {
     
     // private
     hideCalendar: function(id, commit){
-        var rec = this.store.getById(id);
+        var rec = this.store.findRecord(Ext.ensible.cal.CalendarMappings.CalendarId.name, id);
         if(rec.data[Ext.ensible.cal.CalendarMappings.IsHidden.name] !== true){
             this.toggleCalendar(id, commit);
         }
@@ -221,7 +221,7 @@ Ext.define('Ext.ensible.cal.CalendarList', {
     
     // private
     handleColorChange: function(menu, id, colorId, origColorId){
-        var rec = this.store.getById(id);
+        var rec = this.store.findRecord(Ext.ensible.cal.CalendarMappings.CalendarId.name, id);
         rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name] = colorId;
         rec.commit();
     },
@@ -234,7 +234,7 @@ Ext.define('Ext.ensible.cal.CalendarList', {
     // private
     showEventMenu : function(el, xy){
         var id = this.getCalendarId(el.parent('li')),
-            rec = this.store.getById(id),
+            rec = this.store.findRecord(Ext.ensible.cal.CalendarMappings.CalendarId.name, id);
             colorId = rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name];
             
         if(!this.menu){

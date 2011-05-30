@@ -288,7 +288,7 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
             this.addCls('x-calendar-nonav');
         }
         
-        Ext.ensible.cal.CalendarPanel.superclass.initComponent.call(this);
+        this.callParent(arguments);
         
         this.addEvents({
             /**
@@ -600,15 +600,17 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
     
     // private
     afterRender: function(){
-        Ext.ensible.cal.CalendarPanel.superclass.afterRender.call(this);
+        this.callParent(arguments);
         this.body.addCls('x-cal-body');
-        this.activeView = this.getLayout().activeItem;
-        this.fireViewChange();
+        
+        Ext.defer(function() {
+            this.setActiveView(this.getLayout().getActiveItem());
+        }, 1, this);
     },
     
     // private
     onLayout: function(){
-        Ext.ensible.cal.CalendarPanel.superclass.onLayout.call(this);
+        this.callParent(arguments);
         if(!this.navInitComplete){
             this.updateNavState();
             this.navInitComplete = true;

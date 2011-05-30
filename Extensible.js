@@ -9,10 +9,10 @@
     
     Ext.apply(Ext.ensible, {
         /**
-         * The version of the framework
+         * The version of the Extensible framework
          * @type String
          */
-        version : '1.0',
+        version : '2.0',
         /**
          * The version of the framework, broken out into its numeric parts. This returns an
          * object that contains the following integer properties: major, minor and patch.
@@ -23,11 +23,16 @@
             minor: 0,
             patch: 0
         },
+        /**
+         * The minimum version of Ext required to work with this version of Extensible
+         * @type String
+         */
+        extVersion : '4.0',
         
-        hasBorderRadius : !(Ext.isIE || Ext.isOpera),
+        hasBorderRadius : Ext.supports.CSS3BorderRadius,
         
         log : function(s){
-            //console.log(s);
+            console.log(s);
         },
     
        /**

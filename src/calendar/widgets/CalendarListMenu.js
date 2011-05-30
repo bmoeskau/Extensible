@@ -81,7 +81,7 @@ Ext.define('Ext.ensible.cal.CalendarListMenu', {
                 iconCls: 'extensible-cal-icon-cal-show',
                 handler: Ext.bind(this.handleRadioCalendarClick, this)
             }, '-', {
-                xtype: 'extensible.calendarcolorpalette',
+                xtype: 'calendarcolorpalette',
                 handler: Ext.bind(this.handleColorSelect, this)
             }]
         });
@@ -91,7 +91,7 @@ Ext.define('Ext.ensible.cal.CalendarListMenu', {
     // private
     afterRender: function(){
         Ext.ensible.cal.CalendarListMenu.superclass.afterRender.call(this);
-        this.palette = this.findByType('extensible.calendarcolorpalette')[0];
+        this.palette = this.findByType('calendarcolorpalette')[0];
         
         if(this.colorId){
             this.palette.select(this.colorId, true);
