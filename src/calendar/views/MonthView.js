@@ -271,7 +271,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
             fmt = Ext.ensible.Date.use24HourTime ? 'G:i ' : 'g:ia ';
         
         if(this.calendarStore && evt[M.CalendarId.name]){
-            var rec = this.calendarStore.getById(evt[M.CalendarId.name]);
+            var rec = this.calendarStore.findRecord(M.CalendarId.name, evt[M.CalendarId.name]);
             if(rec){
                 colorCls = 'x-cal-' + rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name];
             }

@@ -32,7 +32,7 @@
         hasBorderRadius : Ext.supports.CSS3BorderRadius,
         
         log : function(s){
-            console.log(s);
+            //console.log(s);
         },
     
        /**

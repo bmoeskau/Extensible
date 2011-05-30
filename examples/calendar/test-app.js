@@ -160,7 +160,7 @@
                                     if(this.editWin){
                                         this.editWin.hide();
                                     };
-                                    if(dateInfo !== null){
+                                    if(dateInfo){
                                         // will be null when switching to the event edit form so ignore
                                         //Ext.getCmp('app-nav-picker').setValue(dateInfo.activeDate);
                                         this.updateTitle(dateInfo.viewStart, dateInfo.viewEnd);
