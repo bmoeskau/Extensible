@@ -370,9 +370,9 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
             return null;
         };
         if(time != ''){
-            return Date.parseDate(dt+' '+time, this[startend+'Date'].format+' '+this[startend+'Time'].format);
+            return Ext.Date.parseDate(dt+' '+time, this[startend+'Date'].format+' '+this[startend+'Time'].format);
         }
-        return Date.parseDate(dt, this[startend+'Date'].format);
+        return Ext.Date.parseDate(dt, this[startend+'Date'].format);
         
     },
     
