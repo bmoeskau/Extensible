@@ -47,12 +47,12 @@ Ext.define('Ext.ensible.cal.CalendarCombo', {
     afterRender: function(){
         this.callParent(arguments);
         
-        this.wrap = this.el.up('.x-form-field-wrap');
-        this.wrap.addCls('ext-calendar-picker');
-        
-        this.icon = Ext.DomHelper.append(this.wrap, {
-            tag: 'div', cls: 'ext-cal-picker-icon ext-cal-picker-mainicon'
-        });
+        this.wrap = this.el.up('.x-form-item-body');
+//        this.wrap.addCls('ext-calendar-picker');
+//        
+//        this.icon = Ext.DomHelper.append(this.wrap, {
+//            tag: 'div', cls: 'ext-cal-picker-icon ext-cal-picker-mainicon'
+//        });
     },
     
     // private

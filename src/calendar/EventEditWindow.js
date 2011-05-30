@@ -34,14 +34,10 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.eventeditwindow',
     
+    // Locale configs
     titleTextAdd: 'Add Event',
     titleTextEdit: 'Edit Event',
     width: 600,
-    border: true,
-    closeAction: 'hide',
-    modal: false,
-    resizable: false,
-    buttonAlign: 'left',
     labelWidth: 65,
     detailsLinkText: 'Edit Details...',
     savingMessage: 'Saving changes...',
@@ -52,9 +48,22 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
     titleLabelText: 'Title',
     datesLabelText: 'When',
     calendarLabelText: 'Calendar',
+    
+    // General configs
+    border: true,
+    closeAction: 'hide',
+    modal: false,
+    resizable: false,
+    buttonAlign: 'left',
     editDetailsLinkClass: 'edit-dtl-link',
     bodyStyle: 'padding:5px 10px;',
     enableEditDetails: true,
+    
+    formPanelConfig: {
+        frame: false,
+        bodyBorder: false,
+        border: false
+    },
     
     // private
     initComponent: function(){
@@ -104,60 +113,83 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
             editdetails: true
         });
         
-        this.fbar = ['->',{
-            text:this.saveButtonText, disabled:false, handler:this.onSave, scope:this
-        },{
-            id:this.id+'-delete-btn', text:this.deleteButtonText, disabled:false, handler:this.onDelete, scope:this, hideMode:'offsets'
-        },{
-            text:this.cancelButtonText, disabled:false, handler:this.onCancel, scope:this
-        }];
-        
-        if(this.enableEditDetails !== false){
-            this.fbar.unshift({
-                xtype: 'tbtext', text: '<a href="#" class="'+this.editDetailsLinkClass+'">'+this.detailsLinkText+'</a>'
-            });
-        }
+        this.fbar = this.getFooterBarConfig();
         
         this.callParent(arguments);
     },
     
-    // private
-    onRender : function(ct, position){
-        this.deleteBtn = Ext.getCmp(this.id+'-delete-btn');
+    getFooterBarConfig: function() {
+        var cfg = ['->', {
+                text: this.saveButtonText,
+                itemId: this.id + '-save-btn',
+                disabled: false,
+                handler: this.onSave, 
+                scope: this
+            },{
+                text: this.deleteButtonText, 
+                itemId: this.id + '-delete-btn',
+                disabled: false,
+                handler: this.onDelete,
+                scope: this,
+                hideMode: 'offsets' // IE requires this
+            },{
+                text: this.cancelButtonText,
+                itemId: this.id + '-cancel-btn',
+                disabled: false,
+                handler: this.onCancel,
+                scope: this
+            }];
         
-        this.titleField = new Ext.form.TextField({
-            name: Ext.ensible.cal.EventMappings.Title.name,
-            fieldLabel: this.titleLabelText,
-            anchor: '100%'
-        });
-        this.dateRangeField = new Ext.ensible.cal.DateRangeField({
-            anchor: '95%',
-            fieldLabel: this.datesLabelText
-        });
-        
-        var items = [this.titleField, this.dateRangeField];
-        
-        if(this.calendarStore){
-            this.calendarField = new Ext.ensible.cal.CalendarCombo({
-                name: Ext.ensible.cal.EventMappings.CalendarId.name,
-                anchor: '100%',
-                fieldLabel: this.calendarLabelText,
-                store: this.calendarStore
+        if(this.enableEditDetails !== false){
+            cfg.unshift({
+                xtype: 'tbtext',
+                itemId: this.id + '-details-btn',
+                text: '<a href="#" class="' + this.editDetailsLinkClass + '">' + this.detailsLinkText + '</a>'
             });
-            items.push(this.calendarField);
         }
-        
+        return cfg;
+    },
+    
+    // private
+    onRender : function(ct, position){        
         this.formPanel = new Ext.FormPanel({
-            labelWidth: this.labelWidth,
-            frame: false,
-            bodyBorder: false,
-            border: false,
-            items: items
+            fieldDefaults: {
+                labelWidth: this.labelWidth
+            },
+            items: this.getFormItemConfigs()
         });
         
         this.add(this.formPanel);
         
         this.callParent(arguments);
+    },
+    
+    getFormItemConfigs: function() {
+        var items = [{
+            xtype: 'textfield',
+            itemId: this.id + '-title',
+            name: Ext.ensible.cal.EventMappings.Title.name,
+            fieldLabel: this.titleLabelText,
+            anchor: '100%'
+        },{
+            xtype: 'daterangefield',
+            itemId: this.id + '-dates',
+            anchor: '95%',
+            fieldLabel: this.datesLabelText
+        }];
+        
+        if(this.calendarStore){
+            items.push({
+                xtype: 'calendarcombo',
+                itemId: this.id + '-calendar',
+                name: Ext.ensible.cal.EventMappings.CalendarId.name,
+                anchor: '100%',
+                fieldLabel: this.calendarLabelText,
+                store: this.calendarStore
+            });
+        }
+        
+        return items;
     },
 
     // private
@@ -165,7 +197,27 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
         this.callParent(arguments);
 		
 		this.el.addCls('ext-cal-event-win');
-        this.el.select('.'+this.editDetailsLinkClass).on('click', this.onEditDetailsClick, this);
+        
+        this.initRefs();
+        
+        //this.el.select('.'+this.editDetailsLinkClass).on('click', this.onEditDetailsClick, this);
+    },
+    
+    initRefs: function() {
+        // toolbar button refs
+        this.saveButton = this.down('#' + this.id + '-save-btn');
+        this.deleteButton = this.down('#' + this.id + '-delete-btn');
+        this.cancelButton = this.down('#' + this.id + '-cancel-btn');
+        this.detailsButton = this.down('#' + this.id + '-details-btn');
+        
+        if (this.detailsButton) {
+            this.detailsButton.getEl().on('click', this.onEditDetailsClick, this);
+        }
+        
+        // form item refs
+        this.titleField = this.down('#' + this.id + '-title');
+        this.dateRangeField = this.down('#' + this.id + '-dates');
+        this.calendarField = this.down('#' + this.id + '-calendar');
     },
     
     // private
@@ -195,7 +247,7 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
         this.callParent([this, anim, function(){
             this.titleField.focus(false, 100);
         }]);
-        this.deleteBtn[o.data && o.data[M.EventId.name] ? 'show' : 'hide']();
+        this.deleteButton[o.data && o.data[M.EventId.name] ? 'show' : 'hide']();
         
         var rec, f = this.formPanel.form;
 

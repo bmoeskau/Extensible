@@ -1419,7 +1419,7 @@ alert('End: '+bounds.end);
                     },
                     'eventcancel': {
                         fn: function(win, rec, animTarget){
-                            this.dismissEventEditor(animTarget);
+                            this.dismissEventEditor(null, animTarget);
                             win.currentView.onEventCancel();
                         },
                         scope: this

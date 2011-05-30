@@ -6,7 +6,7 @@
  * @param {Object} config The config object
  */
 Ext.define('Ext.ensible.cal.DateRangeField', {
-    extend: 'Ext.form.Field',
+    extend: 'Ext.form.FieldContainer',
     alias: 'widget.daterangefield',
     
     /**
@@ -41,127 +41,280 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
      */
     dateFormat: 'n/j/Y',
     
+    layout: 'hbox',
+    
     // private
-    onRender: function(ct, position){
-        if(!this.el){
-            this.startDate = new Ext.form.DateField({
-                id: this.id+'-start-date',
-                format: this.dateFormat,
-                width:100,
-                listeners: {
-                    'change': {
-                        fn: function(){
-                            this.onFieldChange('date', 'start');
-                        },
-                        scope: this
-                    }
+    initComponent: function() {
+        var me = this;
+        me.items = me.getFieldConfigs();
+        me.callParent(arguments);
+        me.initRefs();
+    },
+    
+    initRefs: function() {
+        var me = this;
+        me.startDate = me.down('#' + me.id + '-start-date');
+        me.startTime = me.down('#' + me.id + '-start-time');
+        me.endTime = me.down('#' + me.id + '-end-time');
+        me.endDate = me.down('#' + me.id + '-end-date');
+        me.allDay = me.down('#' + me.id + '-allday');
+        me.toLabel = me.down('#' + me.id + '-to-label');
+    },
+    
+    getFieldConfigs: function() {
+        var me = this;
+        return [
+            me.getStartDateConfig(),
+            me.getStartTimeConfig(),
+            me.getDateSeparatorConfig(),
+            me.getEndTimeConfig(),
+            me.getEndDateConfig(),
+            me.getAllDayConfig()
+        ];
+    },
+    
+    getStartDateConfig: function() {
+        return {
+            xtype: 'datefield',
+            itemId: this.id + '-start-date',
+            format: this.dateFormat,
+            width:100,
+            listeners: {
+                'change': {
+                    fn: function(){
+                        this.onFieldChange('date', 'start');
+                    },
+                    scope: this
                 }
-            });
-            this.startTime = new Ext.form.TimeField({
-                id: this.id+'-start-time',
-                hidden: this.showTimes === false,
-                labelWidth: 0,
-                hideLabel:true,
-                width:90,
-                listeners: {
-                    'select': {
-                        fn: function(){
-                            this.onFieldChange('time', 'start');
-                        },
-                        scope: this
-                    }
+            }
+        };
+    },
+    
+    getStartTimeConfig: function() {
+        return {
+            xtype: 'timefield',
+            itemId: this.id + '-start-time',
+            hidden: this.showTimes === false,
+            labelWidth: 0,
+            hideLabel:true,
+            width:90,
+            listeners: {
+                'select': {
+                    fn: function(){
+                        this.onFieldChange('time', 'start');
+                    },
+                    scope: this
                 }
-            });
-            this.endTime = new Ext.form.TimeField({
-                id: this.id+'-end-time',
-                hidden: this.showTimes === false,
-                labelWidth: 0,
-                hideLabel:true,
-                width:90,
-                listeners: {
-                    'select': {
-                        fn: function(){
-                            this.onFieldChange('time', 'end');
-                        },
-                        scope: this
-                    }
+            }
+        };
+    },
+    
+    getEndDateConfig: function() {
+        return {
+            xtype: 'datefield',
+            itemId: this.id + '-end-date',
+            format: this.dateFormat,
+            hideLabel:true,
+            width:100,
+            listeners: {
+                'change': {
+                    fn: function(){
+                        this.onFieldChange('date', 'end');
+                    },
+                    scope: this
                 }
-            })
-            this.endDate = new Ext.form.DateField({
-                id: this.id+'-end-date',
-                format: this.dateFormat,
-                hideLabel:true,
-                width:100,
-                listeners: {
-                    'change': {
-                        fn: function(){
-                            this.onFieldChange('date', 'end');
-                        },
-                        scope: this
-                    }
+            }
+        };
+    },
+    
+    getEndTimeConfig: function() {
+        return {
+            xtype: 'timefield',
+            itemId: this.id + '-end-time',
+            hidden: this.showTimes === false,
+            labelWidth: 0,
+            hideLabel:true,
+            width:90,
+            listeners: {
+                'select': {
+                    fn: function(){
+                        this.onFieldChange('time', 'end');
+                    },
+                    scope: this
                 }
-            });
-            this.allDay = new Ext.form.Checkbox({
-                id: this.id+'-allday',
-                hidden: this.showTimes === false || this.showAllDay === false,
-                boxLabel: this.allDayText,
-                handler: function(chk, checked){
-                    this.startTime.setVisible(!checked);
-                    this.endTime.setVisible(!checked);
-                },
-                scope: this
-            });
-            this.toLabel = new Ext.form.Label({
-                xtype: 'label',
-                id: this.id+'-to-label',
-                text: this.toText
-            });
-            
-            var singleLine = this.singleLine;
-            if(singleLine == 'auto'){
-                var el, w = this.ownerCt.getWidth() - this.ownerCt.getEl().getPadding('lr');
-                if(el = this.ownerCt.getEl().child('.x-panel-body')){
+            }
+        };
+    },
+    
+    getAllDayConfig: function() {
+        return {
+            xtype: 'checkbox',
+            itemId: this.id + '-allday',
+            hidden: this.showTimes === false || this.showAllDay === false,
+            boxLabel: this.allDayText,
+            handler: function(chk, checked){
+                this.startTime.setVisible(!checked);
+                this.endTime.setVisible(!checked);
+            },
+            scope: this
+        };
+    },
+    
+    getDateSeparatorConfig: function() {
+        return {
+            xtype: 'label',
+            itemId: this.id + '-to-label',
+            text: this.toText
+        };
+    },
+    
+    isSingleLine: function() {
+        var me = this;
+        
+        if (me.calculatedSingleLine === undefined) {
+            if(me.singleLine == 'auto'){
+                var ownerCtEl = me.ownerCt.getEl(),
+                    w = me.ownerCt.getWidth() - ownerCtEl.getPadding('lr'),
+                    el = ownerCtEl.down('.x-panel-body');
+                    
+                if(el){
                     w -= el.getPadding('lr');
                 }
-                if(el = this.ownerCt.getEl().child('.x-form-item-label')){
+                
+                el = ownerCtEl.down('.x-form-item-label')
+                if(el){
                     w -= el.getWidth() - el.getPadding('lr');
                 }
-                singleLine = w <= this.singleLineMinWidth ? false : true;
+                singleLine = w <= me.singleLineMinWidth ? false : true;
             }
-            
-            this.fieldCt = new Ext.Container({
-                autoEl: {id:this.id}, //make sure the container el has the field's id
-                cls: 'ext-dt-range',
-                renderTo: ct,
-                layout: 'table',
-                layoutConfig: {
-                    columns: singleLine ? 6 : 3
-                },
-                defaults: {
-                    hideParent: true
-                },
-                items:[
-                    this.startDate,
-                    this.startTime,
-                    this.toLabel,
-                    singleLine ? this.endTime : this.endDate,
-                    singleLine ? this.endDate : this.endTime,
-                    this.allDay
-                ]
-            });
-            
-            this.fieldCt.ownerCt = this;
-            this.el = this.fieldCt.getEl();
-            this.items = new Ext.util.MixedCollection();
-            this.items.addAll([this.startDate, this.endDate, this.toLabel, this.startTime, this.endTime, this.allDay]);
+            else {
+                me.calculatedSingleLine = me.singleLine !== undefined ? me.singleLine : true;
+            }
         }
-        
-        this.callParent(arguments);
-        
-        if(!singleLine){
-            this.el.child('tr').addCls('ext-dt-range-row1');
-        }
+        return me.calculatedSingleLine;
     },
+    
+    // private
+//    onRender: function(ct, position){
+//        if(!this.el){
+//            this.startDate = new Ext.form.DateField({
+//                id: this.id+'-start-date',
+//                format: this.dateFormat,
+//                width:100,
+//                listeners: {
+//                    'change': {
+//                        fn: function(){
+//                            this.onFieldChange('date', 'start');
+//                        },
+//                        scope: this
+//                    }
+//                }
+//            });
+//            this.startTime = new Ext.form.TimeField({
+//                id: this.id+'-start-time',
+//                hidden: this.showTimes === false,
+//                labelWidth: 0,
+//                hideLabel:true,
+//                width:90,
+//                listeners: {
+//                    'select': {
+//                        fn: function(){
+//                            this.onFieldChange('time', 'start');
+//                        },
+//                        scope: this
+//                    }
+//                }
+//            });
+//            this.endTime = new Ext.form.TimeField({
+//                id: this.id+'-end-time',
+//                hidden: this.showTimes === false,
+//                labelWidth: 0,
+//                hideLabel:true,
+//                width:90,
+//                listeners: {
+//                    'select': {
+//                        fn: function(){
+//                            this.onFieldChange('time', 'end');
+//                        },
+//                        scope: this
+//                    }
+//                }
+//            })
+//            this.endDate = new Ext.form.DateField({
+//                id: this.id+'-end-date',
+//                format: this.dateFormat,
+//                hideLabel:true,
+//                width:100,
+//                listeners: {
+//                    'change': {
+//                        fn: function(){
+//                            this.onFieldChange('date', 'end');
+//                        },
+//                        scope: this
+//                    }
+//                }
+//            });
+//            this.allDay = new Ext.form.Checkbox({
+//                id: this.id+'-allday',
+//                hidden: this.showTimes === false || this.showAllDay === false,
+//                boxLabel: this.allDayText,
+//                handler: function(chk, checked){
+//                    this.startTime.setVisible(!checked);
+//                    this.endTime.setVisible(!checked);
+//                },
+//                scope: this
+//            });
+//            this.toLabel = new Ext.form.Label({
+//                xtype: 'label',
+//                id: this.id+'-to-label',
+//                text: this.toText
+//            });
+            
+//            var singleLine = this.singleLine;
+//            if(singleLine == 'auto'){
+//                var el, w = this.ownerCt.getWidth() - this.ownerCt.getEl().getPadding('lr');
+//                if(el = this.ownerCt.getEl().child('.x-panel-body')){
+//                    w -= el.getPadding('lr');
+//                }
+//                if(el = this.ownerCt.getEl().child('.x-form-item-label')){
+//                    w -= el.getWidth() - el.getPadding('lr');
+//                }
+//                singleLine = w <= this.singleLineMinWidth ? false : true;
+//            }
+//            
+//            this.fieldCt = new Ext.Container({
+//                autoEl: {id:this.id}, //make sure the container el has the field's id
+//                cls: 'ext-dt-range',
+//                renderTo: ct,
+//                layout: 'table',
+//                layoutConfig: {
+//                    columns: singleLine ? 6 : 3
+//                },
+//                defaults: {
+//                    hideParent: true
+//                },
+//                items:[
+//                    this.startDate,
+//                    this.startTime,
+//                    this.toLabel,
+//                    singleLine ? this.endTime : this.endDate,
+//                    singleLine ? this.endDate : this.endTime,
+//                    this.allDay
+//                ]
+//            });
+//            
+//            this.fieldCt.ownerCt = this;
+//            this.el = this.fieldCt.getEl();
+//            this.items = new Ext.util.MixedCollection();
+//            this.items.addAll([this.startDate, this.endDate, this.toLabel, this.startTime, this.endTime, this.allDay]);
+//        }
+//        
+//        this.callParent(arguments);
+//        
+//        if(!singleLine){
+//            this.el.child('tr').addCls('ext-dt-range-row1');
+//        }
+//    },
 
     // private
     onFieldChange: function(type, startend){
