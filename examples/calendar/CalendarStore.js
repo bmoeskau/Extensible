@@ -4,6 +4,7 @@
  */
 Ext.define('Ext.ensible.sample.CalendarStore', {
     extend: 'Ext.data.Store',
+    model: 'Ext.ensible.cal.CalendarRecord',
     
     constructor: function(config){
         config = Ext.applyIf(config || {}, {

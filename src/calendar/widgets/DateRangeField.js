@@ -324,21 +324,22 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
         
     // private
     checkDates: function(type, startend){
-        var startField = Ext.getCmp(this.id+'-start-'+type),
-            endField = Ext.getCmp(this.id+'-end-'+type),
-            startValue = this.getDT('start'),
-            endValue = this.getDT('end');
+        var me = this,
+            startField = me.down('#' + me.id + '-start-' + type),
+            endField = me.down('#' + me.id + '-end-' + type),
+            startValue = me.getDT('start'),
+            endValue = me.getDT('end');
 
         if(startValue > endValue){
             if(startend=='start'){
                 endField.setValue(startValue);
             }else{
                 startField.setValue(endValue);
-                this.checkDates(type, 'start');
+                me.checkDates(type, 'start');
             }
         }
         if(type=='date'){
-            this.checkDates('time', startend);
+            me.checkDates('time', startend);
         }
     },
     
@@ -369,8 +370,11 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
         else{
             return null;
         };
-        if(time != ''){
-            return Ext.Date.parseDate(dt+' '+time, this[startend+'Date'].format+' '+this[startend+'Time'].format);
+        if(time && time != ''){
+            time = Ext.Date.format(time, this[startend+'Time'].format);
+            var val = Ext.Date.parseDate(dt + ' ' + time, this[startend+'Date'].format + ' ' + this[startend+'Time'].format);
+            return val;
+            //return Ext.Date.parseDate(dt+' '+time, this[startend+'Date'].format+' '+this[startend+'Time'].format);
         }
         return Ext.Date.parseDate(dt, this[startend+'Date'].format);
         

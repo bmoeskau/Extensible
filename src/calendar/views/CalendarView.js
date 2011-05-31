@@ -1475,13 +1475,14 @@ alert('End: '+bounds.end);
         // the store. We only need to save manually when autoSave is false,
         // otherwise we'll create duplicate transactions.
         if(!this.store.autoSave){
-            this.store.save();
+            this.store.sync();
         }
     },
     
     // private
-    onWrite: function(store, action, data, resp, rec){
-        switch(action){
+    onWrite: function(store, operation){
+        var rec = operation.records[0];
+        switch(operation.action){
             case 'create': 
                 this.onAdd(store, rec);
                 break;

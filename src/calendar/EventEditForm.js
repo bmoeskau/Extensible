@@ -168,13 +168,18 @@ Ext.define('Ext.ensible.cal.EventEditForm', {
             id: this.id+'-left-col',
             columnWidth: this.colWidthLeft,
             layout: 'anchor',
+            fieldDefaults: {
+                labelWidth: this.labelWidth
+            },
             border: false,
             items: leftFields
         },{
             id: this.id+'-right-col',
             columnWidth: this.colWidthRight,
             layout: 'anchor',
-            labelWidth: this.labelWidthRightCol || this.labelWidth,
+            fieldDefaults: {
+                labelWidth: this.labelWidthRightCol || this.labelWidth,
+            },
             border: false,
             items: rightFields
         }];
@@ -187,7 +192,7 @@ Ext.define('Ext.ensible.cal.EventEditForm', {
             text:this.cancelButtonText, scope: this, handler: this.onCancel
         }];
         
-        Ext.ensible.cal.EventEditForm.superclass.initComponent.call(this);
+        this.callParent(arguments);
     },
     
     // private

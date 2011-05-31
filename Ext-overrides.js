@@ -157,6 +157,22 @@
 //        callback.call(scope, result, arg, true);
 //    }
 //});
+Ext.data.MemoryProxy.override({
+    updateOperation: function(operation, callback, scope) {
+        operation.setCompleted();
+        operation.setSuccessful();
+        Ext.callback(callback, scope || me, [operation]);
+    },
+    create: function() {
+        this.updateOperation.apply(this, arguments);
+    },
+    update: function() {
+        this.updateOperation.apply(this, arguments);
+    },
+    destroy: function() {
+        this.updateOperation.apply(this, arguments);
+    }
+});
 
 // This heinous override is required to fix IE9's removal of createContextualFragment.
 // Unfortunately since DomHelper is a singleton there's not much of a way around it.

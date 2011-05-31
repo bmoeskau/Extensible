@@ -1,6 +1,7 @@
 
 Ext.define('Ext.ensible.cal.EventStore', {
     extend: 'Ext.data.Store',
+    model: 'Ext.ensible.cal.EventRecord',
     
     constructor: function(config){
         // By default autoLoad will cause the store to load itself during the

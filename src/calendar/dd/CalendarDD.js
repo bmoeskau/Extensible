@@ -38,7 +38,7 @@ Ext.define('Ext.ensible.cal.DragZone', {
         
         // If not dragging an event then we are dragging on 
         // the calendar to add a new event
-        t = this.view.getDayAt(e.xy[0], e.xy[1]);
+        t = this.view.getDayAt(e.getX(), e.getY());
         if(t.el){
             return {
                 type: 'caldrag',
@@ -143,7 +143,7 @@ Ext.define('Ext.ensible.cal.DropZone', {
         this.currWeek = -1;
         var dt = Ext.Date.clone(start),
             i = 0, shim, box,
-            D = Ext.calendar.Date,
+            D = Ext.ensible.Date,
             cnt = D.diffDays(dt, end) + 1;
         
         Ext.each(this.shims, function(shim){

@@ -15,6 +15,7 @@ Ext.ns('Ext.ensible.sample');
  */
 Ext.define('Ext.ensible.sample.MemoryEventStore', {
     extend: 'Ext.data.Store',
+    model: 'Ext.ensible.cal.EventRecord',
     
     // private
     constructor: function(config){
@@ -26,8 +27,9 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
             fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange(),
             idProperty: Ext.ensible.cal.EventMappings.EventId.mapping || 'id'
         });
+        
         this.reader = new Ext.data.JsonReader(config);
-        Ext.ensible.sample.MemoryEventStore.superclass.constructor.call(this, config);
+        this.callParent(arguments);
         
         // By default this shared example store will monitor its own CRUD events and 
         // automatically show a page-level message for each event. This is simply a shortcut
@@ -36,7 +38,7 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
         // (see the source of test-app.js for an example of this). The autoMsg config is provided
         // to turn off this automatic messaging in any case where this store is used but the 
         // default messaging is not desired.
-        if(config.autoMsg !== false){
+        //if(config.autoMsg !== false){
             // Note that while the store provides individual add, update and remove events, those only 
             // signify that records were added to the store, NOT that your changes were actually 
             // persisted correctly in the back end (in remote scenarios). While this isn't an issue
@@ -46,9 +48,10 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
             // update from an update caused by saving the PK into a newly-added record). Because of all
             // this, in general the 'write' event is the best optiosn for generically messaging after 
             // CRUD persistance has actually succeeded.
-            this.on('write', this.onWrite, this);
-        }
+            //this.on('write', this.onWrite, this);
+        //}
         
+        this.autoMsg = config.autoMsg;
         this.initRecs();
     },
     
@@ -62,46 +65,68 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
     },
     
     // private
-    onWrite: function(store, action, data, resp, rec){
-        if(Ext.ensible.sample.msg){
-            if(Ext.isArray(rec)){
-                Ext.each(rec, function(r){
-                    this.onWrite.call(this, store, action, data, resp, r);
-                }, this);
-            }
-            else {
-                switch(action){
-                    case 'create': 
-                        Ext.ensible.sample.msg('Add', 'Added "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
-                        break;
-                    case 'update':
-                        Ext.ensible.sample.msg('Update', 'Updated "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
-                        break;
-                    case 'destroy':
-                        Ext.ensible.sample.msg('Delete', 'Deleted "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
-                        break;
-                }
+//    onWrite: function(store, action, data, resp, rec){
+//        if(Ext.ensible.sample.msg){
+//            if(Ext.isArray(rec)){
+//                Ext.each(rec, function(r){
+//                    this.onWrite.call(this, store, action, data, resp, r);
+//                }, this);
+//            }
+//            else {
+//                switch(action){
+//                    case 'create': 
+//                        Ext.ensible.sample.msg('Add', 'Added "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
+//                        break;
+//                    case 'update':
+//                        Ext.ensible.sample.msg('Update', 'Updated "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
+//                        break;
+//                    case 'destroy':
+//                        Ext.ensible.sample.msg('Delete', 'Deleted "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
+//                        break;
+//                }
+//            }
+//        }
+//    },
+    
+    onProxyWrite: Ext.Function.createSequence(Ext.data.Store.prototype.onProxyWrite, function(operation) {
+        var me = this;
+        
+        if(me.autoMsg !== false && Ext.ensible.sample.msg) {
+            var success = operation.wasSuccessful(),
+                rec = operation.getRecords()[0],
+                title = rec.data[Ext.ensible.cal.EventMappings.Title.name];
+    
+            switch (operation.action) {
+                case 'create':
+                    Ext.ensible.sample.msg('Add', 'Added "' + Ext.value(title, '(No title)') + '"');
+                    break;
+                case 'update':
+                    Ext.ensible.sample.msg('Update', 'Updated "' + Ext.value(title, '(No title)') + '"');
+                    break;
+                case 'destroy':
+                    Ext.ensible.sample.msg('Delete', 'Deleted "' + Ext.value(title, '(No title)') + '"');
+                    break;
             }
         }
-    },
+    }),
 
     // private
-    onCreateRecords : function(success, rs, data) {
-        // Since MemoeryProxy has no "create" implementation, added events
-        // get stuck as phantoms without an EventId. The calendar does not support
-        // batching transactions and expects valid records to be non-phantoms, so for
-        // the purpose of local samples we can hack that into place. In real remote
-        // scenarios this is handled either automatically by the store or by your own
-        // application CRUD code, and so you should NEVER actually do something like this.
-        if(Ext.isArray(rs)){
-            Ext.each(rs, function(rec){
-                this.onCreateRecords.call(this, success, rec, data);
-            }, this);
-        }
-        else {
-            rs.phantom = false;
-            rs.data[Ext.ensible.cal.EventMappings.EventId.name] = rs.id;
-            rs.commit();
-        }
-    }
+//    onCreateRecords : function(success, rs, data) {
+//        // Since MemoeryProxy has no "create" implementation, added events
+//        // get stuck as phantoms without an EventId. The calendar does not support
+//        // batching transactions and expects valid records to be non-phantoms, so for
+//        // the purpose of local samples we can hack that into place. In real remote
+//        // scenarios this is handled either automatically by the store or by your own
+//        // application CRUD code, and so you should NEVER actually do something like this.
+//        if(Ext.isArray(rs)){
+//            Ext.each(rs, function(rec){
+//                this.onCreateRecords.call(this, success, rec, data);
+//            }, this);
+//        }
+//        else {
+//            rs.phantom = false;
+//            rs.data[Ext.ensible.cal.EventMappings.EventId.name] = rs.id;
+//            rs.commit();
+//        }
+//    }
 });

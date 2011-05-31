@@ -1420,7 +1420,8 @@ Ext.apply(Ext.menu.Menu.prototype, {
                     }
                     
                     var id = 'Ext.data.Store.ImplicitModel-' + (config.storeId || config.id || Ext.id());
-                    notify({pkg:'Ext.data.Store', msg:'Registering implicit model ' + id + '. Please update your code to create a model explicitly.'});
+                    notify({pkg:'Ext.data.Store', msg:'Registering implicit model ' + id + '. This may be OK, but you should verify whether or not '+
+                        'you should instead be creating a model explicitly.'});
                     
                     config.model = Ext.define(id, {
                         extend: 'Ext.data.Model',
@@ -1556,10 +1557,11 @@ Ext.apply(Ext.menu.Menu.prototype, {
                 Ext.apply(this, config || {});
         
                 if (config.fields) {
+                    // This is still supported within store explicitly:
                     // this will get converted to an implicit model in the store constructor
-                    deprecate({pkg:'Ext.data.Reader', member:'fields', type:'config',
-                        msg:'The fields config is no longer supported. Please refer to the '+
-                            'Ext.data.Store header docs for the proper way to set up your data components.'});
+//                    deprecate({pkg:'Ext.data.Reader', member:'fields', type:'config',
+//                        msg:'The fields config is no longer supported. Please refer to the '+
+//                            'Ext.data.Store header docs for the proper way to set up your data components.'});
                 }
                 if (recordType) {
                     // this will get converted to an implicit model in the store constructor
