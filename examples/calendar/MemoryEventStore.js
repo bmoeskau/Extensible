@@ -22,6 +22,7 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
         config = Ext.applyIf(config || {}, {
             storeId: 'eventStore',
             root: 'evts',
+            model: this.model,
             proxy: new Ext.data.MemoryProxy(),
             writer: new Ext.data.DataWriter(),
             fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange(),
@@ -38,7 +39,7 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
         // (see the source of test-app.js for an example of this). The autoMsg config is provided
         // to turn off this automatic messaging in any case where this store is used but the 
         // default messaging is not desired.
-        //if(config.autoMsg !== false){
+        if(config.autoMsg !== false){
             // Note that while the store provides individual add, update and remove events, those only 
             // signify that records were added to the store, NOT that your changes were actually 
             // persisted correctly in the back end (in remote scenarios). While this isn't an issue
@@ -46,10 +47,10 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
             // individual CRUD events since they have different APIs and quirks (notably the add and 
             // update events both fire during record creation and it's difficult to differentiate a true
             // update from an update caused by saving the PK into a newly-added record). Because of all
-            // this, in general the 'write' event is the best optiosn for generically messaging after 
+            // this, in general the 'write' event is the best option for generically messaging after 
             // CRUD persistance has actually succeeded.
-            //this.on('write', this.onWrite, this);
-        //}
+            this.on('write', this.onWrite, this);
+        }
         
         this.autoMsg = config.autoMsg;
         this.initRecs();
@@ -65,33 +66,10 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
     },
     
     // private
-//    onWrite: function(store, action, data, resp, rec){
-//        if(Ext.ensible.sample.msg){
-//            if(Ext.isArray(rec)){
-//                Ext.each(rec, function(r){
-//                    this.onWrite.call(this, store, action, data, resp, r);
-//                }, this);
-//            }
-//            else {
-//                switch(action){
-//                    case 'create': 
-//                        Ext.ensible.sample.msg('Add', 'Added "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
-//                        break;
-//                    case 'update':
-//                        Ext.ensible.sample.msg('Update', 'Updated "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
-//                        break;
-//                    case 'destroy':
-//                        Ext.ensible.sample.msg('Delete', 'Deleted "' + Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)') + '"');
-//                        break;
-//                }
-//            }
-//        }
-//    },
-    
-    onProxyWrite: Ext.Function.createSequence(Ext.data.Store.prototype.onProxyWrite, function(operation) {
+    onWrite: function(store, operation) {
         var me = this;
         
-        if(me.autoMsg !== false && Ext.ensible.sample.msg) {
+        if(Ext.ensible.sample.msg) {
             var success = operation.wasSuccessful(),
                 rec = operation.getRecords()[0],
                 title = rec.data[Ext.ensible.cal.EventMappings.Title.name];
@@ -108,25 +86,49 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
                     break;
             }
         }
-    }),
+    },
+    
+    // private - override the default logic for memory storage
+    onProxyLoad: function(operation) {
+        var me = this,
+            records;
+        
+        if (me.data && me.data.length > 0) {
+            // this store has already been initially loaded, so do not reload
+            // and lose updates to the store, just use store's latest data
+            me.totalCount = me.data.length;
+            records = me.data.items;
+        }
+        else {
+            // this is the initial load, so defer to the proxy's result
+            var resultSet = operation.getResultSet(),
+                successful = operation.wasSuccessful();
 
-    // private
-//    onCreateRecords : function(success, rs, data) {
-//        // Since MemoeryProxy has no "create" implementation, added events
-//        // get stuck as phantoms without an EventId. The calendar does not support
-//        // batching transactions and expects valid records to be non-phantoms, so for
-//        // the purpose of local samples we can hack that into place. In real remote
-//        // scenarios this is handled either automatically by the store or by your own
-//        // application CRUD code, and so you should NEVER actually do something like this.
-//        if(Ext.isArray(rs)){
-//            Ext.each(rs, function(rec){
-//                this.onCreateRecords.call(this, success, rec, data);
-//            }, this);
-//        }
-//        else {
-//            rs.phantom = false;
-//            rs.data[Ext.ensible.cal.EventMappings.EventId.name] = rs.id;
-//            rs.commit();
-//        }
-//    }
+            records = operation.getRecords();
+
+            if (resultSet) {
+                me.totalCount = resultSet.total;
+            }
+            if (successful) {
+                me.loadRecords(records, operation);
+            }
+        }
+
+        me.loading = false;
+        me.fireEvent('load', me, records, successful);
+    },
+    
+    // private - override to make sure that any records added in-memory
+    // still get a unique PK assigned at the data level
+    onCreateRecords: Ext.Function.createInterceptor(Ext.data.Store.prototype.onCreateRecords, function(records, operation, success) {
+        if (success) {
+            var i = 0,
+                rec,
+                len = records.length;
+            
+            for (; i < len; i++) {
+                records[i].data[Ext.ensible.cal.EventMappings.EventId.name] = records[i].id;
+            }
+        }
+    })
 });

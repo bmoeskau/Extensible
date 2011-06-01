@@ -10,6 +10,7 @@ Ext.define('Ext.ensible.sample.CalendarStore', {
         config = Ext.applyIf(config || {}, {
             storeId: 'calendarStore',
             root: 'calendars',
+            model: this.model,
             idProperty: Ext.ensible.cal.CalendarMappings.CalendarId.mapping || 'id',
             proxy: new Ext.data.MemoryProxy(),
             autoLoad: true,
