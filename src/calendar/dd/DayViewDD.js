@@ -21,7 +21,7 @@ Ext.define('Ext.ensible.cal.DayViewDragZone', {
             }
             return {
                 type: 'eventresize',
-                xy: e.xy,
+                xy: e.getXY(),
                 ddel: p.dom,
                 eventStart: rec.data[Ext.ensible.cal.EventMappings.StartDate.name],
                 eventEnd: rec.data[Ext.ensible.cal.EventMappings.EndDate.name],
@@ -39,7 +39,7 @@ Ext.define('Ext.ensible.cal.DayViewDragZone', {
             }
             return {
                 type: 'eventdrag',
-                xy: e.xy,
+                xy: e.getXY(),
                 ddel: t,
                 eventStart: rec.data[Ext.ensible.cal.EventMappings.StartDate.name],
                 eventEnd: rec.data[Ext.ensible.cal.EventMappings.EndDate.name],
@@ -49,7 +49,7 @@ Ext.define('Ext.ensible.cal.DayViewDragZone', {
         
         // If not dragging/resizing an event then we are dragging on 
         // the calendar to add a new event
-        t = this.view.getDayAt(e.xy[0], e.xy[1]);
+        t = this.view.getDayAt(e.getX(), e.getY());
         if(t.el){
             return {
                 type: 'caldrag',
@@ -93,9 +93,9 @@ Ext.define('Ext.ensible.cal.DayViewDropZone', {
                 this.dragCreateDt = data.dayInfo.date;
             }
             var endDt, box = this.dragStartMarker.getBox();
-            box.height = Math.ceil(Math.abs(e.xy[1] - box.y) / n.timeBox.height) * n.timeBox.height;
+            box.height = Math.ceil(Math.abs(e.getY() - box.y) / n.timeBox.height) * n.timeBox.height;
             
-            if(e.xy[1] < box.y){
+            if(e.getY() < box.y){
                 box.height += n.timeBox.height;
                 box.y = box.y - box.height + n.timeBox.height;
                 endDt = this.dragCreateDt.add(Date.MINUTE, this.ddIncrement);
@@ -143,8 +143,8 @@ Ext.define('Ext.ensible.cal.DayViewDropZone', {
                     this.resizeDt = n.date;
                 }
                 box.x = dayCol.getLeft();
-                box.height = Math.ceil(Math.abs(e.xy[1] - box.y) / n.timeBox.height) * n.timeBox.height;
-                if(e.xy[1] < box.y){
+                box.height = Math.ceil(Math.abs(e.getY() - box.y) / n.timeBox.height) * n.timeBox.height;
+                if(e.getY() < box.y){
                     box.y -= box.height;
                 }
                 else{

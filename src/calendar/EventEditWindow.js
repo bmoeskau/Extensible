@@ -289,7 +289,7 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
         }
         this.dateRangeField.setValue(rec.data);
         this.activeRecord = rec;
-        this.el.setStyle('z-index', 12000);
+        //this.el.setStyle('z-index', 12000);
         
 		return this;
     },

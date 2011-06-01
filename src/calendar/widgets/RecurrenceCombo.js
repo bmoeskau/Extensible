@@ -22,7 +22,7 @@ Ext.define('Ext.ensible.cal.RecurrenceCombo', {
     },
     
     initComponent: function(){
-        Ext.ensible.cal.RecurrenceCombo.superclass.initComponent.call(this);
+        this.callParent(arguments);
         
         this.addEvents('recurrencechange');
         
@@ -40,7 +40,8 @@ Ext.define('Ext.ensible.cal.RecurrenceCombo', {
     },
     
     initValue : function(){
-        Ext.ensible.cal.RecurrenceCombo.superclass.initValue.call(this);
+        this.callParent(arguments);
+        
         if(this.value != undefined){
             this.fireEvent('recurrencechange', this.value);
         }
@@ -48,7 +49,9 @@ Ext.define('Ext.ensible.cal.RecurrenceCombo', {
     
     setValue : function(v){
         var old = this.value;
-        Ext.ensible.cal.RecurrenceCombo.superclass.setValue.call(this, v);
+        
+        this.callParent(arguments);
+        
         if(old != v){
             this.fireEvent('recurrencechange', v);
         }

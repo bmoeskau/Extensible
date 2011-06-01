@@ -275,7 +275,7 @@ viewConfig: {
     initComponent : function(){
         this.setStartDate(this.startDate || new Date());
         
-        Ext.ensible.cal.CalendarView.superclass.initComponent.call(this);
+        this.callParent(arguments);
         
         if(this.readOnly === true){
             this.addCls('ext-cal-readonly');
@@ -446,7 +446,7 @@ viewConfig: {
 
     // private
     afterRender : function(){
-        Ext.ensible.cal.CalendarView.superclass.afterRender.call(this);
+        this.callParent(arguments);
 
         this.renderTemplate();
         
@@ -463,12 +463,14 @@ viewConfig: {
         if(this.calendarStore){
             this.setCalendarStore(this.calendarStore, true);
         }
+        
+        this.on('resize', this.onResize, this);
 
         this.el.on({
             'mouseover': this.onMouseOver,
             'mouseout': this.onMouseOut,
             'click': this.onClick,
-			'resize': this.onResize,
+			//'resize': this.onResize,
             scope: this
         });
         
@@ -873,7 +875,7 @@ viewConfig: {
      * options that might be needed for a particular effect to this object.
      */
 	doAddFx : function(els, o){
-		els.fadeIn(Ext.apply(o, {duration:2}));
+		els.fadeIn(Ext.apply(o, { duration: 2000 }));
 	},
 	
     // private
@@ -1470,11 +1472,11 @@ alert('End: '+bounds.end);
     
     // private
     save: function(){
-        // If the store is configured as autoSave:true the record's endEdit
+        // If the store is configured as autoSync:true the record's endEdit
         // method will have already internally caused a save to execute on
-        // the store. We only need to save manually when autoSave is false,
+        // the store. We only need to save manually when autoSync is false,
         // otherwise we'll create duplicate transactions.
-        if(!this.store.autoSave){
+        if(!this.store.autoSync){
             this.store.sync();
         }
     },
@@ -1482,6 +1484,7 @@ alert('End: '+bounds.end);
     // private
     onWrite: function(store, operation){
         var rec = operation.records[0];
+        
         switch(operation.action){
             case 'create': 
                 this.onAdd(store, rec);
@@ -1727,7 +1730,8 @@ alert('End: '+bounds.end);
     
     // private
     destroy: function(){
-        Ext.ensible.cal.CalendarView.superclass.destroy.call(this);
+        this.callParent(arguments);
+        
         if(this.el){
             this.el.un('contextmenu', this.onContextMenu, this);
         }

@@ -18,7 +18,7 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
     
     //private
     initComponent : function(){
-        Ext.ensible.cal.DayBodyView.superclass.initComponent.call(this);
+        this.callParent(arguments);
         
         if(this.readOnly === true){
             this.enableEventResize = false;
@@ -94,7 +94,7 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
         Ext.ensible.log('refresh (DayBodyView)');
         var top = this.el.getScroll().top;
         
-        Ext.ensible.cal.DayBodyView.superclass.refresh.call(this, reloadData);
+        this.callParent(arguments);
         
         // skip this if the initial render scroll position has not yet been set.
         // necessary since IE/Opera must be deferred, so the first refresh will
@@ -148,7 +148,7 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
         
         this.addCls('ext-cal-body-ct');
         
-        Ext.ensible.cal.DayBodyView.superclass.afterRender.call(this);
+        this.callParent(arguments);
         
         // default scroll position to scrollStartHour (7am by default) or min view hour if later
         var startHour = Math.max(this.scrollStartHour, this.viewStartHour),

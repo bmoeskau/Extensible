@@ -11,7 +11,8 @@ Ext.define('Ext.ensible.cal.RecurrenceField', {
     enableFx: true,
     
     initComponent : function(){
-        Ext.ensible.cal.RecurrenceField.superclass.initComponent.call(this);
+        this.callParent(arguments);
+        
         if(!this.height){
             this.autoHeight = true;
         }
@@ -49,11 +50,11 @@ Ext.define('Ext.ensible.cal.RecurrenceField', {
             this.items = new Ext.util.MixedCollection();
             this.items.addAll(this.initSubComponents());
         }
-        Ext.ensible.cal.RecurrenceField.superclass.onRender.call(this, ct, position);
+        this.callParent(arguments);
     },
     
 //    afterRender : function(){
-//        Ext.ensible.cal.RecurrenceField.superclass.afterRender.call(this);
+//        this.callParent(arguments);
 //        this.setStartDate(this.startDate);
 //    },
     
@@ -356,7 +357,7 @@ Ext.define('Ext.ensible.cal.RecurrenceField', {
                 return this;
             },
             afterRender: function(){
-                Ext.ensible.cal.recurrenceBase.superclass.afterRender.call(this);
+                this.callParent(arguments);
                 this.updateLabel();
             }
         });

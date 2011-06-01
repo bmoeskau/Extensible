@@ -73,7 +73,8 @@ Ext.define('Ext.ensible.cal.MonthView', {
     
     // private
     initComponent : function(){
-        Ext.ensible.cal.MonthView.superclass.initComponent.call(this);
+        this.callParent(arguments);
+        
         this.addEvents({
             /**
              * @event dayclick
@@ -119,7 +120,8 @@ Ext.define('Ext.ensible.cal.MonthView', {
         Ext.destroy(this.ddSelector);
 		Ext.destroy(this.dragZone);
 		Ext.destroy(this.dropZone);
-        Ext.ensible.cal.MonthView.superclass.onDestroy.call(this);
+        
+        this.callParent(arguments);
     },
     
     // private
@@ -139,14 +141,14 @@ Ext.define('Ext.ensible.cal.MonthView', {
         
         this.addCls('ext-cal-monthview ext-cal-ct');
         
-        Ext.ensible.cal.MonthView.superclass.afterRender.call(this);
+        this.callParent(arguments);
     },
 	
     // private
 	onResize : function(){
 		if(this.monitorResize){
 			this.maxEventsPerDay = this.getMaxEventsPerDay();
-			this.refresh();
+			this.refresh(false);
         }
 	},
     
@@ -164,7 +166,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
             bgTbl.setWidth(w);
             evTbl.setWidth(w);
         }
-        Ext.ensible.cal.MonthView.superclass.forceSize.call(this);
+        this.callParent(arguments);
     },
     
     //private
@@ -300,7 +302,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
 		if(this.detailPanel){
 			this.detailPanel.hide();
 		}
-		Ext.ensible.cal.MonthView.superclass.refresh.call(this, reloadData);
+		this.callParent(arguments);
         
         if(this.showTime !== false){
             this.initClock();
@@ -437,7 +439,8 @@ Ext.define('Ext.ensible.cal.MonthView', {
     
     // private
 	onInitDrag : function(){
-        Ext.ensible.cal.MonthView.superclass.onInitDrag.call(this);
+        this.callParent(arguments);
+        
 		Ext.select(this.daySelector).removeCls(this.dayOverClass);
 		if(this.detailPanel){
 			this.detailPanel.hide();
@@ -460,7 +463,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
 					}
 				}],
 				items: {
-					xtype: 'extensible.monthdaydetailview',
+					xtype: 'monthdaydetailview',
 					id: this.id+'-details-view',
 					date: dt,
 					view: this,
@@ -482,7 +485,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
     // private
 	onDetailViewUpdated : function(view, dt, numEvents){
 		var p = this.detailPanel,
-			frameH = p.getFrameHeight(),
+			frameH = p.getHeight(), //p.getFrameHeight(),
             evtH = this.getEventHeight(),
 			bodyH = frameH + (numEvents * evtH) + 3,
 			dayEl = this.getDayEl(dt),
@@ -496,7 +499,8 @@ Ext.define('Ext.ensible.cal.MonthView', {
     
     // private
     onHide : function(){
-        Ext.ensible.cal.MonthView.superclass.onHide.call(this);
+        this.callParent(arguments);
+        
         if(this.detailPanel){
             this.detailPanel.hide();
         }
@@ -540,12 +544,13 @@ Ext.define('Ext.ensible.cal.MonthView', {
             el[type == 'over' ? 'addCls' : 'removeCls'](this.weekLinkOverClass);
             return;
         }
-        Ext.ensible.cal.MonthView.superclass.handleDayMouseEvent.apply(this, arguments);
+        this.callParent(arguments);
     },
     
     // private
     destroy: function(){
-        Ext.ensible.cal.MonthView.superclass.destroy.call(this);
+        this.callParent(arguments);
+        
         if(this.detailsPanel){
             this.detailPanel.body.un('contextmenu', this.onContextMenu, this);
         }

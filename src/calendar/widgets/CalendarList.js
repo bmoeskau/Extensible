@@ -27,12 +27,12 @@ Ext.define('Ext.ensible.cal.CalendarList', {
     // private
     initComponent: function(){
         this.addCls('x-calendar-list');
-        Ext.ensible.cal.CalendarList.superclass.initComponent.call(this);
+        this.callParent(arguments);
     },
     
     // private
     afterRender : function(ct, position){
-        Ext.ensible.cal.CalendarList.superclass.afterRender.call(this);
+        this.callParent(arguments);
         
         if(this.store){
             this.setStore(this.store, true);

@@ -13,7 +13,7 @@ Ext.define('Ext.ensible.cal.DragZone', {
             Ext.ensible.cal._statusProxyInstance = new Ext.ensible.cal.StatusProxy();
         }
         this.proxy = Ext.ensible.cal._statusProxyInstance;
-        Ext.ensible.cal.DragZone.superclass.constructor.call(this, el, config);
+        this.callParent(arguments);
     },
     
     getDragData : function(e){
@@ -52,7 +52,7 @@ Ext.define('Ext.ensible.cal.DragZone', {
     onInitDrag : function(x, y){
         if(this.dragData.ddel){
             var ghost = this.dragData.ddel.cloneNode(true),
-                child = Ext.fly(ghost).child('dl');
+                child = Ext.fly(ghost).down('dl');
             
             Ext.fly(ghost).setWidth('auto');
             
@@ -88,7 +88,7 @@ Ext.define('Ext.ensible.cal.DragZone', {
     },
     
     destroy : function(){
-        Ext.ensible.cal.DragZone.superclass.destroy.call(this);
+        this.callParent(arguments);
         delete Ext.ensible.cal._statusProxyInstance;
     }    
 });

@@ -85,12 +85,13 @@ Ext.define('Ext.ensible.cal.CalendarListMenu', {
                 handler: Ext.bind(this.handleColorSelect, this)
             }]
         });
-        Ext.ensible.cal.CalendarListMenu.superclass.initComponent.call(this);
+        this.callParent(arguments);
     },
     
     // private
     afterRender: function(){
-        Ext.ensible.cal.CalendarListMenu.superclass.afterRender.call(this);
+        this.callParent(arguments);
+        
         this.palette = this.findByType('calendarcolorpalette')[0];
         
         if(this.colorId){

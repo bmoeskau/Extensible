@@ -30,9 +30,6 @@
             "text": "MonthViewTemplate.js",
             "path": "src/calendar/templates/"
         },{
-            "text": "CalendarScrollManager.js",
-            "path": "src/calendar/dd/"
-        },{
             "text": "StatusProxy.js",
             "path": "src/calendar/dd/"
         },{

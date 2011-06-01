@@ -45,7 +45,7 @@ Ext.define('Ext.ensible.cal.DayHeaderView', {
         this.tpl.compile();
         this.addCls('ext-cal-day-header');
         
-        Ext.ensible.cal.DayHeaderView.superclass.afterRender.call(this);
+        this.callParent(arguments);
     },
     
     // private
@@ -54,7 +54,7 @@ Ext.define('Ext.ensible.cal.DayHeaderView', {
     // private
     refresh : function(reloadData){
         Ext.ensible.log('refresh (DayHeaderView)');
-        Ext.ensible.cal.DayHeaderView.superclass.refresh.call(this, reloadData);
+        this.callParent(arguments);
         this.recalcHeaderBox();
     },
     
@@ -92,6 +92,6 @@ Ext.define('Ext.ensible.cal.DayHeaderView', {
                 return;
             }
         }
-        Ext.ensible.cal.DayHeaderView.superclass.onClick.apply(this, arguments);
+        this.callParent(arguments);
     }
 });

@@ -9,7 +9,7 @@ Ext.define('Ext.ensible.cal.MonthDayDetailView', {
     alias: 'widget.monthdaydetailview',
     
     initComponent : function(){
-        Ext.ensible.cal.CalendarView.superclass.initComponent.call(this);
+        this.callParent(arguments);
 		
         this.addEvents({
             eventsrendered: true
@@ -23,7 +23,7 @@ Ext.define('Ext.ensible.cal.MonthDayDetailView', {
     afterRender : function(){
         this.tpl = this.getTemplate();
 		
-        Ext.ensible.cal.MonthDayDetailView.superclass.afterRender.call(this);
+        this.callParent(arguments);
 		
         this.el.on({
             'click': this.view.onClick,

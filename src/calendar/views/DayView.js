@@ -155,16 +155,18 @@ Ext.define('Ext.ensible.cal.DayView', {
         this.items = [header, body];
         this.addCls('ext-cal-dayview ext-cal-ct');
         
-        Ext.ensible.cal.DayView.superclass.initComponent.call(this);
+        this.callParent(arguments);
     },
     
     // private
     afterRender : function(){
-        Ext.ensible.cal.DayView.superclass.afterRender.call(this);
+        this.callParent(arguments);
         
         this.header = Ext.getCmp(this.id+'-hd');
         this.body = Ext.getCmp(this.id+'-bd');
+        
         this.body.on('eventsrendered', this.forceSize, this);
+        this.on('resize', this.onResize, this);
     },
     
     // private

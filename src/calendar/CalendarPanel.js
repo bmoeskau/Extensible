@@ -671,8 +671,10 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
     },
     
     // private
-    onWrite: function(store, action, data, resp, rec){
-        switch(action){
+    onWrite: function(store, operation){
+        var rec = operation.records[0];
+        
+        switch(operation.action){
             case 'create': 
                 this.onStoreAdd(store, rec);
                 break;
@@ -694,12 +696,12 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
     
     // private
     save: function(){
-        // If the store is configured as autoSave:true the record's endEdit
+        // If the store is configured as autoSync:true the record's endEdit
         // method will have already internally caused a save to execute on
-        // the store. We only need to save manually when autoSave is false,
+        // the store. We only need to save manually when autoSync is false,
         // otherwise we'll create duplicate transactions.
-        if(!this.store.autoSave){
-            this.store.save();
+        if(!this.store.autoSync){
+            this.store.sync();
         }
     },
         

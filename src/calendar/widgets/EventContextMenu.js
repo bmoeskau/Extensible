@@ -93,7 +93,7 @@ Ext.define('Ext.ensible.cal.EventContextMenu', {
             'eventmove'
         );
         this.buildMenu();
-        Ext.ensible.cal.CalendarListMenu.superclass.initComponent.call(this);
+        this.callParent(arguments);
     },
     
     /**
@@ -104,7 +104,7 @@ Ext.define('Ext.ensible.cal.EventContextMenu', {
         if(this.rendered){
             return;
         }
-        this.dateMenu = new Ext.menu.DateMenu({
+        this.dateMenu = new Ext.menu.DatePicker({
             scope: this,
             handler: function(dp, dt){
                 dt = Ext.ensible.Date.copyTime(this.rec.data[Ext.ensible.cal.EventMappings.StartDate.name], dt);
@@ -150,7 +150,7 @@ Ext.define('Ext.ensible.cal.EventContextMenu', {
     
     // private
     onHide : function(){
-        Ext.ensible.cal.CalendarListMenu.superclass.onHide.call(this);
+        this.callParent(arguments);
         delete this.ctxEl;
     }
 });

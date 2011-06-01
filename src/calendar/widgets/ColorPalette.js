@@ -29,7 +29,8 @@ Ext.define('Ext.ensible.cal.ColorPalette', {
     
     // private
     initComponent: function(){
-        Ext.ensible.cal.ColorPalette.superclass.initComponent.call(this);
+        this.callParent(arguments);
+        
         this.addCls('x-calendar-palette');
         this.tpl = new Ext.XTemplate('<tpl for="."><a class="x-unselectable x-cal-color" id="' + this.id +
             '-color-{.}" href="#" hidefocus="on"><em><span class="x-cal-{.}">&#160;</span></em></a></tpl>');

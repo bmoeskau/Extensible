@@ -14,7 +14,7 @@ Ext.define('Ext.ensible.cal.EventStore', {
         
         //this._dateCache = [];
         
-        Ext.ensible.cal.EventStore.superclass.constructor.apply(this, arguments);
+        this.callParent(arguments);
     },
     
     load : function(o){
@@ -35,7 +35,7 @@ Ext.define('Ext.ensible.cal.EventStore', {
             delete this.initialParams;
         }
         
-        Ext.ensible.cal.EventStore.superclass.load.call(this, o);
+        this.callParent(arguments);
     }
     
 //    execute : function(action, rs, options, /* private */ batch) {
@@ -54,6 +54,6 @@ Ext.define('Ext.ensible.cal.EventStore', {
 //                
 //            }
 //        }
-//        Ext.ensible.cal.EventStore.superclass.execute.apply(this, arguments);
+//        this.callParent(arguments);
 //    }
 });
