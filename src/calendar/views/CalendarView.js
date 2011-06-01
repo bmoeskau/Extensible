@@ -1044,8 +1044,8 @@ viewConfig: {
     isEventVisible : function(evt){
         var M = Ext.ensible.cal.EventMappings,
             data = evt.data || evt,
-            calId = data[M.CalendarId.name],
-            calRec = this.calendarStore ? this.calendarStore.getById(calId) : null;
+            calRec = this.calendarStore ? 
+                this.calendarStore.findRecord(M.CalendarId.name, evt[M.CalendarId.name]) : null;
             
         if(calRec && calRec.data[Ext.ensible.cal.CalendarMappings.IsHidden.name] === true){
             // if the event is on a hidden calendar then no need to test the date boundaries

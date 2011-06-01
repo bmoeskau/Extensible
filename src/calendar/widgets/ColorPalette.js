@@ -12,7 +12,7 @@
  * @xtype extensible.calendarcolorpalette
  */
 Ext.define('Ext.ensible.cal.ColorPalette', {
-    extend: 'Ext.ColorPalette',
+    extend: 'Ext.picker.Color',
     alias: 'widget.calendarcolorpalette',
     
     // private
@@ -27,16 +27,24 @@ Ext.define('Ext.ensible.cal.ColorPalette', {
      * </ul></div>
      */
     
+    constructor: function() {
+        this.renderTpl = Ext.create('Ext.XTemplate', 
+            '<tpl for="colors"><a href="#" class="x-cal-color" hidefocus="on">' +
+            '<em><span class="x-cal-{.}" unselectable="on">&#160;</span></em></a></tpl>');
+        
+        this.callParent(arguments);
+    },
+    
     // private
     initComponent: function(){
         this.callParent(arguments);
         
         this.addCls('x-calendar-palette');
-        this.tpl = new Ext.XTemplate('<tpl for="."><a class="x-unselectable x-cal-color" id="' + this.id +
-            '-color-{.}" href="#" hidefocus="on"><em><span class="x-cal-{.}">&#160;</span></em></a></tpl>');
             
         if(this.handler){
-            this.on('select', this.handler, this.scope || this);
+            this.on('select', this.handler, this.scope || this, {
+                delegate: '.x-cal-color'
+            });
         }
         
         this.colors = [];
@@ -48,11 +56,11 @@ Ext.define('Ext.ensible.cal.ColorPalette', {
     // private
     handleClick : function(e, t){
         e.preventDefault();
-        var el = e.getTarget('.x-cal-color', 3, true);
-        if(el){
-            var id = el.id.split('-color-')[1];
-            this.select(id);
-        }
+        
+        var cls = t.childNodes[0].childNodes[0].className,
+            colorId = cls.split('x-cal-')[1];
+            
+        this.select(colorId);
     },
     
     /**
@@ -61,15 +69,26 @@ Ext.define('Ext.ensible.cal.ColorPalette', {
      * @param {Boolean} suppressEvent (optional) True to stop the select event from firing. Defaults to <tt>false</tt>.
      */
     select : function(colorId, suppressEvent){
-        if(colorId != this.value){
-            if(this.value){
-                Ext.fly(this.id+'-color-'+this.value).removeCls('x-color-palette-sel');
-            }
-            Ext.get(this.id+'-color-'+colorId).addCls('x-color-palette-sel');
-            this.value = colorId;
+        var me = this,
+            selectedCls = me.selectedCls,
+            value = me.value;
             
-            if(suppressEvent !== true){
-                this.fireEvent('select', this, colorId);
+        if (!me.rendered) {
+            me.value = colorId;
+            return;
+        }
+        
+        if (colorId != value || me.allowReselect) {
+            var el = me.el;
+
+            if (me.value) {
+                el.down('.x-cal-' + value).removeCls(selectedCls);
+            }
+            el.down('.x-cal-' + colorId).addCls(selectedCls);
+            me.value = colorId;
+            
+            if (suppressEvent !== true) {
+                me.fireEvent('select', me, colorId);
             }
         }
     }

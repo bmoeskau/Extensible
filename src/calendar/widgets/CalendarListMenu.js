@@ -92,7 +92,7 @@ Ext.define('Ext.ensible.cal.CalendarListMenu', {
     afterRender: function(){
         this.callParent(arguments);
         
-        this.palette = this.findByType('calendarcolorpalette')[0];
+        this.palette = this.down('calendarcolorpalette');
         
         if(this.colorId){
             this.palette.select(this.colorId, true);
@@ -131,7 +131,7 @@ Ext.define('Ext.ensible.cal.CalendarListMenu', {
     // private
     menuHide : function(){
         if(this.hideOnClick){
-            this.hide(true);
+            this.hide();
         }
     }
 });

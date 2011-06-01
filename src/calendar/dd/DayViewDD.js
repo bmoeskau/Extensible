@@ -98,10 +98,10 @@ Ext.define('Ext.ensible.cal.DayViewDropZone', {
             if(e.getY() < box.y){
                 box.height += n.timeBox.height;
                 box.y = box.y - box.height + n.timeBox.height;
-                endDt = this.dragCreateDt.add(Date.MINUTE, this.ddIncrement);
+                endDt = Ext.ensible.Date.add(this.dragCreateDt, {minutes: this.ddIncrement});
             }
             else{
-                n.date = n.date.add(Date.MINUTE, this.ddIncrement);
+                n.date = Ext.ensible.Date.add(n.date, {minutes: this.ddIncrement});
             }
             this.shim(this.dragCreateDt, box);
             
@@ -148,7 +148,7 @@ Ext.define('Ext.ensible.cal.DayViewDropZone', {
                     box.y -= box.height;
                 }
                 else{
-                    n.date = n.date.add(Date.MINUTE, this.ddIncrement);
+                    n.date = Ext.ensible.Date.add(n.date, {minutes: this.ddIncrement});
                 }
                 this.shim(this.resizeDt, box);
                 

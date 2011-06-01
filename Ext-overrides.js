@@ -1,3 +1,12 @@
+
+Ext.picker.Color.override({
+    constructor: function() {
+        // use an existing renderTpl if specified
+        this.renderTpl = this.renderTpl || Ext.create('Ext.XTemplate', '<tpl for="colors"><a href="#" class="color-{.}" hidefocus="on"><em><span style="background:#{.}" unselectable="on">&#160;</span></em></a></tpl>');
+        this.callParent(arguments);
+    }
+});
+
 //TODO: remove this once we are synced to trunk again
 //Ext.override(Ext.XTemplate, {
 //    applySubTemplate : function(id, values, parent, xindex, xcount){

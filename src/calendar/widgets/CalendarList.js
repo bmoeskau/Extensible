@@ -183,7 +183,7 @@ Ext.define('Ext.ensible.cal.CalendarList', {
         // which in turns fires an update event that would cause a full refresh for each record.
         // To avoid this we simply set a flag and make sure we only refresh once per commit set.
         this.skipRefresh = true;
-        this.store.commitChanges();
+        this.store.sync();
         delete this.skipRefresh;
         this.refresh();
     },

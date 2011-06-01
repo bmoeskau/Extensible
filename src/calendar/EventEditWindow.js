@@ -371,7 +371,7 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
     
     updateRecord: function(record, keepEditing) {
         var fields = record.fields,
-            values = this.formPanel.getForm().getFieldValues(),
+            values = this.formPanel.getForm().getValues(),
             name,
             M = Ext.ensible.cal.EventMappings,
             obj = {};
