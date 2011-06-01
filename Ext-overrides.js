@@ -141,20 +141,7 @@ Ext.data.MemoryProxy = function(data){
 };
 Ext.extend(Ext.data.MemoryProxy, Ext.data.DataProxy, {
     doRequest : function(action, rs, params, reader, callback, scope, arg) {
-        if(action === Ext.data.Api.actions.read){
-            params = params || {};
-            var result;
-            try {
-                result = reader.readRecords(this.data);
-            }catch(e){
-                // @deprecated loadexception
-                this.fireEvent("loadexception", this, null, arg, e);
-                this.fireEvent('exception', this, 'response', action, arg, null, e);
-                callback.call(scope, null, arg, false);
-                return;
-            }
-        }
-        callback.call(scope, result, arg, true);
+        callback.call(scope, null, arg, true);
     }
 });
 
