@@ -459,7 +459,7 @@ Ext.define('Ext.ensible.cal.MonthView', {
 				tools: [{
 					id: 'close',
 					handler: function(e, t, p){
-						p.hide();
+						p.ownerCt.hide();
 					}
 				}],
 				items: {
@@ -485,13 +485,9 @@ Ext.define('Ext.ensible.cal.MonthView', {
     // private
 	onDetailViewUpdated : function(view, dt, numEvents){
 		var p = this.detailPanel,
-			frameH = p.getHeight(), //p.getFrameHeight(),
-            evtH = this.getEventHeight(),
-			bodyH = frameH + (numEvents * evtH) + 3,
 			dayEl = this.getDayEl(dt),
 			box = dayEl.getBox();
 		
-		p.setHeight(bodyH);
 		p.setWidth(Math.max(box.width, 220));
 		p.show();
 		p.getPositionEl().alignTo(dayEl, 't-t?');

@@ -45,7 +45,7 @@
                     items: [{
                         id:'app-west',
                         region: 'west',
-                        width: 176,
+                        width: 179,
                         border: false,
                         items: [{
                             xtype: 'datepicker',
@@ -63,7 +63,7 @@
                             xtype: 'calendarlist',
                             store: this.calendarStore,
                             border: false,
-                            width: 175
+                            width: 178
                         }]
                     },{
                         xtype: 'calendarpanel',
