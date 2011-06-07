@@ -21,12 +21,6 @@ Ext.define('Ext.ensible.cal.CalendarListMenu', {
      */
     ignoreParentClicks: true,
     /**
-     * @cfg {String} cls
-     * An optional extra CSS class that will be added to this component's Element (defaults to 'x-calendar-list-menu'). 
-     * This can be useful for adding customized styles to the component or any of its children using standard CSS rules.
-     */
-    cls : 'x-calendar-list-menu',
-    /**
      * @cfg {String} displayOnlyThisCalendarText
      * The text to display for the 'Display only this calendar' option in the menu.
      */
@@ -85,6 +79,8 @@ Ext.define('Ext.ensible.cal.CalendarListMenu', {
                 handler: Ext.bind(this.handleColorSelect, this)
             }]
         });
+        
+        this.addClass('x-calendar-list-menu');
         this.callParent(arguments);
     },
     

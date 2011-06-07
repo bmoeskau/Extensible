@@ -926,3 +926,20 @@ td.ext-cal-dtitle-today div {
 .extensible-cal-icon-cal-colors {
     background-image:url(../images/default/silk/color_wheel.png) !important;
 }
+
+/*******************************************
+ * 
+ * CalendarList menu styles
+ *
+ ******************************************/
+.x-calendar-list-menu .x-color-picker {
+    padding-left: 32px;
+    width: 180px;            
+}
+.x-calendar-list-menu .x-color-picker a {
+    border-color: #f0f0f0;
+}
+.x-color-picker a:hover, 
+.x-color-picker a.x-color-picker-selected {
+    border-color: #8BB8F3;
+}

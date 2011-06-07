@@ -29,8 +29,8 @@ Ext.define('Ext.ensible.cal.ColorPalette', {
     
     constructor: function() {
         this.renderTpl = Ext.create('Ext.XTemplate', 
-            '<tpl for="colors"><a href="#" class="x-cal-color" hidefocus="on">' +
-            '<em><span class="x-cal-{.}" unselectable="on">&#160;</span></em></a></tpl>');
+            '<tpl for="colors"><a href="#" class="x-cal-{.}" hidefocus="on">' +
+            '<em><span unselectable="on">&#160;</span></em></a></tpl>');
         
         this.callParent(arguments);
     },
@@ -43,7 +43,7 @@ Ext.define('Ext.ensible.cal.ColorPalette', {
             
         if(this.handler){
             this.on('select', this.handler, this.scope || this, {
-                delegate: '.x-cal-color'
+                delegate: 'a'
             });
         }
         
@@ -57,9 +57,7 @@ Ext.define('Ext.ensible.cal.ColorPalette', {
     handleClick : function(e, t){
         e.preventDefault();
         
-        var cls = t.childNodes[0].childNodes[0].className,
-            colorId = cls.split('x-cal-')[1];
-            
+        var colorId = t.className.split('x-cal-')[1];
         this.select(colorId);
     },
     
