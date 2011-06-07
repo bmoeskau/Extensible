@@ -1,8 +1,7 @@
 
 Ext.onReady(function(){
     
-    var today = new Date().clearTime();
-        apiRoot = 'remote/php/app.php/events/';
+    var apiRoot = 'remote/php/app.php/events/';
     
     Ext.Msg.minWidth = 300;
     
@@ -24,7 +23,7 @@ Ext.onReady(function(){
     // when the event store loads and triggers the view to render
     calendarStore.load();
     
-    var proxy = new Ext.data.HttpProxy({
+    var proxy = new Ext.data.AjaxProxy({
         disableCaching: false, // no need for cache busting when loading via Ajax
         api: {
             read:    apiRoot+'view',
@@ -41,7 +40,7 @@ Ext.onReady(function(){
         }
     });
     
-    var reader = new Ext.data.JsonReader({
+    proxy.reader = new Ext.data.JsonReader({
         totalProperty: 'total',
         successProperty: 'success',
         idProperty: 'id',
@@ -50,7 +49,7 @@ Ext.onReady(function(){
         fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange()
     });
     
-    var writer = new Ext.data.JsonWriter({
+    proxy.writer = new Ext.data.JsonWriter({
         encode: true,
         writeAllFields: false
     });
@@ -59,8 +58,7 @@ Ext.onReady(function(){
         id: 'event-store',
         restful: true,
         proxy: proxy,
-        reader: reader,
-        writer: writer,
+
         // the view will automatically set start / end date params for you. You can
         // also pass a valid config object as specified by Ext.data.Store.load()
         // and the start / end params will be appended to it.

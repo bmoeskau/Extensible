@@ -37,7 +37,8 @@ Ext.ensible.LocaleSample = function(){
                 value: 'en',
                 listeners: {
                     'select': {
-                        fn: function(cbo, rec, idx){
+                        fn: function(cbo, rec){
+                            rec = rec[0];
                             this.calendar.getEl().mask('Loading '+rec.data.desc+'...');
                             this.loadLocale(rec.data.code);
                             this.locale = rec.data.desc;

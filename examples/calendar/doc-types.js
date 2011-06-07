@@ -30,7 +30,8 @@ Ext.onReady(function(){
         value: '',
         listeners: {
             'select': {
-                fn: function(cbo, rec, idx){
+                fn: function(cbo, rec){
+                    rec = rec[0];
                     window.location = 'doc-types.php?doctype='+rec.data.name+'&dtd='+rec.data.dtd;
                 }
             }

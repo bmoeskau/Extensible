@@ -178,6 +178,30 @@ Ext.apply(Ext.menu.Menu.prototype, {
     }
     
     /*-------------------------------------------------------------
+     * Ext.TaskMgr
+     *-------------------------------------------------------------*/
+    if (Ext.TaskManager) {
+        // Helper function for aliasing Ext.DomHelper
+        var aliasTMFn = function(name, args){
+            deprecate({member:'Ext.TaskMgr', alt:'Ext.TaskManager', single:true, 
+                msg:'Alternately you can simply alias it like: Ext.TaskMgr = Ext.TaskManager.'});
+                
+            return Ext.TaskManager[name].apply(Ext.TaskManager, args);
+        };
+        Ext.TaskMgr = {
+            start : function() {
+                return aliasTMFn('start', arguments);
+            },
+            stop : function() {
+                return aliasTMFn('stop', arguments);
+            },
+            stopAll : function() {
+                return aliasTMFn('stopAll', arguments);
+            }
+        }
+    }
+    
+    /*-------------------------------------------------------------
      * MicedCollection
      *-------------------------------------------------------------*/
     if (Ext.util.AbstractMixedCollection) {
@@ -1783,16 +1807,6 @@ Ext.apply(Ext.menu.Menu.prototype, {
                 return this.setTarget(target);
             }
         });
-    }
-    
-    if (Ext.TaskManager) {
-        Ext.TaskMgr = function() {
-            deprecate({pkg:'Ext.TaskMgr', alt:'Ext.TaskManager'});
-            return Ext.TaskManager;
-        }
-        Ext.TaskMgr.start = Ext.TaskManager.start;
-        Ext.TaskMgr.stop = Ext.TaskManager.stop;
-        Ext.TaskMgr.stopAll = Ext.TaskManager.stopAll;
     }
     
 })();

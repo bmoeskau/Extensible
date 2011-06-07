@@ -11,7 +11,7 @@ Ext.onReady(function(){
     });
     
     var calendarCfg = {
-        xtype: 'extensible.calendarpanel',
+        xtype: 'calendarpanel',
         eventStore: eventStore,
         calendarStore: calendarStore,
         title: 'Calendar',

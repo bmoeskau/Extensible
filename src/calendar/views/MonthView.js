@@ -174,9 +174,9 @@ Ext.define('Ext.ensible.cal.MonthView', {
         if(Ext.fly(this.id+'-clock') !== null){
             this.prevClockDay = new Date().getDay();
             if(this.clockTask){
-                Ext.TaskMgr.stop(this.clockTask);
+                Ext.TaskManager.stop(this.clockTask);
             }
-            this.clockTask = Ext.TaskMgr.start({
+            this.clockTask = Ext.TaskManager.start({
                 run: function(){ 
                     var el = Ext.fly(this.id+'-clock'),
                         t = new Date();

@@ -489,7 +489,7 @@ Ext.define('Ext.ensible.cal.DayBodyView', {
                 return;
             }
         }
-        var day = this.getDayAt(e.xy[0], e.xy[1]);
+        var day = this.getDayAt(e.getX(), e.getY());
         if(day && day.date){
             this.onDayClick(day.date, false, null);
         }

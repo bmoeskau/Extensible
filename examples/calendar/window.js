@@ -10,7 +10,7 @@ Ext.onReady(function(){
                 closeAction: 'hide',
                 items: {
                     // xtype is supported:
-                    xtype: 'extensible.calendarpanel',
+                    xtype: 'calendarpanel',
                     eventStore: new Ext.ensible.sample.MemoryEventStore({
                         // defined in data/events.js
                         data: Ext.ensible.sample.EventData

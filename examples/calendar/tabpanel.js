@@ -12,7 +12,7 @@ Ext.onReady(function(){
     // being added as a direct child of the TabPanel below.
     //
     var calendarCfg = {
-        xtype: 'extensible.calendarpanel',
+        xtype: 'calendarpanel',
         title: 'Calendar',
         eventStore: eventStore,
         width: 700,
