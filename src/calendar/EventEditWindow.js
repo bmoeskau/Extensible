@@ -50,18 +50,15 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
     calendarLabelText: 'Calendar',
     
     // General configs
-    border: true,
     closeAction: 'hide',
     modal: false,
     resizable: false,
     buttonAlign: 'left',
     editDetailsLinkClass: 'edit-dtl-link',
-    bodyStyle: 'padding:5px 10px;',
     enableEditDetails: true,
+    bodyStyle: 'padding: 8px 10px 5px;',
     
     formPanelConfig: {
-        frame: false,
-        bodyBorder: false,
         border: false
     },
     
@@ -152,12 +149,12 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
     
     // private
     onRender : function(ct, position){        
-        this.formPanel = new Ext.FormPanel({
+        this.formPanel = new Ext.FormPanel(Ext.applyIf({
             fieldDefaults: {
                 labelWidth: this.labelWidth
             },
             items: this.getFormItemConfigs()
-        });
+        }, this.formPanelConfig));
         
         this.add(this.formPanel);
         
@@ -201,7 +198,11 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
         
         this.initRefs();
         
-        //this.el.select('.'+this.editDetailsLinkClass).on('click', this.onEditDetailsClick, this);
+        // This junk spacer item gets added to the fbar by Ext (fixed in 4.0.2)
+        var junkSpacer = this.getDockedItems('toolbar')[0].items.items[0];
+        if (junkSpacer.el.hasCls('x-component-default')) {
+            Ext.destroy(junkSpacer);
+        }
     },
     
     initRefs: function() {
