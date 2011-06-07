@@ -14,9 +14,6 @@
 // This should be working as the alternateClassName but doesn't for some reason
 Ext.toolbar.Toolbar.SplitButton = Ext.button.Split;
 
-// DomHelper does not currently go through the ClassManager so there is no alternateClassName
-Ext.DomHelper = Ext.core.DomHelper;
-
 Ext.apply(Ext.panel.Panel.prototype, {
     getToolbars : function(){
         return this.getDockedItems('toolbar');
@@ -130,6 +127,54 @@ Ext.apply(Ext.menu.Menu.prototype, {
                 }
             })
         });
+    }
+    
+    /*-------------------------------------------------------------
+     * Ext.DomHelper
+     *-------------------------------------------------------------*/
+    if (Ext.core.DomHelper) {
+        // Helper function for aliasing Ext.DomHelper
+        var aliasDHFn = function(name, args){
+            deprecate({member:'Ext.DomHelper', alt:'Ext.core.DomHelper', single:true, 
+                msg:'Alternately you can simply alias it like: Ext.DomHelper = Ext.core.DomHelper.'});
+                
+            return Ext.core.DomHelper[name].apply(Ext.core.DomHelper, args);
+        };
+        Ext.DomHelper = {
+            markup : function(){
+                return aliasDHFn('markup', arguments);
+            },
+            applyStyles : function(){
+                return aliasDHFn('applyStyles', arguments);
+            },
+            insertHtml : function(){
+                return aliasDHFn('insertHtml', arguments);
+            },
+            insertBefore : function(){
+                return aliasDHFn('insertBefore', arguments);
+            },
+            insertAfter : function(){
+                return aliasDHFn('insertAfter', arguments);
+            },
+            insertFirst : function(){
+                return aliasDHFn('insertFirst', arguments);
+            },
+            append : function(){
+                return aliasDHFn('append', arguments);
+            },
+            overwrite : function(){
+                return aliasDHFn('overwrite', arguments);
+            },
+            createHtml : function(){
+                return aliasDHFn('createHtml', arguments);
+            },
+            createDom: function(){
+                return aliasDHFn('createDom', arguments);
+            },
+            createTemplate : function(){
+                return aliasDHFn('createTemplate', arguments);
+            }
+        }
     }
     
     /*-------------------------------------------------------------

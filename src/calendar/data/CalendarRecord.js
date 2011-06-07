@@ -36,36 +36,42 @@ rec.data[M.ColorId.name] = 3;
  */
 Ext.define('Ext.ensible.cal.CalendarRecord', {
     extend: 'Ext.data.Model',
-    fields: new Ext.util.MixedCollection(false, function(field){
-        return field.name;
-    })
-});
 
-/**
- * Reconfigures the default record definition based on the current {@link Ext.ensible.cal.CalendarMappings CalendarMappings}
- * object. See the header documentation for {@link Ext.ensible.cal.CalendarMappings} for complete details and 
- * examples of reconfiguring a CalendarRecord.
- * @method create
- * @static
- * @return {Function} The updated CalendarRecord constructor function
- */
-Ext.ensible.cal.CalendarRecord.reconfigure = function(){
-    var C = Ext.ensible.cal,
-        M = C.CalendarMappings,
-        proto = C.CalendarRecord.prototype,
-        fields = [];
+    initComponent: function() {
+        this.fields = new Ext.util.MixedCollection(false, function(field){
+            return field.name;
+        });
+        this.callParent(arguments);
+    },
     
-    for(prop in M){
-        if(M.hasOwnProperty(prop)){
-            fields.push(M[prop]);
+    statics: {
+        /**
+         * Reconfigures the default record definition based on the current {@link Ext.ensible.cal.CalendarMappings CalendarMappings}
+         * object. See the header documentation for {@link Ext.ensible.cal.CalendarMappings} for complete details and 
+         * examples of reconfiguring a CalendarRecord.
+         * @method create
+         * @static
+         * @return {Function} The updated CalendarRecord constructor function
+         */
+        reconfigure: function(){
+            var C = Ext.ensible.cal,
+                M = C.CalendarMappings,
+                proto = C.CalendarRecord.prototype,
+                fields = [];
+            
+            for(prop in M){
+                if(M.hasOwnProperty(prop)){
+                    fields.push(M[prop]);
+                }
+            }
+            proto.fields.clear();
+            for(var i = 0, len = fields.length; i < len; i++){
+                proto.fields.add(new Ext.data.Field(fields[i]));
+            }
+            return C.CalendarRecord;
         }
     }
-    proto.fields.clear();
-    for(var i = 0, len = fields.length; i < len; i++){
-        proto.fields.add(new Ext.data.Field(fields[i]));
-    }
-    return C.CalendarRecord;
-};
+});
 
 // Create the default definition now:
 Ext.ensible.cal.CalendarRecord.reconfigure();

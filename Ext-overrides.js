@@ -1,4 +1,6 @@
 
+Ext.DomHelper = Ext.core.DomHelper;
+
 Ext.picker.Color.override({
     constructor: function() {
         // use an existing renderTpl if specified

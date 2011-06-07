@@ -17,19 +17,28 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
     extend: 'Ext.data.Store',
     model: 'Ext.ensible.cal.EventRecord',
     
+    proxy: {
+        type: 'memory',
+        reader: {
+            type: 'json',
+            root: 'evts'
+        },
+        writer: {
+            type: 'json'
+        }
+    },
+    
+    sorters: [{
+        property: Ext.ensible.cal.EventMappings.StartDate.name,
+        direction: 'ASC'
+    }],
+    
+    storeId: 'eventStore',
+    idProperty: Ext.ensible.cal.EventMappings.EventId.mapping || 'id',
+    fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange(),
+    
     // private
     constructor: function(config){
-        config = Ext.applyIf(config || {}, {
-            storeId: 'eventStore',
-            root: 'evts',
-            model: this.model,
-            proxy: new Ext.data.MemoryProxy(),
-            writer: new Ext.data.DataWriter(),
-            fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange(),
-            idProperty: Ext.ensible.cal.EventMappings.EventId.mapping || 'id'
-        });
-        
-        this.reader = new Ext.data.JsonReader(config);
         this.callParent(arguments);
         
         // By default this shared example store will monitor its own CRUD events and 

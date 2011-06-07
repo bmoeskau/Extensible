@@ -762,7 +762,7 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
     // private
     setActiveView: function(id){
         var l = this.layout,
-            tb = this.getTopToolbar();
+            tb = this.getDockedItems('toolbar')[0];
             
         l.setActiveItem(id);
         this.activeView = l.getActiveItem();
