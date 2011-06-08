@@ -825,18 +825,8 @@ td.ext-cal-dtitle-today div {
  * DateRangeField styles
  *
  ******************************************/
-.ext-dt-range label {
-    font-size: 12px;
-}
-.ext-dt-range .x-form-check-wrap {
+.ext-dt-range .x-form-cb-wrap {
     white-space: nowrap;
-    line-height: 15px;
-}
-.ext-dt-range .x-table-layout-cell {
-    padding-right: 5px;
-}
-.ext-dt-range-row1 .x-table-layout-cell {
-    padding-bottom: 4px;
 }
 
 /*******************************************

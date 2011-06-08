@@ -41,12 +41,20 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
      */
     dateFormat: 'n/j/Y',
     
-    layout: 'hbox',
+    layout: {
+        type: 'hbox',
+        defaultMargins: { top: 0, right: 5, bottom: 0, left: 0 }
+    },
     
     // private
     initComponent: function() {
         var me = this;
         me.items = me.getFieldConfigs();
+        me.addCls('ext-dt-range');
+        
+        // TODO: Replace this with singleLine config logic:
+        me.height = 22;
+        
         me.callParent(arguments);
         me.initRefs();
     },
@@ -78,7 +86,7 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
             xtype: 'datefield',
             itemId: this.id + '-start-date',
             format: this.dateFormat,
-            width:100,
+            width: 100,
             listeners: {
                 'change': {
                     fn: function(){
@@ -97,7 +105,7 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
             hidden: this.showTimes === false,
             labelWidth: 0,
             hideLabel:true,
-            width:90,
+            width: 90,
             listeners: {
                 'select': {
                     fn: function(){
@@ -115,7 +123,7 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
             itemId: this.id + '-end-date',
             format: this.dateFormat,
             hideLabel:true,
-            width:100,
+            width: 100,
             listeners: {
                 'change': {
                     fn: function(){
@@ -134,7 +142,7 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
             hidden: this.showTimes === false,
             labelWidth: 0,
             hideLabel:true,
-            width:90,
+            width: 90,
             listeners: {
                 'select': {
                     fn: function(){
@@ -152,7 +160,8 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
             itemId: this.id + '-allday',
             hidden: this.showTimes === false || this.showAllDay === false,
             boxLabel: this.allDayText,
-            handler: function(chk, checked){
+            margins: { top: 2, right: 5, bottom: 0, left: 0 },
+            handler: function(chk, checked) {
                 this.startTime.setVisible(!checked);
                 this.endTime.setVisible(!checked);
             },
@@ -164,7 +173,8 @@ Ext.define('Ext.ensible.cal.DateRangeField', {
         return {
             xtype: 'label',
             itemId: this.id + '-to-label',
-            text: this.toText
+            text: this.toText,
+            margins: { top: 4, right: 5, bottom: 0, left: 0 }
         };
     },
     
