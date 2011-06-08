@@ -814,10 +814,9 @@ td.ext-cal-dtitle-today div {
 .x-panel-mc .ext-evt-edit-form .x-panel-header {
    border-top: 1px solid #99BBE8;
 }
-.ext-evt-edit-form .x-panel-fbar {
-    padding: 5px 10px;
+.ext-evt-edit-form .x-toolbar-footer {
+    padding: 10px;
     background: #DFE8F6;
-    border: 1px solid #BBCCFF;
 }
 
 /*******************************************

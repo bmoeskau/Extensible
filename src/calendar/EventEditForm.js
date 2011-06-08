@@ -72,7 +72,6 @@ Ext.define('Ext.ensible.cal.EventEditForm', {
     
     // private properties:
     layout: 'column',
-    cls: 'ext-evt-edit-form',
     
     // private
     initComponent: function(){
@@ -123,7 +122,8 @@ Ext.define('Ext.ensible.cal.EventEditForm', {
         });
         this.reminderField = new Ext.ensible.cal.ReminderField({
             name: Ext.ensible.cal.EventMappings.Reminder.name,
-            fieldLabel: this.reminderLabelText
+            fieldLabel: this.reminderLabelText,
+            anchor: '70%'
         });
         this.notesField = new Ext.form.TextArea({
             fieldLabel: this.notesLabelText,
@@ -150,7 +150,7 @@ Ext.define('Ext.ensible.cal.EventEditForm', {
             this.recurrenceField = new Ext.ensible.cal.RecurrenceField({
                 name: Ext.ensible.cal.EventMappings.RRule.name,
                 fieldLabel: this.repeatsLabelText,
-                anchor: '100%'
+                anchor: '90%'
             });
             leftFields.splice(2, 0, this.recurrenceField);
         }
@@ -159,7 +159,8 @@ Ext.define('Ext.ensible.cal.EventEditForm', {
             this.calendarField = new Ext.ensible.cal.CalendarCombo({
                 store: this.calendarStore,
                 fieldLabel: this.calendarLabelText,
-                name: Ext.ensible.cal.EventMappings.CalendarId.name
+                name: Ext.ensible.cal.EventMappings.CalendarId.name,
+                anchor: '70%'
             });
             leftFields.splice(2, 0, this.calendarField);
         };
@@ -191,6 +192,8 @@ Ext.define('Ext.ensible.cal.EventEditForm', {
         },{
             text:this.cancelButtonText, scope: this, handler: this.onCancel
         }];
+        
+        this.addCls('ext-evt-edit-form');
         
         this.callParent(arguments);
     },
