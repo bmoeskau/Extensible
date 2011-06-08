@@ -81,7 +81,7 @@
 
 /* Shared subheader */
 .ext-cal-hd-days-tbl {
-    background: #EFEFEF;
+    background: #D3E1F1;
     color: #555;
     table-layout: fixed;
     top: 18px;
@@ -113,7 +113,7 @@
 .ext-cal-dayview .ext-cal-hd-days-tbl {
     table-layout: fixed;
     width: 100%;
-    background-color: #CDDCEF;
+    background-color: #D3E1F1;
     overflow: hidden;
     font-size: 11px;
     line-height: 14px;
@@ -278,7 +278,7 @@
     height: 100%;
     background: #EFEFEF;
     border-top: 1px solid #C3D9FF;
-    border-right: 1px solid #C3D9FF;
+    /*border-right: 1px solid #C3D9FF;*/
     font-size: 10px;
     color: #999;
     padding: 3px 0 0;
