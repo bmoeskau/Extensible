@@ -1,5 +1,13 @@
 h1. Release Notes
 
+h2. 2.0 (Ext 4 support)
+
+This release was strictly for implementing Ext 4 support in the calendar components. No new features were implemented or bugs fixed that would have otherwise gone into the Ext 3.x branch.  Going forward the 2.x branch of Extensible will maintain Ext 4 support, and the 1.x branch of Extensible will remain on Ext 3.x.
+
+*API Changes*
+* Unfortunately the Ext 4 server proxies now send a "start" param by default with all requests, which overrides the start date value sent by the calendar since it was using the same default param name. Because of this <tt>CalendarView.dateParamStart</tt> now defaults to "startDate" (and <tt>CalendarView.dateParamEnd</tt> defaults to "endDate" for consistency). Server code that evaluates either of these params will have to be updated accordingly.
+
+
 h2. 1.0
 
 _March 1, 2011_

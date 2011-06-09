@@ -147,15 +147,15 @@ Ext.define('Ext.ensible.cal.CalendarView', {
     /**
      * @cfg {String} dateParamStart
      * The param name representing the start date of the current view range that's passed in requests to retrieve events
-     * when loading the view (defauts to 'start').
+     * when loading the view (defaults to 'startDate').
      */
-    dateParamStart: 'start',
+    dateParamStart: 'startDate',
     /**
      * @cfg {String} dateParamEnd
      * The param name representing the end date of the current view range that's passed in requests to retrieve events
-     * when loading the view (defauts to 'end').
+     * when loading the view (defaults to 'endDate').
      */
-    dateParamEnd: 'end',
+    dateParamEnd: 'endDate',
     /**
      * @cfg {String} dateParamFormat
      * The format to use for date parameters sent with requests to retrieve events for the calendar (defaults to 'Y-m-d', e.g. '2010-10-31')

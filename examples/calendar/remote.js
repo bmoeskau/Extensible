@@ -1,63 +1,95 @@
 
 Ext.onReady(function(){
     
-    var apiRoot = 'remote/php/app.php/events/';
-    
-    Ext.Msg.minWidth = 300;
+    //Ext.Msg.minWidth = 300;
     
     // Let's load the calendar store remotely also. All you have to do to get
     // color-coding is include this store with the CalendarPanel.
-    var calendarStore = new Ext.data.JsonStore({
-        storeId: 'calendarStore',
-        url: 'data/calendars.json',
-        root: 'calendars',
-        idProperty: Ext.ensible.cal.CalendarMappings.CalendarId.mapping || 'id',
-        fields: Ext.ensible.cal.CalendarRecord.prototype.fields.getRange(),
-        remoteSort: true,
-        sortInfo: {
-            field: Ext.ensible.cal.CalendarMappings.Title.name,
-            direction: 'ASC'
+//    var calendarStore = new Ext.data.JsonStore({
+//        storeId: 'calendarStore',
+//        url: 'data/calendars.json',
+//        root: 'calendars',
+//        idProperty: Ext.ensible.cal.CalendarMappings.CalendarId.mapping || 'id',
+//        fields: Ext.ensible.cal.CalendarRecord.prototype.fields.getRange(),
+//        remoteSort: true,
+//        sortInfo: {
+//            field: Ext.ensible.cal.CalendarMappings.Title.name,
+//            direction: 'ASC'
+//        }
+//    });
+    var calendarStore = Ext.create('Ext.ensible.sample.CalendarStore', {
+        proxy: {
+            type: 'ajax',
+            url: 'data/calendars.json',
+            reader: {
+                type: 'json',
+                root: 'calendars'
+            },
+            writer: {
+                type: 'json'
+            }
         }
     });
     // Make sure this loads first so that the calendar records are available
     // when the event store loads and triggers the view to render
-    calendarStore.load();
+    //calendarStore.load();
     
-    var proxy = new Ext.data.AjaxProxy({
-        disableCaching: false, // no need for cache busting when loading via Ajax
-        api: {
-            read:    apiRoot+'view',
-            create:  apiRoot+'create',
-            update:  apiRoot+'update',
-            destroy: apiRoot+'destroy'
-        },
-        listeners: {
-            exception: function(proxy, type, action, o, res, arg){
-                var msg = res.message ? res.message : Ext.decode(res.responseText).message;
-                // ideally an app would provide a less intrusive message display
-                Ext.Msg.alert('Server Error', msg);
-            }
-        }
-    });
-    
-    proxy.reader = new Ext.data.JsonReader({
-        totalProperty: 'total',
-        successProperty: 'success',
-        idProperty: 'id',
-        root: 'data',
-        messageProperty: 'message',
-        fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange()
-    });
-    
-    proxy.writer = new Ext.data.JsonWriter({
-        encode: true,
-        writeAllFields: false
-    });
+//    var proxy = new Ext.data.RestProxy({
+//        disableCaching: false, // no need for cache busting when loading via Ajax
+//        api: {
+//            read:    apiRoot+'view',
+//            create:  apiRoot+'create',
+//            update:  apiRoot+'update',
+//            destroy: apiRoot+'destroy'
+//        },
+//        listeners: {
+//            exception: function(proxy, type, action, o, res, arg){
+//                var msg = res.message ? res.message : Ext.decode(res.responseText).message;
+//                // ideally an app would provide a less intrusive message display
+//                Ext.Msg.alert('Server Error', msg);
+//            }
+//        }
+//    });
+//    
+//    proxy.reader = new Ext.data.JsonReader({
+//        totalProperty: 'total',
+//        successProperty: 'success',
+//        idProperty: 'id',
+//        root: 'data',
+//        messageProperty: 'message',
+//        fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange()
+//    });
+//    
+//    proxy.writer = new Ext.data.JsonWriter({
+//        encode: true,
+//        writeAllFields: false
+//    });
     
     var store = new Ext.ensible.cal.EventStore({
         id: 'event-store',
-        restful: true,
-        proxy: proxy,
+        
+        proxy: {
+            type: 'rest',
+            url: 'remote/php/app.php/events',
+            
+            reader: {
+                type: 'json',
+                root: 'data'
+            },
+            
+            writer: {
+                type: 'json',
+                nameProperty: 'mapping'
+            },
+            
+            listeners: {
+                exception: function(proxy, response, operation, options){
+                    var msg = response.message ? response.message : Ext.decode(response.responseText).message;
+                    // ideally an app would provide a less intrusive message display
+                    Ext.Msg.alert('Server Error', msg);
+                }
+            }
+        },
 
         // the view will automatically set start / end date params for you. You can
         // also pass a valid config object as specified by Ext.data.Store.load()
@@ -70,9 +102,9 @@ Ext.onReady(function(){
         // NOT that your changes were actually persisted correctly in the back end. The 'write' event is the best
         // option for generically messaging after CRUD persistence has succeeded.
         listeners: {
-            'write': function(store, action, data, resp, rec){
-                var title = Ext.value(rec.data[Ext.ensible.cal.EventMappings.Title.name], '(No title)');
-                switch(action){
+            'write': function(store, operation){
+                var title = Ext.value(operation.records[0].data[Ext.ensible.cal.EventMappings.Title.name], '(No title)');
+                switch(operation.action){
                     case 'create': 
                         Ext.ensible.sample.msg('Add', 'Added "' + title + '"');
                         break;
@@ -113,11 +145,11 @@ Ext.onReady(function(){
         if(errorCheckbox.dom.checked){
             // force an error response to test handling of CUD (not R) actions. this param is 
             // only implemented in the back end code for this sample -- it's not default behavior.
-            store.setBaseParam('fail', true);
+            store.getProxy().extraParams['fail'] = true;
             cp.setTitle('Remote Calendar <span id="errTitle">(Currently in remote error mode)</span>');
         }
         else{
-            delete store.baseParams['fail'];
+            delete store.getProxy().extraParams['fail'];
             cp.setTitle('Remote Calendar');
         }
     };

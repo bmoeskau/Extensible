@@ -46,8 +46,7 @@ class Request {
                 while ($kb = fread($httpContent, 1024)) {
                     $raw .= $kb;
                 }
-                $params = json_decode(stripslashes($raw));
-                $this->params = $params->data;
+                $this->params = json_decode(stripslashes($raw));
                 
                 if($this->method == 'DELETE'){
                 	$this->fail = (strpos($raw, 'fail=') !== false);

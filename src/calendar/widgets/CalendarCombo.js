@@ -96,17 +96,13 @@ Ext.define('Ext.ensible.cal.CalendarCombo', {
     
     // inherited docs
     setValue: function(value) {
+        // ensure that a valid value is always set
+        value = Ext.isEmpty(value) ? this.store.getAt(0).data[Ext.ensible.cal.CalendarMappings.CalendarId.name] : value;
+        
         if (this.wrap) {
-            var val = this.getValue();
-            this.wrap.removeCls(this.getStyleClass(val));
-            
-            this.callParent(arguments);
-            
-            val = this.getValue();
-            this.wrap.addCls(this.getStyleClass(val));
+            this.wrap.replaceCls(this.getStyleClass(this.getValue()), this.getStyleClass(value));
         }
-        else {
-            this.callParent(arguments);
-        }
+        
+        this.callParent([value]);
     }
 });
