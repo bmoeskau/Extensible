@@ -86,23 +86,39 @@ Ext.define('Ext.ensible.cal.CalendarCombo', {
 //        }
 //    },
     
-    // private
-    getStyleClass: function(calendarId){
-        if(calendarId && calendarId !== ''){
-            var rec = this.store.findRecord(Ext.ensible.cal.CalendarMappings.CalendarId.name, calendarId);
-            return rec ? 'x-cal-' + rec.data[Ext.ensible.cal.CalendarMappings.ColorId.name] : '';
+    /* @private
+     * Value can be a data value or record, or an array of values or records.
+     */
+    getStyleClass: function(value){
+        var val = value;
+        
+        if (!Ext.isEmpty(val)) {
+            if (Ext.isArray(val)) {
+                val = val[0];
+            }
+            if (!val.data) {
+                // this is a calendar id, need to get the record first then use its color
+                val = this.store.findRecord(Ext.ensible.cal.CalendarMappings.CalendarId.name, val);
+            }
+            return 'x-cal-' + (val.data ? val.data[Ext.ensible.cal.CalendarMappings.ColorId.name] : val); 
         }
+        return '';
     },
     
     // inherited docs
     setValue: function(value) {
-        // ensure that a valid value is always set
-        value = Ext.isEmpty(value) ? this.store.getAt(0).data[Ext.ensible.cal.CalendarMappings.CalendarId.name] : value;
-        
-        if (this.wrap) {
-            this.wrap.replaceCls(this.getStyleClass(this.getValue()), this.getStyleClass(value));
+        if (!value && this.store.getCount() > 0) {
+            // ensure that a valid value is always set if possible
+            value = this.store.getAt(0).data[Ext.ensible.cal.CalendarMappings.CalendarId.name];
         }
         
-        this.callParent([value]);
+        if (this.wrap && value) {
+            var currentClass = this.getStyleClass(this.getValue()),
+                newClass = this.getStyleClass(value);
+            
+            this.wrap.replaceCls(currentClass, newClass);
+        }
+        
+        this.callParent(arguments);
     }
 });
