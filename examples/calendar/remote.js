@@ -30,9 +30,6 @@ Ext.onReady(function(){
             }
         }
     });
-    // Make sure this loads first so that the calendar records are available
-    // when the event store loads and triggers the view to render
-    //calendarStore.load();
     
 //    var proxy = new Ext.data.RestProxy({
 //        disableCaching: false, // no need for cache busting when loading via Ajax
@@ -67,6 +64,7 @@ Ext.onReady(function(){
     
     var store = new Ext.ensible.cal.EventStore({
         id: 'event-store',
+        autoLoad: true,
         
         proxy: {
             type: 'rest',
@@ -91,11 +89,6 @@ Ext.onReady(function(){
             }
         },
 
-        // the view will automatically set start / end date params for you. You can
-        // also pass a valid config object as specified by Ext.data.Store.load()
-        // and the start / end params will be appended to it.
-        autoLoad: true,
-        
         // It's easy to provide generic CRUD messaging without having to handle events on every individual view.
         // Note that while the store provides individual add, update and remove events, those fire BEFORE the
         // remote transaction returns from the server -- they only signify that records were added to the store,
@@ -137,7 +130,6 @@ Ext.onReady(function(){
     // it will call the remote read method without any date parameters, which is most 
     // likely not what you'll want. 
     // store.load({ ... });
-    
     
     var errorCheckbox = Ext.get('forceError');
      

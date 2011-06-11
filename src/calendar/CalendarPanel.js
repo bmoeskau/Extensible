@@ -601,20 +601,9 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
     // private
     afterRender: function(){
         this.callParent(arguments);
-        this.body.addCls('x-cal-body');
         
-        Ext.defer(function() {
-            this.setActiveView(this.getLayout().getActiveItem());
-        }, 1, this);
-    },
-    
-    // private
-    onLayout: function(){
-        this.callParent(arguments);
-        if(!this.navInitComplete){
-            this.updateNavState();
-            this.navInitComplete = true;
-        }
+        this.body.addCls('x-cal-body');
+        Ext.defer(this.updateNavState, 10, this);
     },
     
     /**

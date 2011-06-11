@@ -19,6 +19,7 @@ Ext.define('Ext.ensible.cal.EventStore', {
     
     load : function(o){
         Ext.ensible.log('store load');
+        o = o || {};
         
         // if params are passed delete the one-time defaults
         if(o.params){
@@ -29,7 +30,6 @@ Ext.define('Ext.ensible.cal.EventStore', {
         // the initial start and end date params to use. Every load after that will
         // have these params set automatically during normal UI navigation.
         if(this.initialParams){
-            o = Ext.isObject(o) ? o : {};
             o.params = o.params || {};
             Ext.apply(o.params, this.initialParams);
             delete this.initialParams;
