@@ -31,7 +31,7 @@ class Request {
                 $this->params = json_decode(stripslashes($params['data']));
             } else {
                 $params = json_decode(stripslashes($raw));
-                $this->params = $params->data;
+                $this->params = $params;
             }
         } else {
             // grab JSON data if there...

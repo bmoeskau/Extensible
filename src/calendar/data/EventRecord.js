@@ -39,7 +39,7 @@ rec.data[M.Notes.name] = 'Some notes';
 Ext.define('Ext.ensible.cal.EventRecord', {
     extend: 'Ext.data.Model',
     
-    idProperty: Ext.ensible.cal.EventMappings.EventId.mapping, 
+    idProperty: Ext.ensible.cal.EventMappings.EventId.name || 'id',
 
     initComponent: function() {
         this.fields = new Ext.util.MixedCollection(false, function(field){

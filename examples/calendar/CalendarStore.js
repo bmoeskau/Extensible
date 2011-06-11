@@ -24,6 +24,6 @@ Ext.define('Ext.ensible.sample.CalendarStore', {
     
     autoLoad: true,
     storeId: 'calendarStore',
-    idProperty: Ext.ensible.cal.CalendarMappings.CalendarId.mapping || 'id',
+    idProperty: Ext.ensible.cal.CalendarMappings.CalendarId.name || 'id',
     fields: Ext.ensible.cal.CalendarRecord.prototype.fields.getRange()
 });
