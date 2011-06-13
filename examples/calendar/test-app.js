@@ -34,7 +34,7 @@
                     contentEl: 'app-header-content'
                 },{
                     id: 'app-center',
-                    title: '...', // will be updated to the current view's date range
+                    title: ' ', // will be updated to the current view's date range
                     region: 'center',
                     layout: 'border',
                     listeners: {
@@ -154,9 +154,7 @@
                                         this.editWin.hide();
                                     };
                                     if(dateInfo){
-                                        // will be null when switching to the event edit form so ignore
-                                        //Ext.getCmp('app-nav-picker').setValue(dateInfo.activeDate);
-                                        this.updateTitle(dateInfo.viewStart, dateInfo.viewEnd);
+                                        //this.updateTitle(dateInfo.viewStart, dateInfo.viewEnd);
                                     }
                                 },
                                 scope: this
