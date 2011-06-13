@@ -47,6 +47,19 @@ Ext.data.reader.Reader.override({
     }
 });
 
+Ext.form.Basic.override({
+    reset: function() {
+        var me = this;
+        //me.batchLayouts(function() {
+            me.getFields().each(function(f) {
+                f.reset();
+            });
+        //});
+        return me;
+    }
+});
+
+
 //TODO: remove this once we are synced to trunk again
 //Ext.override(Ext.XTemplate, {
 //    applySubTemplate : function(id, values, parent, xindex, xcount){
