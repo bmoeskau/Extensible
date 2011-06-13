@@ -839,7 +839,7 @@ viewConfig: {
     // private
     onAdd : function(ds, recs, index){
         var rec = Ext.isArray(recs) ? recs[0] : recs; 
-        if(this.hidden === true || this.monitorStoreEvents === false || rec.phantom){
+        if(this.hidden === true || this.monitorStoreEvents === false){
             return;
         }
         if(rec._deleting){
@@ -1483,18 +1483,20 @@ alert('End: '+bounds.end);
     
     // private
     onWrite: function(store, operation){
-        var rec = operation.records[0];
-        
-        switch(operation.action){
-            case 'create': 
-                this.onAdd(store, rec);
-                break;
-            case 'update':
-                this.onUpdate(store, rec, Ext.data.Record.COMMIT);
-                break;
-            case 'destroy':
-                this.onRemove(store, rec);
-                break;
+        if (operation.wasSuccessful()) {
+            var rec = operation.records[0];
+            
+            switch(operation.action){
+                case 'create': 
+                    this.onAdd(store, rec);
+                    break;
+                case 'update':
+                    this.onUpdate(store, rec, Ext.data.Record.COMMIT);
+                    break;
+                case 'destroy':
+                    this.onRemove(store, rec);
+                    break;
+            }
         }
     },
     
