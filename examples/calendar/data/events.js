@@ -51,7 +51,7 @@ Ext.ensible.sample.EventData = {
         "cid":3,
         "title":"School holiday",
         "start":makeDate(5),
-        "end":makeDate(0, 7, 0, -1),
+        "end":makeDate(5),
         "ad":true,
         "rem":"2880"
     },{

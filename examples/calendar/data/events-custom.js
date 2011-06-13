@@ -61,7 +61,7 @@ Ext.ensible.sample.EventDataCustom = {
         "cal_id":"C3",
         "evt_title":"School holiday",
         "start_dt":makeDate(5),
-        "end_dt":makeDate(7, 0, 0, -1),
+        "end_dt":makeDate(5),
         "all_day":true,
         "reminder":"2880",
         "created_by":"Brian"
