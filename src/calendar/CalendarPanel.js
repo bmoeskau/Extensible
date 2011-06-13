@@ -751,23 +751,19 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
     setActiveView: function(id){
         var l = this.layout,
             tb = this.getDockedItems('toolbar')[0];
-            
+        
+        // show/hide the toolbar first so that the layout will calculate the correct item size
+        if (tb) {
+            tb[id === this.id+'-edit' ? 'hide' : 'show']();
+        }
+        
         l.setActiveItem(id);
         this.activeView = l.getActiveItem();
         
-        if(id == this.id+'-edit'){
-            if(tb){
-                tb.hide();
-            }
-            this.doLayout();
-        }
-        else{
-            if(id !== this.preEditView){
+        if(id !== this.id+'-edit'){
+           if(id !== this.preEditView){
                 l.activeItem.setStartDate(this.startDate, true);
             }
-            if(tb){
-               tb.show();
-           }
            this.updateNavState();
         }
         this.fireViewChange();
