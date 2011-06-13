@@ -730,45 +730,57 @@ td.ext-cal-dtitle-today div {
 /*******************************************
  * 
  * Calendar navigation picker styles
- * TODO: make image urls relative
  * 
  ******************************************/
 .ext-cal-nav-picker {
     border-style: none none solid;
     border-color: #99BBE8;
 }
-.ext-cal-nav-picker .x-date-left,
-.ext-cal-nav-picker .x-date-middle,
-.ext-cal-nav-picker .x-date-right {
-    background: url(http://extjs.cachefly.net/ext-3.2.0/resources/images/default/toolbar/bg.gif) repeat-x;
+.ext-cal-nav-picker .x-datepicker-header {
+    background: #D3E1F1 url(../images/default/ext/toolbar-bg.gif) repeat-x;
 }
-.ext-cal-nav-picker .x-date-left a {
-    background-image: url(http://extjs.cachefly.net/ext-3.2.0/resources/images/default/grid/page-prev.gif);
+.ext-cal-nav-picker .x-datepicker-month,
+.ext-cal-nav-picker .x-datepicker-prev,
+.ext-cal-nav-picker .x-datepicker-next {
+    background: transparent;
 }
-.ext-cal-nav-picker .x-date-right a {
-    background-image: url(http://extjs.cachefly.net/ext-3.2.0/resources/images/default/grid/page-next.gif);
+.ext-cal-nav-picker .x-datepicker-prev a {
+    background-image: url(../images/default/ext/page-prev.gif);
 }
-.ext-cal-nav-picker .x-date-middle {
+.ext-cal-nav-picker .x-datepicker-next a {
+    background-image: url(../images/default/ext/page-next.gif);
+}
+.ext-cal-nav-picker .x-datepicker-month {
     padding: 3px 0;
 }
-.ext-cal-nav-picker .x-date-middle .x-btn-text {
-    color: #555;
+.ext-cal-nav-picker .x-datepicker-month .x-btn-inner {
+    color: #555 !important;
     font-weight: bold;
+    font-family: arial,tahoma,verdana,helvetica;
 }
-.ext-cal-nav-picker .x-date-middle .x-btn-mc em.x-btn-arrow {
-    background-image: url(http://extjs.cachefly.net/ext-3.2.0/resources/images/default/button/arrow.gif);
+.ext-cal-nav-picker .x-datepicker-month .x-btn-split-right {
+    background-image: url(../images/default/ext/button-arrow.gif) !important;
     background-position: right 4px;
 }
-.ext-cal-nav-picker .x-date-inner {
+.ext-cal-nav-picker .x-datepicker-inner {
     border-top: 1px solid #BBCCFF;
 }
-.ext-cal-nav-picker .x-date-inner th {
+.ext-cal-nav-picker .x-datepicker-inner th {
     background: none;
     border-bottom: 1px solid #BBCCFF;
 }
-.ext-cal-nav-picker .x-date-inner .x-date-today a {
+.ext-cal-nav-picker .x-datepicker-inner .x-datepicker-today a {
     border-color: #BFA52F;
     background: #FFF4BF;
+}
+.ext-cal-nav-picker .x-monthpicker {
+    border: 0;
+    border-bottom: 1px solid #99BBE8;
+    top: 0 !important;
+    left: 0 !important;
+}
+.ext-cal-nav-picker .x-datepicker-footer {
+    background: #D3E1F1 url(../images/default/ext/toolbar-bg.gif) repeat-x;
 }
 
 /*******************************************
