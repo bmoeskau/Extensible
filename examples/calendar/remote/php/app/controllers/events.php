@@ -13,9 +13,9 @@ class Events extends ApplicationController {
 		$res->success = true;
 		$res->message = "Loaded data";
 		//var_dump($this->request);
-        if (isset($_REQUEST['start'])) {
-            $this->startDate = $_REQUEST['start'];
-            $this->endDate = $_REQUEST['end'];
+        if (isset($_REQUEST['startDate'])) {
+            $this->startDate = $_REQUEST['startDate'];
+            $this->endDate = $_REQUEST['endDate'];
             $res->data = Event::range($this->startDate, $this->endDate);
         } else {
         	$res->data = Event::all();

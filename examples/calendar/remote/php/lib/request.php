@@ -15,6 +15,8 @@ class Request {
         return $this->restful;
     }
     protected function parseRequest() {
+    	$this->fail = isset($_REQUEST['fail']) ? $_REQUEST['fail'] : false;
+    	
         if ($this->method == 'PUT') {   // <-- Have to jump through hoops to get PUT data
             $raw  = '';
             $httpContent = fopen('php://input', 'r');
@@ -25,8 +27,6 @@ class Request {
             $params = array();
             parse_str($raw, $params);
             
-            $this->fail = $params['fail'];
-
             if (isset($params['data'])) {
                 $this->params = json_decode(stripslashes($params['data']));
             } else {
@@ -39,7 +39,6 @@ class Request {
             
             if (isset($_REQUEST['data'])) {
                 $this->params = json_decode(stripslashes($_REQUEST['data']));
-                $this->fail = $_REQUEST['fail'];
             } else {
                 $raw  = '';
                 $httpContent = fopen('php://input', 'r');
@@ -47,12 +46,6 @@ class Request {
                     $raw .= $kb;
                 }
                 $this->params = json_decode(stripslashes($raw));
-                
-                if($this->method == 'DELETE'){
-                	$this->fail = (strpos($raw, 'fail=') !== false);
-                } else {
-                	$this->fail = $params->fail;
-                }
             }
         }
         

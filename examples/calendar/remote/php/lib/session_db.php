@@ -21,8 +21,8 @@ class SessionDB {
     public function insert($rec) {
         array_push($_SESSION['rs'], $rec);
     }
-    public function update($idx, $attributes) {
-        $_SESSION['rs'][$idx] = $attributes;
+    public function update($idx, $rec) {
+        $_SESSION['rs'][$idx] = $rec;
     }
     public function destroy($idx) {
         return array_shift(array_splice($_SESSION['rs'], $idx, 1));
