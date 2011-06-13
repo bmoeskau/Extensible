@@ -1,32 +1,35 @@
-/*
+/**
  * Farsi (Persian) translation
  * By Mohaqa
  * 03-10-2007, 06:23 PM
  */
-
-Ext.UpdateManager.defaults.indicatorText = '<div class="loading-indicator">در حال بارگذاری ...</div>';
-
-if(Ext.View){
-   Ext.View.prototype.emptyText = "";
+Ext.onReady(function() {
+if(Ext.Updater) {
+    Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">در حال بارگذاری ...</div>';
 }
 
-if(Ext.grid.GridPanel){
-   Ext.grid.GridPanel.prototype.ddText = "{0} رکورد انتخاب شده";
+if(Ext.view.View){
+   Ext.view.View.prototype.emptyText = "";
+}
+
+if(Ext.grid.Panel){
+   Ext.grid.Panel.prototype.ddText = "{0} رکورد انتخاب شده";
 }
 
 if(Ext.TabPanelItem){
    Ext.TabPanelItem.prototype.closeText = "بستن";
 }
 
-if(Ext.form.Field){
-   Ext.form.Field.prototype.invalidText = "مقدار فیلد صحیح نیست";
+if(Ext.form.field.Base){
+   Ext.form.field.Base.prototype.invalidText = "مقدار فیلد صحیح نیست";
 }
 
 if(Ext.LoadMask){
     Ext.LoadMask.prototype.msg = "در حال بارگذاری ...";
 }
 
-Date.monthNames = [
+if (Ext.Date) {
+Ext.Date.monthNames = [
    "ژانویه",
    "فوریه",
    "مارس",
@@ -41,7 +44,7 @@ Date.monthNames = [
    "دسامبر"
 ];
 
-Date.monthNumbers = {
+Ext.Date.monthNumbers = {
   Jan : 0,
   Feb : 1,
   Mar : 2,
@@ -56,7 +59,7 @@ Date.monthNumbers = {
   Dec : 11
 };
 
-Date.dayNames = [
+Ext.Date.dayNames = [
    "یکشنبه",
    "دوشنبه",
    "سه شنبه",
@@ -65,6 +68,7 @@ Date.dayNames = [
    "جمعه",
    "شنبه"
 ];
+}
 
 if(Ext.MessageBox){
    Ext.MessageBox.buttonText = {
@@ -76,34 +80,40 @@ if(Ext.MessageBox){
 }
 
 if(Ext.util.Format){
-   Ext.util.Format.date = function(v, format){
-      if(!v) return "";
-      if(!(v instanceof Date)) v = new Date(Date.parse(v));
-      return v.dateFormat(format || "Y/m/d");
-   };
+    Ext.apply(Ext.util.Format, {
+        thousandSeparator: '.',
+        decimalSeparator: ',',
+        currencySign: '\ufdfc', // Iranian Rial
+        dateFormat: 'Y/m/d'
+    });
 }
 
-if(Ext.DatePicker){
-  Ext.apply(Ext.DatePicker.prototype, {
+if(Ext.picker.Date){
+  Ext.apply(Ext.picker.Date.prototype, {
     todayText         : "امروز",
     minText           : "این تاریخ قبل از محدوده مجاز است",
     maxText           : "این تاریخ پس از محدوده مجاز است",
     disabledDaysText  : "",
     disabledDatesText : "",
-    monthNames        : Date.monthNames,
-    dayNames          : Date.dayNames,
+    monthNames        : Ext.Date.monthNames,
+    dayNames          : Ext.Date.dayNames,
     nextText          : 'ماه بعد (Control + Right)',
     prevText          : 'ماه قبل (Control+Left)',
     monthYearText     : 'یک ماه را انتخاب کنید (Control+Up/Down برای انتقال در سال)',
     todayTip          : "{0} (Spacebar)",
     format            : "y/m/d",
-    okText            : "&#160;OK&#160;",
-    cancelText        : "Cancel",
     startDay          : 0
    });
 }
 
-if(Ext.PagingToolbar){
+if(Ext.picker.Month) {
+  Ext.apply(Ext.picker.Month.prototype, {
+      okText            : "&#160;OK&#160;",
+      cancelText        : "Cancel"
+  });
+}
+
+if(Ext.toolbar.Paging){
    Ext.apply(Ext.PagingToolbar.prototype, {
       beforePageText : "صفحه",
       afterPageText  : "از {0}",
@@ -117,8 +127,8 @@ if(Ext.PagingToolbar){
    });
 }
 
-if(Ext.form.TextField){
-   Ext.apply(Ext.form.TextField.prototype, {
+if(Ext.form.field.Text){
+   Ext.apply(Ext.form.field.Text.prototype, {
       minLengthText : "حداقل طول این فیلد برابر است با {0}",
       maxLengthText : "حداکثر طول این فیلد برابر است با {0}",
       blankText     : "این فیلد باید مقداری داشته باشد",
@@ -127,16 +137,16 @@ if(Ext.form.TextField){
    });
 }
 
-if(Ext.form.NumberField){
-   Ext.apply(Ext.form.NumberField.prototype, {
+if(Ext.form.field.Number){
+   Ext.apply(Ext.form.field.Number.prototype, {
       minText : "حداقل مقدار این فیلد برابر است با {0}",
       maxText : "حداکثر مقدار این فیلد برابر است با {0}",
       nanText : "{0} یک عدد نیست"
    });
 }
 
-if(Ext.form.DateField){
-   Ext.apply(Ext.form.DateField.prototype, {
+if(Ext.form.field.Date){
+   Ext.apply(Ext.form.field.Date.prototype, {
       disabledDaysText  : "غیرفعال",
       disabledDatesText : "غیرفعال",
       minText           : "تاریخ باید پس از {0} باشد",
@@ -146,15 +156,15 @@ if(Ext.form.DateField){
    });
 }
 
-if(Ext.form.ComboBox){
-   Ext.apply(Ext.form.ComboBox.prototype, {
+if(Ext.form.field.ComboBox){
+   Ext.apply(Ext.form.field.ComboBox.prototype, {
       loadingText       : "در حال بارگذاری ...",
       valueNotFoundText : undefined
    });
 }
 
-if(Ext.form.VTypes){
-   Ext.apply(Ext.form.VTypes, {
+if(Ext.form.field.VTypes){
+   Ext.apply(Ext.form.field.VTypes, {
       emailText    : 'مقدار این فیلد باید یک ایمیل با این فرمت باشد "user@example.com"',
       urlText      : 'مقدار این آدرس باید یک آدرس سایت با این فرمت باشد "http:/'+'/www.example.com"',
       alphaText    : 'مقدار این فیلد باید فقط از حروف الفبا و _ تشکیل شده باشد ',
@@ -162,86 +172,86 @@ if(Ext.form.VTypes){
    });
 }
 
-if(Ext.form.HtmlEditor){
-  Ext.apply(Ext.form.HtmlEditor.prototype, {
+if(Ext.form.field.HtmlEditor){
+  Ext.apply(Ext.form.field.HtmlEditor.prototype, {
     createLinkText : 'لطفا آدرس لینک را وارد کنید:',
     buttonTips : {
       bold : {
         title: 'تیره (Ctrl+B)',
         text: 'متن انتخاب شده را تیره می کند.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       italic : {
         title: 'ایتالیک (Ctrl+I)',
         text: 'متن انتخاب شده را ایتالیک می کند.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       underline : {
         title: 'زیرخط (Ctrl+U)',
         text: 'زیر هر نوشته یک خط نمایش می دهد.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       increasefontsize : {
         title: 'افزایش اندازه',
         text: 'اندازه فونت را افزایش می دهد.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       decreasefontsize : {
         title: 'کاهش اندازه',
         text: 'اندازه متن را کاهش می دهد.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       backcolor : {
         title: 'رنگ زمینه متن',
         text: 'برای تغییر رنگ زمینه متن استفاده می شود.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       forecolor : {
         title: 'رنگ قلم',
         text: 'رنگ  قلم متن را تغییر می دهد.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       justifyleft : {
         title: 'چیدن متن از سمت چپ',
         text: 'متن از سمت چپ چیده شده می شود.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       justifycenter : {
         title: 'متن در وسط ',
         text: 'نمایش متن در قسمت وسط صفحه و رعابت سمت چپ و راست.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       justifyright : {
         title: 'چیدن متن از سمت راست',
         text: 'متن از سمت راست پیده خواهد شد.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       insertunorderedlist : {
         title: 'لیست همراه با علامت',
         text: 'یک لیست جدید ایجاد می کند.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       insertorderedlist : {
         title: 'لیست عددی',
         text: 'یک لیست عددی ایجاد می کند. ',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       createlink : {
         title: 'لینک',
         text: 'متن انتخاب شده را به لینک تبدیل کنید.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       },
       sourceedit : {
         title: 'ویرایش سورس',
         text: 'رفتن به حالت ویرایش سورس.',
-        cls: 'x-html-editor-tip'
+        cls: Ext.baseCSSPrefix + 'html-editor-tip'
       }
     }
   });
 }
 
-if(Ext.grid.GridView){
-   Ext.apply(Ext.grid.GridView.prototype, {
+if(Ext.grid.header.Container){
+   Ext.apply(Ext.grid.header.Container.prototype, {
       sortAscText  : "مرتب سازی افزایشی",
       sortDescText : "مرتب سازی کاهشی",
       lockText     : "قفل ستون ها",
@@ -264,3 +274,5 @@ if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
       collapsibleSplitTip : "برای تغییر اندازه درگ کنید."
    });
 }
+
+});
