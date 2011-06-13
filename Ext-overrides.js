@@ -9,6 +9,44 @@ Ext.picker.Color.override({
     }
 });
 
+Ext.data.reader.Reader.override({
+    extractData : function(root) {
+        var me = this,
+            values  = [],
+            records = [],
+            Model   = me.model,
+            i       = 0,
+            length  = root.length,
+            idProp  = me.getIdProperty(),
+            node, id, record;
+            
+        if (!root.length && Ext.isObject(root)) {
+            root = [root];
+            length = 1;
+        }
+
+        for (; i < length; i++) {
+            node   = root[i];
+            values = me.extractValues(node);
+            
+            // MOD: Assuming that the idProperty is intended to use the id mapping, if
+            // available, getId() should read from the mapped values not the raw values
+            //id     = me.getId(node);
+            id     = me.getId(values);
+            // END MOD
+            
+            record = new Model(values, id, node);
+            records.push(record);
+                
+            if (me.implicitIncludes) {
+                me.readAssociated(record, node);
+            }
+        }
+
+        return records;
+    }
+});
+
 //TODO: remove this once we are synced to trunk again
 //Ext.override(Ext.XTemplate, {
 //    applySubTemplate : function(id, values, parent, xindex, xcount){
