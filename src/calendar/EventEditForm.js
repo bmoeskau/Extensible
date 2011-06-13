@@ -188,7 +188,7 @@ Ext.define('Ext.ensible.cal.EventEditForm', {
         this.fbar = [{
             text:this.saveButtonText, scope: this, handler: this.onSave
         },{
-            cls:'ext-del-btn', text:this.deleteButtonText, scope:this, handler:this.onDelete
+            itemId:this.id+'-del-btn', text:this.deleteButtonText, scope:this, handler:this.onDelete
         },{
             text:this.cancelButtonText, scope: this, handler: this.onCancel
         }];
@@ -220,13 +220,12 @@ Ext.define('Ext.ensible.cal.EventEditForm', {
         
         //this.isAdd = !!rec.data[Ext.ensible.cal.EventMappings.IsNew.name];
         if(rec.phantom){
-            //rec.markDirty();
             this.setTitle(this.titleTextAdd);
-            Ext.select('.ext-del-btn').setDisplayed(false);
+            this.down('#' + this.id + '-del-btn').hide();
         }
         else {
             this.setTitle(this.titleTextEdit);
-            Ext.select('.ext-del-btn').setDisplayed(true);
+            this.down('#' + this.id + '-del-btn').show();
         }
         this.titleField.focus();
     },

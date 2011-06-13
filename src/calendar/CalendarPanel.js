@@ -639,10 +639,6 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
     
     // private
     onStoreAdd : function(ds, recs, index){
-        var rec = Ext.isArray(recs) ? recs[0] : recs;
-        if(rec.phantom){
-            return;
-        }
         this.hideEditForm();
     },
     
