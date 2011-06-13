@@ -23,7 +23,7 @@ Ext.onReady(function(){
         displayField: 'name',
         valueField: 'dtd',
         typeAhead: true,
-        mode: 'local',
+        queryMode: 'local',
         triggerAction: 'all',
         emptyText: 'Select a doctype...',
         selectOnFocus: true,

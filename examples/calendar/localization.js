@@ -30,7 +30,7 @@ Ext.ensible.LocaleSample = function(){
                 displayField: 'desc',
                 valueField: 'code',
                 typeAhead: true,
-                mode: 'local',
+                queryMode: 'local',
                 triggerAction: 'all',
                 emptyText: 'Select a locale...',
                 selectOnFocus: true,
