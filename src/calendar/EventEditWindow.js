@@ -273,7 +273,7 @@ Ext.define('Ext.ensible.cal.EventEditWindow', {
             this.setTitle(this.titleTextAdd);
 
             var start = o[M.StartDate.name],
-                end = o[M.EndDate.name] || start.add('h', 1);
+                end = o[M.EndDate.name] || Ext.ensible.Date.add(start, {hours: 1});
                 
             rec = new Ext.ensible.cal.EventRecord();
             //rec.data[M.EventId.name] = this.newId++;
