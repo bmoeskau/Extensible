@@ -91,6 +91,7 @@
 }
 .ext-cal-month-hd .ext-cal-hd-days-tbl {
     border-top: 1px solid #99BBE8;
+    background: #eee;
 }
 .x-calendar-nonav .ext-cal-month-hd .ext-cal-hd-days-tbl {
     border-top: 0;
