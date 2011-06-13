@@ -204,8 +204,8 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
      */
     
     // private
-    layoutConfig: {
-        layoutOnCardChange: true,
+    layout: {
+        type: 'card',
         deferredRender: true
     },
     
@@ -479,7 +479,6 @@ Ext.define('Ext.ensible.cal.CalendarPanel', {
              */
         });
         
-        this.layout = 'card'; // do not allow override
         this.addCls('x-cal-panel');
         
         if(this.eventStore){
