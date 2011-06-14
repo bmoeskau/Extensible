@@ -75,7 +75,7 @@ Ext.define('Ext.ensible.cal.DayBodyTemplate', {
             fmt = Ext.ensible.Date.use24HourTime ? 'G:i' : 'ga';
         
         // use a fixed DST-safe date so times don't get skipped on DST boundaries
-        dt = Ext.ensible.Date.add(new Date('5/26/1972'), {hours: start, clearTime: true});
+        dt = Ext.ensible.Date.add(new Date('5/26/1972'), {hours: start});
         
         for(i=start; i<end; i++){
             times.push(Ext.Date.format(dt, fmt));
