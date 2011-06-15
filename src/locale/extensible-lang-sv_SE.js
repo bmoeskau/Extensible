@@ -5,8 +5,8 @@
 
 Ext.ensible.Date.use24HourTime = true;
 
-if(Ext.ensible.cal.CalendarView) {
-    Ext.apply(Ext.ensible.cal.CalendarView.prototype, {
+if(Extensible.calendar.view.AbstractCalendar) {
+    Ext.apply(Extensible.calendar.view.AbstractCalendar.prototype, {
         startDay: 1,
         todayText: 'Idag',
         defaultEventTitleText: '(Ingen titel)',
@@ -16,8 +16,8 @@ if(Ext.ensible.cal.CalendarView) {
     });
 }
 
-if(Ext.ensible.cal.MonthView) {
-    Ext.apply(Ext.ensible.cal.MonthView.prototype, {
+if(Extensible.calendar.view.Month) {
+    Ext.apply(Extensible.calendar.view.Month.prototype, {
         moreText: '+{0} ytterligare...',
         getMoreText: function(numEvents){
             return '+{0} ytterligare...';
@@ -26,8 +26,8 @@ if(Ext.ensible.cal.MonthView) {
     });
 }
 
-if(Ext.ensible.cal.CalendarPanel) {
-    Ext.apply(Ext.ensible.cal.CalendarPanel.prototype, {
+if(Extensible.calendar.CalendarPanel) {
+    Ext.apply(Extensible.calendar.CalendarPanel.prototype, {
         todayText: 'Idag',
         dayText: 'Dag',
         weekText: 'Vecka',
@@ -45,8 +45,8 @@ if(Ext.ensible.cal.CalendarPanel) {
     });
 }
 
-if(Ext.ensible.cal.EventEditWindow) {
-    Ext.apply(Ext.ensible.cal.EventEditWindow.prototype, {
+if(Extensible.calendar.form.EventWindow) {
+    Ext.apply(Extensible.calendar.form.EventWindow.prototype, {
         width: 600,
         labelWidth: 65,
         titleTextAdd: 'Lägg till aktivitet',
@@ -63,8 +63,8 @@ if(Ext.ensible.cal.EventEditWindow) {
     });
 }
 
-if(Ext.ensible.cal.EventEditForm) {
-    Ext.apply(Ext.ensible.cal.EventEditForm.prototype, {
+if(Extensible.calendar.form.EventDetails) {
+    Ext.apply(Extensible.calendar.form.EventDetails.prototype, {
         labelWidth: 65,
         labelWidthRightCol: 75,
         title: 'aktivitetformulär',
@@ -84,33 +84,33 @@ if(Ext.ensible.cal.EventEditForm) {
     });
 }
 
-if(Ext.ensible.cal.DateRangeField) {
-    Ext.apply(Ext.ensible.cal.DateRangeField.prototype, {
+if(Extensible.form.field.DateRange) {
+    Ext.apply(Extensible.form.field.DateRange.prototype, {
         toText: 'till',
         allDayText: 'Hela dagen'
     });
 }
 
-if(Ext.ensible.cal.CalendarCombo) {
-    Ext.apply(Ext.ensible.cal.CalendarCombo.prototype, {
+if(Extensible.calendar.form.field.CalendarCombo) {
+    Ext.apply(Extensible.calendar.form.field.CalendarCombo.prototype, {
         fieldLabel: 'Kalender'
     });
 }
 
-if(Ext.ensible.cal.CalendarList) {
-    Ext.apply(Ext.ensible.cal.CalendarList.prototype, {
+if(Extensible.calendar.gadget.CalendarListPanel) {
+    Ext.apply(Extensible.calendar.gadget.CalendarListPanel.prototype, {
         title: 'Kalendrar'
     });
 }
 
-if(Ext.ensible.cal.CalendarListMenu) {
-    Ext.apply(Ext.ensible.cal.CalendarListMenu.prototype, {
+if(Extensible.calendar.gadget.CalendarListMenu) {
+    Ext.apply(Extensible.calendar.gadget.CalendarListMenu.prototype, {
         displayOnlyThisCalendarText: 'Visa endat denna kalender'
     });
 }
 
-if(Ext.ensible.cal.RecurrenceCombo) {
-    Ext.apply(Ext.ensible.cal.RecurrenceCombo.prototype, {
+if(Extensible.form.recurrence.Combo) {
+    Ext.apply(Extensible.form.recurrence.Combo.prototype, {
         fieldLabel: 'Upprepa',
         recurrenceText: {
             none: 'Aldrig',
@@ -122,8 +122,8 @@ if(Ext.ensible.cal.RecurrenceCombo) {
     });
 }
 
-if(Ext.ensible.cal.ReminderField) {
-    Ext.apply(Ext.ensible.cal.ReminderField.prototype, {
+if(Extensible.calendar.ReminderField) {
+    Ext.apply(Extensible.calendar.ReminderField.prototype, {
         fieldLabel: 'Påminnelse',
         noneText: 'Ingen',
         atStartTimeText: 'Vid start',
@@ -143,36 +143,36 @@ if(Ext.ensible.cal.ReminderField) {
     });
 }
 
-if(Ext.ensible.cal.DateRangeField) {
-    Ext.apply(Ext.ensible.cal.DateRangeField.prototype, {
+if(Extensible.form.field.DateRange) {
+    Ext.apply(Extensible.form.field.DateRange.prototype, {
         dateFormat: 'd/m/Y'
     });
 }
 
-if(Ext.ensible.cal.EventContextMenu) {
-    Ext.apply(Ext.ensible.cal.EventContextMenu.prototype, {
+if(Extensible.calendar.menu.Event) {
+    Ext.apply(Extensible.calendar.menu.Event.prototype, {
         editDetailsText: 'Ändra detaljer',
         deleteText: 'Ta bort',
         moveToText: 'Flytta till...'
     });
 }
 
-if(Ext.ensible.cal.DropZone) {
-    Ext.apply(Ext.ensible.cal.DropZone.prototype, {
+if(Extensible.calendar.dd.DropZone) {
+    Ext.apply(Extensible.calendar.dd.DropZone.prototype, {
         dateRangeFormat: '{0}-{1}',
         dateFormat: 'd/m'
     });
 }
 
-if(Ext.ensible.cal.DayViewDropZone) {
-    Ext.apply(Ext.ensible.cal.DayViewDropZone.prototype, {
+if(Extensible.calendar.dd.DayDropZone) {
+    Ext.apply(Extensible.calendar.dd.DayDropZone.prototype, {
         dateRangeFormat: '{0}-{1}',
         dateFormat : 'd/m'
     });
 }
 
-if(Ext.ensible.cal.BoxLayoutTemplate) {
-    Ext.apply(Ext.ensible.cal.BoxLayoutTemplate.prototype, {
+if(Extensible.calendar.template.BoxLayout) {
+    Ext.apply(Extensible.calendar.template.BoxLayout.prototype, {
         firstWeekDateFormat: 'D d',
         otherWeeksDateFormat: 'd',
         singleDayDateFormat: 'l d F Y',
@@ -181,8 +181,8 @@ if(Ext.ensible.cal.BoxLayoutTemplate) {
     });
 }
 
-if(Ext.ensible.cal.MonthViewTemplate) {
-    Ext.apply(Ext.ensible.cal.MonthViewTemplate.prototype, {
+if(Extensible.calendar.template.Month) {
+    Ext.apply(Extensible.calendar.template.Month.prototype, {
         dayHeaderFormat: 'D',
         dayHeaderTitleFormat: 'l d F Y'
     });

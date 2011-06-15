@@ -1,18 +1,18 @@
 /**
- * @class Ext.ensible.cal.EventMappings
+ * @class Extensible.calendar.data.EventMappings
  * @extends Object
  * <p>A simple object that provides the field definitions for 
- * {@link Ext.ensible.cal.EventRecord EventRecord}s so that they can be easily overridden.</p>
+ * {@link Extensible.calendar.EventRecord EventRecord}s so that they can be easily overridden.</p>
  * 
  * <p>There are several ways of overriding the default Event record mappings to customize how 
  * Ext records are mapped to your back-end data model. If you only need to change a handful 
  * of field properties you can directly modify the EventMappings object as needed and then 
  * reconfigure it. The simplest approach is to only override specific field attributes:</p>
  * <pre><code>
-var M = Ext.ensible.cal.EventMappings;
+var M = Extensible.calendar.data.EventMappings;
 M.Title.mapping = 'evt_title';
 M.Title.name = 'EventTitle';
-Ext.ensible.cal.EventRecord.reconfigure();
+Extensible.calendar.EventRecord.reconfigure();
 </code></pre>
  * 
  * <p>You can alternately override an entire field definition using object-literal syntax, or 
@@ -21,12 +21,12 @@ Ext.ensible.cal.EventRecord.reconfigure();
  * if the field is not the default type of <tt>string</tt>.</p>
  * <pre><code>
 // Add a new field that does not exist in the default EventMappings:
-Ext.ensible.cal.EventMappings.Timestamp = {
+Extensible.calendar.data.EventMappings.Timestamp = {
     name: 'Timestamp',
     mapping: 'timestamp',
     type: 'date'
 };
-Ext.ensible.cal.EventRecord.reconfigure();
+Extensible.calendar.EventRecord.reconfigure();
 </code></pre>
  * 
  * <p>If you are overriding a significant number of field definitions it may be more convenient 
@@ -36,7 +36,7 @@ Ext.ensible.cal.EventRecord.reconfigure();
  * (e.g., 'EventId') should <b>NOT</b> be changed for the default EventMappings fields as it 
  * is the key used to access the field data programmatically.</p>
  * <pre><code>
-Ext.ensible.cal.EventMappings = {
+Extensible.calendar.data.EventMappings = {
     EventId:     {name: 'ID', mapping:'evt_id', type:'int'},
     CalendarId:  {name: 'CalID', mapping: 'cal_id', type: 'int'},
     Title:       {name: 'EvtTitle', mapping: 'evt_title'},
@@ -54,7 +54,7 @@ Ext.ensible.cal.EventMappings = {
     IsPrivate:   {name: 'Private', mapping:'private', type:'boolean'}
 };
 // Don't forget to reconfigure!
-Ext.ensible.cal.EventRecord.reconfigure();
+Extensible.calendar.EventRecord.reconfigure();
 </code></pre>
  * 
  * <p><b>NOTE:</b> Any record reconfiguration you want to perform must be done <b>PRIOR to</b> 
@@ -72,14 +72,14 @@ var reader = new Ext.data.JsonReader({
     messageProperty: 'message',
     
     // read the id property generically, regardless of the mapping:
-    idProperty: Ext.ensible.cal.EventMappings.EventId.mapping  || 'id',
+    idProperty: Extensible.calendar.data.EventMappings.EventId.mapping  || 'id',
     
     // this is also a handy way to configure your reader's fields generically:
-    fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange()
+    fields: Extensible.calendar.EventRecord.prototype.fields.getRange()
 });
 </code></pre>
  */
-Ext.ensible.cal.EventMappings = {
+Extensible.calendar.data.EventMappings = {
     EventId:     {name: 'EventId', mapping:'id', type:'int'},
     CalendarId:  {name: 'CalendarId', mapping: 'cid', type: 'int'},
     Title:       {name: 'Title', mapping: 'title', type: 'string'},

@@ -23,16 +23,15 @@
     <script type="text/javascript" src="CalendarStore.js"></script>
     <script type="text/javascript" src="MemoryEventStore.js"></script>
 	<script type="text/javascript" src="test-app.js"></script>
+    
     <script type="text/javascript">
-//        Ext.Loader.setConfig({
-//            enabled: true,
-//            paths: [{
-//                'Ext.ensible.cal': 'src/'
-//            }]
-//        });
-//        Ext.require([
-//        
-//        ]);
+        Ext.Loader.setPath({
+            'Ext.ensible': '../../src'
+        });
+        
+        Ext.require([
+        
+        ]);
         
         Ext.onReady(function(){
             App.init();

@@ -3,10 +3,9 @@
 <h2>An Ext JS Component Library</h2>
 <p>by Brian Moeskau</p>
 
-<div style="border:2px solid #C33;padding:15px;">
-	<p><strong>IMPORTANT NOTE:</strong> Extensible is currently being upgraded for Ext 4 support, and will be updated to Extensible 2.0 when complete (it will be a free update for all users). Ext 3.x will still be supported in a separate branch, but the master branch will now require Ext 4. If you are still using Ext 3.x or require production quality code, do *NOT* pull from master -- instead pull from the Extensible 1.x branch.</p>
-	<p>Complete details will be added soon for how versions will be managed going forward, once the upgrade process is complete. The master branch should currently be considered alpha quality code and is not yet complete and stable. Once it is back to production-ready code this message will be updated.</p>
-</div>
+<h2>Ext Versions Supported</h2>
+<p>Extensible now fully supports both Ext 3 and Ext 4. Unfortunately since Ext 4 is not backwards-compatible it means that Extensible must now be managed in 2 separate branches in order to maintain support for both versions of Ext. As long as Ext 3 is supported by Sencha, the Ext 3 compatible versions of all Extensible components will be maintained as well.</p>
+<p>The default master branch is now only compatible with Ext 4, and all Extensible releases from 1.5 forward will be for Ext 4. The Extensible 1.x branch (less than 1.5) will remain as the Ext 3 compatible line of code.</p>
 
 <h2>Building the Source</h2>
 <p>Build scripts for both Mac/Unix (<code>build/build.sh</code>) and Windows (<code>build/build.bat</code>) are included.  You must have a current version of Java installed for JSBuilder to work.  You should also edit the build script and update the path variables as needed for your system.</p>

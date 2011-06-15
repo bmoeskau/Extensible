@@ -5,29 +5,29 @@
  */
 (function(){
     
-    Ext.ns('Ext.ensible.ux', 'Ext.ensible.sample', 'Ext.ensible.plugins', 'Ext.ensible.cal');
+    Ext.ns('Extensible.ux', 'Extensible.sample', 'Extensible.plugins', 'Extensible.calendar');
     
-    Ext.apply(Ext.ensible, {
+    Ext.apply(Extensible, {
         /**
          * The version of the Extensible framework
          * @type String
          */
-        version : '2.0',
+        version : '1.5.0',
         /**
          * The version of the framework, broken out into its numeric parts. This returns an
          * object that contains the following integer properties: major, minor and patch.
          * @type Object
          */
         versionDetails : {
-            major: 2,
-            minor: 0,
+            major: 1,
+            minor: 5,
             patch: 0
         },
         /**
          * The minimum version of Ext required to work with this version of Extensible
          * @type String
          */
-        extVersion : '4.0',
+        extVersion : '4.0.0',
         
         hasBorderRadius : Ext.supports.CSS3BorderRadius,
         
@@ -36,7 +36,7 @@
         },
     
        /**
-        * @class Ext.ensible.cal.Date
+        * @class Extensible.calendar.Date
         * @extends Object
         * <p>Contains utility date functions used by the calendar components.</p>
         * @singleton
@@ -245,4 +245,8 @@
             }
 	    }
     });
+    
+    // backwards compat
+    Ext.ensible = Extensible;
+    Ext.ensible.cal = Extensible.calendar;
 })();

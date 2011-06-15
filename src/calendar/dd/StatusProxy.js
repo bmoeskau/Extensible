@@ -1,12 +1,12 @@
 /**
- * @class Ext.ensible.cal.StatusProxy
+ * @class Extensible.calendar.dd.StatusProxy
  * A specialized drag proxy that supports a drop status icon, {@link Ext.Layer} styles and auto-repair. It also
  * contains a calendar-specific drag status message containing details about the dragged event's target drop date range.  
  * This is the default drag proxy used by all calendar views.
  * @constructor
  * @param {Object} config
  */
-Ext.define('Ext.ensible.cal.StatusProxy', {
+Ext.define('Extensible.calendar.dd.StatusProxy', {
     extend: 'Ext.dd.StatusProxy',
     
     /**
