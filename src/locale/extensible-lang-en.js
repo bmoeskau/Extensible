@@ -12,7 +12,7 @@
  * The Czech locale (extensible-lang-cs.js) is an example that uses these method overrides.
  */
 
-Ext.ensible.Date.use24HourTime = false;
+Extensible.Date.use24HourTime = false;
 
 if(Extensible.calendar.view.AbstractCalendar) {
     Ext.apply(Extensible.calendar.view.AbstractCalendar.prototype, {

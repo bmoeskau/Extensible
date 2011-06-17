@@ -273,13 +273,13 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             this.setTitle(this.titleTextAdd);
 
             var start = o[M.StartDate.name],
-                end = o[M.EndDate.name] || Ext.ensible.Date.add(start, {hours: 1});
+                end = o[M.EndDate.name] || Extensible.Date.add(start, {hours: 1});
                 
             rec = new Extensible.calendar.data.EventModel();
             //rec.data[M.EventId.name] = this.newId++;
             rec.data[M.StartDate.name] = start;
             rec.data[M.EndDate.name] = end;
-            rec.data[M.IsAllDay.name] = !!o[M.IsAllDay.name] || start.getDate() != Ext.ensible.Date.add(end, {millis: 1}).getDate();
+            rec.data[M.IsAllDay.name] = !!o[M.IsAllDay.name] || start.getDate() != Extensible.Date.add(end, {millis: 1}).getDate();
             
             f.reset();
             f.loadRecord(rec);

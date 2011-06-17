@@ -18,7 +18,7 @@ Ext.define('Extensible.calendar.data.EventStore', {
     },
     
     load : function(o){
-        Ext.ensible.log('store load');
+        Extensible.log('store load');
         o = o || {};
         
         // if params are passed delete the one-time defaults

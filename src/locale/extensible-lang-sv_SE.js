@@ -3,7 +3,7 @@
  * By Mats Bryntse, http://ext-scheduler.com
  */
 
-Ext.ensible.Date.use24HourTime = true;
+Extensible.Date.use24HourTime = true;
 
 if(Extensible.calendar.view.AbstractCalendar) {
     Ext.apply(Extensible.calendar.view.AbstractCalendar.prototype, {

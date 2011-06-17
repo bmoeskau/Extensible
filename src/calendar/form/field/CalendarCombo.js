@@ -18,6 +18,8 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
     extend: 'Ext.form.field.ComboBox',
     alias: 'widget.calendarcombo',
     
+    requires: ['Extensible.calendar.data.CalendarMappings'],
+    
     fieldLabel: 'Calendar',
     triggerAction: 'all',
     queryMode: 'local',
@@ -25,14 +27,14 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
     selectOnFocus: true,
     width: 200,
     
-    valueField: Extensible.calendar.data.CalendarMappings.CalendarId.name,
-    displayField: Extensible.calendar.data.CalendarMappings.Title.name,
-    
     // private
     defaultCls: 'x-cal-default',
     
     // private
     initComponent: function(){
+        this.valueField = this.valueField || Extensible.calendar.data.CalendarMappings.CalendarId.name;
+        this.displayField = this.displayField || Extensible.calendar.data.CalendarMappings.Title.name;
+    
         this.listConfig = Ext.apply(this.listConfig || {}, {
             getInnerTpl: this.getListItemTpl
         });
@@ -51,7 +53,7 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
         this.wrap = this.el.down('.x-form-item-body');
         this.wrap.addCls('ext-calendar-picker');
         
-        this.icon = Ext.DomHelper.append(this.wrap, {
+        this.icon = Ext.core.DomHelper.append(this.wrap, {
             tag: 'div', cls: 'ext-cal-picker-icon ext-cal-picker-mainicon'
         });
     },

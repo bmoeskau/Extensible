@@ -12,6 +12,8 @@
 Ext.define('Extensible.calendar.template.Month', {
     extend: 'Ext.XTemplate',
     
+    requires: ['Extensible.calendar.template.BoxLayout'],
+    
     /**
      * @cfg {String} dayHeaderFormat
      * The date format to use for day headers, if used (defaults to 'D', e.g. 'Mon' for Monday)
@@ -29,7 +31,7 @@ Ext.define('Extensible.calendar.template.Month', {
         
         Ext.apply(this, config);
     
-        this.weekTpl = new Extensible.calendar.template.BoxLayout(config);
+        this.weekTpl = Ext.create('Extensible.calendar.template.BoxLayout', config);
         this.weekTpl.compile();
         
         var weekLinkTpl = this.showWeekLinks ? '<div class="ext-cal-week-link-hd">&#160;</div>' : '';
@@ -58,7 +60,7 @@ Ext.define('Extensible.calendar.template.Month', {
         var days = [],
             weeks = this.weekTpl.apply(o),
             dt = o.viewStart,
-            D = Ext.ensible.Date;
+            D = Extensible.Date;
         
         for(var i = 0; i < 7; i++){
             var d = D.add(dt, {days: i});
@@ -79,6 +81,7 @@ Ext.define('Extensible.calendar.template.Month', {
             extraClasses: extraClasses
         });
     }
+}, 
+function() {
+    this.createAlias('apply', 'applyTemplate');
 });
-
-Extensible.calendar.template.Month.prototype.apply = Extensible.calendar.template.Month.prototype.applyTemplate;

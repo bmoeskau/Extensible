@@ -10,7 +10,7 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
     
     onNodeOver : function(n, dd, e, data){
         var dt, text = this.createText,
-            timeFormat = Ext.ensible.Date.use24HourTime ? 'G:i' : 'g:ia';
+            timeFormat = Extensible.Date.use24HourTime ? 'G:i' : 'g:ia';
             
         if(data.type == 'caldrag'){
             if(!this.dragStartMarker){
@@ -35,16 +35,16 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
             if(e.getY() < box.y){
                 box.height += n.timeBox.height;
                 box.y = box.y - box.height + n.timeBox.height;
-                endDt = Ext.ensible.Date.add(this.dragCreateDt, {minutes: this.ddIncrement});
+                endDt = Extensible.Date.add(this.dragCreateDt, {minutes: this.ddIncrement});
             }
             else{
-                n.date = Ext.ensible.Date.add(n.date, {minutes: this.ddIncrement});
+                n.date = Extensible.Date.add(n.date, {minutes: this.ddIncrement});
             }
             this.shim(this.dragCreateDt, box);
             
-            var curr = Ext.ensible.Date.copyTime(n.date, this.dragCreateDt);
-            this.dragStartDate = Ext.ensible.Date.min(this.dragCreateDt, curr);
-            this.dragEndDate = endDt || Ext.ensible.Date.max(this.dragCreateDt, curr);
+            var curr = Extensible.Date.copyTime(n.date, this.dragCreateDt);
+            this.dragStartDate = Extensible.Date.min(this.dragCreateDt, curr);
+            this.dragEndDate = endDt || Extensible.Date.max(this.dragCreateDt, curr);
                 
             dt = Ext.String.format(this.dateRangeFormat, 
                 Ext.Date.format(this.dragStartDate, timeFormat), 
@@ -85,13 +85,13 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
                     box.y -= box.height;
                 }
                 else{
-                    n.date = Ext.ensible.Date.add(n.date, {minutes: this.ddIncrement});
+                    n.date = Extensible.Date.add(n.date, {minutes: this.ddIncrement});
                 }
                 this.shim(this.resizeDt, box);
                 
-                var curr = Ext.ensible.Date.copyTime(n.date, this.resizeDt),
-                    start = Ext.ensible.Date.min(data.eventStart, curr),
-                    end = Ext.ensible.Date.max(data.eventStart, curr);
+                var curr = Extensible.Date.copyTime(n.date, this.resizeDt),
+                    start = Extensible.Date.min(data.eventStart, curr),
+                    end = Extensible.Date.max(data.eventStart, curr);
                     
                 data.resizeDates = {
                     StartDate: start,

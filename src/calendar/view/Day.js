@@ -14,6 +14,12 @@ Ext.define('Extensible.calendar.view.Day', {
     extend: 'Ext.Container',
     alias: 'widget.dayview',
     
+    requires: [
+        'Extensible.calendar.view.AbstractCalendar',
+        'Extensible.calendar.view.DayHeader',
+        'Extensible.calendar.view.DayBody'
+    ],
+    
     /**
      * @cfg {String} todayText
      * The text to display in the current day's box in the calendar when {@link #showTodayText} is true (defaults to 'Today')
@@ -22,18 +28,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * @cfg {Boolean} readOnly
      * True to prevent clicks on events or the view from providing CRUD capabilities, false to enable CRUD (the default).
      */
-    /**
-     * @cfg {String} ddCreateEventText
-     * The text to display inside the drag proxy while dragging over the calendar to create a new event (defaults to 
-     * 'Create event for {0}' where {0} is a date range supplied by the view)
-     */
-    ddCreateEventText: Extensible.calendar.view.AbstractCalendar.prototype.ddCreateEventText,
-    /**
-     * @cfg {String} ddMoveEventText
-     * The text to display inside the drag proxy while dragging an event to reposition it (defaults to 
-     * 'Move event to {0}' where {0} is the updated event start date/time supplied by the view)
-     */
-    ddMoveEventText: Extensible.calendar.view.AbstractCalendar.prototype.ddMoveEventText,
+
     /**
      * @cfg {Boolean} showTime
      * True to display the current time in today's box in the calendar, false to not display it (defaults to true)
@@ -121,6 +116,19 @@ Ext.define('Extensible.calendar.view.Day', {
     
     // private
     initComponent : function(){
+        /**
+         * @cfg {String} ddCreateEventText
+         * The text to display inside the drag proxy while dragging over the calendar to create a new event (defaults to 
+         * 'Create event for {0}' where {0} is a date range supplied by the view)
+         */
+        this.ddCreateEventText = this.ddCreateEventText || Extensible.calendar.view.AbstractCalendar.prototype.ddCreateEventText;
+        /**
+         * @cfg {String} ddMoveEventText
+         * The text to display inside the drag proxy while dragging an event to reposition it (defaults to 
+         * 'Move event to {0}' where {0} is the updated event start date/time supplied by the view)
+         */
+        this.ddMoveEventText = this.ddMoveEventText || Extensible.calendar.view.AbstractCalendar.prototype.ddMoveEventText;
+        
         // day count is only supported between 1 and 7 days
         this.dayCount = this.dayCount > 7 ? 7 : (this.dayCount < 1 ? 1 : this.dayCount);
         
@@ -171,7 +179,7 @@ Ext.define('Extensible.calendar.view.Day', {
     
     // private
     refresh : function(){
-        Ext.ensible.log('refresh (DayView)');
+        Extensible.log('refresh (DayView)');
         this.header.refresh();
         this.body.refresh();
     },

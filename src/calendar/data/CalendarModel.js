@@ -36,11 +36,16 @@ rec.data[M.ColorId.name] = 3;
  */
 Ext.define('Extensible.calendar.data.CalendarModel', {
     extend: 'Ext.data.Model',
+    
+    requires: ['Extensible.calendar.data.CalendarMappings'],
 
     initComponent: function() {
+        this.idProperty = this.idProperty || Extensible.calendar.data.CalendarMappings.CalendarId.name || 'id';
+        
         this.fields = new Ext.util.MixedCollection(false, function(field){
             return field.name;
         });
+        
         this.callParent(arguments);
     },
     
@@ -54,24 +59,24 @@ Ext.define('Extensible.calendar.data.CalendarModel', {
          * @return {Function} The updated CalendarRecord constructor function
          */
         reconfigure: function(){
-            var C = Ext.ensible.cal,
-                M = C.CalendarMappings,
-                proto = C.CalendarRecord.prototype,
+            var Data = Extensible.calendar.data,
+                Mappings = Data.CalendarMappings,
+                proto = Data.CalendarModel.prototype,
                 fields = [];
             
-            for(prop in M){
-                if(M.hasOwnProperty(prop)){
-                    fields.push(M[prop]);
+            for(prop in Mappings){
+                if(Mappings.hasOwnProperty(prop)){
+                    fields.push(Mappings[prop]);
                 }
             }
             proto.fields.clear();
             for(var i = 0, len = fields.length; i < len; i++){
-                proto.fields.add(new Ext.data.Field(fields[i]));
+                proto.fields.add(Ext.create('Ext.data.Field', fields[i]));
             }
-            return C.CalendarRecord;
+            return Data.CalendarModel;
         }
     }
+},
+function() {
+    Extensible.calendar.data.CalendarModel.reconfigure();
 });
-
-// Create the default definition now:
-Extensible.calendar.data.CalendarModel.reconfigure();

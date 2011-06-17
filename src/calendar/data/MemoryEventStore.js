@@ -1,4 +1,3 @@
-Ext.ns('Ext.ensible.sample');
 /*
  * This is a simple in-memory store implementation that is ONLY intended for use with
  * calendar samples running locally in the browser with no external data source. Under
@@ -13,9 +12,14 @@ Ext.ns('Ext.ensible.sample');
  * 
  * For a real-world store implementation see the remote sample (remote.js).
  */
-Ext.define('Ext.ensible.sample.MemoryEventStore', {
+Ext.define('Extensible.calendar.data.MemoryEventStore', {
     extend: 'Ext.data.Store',
-    model: 'Ext.ensible.cal.EventRecord',
+    model: 'Extensible.calendar.data.EventModel',
+    
+    requires: [
+        'Extensible.calendar.data.EventModel',
+        'Extensible.calendar.data.EventMappings'
+    ],
     
     proxy: {
         type: 'memory',
@@ -28,18 +32,27 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
         }
     },
     
-    sorters: [{
-        property: Ext.ensible.cal.EventMappings.StartDate.name,
-        direction: 'ASC'
-    }],
-    
-    storeId: 'eventStore',
-    idProperty: Ext.ensible.cal.EventMappings.EventId.mapping || 'id',
-    fields: Ext.ensible.cal.EventRecord.prototype.fields.getRange(),
+//    sorters: [{
+//        property: Extensible.calendar.data.EventMappings.StartDate.name,
+//        direction: 'ASC'
+//    }],
+//    
+//    //storeId: 'eventStore',
+//    idProperty: Extensible.calendar.data.EventMappings.EventId.mapping || 'id',
+//    fields: Extensible.calendar.data.EventModel.prototype.fields.getRange(),
     
     // private
     constructor: function(config){
         this.callParent(arguments);
+        
+        this.sorters = this.sorters || [{
+            property: Extensible.calendar.data.EventMappings.StartDate.name,
+            direction: 'ASC'
+        }];
+        
+        this.idProperty = this.idProperty || Extensible.calendar.data.EventMappings.EventId.mapping || 'id',
+        
+        this.fields = Extensible.calendar.data.EventModel.prototype.fields.getRange();
         
         // By default this shared example store will monitor its own CRUD events and 
         // automatically show a page-level message for each event. This is simply a shortcut
@@ -62,7 +75,22 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
         }
         
         this.autoMsg = config.autoMsg;
+        this.onCreateRecords = Ext.Function.createInterceptor(this.onCreateRecords, this.interceptCreateRecords);
         this.initRecs();
+    },
+    
+    // private - override to make sure that any records added in-memory
+    // still get a unique PK assigned at the data level
+    interceptCreateRecords: function(records, operation, success) {
+        if (success) {
+            var i = 0,
+                rec,
+                len = records.length;
+            
+            for (; i < len; i++) {
+                records[i].data[Extensible.calendar.data.EventMappings.EventId.name] = records[i].id;
+            }
+        }
     },
     
     // If the store started with preloaded inline data, we have to make sure the records are set up
@@ -78,23 +106,23 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
     onWrite: function(store, operation) {
         var me = this;
         
-        if(Ext.ensible.sample.msg) {
-            var success = operation.wasSuccessful(),
-                rec = operation.getRecords()[0],
-                title = rec.data[Ext.ensible.cal.EventMappings.Title.name];
-    
-            switch (operation.action) {
-                case 'create':
-                    Ext.ensible.sample.msg('Add', 'Added "' + Ext.value(title, '(No title)') + '"');
-                    break;
-                case 'update':
-                    Ext.ensible.sample.msg('Update', 'Updated "' + Ext.value(title, '(No title)') + '"');
-                    break;
-                case 'destroy':
-                    Ext.ensible.sample.msg('Delete', 'Deleted "' + Ext.value(title, '(No title)') + '"');
-                    break;
-            }
-        }
+//        if(Extensible.sample.msg) {
+//            var success = operation.wasSuccessful(),
+//                rec = operation.getRecords()[0],
+//                title = rec.data[Extensible.calendar.data.EventMappings.Title.name];
+//    
+//            switch (operation.action) {
+//                case 'create':
+//                    Extensible.sample.msg('Add', 'Added "' + Ext.value(title, '(No title)') + '"');
+//                    break;
+//                case 'update':
+//                    Extensible.sample.msg('Update', 'Updated "' + Ext.value(title, '(No title)') + '"');
+//                    break;
+//                case 'destroy':
+//                    Extensible.sample.msg('Delete', 'Deleted "' + Ext.value(title, '(No title)') + '"');
+//                    break;
+//            }
+//        }
     },
     
     // private - override the default logic for memory storage
@@ -125,19 +153,5 @@ Ext.define('Ext.ensible.sample.MemoryEventStore', {
 
         me.loading = false;
         me.fireEvent('load', me, records, successful);
-    },
-    
-    // private - override to make sure that any records added in-memory
-    // still get a unique PK assigned at the data level
-    onCreateRecords: Ext.Function.createInterceptor(Ext.data.Store.prototype.onCreateRecords, function(records, operation, success) {
-        if (success) {
-            var i = 0,
-                rec,
-                len = records.length;
-            
-            for (; i < len; i++) {
-                records[i].data[Ext.ensible.cal.EventMappings.EventId.name] = records[i].id;
-            }
-        }
-    })
+    }
 });

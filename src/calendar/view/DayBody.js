@@ -12,6 +12,16 @@ Ext.define('Extensible.calendar.view.DayBody', {
     extend: 'Extensible.calendar.view.AbstractCalendar',
     alias: 'widget.daybodyview',
     
+    requires: [
+        'Extensible.calendar.template.DayBody',
+        'Extensible.calendar.data.EventMappings'
+    ],
+    
+    uses: [
+        'Extensible.calendar.dd.DayDragZone',
+        'Extensible.calendar.dd.DayDropZone'
+    ],
+    
     //private
     dayColumnElIdDelimiter: '-day-col-',
     hourIncrement: 60,
@@ -82,16 +92,16 @@ Ext.define('Extensible.calendar.view.DayBody', {
             ddGroup: this.ddGroup || this.id+'-DayViewDD'
         };
         
-        this.dragZone = new Extensible.calendar.dd.DayDragZone(this.el, Ext.apply({
+        this.dragZone = Ext.create('Extensible.calendar.dd.DayDragZone', this.el, Ext.apply({
             containerScroll: true
         }, cfg));
         
-        this.dropZone = new Extensible.calendar.dd.DayDropZone(this.el, cfg);
+        this.dropZone = Ext.create('Extensible.calendar.dd.DayDropZone', this.el, cfg);
     },
     
     //private
     refresh : function(reloadData){
-        Ext.ensible.log('refresh (DayBodyView)');
+        Extensible.log('refresh (DayBodyView)');
         var top = this.el.getScroll().top;
         
         this.callParent(arguments);
@@ -131,7 +141,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     // private
     afterRender : function(){
         if(!this.tpl){
-            this.tpl = new Extensible.calendar.template.DayBody({
+            this.tpl = Ext.create('Extensible.calendar.template.DayBody', {
                 id: this.id,
                 dayCount: this.dayCount,
                 showTodayText: this.showTodayText,
@@ -165,7 +175,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     // private -- called from DayViewDropZone
     onEventResize : function(rec, data){
         if(this.fireEvent('beforeeventresize', this, rec, data) !== false){
-            var D = Ext.ensible.Date,
+            var D = Extensible.Date,
                 start = Extensible.calendar.data.EventMappings.StartDate.name,
                 end = Extensible.calendar.data.EventMappings.EndDate.name;
                 
@@ -274,7 +284,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             data = {},
             colorCls = 'x-cal-default',
             title = evt[M.Title.name],
-            fmt = Ext.ensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
+            fmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
             recurring = evt[M.RRule.name] != '';
         
         this.getTemplateEventBox(evt);
@@ -320,7 +330,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             endOffset = Math.min(end.getHours() - this.viewStartHour, this.viewEndHour - this.viewStartHour),
             startMins = startOffset * this.hourIncrement,
             endMins = endOffset * this.hourIncrement,
-            viewEndDt = Ext.ensible.Date.add(Ext.Date.clone(end), {hours: this.viewEndHour, clearTime: true}),
+            viewEndDt = Extensible.Date.add(Ext.Date.clone(end), {hours: this.viewEndHour, clearTime: true}),
             evtOffsets = this.getEventPositionOffsets();
             
         if(start.getHours() >= this.viewStartHour){
@@ -355,7 +365,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
                 var item = evt.data || evt.event.data,
                     M = Extensible.calendar.data.EventMappings,
                     ad = item[M.IsAllDay.name] === true,
-                    span = Ext.ensible.Date.diffDays(item[M.StartDate.name], item[M.EndDate.name]) > 0,
+                    span = Extensible.Date.diffDays(item[M.StartDate.name], item[M.EndDate.name]) > 0,
                     renderAsAllDay = ad || span;
                          
                 if(renderAsAllDay){
@@ -368,7 +378,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
                 });
                 evts.push({
                     data: this.getTemplateEventData(item),
-                    date: Ext.ensible.Date.add(this.viewStart, {days: day})
+                    date: Extensible.Date.add(this.viewStart, {days: day})
                 });
             }
         }
@@ -411,7 +421,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             var markup = this.getEventTemplate().apply(evt),
                 target = this.id + '-day-col-' + Ext.Date.format(evts[i].date, 'Ymd');
                 
-            Ext.DomHelper.append(target, markup);
+            Ext.core.DomHelper.append(target, markup);
         }
         
         this.fireEvent('eventsrendered', this);
@@ -450,7 +460,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             relY = y - viewBox.y - rowH + scroll.top,
             rowIndex = Math.max(0, Math.ceil(relY / rowH)),
             mins = rowIndex * (this.hourIncrement / this.incrementsPerHour),
-            dt = Ext.ensible.Date.add(this.viewStart, {days: dayIndex, minutes: mins, hours: this.viewStartHour}),
+            dt = Extensible.Date.add(this.viewStart, {days: dayIndex, minutes: mins, hours: this.viewStartHour}),
             el = this.getDayEl(dt),
             timeX = x;
         

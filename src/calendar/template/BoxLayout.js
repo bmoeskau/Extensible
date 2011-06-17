@@ -95,7 +95,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
             nextMonthCls = o.nextMonthCls,
             todayCls = o.todayCls,
             weeks = [[]],
-            today = Ext.ensible.Date.today(),
+            today = Extensible.Date.today(),
             dt = Ext.Date.clone(this.viewStart),
             thisMonth = this.startDate.getMonth();
         
@@ -146,7 +146,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
                         (nextMonth ? ' '+nextMonthCls : '') +
                         (isWeekend && weekendCls ? ' '+weekendCls : '')
                 });
-                dt = Ext.ensible.Date.add(dt, {days: 1});
+                dt = Extensible.Date.add(dt, {days: 1});
                 first = false;
             }
         }
@@ -158,7 +158,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
     
     // private
     getTodayText : function(){
-        var timeFmt = Ext.ensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
+        var timeFmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
             todayText = this.showTodayText !== false ? this.todayText : '',
             timeText = this.showTime !== false ? ' <span id="'+this.id+'-clock" class="ext-cal-dtitle-time">' + 
                     Ext.Date.format(new Date(), timeFmt) + '</span>' : '',
@@ -170,6 +170,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
         fmt = this.weekCount == 1 ? this.firstWeekDateFormat : this.otherWeeksDateFormat;
         return todayText.length > 0 ? todayText + timeText : Ext.Date.format(new Date(), fmt) + timeText;
     }
+}, 
+function() {
+    this.createAlias('apply', 'applyTemplate');
 });
-
-Extensible.calendar.template.BoxLayout.prototype.apply = Extensible.calendar.template.BoxLayout.prototype.applyTemplate;

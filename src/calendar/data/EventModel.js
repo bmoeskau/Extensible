@@ -39,12 +39,15 @@ rec.data[M.Notes.name] = 'Some notes';
 Ext.define('Extensible.calendar.data.EventModel', {
     extend: 'Ext.data.Model',
     
-    idProperty: Extensible.calendar.data.EventMappings.EventId.name || 'id',
-
+    requires: ['Extensible.calendar.data.EventMappings'],
+    
     initComponent: function() {
+        this.idProperty = this.idProperty || Extensible.calendar.data.EventMappings.EventId.name || 'id';
+        
         this.fields = new Ext.util.MixedCollection(false, function(field){
             return field.name;
         });
+        
         this.callParent(arguments);
     },
     
@@ -58,24 +61,24 @@ Ext.define('Extensible.calendar.data.EventModel', {
          * @return {Function} The updated EventRecord constructor function
          */
         reconfigure: function() {
-            var C = Ext.ensible.cal,
-                M = C.EventMappings,
-                proto = C.EventRecord.prototype,
+            var Data = Extensible.calendar.data,
+                Mappings = Data.EventMappings,
+                proto = Data.EventModel.prototype,
                 fields = [];
             
-            for(prop in M){
-                if(M.hasOwnProperty(prop)){
-                    fields.push(M[prop]);
+            for(prop in Mappings){
+                if(Mappings.hasOwnProperty(prop)){
+                    fields.push(Mappings[prop]);
                 }
             }
             proto.fields.clear();
             for(var i = 0, len = fields.length; i < len; i++){
-                proto.fields.add(new Ext.data.Field(fields[i]));
+                proto.fields.add(Ext.create('Ext.data.Field', fields[i]));
             }
-            return C.EventRecord;
+            return Data.EventModel;
         }
     }
+},
+function(){
+    Extensible.calendar.data.EventModel.reconfigure();
 });
-
-// Create the default definition now:
-Extensible.calendar.data.EventModel.reconfigure();

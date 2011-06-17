@@ -14,12 +14,14 @@
 Ext.define('Extensible.calendar.template.DayHeader', {
     extend: 'Ext.XTemplate',
     
+    requires: ['Extensible.calendar.template.BoxLayout'],
+    
     // private
     constructor: function(config){
         
         Ext.apply(this, config);
     
-        this.allDayTpl = new Extensible.calendar.template.BoxLayout(config);
+        this.allDayTpl = Ext.create('Extensible.calendar.template.BoxLayout', config);
         this.allDayTpl.compile();
         
         Extensible.calendar.template.DayHeader.superclass.constructor.call(this,
@@ -43,6 +45,7 @@ Ext.define('Extensible.calendar.template.DayHeader', {
             allDayTpl: this.allDayTpl.apply(o)
         });
     }
+}, 
+function() {
+    this.createAlias('apply', 'applyTemplate');
 });
-
-Extensible.calendar.template.DayHeader.prototype.apply = Extensible.calendar.template.DayHeader.prototype.applyTemplate;

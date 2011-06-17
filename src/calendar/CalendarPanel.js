@@ -12,6 +12,14 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.calendarpanel',
     
+    uses: [
+        'Extensible.calendar.view.Day',
+        'Extensible.calendar.view.Week',
+        'Extensible.calendar.view.Month',
+        'Extensible.calendar.view.MultiDay',
+        'Extensible.calendar.view.MultiWeek'
+    ],
+    
     /**
      * @cfg {Number} activeItem
      * The 0-based index within the available views to set as the default active view (defaults to undefined). If not 
@@ -333,7 +341,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              * @event viewchange
              * Fires after a different calendar view is activated (but not when the event edit form is activated)
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Ext.ensible.CalendarView} view The view being activated (any valid {@link Extensible.calendar.view.AbstractCalendar CalendarView} subclass)
+             * @param {Extensible.CalendarView} view The view being activated (any valid {@link Extensible.calendar.view.AbstractCalendar CalendarView} subclass)
              * @param {Object} info Extra information about the newly activated view. This is a plain object 
              * with following properties:<div class="mdetail-params"><ul>
              * <li><b><code>activeDate</code></b> : <div class="sub-desc">The currently-selected date</div></li>
@@ -806,7 +814,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * @return {Extensible.calendar.CalendarPanel} this
      */
     setStartDate: function(dt){
-        Ext.ensible.log('setStartDate (CalendarPanel');
+        Extensible.log('setStartDate (CalendarPanel');
         this.startDate = dt;
         this.layout.activeItem.setStartDate(dt, true);
         this.updateNavState();

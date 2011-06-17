@@ -3,38 +3,37 @@
 <head>
     <title>Extensible Calendar App</title>
     <!-- Ext includes -->
-    <link rel="stylesheet" type="text/css" href="../../../extjs/resources/css/ext-all.css" />
-    <script type="text/javascript" src="../../../extjs/ext-all-debug.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../../extjs/resources/css/ext-all.css" />
+    <script type="text/javascript" src="../../../../extjs/ext-debug.js"></script>
     <!-- Any Ext overrides go here -->
     
     <!-- Extensible includes -->
-    <link rel="stylesheet" type="text/css" href="../../resources/css/extensible-all.css" />
-    <script type="text/javascript" src="../../extensible-all-debug.js"></script>
-	<!-- Any Extensible overrides go here -->
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/extensible-all.css" />
     
     <!-- Shared example includes -->
-    <link rel="stylesheet" type="text/css" href="../examples.css" />
-    <script type="text/javascript" src="../examples.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../examples.css" />
+    <script type="text/javascript" src="../../examples.js"></script>
     
     <!-- Page-specific includes -->
     <link rel="stylesheet" type="text/css" href="test-app.css" />
-	<script type="text/javascript" src="data/calendars.js"></script>
-    <script type="text/javascript" src="data/events.js"></script>
-    <script type="text/javascript" src="CalendarStore.js"></script>
-    <script type="text/javascript" src="MemoryEventStore.js"></script>
-	<script type="text/javascript" src="test-app.js"></script>
+    <script type="text/javascript" src="../../../Extensible.js"></script>
     
     <script type="text/javascript">
-        Ext.Loader.setPath({
-            'Ext.ensible': '../../src'
+        Ext.Loader.setConfig({
+            //disableCaching: false,
+            enabled: true,
+            paths: {
+                'Extensible': '../../../src',
+                'Extensible.example': '../../'
+            }
         });
         
         Ext.require([
-        
+            'Extensible.example.calendar.TestApp.App'
         ]);
         
         Ext.onReady(function(){
-            App.init();
+            Ext.create('Extensible.example.calendar.TestApp.App').init();
         });
     </script>
 </head>

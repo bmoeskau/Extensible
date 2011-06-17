@@ -3,7 +3,7 @@
  * By Grgur Grisogono
  */
 
-Ext.ensible.Date.use24HourTime = false;
+Extensible.Date.use24HourTime = false;
 
 if(Extensible.calendar.view.AbstractCalendar) {
     Ext.apply(Extensible.calendar.view.AbstractCalendar.prototype, {

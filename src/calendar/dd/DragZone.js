@@ -5,12 +5,17 @@
 Ext.define('Extensible.calendar.dd.DragZone', {
     extend: 'Ext.dd.DragZone',
     
+    requires: [
+        'Extensible.calendar.dd.StatusProxy',
+        'Extensible.calendar.data.EventMappings'
+    ],
+    
     ddGroup : 'CalendarDD',
     eventSelector : '.ext-cal-evt',
     
     constructor : function(el, config){
         if(!Extensible.calendar._statusProxyInstance){
-            Extensible.calendar._statusProxyInstance = new Extensible.calendar.dd.StatusProxy();
+            Extensible.calendar._statusProxyInstance = Ext.create('Extensible.calendar.dd.StatusProxy');
         }
         this.proxy = Extensible.calendar._statusProxyInstance;
         this.callParent(arguments);

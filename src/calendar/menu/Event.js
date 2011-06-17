@@ -107,7 +107,7 @@ Ext.define('Extensible.calendar.menu.Event', {
         this.dateMenu = new Ext.menu.DatePicker({
             scope: this,
             handler: function(dp, dt){
-                dt = Ext.ensible.Date.copyTime(this.rec.data[Extensible.calendar.data.EventMappings.StartDate.name], dt);
+                dt = Extensible.Date.copyTime(this.rec.data[Extensible.calendar.data.EventMappings.StartDate.name], dt);
                 this.fireEvent('eventmove', this, this.rec, dt);
             }
         });

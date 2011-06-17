@@ -3,22 +3,25 @@
  * It is responsible for the base event rendering logic underlying all views based on a 
  * box-oriented layout that supports day spanning (MonthView, MultiWeekView, DayHeaderView).
  */
-Extensible.calendar.util.WeekEventRenderer = function(){
+Ext.define('Extensible.calendar.util.WeekEventRenderer', {
     
-    var getEventRow = function(id, week, index){
-        var indexOffset = 1; //skip row with date #'s
-        var evtRow, wkRow = Ext.get(id+'-wk-'+week);
-        if(wkRow){
-            var table = wkRow.child('.ext-cal-evt-tbl', true);
-            evtRow = table.tBodies[0].childNodes[index+indexOffset];
-            if(!evtRow){
-                evtRow = Ext.DomHelper.append(table.tBodies[0], '<tr></tr>');
+    requires: ['Ext.core.DomHelper'],
+    
+    statics: {
+        // private
+        getEventRow: function(id, week, index){
+            var indexOffset = 1; //skip row with date #'s
+            var evtRow, wkRow = Ext.get(id+'-wk-'+week);
+            if(wkRow){
+                var table = wkRow.child('.ext-cal-evt-tbl', true);
+                evtRow = table.tBodies[0].childNodes[index+indexOffset];
+                if(!evtRow){
+                    evtRow = Ext.core.DomHelper.append(table.tBodies[0], '<tr></tr>');
+                }
             }
-        }
-        return Ext.get(evtRow);
-    };
-    
-    return {
+            return Ext.get(evtRow);
+        },
+        
         render: function(o){
             var w = 0, grid = o.eventGrid, 
                 dt = Ext.Date.clone(o.viewStart),
@@ -30,7 +33,7 @@ Extensible.calendar.util.WeekEventRenderer = function(){
             for(; w < weekCount; w++){
                 var row, d = 0, wk = grid[w];
                 var startOfWeek = Ext.Date.clone(dt);
-                var endOfWeek = Ext.ensible.Date.add(startOfWeek, {days: dayCount, millis: -1});
+                var endOfWeek = Extensible.Date.add(startOfWeek, {days: dayCount, millis: -1});
                 
                 for(; d < dayCount; d++){
                     if(wk && wk[d]){
@@ -43,7 +46,7 @@ Extensible.calendar.util.WeekEventRenderer = function(){
                                 continue;
                             }
                             if(emptyCells > 0 && ev-emptyCells < max){
-                                row = getEventRow(o.id, w, ev-emptyCells);
+                                row = this.getEventRow(o.id, w, ev-emptyCells);
                                 var cellCfg = {
                                     tag: 'td',
                                     cls: 'ext-cal-ev',
@@ -53,7 +56,7 @@ Extensible.calendar.util.WeekEventRenderer = function(){
                                 if(emptyCells > 1 && max-ev > emptyCells){
                                     cellCfg.rowspan = Math.min(emptyCells, max-ev);
                                 }
-                                Ext.DomHelper.append(row, cellCfg);
+                                Ext.core.DomHelper.append(row, cellCfg);
                                 emptyCells = 0;
                             }
                             
@@ -72,24 +75,24 @@ Extensible.calendar.util.WeekEventRenderer = function(){
                                 item.spanCls = (item.spanLeft ? (item.spanRight ? 'ext-cal-ev-spanboth' : 
                                     'ext-cal-ev-spanleft') : (item.spanRight ? 'ext-cal-ev-spanright' : ''));
                                         
-                                var row = getEventRow(o.id, w, ev),
+                                var row = this.getEventRow(o.id, w, ev),
                                     cellCfg = {
                                         tag: 'td',
                                         cls: 'ext-cal-ev',
                                         cn : eventTpl.apply(o.templateDataFn(item))
                                     },
-                                    diff = Ext.ensible.Date.diffDays(dt, item[Extensible.calendar.data.EventMappings.EndDate.name]) + 1,
+                                    diff = Extensible.Date.diffDays(dt, item[Extensible.calendar.data.EventMappings.EndDate.name]) + 1,
                                     cspan = Math.min(diff, dayCount-d);
                                     
                                 if(cspan > 1){
                                     cellCfg.colspan = cspan;
                                 }
-                                Ext.DomHelper.append(row, cellCfg);
+                                Ext.core.DomHelper.append(row, cellCfg);
                             }
                         }
                         if(ev > max){
-                            row = getEventRow(o.id, w, max);
-                            Ext.DomHelper.append(row, {
+                            row = this.getEventRow(o.id, w, max);
+                            Ext.core.DomHelper.append(row, {
                                 tag: 'td',
                                 cls: 'ext-cal-ev-more',
                                 id: 'ext-cal-ev-more-'+Ext.Date.format(dt, 'Ymd'),
@@ -100,7 +103,7 @@ Extensible.calendar.util.WeekEventRenderer = function(){
                             });
                         }
                         if(ct < o.evtMaxCount[w]){
-                            row = getEventRow(o.id, w, ct);
+                            row = this.getEventRow(o.id, w, ct);
                             if(row){
                                 var cellCfg = {
                                     tag: 'td',
@@ -112,11 +115,11 @@ Extensible.calendar.util.WeekEventRenderer = function(){
                                 if(rowspan > 1){
                                     cellCfg.rowspan = rowspan;
                                 }
-                                Ext.DomHelper.append(row, cellCfg);
+                                Ext.core.DomHelper.append(row, cellCfg);
                             }
                         }
                     }else{
-                        row = getEventRow(o.id, w, 0);
+                        row = this.getEventRow(o.id, w, 0);
                         if(row){
                             var cellCfg = {
                                 tag: 'td',
@@ -127,12 +130,12 @@ Extensible.calendar.util.WeekEventRenderer = function(){
                             if(o.evtMaxCount[w] > 1){
                                 cellCfg.rowspan = o.evtMaxCount[w];
                             }
-                            Ext.DomHelper.append(row, cellCfg);
+                            Ext.core.DomHelper.append(row, cellCfg);
                         }
                     }
-                    dt = Ext.ensible.Date.add(dt, {days: 1});
+                    dt = Extensible.Date.add(dt, {days: 1});
                 }
             }
         }
-    };
-}();
+    }
+});

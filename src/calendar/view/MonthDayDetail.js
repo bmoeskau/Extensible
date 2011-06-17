@@ -8,6 +8,11 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
     extend: 'Ext.Component',
     alias: 'widget.monthdaydetailview',
     
+    requires: [
+        'Ext.XTemplate',
+        'Extensible.calendar.view.AbstractCalendar'
+    ],
+    
     initComponent : function(){
         this.callParent(arguments);
 		
@@ -91,9 +96,9 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
             var item = evt.data,
                 M = Extensible.calendar.data.EventMappings;
                 
-			item._renderAsAllDay = item[M.IsAllDay.name] || Ext.ensible.Date.diffDays(item[M.StartDate.name], item[M.EndDate.name]) > 0;
-            item.spanLeft = Ext.ensible.Date.diffDays(item[M.StartDate.name], this.date) > 0;
-            item.spanRight = Ext.ensible.Date.diffDays(this.date, item[M.EndDate.name]) > 0;
+			item._renderAsAllDay = item[M.IsAllDay.name] || Extensible.Date.diffDays(item[M.StartDate.name], item[M.EndDate.name]) > 0;
+            item.spanLeft = Extensible.Date.diffDays(item[M.StartDate.name], this.date) > 0;
+            item.spanRight = Extensible.Date.diffDays(this.date, item[M.EndDate.name]) > 0;
             item.spanCls = (item.spanLeft ? (item.spanRight ? 'ext-cal-ev-spanboth' : 
                 'ext-cal-ev-spanleft') : (item.spanRight ? 'ext-cal-ev-spanright' : ''));
 

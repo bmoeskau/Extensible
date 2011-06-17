@@ -38,6 +38,17 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     extend: 'Ext.form.Panel',
     alias: 'widget.eventeditform',
     
+    requires: [
+        'Extensible.form.field.DateRange',
+        'Extensible.calendar.form.field.ReminderCombo',
+        'Extensible.calendar.data.EventMappings'
+    ],
+    
+    uses: [
+        'Extensible.calendar.form.field.CalendarCombo',
+        'Extensible.form.recurrence.Combo'
+    ],
+    
     labelWidth: 65,
     labelWidthRightCol: 65,
     colWidthLeft: .6,
@@ -107,12 +118,12 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             eventcancel: true
         });
                 
-        this.titleField = new Ext.form.TextField({
+        this.titleField = Ext.create('Ext.form.TextField', {
             fieldLabel: this.titleLabelText,
             name: Extensible.calendar.data.EventMappings.Title.name,
             anchor: '90%'
         });
-        this.dateRangeField = new Extensible.form.field.DateRange({
+        this.dateRangeField = Ext.create('Extensible.form.field.DateRange', {
             fieldLabel: this.datesLabelText,
             singleLine: false,
             anchor: '90%',
@@ -120,24 +131,24 @@ Ext.define('Extensible.calendar.form.EventDetails', {
                 'change': Ext.bind(this.onDateChange, this)
             }
         });
-        this.reminderField = new Extensible.calendar.ReminderField({
+        this.reminderField = Ext.create('Extensible.calendar.form.field.ReminderCombo', {
             name: Extensible.calendar.data.EventMappings.Reminder.name,
             fieldLabel: this.reminderLabelText,
             anchor: '70%'
         });
-        this.notesField = new Ext.form.TextArea({
+        this.notesField = Ext.create('Ext.form.TextArea', {
             fieldLabel: this.notesLabelText,
             name: Extensible.calendar.data.EventMappings.Notes.name,
             grow: true,
             growMax: 150,
             anchor: '100%'
         });
-        this.locationField = new Ext.form.TextField({
+        this.locationField = Ext.create('Ext.form.TextField', {
             fieldLabel: this.locationLabelText,
             name: Extensible.calendar.data.EventMappings.Location.name,
             anchor: '100%'
         });
-        this.urlField = new Ext.form.TextField({
+        this.urlField = Ext.create('Ext.form.TextField', {
             fieldLabel: this.webLinkLabelText,
             name: Extensible.calendar.data.EventMappings.Url.name,
             anchor: '100%'
@@ -147,7 +158,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             rightFields = [this.notesField, this.locationField, this.urlField];
             
         if(this.enableRecurrence){
-            this.recurrenceField = new Extensible.form.recurrence.Fieldset({
+            this.recurrenceField = Ext.create('Extensible.form.recurrence.Fieldset', {
                 name: Extensible.calendar.data.EventMappings.RRule.name,
                 fieldLabel: this.repeatsLabelText,
                 anchor: '90%'
@@ -156,7 +167,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         }
         
         if(this.calendarStore){
-            this.calendarField = new Extensible.calendar.form.field.CalendarCombo({
+            this.calendarField = Ext.create('Extensible.calendar.form.field.CalendarCombo', {
                 store: this.calendarStore,
                 fieldLabel: this.calendarLabelText,
                 name: Extensible.calendar.data.EventMappings.CalendarId.name,

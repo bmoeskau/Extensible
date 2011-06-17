@@ -12,6 +12,10 @@ Ext.define('Extensible.calendar.view.DayHeader', {
     extend: 'Extensible.calendar.view.Month',
     alias: 'widget.dayheaderview',
     
+    requires: [
+        'Extensible.calendar.template.DayHeader'
+    ],
+    
     // private configs
     weekCount: 1,
     dayCount: 1,
@@ -35,7 +39,7 @@ Ext.define('Extensible.calendar.view.DayHeader', {
     // private
     afterRender : function(){
         if(!this.tpl){
-            this.tpl = new Extensible.calendar.template.DayHeader({
+            this.tpl = Ext.create('Extensible.calendar.template.DayHeader', {
                 id: this.id,
                 showTodayText: this.showTodayText,
                 todayText: this.todayText,
@@ -53,7 +57,7 @@ Ext.define('Extensible.calendar.view.DayHeader', {
     
     // private
     refresh : function(reloadData){
-        Ext.ensible.log('refresh (DayHeaderView)');
+        Extensible.log('refresh (DayHeaderView)');
         this.callParent(arguments);
         this.recalcHeaderBox();
     },

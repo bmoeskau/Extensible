@@ -57,14 +57,14 @@ Ext.define('Extensible.calendar.template.DayBody', {
 
     // private
     applyTemplate : function(o){
-        this.today = Ext.ensible.Date.today();
+        this.today = Extensible.Date.today();
         this.dayCount = this.dayCount || 1;
         
         var i = 0, days = [],
             dt = Ext.Date.clone(o.viewStart);
             
         for(; i<this.dayCount; i++){
-            days[i] = Ext.ensible.Date.add(dt, {days: i});
+            days[i] = Extensible.Date.add(dt, {days: i});
         }
 
         var times = [],
@@ -72,14 +72,14 @@ Ext.define('Extensible.calendar.template.DayBody', {
             end = this.viewEndHour,
             mins = this.hourIncrement,
             dayHeight = this.hourHeight * (end - start)
-            fmt = Ext.ensible.Date.use24HourTime ? 'G:i' : 'ga';
+            fmt = Extensible.Date.use24HourTime ? 'G:i' : 'ga';
         
         // use a fixed DST-safe date so times don't get skipped on DST boundaries
-        dt = Ext.ensible.Date.add(new Date('5/26/1972'), {hours: start});
+        dt = Extensible.Date.add(new Date('5/26/1972'), {hours: start});
         
         for(i=start; i<end; i++){
             times.push(Ext.Date.format(dt, fmt));
-            dt = Ext.ensible.Date.add(dt, {minutes: mins});
+            dt = Extensible.Date.add(dt, {minutes: mins});
         }
         
         return Extensible.calendar.template.DayBody.superclass.applyTemplate.call(this, {
@@ -92,6 +92,7 @@ Ext.define('Extensible.calendar.template.DayBody', {
             hourSeparatorHeight: (this.hourHeight / 2) - 1
         });
     }
+}, 
+function() {
+    this.createAlias('apply', 'applyTemplate');
 });
-
-Extensible.calendar.template.DayBody.prototype.apply = Extensible.calendar.template.DayBody.prototype.applyTemplate;

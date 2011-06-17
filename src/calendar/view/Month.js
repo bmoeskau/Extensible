@@ -11,6 +11,11 @@ Ext.define('Extensible.calendar.view.Month', {
     extend: 'Extensible.calendar.view.AbstractCalendar',
     alias: 'widget.monthview',
     
+    requires: [
+        'Extensible.calendar.template.Month',
+        'Extensible.calendar.util.WeekEventRenderer'
+    ],
+    
     /**
      * @cfg {String} moreText
      * <p><b>Deprecated.</b> Please override {@link #getMoreText} instead.</p>
@@ -111,8 +116,8 @@ Ext.define('Extensible.calendar.view.Month', {
             ddGroup : this.ddGroup || this.id+'-MonthViewDD'
 		};
         
-        this.dragZone = new Extensible.calendar.dd.DragZone(this.el, cfg);
-        this.dropZone = new Extensible.calendar.dd.DropZone(this.el, cfg);
+        this.dragZone = Ext.create('Extensible.calendar.dd.DragZone', this.el, cfg);
+        this.dropZone = Ext.create('Extensible.calendar.dd.DropZone', this.el, cfg);
 	},
     
     // private
@@ -127,7 +132,7 @@ Ext.define('Extensible.calendar.view.Month', {
     // private
     afterRender : function(){
         if(!this.tpl){
-            this.tpl = new Extensible.calendar.template.Month({
+            this.tpl = Ext.create('Extensible.calendar.template.Month', {
                 id: this.id,
                 showTodayText: this.showTodayText,
                 todayText: this.todayText,
@@ -183,7 +188,7 @@ Ext.define('Extensible.calendar.view.Month', {
                         
                     if(t.getDay() == this.prevClockDay){
                         if(el){
-                            el.update(Ext.Date.format(t, Ext.ensible.Date.use24HourTime ? 'G:i' : 'g:ia'));
+                            el.update(Ext.Date.format(t, Extensible.Date.use24HourTime ? 'G:i' : 'g:ia'));
                         }
                     }
                     else{
@@ -270,7 +275,7 @@ Ext.define('Extensible.calendar.view.Month', {
             recurring = evt[M.RRule.name] != '',
             colorCls = 'x-cal-default',
 		    title = evt[M.Title.name],
-            fmt = Ext.ensible.Date.use24HourTime ? 'G:i ' : 'g:ia ';
+            fmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ';
         
         if(this.calendarStore && evt[M.CalendarId.name]){
             var rec = this.calendarStore.findRecord(M.CalendarId.name, evt[M.CalendarId.name]);
@@ -298,7 +303,7 @@ Ext.define('Extensible.calendar.view.Month', {
     
     // private
 	refresh : function(reloadData){
-        Ext.ensible.log('refresh (MonthView)');
+        Extensible.log('refresh (MonthView)');
 		if(this.detailPanel){
 			this.detailPanel.hide();
 		}
@@ -419,7 +424,7 @@ Ext.define('Extensible.calendar.view.Month', {
             dayL = Math.floor(((x - box.x - padding.width) / daySize.width)),
             dayT = Math.floor(((y - box.y - padding.height) / daySize.height)),
 			days = (dayT * 7) + dayL,
-            dt = Ext.ensible.Date.add(this.viewStart, {days: days});
+            dt = Extensible.Date.add(this.viewStart, {days: days});
         
 		return {
 			date: dt,

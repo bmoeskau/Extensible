@@ -3,7 +3,7 @@
  * By Niels Olsen
  */
 
-Ext.ensible.Date.use24HourTime = true;
+Extensible.Date.use24HourTime = true;
 
 if(Extensible.calendar.view.AbstractCalendar) {
     Ext.apply(Extensible.calendar.view.AbstractCalendar.prototype, {

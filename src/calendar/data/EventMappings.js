@@ -79,16 +79,64 @@ var reader = new Ext.data.JsonReader({
 });
 </code></pre>
  */
+Ext.ns('Extensible.calendar.data');
+
 Extensible.calendar.data.EventMappings = {
-    EventId:     {name: 'EventId', mapping:'id', type:'int'},
-    CalendarId:  {name: 'CalendarId', mapping: 'cid', type: 'int'},
-    Title:       {name: 'Title', mapping: 'title', type: 'string'},
-    StartDate:   {name: 'StartDate', mapping: 'start', type: 'date', dateFormat: 'c'},
-    EndDate:     {name: 'EndDate', mapping: 'end', type: 'date', dateFormat: 'c'},
-    RRule:       {name: 'RecurRule', mapping: 'recur_rule'}, // not currently used
-    Location:    {name: 'Location', mapping: 'loc', type: 'string'},
-    Notes:       {name: 'Notes', mapping: 'notes', type: 'string'},
-    Url:         {name: 'Url', mapping: 'url', type: 'string'},
-    IsAllDay:    {name: 'IsAllDay', mapping: 'ad', type: 'boolean'},
-    Reminder:    {name: 'Reminder', mapping: 'rem', type: 'string'}
+    EventId: {
+        name:    'EventId',
+        mapping: 'id',
+        type:    'int'
+    },
+    CalendarId: {
+        name:    'CalendarId',
+        mapping: 'cid',
+        type:    'int'
+    },
+    Title: {
+        name:    'Title',
+        mapping: 'title',
+        type:    'string'
+    },
+    StartDate: {
+        name:       'StartDate',
+        mapping:    'start',
+        type:       'date',
+        dateFormat: 'c'
+    },
+    EndDate: {
+        name:       'EndDate',
+        mapping:    'end',
+        type:       'date',
+        dateFormat: 'c'
+    },
+    RRule: { // not currently used
+        name:    'RecurRule', 
+        mapping: 'rrule', 
+        type:    'string' 
+    },
+    Location: {
+        name:    'Location',
+        mapping: 'loc',
+        type:    'string'
+    },
+    Notes: {
+        name:    'Notes',
+        mapping: 'notes',
+        type:    'string'
+    },
+    Url: {
+        name:    'Url',
+        mapping: 'url',
+        type:    'string'
+    },
+    IsAllDay: {
+        name:    'IsAllDay',
+        mapping: 'ad',
+        type:    'boolean'
+    },
+    Reminder: {
+        name:    'Reminder',
+        mapping: 'rem',
+        type:    'string'
+    }
 };

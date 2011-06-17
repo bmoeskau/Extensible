@@ -22,7 +22,7 @@ Ext.define('Extensible.calendar.dd.DropZone', {
     },
     
     onNodeOver : function(n, dd, e, data){
-        var D = Ext.ensible.Date,
+        var D = Extensible.Date,
             start = data.type == 'eventdrag' ? n.date : D.min(data.start, n.date),
             end = data.type == 'eventdrag' ? D.add(n.date, {days: D.diffDays(data.eventStart, data.eventEnd)}) :
                 D.max(data.start, n.date);
@@ -48,7 +48,7 @@ Ext.define('Extensible.calendar.dd.DropZone', {
         this.currWeek = -1;
         var dt = Ext.Date.clone(start),
             i = 0, shim, box,
-            D = Ext.ensible.Date,
+            D = Extensible.Date,
             cnt = D.diffDays(dt, end) + 1;
         
         Ext.each(this.shims, function(shim){
@@ -141,7 +141,7 @@ Ext.define('Extensible.calendar.dd.DropZone', {
         if(n && data){
             if(data.type == 'eventdrag'){
                 var rec = this.view.getEventRecordFromEl(data.ddel),
-                    dt = Ext.ensible.Date.copyTime(rec.data[Extensible.calendar.data.EventMappings.StartDate.name], n.date);
+                    dt = Extensible.Date.copyTime(rec.data[Extensible.calendar.data.EventMappings.StartDate.name], n.date);
                     
                 this.view.onEventDrop(rec, dt);
                 this.onCalendarDragComplete();

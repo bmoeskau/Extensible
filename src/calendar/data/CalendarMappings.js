@@ -72,10 +72,32 @@ var reader = new Ext.data.JsonReader({
 });
 </code></pre>
  */
+Ext.ns('Extensible.calendar.data');
+
 Extensible.calendar.data.CalendarMappings = {
-    CalendarId:   {name:'CalendarId', mapping: 'id', type: 'int'},
-    Title:        {name:'Title', mapping: 'title', type: 'string'},
-    Description:  {name:'Description', mapping: 'desc', type: 'string'},
-    ColorId:      {name:'ColorId', mapping: 'color', type: 'int'},
-    IsHidden:     {name:'IsHidden', mapping: 'hidden', type: 'boolean'}
+    CalendarId: {
+        name:    'CalendarId',
+        mapping: 'id',
+        type:    'int'
+    },
+    Title: {
+        name:    'Title',
+        mapping: 'title',
+        type:    'string'
+    },
+    Description: {
+        name:    'Description', 
+        mapping: 'desc',   
+        type:    'string' 
+    },
+    ColorId: {
+        name:    'ColorId',
+        mapping: 'color',
+        type:    'int'
+    },
+    IsHidden: {
+        name:    'IsHidden'
+        mapping: 'hidden',
+        type:    'boolean'
+    }
 };

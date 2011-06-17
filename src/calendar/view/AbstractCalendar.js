@@ -13,6 +13,13 @@
 Ext.define('Extensible.calendar.view.AbstractCalendar', {
     extend: 'Ext.Component',
     
+    uses: [
+        'Extensible.calendar.form.EventDetails',
+        'Extensible.calendar.form.EventWindow',
+        'Extensible.calendar.dd.DragZone',
+        'Extensible.calendar.dd.DropZone'
+    ],
+    
     /**
      * @cfg {Ext.data.Store} eventStore
      * The {@link Ext.data.Store store} which is bound to this calendar and contains {@link Extensible.calendar.data.EventModel EventRecords}.
@@ -529,7 +536,7 @@ viewConfig: {
      * @param {Object} options (optional) An object matching the format used by Store's {@link Ext.data.Store#load load} method
      */
     reloadStore : function(o){
-        Ext.ensible.log('reloadStore');
+        Extensible.log('reloadStore');
         o = Ext.isObject(o) ? o : {};
         o.params = o.params || {};
         
@@ -560,7 +567,7 @@ viewConfig: {
      * data (defaults to false)
      */
     refresh : function(reloadData){
-        Ext.ensible.log('refresh (base), reload = '+reloadData);
+        Extensible.log('refresh (base), reload = '+reloadData);
         if(reloadData === true){
             this.reloadStore();
         }
@@ -571,7 +578,7 @@ viewConfig: {
     
     // private
     getWeekCount : function(){
-        var days = Ext.ensible.Date.diffDays(this.viewStart, this.viewEnd);
+        var days = Extensible.Date.diffDays(this.viewStart, this.viewEnd);
         return Math.ceil(days / this.dayCount);
     },
     
@@ -612,7 +619,7 @@ viewConfig: {
                     this.sortEventRecordsForDay(evts);
                     this.prepareEventGrid(evts, w, d);
                 }
-                dt = Ext.ensible.Date.add(dt, {days: 1});
+                dt = Extensible.Date.add(dt, {days: 1});
             }
         }
         this.currentWeekCount = w;
@@ -627,10 +634,10 @@ viewConfig: {
         evts.each(function(evt){
             var M = Extensible.calendar.data.EventMappings;
             
-            if(Ext.ensible.Date.diffDays(evt.data[M.StartDate.name], evt.data[M.EndDate.name]) > 0){
-                var daysInView = Ext.ensible.Date.diffDays(
-                    Ext.ensible.Date.max(this.viewStart, evt.data[M.StartDate.name]),
-                    Ext.ensible.Date.min(this.viewEnd, evt.data[M.EndDate.name])) + 1;
+            if(Extensible.Date.diffDays(evt.data[M.StartDate.name], evt.data[M.EndDate.name]) > 0){
+                var daysInView = Extensible.Date.diffDays(
+                    Extensible.Date.max(this.viewStart, evt.data[M.StartDate.name]),
+                    Extensible.Date.min(this.viewEnd, evt.data[M.EndDate.name])) + 1;
                     
                 this.prepareEventGridSpans(evt, this.eventGrid, w, d, daysInView);
                 this.prepareEventGridSpans(evt, this.allDayGrid, w, d, daysInView, true);
@@ -674,7 +681,7 @@ viewConfig: {
         grid[w][d][row] = start;
         
         while(--days){
-            dt = Ext.ensible.Date.add(dt, {days: 1});
+            dt = Extensible.Date.add(dt, {days: 1});
             if(dt > this.viewEnd){
                 break;
             }
@@ -806,7 +813,7 @@ viewConfig: {
             return;
         }
         if(operation == Ext.data.Record.COMMIT){
-            Ext.ensible.log('onUpdate');
+            Extensible.log('onUpdate');
             this.dismissEventEditor();
             
             var rrule = rec.data[Extensible.calendar.data.EventMappings.RRule.name];
@@ -847,7 +854,7 @@ viewConfig: {
             return;
         }
         
-        Ext.ensible.log('onAdd');
+        Extensible.log('onAdd');
         
 		var rrule = rec.data[Extensible.calendar.data.EventMappings.RRule.name];
         
@@ -884,7 +891,7 @@ viewConfig: {
             return;
         }
         
-        Ext.ensible.log('onRemove');
+        Extensible.log('onRemove');
         this.dismissEventEditor();
         
         var rrule = rec.data[Extensible.calendar.data.EventMappings.RRule.name],
@@ -1036,7 +1043,7 @@ viewConfig: {
 
     // private
     onDataChanged : function(store){
-        Ext.ensible.log('onDataChanged');
+        Extensible.log('onDataChanged');
         this.refresh(false);
     },
     
@@ -1057,7 +1064,7 @@ viewConfig: {
             evStart = data[M.StartDate.name].getTime(),
             evEnd = data[M.EndDate.name].getTime();
             
-        return Ext.ensible.Date.rangesOverlap(start, end, evStart, evEnd);
+        return Extensible.Date.rangesOverlap(start, end, evStart, evEnd);
     },
     
     // private
@@ -1066,10 +1073,10 @@ viewConfig: {
             ev2 = evt2.data ? evt2.data : evt2,
             M = Extensible.calendar.data.EventMappings,
             start1 = ev1[M.StartDate.name].getTime(),
-            end1 = Ext.ensible.Date.add(ev1[M.EndDate.name], {seconds: -1}).getTime(),
+            end1 = Extensible.Date.add(ev1[M.EndDate.name], {seconds: -1}).getTime(),
             start2 = ev2[M.StartDate.name].getTime(),
-            end2 = Ext.ensible.Date.add(ev2[M.EndDate.name], {seconds: -1}).getTime(),
-            startDiff = Ext.ensible.Date.diff(ev1[M.StartDate.name], ev2[M.StartDate.name], 'm');
+            end2 = Extensible.Date.add(ev2[M.EndDate.name], {seconds: -1}).getTime(),
+            startDiff = Extensible.Date.diff(ev1[M.StartDate.name], ev2[M.StartDate.name], 'm');
             
             if(end1<start1){
                 end1 = start1;
@@ -1081,7 +1088,7 @@ viewConfig: {
 //            var ev1startsInEv2 = (start1 >= start2 && start1 <= end2),
 //            ev1EndsInEv2 = (end1 >= start2 && end1 <= end2),
 //            ev1SpansEv2 = (start1 < start2 && end1 > end2),
-            var evtsOverlap = Ext.ensible.Date.rangesOverlap(start1, end1, start2, end2),
+            var evtsOverlap = Extensible.Date.rangesOverlap(start1, end1, start2, end2),
                 minimumMinutes = this.minEventDisplayMinutes || 0, // applies in day/week body view only for vertical overlap
                 ev1MinHeightOverlapsEv2 = minimumMinutes > 0 && (startDiff > -minimumMinutes && startDiff < minimumMinutes);
         
@@ -1118,7 +1125,7 @@ viewConfig: {
      * @param {Date} dt The date used to calculate the new view boundaries
      */
     setStartDate : function(start, /*private*/reload){
-        Ext.ensible.log('setStartDate (base) '+Ext.Date.format(start, 'Y-m-d'));
+        Extensible.log('setStartDate (base) '+Ext.Date.format(start, 'Y-m-d'));
         if(this.fireEvent('beforedatechange', this, this.startDate, start, this.viewStart, this.viewEnd) !== false){
             this.startDate = Ext.Date.clearTime(start);
             this.setViewBounds(start);
@@ -1133,7 +1140,7 @@ viewConfig: {
     setViewBounds : function(startDate){
         var start = startDate || this.startDate,
             offset = start.getDay() - this.startDay,
-            Dt = Ext.ensible.Date;
+            Dt = Extensible.Date;
             
         if(offset < 0){
             // if the offset is negative then some days will be in the previous week so add a week to the offset
@@ -1224,7 +1231,7 @@ alert('End: '+bounds.end);
 				// be the approach used by Google calendar and can lead to a more
 				// visually appealing layout in complex cases, but event order is
 				// not guaranteed to be consistent.
-				var diff = Ext.ensible.Date.diffDays;
+				var diff = Extensible.Date.diffDays;
 				if (diff(a[M.StartDate.name], a[M.EndDate.name]) > 0) {
 					if (diff(b[M.StartDate.name], b[M.EndDate.name]) > 0) {
 						// Both events are multi-day
@@ -1269,7 +1276,7 @@ alert('End: '+bounds.end);
      * @return {Date} The new date
      */
     moveNext : function(/*private*/reload){
-        return this.moveTo(Ext.ensible.Date.add(this.viewEnd, {days: 1}), reload);
+        return this.moveTo(Extensible.Date.add(this.viewEnd, {days: 1}), reload);
     },
 
     /**
@@ -1277,7 +1284,7 @@ alert('End: '+bounds.end);
      * @return {Date} The new date
      */
     movePrev : function(/*private*/reload){
-        var days = Ext.ensible.Date.diffDays(this.viewStart, this.viewEnd)+1;
+        var days = Extensible.Date.diffDays(this.viewStart, this.viewEnd)+1;
         return this.moveDays(-days, reload);
     },
     
@@ -1287,7 +1294,7 @@ alert('End: '+bounds.end);
      * @return {Date} The new date
      */
     moveMonths : function(value, /*private*/reload){
-        return this.moveTo(Ext.ensible.Date.add(this.startDate, {months: value}), reload);
+        return this.moveTo(Extensible.Date.add(this.startDate, {months: value}), reload);
     },
     
     /**
@@ -1296,7 +1303,7 @@ alert('End: '+bounds.end);
      * @return {Date} The new date
      */
     moveWeeks : function(value, /*private*/reload){
-        return this.moveTo(Ext.ensible.Date.add(this.startDate, {days: value * 7}), reload);
+        return this.moveTo(Extensible.Date.add(this.startDate, {days: value * 7}), reload);
     },
     
     /**
@@ -1305,7 +1312,7 @@ alert('End: '+bounds.end);
      * @return {Date} The new date
      */
     moveDays : function(value, /*private*/reload){
-        return this.moveTo(Ext.ensible.Date.add(this.startDate, {days: value}), reload);
+        return this.moveTo(Extensible.Date.add(this.startDate, {days: value}), reload);
     },
     
     /**
@@ -1579,7 +1586,7 @@ alert('End: '+bounds.end);
      * @param {Object} dt The new start date
      */
     moveEvent : function(rec, dt){
-        if(Ext.ensible.Date.compare(rec.data[Extensible.calendar.data.EventMappings.StartDate.name], dt) === 0){
+        if(Extensible.Date.compare(rec.data[Extensible.calendar.data.EventMappings.StartDate.name], dt) === 0){
             // no changes
             return;
         }
@@ -1587,7 +1594,7 @@ alert('End: '+bounds.end);
             var diff = dt.getTime() - rec.data[Extensible.calendar.data.EventMappings.StartDate.name].getTime();
             rec.beginEdit();
             rec.set(Extensible.calendar.data.EventMappings.StartDate.name, dt);
-            rec.set(Extensible.calendar.data.EventMappings.EndDate.name, Ext.ensible.Date.add(rec.data[Extensible.calendar.data.EventMappings.EndDate.name], {millis: diff}));
+            rec.set(Extensible.calendar.data.EventMappings.EndDate.name, Extensible.Date.add(rec.data[Extensible.calendar.data.EventMappings.EndDate.name], {millis: diff}));
             rec.endEdit();
             this.save();
             
