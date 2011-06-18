@@ -1,28 +1,30 @@
 /**
  * @class Extensible.calendar.util.ColorPicker
- * @extends Ext.ColorPalette
- * Simple color palette class for choosing colors specifically for calendars. This is a lightly modified version
- * of the default Ext ColorPalette that is based on calendar ids rather than hex color codes so that the colors
+ * @extends Ext.picker.Color
+ * Simple color picker class for choosing colors specifically for calendars. This is a lightly modified version
+ * of the default Ext color picker that is based on calendar ids rather than hex color codes so that the colors
  * can be easily modified via CSS and automatically applied to calendars. The specific colors used by default are
  * also chosen to provide good color contrast when displayed in calendars.
 </code></pre>
  * @constructor
- * Create a new ColorPalette
+ * Create a new color picker
  * @param {Object} config The config object
- * @xtype extensible.calendarcolorpalette
+ * @xtype extensible.calendarcolorpicker
  */
 Ext.define('Extensible.calendar.util.ColorPicker', {
     extend: 'Ext.picker.Color',
-    alias: 'widget.calendarcolorpalette',
+    alias: 'widget.calendarcolorpicker',
+    
+    requires: ['Ext.XTemplate'],
     
     // private
     colorCount: 32,
     
     /**
      * @cfg {Function} handler
-     * Optional. A function that will handle the select event of this color palette.
+     * Optional. A function that will handle the select event of this color picker.
      * The handler is passed the following parameters:<div class="mdetail-params"><ul>
-     * <li><code>palette</code> : ColorPalette<div class="sub-desc">The {@link #palette Extensible.calendar.util.ColorPicker} instance.</div></li>
+     * <li><code>picker</code> : ColorPicker<div class="sub-desc">The picker instance.</div></li>
      * <li><code>colorId</code> : String<div class="sub-desc">The id that identifies the selected color and relates it to a calendar.</div></li>
      * </ul></div>
      */

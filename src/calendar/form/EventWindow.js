@@ -34,6 +34,12 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.eventeditwindow',
     
+    requires: [
+        'Ext.form.Panel',
+        'Extensible.calendar.data.EventModel',
+        'Extensible.calendar.data.EventMappings'
+    ],
+    
     // Locale configs
     titleTextAdd: 'Add Event',
     titleTextEdit: 'Edit Event',
@@ -149,7 +155,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     
     // private
     onRender : function(ct, position){        
-        this.formPanel = new Ext.FormPanel(Ext.applyIf({
+        this.formPanel = Ext.create('Ext.FormPanel', Ext.applyIf({
             fieldDefaults: {
                 labelWidth: this.labelWidth
             },
@@ -275,7 +281,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             var start = o[M.StartDate.name],
                 end = o[M.EndDate.name] || Extensible.Date.add(start, {hours: 1});
                 
-            rec = new Extensible.calendar.data.EventModel();
+            rec = Ext.create('Extensible.calendar.data.EventModel');
             //rec.data[M.EventId.name] = this.newId++;
             rec.data[M.StartDate.name] = start;
             rec.data[M.EndDate.name] = end;

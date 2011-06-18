@@ -32,12 +32,13 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
     
     // private
     initComponent: function(){
-        this.valueField = this.valueField || Extensible.calendar.data.CalendarMappings.CalendarId.name;
-        this.displayField = this.displayField || Extensible.calendar.data.CalendarMappings.Title.name;
+        this.valueField = Extensible.calendar.data.CalendarMappings.CalendarId.name;
+        this.displayField = Extensible.calendar.data.CalendarMappings.Title.name;
     
         this.listConfig = Ext.apply(this.listConfig || {}, {
             getInnerTpl: this.getListItemTpl
         });
+        
         this.callParent(arguments);
     },
     

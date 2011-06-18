@@ -13,6 +13,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     alias: 'widget.daybodyview',
     
     requires: [
+        'Ext.XTemplate',
         'Extensible.calendar.template.DayBody',
         'Extensible.calendar.data.EventMappings'
     ],
@@ -217,13 +218,13 @@ Ext.define('Extensible.calendar.view.DayBody', {
     getEventTemplate : function(){
         if(!this.eventTpl){
             this.eventTpl = !(Ext.isIE || Ext.isOpera) ? 
-                new Ext.XTemplate(
+                Ext.create('Ext.XTemplate',
                     '<div id="{_elId}" class="{_extraCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                         '<div class="ext-evt-bd">', this.getEventBodyMarkup(), '</div>',
                         this.enableEventResize ? '<div class="ext-evt-rsz"><div class="ext-evt-rsz-h">&#160;</div></div>' : '',
                     '</div>'
                 )
-                : new Ext.XTemplate(
+                : Ext.create('Ext.XTemplate',
                     '<div id="{_elId}" class="ext-cal-evt {_extraCls}" style="left: {_left}%; width: {_width}%; top: {_top}px;">',
                         '<div class="ext-cal-evb">&#160;</div>',
                         '<dl style="height: {_height}px;" class="ext-cal-evdm">',
@@ -256,12 +257,12 @@ Ext.define('Extensible.calendar.view.DayBody', {
             var tpl, body = this.getEventBodyMarkup();
             
             tpl = !(Ext.isIE || Ext.isOpera) ? 
-                new Ext.XTemplate(
+                Ext.create('Ext.XTemplate',
                     '<div class="{_extraCls} {spanCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                         body,
                     '</div>'
                 ) 
-                : new Ext.XTemplate(
+                : Ext.create('Ext.XTemplate',
                     '<div class="ext-cal-evt" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                     '<div class="{_extraCls} {spanCls} ext-cal-evo">',
                         '<div class="ext-cal-evm">',

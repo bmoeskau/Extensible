@@ -10,6 +10,11 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.calendarlist',
     
+    requires: [
+        'Ext.XTemplate',
+        'Extensible.calendar.gadget.CalendarListMenu'
+    ],
+    
     title: 'Calendars',
     collapsible: true,
     autoHeight: true,
@@ -48,12 +53,12 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     getListTemplate : function(){
         if(!this.tpl){
             this.tpl = !(Ext.isIE || Ext.isOpera) ? 
-                new Ext.XTemplate(
+                Ext.create('Ext.XTemplate', 
                     '<ul class="x-unselectable"><tpl for=".">',
                         '<li id="{cmpId}" class="ext-cal-evr {colorCls} {hiddenCls}">{title}<em>&#160;</em></li>',
                     '</tpl></ul>'
                 )
-                : new Ext.XTemplate(
+                : Ext.create('Ext.XTemplate',
                     '<ul class="x-unselectable"><tpl for=".">',
                         '<li id="{cmpId}" class="ext-cal-evo {colorCls} {hiddenCls}">',
                             '<div class="ext-cal-evm">',
@@ -238,7 +243,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
             colorId = rec.data[Extensible.calendar.data.CalendarMappings.ColorId.name];
             
         if(!this.menu){
-            this.menu = new Extensible.calendar.gadget.CalendarListMenu();
+            this.menu = Ext.create('Extensible.calendar.gadget.CalendarListMenu');
             this.menu.on('colorchange', this.handleColorChange, this);
             this.menu.on('radiocalendar', this.handleRadioCalendar, this);
         }

@@ -10,6 +10,8 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
     extend: 'Ext.menu.Menu',
     alias: 'widget.calendarlistmenu',
     
+    requires: ['Extensible.calendar.util.ColorPicker'],
+    
     /**
      * @cfg {Boolean} hideOnClick
      * False to continue showing the menu after a color is selected, defaults to true.
@@ -57,8 +59,8 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
     
     /**
      * @property palette
-     * @type ColorPalette
-     * The {@link Extensible.calendar.util.ColorPicker ColorPalette} instance for this CalendarListMenu
+     * @type ColorPicker
+     * The {@link Extensible.calendar.util.ColorPicker ColorPicker} instance for this CalendarListMenu
      */
     
     // private
@@ -76,7 +78,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
                 iconCls: 'extensible-cal-icon-cal-show',
                 handler: Ext.bind(this.handleRadioCalendarClick, this)
             }, '-', {
-                xtype: 'calendarcolorpalette',
+                xtype: 'calendarcolorpicker',
                 handler: Ext.bind(this.handleColorSelect, this)
             }]
         });
@@ -89,7 +91,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
     afterRender: function(){
         this.callParent(arguments);
         
-        this.palette = this.down('calendarcolorpalette');
+        this.palette = this.down('calendarcolorpicker');
         
         if(this.colorId){
             this.palette.select(this.colorId, true);

@@ -5,6 +5,8 @@ Ext.define('Extensible.form.recurrence.Combo', {
     extend: 'Ext.form.ComboBox',
     alias: 'widget.recurrencecombo',
     
+    uses: ['Ext.data.ArrayStore'],
+    
     width: 160,
     fieldLabel: 'Repeats',
     mode: 'local',
@@ -26,7 +28,7 @@ Ext.define('Extensible.form.recurrence.Combo', {
         
         this.addEvents('recurrencechange');
         
-        this.store = this.store || new Ext.data.ArrayStore({
+        this.store = this.store || Ext.create('Ext.data.ArrayStore', {
             fields: ['id', 'pattern'],
             idIndex: 0,
             data: [

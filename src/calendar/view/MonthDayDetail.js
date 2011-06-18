@@ -40,7 +40,7 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
 	
     getTemplate : function(){
         if(!this.tpl){
-	        this.tpl = new Ext.XTemplate(
+	        this.tpl = Ext.create('Ext.XTemplate',
                 '<div class="ext-cal-mdv x-unselectable">',
 	                '<table class="ext-cal-mvd-tbl" cellpadding="0" cellspacing="0">',
 						'<tbody>',

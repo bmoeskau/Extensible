@@ -7,6 +7,9 @@ Ext.define('Extensible.calendar.data.MemoryCalendarStore', {
     model: 'Extensible.calendar.data.CalendarModel',
     
     requires: [
+        'Ext.data.proxy.Memory',
+        'Ext.data.reader.Json',
+        'Ext.data.writer.Json',
         'Extensible.calendar.data.CalendarModel',
         'Extensible.calendar.data.CalendarMappings'
     ],

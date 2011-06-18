@@ -11,6 +11,8 @@
 Ext.define('Extensible.calendar.template.BoxLayout', {
     extend: 'Ext.XTemplate',
     
+    requires: ['Ext.Date'],
+    
     /**
      * @cfg {String} firstWeekDateFormat
      * The date format used for the day boxes in the first week of the view only (subsequent weeks

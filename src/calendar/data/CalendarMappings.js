@@ -96,7 +96,7 @@ Extensible.calendar.data.CalendarMappings = {
         type:    'int'
     },
     IsHidden: {
-        name:    'IsHidden'
+        name:    'IsHidden',
         mapping: 'hidden',
         type:    'boolean'
     }

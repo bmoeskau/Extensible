@@ -37,12 +37,15 @@ rec.data[M.ColorId.name] = 3;
 Ext.define('Extensible.calendar.data.CalendarModel', {
     extend: 'Ext.data.Model',
     
-    requires: ['Extensible.calendar.data.CalendarMappings'],
+    requires: [
+        'Ext.util.MixedCollection',
+        'Extensible.calendar.data.CalendarMappings'
+    ],
 
     initComponent: function() {
         this.idProperty = this.idProperty || Extensible.calendar.data.CalendarMappings.CalendarId.name || 'id';
         
-        this.fields = new Ext.util.MixedCollection(false, function(field){
+        this.fields = Ext.create('Ext.util.MixedCollection', false, function(field){
             return field.name;
         });
         

@@ -22,7 +22,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     
     onRender: function(ct, position){
         if(!this.el){
-            this.frequencyCombo = new Extensible.form.recurrence.Combo({
+            this.frequencyCombo = Ext.create('Extensible.form.recurrence.Combo', {
                 id: this.id+'-frequency',
                 listeners: {
                     'recurrencechange': {
@@ -35,11 +35,11 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 this.frequencyCombo.fieldLabel = this.fieldLabel;
             }
             
-            this.innerCt = new Ext.Container({
+            this.innerCt = Ext.create('Ext.Container', {
                 cls: 'extensible-recur-inner-ct',
                 items: []
             });
-            this.fieldCt = new Ext.Container({
+            this.fieldCt = Ext.create('Ext.Container', {
                 autoEl: {id:this.id}, //make sure the container el has the field's id
                 cls: 'extensible-recur-ct',
                 renderTo: ct,
@@ -49,7 +49,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             this.fieldCt.ownerCt = this;
             this.innerCt.ownerCt = this.fieldCt;
             this.el = this.fieldCt.getEl();
-            this.items = new Ext.util.MixedCollection();
+            this.items = Ext.create('Ext.util.MixedCollection');
             this.items.addAll(this.initSubComponents());
         }
         this.callParent(arguments);

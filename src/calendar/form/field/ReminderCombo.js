@@ -24,6 +24,8 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
     extend: 'Ext.form.ComboBox',
     alias: 'widget.remindercombo',
     
+    uses: ['Ext.data.ArrayStore'],
+    
     width: 200,
     fieldLabel: 'Reminder',
     queryMode: 'local',
@@ -47,7 +49,7 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
     
     // private
     initComponent: function() {
-        this.store = this.store || new Ext.data.ArrayStore({
+        this.store = this.store || Ext.create('Ext.data.ArrayStore', {
             fields: ['value', 'desc'],
             idIndex: 0,
             data: this.getValueList()

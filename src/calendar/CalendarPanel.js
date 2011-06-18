@@ -12,7 +12,8 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.calendarpanel',
     
-    uses: [
+    requires: [
+        'Ext.layout.container.Card',
         'Extensible.calendar.view.Day',
         'Extensible.calendar.view.Week',
         'Extensible.calendar.view.Month',

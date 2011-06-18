@@ -13,9 +13,14 @@
 Ext.define('Extensible.calendar.view.AbstractCalendar', {
     extend: 'Ext.Component',
     
-    uses: [
+    requires: [
+        'Ext.CompositeElement'
+    ],
+    
+    requires: [
         'Extensible.calendar.form.EventDetails',
         'Extensible.calendar.form.EventWindow',
+        'Extensible.calendar.menu.Event',
         'Extensible.calendar.dd.DragZone',
         'Extensible.calendar.dd.DropZone'
     ],
@@ -1029,7 +1034,7 @@ viewConfig: {
 	 */
 	getEventEls : function(eventId){
 		var els = this.el.select(this.getEventSelectorCls(this.getEventId(eventId), true), false);
-		return new Ext.CompositeElement(els);
+		return Ext.create('Ext.CompositeElement', els);
 	},
     
     /**
@@ -1392,7 +1397,7 @@ alert('End: '+bounds.end);
         this.editWin = this.editWin || Ext.WindowMgr.get('ext-cal-editwin');
          
         if(!this.editWin){
-            this.editWin = new Extensible.calendar.form.EventWindow({
+            this.editWin = Ext.create('Extensible.calendar.form.EventWindow', {
                 id: 'ext-cal-editwin',
                 calendarStore: this.calendarStore,
                 modal: this.editModal,
@@ -1556,7 +1561,7 @@ alert('End: '+bounds.end);
     // private
     showEventMenu : function(el, xy){
         if(!this.eventMenu){
-            this.eventMenu = new Extensible.calendar.menu.Event({
+            this.eventMenu = Ext.create('Extensible.calendar.menu.Event', {
                 listeners: {
                     'editdetails': Ext.bind(this.onEditDetails, this),
                     'eventdelete': Ext.bind(this.onDeleteEvent, this),

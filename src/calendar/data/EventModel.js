@@ -39,12 +39,15 @@ rec.data[M.Notes.name] = 'Some notes';
 Ext.define('Extensible.calendar.data.EventModel', {
     extend: 'Ext.data.Model',
     
-    requires: ['Extensible.calendar.data.EventMappings'],
+    requires: [
+        'Ext.util.MixedCollection',
+        'Extensible.calendar.data.EventMappings'
+    ],
     
     initComponent: function() {
         this.idProperty = this.idProperty || Extensible.calendar.data.EventMappings.EventId.name || 'id';
         
-        this.fields = new Ext.util.MixedCollection(false, function(field){
+        this.fields = Ext.create('Ext.util.MixedCollection', false, function(field){
             return field.name;
         });
         

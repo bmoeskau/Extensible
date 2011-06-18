@@ -8,6 +8,8 @@ Ext.define('Extensible.calendar.menu.Event', {
     extend: 'Ext.menu.Menu',
     alias: 'widget.eventcontextmenu',
     
+    requires: ['Ext.menu.DatePicker'],
+    
     /** 
      * @cfg {Boolean} hideOnClick
      * False to continue showing the menu after a color is selected, defaults to true.
@@ -104,7 +106,7 @@ Ext.define('Extensible.calendar.menu.Event', {
         if(this.rendered){
             return;
         }
-        this.dateMenu = new Ext.menu.DatePicker({
+        this.dateMenu = Ext.create('Ext.menu.DatePicker', {
             scope: this,
             handler: function(dp, dt){
                 dt = Extensible.Date.copyTime(this.rec.data[Extensible.calendar.data.EventMappings.StartDate.name], dt);

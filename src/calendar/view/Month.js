@@ -12,8 +12,10 @@ Ext.define('Extensible.calendar.view.Month', {
     alias: 'widget.monthview',
     
     requires: [
+        'Ext.XTemplate',
         'Extensible.calendar.template.Month',
-        'Extensible.calendar.util.WeekEventRenderer'
+        'Extensible.calendar.util.WeekEventRenderer',
+        'Extensible.calendar.view.MonthDayDetail'
     ],
     
     /**
@@ -240,12 +242,12 @@ Ext.define('Extensible.calendar.view.Month', {
 	        var tpl, body = this.getEventBodyMarkup();
             
 	        tpl = !(Ext.isIE || Ext.isOpera) ? 
-				new Ext.XTemplate(
+				Ext.create('Ext.XTemplate',
                     '<div class="{_extraCls} {spanCls} ext-cal-evt ext-cal-evr">',
 		                body,
 		            '</div>'
 		        ) 
-				: new Ext.XTemplate(
+				: Ext.create('Ext.XTemplate',
 		            '<tpl if="_renderAsAllDay">',
                         '<div class="{_extraCls} {spanCls} ext-cal-evt ext-cal-evo">',
 		                    '<div class="ext-cal-evm">',
@@ -455,14 +457,14 @@ Ext.define('Extensible.calendar.view.Month', {
     // private
 	onMoreClick : function(dt){
 		if(!this.detailPanel){
-	        this.detailPanel = new Ext.Panel({
+	        this.detailPanel = Ext.create('Ext.Panel', {
 				id: this.id+'-details-panel',
 				title: Ext.Date.format(dt, this.detailsTitleDateFormat),
 				layout: 'fit',
 				floating: true,
 				renderTo: Ext.getBody(),
 				tools: [{
-					id: 'close',
+					type: 'close',
 					handler: function(e, t, p){
 						p.ownerCt.hide();
 					}

@@ -17,6 +17,9 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
     model: 'Extensible.calendar.data.EventModel',
     
     requires: [
+        'Ext.data.proxy.Memory',
+        'Ext.data.reader.Json',
+        'Ext.data.writer.Json',
         'Extensible.calendar.data.EventModel',
         'Extensible.calendar.data.EventMappings'
     ],

@@ -17,6 +17,7 @@
     <!-- Page-specific includes -->
     <link rel="stylesheet" type="text/css" href="test-app.css" />
     <script type="text/javascript" src="../../../Extensible.js"></script>
+    <script type="text/javascript" src="../../../Ext-overrides.js"></script>
     
     <script type="text/javascript">
         Ext.Loader.setConfig({
@@ -33,6 +34,7 @@
         ]);
         
         Ext.onReady(function(){
+            Extensible.applyOverrides();
             Ext.create('Extensible.example.calendar.TestApp.App').init();
         });
     </script>

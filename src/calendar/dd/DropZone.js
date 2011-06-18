@@ -5,6 +5,11 @@
 Ext.define('Extensible.calendar.dd.DropZone', {
     extend: 'Ext.dd.DropZone',
     
+    requires: [
+        'Ext.Layer',
+        'Extensible.calendar.data.EventMappings'
+    ],
+    
     ddGroup : 'CalendarDD',
     eventSelector : '.ext-cal-evt',
     dateRangeFormat : '{0}-{1}',
@@ -112,7 +117,7 @@ Ext.define('Extensible.calendar.dd.DropZone', {
         el.className = 'ext-dd-shim';
         this.shimCt.appendChild(el);
         
-        return new Ext.Layer({
+        return Ext.create('Ext.Layer', {
             shadow:false, 
             useDisplay:true, 
             constrain:false

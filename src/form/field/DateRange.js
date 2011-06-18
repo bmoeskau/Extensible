@@ -9,6 +9,14 @@ Ext.define('Extensible.form.field.DateRange', {
     extend: 'Ext.form.FieldContainer',
     alias: 'widget.daterangefield',
     
+    requires: [
+        'Ext.form.field.Date',
+        'Ext.form.field.Time',
+        'Ext.form.Label',
+        'Ext.form.field.Checkbox',
+        'Ext.layout.container.Column'
+    ],
+    
     /**
      * @cfg {String} toText
      * The text to display in between the date/time fields (defaults to 'to')
@@ -207,7 +215,7 @@ Ext.define('Extensible.form.field.DateRange', {
     // private
 //    onRender: function(ct, position){
 //        if(!this.el){
-//            this.startDate = new Ext.form.DateField({
+//            this.startDate = Ext.create('Ext.form.DateField', {
 //                id: this.id+'-start-date',
 //                format: this.dateFormat,
 //                width:100,
@@ -220,7 +228,7 @@ Ext.define('Extensible.form.field.DateRange', {
 //                    }
 //                }
 //            });
-//            this.startTime = new Ext.form.TimeField({
+//            this.startTime = Ext.create('Ext.form.TimeField', {
 //                id: this.id+'-start-time',
 //                hidden: this.showTimes === false,
 //                labelWidth: 0,
@@ -235,7 +243,7 @@ Ext.define('Extensible.form.field.DateRange', {
 //                    }
 //                }
 //            });
-//            this.endTime = new Ext.form.TimeField({
+//            this.endTime = Ext.create('Ext.form.TimeField', {
 //                id: this.id+'-end-time',
 //                hidden: this.showTimes === false,
 //                labelWidth: 0,
@@ -250,7 +258,7 @@ Ext.define('Extensible.form.field.DateRange', {
 //                    }
 //                }
 //            })
-//            this.endDate = new Ext.form.DateField({
+//            this.endDate = Ext.create('Ext.form.DateField', {
 //                id: this.id+'-end-date',
 //                format: this.dateFormat,
 //                hideLabel:true,
@@ -264,7 +272,7 @@ Ext.define('Extensible.form.field.DateRange', {
 //                    }
 //                }
 //            });
-//            this.allDay = new Ext.form.Checkbox({
+//            this.allDay = Ext.create('Ext.form.Checkbox', {
 //                id: this.id+'-allday',
 //                hidden: this.showTimes === false || this.showAllDay === false,
 //                boxLabel: this.allDayText,
@@ -274,7 +282,7 @@ Ext.define('Extensible.form.field.DateRange', {
 //                },
 //                scope: this
 //            });
-//            this.toLabel = new Ext.form.Label({
+//            this.toLabel = Ext.create('Ext.form.Label', {
 //                xtype: 'label',
 //                id: this.id+'-to-label',
 //                text: this.toText
@@ -292,7 +300,7 @@ Ext.define('Extensible.form.field.DateRange', {
 //                singleLine = w <= this.singleLineMinWidth ? false : true;
 //            }
 //            
-//            this.fieldCt = new Ext.Container({
+//            this.fieldCt = Ext.create('Ext.Container', {
 //                autoEl: {id:this.id}, //make sure the container el has the field's id
 //                cls: 'ext-dt-range',
 //                renderTo: ct,
@@ -315,7 +323,7 @@ Ext.define('Extensible.form.field.DateRange', {
 //            
 //            this.fieldCt.ownerCt = this;
 //            this.el = this.fieldCt.getEl();
-//            this.items = new Ext.util.MixedCollection();
+//            this.items = Ext.create('Ext.util.MixedCollection');
 //            this.items.addAll([this.startDate, this.endDate, this.toLabel, this.startTime, this.endTime, this.allDay]);
 //        }
 //        
