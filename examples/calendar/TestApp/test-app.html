@@ -17,7 +17,6 @@
     <!-- Page-specific includes -->
     <link rel="stylesheet" type="text/css" href="test-app.css" />
     <script type="text/javascript" src="../../../Extensible.js"></script>
-    <script type="text/javascript" src="../../../Ext-overrides.js"></script>
     
     <script type="text/javascript">
         Ext.Loader.setConfig({
@@ -32,10 +31,20 @@
         Ext.require([
             'Extensible.example.calendar.TestApp.App'
         ]);
-        
+    </script>
+    
+    <!-- 
+        Any Ext overrides MUST be included after the Ext.require() call if dynamic
+        loading is being used. The overrides are executed inside of an onReady handler
+        since the classes being overridden will not exist until loaded, but the onReady
+        function will execute immediately if the Loader is not actively loading at the
+        time this file is included, hence include order is crucial here.
+    -->  
+    <script type="text/javascript" src="../../../Ext-overrides.js"></script>
+    
+    <script type="text/javascript">
         Ext.onReady(function(){
-            Extensible.applyOverrides();
-            Ext.create('Extensible.example.calendar.TestApp.App').init();
+            Ext.create('Extensible.example.calendar.TestApp.App');
         });
     </script>
 </head>

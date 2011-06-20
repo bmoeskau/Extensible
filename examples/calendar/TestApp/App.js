@@ -11,7 +11,7 @@
         'Extensible.example.calendar.data.Calendars'
     ],
     
-    init : function() {
+    constructor : function() {
         // This is an example calendar store that enables event color-coding
         this.calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
             // defined in ../data/Calendars.js
