@@ -1,29 +1,31 @@
+Ext.require([
+    'Ext.data.proxy.Rest',
+    'Extensible.calendar.data.MemoryCalendarStore',
+    'Extensible.calendar.data.EventStore',
+    'Extensible.calendar.CalendarPanel'
+]);
 
 Ext.onReady(function(){
-    
-    var calendarStore = Ext.create('Ext.ensible.sample.CalendarStore', {
+
+    var calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
         autoLoad: true,
         proxy: {
             type: 'ajax',
-            url: 'data/calendars.json',
+            url: '../data/calendars.json',
             noCache: false,
             
             reader: {
                 type: 'json',
                 root: 'calendars'
-            },
-            
-            writer: {
-                type: 'json'
             }
         }
     });
     
-    var eventStore = new Ext.ensible.cal.EventStore({
+    var eventStore = Ext.create('Extensible.calendar.data.EventStore', {
         autoLoad: true,
         proxy: {
             type: 'rest',
-            url: 'remote/php/app.php/events',
+            url: 'php/app.php/events',
             noCache: false,
             
             reader: {
@@ -52,23 +54,23 @@ Ext.onReady(function(){
         // option for generically messaging after CRUD persistence has succeeded.
         listeners: {
             'write': function(store, operation){
-                var title = Ext.value(operation.records[0].data[Ext.ensible.cal.EventMappings.Title.name], '(No title)');
+                var title = Ext.value(operation.records[0].data[Extensible.calendar.data.EventMappings.Title.name], '(No title)');
                 switch(operation.action){
                     case 'create': 
-                        Ext.ensible.sample.msg('Add', 'Added "' + title + '"');
+                        Extensible.example.msg('Add', 'Added "' + title + '"');
                         break;
                     case 'update':
-                        Ext.ensible.sample.msg('Update', 'Updated "' + title + '"');
+                        Extensible.example.msg('Update', 'Updated "' + title + '"');
                         break;
                     case 'destroy':
-                        Ext.ensible.sample.msg('Delete', 'Deleted "' + title + '"');
+                        Extensible.example.msg('Delete', 'Deleted "' + title + '"');
                         break;
                 }
             }
         }
     });
     
-    var cp = new Ext.ensible.cal.CalendarPanel({
+    var cp = Ext.create('Extensible.calendar.CalendarPanel', {
         id: 'calendar-remote',
         eventStore: eventStore,
         calendarStore: calendarStore,

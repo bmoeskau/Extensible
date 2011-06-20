@@ -1,14 +1,20 @@
+Ext.require([
+    'Extensible.calendar.data.MemoryEventStore',
+    'Extensible.calendar.CalendarPanel',
+    'Extensible.example.calendar.data.Events'
+]);
+
 Ext.onReady(function(){
     
-    var eventStore = new Ext.ensible.sample.MemoryEventStore({
-        // defined in data/events.js
-        data: Ext.ensible.sample.EventData
+    var eventStore = Ext.create('Extensible.calendar.data.MemoryEventStore', {
+        // defined in ../data/Events.js
+        data: Ext.create('Extensible.example.calendar.data.Events')
     });
     
     // NOTE: The default event color has been overridden in CSS. View the source
     // of custom-views.html to see how that was done.
     
-    new Ext.ensible.cal.CalendarPanel({
+    Ext.create('Extensible.calendar.CalendarPanel', {
         eventStore: eventStore,
         renderTo: 'cal',
         title: 'Custom Views',

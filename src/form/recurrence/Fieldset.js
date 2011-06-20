@@ -6,7 +6,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     extend: 'Ext.form.Field',
     alias: 'widget.recurrencefield',
     
-    requires: ['Extensible.form.field.recurrence.Combo'],
+    requires: ['Extensible.form.recurrence.Combo'],
     
     fieldLabel: 'Repeats',
     startDate: Ext.Date.clearTime(new Date()),

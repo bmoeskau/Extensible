@@ -1,14 +1,20 @@
+Ext.require([
+    'Extensible.calendar.data.MemoryEventStore',
+    'Extensible.calendar.CalendarPanel',
+    'Extensible.example.calendar.data.Events'
+]);
+
 Ext.onReady(function(){
     
-    var eventStore = new Ext.ensible.sample.MemoryEventStore({
-        // defined in data/events.js
-        data: Ext.ensible.sample.EventData
+    var eventStore = Ext.create('Extensible.calendar.data.MemoryEventStore', {
+        // defined in ../data/Events.js
+        data: Ext.create('Extensible.example.calendar.data.Events')
     });
     
     //
     // example 1: simplest possible stand-alone configuration
     //
-    new Ext.ensible.cal.CalendarPanel({
+    Ext.create('Extensible.calendar.CalendarPanel', {
         eventStore: eventStore,
         renderTo: 'simple',
         title: 'Basic Calendar',
@@ -20,7 +26,7 @@ Ext.onReady(function(){
     // example 2: shows off some common Ext.Panel configs as well as a 
     // few extra CalendarPanel-specific configs + a calendar store
     //
-    new Ext.ensible.cal.CalendarPanel({
+    Ext.create('Extensible.calendar.CalendarPanel', {
         id: 'cal-example2',
         eventStore: eventStore,
         renderTo: 'panel',

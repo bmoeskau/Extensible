@@ -2,23 +2,28 @@
 <html>
 <head>
     <title>Extensible : Remote Calendar</title>
-    <!-- Ext includes -->
-    <link rel="stylesheet" type="text/css" href="../../../extjs/resources/css/ext-all.css" />
-    <script type="text/javascript" src="../../../extjs/ext-all-debug.js"></script>
-    <!-- Any Ext overrides go here -->
-    
-    <!-- Extensible includes -->
-    <link rel="stylesheet" type="text/css" href="../../resources/css/extensible-all.css" />
-    <script type="text/javascript" src="../../extensible-all-debug.js"></script>
-    <!-- Any Extensible overrides go here -->
-    
-    <!-- Shared example includes -->
-    <link rel="stylesheet" type="text/css" href="../examples.css" />
-    <script type="text/javascript" src="../examples.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../../extjs/resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/extensible-all.css" />
+
+    <script type="text/javascript" src="../../../../extjs/ext-debug.js"></script>
+    <script type="text/javascript" src="../../../Extensible.js"></script>
+    <script type="text/javascript">
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false,
+            paths: {
+                'Extensible': '../../../src',
+                'Extensible.example': '../../'
+            }
+        });
+    </script>
     
     <!-- Page-specific includes -->
-    <script type="text/javascript" src="CalendarStore.js"></script>
     <script type="text/javascript" src="remote.js"></script>
+    
+    <!-- Shared example includes -->
+    <link rel="stylesheet" type="text/css" href="../../examples.css" />
+    <script type="text/javascript" src="../../examples.js"></script>
     
     <style>
         .sample-ct {

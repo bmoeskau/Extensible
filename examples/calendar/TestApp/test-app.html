@@ -2,37 +2,45 @@
 <html>
 <head>
     <title>Extensible Calendar App</title>
-    <!-- Ext includes -->
+    <!-- Load all the CSS first since it won't change based on dynamic loading below -->
     <link rel="stylesheet" type="text/css" href="../../../../extjs/resources/css/ext-all.css" />
-    <script type="text/javascript" src="../../../../extjs/ext-debug.js"></script>
-    <!-- Any Ext overrides go here -->
-    
-    <!-- Extensible includes -->
     <link rel="stylesheet" type="text/css" href="../../../resources/css/extensible-all.css" />
-    
-    <!-- Shared example includes -->
-    <link rel="stylesheet" type="text/css" href="../../examples.css" />
-    <script type="text/javascript" src="../../examples.js"></script>
-    
-    <!-- Page-specific includes -->
     <link rel="stylesheet" type="text/css" href="test-app.css" />
-    <script type="text/javascript" src="../../../Extensible.js"></script>
     
+    <!-- 
+        Default to using Ext 4 dynamic loading, which is typically better when debugging.
+        ext-debug.js is the basic Ext bootstrap file that only loads the minimum required
+        for the loader to work. Extensible.js is just the root Extensible class/namespace,
+        required for all of the Extensible dependencies to load properly.
+    -->
+    <script type="text/javascript" src="../../../../extjs/ext-debug.js"></script>
+    <script type="text/javascript" src="../../../Extensible.js"></script>
     <script type="text/javascript">
         Ext.Loader.setConfig({
-            //disableCaching: false,
             enabled: true,
             paths: {
                 'Extensible': '../../../src',
                 'Extensible.example': '../../'
             }
         });
-        
         Ext.require([
             'Extensible.example.calendar.TestApp.App'
         ]);
     </script>
     
+    <!-- 
+        Alternately you can load all of Ext and Exyensible directly. This would be a
+        more typical setup for production deployment. Note that in this case, some files
+        that are dynamically loadable (the test data classes) will work via Ext.Loader,
+        but are not included in the standard Extensible build. Because of this they need
+        to be explicitly included when not going through the loader. 
+    -->
+    <!--script type="text/javascript" src="../../../../extjs/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../../../extensible-all-debug.js"></script>
+    <script type="text/javascript" src="../data/calendars.js"></script>
+    <script type="text/javascript" src="../data/events.js"></script>
+    <script type="text/javascript" src="App.js"></script-->
+
     <!-- 
         Any Ext overrides MUST be included after the Ext.require() call if dynamic
         loading is being used. The overrides are executed inside of an onReady handler
@@ -43,10 +51,16 @@
     <script type="text/javascript" src="../../../Ext-overrides.js"></script>
     
     <script type="text/javascript">
+        // Finally, we can kick off the app -- again, this should be done inside of an
+        // onReady block so that we can be sure all dependencies are available to the app.
         Ext.onReady(function(){
             Ext.create('Extensible.example.calendar.TestApp.App');
         });
     </script>
+    
+    <!-- Shared example includes -->
+    <link rel="stylesheet" type="text/css" href="../../examples.css" />
+    <script type="text/javascript" src="../../examples.js"></script>
 </head>
 <body>
     <div style="display:none;">

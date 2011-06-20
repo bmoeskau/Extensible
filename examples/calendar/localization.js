@@ -1,103 +1,106 @@
-Ext.ensible.LocaleSample = function(){
-    return {
-        init: function(){
-            Ext.QuickTips.init();
-            
-            this.localeStore = new Ext.data.ArrayStore({
-                fields: ['code', 'desc'],
-                data : [
-                    ['ca', 'Catalan'],
-                    ['zh_CN', 'Chinese (Simplified)'],
-                    ['zh_TW', 'Chinese (Traditional)'],
-                    ['hr', 'Croatian'],
-                    ['cs', 'Czech'],
-                    ['da', 'Danish'],
-                    ['en', 'English (US)'],
-                    ['fr', 'French (France)'],
-                    ['de', 'German'],
-                    ['pl', 'Polish'],
-                    ['pt_BR', 'Portuguese (Brazil)'],
-                    ['pt_PT', 'Portuguese (Portugal)'],
-                    ['ro', 'Romanian'],
-                    ['es', 'Spanish (Spain)'],
-                    ['sv_SE', 'Swedish']
-                ]
-            });
-            
-            this.localeCombo = new Ext.form.ComboBox({
-                renderTo: 'locales',
-                store: this.localeStore,
-                displayField: 'desc',
-                valueField: 'code',
-                typeAhead: true,
-                queryMode: 'local',
-                triggerAction: 'all',
-                emptyText: 'Select a locale...',
-                selectOnFocus: true,
-                value: 'en',
-                listeners: {
-                    'select': {
-                        fn: function(cbo, rec){
-                            rec = rec[0];
-                            this.calendar.getEl().mask('Loading '+rec.data.desc+'...');
-                            this.loadLocale(rec.data.code);
-                            this.locale = rec.data.desc;
-                        },
-                        scope: this
-                    }
-                }
-            });
-            
-            this.renderUI();
-        },
-        
-        doLoad: function(url, successFn){
-            Ext.Ajax.request({
-                url: url,
-                disableCaching: false,
-                success: successFn,
-                failure: function(){
-                    Ext.Msg.alert('Failure', 'Failed to load locale file.');
-                    this.renderUI();
-                },
-                scope: this 
-            });
-        },
-        
-        loadLocale: function(code){
-            this.doLoad('ext-locales/ext-lang-'+code+'.js', function(resp, opts){
-                eval(resp.responseText); // apply the Ext locale overrides
-                this.doLoad('../../src/locale/extensible-lang-'+code+'.js', function(resp, opts){
-                    eval(resp.responseText); // apply the Extensible locale overrides
-                    this.renderUI();
-                });
-            });
-        },
-        
-        renderUI: function() {
-            if(this.calendar){
-                Ext.destroy(this.calendar);
-            }
-            this.calendar = new Ext.ensible.cal.CalendarPanel({
-                id: 'locale-calendar',
-                renderTo: 'cal',
-                title: 'Localized Calendar: '+(this.locale || 'English (US)'),
-                width: 800,
-                height: 600,
-                multiWeekViewCfg: {
-                    weekCount: 3
-                },
-                showMultiDayView: true,
-                multiDayViewCfg: {
-                    dayCount: 5
-                },
-                eventStore: new Ext.ensible.sample.MemoryEventStore({
-                    // defined in data/events.js
-                    data: Ext.ensible.sample.EventData
-                })
-            });
-        }
-    }
-}();
+Ext.require([
+    'Ext.*',
+    'Extensible.calendar.data.MemoryEventStore',
+    'Extensible.calendar.CalendarPanel',
+    'Extensible.example.calendar.data.Events',
+    'Extensible.calendar.gadget.CalendarListPanel'
+]);
 
-Ext.onReady(Ext.ensible.LocaleSample.init, Ext.ensible.LocaleSample);
+Ext.onReady(function() {
+    Ext.QuickTips.init();
+    
+    var calendarPanel, 
+        locale = 'English (US)';
+    
+    var localeStore = Ext.create('Ext.data.ArrayStore', {
+        fields: ['code', 'desc'],
+        data : [
+            ['ca', 'Catalan'],
+            ['zh_CN', 'Chinese (Simplified)'],
+            ['zh_TW', 'Chinese (Traditional)'],
+            ['hr', 'Croatian'],
+            ['cs', 'Czech'],
+            ['da', 'Danish'],
+            ['en', 'English (US)'],
+            ['fr', 'French (France)'],
+            ['de', 'German'],
+            ['pl', 'Polish'],
+            ['pt_BR', 'Portuguese (Brazil)'],
+            ['pt_PT', 'Portuguese (Portugal)'],
+            ['ro', 'Romanian'],
+            ['es', 'Spanish (Spain)'],
+            ['sv_SE', 'Swedish']
+        ]
+    });
+    
+    var localeCombo = Ext.create('Ext.form.field.ComboBox', {
+        renderTo: 'locales',
+        store: localeStore,
+        displayField: 'desc',
+        valueField: 'code',
+        typeAhead: true,
+        queryMode: 'local',
+        triggerAction: 'all',
+        emptyText: 'Select a locale...',
+        selectOnFocus: true,
+        value: 'en',
+        listeners: {
+            'select': {
+                fn: function(cbo, rec){
+                    rec = rec[0];
+                    calendarPanel.getEl().mask('Loading '+rec.data.desc+'...');
+                    loadLocale(rec.data.code);
+                    locale = rec.data.desc;
+                }
+            }
+        }
+    });
+    
+    var doLoad = function(url, successFn){
+        Ext.Ajax.request({
+            url: url,
+            disableCaching: false,
+            success: successFn,
+            failure: function(){
+                Ext.Msg.alert('Failure', 'Failed to load locale file.');
+                renderUI();
+            }
+        });
+    };
+    
+    var loadLocale = function(code){
+        doLoad('ext-locales/ext-lang-'+code+'.js', function(resp, opts){
+            eval(resp.responseText); // apply the Ext locale overrides
+            doLoad('../../src/locale/extensible-lang-'+code+'.js', function(resp, opts){
+                eval(resp.responseText); // apply the Extensible locale overrides
+                renderUI();
+            });
+        });
+    };
+    
+    var renderUI = function() {
+        if(calendarPanel){
+            Ext.destroy(calendarPanel);
+        }
+        calendarPanel = Ext.create('Extensible.calendar.CalendarPanel', {
+            id: 'locale-calendar',
+            renderTo: 'cal',
+            title: 'Localized Calendar: ' + locale,
+            width: 800,
+            height: 600,
+            multiWeekViewCfg: {
+                weekCount: 3
+            },
+            showMultiDayView: true,
+            multiDayViewCfg: {
+                dayCount: 5
+            },
+            eventStore: Ext.create('Extensible.calendar.data.MemoryEventStore', {
+                // defined in ../data/Events.js
+                data: Ext.create('Extensible.example.calendar.data.Events')
+            })
+        });
+    };
+    
+    renderUI();
+});

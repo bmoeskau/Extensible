@@ -1,7 +1,14 @@
+Ext.require([
+    'Ext.Window',
+    'Extensible.calendar.data.MemoryEventStore',
+    'Extensible.calendar.CalendarPanel',
+    'Extensible.example.calendar.data.Events'
+]);
+
 Ext.onReady(function(){
     var showWindow = function(){
         if(!this.calendarWin){
-            this.calendarWin = new Ext.Window({
+            this.calendarWin = Ext.create('Ext.Window', {
                 layout: 'fit',
                 title: 'Calendar Window',
                 width: 850,
@@ -11,9 +18,9 @@ Ext.onReady(function(){
                 items: {
                     // xtype is supported:
                     xtype: 'calendarpanel',
-                    eventStore: new Ext.ensible.sample.MemoryEventStore({
-                        // defined in data/events.js
-                        data: Ext.ensible.sample.EventData
+                    eventStore: Ext.create('Extensible.calendar.data.MemoryEventStore', {
+                        // defined in ../data/Events.js
+                        data: Ext.create('Extensible.example.calendar.data.Events')
                     })
                 }
             });

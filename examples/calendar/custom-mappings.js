@@ -1,9 +1,19 @@
+Ext.require([
+    'Extensible.calendar.data.MemoryEventStore',
+    'Extensible.calendar.data.MemoryCalendarStore',
+    'Extensible.calendar.CalendarPanel',
+    'Extensible.example.calendar.data.EventsCustom',
+    'Extensible.example.calendar.data.CalendarsCustom',
+    'Extensible.calendar.data.CalendarMappings',
+    'Extensible.calendar.data.EventMappings'
+]);
+
 Ext.onReady(function(){
 
     // For complete details on how to customize the EventMappings object to match your
     // application data model see the header documentation for the EventMappings class.
     
-    Ext.ensible.cal.EventMappings = {
+    Extensible.calendar.data.EventMappings = {
         // These are the same fields as defined in the standard EventRecord object but the
         // names and mappings have all been customized. Note that the name of each field
         // definition object (e.g., 'EventId') should NOT be changed for the default fields
@@ -25,18 +35,18 @@ Ext.onReady(function(){
         IsPrivate:   {name: 'Private', mapping:'private', type:'boolean'}
     };
     // Don't forget to reconfigure!
-    Ext.ensible.cal.EventRecord.reconfigure();
+    Extensible.calendar.data.EventModel.reconfigure();
     
     // One key thing to remember is that any record reconfiguration you want to perform
     // must be done PRIOR to initializing your data store, otherwise the changes will
     // not be reflected in the store's records.
      
-    var eventStore = new Ext.ensible.sample.MemoryEventStore({
-        // defined in data/events-custom.js
-        data: Ext.ensible.sample.EventDataCustom
+    var eventStore = Ext.create('Extensible.calendar.data.MemoryEventStore', {
+        // defined in ../data/EventsCustom.js
+        data: Ext.create('Extensible.example.calendar.data.EventsCustom')
     });
     
-    Ext.ensible.cal.CalendarMappings = {
+    Extensible.calendar.data.CalendarMappings = {
         // Same basic concept for the CalendarMappings as above
         CalendarId:   {name:'ID', mapping: 'cal_id', type: 'string'}, // int by default
         Title:        {name:'CalTitle', mapping: 'cal_title', type: 'string'},
@@ -45,18 +55,18 @@ Ext.onReady(function(){
         IsHidden:     {name:'Hidden', mapping: 'hidden', type: 'boolean'}
     };
     // Don't forget to reconfigure!
-    Ext.ensible.cal.CalendarRecord.reconfigure();
+    Extensible.calendar.data.CalendarModel.reconfigure();
     
     // Enable event color-coding:
-    var calendarStore = new Ext.ensible.sample.CalendarStore({
-        // defined in data/calendars-custom.js
-        data: Ext.ensible.sample.CalendarDataCustom
+    var calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
+        // defined in ../data/CalendarsCustom.js
+        data: Ext.create('Extensible.example.calendar.data.CalendarsCustom')
     });
     
     //
     // Now just create a standard calendar using our custom data
     //
-    new Ext.ensible.cal.CalendarPanel({
+    Ext.create('Extensible.calendar.CalendarPanel', {
         eventStore: eventStore,
         calendarStore: calendarStore,
         renderTo: 'cal',

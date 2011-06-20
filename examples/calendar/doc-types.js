@@ -1,9 +1,19 @@
+Ext.require([
+    'Ext.data.ArrayStore',
+    'Ext.form.field.ComboBox',
+    'Extensible.calendar.data.MemoryEventStore',
+    'Extensible.calendar.data.MemoryCalendarStore',
+    'Extensible.calendar.CalendarPanel',
+    'Extensible.example.calendar.data.Events',
+    'Extensible.example.calendar.data.Calendars'
+]);
+
 Ext.onReady(function(){
     //
     // There's really nothing too interesting about this setup. This example is
     // solely to demo support of the different common HTML doc types.
     //
-    this.doctypeStore = new Ext.data.ArrayStore({
+    var doctypeStore = Ext.create('Ext.data.ArrayStore', {
         fields: ['name', 'dtd'],
         data : [
             ['None', ''],
@@ -17,9 +27,9 @@ Ext.onReady(function(){
         ]
     });
     
-    this.doctypeCombo = new Ext.form.ComboBox({
+    var doctypeCombo = Ext.create('Ext.form.field.ComboBox', {
         renderTo: 'doctypes',
-        store: this.doctypeStore,
+        store: doctypeStore,
         displayField: 'name',
         valueField: 'dtd',
         typeAhead: true,
@@ -42,18 +52,18 @@ Ext.onReady(function(){
     var search = window.location.search;
     if(search.length > 0){
         search = search.substring(1, search.length); // strip the ?
-        var params = Ext.urlDecode(search);
-        this.doctypeCombo.setValue(params.doctype);
+        var params = Ext.Object.fromQueryString(search);
+        doctypeCombo.setValue(params.doctype);
     }
     
-    new Ext.ensible.cal.CalendarPanel({
-        eventStore: new Ext.ensible.sample.MemoryEventStore({
-            // defined in data/events.js
-            data: Ext.ensible.sample.EventData
+    Ext.create('Extensible.calendar.CalendarPanel', {
+        eventStore: Ext.create('Extensible.calendar.data.MemoryEventStore', {
+            // defined in ../data/Events.js
+            data: Ext.create('Extensible.example.calendar.data.Events')
         }),
-        calendarStore: new Ext.ensible.sample.CalendarStore({
-            // defined in data/calendars.js
-            data: Ext.ensible.sample.CalendarData
+        calendarStore: Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
+            // defined in ../data/Calendars.js
+            data: Ext.create('Extensible.example.calendar.data.Calendars')
         }),
         renderTo: 'cal',
         title: 'Doctype Tester',
