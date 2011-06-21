@@ -9,9 +9,6 @@
         "fileIncludes": [{
             "text": "Extensible.js",
             "path": ""
-        },{
-            "text": "Ext-overrides.js",
-            "path": ""
         }]
     },{
         "name": "Calendar",
