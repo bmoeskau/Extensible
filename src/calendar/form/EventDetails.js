@@ -41,10 +41,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     requires: [
         'Extensible.form.field.DateRange',
         'Extensible.calendar.form.field.ReminderCombo',
-        'Extensible.calendar.data.EventMappings'
-    ],
-    
-    uses: [
+        'Extensible.calendar.data.EventMappings',
         'Extensible.calendar.form.field.CalendarCombo',
         'Extensible.form.recurrence.Combo'
     ],

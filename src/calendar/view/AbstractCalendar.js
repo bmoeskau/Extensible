@@ -1757,3 +1757,6 @@ alert('End: '+bounds.end);
         );
     }
 });
+
+// backwards compat
+Ext.ensible.cal = Extensible.calendar;

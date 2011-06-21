@@ -35,15 +35,6 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
         }
     },
     
-//    sorters: [{
-//        property: Extensible.calendar.data.EventMappings.StartDate.name,
-//        direction: 'ASC'
-//    }],
-//    
-//    //storeId: 'eventStore',
-//    idProperty: Extensible.calendar.data.EventMappings.EventId.mapping || 'id',
-//    fields: Extensible.calendar.data.EventModel.prototype.fields.getRange(),
-    
     // private
     constructor: function(config){
         this.callParent(arguments);
@@ -53,7 +44,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
             direction: 'ASC'
         }];
         
-        this.idProperty = this.idProperty || Extensible.calendar.data.EventMappings.EventId.mapping || 'id',
+        this.idProperty = this.idProperty || Extensible.calendar.data.EventMappings.EventId.mapping || 'id';
         
         this.fields = Extensible.calendar.data.EventModel.prototype.fields.getRange();
         
@@ -109,23 +100,23 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
     onWrite: function(store, operation) {
         var me = this;
         
-//        if(Extensible.sample.msg) {
-//            var success = operation.wasSuccessful(),
-//                rec = operation.getRecords()[0],
-//                title = rec.data[Extensible.calendar.data.EventMappings.Title.name];
-//    
-//            switch (operation.action) {
-//                case 'create':
-//                    Extensible.sample.msg('Add', 'Added "' + Ext.value(title, '(No title)') + '"');
-//                    break;
-//                case 'update':
-//                    Extensible.sample.msg('Update', 'Updated "' + Ext.value(title, '(No title)') + '"');
-//                    break;
-//                case 'destroy':
-//                    Extensible.sample.msg('Delete', 'Deleted "' + Ext.value(title, '(No title)') + '"');
-//                    break;
-//            }
-//        }
+        if(Extensible.example.msg) {
+            var success = operation.wasSuccessful(),
+                rec = operation.getRecords()[0],
+                title = rec.data[Extensible.calendar.data.EventMappings.Title.name];
+    
+            switch (operation.action) {
+                case 'create':
+                    Extensible.example.msg('Add', 'Added "' + Ext.value(title, '(No title)') + '"');
+                    break;
+                case 'update':
+                    Extensible.example.msg('Update', 'Updated "' + Ext.value(title, '(No title)') + '"');
+                    break;
+                case 'destroy':
+                    Extensible.example.msg('Delete', 'Deleted "' + Ext.value(title, '(No title)') + '"');
+                    break;
+            }
+        }
     },
     
     // private - override the default logic for memory storage

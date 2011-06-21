@@ -15,10 +15,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     requires: [
         'Ext.XTemplate',
         'Extensible.calendar.template.DayBody',
-        'Extensible.calendar.data.EventMappings'
-    ],
-    
-    uses: [
+        'Extensible.calendar.data.EventMappings',
         'Extensible.calendar.dd.DayDragZone',
         'Extensible.calendar.dd.DayDropZone'
     ],

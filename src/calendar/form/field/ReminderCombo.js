@@ -24,7 +24,7 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
     extend: 'Ext.form.ComboBox',
     alias: 'widget.remindercombo',
     
-    uses: ['Ext.data.ArrayStore'],
+    requires: ['Ext.data.ArrayStore'],
     
     width: 200,
     fieldLabel: 'Reminder',
