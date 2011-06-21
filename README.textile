@@ -7,6 +7,13 @@
 <p>Extensible now fully supports both Ext 3 and Ext 4. Unfortunately since Ext 4 is not backwards-compatible it means that Extensible must now be managed in 2 separate branches in order to maintain support for both versions of Ext. As long as Ext 3 is supported by Sencha, the Ext 3 compatible versions of all Extensible components will be maintained as well.</p>
 <p>The default master branch is now only compatible with Ext 4, and all Extensible releases from 1.5 forward will be for Ext 4. The Extensible 1.x branch (less than 1.5) will remain as the Ext 3 compatible line of code.</p>
 
+<h2>Licensing</h2>
+<p>Extensible is dual-licensed both commercially and under the open source GPL v3, just like "Ext JS":http://www.sencha.com/company/dual.php. For complete details see the "Extensible Licensing Overview":http://ext.ensible.com/products/licensing/. To purchase a commercial license or premium support please visit the "Extensible Store":http://ext.ensible.com/store/.</p>
+
+<table>
+	<tr><td style="border:1px solid #555;padding:10px 15px;background:#ffc;">*Please note that if you use Extensible under the free GPL license, then your project must also be open source and must adhere to the rules of the "GPL":http://ext.ensible.com/products/gpl-v3.txt. If your project is commercial and/or closed source, a "commercial license":http://ext.ensible.com/store/ is required.*</td></tr>
+</table>
+
 <h2>Building the Source</h2>
 <p>Build scripts for both Mac/Unix (<code>build/build.sh</code>) and Windows (<code>build/build.bat</code>) are included.  You must have a current version of Java installed for JSBuilder to work.  You should also edit the build script and update the path variables as needed for your system.</p>
 <p>If you run the build script (e.g., "sh build.sh" in the Mac terminal, or just "build" on the Windows command line) it will build everything (minus docs), create a <code>/deploy</code> folder and also place the <code>*-all</code> files in the root folder.  The jar file for the Ext-doc tool ("http://ext-doc.org/":http://ext-doc.org/) is also included.  If you'd like to generate docs also, simply pass "-d" as a command line arg to the build script (e.g., "sh build.sh -d" or "build -d").</p>
@@ -48,16 +55,16 @@
 <h3>Development</h3>
 <p>By default all Extensible examples are set up to use dynamic loading since they will only be used in development mode. You can view any example to see how this is set up. It will look something like this:</p>
 <p><pre><code>
-	<!-- Load the Ext and Extensible CSS -->
+    <!-- Load the Ext and Extensible CSS -->
     <link rel="stylesheet" type="text/css" href="path/to/extjs/resources/css/ext-all.css" />
     <link rel="stylesheet" type="text/css" href="path/to/extensible/resources/css/extensible-all.css" />
 
-	<!-- Load the Ext and Extensible bootstrap files -->
+    <!-- Load the Ext and Extensible bootstrap files -->
     <script type="text/javascript" src="path/to/extjs/ext-debug.js"></script>
     <script type="text/javascript" src="path/to/Extensible.js"></script>
 
-	<!-- Enable the Ext.Loader with any paths needed to map 
-		Extensible and any other app classes you may have -->
+    <!-- Enable the Ext.Loader with any paths needed to map 
+         Extensible and any other app classes you may have -->
     <script type="text/javascript">
         Ext.Loader.setConfig({
             enabled: true,
@@ -66,21 +73,21 @@
             }
         });
     </script>
-    
+
     <!-- Include your app and any other app-specific files.
-		The app entry point will include app-specific dependency 
-		declarations and should run inside an Ext.onReady block -->
+         The app entry point will include app-specific dependency 
+         declarations and should run inside an Ext.onReady block -->
     <script type="text/javascript" src="MyApp.js"></script>
 </code></pre></p>
 
 <h3>Deployment</h3>
-<p>The <strong>TestApp</strong> example (examples/calendar/TestApp) also includes sample includes for deployment, commented out by default. Instead of using Ext.Loader, you'll simply include the built (and minimized if necessary) framework files directly, similar to how it was always done in Ext 3.x. For example:</p>
+<p>The <strong>TestApp</strong> example (examples/calendar/TestApp) also shows sample includes for deployment, commented out by default. Instead of using Ext.Loader, you'll simply include the built (and minimized if necessary) framework files directly, similar to how it was always done in Ext 3.x. For example:</p>
 <p><pre><code>
-	<!-- Load the Ext and Extensible CSS -->
+    <!-- Load the Ext and Extensible CSS -->
     <link rel="stylesheet" type="text/css" href="path/to/extjs/resources/css/ext-all.css" />
     <link rel="stylesheet" type="text/css" href="path/to/extensible/resources/css/extensible-all.css" />
 
-	<!-- Load the Ext and Extensible deployment files -->
+    <!-- Load the Ext and Extensible deployment files -->
     <script type="text/javascript" src="path/to/extjs/ext-all-debug.js"></script>
     <script type="text/javascript" src="path/to/extensible-all-debug.js"></script>
 
@@ -91,8 +98,5 @@
 <h2>Support</h2>
 <p>For help in setting up or using this library, or to report bugs, visit the "Extensible forums":http://ext.ensible.com/forum/.</p>
 <p>We also have "premium support subscriptions":http://ext.ensible.com/store/ available if you need access to more direct assistance.</p>
-
-<h2>Licensing</h2>
-<p>Extensible is dual-licensed both commercially and under the open source GPL v3, just like "Ext JS":http://www.sencha.com/company/dual.php. For complete details see the "Extensible Licensing Overview":http://ext.ensible.com/products/licensing/. To purchase a commercial license please visit the "Extensible Store":http://ext.ensible.com/store/.</p>
 
 <p><a href="gpl-v3.txt">View GPL v3 license terms</a></p>
