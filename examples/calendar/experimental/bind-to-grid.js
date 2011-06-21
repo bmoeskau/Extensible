@@ -1,13 +1,23 @@
+Ext.require([
+    'Ext.grid.Panel',
+    'Ext.layout.container.Border',
+    'Extensible.calendar.data.MemoryCalendarStore',
+    'Extensible.calendar.data.MemoryEventStore',
+    'Extensible.calendar.CalendarPanel',
+    'Extensible.example.calendar.data.Calendars',
+    'Extensible.example.calendar.data.Events'
+]);
+
 Ext.onReady(function(){
     
-    var calendarStore = new Ext.ensible.sample.CalendarStore({
-        // defined in data/calendars.js
-        data: Ext.ensible.sample.CalendarData
+    var calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
+        // defined in ../data/Calendars.js
+        data: Ext.create('Extensible.example.calendar.data.Calendars')
     });
     
-    var eventStore = new Ext.ensible.sample.MemoryEventStore({
-        // defined in data/events.js
-        data: Ext.ensible.sample.EventData
+    var eventStore = Ext.create('Extensible.calendar.data.MemoryEventStore', {
+        // defined in ../data/Events.js
+        data: Ext.create('Extensible.example.calendar.data.Events')
     });
     
     var calendarCfg = {
@@ -21,22 +31,24 @@ Ext.onReady(function(){
     };
     
     // grid-specific stuff
-    var gridDateFmt = 'M n, ' + (Ext.ensible.Date.use24HourTime ? 'G:i' : 'ga'),
-        calendarRenderer = function(val) {
-            if (val) {
-                var M = Ext.ensible.cal.CalendarMappings,
-                    rec = calendarStore.getById(val);
+    var gridDateFmt = 'M n, ' + (Extensible.Date.use24HourTime ? 'G:i' : 'ga'),
+        calendarRenderer = function(calendarId) {
+            if (calendarId) {
+                var CalendarMappings = Extensible.calendar.data.CalendarMappings,
+                    rec = calendarStore.findRecord(CalendarMappings.CalendarId.name, calendarId);
                 
                 // the "x-cal-[color id]" classes just set the foreground color to the calendar color
-                return Ext.String.format('<span class="x-cal-{0}">{1}</span>', rec.data[M.ColorId.name], rec.data[M.Title.name]);
+                return Ext.String.format('<span class="x-cal-{0}">{1}</span>', 
+                        rec.data[CalendarMappings.ColorId.name], rec.data[CalendarMappings.Title.name]);
             }
         };
+    
+    var EventMappings = Extensible.calendar.data.EventMappings;
     
     var gridCfg = {
         xtype: 'grid',
         title: 'Event Grid',
         store: eventStore,
-        stripeRows: true,
         autoExpandColumn: 'title',
         viewCfg: {
             forceFit: true
@@ -50,28 +62,28 @@ Ext.onReady(function(){
         maxWidth: 600,
 
         columns: [{
-            id: 'id',
+            dataIndex: EventMappings.EventId.name,
             header: 'Event ID',
             width: 50,
             hidden: true
         },{
-            id: 'cid',
+            dataIndex: EventMappings.CalendarId.name,
             header: 'Calendar', 
             sortable: true,
             width: 65,
             renderer: calendarRenderer
         },{
-            id: 'title',
+            dataIndex: EventMappings.Title.name,
             header: 'Title',
             sortable : true
         },{
-            id: 'start',
+            dataIndex: EventMappings.StartDate.name,
             header: 'Start',
             width: 75,
             renderer: Ext.util.Format.dateRenderer(gridDateFmt),
             sortable: true
         },{
-            id: 'end',
+            dataIndex: EventMappings.EndDate.name,
             header: 'End',
             width: 75,
             renderer: Ext.util.Format.dateRenderer(gridDateFmt),
@@ -79,7 +91,7 @@ Ext.onReady(function(){
         }]
     };
     
-    new Ext.Panel({
+    Ext.create('Ext.Panel', {
         renderTo: 'ct',
         layout: 'border',
         height: 500,
@@ -90,5 +102,4 @@ Ext.onReady(function(){
             calendarCfg
         ]
     });
-    
 });

@@ -2,24 +2,28 @@
 <html>
 <head>
     <title>Extensible : Custom Form</title>
-    <!-- Ext includes -->
     <link rel="stylesheet" type="text/css" href="../../../../extjs/resources/css/ext-all.css" />
-    <script type="text/javascript" src="../../../../extjs/ext-all-debug.js"></script>
-    <!-- Any Ext overrides go here -->
-    
-    <!-- Extensible includes -->
     <link rel="stylesheet" type="text/css" href="../../../resources/css/extensible-all.css" />
-    <script type="text/javascript" src="../../../extensible-all-debug.js"></script>
-    <!-- Any Extensible overrides go here -->
+
+    <script type="text/javascript" src="../../../../extjs/ext-debug.js"></script>
+    <script type="text/javascript" src="../../../Extensible.js"></script>
+    <script type="text/javascript">
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false,
+            paths: {
+                'Extensible': '../../../src',
+                'Extensible.example': '../../'
+            }
+        });
+    </script>
+    
+    <!-- Page-specific includes -->
+    <script type="text/javascript" src="custom-form.js"></script>
     
     <!-- Shared example includes -->
     <link rel="stylesheet" type="text/css" href="../../examples.css" />
     <script type="text/javascript" src="../../examples.js"></script>
-    
-    <!-- Page-specific includes -->
-    <script type="text/javascript" src="../data/events.js"></script>
-    <script type="text/javascript" src="../MemoryEventStore.js"></script>
-    <script type="text/javascript" src="custom-form.js"></script>
     
     <style>
         .sample-ct {      
@@ -30,7 +34,7 @@
 <body>
     <div id="sample-overview">
         <h1>Custom Form Example</h1>
-        <p>Show an additional custom form in the same way that the existing event edit form is displayed.</p>
+        <p>Show an additional custom form in the same way that the existing event edit form is displayed. Note the custom "Admin" button in the toolbar.</p>
         
         <p class="view-src"><a target="_blank" href="custom-form.js">View the source</a></p>
     </div>

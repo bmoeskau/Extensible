@@ -2,26 +2,28 @@
 <html>
 <head>
     <title>Extensible : Binding a Calendar to a Grid</title>
-    <!-- Ext includes -->
     <link rel="stylesheet" type="text/css" href="../../../../extjs/resources/css/ext-all.css" />
-    <script type="text/javascript" src="../../../../extjs/ext-all-debug.js"></script>
-    <!-- Any Ext overrides go here -->
-    
-    <!-- Extensible includes -->
     <link rel="stylesheet" type="text/css" href="../../../resources/css/extensible-all.css" />
-    <script type="text/javascript" src="../../../extensible-all-debug.js"></script>
-    <!-- Any Extensible overrides go here -->
+
+    <script type="text/javascript" src="../../../../extjs/ext-debug.js"></script>
+    <script type="text/javascript" src="../../../Extensible.js"></script>
+    <script type="text/javascript">
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false,
+            paths: {
+                'Extensible': '../../../src',
+                'Extensible.example': '../../'
+            }
+        });
+    </script>
+    
+    <!-- Page-specific includes -->
+    <script type="text/javascript" src="bind-to-grid.js"></script>
     
     <!-- Shared example includes -->
     <link rel="stylesheet" type="text/css" href="../../examples.css" />
     <script type="text/javascript" src="../../examples.js"></script>
-    
-    <!-- Page-specific includes -->
-    <script type="text/javascript" src="../data/calendars.js"></script>
-    <script type="text/javascript" src="../data/events.js"></script>
-    <script type="text/javascript" src="../CalendarStore.js"></script>
-    <script type="text/javascript" src="../MemoryEventStore.js"></script>
-    <script type="text/javascript" src="bind-to-grid.js"></script>
     
     <style>
         #ct { 
