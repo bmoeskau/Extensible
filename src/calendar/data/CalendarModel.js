@@ -41,16 +41,6 @@ Ext.define('Extensible.calendar.data.CalendarModel', {
         'Ext.util.MixedCollection',
         'Extensible.calendar.data.CalendarMappings'
     ],
-
-    initComponent: function() {
-        this.idProperty = this.idProperty || Extensible.calendar.data.CalendarMappings.CalendarId.name || 'id';
-        
-        this.fields = Ext.create('Ext.util.MixedCollection', false, function(field){
-            return field.name;
-        });
-        
-        this.callParent(arguments);
-    },
     
     statics: {
         /**
@@ -81,5 +71,6 @@ Ext.define('Extensible.calendar.data.CalendarModel', {
     }
 },
 function() {
+    Extensible.calendar.data.CalendarModel.prototype.idProperty = Extensible.calendar.data.EventMappings.CalendarId.name || 'id';
     Extensible.calendar.data.CalendarModel.reconfigure();
 });

@@ -44,16 +44,6 @@ Ext.define('Extensible.calendar.data.EventModel', {
         'Extensible.calendar.data.EventMappings'
     ],
     
-    initComponent: function() {
-        this.idProperty = this.idProperty || Extensible.calendar.data.EventMappings.EventId.name || 'id';
-        
-        this.fields = Ext.create('Ext.util.MixedCollection', false, function(field){
-            return field.name;
-        });
-        
-        this.callParent(arguments);
-    },
-    
     statics: {
         /**
          * Reconfigures the default record definition based on the current {@link Extensible.calendar.data.EventMappings EventMappings}
@@ -83,5 +73,6 @@ Ext.define('Extensible.calendar.data.EventModel', {
     }
 },
 function(){
+    Extensible.calendar.data.EventModel.prototype.idProperty = Extensible.calendar.data.EventMappings.EventId.name || 'id';
     Extensible.calendar.data.EventModel.reconfigure();
 });
