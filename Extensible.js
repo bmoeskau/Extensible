@@ -264,6 +264,21 @@ Extensible.applyOverrides = function() {
 
     Ext.DomHelper = Ext.core.DomHelper;
     
+    Ext.Component.override({
+        getId: function() {
+            // Added the regex to strip characters that are valid in aliases but 
+            // can break id selection via ComponentQuery or DomQuery
+            var me = this;
+            
+            if (!me.id) {
+                var xtype = me.getXType();
+                xtype = xtype ? xtype.replace(/[\., ]/g, '-') : 'ext-comp';
+                me.id = xtype + '-' + me.getAutoId()
+            }
+            return me.id;
+        }
+    });
+    
     Ext.picker.Color.override({
         constructor: function() {
             // use an existing renderTpl if specified
