@@ -245,9 +245,6 @@ Ext.define('Extensible', {
     }
 });
 
-// backwards compat
-Ext.ensible = Extensible;
-
 
 /* =========================================================
  * @private
