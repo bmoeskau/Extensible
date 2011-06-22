@@ -8,7 +8,7 @@
  */
 Ext.define('Extensible.calendar.view.MultiDay', {
     extend: 'Extensible.calendar.view.Day',
-    alias: 'widget.multidayview',
+    alias: 'widget.extensible.multidayview',
     
     /**
      * @cfg {Number} dayCount

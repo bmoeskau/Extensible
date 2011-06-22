@@ -6,11 +6,11 @@
  * {@link #Ext.data.Store store} config containing records of type {@link Extensible.calendar.data.EventModel EventRecord}.</p>
  * @constructor
  * @param {Object} config The config object
- * @xtype calendarpanel
+ * @xtype extensible.calendarpanel
  */
 Ext.define('Extensible.calendar.CalendarPanel', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.calendarpanel',
+    alias: 'widget.extensible.calendarpanel',
     
     requires: [
         'Ext.layout.container.Card',
@@ -512,7 +512,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         
         if(this.showDayView){
             var day = Ext.apply({
-                xtype: 'dayview',
+                xtype: 'extensible.dayview',
                 title: this.dayText
             }, sharedViewCfg);
             
@@ -523,7 +523,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         }
         if(this.showMultiDayView){
             var mday = Ext.apply({
-                xtype: 'multidayview',
+                xtype: 'extensible.multidayview',
                 title: this.getMultiDayText(multiDayViewCount)
             }, sharedViewCfg);
             
@@ -534,7 +534,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         }
         if(this.showWeekView){
             var wk = Ext.applyIf({
-                xtype: 'weekview',
+                xtype: 'extensible.weekview',
                 title: this.weekText
             }, sharedViewCfg);
             
@@ -545,7 +545,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         }
         if(this.showMultiWeekView){
             var mwk = Ext.applyIf({
-                xtype: 'multiweekview',
+                xtype: 'extensible.multiweekview',
                 title: this.getMultiWeekText(multiWeekViewCount)
             }, sharedViewCfg);
             
@@ -556,7 +556,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         }
         if(this.showMonthView){
             var month = Ext.applyIf({
-                xtype: 'monthview',
+                xtype: 'extensible.monthview',
                 title: this.monthText,
                 listeners: {
                     'weekclick': {
@@ -575,7 +575,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         }
 
         this.add(Ext.applyIf({
-            xtype: 'eventeditform',
+            xtype: 'extensible.eventeditform',
             id: this.id+'-edit',
             calendarStore: this.calendarStore,
             enableRecurrence: this.enableRecurrence,

@@ -3,7 +3,7 @@
  */
 Ext.define('Extensible.form.recurrence.Combo', {
     extend: 'Ext.form.ComboBox',
-    alias: 'widget.recurrencecombo',
+    alias: 'widget.extensible.recurrencecombo',
     
     requires: ['Ext.data.ArrayStore'],
     

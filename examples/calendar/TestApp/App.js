@@ -71,13 +71,13 @@
                             }
                         }
                     },{
-                        xtype: 'calendarlist',
+                        xtype: 'extensible.calendarlist',
                         store: this.calendarStore,
                         border: false,
                         width: 178
                     }]
                 },{
-                    xtype: 'calendarpanel',
+                    xtype: 'extensible.calendarpanel',
                     eventStore: this.eventStore,
                     calendarStore: this.calendarStore,
                     border: false,

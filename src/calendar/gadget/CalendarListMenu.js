@@ -8,7 +8,7 @@
  */
 Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
     extend: 'Ext.menu.Menu',
-    alias: 'widget.calendarlistmenu',
+    alias: 'widget.extensible.calendarlistmenu',
     
     requires: ['Extensible.calendar.util.ColorPicker'],
     
@@ -78,7 +78,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
                 iconCls: 'extensible-cal-icon-cal-show',
                 handler: Ext.bind(this.handleRadioCalendarClick, this)
             }, '-', {
-                xtype: 'calendarcolorpicker',
+                xtype: 'extensible.calendarcolorpicker',
                 handler: Ext.bind(this.handleColorSelect, this)
             }]
         });

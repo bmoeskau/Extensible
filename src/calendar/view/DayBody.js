@@ -10,7 +10,7 @@
  */
 Ext.define('Extensible.calendar.view.DayBody', {
     extend: 'Extensible.calendar.view.AbstractCalendar',
-    alias: 'widget.daybodyview',
+    alias: 'widget.extensible.daybodyview',
     
     requires: [
         'Ext.XTemplate',

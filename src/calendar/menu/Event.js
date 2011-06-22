@@ -6,7 +6,7 @@
  */
 Ext.define('Extensible.calendar.menu.Event', {
     extend: 'Ext.menu.Menu',
-    alias: 'widget.eventcontextmenu',
+    alias: 'widget.extensible.eventcontextmenu',
     
     requires: ['Ext.menu.DatePicker'],
     

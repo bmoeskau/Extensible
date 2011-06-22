@@ -10,7 +10,7 @@
  */
 Ext.define('Extensible.calendar.view.DayHeader', {
     extend: 'Extensible.calendar.view.Month',
-    alias: 'widget.dayheaderview',
+    alias: 'widget.extensible.dayheaderview',
     
     requires: [
         'Extensible.calendar.template.DayHeader'

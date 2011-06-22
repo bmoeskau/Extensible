@@ -7,7 +7,7 @@
  */
 Ext.define('Extensible.form.field.DateRange', {
     extend: 'Ext.form.FieldContainer',
-    alias: 'widget.daterangefield',
+    alias: 'widget.extensible.daterangefield',
     
     requires: [
         'Ext.form.field.Date',

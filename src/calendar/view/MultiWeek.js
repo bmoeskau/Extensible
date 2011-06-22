@@ -8,7 +8,7 @@
  */
 Ext.define('Extensible.calendar.view.MultiWeek', {
     extend: 'Extensible.calendar.view.Month',
-    alias: 'widget.multiweekview',
+    alias: 'widget.extensible.multiweekview',
     
     /**
      * @cfg {Number} weekCount

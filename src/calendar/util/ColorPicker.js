@@ -13,7 +13,7 @@
  */
 Ext.define('Extensible.calendar.util.ColorPicker', {
     extend: 'Ext.picker.Color',
-    alias: 'widget.calendarcolorpicker',
+    alias: 'widget.extensible.calendarcolorpicker',
     
     requires: ['Ext.XTemplate'],
     

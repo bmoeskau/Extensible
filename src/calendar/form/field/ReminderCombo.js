@@ -22,7 +22,7 @@ reminderValueFormat: '{0} {1} before start'
  */
 Ext.define('Extensible.calendar.form.field.ReminderCombo', {
     extend: 'Ext.form.ComboBox',
-    alias: 'widget.remindercombo',
+    alias: 'widget.extensible.remindercombo',
     
     requires: ['Ext.data.ArrayStore'],
     

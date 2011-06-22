@@ -4,11 +4,11 @@
  * <p>This is a {@link Ext.Panel panel} subclass that renders a list of available calendars
  * @constructor
  * @param {Object} config The config object
- * @xtype calendarpanel
+ * @xtype extensible.calendarlist
  */
 Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.calendarlist',
+    alias: 'widget.extensible.calendarlist',
     
     requires: [
         'Ext.XTemplate',

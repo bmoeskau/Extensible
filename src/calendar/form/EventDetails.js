@@ -36,7 +36,7 @@ autoHeight: true // to allow for the notes field to autogrow
  */
 Ext.define('Extensible.calendar.form.EventDetails', {
     extend: 'Ext.form.Panel',
-    alias: 'widget.eventeditform',
+    alias: 'widget.extensible.eventeditform',
     
     requires: [
         'Extensible.form.field.DateRange',

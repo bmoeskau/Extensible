@@ -16,7 +16,7 @@ width: 200
  */
 Ext.define('Extensible.calendar.form.field.CalendarCombo', {
     extend: 'Ext.form.field.ComboBox',
-    alias: 'widget.calendarcombo',
+    alias: 'widget.extensible.calendarcombo',
     
     requires: ['Extensible.calendar.data.CalendarMappings'],
     

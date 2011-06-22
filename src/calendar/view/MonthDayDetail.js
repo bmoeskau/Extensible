@@ -6,7 +6,7 @@
  */
 Ext.define('Extensible.calendar.view.MonthDayDetail', {
     extend: 'Ext.Component',
-    alias: 'widget.monthdaydetailview',
+    alias: 'widget.extensible.monthdaydetailview',
     
     requires: [
         'Ext.XTemplate',

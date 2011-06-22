@@ -9,7 +9,7 @@
  */
 Ext.define('Extensible.calendar.view.Month', {
     extend: 'Extensible.calendar.view.AbstractCalendar',
-    alias: 'widget.monthview',
+    alias: 'widget.extensible.monthview',
     
     requires: [
         'Ext.XTemplate',
@@ -470,7 +470,7 @@ Ext.define('Extensible.calendar.view.Month', {
 					}
 				}],
 				items: {
-					xtype: 'monthdaydetailview',
+					xtype: 'extensible.monthdaydetailview',
 					id: this.id+'-details-view',
 					date: dt,
 					view: this,

@@ -32,7 +32,7 @@ enableEditDetails: true
  */
 Ext.define('Extensible.calendar.form.EventWindow', {
     extend: 'Ext.window.Window',
-    alias: 'widget.eventeditwindow',
+    alias: 'widget.extensible.eventeditwindow',
     
     requires: [
         'Ext.form.Panel',
@@ -175,7 +175,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             fieldLabel: this.titleLabelText,
             anchor: '100%'
         },{
-            xtype: 'daterangefield',
+            xtype: 'extensible.daterangefield',
             itemId: this.id + '-dates',
             name: 'dates',
             anchor: '95%',
@@ -184,7 +184,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         
         if(this.calendarStore){
             items.push({
-                xtype: 'calendarcombo',
+                xtype: 'extensible.calendarcombo',
                 itemId: this.id + '-calendar',
                 name: Extensible.calendar.data.EventMappings.CalendarId.name,
                 anchor: '100%',

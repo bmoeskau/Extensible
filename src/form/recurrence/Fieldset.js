@@ -4,7 +4,7 @@
  */
 Ext.define('Extensible.form.recurrence.Fieldset', {
     extend: 'Ext.form.Field',
-    alias: 'widget.recurrencefield',
+    alias: 'widget.extensible.recurrencefield',
     
     requires: ['Extensible.form.recurrence.Combo'],
     

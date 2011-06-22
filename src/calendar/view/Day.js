@@ -12,7 +12,7 @@
  */
 Ext.define('Extensible.calendar.view.Day', {
     extend: 'Ext.Container',
-    alias: 'widget.dayview',
+    alias: 'widget.extensible.dayview',
     
     requires: [
         'Extensible.calendar.view.AbstractCalendar',
@@ -143,13 +143,13 @@ Ext.define('Extensible.calendar.view.Day', {
         cfg.minEventDisplayMinutes = this.minEventDisplayMinutes;
         
         var header = Ext.applyIf({
-            xtype: 'dayheaderview',
+            xtype: 'extensible.dayheaderview',
             id: this.id+'-hd',
             ownerCalendarPanel: this.ownerCalendarPanel
         }, cfg);
         
         var body = Ext.applyIf({
-            xtype: 'daybodyview',
+            xtype: 'extensible.daybodyview',
             enableEventResize: this.enableEventResize,
             showHourSeparator: this.showHourSeparator,
             viewStartHour: this.viewStartHour,
