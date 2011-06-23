@@ -2,7 +2,7 @@
 @echo off
 
 :: Configuration
-set VER=extensible-1.5
+set VER=extensible-1.5.0
 set EXTENSIBLE_ROOT=D:\Projects\Extensible
 set EXTENSIBLE_OUTPUT=%EXTENSIBLE_ROOT%\deploy
 
