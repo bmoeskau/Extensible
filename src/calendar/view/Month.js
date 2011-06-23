@@ -280,7 +280,7 @@ Ext.define('Extensible.calendar.view.Month', {
             fmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ';
         
         if(this.calendarStore && evt[M.CalendarId.name]){
-            var rec = this.calendarStore.findRecord(M.CalendarId.name, evt[M.CalendarId.name]);
+            var rec = this.calendarStore.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, evt[M.CalendarId.name]);
             if(rec){
                 colorCls = 'x-cal-' + rec.data[Extensible.calendar.data.CalendarMappings.ColorId.name];
             }

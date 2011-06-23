@@ -59,6 +59,10 @@ Ext.define('Extensible.calendar.data.EventModel', {
                 proto = Data.EventModel.prototype,
                 fields = [];
             
+            // It is critical that the id property mapping is updated in case it changed, since it
+            // is used elsewhere in the data package to match records on CRUD actions:
+            proto.idProperty = Mappings.EventId.name || 'id';
+            
             for(prop in Mappings){
                 if(Mappings.hasOwnProperty(prop)){
                     fields.push(Mappings[prop]);
@@ -73,6 +77,5 @@ Ext.define('Extensible.calendar.data.EventModel', {
     }
 },
 function(){
-    Extensible.calendar.data.EventModel.prototype.idProperty = Extensible.calendar.data.EventMappings.EventId.name || 'id';
     Extensible.calendar.data.EventModel.reconfigure();
 });
