@@ -79,6 +79,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
                 handler: Ext.bind(this.handleRadioCalendarClick, this)
             }, '-', {
                 xtype: 'extensible.calendarcolorpicker',
+                id: this.id + '-calendar-color-picker',
                 handler: Ext.bind(this.handleColorSelect, this)
             }]
         });
@@ -91,7 +92,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
     afterRender: function(){
         this.callParent(arguments);
         
-        this.palette = this.down('calendarcolorpicker');
+        this.palette = this.down('#' + this.id + '-calendar-color-picker');
         
         if(this.colorId){
             this.palette.select(this.colorId, true);
