@@ -1,5 +1,5 @@
 /**
- * @class Ext.ensible
+ * @class Extensible
  * Extensible core utilities and functions.
  * @singleton
  */
