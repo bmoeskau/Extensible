@@ -1,5 +1,5 @@
 # The current version string, substituted into the build path below
-VER=extensible-1.5.0
+VER=extensible-1.5.0-beta1
 EXTENSIBLE_ROOT=$HOME/Projects/Extensible
 EXTENSIBLE_OUTPUT=$EXTENSIBLE_ROOT/deploy
 docs=
