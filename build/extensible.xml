@@ -50,6 +50,7 @@
         -->
 
     <sources>
+        <source src="../Extensible.js" match="Extensible.js"/>
         <source src="../src" match="*.js"/>
     </sources>
     <tags>
