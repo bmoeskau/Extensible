@@ -270,7 +270,7 @@ Extensible.applyOverrides = function() {
             if (!me.id) {
                 var xtype = me.getXType();
                 xtype = xtype ? xtype.replace(/[\., ]/g, '-') : 'ext-comp';
-                me.id = xtype + '-' + me.getAutoId()
+                me.id = xtype + '-' + me.getAutoId();
             }
             return me.id;
         }
