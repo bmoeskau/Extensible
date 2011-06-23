@@ -187,7 +187,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             columnWidth: this.colWidthRight,
             layout: 'anchor',
             fieldDefaults: {
-                labelWidth: this.labelWidthRightCol || this.labelWidth,
+                labelWidth: this.labelWidthRightCol || this.labelWidth
             },
             border: false,
             items: rightFields
