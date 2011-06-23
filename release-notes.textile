@@ -1,5 +1,26 @@
 h1. Release Notes
 
+h2. 1.0.1
+
+_June 23, 2011_
+
+*New Features*
+* Added locales: German, Croatian, Czech, Chinese (traditional and simplified)
+* Added <tt>Ext.ensible.Date.isWeekend()</tt> and <tt>Ext.ensible.Date.isWeekday()</tt>
+* Added support for custom weekend day styles in calendar views
+* New calendar view configs for controlling special day styles more easily (<tt>weekendCls</tt>, <tt>prevMonthCls</tt>, <tt>nextMonthCls</tt> and <tt>todayCls</tt>)
+* New _experimental_ calendar examples (not linked from the main examples page, but available under /examples/calendar/experimental)
+
+*Bugs Fixed*
+* Fixed bug that could cause the times shown in the gutter of the day view to be wrong the day after a daylight savings change
+* Fixed dayNames override in Portuguese-BR locale
+* Updated all locale files to use pluralization functions instead of strings for certain attributes (primarily to support Czech properly)
+* Updated DayView to fire the <tt>beforeeventresize</tt> event with start and end date arguments
+* Fix for event handling code accessing the active calendar view on date change to get the correct view
+* Updated the CSS rules for the ColorPalette so that it works correctly when used outside of the calendar list menu
+* Updated view templates to avoid an Ext regression bug when moving to the Ext 4.0 version of XTemplate
+* Fixed several minor offset bugs in calendar drag/drop, including the initial lag when dragging that could offset the pointer incorrectly
+
 h2. 1.0
 
 _March 1, 2011_
