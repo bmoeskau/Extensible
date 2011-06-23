@@ -1,4 +1,4 @@
-/**
+/*
  * @class Ext.dd.ScrollManager
  * <p>Provides automatic scrolling of overflow regions in the page during drag operations.</p>
  * <p>The ScrollManager configs will be used as the defaults for any scroll container registered with it,
