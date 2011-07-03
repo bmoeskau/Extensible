@@ -8,7 +8,7 @@
         "isDebug": true,
         "fileIncludes": [{
             "text": "Extensible.js",
-            "path": ""
+            "path": "src/"
         }]
     },{
         "name": "Calendar",
