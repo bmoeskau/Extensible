@@ -16,6 +16,17 @@ Extensible.applyOverrides = function() {
         }
     });
     
+    // This was fixed in Ext 4.0.5:
+    Ext.layout.container.AbstractCard.override({
+        renderChildren: function () {
+            // added check to honor deferredRender when rendering children
+            if (!this.deferredRender) {
+                this.getActiveItem();
+                this.callParent();
+            }
+        }
+    });
+    
     Ext.data.reader.Reader.override({
         extractData : function(root) {
             var me = this,
