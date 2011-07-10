@@ -611,7 +611,11 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         this.callParent(arguments);
         
         this.body.addCls('x-cal-body');
-        Ext.defer(this.updateNavState, 10, this);
+        
+        Ext.defer(function() {
+            this.updateNavState();
+            this.fireViewChange();
+        }, 10, this);
     },
     
     /**
