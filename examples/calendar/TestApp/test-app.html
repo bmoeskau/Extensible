@@ -17,6 +17,12 @@
     <script type="text/javascript" src="../../../src/Extensible.js"></script>
     <script type="text/javascript">
         Ext.Loader.setConfig({
+            // If you have trouble with code changes not showing up while debugging,
+            // most notably in Chrome, you may need to turn off the cache buster that
+            // is automatically built into the class loader now. Chrome in particular
+            // has an overly aggressive caching scheme and sometimes refuses to refresh.
+            //disableCaching: false,
+            
             enabled: true,
             paths: {
                 'Extensible': '../../../src',

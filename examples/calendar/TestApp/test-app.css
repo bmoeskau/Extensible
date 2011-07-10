@@ -7,6 +7,9 @@
     color: #455C6F;
     font-size: 13px;
 }
+.app-center-header .x-panel-header-body .x-box-item {
+    text-align: center;
+}
 #app-calendar .x-panel-header {
     padding-left: 0;
 }
