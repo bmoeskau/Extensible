@@ -112,7 +112,7 @@ Ext.define('Extensible.form.field.DateRange', {
             itemId: this.id + '-start-time',
             hidden: this.showTimes === false,
             labelWidth: 0,
-            hideLabel:true,
+            hideLabel: true,
             width: 90,
             listeners: {
                 'select': {
@@ -130,7 +130,7 @@ Ext.define('Extensible.form.field.DateRange', {
             xtype: 'datefield',
             itemId: this.id + '-end-date',
             format: this.dateFormat,
-            hideLabel:true,
+            hideLabel: true,
             width: 100,
             listeners: {
                 'change': {
@@ -149,7 +149,7 @@ Ext.define('Extensible.form.field.DateRange', {
             itemId: this.id + '-end-time',
             hidden: this.showTimes === false,
             labelWidth: 0,
-            hideLabel:true,
+            hideLabel: true,
             width: 90,
             listeners: {
                 'select': {
@@ -169,12 +169,14 @@ Ext.define('Extensible.form.field.DateRange', {
             hidden: this.showTimes === false || this.showAllDay === false,
             boxLabel: this.allDayText,
             margins: { top: 2, right: 5, bottom: 0, left: 0 },
-            handler: function(chk, checked) {
-                this.startTime.setVisible(!checked);
-                this.endTime.setVisible(!checked);
-            },
+            handler: this.onAllDayChange,
             scope: this
         };
+    },
+    
+    onAllDayChange: function(chk, checked) {
+        this.startTime.setVisible(!checked);
+        this.endTime.setVisible(!checked);
     },
     
     getDateSeparatorConfig: function() {
