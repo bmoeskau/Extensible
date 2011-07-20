@@ -37,6 +37,13 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
      * The date display format used by the date fields (defaults to 'n/j/Y') 
      */
     dateFormat: 'n/j/Y',
+    /**
+     * @cfg {String} timeFormat
+     * The time display format used by the time fields. By default the DateRange uses the
+     * {@link Ext.ensible.Date.use24HourTime} setting and sets the format to 'g:i A' for 12-hour time (e.g., 1:30 PM) 
+     * or 'G:i' for 24-hour time (e.g., 13:30). This can also be overridden by a static format string if desired.
+     */
+    timeFormat: Ext.ensible.Date.use24HourTime ? 'G:i' : 'g:i A',
     
     // private
     onRender: function(ct, position){
@@ -60,6 +67,7 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
                 labelWidth: 0,
                 hideLabel:true,
                 width:90,
+                format: this.timeFormat,
                 listeners: {
                     'select': {
                         fn: function(){
@@ -75,6 +83,7 @@ Ext.ensible.cal.DateRangeField = Ext.extend(Ext.form.Field, {
                 labelWidth: 0,
                 hideLabel:true,
                 width:90,
+                format: this.timeFormat,
                 listeners: {
                     'select': {
                         fn: function(){
