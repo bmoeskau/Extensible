@@ -48,7 +48,15 @@ Ext.define('Extensible.form.field.DateRange', {
      * The date display format used by the date fields (defaults to 'n/j/Y') 
      */
     dateFormat: 'n/j/Y',
+    /**
+     * @cfg {String} timeFormat
+     * The time display format used by the time fields. By default the DateRange uses the
+     * {@link Extensible.Date.use24HourTime} setting and sets the format to 'g:i A' for 12-hour time (e.g., 1:30 PM) 
+     * or 'G:i' for 24-hour time (e.g., 13:30). This can also be overridden by a static format string if desired.
+     */
+    timeFormat: Extensible.Date.use24HourTime ? 'G:i' : 'g:i A',
     
+    // private
     layout: {
         type: 'hbox',
         defaultMargins: { top: 0, right: 5, bottom: 0, left: 0 }
@@ -114,6 +122,7 @@ Ext.define('Extensible.form.field.DateRange', {
             labelWidth: 0,
             hideLabel: true,
             width: 90,
+            format: this.timeFormat,
             listeners: {
                 'select': {
                     fn: function(){
@@ -151,6 +160,7 @@ Ext.define('Extensible.form.field.DateRange', {
             labelWidth: 0,
             hideLabel: true,
             width: 90,
+            format: this.timeFormat,
             listeners: {
                 'select': {
                     fn: function(){
