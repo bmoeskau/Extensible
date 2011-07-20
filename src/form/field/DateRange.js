@@ -121,6 +121,7 @@ Ext.define('Extensible.form.field.DateRange', {
             hidden: this.showTimes === false,
             labelWidth: 0,
             hideLabel: true,
+            format: Extensible.Date.use24HourTime ? 'G:i' : 'ga',
             width: 90,
             format: this.timeFormat,
             listeners: {
@@ -159,6 +160,7 @@ Ext.define('Extensible.form.field.DateRange', {
             hidden: this.showTimes === false,
             labelWidth: 0,
             hideLabel: true,
+            format: Extensible.Date.use24HourTime ? 'G:i' : 'ga',
             width: 90,
             format: this.timeFormat,
             listeners: {
