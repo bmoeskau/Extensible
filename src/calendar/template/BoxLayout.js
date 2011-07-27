@@ -162,7 +162,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
     getTodayText : function(){
         var timeFmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
             todayText = this.showTodayText !== false ? this.todayText : '',
-            timeText = this.showTime !== false ? ' <span id="'+this.id+'-clock" class="ext-cal-dtitle-time">' + 
+            timeText = this.showTime !== false ? ' <span id="'+this.id+'-clock" class="ext-cal-dtitle-time" aria-live="off">' + 
                     Ext.Date.format(new Date(), timeFmt) + '</span>' : '',
             separator = todayText.length > 0 || timeText.length > 0 ? ' &#8212; ' : ''; // &#8212; == &mdash;
         
