@@ -179,6 +179,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             itemId: this.id + '-dates',
             name: 'dates',
             anchor: '95%',
+            singleLine: true,
             fieldLabel: this.datesLabelText
         }];
         

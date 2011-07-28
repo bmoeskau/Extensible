@@ -14,7 +14,7 @@ Ext.define('Extensible.form.field.DateRange', {
         'Ext.form.field.Time',
         'Ext.form.Label',
         'Ext.form.field.Checkbox',
-        'Ext.layout.container.Column'
+        'Extensible.form.field.DateRangeLayout'
     ],
     
     /**
@@ -57,10 +57,7 @@ Ext.define('Extensible.form.field.DateRange', {
     timeFormat: Extensible.Date.use24HourTime ? 'G:i' : 'g:i A',
     
     // private
-    layout: {
-        type: 'hbox',
-        defaultMargins: { top: 0, right: 5, bottom: 0, left: 0 }
-    },
+    layout: 'extensible.daterange',
     
     // private
     initComponent: function() {
@@ -68,10 +65,8 @@ Ext.define('Extensible.form.field.DateRange', {
         me.items = me.getFieldConfigs();
         me.addCls('ext-dt-range');
         
-        // TODO: Replace this with singleLine config logic:
-        me.height = 22;
-        
         me.callParent(arguments);
+        
         me.initRefs();
     },
     
@@ -97,10 +92,19 @@ Ext.define('Extensible.form.field.DateRange', {
         ];
     },
     
+    getLayoutItems: function(singleLine) {
+        var me = this;
+        return singleLine ? me.items.items : [[
+            me.startDate, me.startTime, me.toLabel
+        ],[
+            me.endDate, me.endTime, me.allDay
+        ]];
+    },
+    
     getStartDateConfig: function() {
         return {
             xtype: 'datefield',
-            itemId: this.id + '-start-date',
+            id: this.id + '-start-date',
             format: this.dateFormat,
             width: 100,
             listeners: {
@@ -117,7 +121,7 @@ Ext.define('Extensible.form.field.DateRange', {
     getStartTimeConfig: function() {
         return {
             xtype: 'timefield',
-            itemId: this.id + '-start-time',
+            id: this.id + '-start-time',
             hidden: this.showTimes === false,
             labelWidth: 0,
             hideLabel: true,
@@ -137,7 +141,7 @@ Ext.define('Extensible.form.field.DateRange', {
     getEndDateConfig: function() {
         return {
             xtype: 'datefield',
-            itemId: this.id + '-end-date',
+            id: this.id + '-end-date',
             format: this.dateFormat,
             hideLabel: true,
             width: 100,
@@ -155,7 +159,7 @@ Ext.define('Extensible.form.field.DateRange', {
     getEndTimeConfig: function() {
         return {
             xtype: 'timefield',
-            itemId: this.id + '-end-time',
+            id: this.id + '-end-time',
             hidden: this.showTimes === false,
             labelWidth: 0,
             hideLabel: true,
@@ -175,7 +179,7 @@ Ext.define('Extensible.form.field.DateRange', {
     getAllDayConfig: function() {
         return {
             xtype: 'checkbox',
-            itemId: this.id + '-allday',
+            id: this.id + '-allday',
             hidden: this.showTimes === false || this.showAllDay === false,
             boxLabel: this.allDayText,
             margins: { top: 2, right: 5, bottom: 0, left: 0 },
@@ -192,7 +196,7 @@ Ext.define('Extensible.form.field.DateRange', {
     getDateSeparatorConfig: function() {
         return {
             xtype: 'label',
-            itemId: this.id + '-to-label',
+            id: this.id + '-to-label',
             text: this.toText,
             margins: { top: 4, right: 5, bottom: 0, left: 0 }
         };
@@ -355,8 +359,9 @@ Ext.define('Extensible.form.field.DateRange', {
     // private
     checkDates: function(type, startend){
         var me = this,
-            startField = me.down('#' + me.id + '-start-' + type),
-            endField = me.down('#' + me.id + '-end-' + type),
+            typeCap = type === 'date' ? 'Date' : 'Time',
+            startField = this['start' + typeCap],
+            endField = this['end' + typeCap],
             startValue = me.getDT('start'),
             endValue = me.getDT('end');
 
@@ -424,22 +429,26 @@ Ext.define('Extensible.form.field.DateRange', {
         if(!v) {
             return;
         }
+        var me = this,
+            eventMappings = Extensible.calendar.data.EventMappings,
+            startDateName = eventMappings.StartDate.name;
+            
         if(Ext.isArray(v)){
-            this.setDT(v[0], 'start');
-            this.setDT(v[1], 'end');
-            this.allDay.setValue(!!v[2]);
+            me.setDT(v[0], 'start');
+            me.setDT(v[1], 'end');
+            me.allDay.setValue(!!v[2]);
         }
         else if(Ext.isDate(v)){
-            this.setDT(v, 'start');
-            this.setDT(v, 'end');
-            this.allDay.setValue(false);
+            me.setDT(v, 'start');
+            me.setDT(v, 'end');
+            me.allDay.setValue(false);
         }
-        else if(v[Extensible.calendar.data.EventMappings.StartDate.name]){ //object
-            this.setDT(v[Extensible.calendar.data.EventMappings.StartDate.name], 'start');
-            if(!this.setDT(v[Extensible.calendar.data.EventMappings.EndDate.name], 'end')){
-                this.setDT(v[Extensible.calendar.data.EventMappings.StartDate.name], 'end');
+        else if(v[startDateName]){ //object
+            me.setDT(v[startDateName], 'start');
+            if(!me.setDT(v[eventMappings.EndDate.name], 'end')){
+                me.setDT(v[startDateName], 'end');
             }
-            this.allDay.setValue(!!v[Extensible.calendar.data.EventMappings.IsAllDay.name]);
+            me.allDay.setValue(!!v[eventMappings.IsAllDay.name]);
         }
     },
     
