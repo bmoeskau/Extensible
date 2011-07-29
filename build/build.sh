@@ -1,6 +1,6 @@
 # The current version string, substituted into the build path below
 VER=extensible-1.5.0-beta1
-EXTENSIBLE_ROOT=$HOME/Projects/Extensible
+EXTENSIBLE_ROOT="`dirname "$0"`/.."
 EXTENSIBLE_OUTPUT=$EXTENSIBLE_ROOT/deploy
 docs=
 
@@ -26,7 +26,7 @@ while [ "$1" != "" ]; do
 done
 
 # Build it
-java -jar JSBuilder2.jar --projectFile $EXTENSIBLE_ROOT/extensible.jsb2 --homeDir $EXTENSIBLE_OUTPUT
+java -jar $EXTENSIBLE_ROOT/build/JSBuilder2.jar --projectFile $EXTENSIBLE_ROOT/extensible.jsb2 --homeDir $EXTENSIBLE_OUTPUT
 
 # Copy the deploy files back into dev so that the samples get the latest code
 echo Updating dev...
@@ -42,7 +42,7 @@ cp $EXTENSIBLE_ROOT/*.html $EXTENSIBLE_OUTPUT/$VER/
 # Docs
 if [ "$docs" = "1" ]; then
 	echo Generating docs...
-	java -jar ext-doc.jar -p extensible.xml -o $EXTENSIBLE_OUTPUT/$VER/docs -t template/ext/template.xml
+	java -jar $EXTENSIBLE_ROOT/build/ext-doc.jar -p $EXTENSIBLE_ROOT/build/extensible.xml -o $EXTENSIBLE_OUTPUT/$VER/docs -t $EXTENSIBLE_ROOT/template/ext/template.xml
 fi
 
 echo All done!
