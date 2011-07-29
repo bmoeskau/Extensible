@@ -78,6 +78,9 @@
             "text": "Fieldset.js",
             "path": "src/form/recurrence/"
         },{
+            "text": "DateRangeLayout.js",
+            "path": "src/form/field/"
+        },{
             "text": "DateRange.js",
             "path": "src/form/field/"
         },{
