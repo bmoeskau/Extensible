@@ -2,18 +2,17 @@
 VER=extensible-1.5.0-beta1
 EXTENSIBLE_ROOT="`dirname "$0"`/.."
 EXTENSIBLE_OUTPUT=$EXTENSIBLE_ROOT/deploy
-docs=
 
 function usage {
-    echo "usage: sh build.sh [-d|--docs]"
+    echo "usage: sh build.sh [-d | --docs]"
 	echo
-	echo "       -d|-docs: Include updated docs in the output"
+	echo "       -d | --docs: Include updated docs in the output"
 	echo
 }
 
 while [ "$1" != "" ]; do
     case $1 in
-        -d| --docs )            shift
+        -d | --docs )           shift
 								docs=1
                                 ;;
         -h | --help )           usage
@@ -35,14 +34,14 @@ cp $EXTENSIBLE_OUTPUT/$VER/extensible-all-debug.js $EXTENSIBLE_ROOT
 cp $EXTENSIBLE_OUTPUT/$VER/resources/css/extensible-all.css $EXTENSIBLE_ROOT/resources/css
 
 # Copy other resource files to output
-cp $EXTENSIBLE_ROOT/*.textile $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/*.md $EXTENSIBLE_OUTPUT/$VER/
 cp $EXTENSIBLE_ROOT/*.txt $EXTENSIBLE_OUTPUT/$VER/
 cp $EXTENSIBLE_ROOT/*.html $EXTENSIBLE_OUTPUT/$VER/
 
 # Docs
 if [ "$docs" = "1" ]; then
 	echo Generating docs...
-	java -jar $EXTENSIBLE_ROOT/build/ext-doc.jar -p $EXTENSIBLE_ROOT/build/extensible.xml -o $EXTENSIBLE_OUTPUT/$VER/docs -t $EXTENSIBLE_ROOT/template/ext/template.xml
+	java -jar $EXTENSIBLE_ROOT/build/ext-doc.jar -p $EXTENSIBLE_ROOT/build/extensible.xml -o $EXTENSIBLE_OUTPUT/$VER/docs -t $EXTENSIBLE_ROOT/build/template/ext/template.xml
 fi
 
 echo All done!
