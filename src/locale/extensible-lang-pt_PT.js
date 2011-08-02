@@ -123,8 +123,8 @@ if(Extensible.form.recurrence.Combo) {
     });
 }
 
-if(Extensible.calendar.ReminderField) {
-    Ext.apply(Extensible.calendar.ReminderField.prototype, {
+if(Extensible.calendar.form.field.ReminderCombo) {
+    Ext.apply(Extensible.calendar.form.field.ReminderCombo.prototype, {
         fieldLabel: 'Lembrete',
         noneText: 'Nenhum',
         atStartTimeText: 'Há hora de início',
