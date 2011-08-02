@@ -24,6 +24,7 @@ Ext.onReady(function() {
             ['en', 'English (US)'],
             ['fr', 'French (France)'],
             ['de', 'German'],
+            ['it', 'Italian'],
             ['pl', 'Polish'],
             ['pt_BR', 'Portuguese (Brazil)'],
             ['pt_PT', 'Portuguese (Portugal)'],
