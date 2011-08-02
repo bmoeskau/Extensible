@@ -3,6 +3,7 @@
  * Contributors: 
  * - Tobias Uhlig, http://extthemes.com/
  * - Gunnar Beushausen
+ * - Joern Heid
  */
 
 Ext.ensible.Date.use24HourTime = true;
@@ -12,9 +13,9 @@ if(Ext.ensible.cal.CalendarView) {
         startDay: 0,
         todayText: 'Heute',
         defaultEventTitleText: '(kein titel)',
-        ddCreateEventText: 'Event erstellen für {0}',
-        ddMoveEventText: 'Event verschieben nach {0}',
-        ddResizeEventText: 'Event updaten nach {0}'
+        ddCreateEventText: 'Termin erstellen f\u00FCr {0}',
+        ddMoveEventText: 'Termin verschieben nach {0}',
+        ddResizeEventText: 'Termin updaten nach {0}'
     });
 }
 
@@ -35,7 +36,7 @@ if(Ext.ensible.cal.CalendarPanel) {
         weekText: 'Woche',
         monthText: 'Monat',
         jumpToText: 'Springe zu:',
-        goText: 'los',
+        goText: 'Los',
         multiDayText: '{0} Tage',
         multiWeekText: '{0} Wochen',
         getMultiDayText: function(numDays){
@@ -49,15 +50,15 @@ if(Ext.ensible.cal.CalendarPanel) {
 
 if(Ext.ensible.cal.EventEditWindow) {
     Ext.apply(Ext.ensible.cal.EventEditWindow.prototype, {
-        width: 600,
+        width: 640,
         labelWidth: 65,
-        titleTextAdd: 'Event erstellen',
-        titleTextEdit: 'Event editieren',
+        titleTextAdd: 'Termin erstellen',
+        titleTextEdit: 'Termin editieren',
         savingMessage: 'Speichere Daten...',
-        deletingMessage: 'Lösche events...',
-        detailsLinkText: 'Editiere Details...',
-        saveButtonText: 'speichern',
-        deleteButtonText: 'Löschen',
+        deletingMessage: 'L\u00F6sche Termin...',
+        detailsLinkText: 'Einzelheiten bearbeiten...',
+        saveButtonText: 'Speichern',
+        deleteButtonText: 'L\u00F6schen',
         cancelButtonText: 'Abbrechen',
         titleLabelText: 'Titel',
         datesLabelText: 'Wann',
@@ -69,11 +70,11 @@ if(Ext.ensible.cal.EventEditForm) {
     Ext.apply(Ext.ensible.cal.EventEditForm.prototype, {
         labelWidth: 65,
         labelWidthRightCol: 65,
-        title: 'Event Formular',
-        titleTextAdd: 'Event hinzufügen',
-        titleTextEdit: 'Event editieren',
+        title: 'Termin Formular',
+        titleTextAdd: 'Termin hinzuf\u00FCgen',
+        titleTextEdit: 'Termin editieren',
         saveButtonText: 'Speichern',
-        deleteButtonText: 'Löschen',
+        deleteButtonText: 'L\u00F6schen',
         cancelButtonText: 'Abbrechen',
         titleLabelText: 'Titel',
         datesLabelText: 'Wann',
@@ -116,10 +117,10 @@ if(Ext.ensible.cal.RecurrenceCombo) {
         fieldLabel: 'Wiederholungen',
         recurrenceText: {
             none: 'keine Wiederholungen',
-            daily: 'täglich',
-            weekly: 'wöchentlich',
+            daily: 't\u00E4glich',
+            weekly: 'w\u00F6chentlich',
             monthly: 'monatlich',
-            yearly: 'jährlich'
+            yearly: 'j\u00E4hrlich'
         }
     });
 }
@@ -130,16 +131,16 @@ if(Ext.ensible.cal.ReminderField) {
         noneText: 'keine',
         atStartTimeText: 'zur Startzeit',
         getMinutesText: function(numMinutes){
-            return numMinutes === 1 ? 'minute' : 'minuten';
+            return numMinutes === 1 ? 'Minute' : 'Minuten';
         },
         getHoursText: function(numHours){
-            return numHours === 1 ? 'stunde' : 'stunden';
+            return numHours === 1 ? 'Stunde' : 'Stunden';
         },
         getDaysText: function(numDays){
-            return numDays === 1 ? 'tag' : 'tage';
+            return numDays === 1 ? 'Tag' : 'Tage';
         },
         getWeeksText: function(numWeeks){
-            return numWeeks === 1 ? 'woche' : 'wochen';
+            return numWeeks === 1 ? 'Woche' : 'Wochen';
         },
         reminderValueFormat: '{0} {1} vor Terminbeginn' // e.g. "2 hours before start"
     });
@@ -153,9 +154,9 @@ if(Ext.ensible.cal.DateRangeField) {
 
 if(Ext.ensible.cal.EventContextMenu) {
     Ext.apply(Ext.ensible.cal.EventContextMenu.prototype, {
-        editDetailsText: 'Details editieren',
-        deleteText: 'Löschen',
-        moveToText: 'verschieben nach...'
+        editDetailsText: 'Einzelheiten bearbeiten',
+        deleteText: 'L\u00F6schen',
+        moveToText: 'Verschieben nach...'
     });
 }
 
