@@ -48,13 +48,6 @@ Ext.define('Extensible.form.field.DateRange', {
      * The date display format used by the date fields (defaults to 'n/j/Y') 
      */
     dateFormat: 'n/j/Y',
-    /**
-     * @cfg {String} timeFormat
-     * The time display format used by the time fields. By default the DateRange uses the
-     * {@link Extensible.Date.use24HourTime} setting and sets the format to 'g:i A' for 12-hour time (e.g., 1:30 PM) 
-     * or 'G:i' for 24-hour time (e.g., 13:30). This can also be overridden by a static format string if desired.
-     */
-    timeFormat: Extensible.Date.use24HourTime ? 'G:i' : 'g:i A',
     
     // private
     layout: 'extensible.daterange',
@@ -62,6 +55,14 @@ Ext.define('Extensible.form.field.DateRange', {
     // private
     initComponent: function() {
         var me = this;
+        /**
+         * @cfg {String} timeFormat
+         * The time display format used by the time fields. By default the DateRange uses the
+         * {@link Extensible.Date.use24HourTime} setting and sets the format to 'g:i A' for 12-hour time (e.g., 1:30 PM) 
+         * or 'G:i' for 24-hour time (e.g., 13:30). This can also be overridden by a static format string if desired.
+         */
+        me.timeFormat = me.timeFormat || (Extensible.Date.use24HourTime ? 'G:i' : 'g:i A');
+        
         me.items = me.getFieldConfigs();
         me.addCls('ext-dt-range');
         
