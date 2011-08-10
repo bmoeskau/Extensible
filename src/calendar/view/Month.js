@@ -481,7 +481,10 @@ Ext.define('Extensible.calendar.view.Month', {
 					}
 				}
 			});
-            this.detailPanel.body.on('contextmenu', this.onContextMenu, this);
+            
+            if(this.enableContextMenus && this.readOnly !== true){
+                this.detailPanel.body.on('contextmenu', this.onContextMenu, this);
+            }
 		}
 		else{
 			this.detailPanel.setTitle(Ext.Date.format(dt, this.detailsTitleDateFormat));
