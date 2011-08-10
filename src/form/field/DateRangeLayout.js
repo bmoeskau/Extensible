@@ -34,7 +34,7 @@ Ext.define('Extensible.form.field.DateRangeLayout', {
         }
 
         shadowCt.doComponentLayout();
-        owner.setHeight(shadowCt.getHeight());
+        owner.setHeight(shadowCt.getHeight()-5);
     },
 
     /**
