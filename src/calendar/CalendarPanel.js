@@ -767,6 +767,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         }
         
         l.setActiveItem(id);
+        this.doComponentLayout();
         this.activeView = l.getActiveItem();
         
         if(id !== this.id+'-edit'){
