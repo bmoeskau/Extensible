@@ -466,7 +466,10 @@ Ext.ensible.cal.MonthView = Ext.extend(Ext.ensible.cal.CalendarView, {
 					}
 				}
 			});
-            this.detailPanel.body.on('contextmenu', this.onContextMenu, this);
+            
+            if(this.enableContextMenus && this.readOnly !== true){
+                this.detailPanel.body.on('contextmenu', this.onContextMenu, this);
+            }
 		}
 		else{
 			this.detailPanel.setTitle(dt.format(this.detailsTitleDateFormat));
