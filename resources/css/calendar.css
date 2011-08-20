@@ -610,13 +610,8 @@ td.ext-cal-dtitle-today div {
     opacity: 0.5;
     position: absolute;
 }
-
-/* Webkit/Gecko: */
-.ext-evt-over,
-/* IE/Opera: */
-.ext-evt-over .ext-cal-evm {
+.ext-evt-over {
     opacity: .8;
-    filter: alpha(opacity=80);
 }
 
 /* Calendar Picker */
