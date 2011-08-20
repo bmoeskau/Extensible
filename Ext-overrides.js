@@ -27,6 +27,21 @@ Extensible.applyOverrides = function() {
         }
     });
     
+    // This was fixed in Ext 4.0.4?
+    Ext.Component.override({
+        getId: function() {
+            var me = this,
+                xtype;
+            
+            if (!me.id) {
+                xtype = me.getXType();
+                xtype = xtype ? xtype.replace(/[\.,\s]/g, '-') : 'ext-comp';
+                me.id = xtype + '-' + me.getAutoId();
+            }
+            return me.id;
+        }
+   });
+    
     Ext.data.reader.Reader.override({
         extractData : function(root) {
             var me = this,
