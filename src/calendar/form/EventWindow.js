@@ -250,9 +250,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
 		var anim = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget,
             M = Extensible.calendar.data.EventMappings;
 
-//		Extensible.calendar.form.EventWindow.superclass.show.call(this, anim, function(){
-//            this.titleField.focus(false, 100);
-//        });
         this.callParent([this, anim, function(){
             this.titleField.focus(false, 100);
         }]);
