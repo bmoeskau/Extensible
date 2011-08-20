@@ -42,12 +42,14 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
             }
             this.shim(this.dragCreateDt, box);
             
-            var curr = Extensible.Date.copyTime(n.date, this.dragCreateDt);
+            var diff = Extensible.Date.diff(this.dragCreateDt, n.date),
+                curr = Extensible.Date.add(this.dragCreateDt, {millis: diff});
+                
             this.dragStartDate = Extensible.Date.min(this.dragCreateDt, curr);
             this.dragEndDate = endDt || Extensible.Date.max(this.dragCreateDt, curr);
                 
-            dt = Ext.String.format(this.dateRangeFormat, 
-                Ext.Date.format(this.dragStartDate, timeFormat), 
+            dt = Ext.String.format(this.dateRangeFormat,
+                Ext.Date.format(this.dragStartDate, timeFormat),
                 Ext.Date.format(this.dragEndDate, timeFormat));
         }
         else{
@@ -89,7 +91,8 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
                 }
                 this.shim(this.resizeDt, box);
                 
-                var curr = Extensible.Date.copyTime(n.date, this.resizeDt),
+                var diff = Extensible.Date.diff(this.resizeDt, n.date),
+                    curr = Extensible.Date.add(this.resizeDt, {millis: diff}),
                     start = Extensible.Date.min(data.eventStart, curr),
                     end = Extensible.Date.max(data.eventStart, curr);
                     
