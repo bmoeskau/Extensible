@@ -5,27 +5,30 @@
  * <p>This window also provides custom events specific to the calendar so that other calendar components can be easily
  * notified when an event has been edited via this component.</p>
  * <p>The default configs are as follows:</p><pre><code>
-titleTextAdd: 'Add Event',
-titleTextEdit: 'Edit Event',
-width: 600,
-border: true,
-closeAction: 'hide',
-modal: false,
-resizable: false,
-buttonAlign: 'left',
-labelWidth: 65,
-detailsLinkText: 'Edit Details...',
-savingMessage: 'Saving changes...',
-deletingMessage: 'Deleting event...',
-saveButtonText: 'Save',
-deleteButtonText: 'Delete',
-cancelButtonText: 'Cancel',
-titleLabelText: 'Title',
-datesLabelText: 'When',
-calendarLabelText: 'Calendar',
-editDetailsLinkClass: 'edit-dtl-link',
-bodyStyle: 'padding:5px 10px;',
-enableEditDetails: true
+    // Locale configs
+    titleTextAdd: 'Add Event',
+    titleTextEdit: 'Edit Event',
+    width: 600,
+    labelWidth: 65,
+    detailsLinkText: 'Edit Details...',
+    savingMessage: 'Saving changes...',
+    deletingMessage: 'Deleting event...',
+    saveButtonText: 'Save',
+    deleteButtonText: 'Delete',
+    cancelButtonText: 'Cancel',
+    titleLabelText: 'Title',
+    datesLabelText: 'When',
+    calendarLabelText: 'Calendar',
+    
+    // General configs
+    closeAction: 'hide',
+    modal: false,
+    resizable: false,
+    constrain: true,
+    buttonAlign: 'left',
+    editDetailsLinkClass: 'edit-dtl-link',
+    enableEditDetails: true,
+    bodyStyle: 'padding: 8px 10px 5px;'
 </code></pre>
  * @constructor
  * @param {Object} config The config object
@@ -59,6 +62,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     closeAction: 'hide',
     modal: false,
     resizable: false,
+    constrain: true,
     buttonAlign: 'left',
     editDetailsLinkClass: 'edit-dtl-link',
     enableEditDetails: true,
