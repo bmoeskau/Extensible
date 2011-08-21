@@ -1394,7 +1394,12 @@ alert('End: '+bounds.end);
 	
     // private
     getEventRecord : function(id){
-        var idx = this.store.find(Extensible.calendar.data.EventMappings.EventId.name, id);
+        var idx = this.store.find(Extensible.calendar.data.EventMappings.EventId.name, id, 
+            0,     // start index
+            false, // match any part of string 
+            true,  // case sensitive
+            true   // force exact match
+        );
         return this.store.getAt(idx);
     },
 	
