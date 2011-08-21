@@ -1359,7 +1359,11 @@ alert('End: '+bounds.end);
 	
     // private
     getEventRecord : function(id){
-        var idx = this.store.find(Ext.ensible.cal.EventMappings.EventId.name, id);
+        var idx = this.store.find(Ext.ensible.cal.EventMappings.EventId.name, id, 
+            0,     // start index
+            false, // match any part of string 
+            true   // case sensitive
+        );
         return this.store.getAt(idx);
     },
 	
