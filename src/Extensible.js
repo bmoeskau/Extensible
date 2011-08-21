@@ -261,15 +261,26 @@ Extensible.applyOverrides = function() {
 
     Ext.DomHelper = Ext.core.DomHelper;
     
+    // This was fixed in Ext 4.0.5:
+    Ext.layout.container.AbstractCard.override({
+        renderChildren: function () {
+            // added check to honor deferredRender when rendering children
+            if (!this.deferredRender) {
+                this.getActiveItem();
+                this.callParent();
+            }
+        }
+    });
+    
+    // This was fixed in Ext 4.0.4?
     Ext.Component.override({
         getId: function() {
-            // Added the regex to strip characters that are valid in aliases but 
-            // can break id selection via ComponentQuery or DomQuery
-            var me = this;
+            var me = this,
+                xtype;
             
             if (!me.id) {
-                var xtype = me.getXType();
-                xtype = xtype ? xtype.replace(/[\., ]/g, '-') : 'ext-comp';
+                xtype = me.getXType();
+                xtype = xtype ? xtype.replace(/[\.,\s]/g, '-') : 'ext-comp';
                 me.id = xtype + '-' + me.getAutoId();
             }
             return me.id;

@@ -91,7 +91,8 @@ Ext.define('Extensible.calendar.view.DayBody', {
         };
         
         this.dragZone = Ext.create('Extensible.calendar.dd.DayDragZone', this.el, Ext.apply({
-            containerScroll: true
+            // disabled for now because of bugs in Ext 4 ScrollManager:
+            //containerScroll: true
         }, cfg));
         
         this.dropZone = Ext.create('Extensible.calendar.dd.DayDropZone', this.el, cfg);
