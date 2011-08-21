@@ -1136,13 +1136,20 @@ viewConfig: {
      */
     setStartDate : function(start, /*private*/reload){
         Extensible.log('setStartDate (base) '+Ext.Date.format(start, 'Y-m-d'));
-        if(this.fireEvent('beforedatechange', this, this.startDate, start, this.viewStart, this.viewEnd) !== false){
+        
+        var cloneDt = Ext.Date.clone,
+            cloneStartDate = this.startDate ? cloneDt(this.startDate) : null,
+            cloneStart = cloneDt(start),
+            cloneViewStart = this.viewStart ? cloneDt(this.viewStart) : null,
+            cloneViewEnd = this.viewEnd ? cloneDt(this.viewEnd) : null;
+        
+        if(this.fireEvent('beforedatechange', this, cloneStartDate, cloneStart, cloneViewStart, cloneViewEnd) !== false){
             this.startDate = Ext.Date.clearTime(start);
             this.setViewBounds(start);
             if(this.rendered){
                 this.refresh(reload);
             }
-            this.fireEvent('datechange', this, this.startDate, this.viewStart, this.viewEnd);
+            this.fireEvent('datechange', this, cloneDt(this.startDate), cloneDt(this.viewStart), cloneDt(this.viewEnd));
         }
     },
     
@@ -1552,7 +1559,7 @@ alert('End: '+bounds.end);
         if(this.readOnly === true){
             return;
         }
-        if(this.fireEvent('dayclick', this, dt, ad, el) !== false){
+        if(this.fireEvent('dayclick', this, Ext.Date.clone(dt), ad, el) !== false){
             var M = Extensible.calendar.data.EventMappings,
                 data = {};
                 
@@ -1600,7 +1607,7 @@ alert('End: '+bounds.end);
             // no changes
             return;
         }
-        if(this.fireEvent('beforeeventmove', this, rec, dt) !== false){
+        if(this.fireEvent('beforeeventmove', this, rec, Ext.Date.clone(dt)) !== false){
             var diff = dt.getTime() - rec.data[Extensible.calendar.data.EventMappings.StartDate.name].getTime();
             rec.beginEdit();
             rec.set(Extensible.calendar.data.EventMappings.StartDate.name, dt);

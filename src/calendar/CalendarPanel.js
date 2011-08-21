@@ -782,14 +782,16 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     // private
     fireViewChange: function() {
         if (this.layout && this.layout.getActiveItem) {
-            var view = this.layout.getActiveItem();
+            var view = this.layout.getActiveItem(),
+                cloneDt = Ext.Date.clone;
+                
             if (view) {
                 if (view.getViewBounds) {
                     var vb = view.getViewBounds(),
                         info = {
-                            activeDate: view.getStartDate(),
-                            viewStart: vb.start,
-                            viewEnd: vb.end
+                            activeDate: cloneDt(view.getStartDate()),
+                            viewStart: cloneDt(vb.start),
+                            viewEnd: cloneDt(vb.end)
                         };
                 };
                 if (view.dismissEventEditor){
