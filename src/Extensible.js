@@ -211,36 +211,36 @@ Ext.define('Extensible', {
             if (!o) {
                 return dt;
             }
-            Ext.applyIf(o, {
-                millis:  0,
-                seconds: 0,
-                minutes: 0,
-                hours:   0,
-                days:    0,
-                weeks:   0,
-                months:  0,
-                years:   0,
-                clearTime: false
-            });
+            var ExtDate = Ext.Date,
+                dateAdd = ExtDate.add,
+                newDt = ExtDate.clone(dt);
             
-            var ms = o.millis,
-                s  = o.seconds * 1000,
-                m  = o.minutes * 1000 * 60,
-                h  = o.hours   * 1000 * 60 * 60,
-                d  = o.days    * 1000 * 60 * 60 * 24,
-                w  = o.weeks   * 1000 * 60 * 60 * 24 * 7,
-                sumUpToWeeks = ms + s + m + h + d + w,
-                newDt = new Date();
-            
-            newDt.setTime(dt.getTime() + sumUpToWeeks);
-            
-            if (o.months) {
-                newDt = Ext.Date.add(newDt, Ext.Date.MONTH, o.months);
-            }
             if (o.years) {
-                newDt.setFullYear(newDt.getFullYear() + o.years);
+                newDt = dateAdd(newDt, ExtDate.YEAR, o.years);
             }
-            return o.clearTime ? Ext.Date.clearTime(newDt) : newDt;
+            if (o.months) {
+                newDt = dateAdd(newDt, ExtDate.MONTH, o.months);
+            }
+            if (o.weeks) {
+                o.days = (o.days || 0) + (o.weeks * 7);
+            }
+            if (o.days) {
+                newDt = dateAdd(newDt, ExtDate.DAY, o.days);
+            }
+            if (o.hours) {
+                newDt = dateAdd(newDt, ExtDate.HOUR, o.hours);
+            }
+            if (o.minutes) {
+                newDt = dateAdd(newDt, ExtDate.MINUTE, o.minutes);
+            }
+            if (o.seconds) {
+                newDt = dateAdd(newDt, ExtDate.SECOND, o.seconds);
+            }
+            if (o.millis) {
+                newDt = dateAdd(newDt, ExtDate.MILLI, o.millis);
+            }
+             
+            return o.clearTime ? ExtDate.clearTime(newDt) : newDt;
         }
     }
 });
