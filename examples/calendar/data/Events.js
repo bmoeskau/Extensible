@@ -15,7 +15,7 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "cid":1,
                 "title":"Vacation",
                 "start":makeDate(-20, 10),
-                "end":makeDate(-20, 15),
+                "end":makeDate(-10, 15),
                 "notes":"Have fun"
             },{
                 "id":1002,
@@ -53,7 +53,7 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "cid":3,
                 "title":"School holiday",
                 "start":makeDate(5),
-                "end":makeDate(5),
+                "end":makeDate(7, 0, 0, -1),
                 "ad":true,
                 "rem":"2880"
             },{
@@ -83,7 +83,7 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "cid":3,
                 "title":"Jenny's final exams",
                 "start":makeDate(-2),
-                "end":makeDate(3, 10, 0, -1),
+                "end":makeDate(3, 0, 0, -1),
                 "ad":true
             },{
                 "id":1011,
