@@ -118,9 +118,9 @@ Ext.define('Extensible.calendar.dd.DropZone', {
         this.shimCt.appendChild(el);
         
         return Ext.create('Ext.Layer', {
-            shadow:false, 
-            useDisplay:true, 
-            constrain:false
+            shadow: false, 
+            useDisplay: true, 
+            constrain: false
         }, el);
     },
     
@@ -167,6 +167,18 @@ Ext.define('Extensible.calendar.dd.DropZone', {
     onContainerDrop : function(dd, e, data){
         this.onCalendarDragComplete();
         return false;
+    },
+    
+    destroy: function() {
+        Ext.each(this.shims, function(shim){
+            if(shim){
+                Ext.destroy(shim);
+            }
+        });
+        
+        Ext.removeNode(this.shimCt);
+        delete this.shimCt;
+        this.shims.length = 0;
     }
 });
 
