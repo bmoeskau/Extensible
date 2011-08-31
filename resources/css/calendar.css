@@ -896,25 +896,25 @@ td.ext-cal-dtitle-today div {
     -webkit-border-radius:3px;
     border-radius:3px;
 }
-.x-calendar-list .ext-cal-hidden,
+.ext-cal-hidden,
 /* IE/Opera: */
-.x-calendar-list .ext-cal-hidden .ext-cal-evi {
+.ext-cal-hidden .ext-cal-evi {
     background-image: url(../images/default/ext-cal-list-hidden.png);
     background-repeat: no-repeat;
     background-position: top right;
     opacity:.5;
     -moz-opacity:.5;
 }
-.ext-ie .x-calendar-list .ext-cal-hidden {
+.ext-ie .ext-cal-hidden {
     filter: alpha(opacity=50);
     zoom: 1;
 }
-.ext-ie .x-calendar-list .ext-cal-hidden .ext-cal-evi  {
+.ext-ie .ext-cal-hidden .ext-cal-evi  {
     /* the following works around an IE bug that won't apply the opacity filter correctly without dimensions */
     width: 100%;
     height: 100%;
 }
-.ext-ie6 .x-calendar-list .ext-cal-hidden .ext-cal-evi {
+.ext-ie6 .ext-cal-hidden .ext-cal-evi {
     background-image: url(../images/default/ext-cal-list-hidden-ie6.png);
 }
 .extensible-cal-icon-cal-show {

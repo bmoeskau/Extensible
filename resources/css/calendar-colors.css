@@ -36,7 +36,7 @@
 .x-cal-default .ext-cal-picker-icon,
 .x-cal-default-x dl,
 .x-calendar-palette em .x-cal-default {
-    background: #668CB3;
+    background-color: #668CB3;
 }
 /*
  * Yet more rules for IE/Opera
@@ -73,7 +73,7 @@
 .x-cal-1 .ext-cal-picker-icon,
 .x-cal-1-x dl,
 .x-calendar-palette .x-cal-1 span {
-    background: #fa7166;
+    background-color: #fa7166;
 }
 .x-cal-1-ad,
 .x-cal-1-ad .ext-cal-evm {
@@ -94,7 +94,7 @@
 .x-cal-2 .ext-cal-picker-icon,
 .x-cal-2-x dl,
 .x-calendar-palette .x-cal-2 span {
-    background: #cf2424;
+    background-color: #cf2424;
 }
 .x-cal-2-ad,
 .x-cal-2-ad .ext-cal-evm {
@@ -115,7 +115,7 @@
 .x-cal-3 .ext-cal-picker-icon,
 .x-cal-3-x dl,
 .x-calendar-palette .x-cal-3 span {
-    background: #a01a1a;
+    background-color: #a01a1a;
 }
 .x-cal-3-ad,
 .x-cal-3-ad .ext-cal-evm {
@@ -136,7 +136,7 @@
 .x-cal-4 .ext-cal-picker-icon,
 .x-cal-4-x dl,
 .x-calendar-palette .x-cal-4 span {
-    background: #7e3838;
+    background-color: #7e3838;
 }
 .x-cal-4-ad,
 .x-cal-4-ad .ext-cal-evm {
@@ -157,7 +157,7 @@
 .x-cal-5 .ext-cal-picker-icon,
 .x-cal-5-x dl,
 .x-calendar-palette .x-cal-5 span {
-    background: #ca7609;
+    background-color: #ca7609;
 }
 .x-cal-5-ad,
 .x-cal-5-ad .ext-cal-evm {
@@ -178,7 +178,7 @@
 .x-cal-6 .ext-cal-picker-icon,
 .x-cal-6-x dl,
 .x-calendar-palette .x-cal-6 span {
-    background: #f88015;
+    background-color: #f88015;
 }
 .x-cal-6-ad,
 .x-cal-6-ad .ext-cal-evm {
@@ -199,7 +199,7 @@
 .x-cal-7 .ext-cal-picker-icon,
 .x-cal-7-x dl,
 .x-calendar-palette .x-cal-7 span {
-    background: #eda12a;
+    background-color: #eda12a;
 }
 .x-cal-7-ad,
 .x-cal-7-ad .ext-cal-evm {
@@ -220,7 +220,7 @@
 .x-cal-8 .ext-cal-picker-icon,
 .x-cal-8-x dl,
 .x-calendar-palette .x-cal-8 span {
-    background: #d5b816;
+    background-color: #d5b816;
 }
 .x-cal-8-ad,
 .x-cal-8-ad .ext-cal-evm {
@@ -241,7 +241,7 @@
 .x-cal-9 .ext-cal-picker-icon,
 .x-cal-9-x dl,
 .x-calendar-palette .x-cal-9 span {
-    background: #e281ca;
+    background-color: #e281ca;
 }
 .x-cal-9-ad,
 .x-cal-9-ad .ext-cal-evm {
@@ -262,7 +262,7 @@
 .x-cal-10 .ext-cal-picker-icon,
 .x-cal-10-x dl,
 .x-calendar-palette .x-cal-10 span {
-    background: #bf53a4;
+    background-color: #bf53a4;
 }
 .x-cal-10-ad,
 .x-cal-10-ad .ext-cal-evm {
@@ -283,7 +283,7 @@
 .x-cal-11 .ext-cal-picker-icon,
 .x-cal-11-x dl,
 .x-calendar-palette .x-cal-11 span {
-    background: #9d3283;
+    background-color: #9d3283;
 }
 .x-cal-11-ad,
 .x-cal-11-ad .ext-cal-evm {
@@ -304,7 +304,7 @@
 .x-cal-12 .ext-cal-picker-icon,
 .x-cal-12-x dl,
 .x-calendar-palette .x-cal-12 span {
-    background: #7a0f60;
+    background-color: #7a0f60;
 }
 .x-cal-12-ad,
 .x-cal-12-ad .ext-cal-evm {
@@ -325,7 +325,7 @@
 .x-cal-13 .ext-cal-picker-icon,
 .x-cal-13-x dl,
 .x-calendar-palette .x-cal-13 span {
-    background: #542382;
+    background-color: #542382;
 }
 .x-cal-13-ad,
 .x-cal-13-ad .ext-cal-evm {
@@ -346,7 +346,7 @@
 .x-cal-14 .ext-cal-picker-icon,
 .x-cal-14-x dl,
 .x-calendar-palette .x-cal-14 span {
-    background: #7742a9;
+    background-color: #7742a9;
 }
 .x-cal-14-ad,
 .x-cal-14-ad .ext-cal-evm {
@@ -367,7 +367,7 @@
 .x-cal-15 .ext-cal-picker-icon,
 .x-cal-15-x dl,
 .x-calendar-palette .x-cal-15 span {
-    background: #8763ca;
+    background-color: #8763ca;
 }
 .x-cal-15-ad,
 .x-cal-15-ad .ext-cal-evm {
@@ -388,7 +388,7 @@
 .x-cal-16 .ext-cal-picker-icon,
 .x-cal-16-x dl,
 .x-calendar-palette .x-cal-16 span {
-    background: #b586e2;
+    background-color: #b586e2;
 }
 .x-cal-16-ad,
 .x-cal-16-ad .ext-cal-evm {
@@ -409,7 +409,7 @@
 .x-cal-17 .ext-cal-picker-icon,
 .x-cal-17-x dl,
 .x-calendar-palette .x-cal-17 span {
-    background: #7399f9;
+    background-color: #7399f9;
 }
 .x-cal-17-ad,
 .x-cal-17-ad .ext-cal-evm {
@@ -430,7 +430,7 @@
 .x-cal-18 .ext-cal-picker-icon,
 .x-cal-18-x dl,
 .x-calendar-palette .x-cal-18 span {
-    background: #4e79e6;
+    background-color: #4e79e6;
 }
 .x-cal-18-ad,
 .x-cal-18-ad .ext-cal-evm {
@@ -451,7 +451,7 @@
 .x-cal-19 .ext-cal-picker-icon,
 .x-cal-19-x dl,
 .x-calendar-palette .x-cal-19 span {
-    background: #2951b9;
+    background-color: #2951b9;
 }
 .x-cal-19-ad,
 .x-cal-19-ad .ext-cal-evm {
@@ -472,7 +472,7 @@
 .x-cal-20 .ext-cal-picker-icon,
 .x-cal-20-x dl,
 .x-calendar-palette .x-cal-20 span {
-    background: #133897;
+    background-color: #133897;
 }
 .x-cal-20-ad,
 .x-cal-20-ad .ext-cal-evm {
@@ -493,7 +493,7 @@
 .x-cal-21 .ext-cal-picker-icon,
 .x-cal-21-x dl,
 .x-calendar-palette .x-cal-21 span {
-    background: #1a5173;
+    background-color: #1a5173;
 }
 .x-cal-21-ad,
 .x-cal-21-ad .ext-cal-evm {
@@ -514,7 +514,7 @@
 .x-cal-22 .ext-cal-picker-icon,
 .x-cal-22-x dl,
 .x-calendar-palette .x-cal-22 span {
-    background: #1a699c;
+    background-color: #1a699c;
 }
 .x-cal-22-ad,
 .x-cal-22-ad .ext-cal-evm {
@@ -535,7 +535,7 @@
 .x-cal-23 .ext-cal-picker-icon,
 .x-cal-23-x dl,
 .x-calendar-palette .x-cal-23 span {
-    background: #3694b7;
+    background-color: #3694b7;
 }
 .x-cal-23-ad,
 .x-cal-23-ad .ext-cal-evm {
@@ -556,7 +556,7 @@
 .x-cal-24 .ext-cal-picker-icon,
 .x-cal-24-x dl,
 .x-calendar-palette .x-cal-24 span {
-    background: #64b9d9;
+    background-color: #64b9d9;
 }
 .x-cal-24-ad,
 .x-cal-24-ad .ext-cal-evm {
@@ -577,7 +577,7 @@
 .x-cal-25 .ext-cal-picker-icon,
 .x-cal-25-x dl,
 .x-calendar-palette .x-cal-25 span {
-    background: #a8c67b;
+    background-color: #a8c67b;
 }
 .x-cal-25-ad,
 .x-cal-25-ad .ext-cal-evm {
@@ -598,7 +598,7 @@
 .x-cal-26 .ext-cal-picker-icon,
 .x-cal-26-x dl,
 .x-calendar-palette .x-cal-26 span {
-    background: #83ad47;
+    background-color: #83ad47;
 }
 .x-cal-26-ad,
 .x-cal-26-ad .ext-cal-evm {
@@ -619,7 +619,7 @@
 .x-cal-27 .ext-cal-picker-icon,
 .x-cal-27-x dl,
 .x-calendar-palette .x-cal-27 span {
-    background: #2e8f0c;
+    background-color: #2e8f0c;
 }
 .x-cal-27-ad,
 .x-cal-27-ad .ext-cal-evm {
@@ -640,7 +640,7 @@
 .x-cal-28 .ext-cal-picker-icon,
 .x-cal-28-x dl,
 .x-calendar-palette .x-cal-28 span {
-    background: #176413;
+    background-color: #176413;
 }
 .x-cal-28-ad,
 .x-cal-28-ad .ext-cal-evm {
@@ -661,7 +661,7 @@
 .x-cal-29 .ext-cal-picker-icon,
 .x-cal-29-x dl,
 .x-calendar-palette .x-cal-29 span {
-    background: #0f4c30;
+    background-color: #0f4c30;
 }
 .x-cal-29-ad,
 .x-cal-29-ad .ext-cal-evm {
@@ -682,7 +682,7 @@
 .x-cal-30 .ext-cal-picker-icon,
 .x-cal-30-x dl,
 .x-calendar-palette .x-cal-30 span {
-    background: #386651;
+    background-color: #386651;
 }
 .x-cal-30-ad,
 .x-cal-30-ad .ext-cal-evm {
@@ -703,7 +703,7 @@
 .x-cal-31 .ext-cal-picker-icon,
 .x-cal-31-x dl,
 .x-calendar-palette .x-cal-31 span {
-    background: #3ea987;
+    background-color: #3ea987;
 }
 .x-cal-31-ad,
 .x-cal-31-ad .ext-cal-evm {
@@ -724,7 +724,7 @@
 .x-cal-32 .ext-cal-picker-icon,
 .x-cal-32-x dl,
 .x-calendar-palette .x-cal-32 span {
-    background: #7bc3b5;
+    background-color: #7bc3b5;
 }
 .x-cal-32-ad,
 .x-cal-32-ad .ext-cal-evm {
