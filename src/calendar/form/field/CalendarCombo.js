@@ -29,6 +29,7 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
     
     // private
     defaultCls: 'x-cal-default',
+    hiddenCalendarCls: 'ext-cal-hidden',
     
     // private
     initComponent: function(){
@@ -38,6 +39,8 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
         this.listConfig = Ext.apply(this.listConfig || {}, {
             getInnerTpl: this.getListItemTpl
         });
+        
+        this.store.on('update', this.refreshColorCls, this);
         
         this.callParent(arguments);
     },
@@ -59,53 +62,41 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
         });
     },
     
-    // private
-    // Seems like this might be fixed now in Ext 4
-//    assertValue  : function(){
-//        var val = this.getRawValue(),
-//            rec = this.findRecord(this.displayField, val);
-//
-//        if(!rec && this.forceSelection){
-//            if(val.length > 0 && val != this.emptyText){
-//                // Override this method simply to fix the original logic that was here.
-//                // The orignal method simply reverts the displayed text but the store remains
-//                // filtered with the invalid query, meaning it contains no records. This causes
-//                // problems with redisplaying the field -- much better to clear the filter and
-//                // reset the original value so everything works as expected.
-//                this.store.clearFilter();
-//                this.setValue(this.value);
-//                this.applyEmptyText();
-//            }else{
-//                this.clearValue();
-//            }
-//        }else{
-//            if(rec){
-//                if (val == rec.get(this.displayField) && this.value == rec.get(this.valueField)){
-//                    return;
-//                }
-//                val = rec.get(this.valueField || this.displayField);
-//            }
-//            this.setValue(val);
-//        }
-//    },
-    
     /* @private
-     * Value can be a data value or record, or an array of values or records.
+     * Refresh the color CSS class based on the current field value
      */
-    getStyleClass: function(value){
-        var val = value;
+    refreshColorCls: function() {
+        var me = this,
+            calendarMappings = Extensible.calendar.data.CalendarMappings,
+            colorCls = '',
+            value = me.getValue();
         
-        if (!Ext.isEmpty(val)) {
-            if (Ext.isArray(val)) {
-                val = val[0];
-            }
-            if (!val.data) {
-                // this is a calendar id, need to get the record first then use its color
-                val = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, val);
-            }
-            return 'x-cal-' + (val.data ? val.data[Extensible.calendar.data.CalendarMappings.ColorId.name] : val); 
+        if (!me.wrap) {
+            return me;
         }
-        return '';
+        if (me.currentStyleClss !== undefined) {
+            me.wrap.removeCls(me.currentStyleClss);
+        }
+        
+        if (!Ext.isEmpty(value)) {
+            if (Ext.isArray(value)) {
+                value = value[0];
+            }
+            if (!value.data) {
+                // this is a calendar id, need to get the record first then use its color
+                value = this.store.findRecord(calendarMappings.CalendarId.name, value);
+            }
+            colorCls = 'x-cal-' + (value.data ? value.data[calendarMappings.ColorId.name] : value);
+        }
+        
+        me.currentStyleClss = colorCls;
+        
+//        if (value && value.data && value.data[calendarMappings.IsHidden.name] === true) {
+//            colorCls += ' ' + me.hiddenCalendarCls;
+//        }
+        me.wrap.addCls(colorCls);
+        
+        return me;
     },
     
     // inherited docs
@@ -115,13 +106,8 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
             value = this.store.getAt(0).data[Extensible.calendar.data.CalendarMappings.CalendarId.name];
         }
         
-        if (this.wrap && value) {
-            var currentClass = this.getStyleClass(this.getValue()),
-                newClass = this.getStyleClass(value);
-            
-            this.wrap.replaceCls(currentClass, newClass);
-        }
-        
         this.callParent(arguments);
+        
+        this.refreshColorCls();
     }
 });
