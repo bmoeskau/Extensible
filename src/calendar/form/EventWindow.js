@@ -318,9 +318,12 @@ Ext.define('Extensible.calendar.form.EventWindow', {
 
     // private
     cleanup: function(hide){
+        if (this.activeRecord) {
+            this.activeRecord.reject();
+        }
         delete this.activeRecord;
 		
-        if(hide===true){
+        if (hide===true) {
 			// Work around the CSS day cell height hack needed for initial render in IE8/strict:
 			//var anim = afterDelete || (Ext.isIE8 && Ext.isStrict) ? null : this.animateTarget;
             this.hide();

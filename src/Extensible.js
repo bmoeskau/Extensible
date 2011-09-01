@@ -356,9 +356,12 @@ Extensible.applyOverrides = function() {
     // UI components correctly.
     Ext.data.MemoryProxy.override({
         updateOperation: function(operation, callback, scope) {
+            Ext.each(operation.records, function(rec) {
+                rec.commit();
+            });
             operation.setCompleted();
             operation.setSuccessful();
-            Ext.callback(callback, scope || me, [operation]);
+            Ext.callback(callback, scope || this, [operation]);
         },
         create: function() {
             this.updateOperation.apply(this, arguments);

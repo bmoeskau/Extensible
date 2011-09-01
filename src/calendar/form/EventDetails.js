@@ -291,9 +291,12 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     
     // private
     cleanup: function(hide){
+        if (this.activeRecord) {
+            this.activeRecord.reject();
+        }
         delete this.activeRecord;
         
-        if(this.form.isDirty()){
+        if (this.form.isDirty()) {
             this.form.reset();
         }
     },
