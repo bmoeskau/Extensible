@@ -24,7 +24,10 @@ Ext.onReady(function(){
         eventStore: eventStore,
         width: 700,
         height: 500,
-        activeItem: 1
+        activeItem: 1,
+        // this is a good idea since we are in a TabPanel and we don't want
+        // the user switching tabs on us while we are editing an event:
+        editModal: true
     };
 
     //
