@@ -1,5 +1,40 @@
 # Extensible Release Notes
 
+## 1.5.0 (RC) - Ext 4
+
+_August 29, 2011_
+
+**New Features**
+
+* Added Italian locale
+* Added `Extensible.form.field.DateRange.timeFormat` config
+
+**Bugs Fixed**
+
+* DateRange field `singleLine` config honored properly again
+* Added AbstractCard.renderChildren override to work around an Ext card layout bug
+* Fixed error with sample data file name case-sensitivity
+* Fix to ensure that CalendarPanel fires the `viewchange` event after initial render
+* Fix CalendarPanel title updating correctly in the TestApp sample
+* German locale updates
+* Fixed drag-to-create not working in AbstractCalendar
+* Fix MonthDetailView to properly honor the `enableContextMenu` config
+* Fix toolbar hiding/showing when switching to detailed edit form
+* Fix calendar colors for IE/Opera
+* Fixed calendar render bug when resizing an event to end at midnight
+* Patched an Ext bug related to component ids when no explicit id assigned to a CalendarPanel
+* Refactored `Extensible.Date.add` to fix DST-related bugs
+* Fixed view end date getting modified incorrectly by event handlers
+* Change to enforce exact, case-sensitive matching on event ids during selection
+* Added `constrain: true` as a default config for EventWindow
+* Added a `destroy` method to the DropZone to fix dd shims not working in some cases
+* Fixed `Ext.data.MemoryProxy` override to commit in-memory records after save to avoid rejecting previous changes on cancel
+
+**Known Issues**
+
+* The dd.ScrollManager seems to have some serious issues in 4.x at the moment, and so support for automatic container scrolling during drag in the calendar day/week views has been temporarily removed. It will be reinstated in a future release once this is resolved.
+* The API docs are still not 100% updated, but will be for the 1.5 final release
+
 ## 1.5.0 (Beta) - Ext 4
 
 _June 23, 2011_
