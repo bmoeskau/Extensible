@@ -1155,10 +1155,11 @@ viewConfig: {
     
     // private
     setViewBounds : function(startDate){
-        var start = startDate || this.startDate,
-            offset = start.getDay() - this.startDay,
+        var me = this,
+            start = startDate || me.startDate,
+            offset = start.getDay() - me.startDay,
             Dt = Extensible.Date;
-            
+
         if(offset < 0){
             // if the offset is negative then some days will be in the previous week so add a week to the offset
             offset += 7;
@@ -1166,36 +1167,37 @@ viewConfig: {
         switch(this.weekCount){
             case 0:
             case 1:
-                this.viewStart = this.dayCount < 7 ? start: Dt.add(start, {days: -offset, clearTime: true});
-                this.viewEnd = Dt.add(this.viewStart, {days: this.dayCount || 7, seconds: -1});
+                me.viewStart = me.dayCount < 7 && !me.startDayIsStatic ?
+                    start: Dt.add(start, {days: -offset, clearTime: true});
+                me.viewEnd = Dt.add(me.viewStart, {days: me.dayCount || 7, seconds: -1});
                 return;
             
             case -1: 
                 // auto by month
                 start = Ext.Date.getFirstDateOfMonth(start);
-                offset = start.getDay() - this.startDay;
+                offset = start.getDay() - me.startDay;
                 if(offset < 0){
                     // if the offset is negative then some days will be in the previous week so add a week to the offset
                     offset += 7;
                 }
-                this.viewStart = Dt.add(start, {days: -offset, clearTime: true});
+                me.viewStart = Dt.add(start, {days: -offset, clearTime: true});
                 
                 // start from current month start, not view start:
                 var end = Dt.add(start, {months: 1, seconds: -1});
                 
                 // fill out to the end of the week:
-                offset = this.startDay;
+                offset = me.startDay;
                 if(offset > end.getDay()){
                     // if the offset is larger than the end day index then the last row will be empty so skip it
                     offset -= 7;
                 }
                 
-                this.viewEnd = Dt.add(end, {days: 6 - end.getDay() + offset});
+                me.viewEnd = Dt.add(end, {days: 6 - end.getDay() + offset});
                 return;
             
             default:
-                this.viewStart = Dt.add(start, {days: -offset, clearTime: true});
-                this.viewEnd = Dt.add(this.viewStart, {days: this.weekCount * 7, seconds: -1});
+                me.viewStart = Dt.add(start, {days: -offset, clearTime: true});
+                me.viewEnd = Dt.add(me.viewStart, {days: me.weekCount * 7, seconds: -1});
         }
     },
     
