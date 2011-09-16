@@ -203,11 +203,19 @@ Ext.define('Extensible', {
             return dt.getDay() % 6 !== 0;
         },
         
-        today: function() {
+        isMidnight : function(dt) {
+            return dt.getHours() === 0 && dt.getMinutes() === 0;
+        },
+        
+        isToday : function(dt) {
+            return this.diffDays(dt, this.today()) === 0;
+        },
+        
+        today : function() {
             return Ext.Date.clearTime(new Date());
         },
         
-        add: function(dt, o) {
+        add : function(dt, o) {
             if (!o) {
                 return dt;
             }
