@@ -184,6 +184,6 @@ if(Extensible.calendar.template.BoxLayout) {
 if(Extensible.calendar.template.Month) {
     Ext.apply(Extensible.calendar.template.Month.prototype, {
         dayHeaderFormat: 'D',
-        dayHeaderTitleFormat: 'l, d \\de F \\de Y', // e.g. "Lunes, 12 de Enero de 2011"
+        dayHeaderTitleFormat: 'l, d \\de F \\de Y' // e.g. "Lunes, 12 de Enero de 2011"
     });
 }
