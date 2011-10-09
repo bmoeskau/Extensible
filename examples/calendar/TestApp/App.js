@@ -148,7 +148,6 @@
                         },
                         'eventdelete': {
                             fn: function(cp, rec){
-                                //this.eventStore.remove(rec);
                                 this.showMsg('Event '+ rec.data[Extensible.calendar.data.EventMappings.Title.name] +' was deleted');
                             },
                             scope: this
@@ -161,9 +160,6 @@
                         },
                         'viewchange': {
                             fn: function(p, vw, dateInfo){
-                                if(this.editWin){
-                                    this.editWin.hide();
-                                };
                                 if(dateInfo){
                                     this.updateTitle(dateInfo.viewStart, dateInfo.viewEnd);
                                 }
@@ -184,10 +180,13 @@
                         },
                         'eventmove': {
                             fn: function(vw, rec){
+                                var mappings = Extensible.calendar.data.EventMappings,
+                                    time = rec.data[mappings.IsAllDay.name] ? '' : ' \\a\\t g:i a';
+                                
                                 rec.commit();
-                                var time = rec.data[Extensible.calendar.data.EventMappings.IsAllDay.name] ? '' : ' \\a\\t g:i a';
-                                this.showMsg('Event '+ rec.data[Extensible.calendar.data.EventMappings.Title.name] +' was moved to '+
-                                    Ext.Date.format(rec.data[Extensible.calendar.data.EventMappings.StartDate.name], ('F jS'+time)));
+                                
+                                this.showMsg('Event '+ rec.data[mappings.Title.name] +' was moved to '+
+                                    Ext.Date.format(rec.data[mappings.StartDate.name], ('F jS'+time)));
                             },
                             scope: this
                         },
@@ -207,9 +206,7 @@
                         },
                         'initdrag': {
                             fn: function(vw){
-                                if(this.editWin && this.editWin.isVisible()){
-                                    this.editWin.hide();
-                                }
+                                // do something when drag starts
                             },
                             scope: this
                         }
