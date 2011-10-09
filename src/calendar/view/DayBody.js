@@ -315,8 +315,8 @@ Ext.define('Extensible.calendar.view.DayBody', {
     // private
     getEventPositionOffsets: function(){
         return {
-            top: 1,
-            height: -2
+            top: 0,
+            height: -1
         }
     },
     

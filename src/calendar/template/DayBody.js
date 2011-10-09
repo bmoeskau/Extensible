@@ -89,7 +89,7 @@ Ext.define('Extensible.calendar.template.DayBody', {
             hourHeight: this.hourHeight,
             hourSeparatorCls: this.showHourSeparator ? '' : 'no-sep', // the class suppresses the default separator
             dayHeight: dayHeight,
-            hourSeparatorHeight: (this.hourHeight / 2) - 1
+            hourSeparatorHeight: (this.hourHeight / 2)
         });
     }
 }, 
