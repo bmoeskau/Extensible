@@ -380,7 +380,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
                 var item = evt.data || evt.event.data,
                     M = Extensible.calendar.data.EventMappings,
                     ad = item[M.IsAllDay.name] === true,
-                    span = Extensible.Date.diffDays(item[M.StartDate.name], item[M.EndDate.name]) > 0,
+                    span = this.isEventSpanning(evt.event || evt),
                     renderAsAllDay = ad || span;
                          
                 if(renderAsAllDay){

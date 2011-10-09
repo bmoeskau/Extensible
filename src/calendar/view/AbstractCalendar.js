@@ -1107,6 +1107,22 @@ viewConfig: {
     },
     
     // private
+    isEventSpanning : function(evt) {
+        var M = Extensible.calendar.data.EventMappings,
+            data = evt.data || evt,
+            diff;
+            
+        diff = Extensible.Date.diffDays(data[M.StartDate.name], data[M.EndDate.name]);
+        
+        //TODO: Prevent 00:00 end time from causing a span. This logic is OK, but
+        //      other changes are still needed for it to work fully. Deferring for now.
+//        if (diff <= 1 && Extensible.Date.isMidnight(data[M.EndDate.name])) {
+//            return false;
+//        }
+        return diff > 0;
+    },
+    
+    // private
     getDayEl : function(dt){
         return Ext.get(this.getDayId(dt));
     },
