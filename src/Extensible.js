@@ -37,7 +37,7 @@ Ext.define('Extensible', {
    /**
     * @class Extensible.Date
     * @extends Object
-    * <p>Contains utility date functions used by the calendar components.</p>
+    * Contains utility date functions used by the calendar components.
     * @singleton
     */
     Date : {
@@ -51,12 +51,12 @@ Ext.define('Extensible', {
         use24HourTime : false,
         
         /**
-         * Returns the time duration between two dates in the specified units. For finding the number
-         * of calendar days (ignoring time) between two dates use {@link Ext.ensible.Date.diffDays diffDays} instead.
+         * Returns the time duration between two dates in the specified units. For finding the number of
+         * calendar days (ignoring time) between two dates use {@link Ext.ensible.Date.diffDays diffDays} instead.
          * @param {Date} start The start date
          * @param {Date} end The end date
-         * @param {String} unit (optional) The time unit to return. Valid values are 'ms' (milliseconds, the default), 's' (seconds),
-         * 'm' (minutes) or 'h' (hours).
+         * @param {String} unit (optional) The time unit to return. Valid values are 'ms' (milliseconds,
+         * the default), 's' (seconds), 'm' (minutes) or 'h' (hours).
          * @return {Number} The time difference between the dates in the units specified by the unit param
          */
         diff : function(start, end, unit){
@@ -298,7 +298,10 @@ Extensible.applyOverrides = function() {
     Ext.picker.Color.override({
         constructor: function() {
             // use an existing renderTpl if specified
-            this.renderTpl = this.renderTpl || Ext.create('Ext.XTemplate', '<tpl for="colors"><a href="#" class="color-{.}" hidefocus="on"><em><span style="background:#{.}" unselectable="on">&#160;</span></em></a></tpl>');
+            this.renderTpl = this.renderTpl || Ext.create('Ext.XTemplate', '<tpl for="colors"><a href="#" ' +
+                'class="color-{.}" hidefocus="on"><em><span style="background:#{.}" ' +
+                'unselectable="on">&#160;</span></em></a></tpl>');
+
             this.callParent(arguments);
         }
     });
