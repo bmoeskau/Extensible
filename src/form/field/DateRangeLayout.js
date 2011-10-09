@@ -12,17 +12,13 @@ Ext.define('Extensible.form.field.DateRangeLayout', {
         var me = this,
             shadowCt = me.getShadowCt(),
             owner = me.owner,
-            singleLine = owner.isSingleLine(),
-            items = owner.items.items,
-            numItems = items.length,
-            i = 0,
-            item;
+            singleLine = owner.isSingleLine();
+        
+        me.owner.suspendLayout = true;
         
         if (singleLine) {
-            for (; i < numItems; i++) {
-                item = items[0];
-                shadowCt.getComponent('row1').add(item);
-            }
+            shadowCt.getComponent('row1').add(owner.startDate, owner.startTime, owner.toLabel, 
+                owner.endTime, owner.endDate, owner.allDay);
         }
         else {
             shadowCt.getComponent('row1').add(owner.startDate, owner.startTime, owner.toLabel);
@@ -35,6 +31,8 @@ Ext.define('Extensible.form.field.DateRangeLayout', {
 
         shadowCt.doComponentLayout();
         owner.setHeight(shadowCt.getHeight()-5);
+        
+        delete me.owner.suspendLayout;
     },
 
     /**
