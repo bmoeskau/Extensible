@@ -2,8 +2,9 @@
  * @class Extensible.calendar.view.DayBody
  * @extends Extensible.calendar.view.AbstractCalendar
  * <p>This is the scrolling container within the day and week views where non-all-day events are displayed.
- * Normally you should not need to use this class directly -- instead you should use {@link Extensible.calendar.view.Day DayView}
- * which aggregates this class and the {@link Extensible.calendar.view.DayHeader DayHeaderView} into the single unified view
+ * Normally you should not need to use this class directly -- instead you should use {@link 
+ * Extensible.calendar.view.Day DayView} which aggregates this class and the {@link 
+ * Extensible.calendar.view.DayHeader DayHeaderView} into the single unified view
  * presented by {@link Extensible.calendar.CalendarPanel CalendarPanel}.</p>
  * @constructor
  * @param {Object} config The config object
@@ -37,32 +38,35 @@ Ext.define('Extensible.calendar.view.DayBody', {
         this.addEvents({
             /**
              * @event beforeeventresize
-             * Fires after the user drags the resize handle of an event to resize it, but before the resize operation is carried out.
-             * This is a cancelable event, so returning false from a handler will cancel the resize operation.
+             * Fires after the user drags the resize handle of an event to resize it, but before the resize
+             * operation is carried out. This is a cancelable event, so returning false from a handler will
+             * cancel the resize operation.
              * @param {Extensible.calendar.view.DayBody} this
-             * @param {Extensible.calendar.data.EventModel} rec The original {@link Extensible.calendar.data.EventModel record} for the event that was resized
-             * @param {Object} data An object containing the new start and end dates that will be set into the event record if the
-             * event is not canceled. Format of the object is: {StartDate: [date], EndDate: [date]}
+             * @param {Extensible.calendar.data.EventModel} rec The original {@link
+             * Extensible.calendar.data.EventModel record} for the event that was resized
+             * @param {Object} data An object containing the new start and end dates that will be set into the
+             * event record if the event is not canceled. Format of the object is: {StartDate: [date], EndDate: [date]}
              */
             beforeeventresize: true,
             /**
              * @event eventresize
-             * Fires after the user has drag-dropped the resize handle of an event and the resize operation is complete. If you need 
-             * to cancel the resize operation you should handle the {@link #beforeeventresize} event and return false from your handler function.
+             * Fires after the user has drag-dropped the resize handle of an event and the resize operation is
+             * complete. If you need to cancel the resize operation you should handle the {@link #beforeeventresize}
+             * event and return false from your handler function.
              * @param {Extensible.calendar.view.DayBody} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was resized
-             * containing the updated start and end dates
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
+             * record} for the event that was resized containing the updated start and end dates
              */
             eventresize: true,
             /**
              * @event dayclick
-             * Fires after the user clicks within the view container and not on an event element. This is a cancelable event, so 
-             * returning false from a handler will cancel the click without displaying the event editor view. This could be useful 
-             * for validating that a user can only create events on certain days.
+             * Fires after the user clicks within the view container and not on an event element. This is a
+             * cancelable event, so returning false from a handler will cancel the click without displaying the event
+             * editor view. This could be useful for validating that a user can only create events on certain days.
              * @param {Extensible.calendar.view.DayBody} this
              * @param {Date} dt The date/time that was clicked on
-             * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks within the 
-             * DayBodyView always return false for this param.
+             * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks
+             * within the DayBodyView always return false for this param.
              * @param {Ext.Element} el The Element that was clicked on
              */
             dayclick: true
@@ -117,11 +121,14 @@ Ext.define('Extensible.calendar.view.DayBody', {
      * Scrolls the container to the specified vertical position. If the view is large enough that
      * there is no scroll overflow then this method will have no affect.
      * @param {Number} y The new vertical scroll position in pixels 
-     * @param {Boolean} defer (optional) <p>True to slightly defer the call, false to execute immediately.</p> 
+     * @param {Boolean} defer (optional) <p>True to slightly defer the call, false to execute immediately.</p>
+     * 
      * <p>This method will automatically defer itself for IE and Opera (even if you pass false) otherwise
      * the scroll position will not update in those browsers. You can optionally pass true, however, to
      * force the defer in all browsers, or use your own custom conditions to determine whether this is needed.</p>
-     * <p>Note that this method should not generally need to be called directly as scroll position is managed internally.</p>
+     * 
+     * <p>Note that this method should not generally need to be called directly as scroll position is
+     * managed internally.</p>
      */
     scrollTo : function(y, defer){
         defer = defer || (Ext.isIE || Ext.isOpera);
@@ -217,19 +224,23 @@ Ext.define('Extensible.calendar.view.DayBody', {
         if(!this.eventTpl){
             this.eventTpl = !(Ext.isIE || Ext.isOpera) ? 
                 Ext.create('Ext.XTemplate',
-                    '<div id="{_elId}" class="{_extraCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
+                    '<div id="{_elId}" class="{_extraCls} ext-cal-evt ext-cal-evr" ',
+                            'style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                         '<div class="ext-evt-bd">', this.getEventBodyMarkup(), '</div>',
-                        this.enableEventResize ? '<div class="ext-evt-rsz"><div class="ext-evt-rsz-h">&#160;</div></div>' : '',
+                        this.enableEventResize ?
+                            '<div class="ext-evt-rsz"><div class="ext-evt-rsz-h">&#160;</div></div>' : '',
                     '</div>'
                 )
                 : Ext.create('Ext.XTemplate',
-                    '<div id="{_elId}" class="ext-cal-evt {_extraCls}" style="left: {_left}%; width: {_width}%; top: {_top}px;">',
+                    '<div id="{_elId}" class="ext-cal-evt {_extraCls}" ',
+                            'style="left: {_left}%; width: {_width}%; top: {_top}px;">',
                         '<div class="ext-cal-evb">&#160;</div>',
                         '<dl style="height: {_height}px;" class="ext-cal-evdm">',
                             '<dd class="ext-evt-bd">',
                                 this.getEventBodyMarkup(),
                             '</dd>',
-                            this.enableEventResize ? '<div class="ext-evt-rsz"><div class="ext-evt-rsz-h">&#160;</div></div>' : '',
+                            this.enableEventResize ?
+                                '<div class="ext-evt-rsz"><div class="ext-evt-rsz-h">&#160;</div></div>' : '',
                         '</dl>',
                         '<div class="ext-cal-evb">&#160;</div>',
                     '</div>'
@@ -256,19 +267,22 @@ Ext.define('Extensible.calendar.view.DayBody', {
             
             tpl = !(Ext.isIE || Ext.isOpera) ? 
                 Ext.create('Ext.XTemplate',
-                    '<div class="{_extraCls} {spanCls} ext-cal-evt ext-cal-evr" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
+                    '<div class="{_extraCls} {spanCls} ext-cal-evt ext-cal-evr" ',
+                            'style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
                         body,
                     '</div>'
                 ) 
                 : Ext.create('Ext.XTemplate',
-                    '<div class="ext-cal-evt" style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
-                    '<div class="{_extraCls} {spanCls} ext-cal-evo">',
-                        '<div class="ext-cal-evm">',
-                            '<div class="ext-cal-evi">',
-                                body,
+                    '<div class="ext-cal-evt" ',
+                            'style="left: {_left}%; width: {_width}%; top: {_top}px; height: {_height}px;">',
+                        '<div class="{_extraCls} {spanCls} ext-cal-evo">',
+                            '<div class="ext-cal-evm">',
+                                '<div class="ext-cal-evi">',
+                                    body,
+                                '</div>',
                             '</div>',
                         '</div>',
-                    '</div></div>'
+                    '</div>'
                 );
             tpl.compile();
             this.eventAllDayTpl = tpl;
@@ -289,7 +303,9 @@ Ext.define('Extensible.calendar.view.DayBody', {
         this.getTemplateEventBox(evt);
         
         if(this.calendarStore && evt[M.CalendarId.name]){
-            var rec = this.calendarStore.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, evt[M.CalendarId.name]);
+            var rec = this.calendarStore.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, 
+                    evt[M.CalendarId.name]);
+                
             if(rec){
                 colorCls = 'x-cal-' + rec.data[Extensible.calendar.data.CalendarMappings.ColorId.name];
             }
