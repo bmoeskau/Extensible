@@ -195,7 +195,7 @@ Ext.define('Extensible.calendar.view.Day', {
                 h = ct.getHeight() - hd.getHeight();
             
             this.el.down('.ext-cal-body-ct').setHeight(h-1);
-        }, 10, this);
+        }, 1, this);
     },
     
     // private

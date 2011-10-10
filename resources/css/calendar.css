@@ -132,9 +132,18 @@
 .ext-cal-dayview .ext-cal-gutter-rt {
     width: 15px;
 }
-.x-ie .ext-cal-dayview .ext-cal-gutter-rt {
+.x-win .ext-cal-dayview .ext-cal-gutter-rt {
     width: 16px;
 }
+/* OSX Lion scrollbars do not take up space in the body so they need special rules */
+.x-no-scrollbar .ext-cal-hd-days-td {
+    width: 100%;
+}
+.x-no-scrollbar .ext-cal-dayview .ext-cal-gutter-rt,
+.x-no-scrollbar .x-win .ext-cal-dayview .ext-cal-gutter-rt {
+    width: 0;
+}
+
 .ext-cal-hd-ad {
     background-color: #fff;
     font-size: 11px;
