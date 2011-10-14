@@ -28,12 +28,15 @@ Ext.define('Extensible', {
      */
     extVersion : '4.0.0',
     
+    // private
     hasBorderRadius : Ext.supports.CSS3BorderRadius,
     
+    // private
     log : function(s){
         //console.log(s);
     },
     
+    // private
     getScrollWidth: function() {
         return Ext.getScrollbarSize ? Ext.getScrollbarSize().width : Ext.getScrollBarWidth();
     },
@@ -215,7 +218,7 @@ Ext.define('Extensible', {
         },
         
         /**
-         * Returns true if the specified date falls on a Monday through Fridey, else false.
+         * Returns true if the specified date falls on a Monday through Friday, else false.
          * @param {Date} dt The date to test
          * @return {Boolean} True if the date is a week day, else false 
          */
@@ -223,18 +226,66 @@ Ext.define('Extensible', {
             return dt.getDay() % 6 !== 0;
         },
         
+        /**
+         * Returns true if the specified date's time component equals 00:00, ignoring
+         * seconds and milliseconds.
+         * @param {Object} dt The date to test
+         * @return {Boolean} True if the time is midnight, else false
+         */
         isMidnight : function(dt) {
             return dt.getHours() === 0 && dt.getMinutes() === 0;
         },
         
+        /**
+         * Returns true if the specified date is the current browser-local date, else false.
+         * @param {Object} dt The date to test
+         * @return {Boolean} True if the date is today, else false
+         */
         isToday : function(dt) {
             return this.diffDays(dt, this.today()) === 0;
         },
         
+        /**
+         * Convenience method to get the current browser-local date with no time value.
+         * @return {Date} The current date, with time 00:00
+         */
         today : function() {
             return Ext.Date.clearTime(new Date());
         },
         
+        /**
+         * Add time to the specified date and returns a new Date instance as the result (does not
+         * alter the original date object). Time can be specified in any combination of milliseconds
+         * to years, and the function automatically takes leap years and daylight savings into account.
+         * Some syntax examples:<code><pre>
+var now = new Date();
+
+// Add 24 hours to the current date/time:
+var tomorrow = Extensible.Date.add(now, { days: 1 });
+
+// More complex, returning a date only with no time value:
+var futureDate = Extensible.Date.add(now, {
+    weeks: 1,
+    days: 5,
+    minutes: 30,
+    clearTime: true
+});
+</pre></code>
+         * @param {Date} dt The starting date to which to add time
+         * @param {Object} o A config object that can contain one or more of the following
+         * properties, each with an integer value: <ul>
+         * <li>millis</li>
+         * <li>seconds</li>
+         * <li>minutes</li>
+         * <li>hours</li>
+         * <li>days</li>
+         * <li>weeks</li>
+         * <li>months</li>
+         * <li>years</li></ul>
+         * You can also optionally include the property "clearTime: true" which will perform all of the
+         * date addition first, then clear the time value of the final date before returning it.
+         * @return {Date} A new date instance containing the resulting date/time value
+         */
         add : function(dt, o) {
             if (!o) {
                 return dt;
