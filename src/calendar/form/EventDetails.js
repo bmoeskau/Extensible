@@ -43,7 +43,8 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         'Extensible.calendar.form.field.ReminderCombo',
         'Extensible.calendar.data.EventMappings',
         'Extensible.calendar.form.field.CalendarCombo',
-        'Extensible.form.recurrence.Combo'
+        'Extensible.form.recurrence.Combo',
+        'Ext.layout.container.Column'
     ],
     
     labelWidth: 65,
