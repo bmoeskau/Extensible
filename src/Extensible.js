@@ -34,10 +34,14 @@ Ext.define('Extensible', {
         //console.log(s);
     },
     
+    getScrollWidth: function() {
+        return Ext.getScrollbarSize ? Ext.getScrollbarSize().width : Ext.getScrollBarWidth();
+    },
+    
     // private
     constructor: function() {
         Ext.onReady(function() {
-            if (Ext.getScrollbarSize().width === 0) {
+            if (this.getScrollWidth === 0) {
                 // OSX Lion introduced dynamic scrollbars that do not take up space in the
                 // body. Since certain aspects of the layout are calculated and rely on
                 // scrollbar width, we add this class if needed so that we can apply
