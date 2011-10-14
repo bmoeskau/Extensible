@@ -1,16 +1,20 @@
 # Extensible Release Notes
 
-## 1.5.0 (RC) - Ext 4
+## 1.5.0 - Ext 4
 
-_August 29, 2011_
+_October 14, 2011_
 
 **New Features**
 
 * Added Italian locale
 * Added `Extensible.form.field.DateRange.timeFormat` config
+* Added `Extensible.Date` utility methods: `isMidnight()`, `isToday()`, and `today()`
 
 **Bugs Fixed**
 
+* Refactored `Extensible.Date.add` to fix daylight savings-related bugs
+* Fixed Ext JS CSS class prefixes that were renamed `.ext-` to `.x-` in Ext 4
+* Fixed scrollbar width offset bug introduced by OSX Lion's new scrollbars
 * DateRange field `singleLine` config honored properly again
 * Added AbstractCard.renderChildren override to work around an Ext card layout bug
 * Fixed error with sample data file name case-sensitivity
@@ -23,17 +27,17 @@ _August 29, 2011_
 * Fix calendar colors for IE/Opera
 * Fixed calendar render bug when resizing an event to end at midnight
 * Patched an Ext bug related to component ids when no explicit id assigned to a CalendarPanel
-* Refactored `Extensible.Date.add` to fix DST-related bugs
 * Fixed view end date getting modified incorrectly by event handlers
 * Change to enforce exact, case-sensitive matching on event ids during selection
 * Added `constrain: true` as a default config for EventWindow
 * Added a `destroy` method to the DropZone to fix dd shims not working in some cases
 * Fixed `Ext.data.MemoryProxy` override to commit in-memory records after save to avoid rejecting previous changes on cancel
+* Fixed view boundary bug related to setting a static start date on views with &lt; 7 days
+* Fixed off-by-one pixel issues with aligning events in the day/week views in various browsers
 
 **Known Issues**
 
 * The dd.ScrollManager seems to have some serious issues in 4.x at the moment, and so support for automatic container scrolling during drag in the calendar day/week views has been temporarily removed. It will be reinstated in a future release once this is resolved.
-* The API docs are still not 100% updated, but will be for the 1.5 final release
 
 ## 1.5.0 (Beta) - Ext 4
 
