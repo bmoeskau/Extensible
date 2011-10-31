@@ -28,7 +28,8 @@
     buttonAlign: 'left',
     editDetailsLinkClass: 'edit-dtl-link',
     enableEditDetails: true,
-    bodyStyle: 'padding: 8px 10px 5px;'
+    bodyStyle: 'padding: 8px 10px 5px;',
+    layout: 'fit'
 </code></pre>
  * @constructor
  * @param {Object} config The config object
@@ -67,6 +68,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     editDetailsLinkClass: 'edit-dtl-link',
     enableEditDetails: true,
     bodyStyle: 'padding: 8px 10px 5px;',
+    layout: 'fit',
     
     formPanelConfig: {
         border: false
