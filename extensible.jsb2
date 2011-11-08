@@ -51,10 +51,10 @@
             "text": "DayDropZone.js",
             "path": "src/calendar/dd/"
         },{
-            "text": "EventStore.js",
+            "text": "EventModel.js",
             "path": "src/calendar/data/"
         },{
-            "text": "EventModel.js",
+            "text": "EventStore.js",
             "path": "src/calendar/data/"
         },{
             "text": "CalendarModel.js",
