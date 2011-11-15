@@ -19,10 +19,6 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
         this.addEvents({
             eventsrendered: true
 		});
-		
-//        if(!this.el){
-//            this.el = document.createElement('div');
-//        }
     },
 	
     afterRender : function(){
