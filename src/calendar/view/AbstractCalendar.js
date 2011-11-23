@@ -210,6 +210,15 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * highlights today in yellow). To disable this styling set the value to null or ''.
      */
     todayCls: 'ext-cal-day-today',
+    /**
+     * @cfg {String} hideMode
+     * <p>How this component should be hidden. Supported values are <tt>'visibility'</tt>
+     * (css visibility), <tt>'offsets'</tt> (negative offset position) and <tt>'display'</tt>
+     * (css display).</p>
+     * <br><p><b>Note</b>: For calendar views the default is 'offsets' rather than the Ext JS default of
+     * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.</p>
+     */
+    hideMode: 'offsets',
     
     //private properties -- do not override:
     weekCount: 1,
