@@ -115,6 +115,15 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
      * fine, just be aware that browsers may sometimes round the resulting height values inconsistently.
      */
     hourHeight: 42,
+    /**
+     * @cfg {String} hideMode
+     * <p>How this component should be hidden. Supported values are <tt>'visibility'</tt>
+     * (css visibility), <tt>'offsets'</tt> (negative offset position) and <tt>'display'</tt>
+     * (css display).</p>
+     * <br><p><b>Note</b>: For calendar views the default is 'offsets' rather than the Ext JS default of
+     * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.</p>
+     */
+    hideMode: 'offsets',
     
     // private
     initComponent : function(){

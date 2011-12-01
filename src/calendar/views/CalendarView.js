@@ -196,6 +196,15 @@ Ext.ensible.cal.CalendarView = Ext.extend(Ext.BoxComponent, {
      * highlights today in yellow). To disable this styling set the value to null or ''.
      */
     todayCls: 'ext-cal-day-today',
+    /**
+     * @cfg {String} hideMode
+     * <p>How this component should be hidden. Supported values are <tt>'visibility'</tt>
+     * (css visibility), <tt>'offsets'</tt> (negative offset position) and <tt>'display'</tt>
+     * (css display).</p>
+     * <br><p><b>Note</b>: For calendar views the default is 'offsets' rather than the Ext JS default of
+     * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.</p>
+     */
+    hideMode: 'offsets',
     
     //private properties -- do not override:
     weekCount: 1,
@@ -245,7 +254,7 @@ viewConfig: {
         return '';
     },
     getEventBodyMarkup : function(){
-        // This is simplified, but shows the symtax for how you could add a
+        // This is simplified, but shows the syntax for how you could add a
         // custom placeholder that maps back to the templateData property created
         // in getEventClass. Note that this is standard Ext template syntax.
         if(!this.eventBodyMarkup){
