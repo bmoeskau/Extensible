@@ -611,11 +611,8 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         this.callParent(arguments);
         
         this.body.addCls('x-cal-body');
-        
-        Ext.defer(function() {
-            this.updateNavState();
-            this.fireViewChange();
-        }, 10, this);
+        this.updateNavState();
+        this.setActiveView();
     },
     
     /**
@@ -759,8 +756,9 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     // private
     setActiveView: function(id){
         var l = this.layout,
-            tb = this.getDockedItems('toolbar')[0];
-        
+            tb = this.getDockedItems('toolbar')[0],
+            id = id || this.activeItem;
+            
         // show/hide the toolbar first so that the layout will calculate the correct item size
         if (tb) {
             tb[id === this.id+'-edit' ? 'hide' : 'show']();
