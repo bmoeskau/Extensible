@@ -44,7 +44,7 @@ Ext.onReady(function() {
         triggerAction: 'all',
         emptyText: 'Select a locale...',
         selectOnFocus: true,
-        value: 'en',
+        value: 'sv_SE',
         listeners: {
             'select': {
                 fn: function(cbo, rec){
@@ -103,5 +103,6 @@ Ext.onReady(function() {
         });
     };
     
-    renderUI();
+    // default to Swedish, just for fun
+    loadLocale('sv_SE');
 });

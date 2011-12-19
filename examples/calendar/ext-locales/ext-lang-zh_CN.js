@@ -7,15 +7,18 @@
  * 2009-10-22 15:00:57
  */
 Ext.onReady(function(){
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     if(Ext.Updater){
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">加载中...</div>';
     }
 
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
        Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
        Ext.grid.Panel.prototype.ddText = "选择了 {0} 行";
     }
 
@@ -23,7 +26,7 @@ Ext.onReady(function(){
        Ext.TabPanelItem.prototype.closeText = "关闭此标签";
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
        Ext.form.field.Base.prototype.invalidText = "输入值非法";
     }
 
@@ -70,7 +73,7 @@ Ext.onReady(function(){
        };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -79,7 +82,7 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
        Ext.apply(Ext.picker.Date.prototype, {
           todayText         : "今天",
           minText           : "日期必须大于最小允许日期",//update
@@ -96,14 +99,14 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.picker.Month) {
+    if(exists('Ext.picker.Month')) {
       Ext.apply(Ext.picker.Month.prototype, {
           okText            : "确定",
           cancelText        : "取消"
       });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
        Ext.apply(Ext.PagingToolbar.prototype, {
           beforePageText : "第",//update
           afterPageText  : "页,共 {0} 页",//update
@@ -117,7 +120,7 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
        Ext.apply(Ext.form.field.Text.prototype, {
           minLengthText : "该输入项的最小长度是 {0} 个字符",
           maxLengthText : "该输入项的最大长度是 {0} 个字符",
@@ -127,7 +130,7 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
        Ext.apply(Ext.form.field.Number.prototype, {
           minText : "该输入项的最小值是 {0}",
           maxText : "该输入项的最大值是 {0}",
@@ -135,7 +138,7 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
        Ext.apply(Ext.form.field.Date.prototype, {
           disabledDaysText  : "禁用",
           disabledDatesText : "禁用",
@@ -146,14 +149,16 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
        Ext.apply(Ext.form.field.ComboBox.prototype, {
-          loadingText       : "加载中...",
           valueNotFoundText : undefined
        });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "加载中..."
+        });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
        Ext.apply(Ext.form.field.VTypes, {
           emailText    : '该输入项必须是电子邮件地址，格式如： "user@example.com"',
           urlText      : '该输入项必须是URL地址，格式如： "http:/'+'/www.example.com"',
@@ -162,7 +167,7 @@ Ext.onReady(function(){
        });
     }
     //add HTMLEditor's tips by andy_ghg
-    if(Ext.form.field.HtmlEditor){
+    if(exists('Ext.form.field.HtmlEditor')){
       Ext.apply(Ext.form.field.HtmlEditor.prototype, {
         createLinkText : '添加超级链接:',
         buttonTips : {
@@ -241,7 +246,7 @@ Ext.onReady(function(){
     }
 
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
        Ext.apply(Ext.grid.header.Container.prototype, {
           sortAscText  : "正序",//update
           sortDescText : "倒序",//update
@@ -251,7 +256,7 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
        Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
           nameText   : "名称",
           valueText  : "值",
@@ -259,10 +264,4 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-       Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-          splitTip            : "拖动来改变尺寸.",
-          collapsibleSplitTip : "拖动来改变尺寸. 双击隐藏."
-       });
-    }
 });

@@ -6,15 +6,18 @@
  * 2010-Mar-10 update by Volker Grabsch
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     if(Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Übertrage Daten ...</div>';
     }
 
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
         Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
         Ext.grid.Panel.prototype.ddText = "{0} Zeile(n) ausgewählt";
     }
 
@@ -22,11 +25,11 @@ Ext.onReady(function() {
         Ext.TabPanelItem.prototype.closeText = "Diesen Tab schließen";
     }
 
-    if(Ext.form.Basic){
+    if(exists('Ext.form.Basic')){
         Ext.form.Basic.prototype.waitTitle = "Bitte warten...";
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
         Ext.form.field.Base.prototype.invalidText = "Der Wert des Feldes ist nicht korrekt";
     }
 
@@ -94,9 +97,16 @@ Ext.onReady(function() {
             yes    : "Ja",
             no     : "Nein"
         };
+        
+        // As of 4.0.4, setting the buttonText above does not take effect properly. This should be removable in 4.1.0
+        // (see issue EXTJSIV-3909)
+        Ext.MessageBox.msgButtons['ok'].text = Ext.MessageBox.buttonText.ok;
+        Ext.MessageBox.msgButtons['cancel'].text = Ext.MessageBox.buttonText.cancel;
+        Ext.MessageBox.msgButtons['yes'].text = Ext.MessageBox.buttonText.yes;
+        Ext.MessageBox.msgButtons['no'].text = Ext.MessageBox.buttonText.no;
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.util.Format.__number = Ext.util.Format.number;
         Ext.util.Format.number = function(v, format) {
             return Ext.util.Format.__number(v, format || "0.000,00/i");
@@ -110,7 +120,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
         Ext.apply(Ext.picker.Date.prototype, {
             todayText         : "Heute",
             minText           : "Dieses Datum liegt von dem erstmöglichen Datum",
@@ -128,14 +138,14 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Month) {
+    if(exists('Ext.picker.Month')) {
         Ext.apply(Ext.picker.Month.prototype, {
             okText            : "&#160;OK&#160;",
             cancelText        : "Abbrechen"
         });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
         Ext.apply(Ext.PagingToolbar.prototype, {
             beforePageText : "Seite",
             afterPageText  : "von {0}",
@@ -149,7 +159,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
         Ext.apply(Ext.form.field.Text.prototype, {
             minLengthText : "Bitte geben Sie mindestens {0} Zeichen ein",
             maxLengthText : "Bitte geben Sie maximal {0} Zeichen ein",
@@ -159,7 +169,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
         Ext.apply(Ext.form.field.Number.prototype, {
             minText : "Der Mindestwert für dieses Feld ist {0}",
             maxText : "Der Maximalwert für dieses Feld ist {0}",
@@ -168,7 +178,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
         Ext.apply(Ext.form.field.Date.prototype, {
             disabledDaysText  : "nicht erlaubt",
             disabledDatesText : "nicht erlaubt",
@@ -180,14 +190,16 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
         Ext.apply(Ext.form.field.ComboBox.prototype, {
-            loadingText       : "Lade Daten ...",
             valueNotFoundText : undefined
+        });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "Lade Daten ..."
         });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
         Ext.apply(Ext.form.field.VTypes, {
             emailText    : 'Dieses Feld sollte eine E-Mail-Adresse enthalten. Format: "user@example.com"',
             urlText      : 'Dieses Feld sollte eine URL enthalten. Format: "http:/'+'/www.example.com"',
@@ -196,7 +208,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.HtmlEditor){
+    if(exists('Ext.form.field.HtmlEditor')){
         Ext.apply(Ext.form.field.HtmlEditor.prototype, {
             createLinkText : 'Bitte geben Sie die URL für den Link ein:',
             buttonTips : {
@@ -274,7 +286,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
         Ext.apply(Ext.grid.header.Container.prototype, {
             sortAscText  : "Aufsteigend sortieren",
             sortDescText : "Absteigend sortieren",
@@ -284,7 +296,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.GroupingFeature){
+    if(exists('Ext.grid.GroupingFeature')){
         Ext.apply(Ext.grid.GroupingFeature.prototype, {
             emptyGroupText : '(Keine)',
             groupByText    : 'Dieses Feld gruppieren',
@@ -292,7 +304,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
         Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
             nameText   : "Name",
             valueText  : "Wert",
@@ -300,33 +312,27 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.BooleanColumn){
+    if(exists('Ext.grid.BooleanColumn')){
         Ext.apply(Ext.grid.BooleanColumn.prototype, {
             trueText  : "wahr",
             falseText : "falsch"
         });
     }
 
-    if(Ext.grid.NumberColumn){
+    if(exists('Ext.grid.NumberColumn')){
         Ext.apply(Ext.grid.NumberColumn.prototype, {
             format : '0.000,00/i'
         });
     }
 
-    if(Ext.grid.DateColumn){
+    if(exists('Ext.grid.DateColumn')){
         Ext.apply(Ext.grid.DateColumn.prototype, {
             format : 'd.m.Y'
         });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-        Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-            splitTip            : "Ziehen, um Größe zu ändern.",
-            collapsibleSplitTip : "Ziehen, um Größe zu ändern. Doppelklick um Panel auszublenden."
-        });
-    }
 
-    if(Ext.form.field.Time){
+    if(exists('Ext.form.field.Time')){
         Ext.apply(Ext.form.field.Time.prototype, {
             minText : "Die Zeit muss gleich oder nach {0} liegen",
             maxText : "Die Zeit muss gleich oder vor {0} liegen",
@@ -335,13 +341,13 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.CheckboxGroup){
+    if(exists('Ext.form.CheckboxGroup')){
         Ext.apply(Ext.form.CheckboxGroup.prototype, {
             blankText : "Du mußt mehr als einen Eintrag aus der Gruppe auswählen"
         });
     }
 
-    if(Ext.form.RadioGroup){
+    if(exists('Ext.form.RadioGroup')){
         Ext.apply(Ext.form.RadioGroup.prototype, {
             blankText : "Du mußt einen Eintrag aus der Gruppe auswählen"
         });

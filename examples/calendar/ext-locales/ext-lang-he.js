@@ -3,14 +3,17 @@
  * By spartacus (from forums) 06-12-2007
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     if(Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">...טוען</div>';
     }
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
         Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
         Ext.grid.Panel.prototype.ddText = "שורות נבחרות {0}";
     }
 
@@ -18,7 +21,7 @@ Ext.onReady(function() {
         Ext.TabPanelItem.prototype.closeText = "סגור לשונית";
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
         Ext.form.field.Base.prototype.invalidText = "הערך בשדה זה שגוי";
     }
 
@@ -89,7 +92,7 @@ Ext.onReady(function() {
         };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -98,7 +101,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
         Ext.apply(Ext.picker.Date.prototype, {
             todayText         : "היום",
             minText           : ".תאריך זה חל קודם לתאריך ההתחלתי שנקבע",
@@ -116,14 +119,14 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Month) {
+    if(exists('Ext.picker.Month')) {
         Ext.apply(Ext.picker.Month.prototype, {
             okText            : "&#160;אישור&#160;",
             cancelText        : "ביטול"
         });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
         Ext.apply(Ext.PagingToolbar.prototype, {
             beforePageText : "עמוד",
             afterPageText  : "{0} מתוך",
@@ -137,7 +140,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
         Ext.apply(Ext.form.field.Text.prototype, {
             minLengthText : "{0} האורך המינימאלי לשדה זה הוא",
             maxLengthText : "{0} האורך המירבי לשדה זה הוא",
@@ -147,7 +150,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
         Ext.apply(Ext.form.field.Number.prototype, {
             minText : "{0} הערך המינימאלי לשדה זה הוא",
             maxText : "{0} הערך המירבי לשדה זה הוא",
@@ -155,7 +158,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
         Ext.apply(Ext.form.field.Date.prototype, {
             disabledDaysText  : "מנוטרל",
             disabledDatesText : "מנוטרל",
@@ -167,14 +170,16 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
         Ext.apply(Ext.form.field.ComboBox.prototype, {
-            loadingText       : "...טוען",
             valueNotFoundText : undefined
+        });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "...טוען"
         });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
         Ext.apply(Ext.form.field.VTypes, {
             emailText    : '"user@example.com" שדה זה צריך להיות כתובת דואר אלקטרוני בפורמט',
             urlText      : '"http:/'+'/www.example.com" שדה זה צריך להיות כתובת אינטרנט בפורמט',
@@ -183,7 +188,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.HtmlEditor){
+    if(exists('Ext.form.field.HtmlEditor')){
         Ext.apply(Ext.form.field.HtmlEditor.prototype, {
             createLinkText : ':אנא הקלד את כתובת האינטרנט עבור הקישור',
             buttonTips : {
@@ -261,7 +266,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
         Ext.apply(Ext.grid.header.Container.prototype, {
             sortAscText  : "מיין בסדר עולה",
             sortDescText : "מיין בסדר יורד",
@@ -271,7 +276,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.GroupingFeature){
+    if(exists('Ext.grid.GroupingFeature')){
         Ext.apply(Ext.grid.GroupingFeature.prototype, {
             emptyGroupText : '(ריק)',
             groupByText    : 'הצג בקבוצות לפי שדה זה',
@@ -279,7 +284,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
         Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
             nameText   : "שם",
             valueText  : "ערך",
@@ -287,10 +292,4 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-        Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-            splitTip            : ".משוך לשינוי גודל",
-            collapsibleSplitTip : ".משוך לשינוי גודל. לחיצה כפולה להסתרה"
-        });
-    }
 });

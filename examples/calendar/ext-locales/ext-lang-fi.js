@@ -4,14 +4,17 @@
  * 'ä' should read as lowercase 'a' with two dots on top (&auml;)
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     if(Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Ladataan...</div>';
     }
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
         Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
         Ext.grid.Panel.prototype.ddText = "{0} rivi(ä) valittu";
     }
 
@@ -91,7 +94,7 @@ Ext.onReady(function() {
         };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -99,7 +102,7 @@ Ext.onReady(function() {
             dateFormat: 'j.n.Y'
         });
     }
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.util.Format.date = function(v, format){
             if(!v) return "";
             if(!(v instanceof Date)) v = new Date(Date.parse(v));
@@ -107,7 +110,7 @@ Ext.onReady(function() {
         };
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
         Ext.apply(Ext.picker.Date.prototype, {
             todayText         : "Tänään",
             minText           : "Tämä päivämäärä on aikaisempi kuin ensimmäinen sallittu",
@@ -125,14 +128,14 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Month) {
+    if(exists('Ext.picker.Month')) {
         Ext.apply(Ext.picker.Month.prototype, {
             okText            : "&#160;OK&#160;",
             cancelText        : "Peruuta"
         });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
         Ext.apply(Ext.PagingToolbar.prototype, {
             beforePageText : "Sivu",
             afterPageText  : "/ {0}",
@@ -146,11 +149,11 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
         Ext.form.field.Base.prototype.invalidText = "Tämän kentän arvo ei kelpaa";
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
         Ext.apply(Ext.form.field.Text.prototype, {
             minLengthText : "Tämän kentän minimipituus on {0}",
             maxLengthText : "Tämän kentän maksimipituus on {0}",
@@ -160,7 +163,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
         Ext.apply(Ext.form.field.Number.prototype, {
             minText : "Tämän kentän pienin sallittu arvo on {0}",
             maxText : "Tämän kentän suurin sallittu arvo on {0}",
@@ -168,7 +171,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
         Ext.apply(Ext.form.field.Date.prototype, {
             disabledDaysText  : "Ei käytössä",
             disabledDatesText : "Ei käytössä",
@@ -180,14 +183,16 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
         Ext.apply(Ext.form.field.ComboBox.prototype, {
-            loadingText       : "Ladataan...",
             valueNotFoundText : undefined
+        });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "Ladataan..."
         });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
         Ext.apply(Ext.form.field.VTypes, {
             emailText    : 'Syötä tähän kenttään sähköpostiosoite, esim. "etunimi.sukunimi@osoite.fi"',
             urlText      : 'Syötä tähän kenttään URL-osoite, esim. "http:/'+'/www.osoite.fi"',
@@ -196,7 +201,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.HtmlEditor){
+    if(exists('Ext.form.field.HtmlEditor')){
         Ext.apply(Ext.form.field.HtmlEditor.prototype, {
             createLinkText : 'Anna linkin URL-osoite:',
             buttonTips : {
@@ -274,11 +279,11 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.Basic){
+    if(exists('Ext.form.Basic')){
         Ext.form.Basic.prototype.waitTitle = "Odota...";
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
         Ext.apply(Ext.grid.header.Container.prototype, {
             sortAscText  : "Järjestä A-Ö",
             sortDescText : "Järjestä Ö-A",
@@ -288,7 +293,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.GroupingFeature){
+    if(exists('Ext.grid.GroupingFeature')){
         Ext.apply(Ext.grid.GroupingFeature.prototype, {
             emptyGroupText : '(ei mitään)',
             groupByText    : 'Ryhmittele tämän kentän mukaan',
@@ -296,7 +301,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
         Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
             nameText   : "Nimi",
             valueText  : "Arvo",
@@ -304,10 +309,4 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-        Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-            splitTip            : "Muuta kokoa vetämällä.",
-            collapsibleSplitTip : "Muuta kokoa vetämällä. Piilota kaksoisklikkauksella."
-        });
-    }
 });

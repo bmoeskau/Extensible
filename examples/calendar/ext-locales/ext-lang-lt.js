@@ -4,18 +4,21 @@
  * Vladas Saulis (vladas at prodata dot lt),  10-18-2007
  */
 Ext.onReady(function(){
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     if(Ext.Updater){
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Kraunasi...</div>';
     }
 
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
         Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
         Ext.view.View.prototype.emptyText = "";
     }
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
         Ext.grid.Panel.prototype.ddText = "{0} pažymėtų eilučių";
     }
 
@@ -23,7 +26,7 @@ Ext.onReady(function(){
         Ext.TabPanelItem.prototype.closeText = "Uždaryti šią užsklandą";
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
         Ext.form.field.Base.prototype.invalidText = "Šio lauko reikšmė neteisinga";
     }
 
@@ -104,7 +107,7 @@ Ext.onReady(function(){
         };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -113,7 +116,7 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
         Ext.apply(Ext.picker.Date.prototype, {
             todayText         : "Šiandien",
             minText           : "Ši data yra mažesnė už leistiną",
@@ -131,14 +134,14 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.picker.Month) {
+    if(exists('Ext.picker.Month')) {
         Ext.apply(Ext.picker.Month.prototype, {
             okText            : "&#160;Gerai&#160;",
             cancelText        : "Atsisaktyi"
         });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
         Ext.apply(Ext.PagingToolbar.prototype, {
             beforePageText : "Puslapis",
             afterPageText  : "iš {0}",
@@ -152,7 +155,7 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
         Ext.apply(Ext.form.field.Text.prototype, {
             minLengthText : "Minimalus šio lauko ilgis yra {0}",
             maxLengthText : "Maksimalus šio lauko ilgis yra {0}",
@@ -162,7 +165,7 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
         Ext.apply(Ext.form.field.Number.prototype, {
             minText : "Minimalus šio lauko ilgis yra {0}",
             maxText : "Maksimalus šio lauko ilgis yra {0}",
@@ -170,7 +173,7 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
         Ext.apply(Ext.form.field.Date.prototype, {
             disabledDaysText  : "Neprieinama",
             disabledDatesText : "Neprieinama",
@@ -182,14 +185,16 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
         Ext.apply(Ext.form.field.ComboBox.prototype, {
-            loadingText       : "Kraunasi...",
             valueNotFoundText : undefined
+        });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "Kraunasi..."
         });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
         Ext.apply(Ext.form.field.VTypes, {
             emailText    : 'Šiame lauke turi būti el.pašto adresas formatu "user@example.com"',
             urlText      : 'Šiame lauke turi būti nuoroda (URL) formatu "http:/'+'/www.example.com"',
@@ -198,7 +203,7 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.form.field.HtmlEditor){
+    if(exists('Ext.form.field.HtmlEditor')){
         Ext.apply(Ext.form.field.HtmlEditor.prototype, {
             createLinkText : 'Įveskite URL šiai nuorodai:',
             buttonTips : {
@@ -276,11 +281,11 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.form.Basic){
+    if(exists('Ext.form.Basic')){
         Ext.form.Basic.prototype.waitTitle = "Palaukite...";
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
         Ext.apply(Ext.grid.header.Container.prototype, {
             sortAscText  : "Rūšiuoti didėjančia tvarka",
             sortDescText : "Rūšiuoti mažėjančia tvarka",
@@ -290,7 +295,7 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.grid.GroupingFeature){
+    if(exists('Ext.grid.GroupingFeature')){
         Ext.apply(Ext.grid.GroupingFeature.prototype, {
             emptyGroupText : '(Nėra)',
             groupByText    : 'Grupuoti pagal šį lauką',
@@ -298,7 +303,7 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
         Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
             nameText   : "Pavadinimas",
             valueText  : "Reikšmė",
@@ -306,14 +311,8 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-        Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-            splitTip            : "Patraukite juostelę.",
-            collapsibleSplitTip : "Patraukite juostelę arba Paspauskite dvigubai kad paslėpti."
-        });
-    }
 
-    if(Ext.form.field.Time){
+    if(exists('Ext.form.field.Time')){
         Ext.apply(Ext.form.field.Time.prototype, {
             minText : "Laikas turi buti lygus arba vėlesnis už {0}",
             maxText : "Laikas turi būti lygus arba ankstesnis už {0}",
@@ -323,13 +322,13 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.form.CheckboxGroup){
+    if(exists('Ext.form.CheckboxGroup')){
         Ext.apply(Ext.form.CheckboxGroup.prototype, {
             blankText : "Jūs turite padaryti bent vieną pasirinkimą šioje grupėje"
         });
     }
 
-    if(Ext.form.RadioGroup){
+    if(exists('Ext.form.RadioGroup')){
         Ext.apply(Ext.form.RadioGroup.prototype, {
             blankText : "Jūs turite padaryti bent vieną pasirinkimą šioje grupėje"
         });

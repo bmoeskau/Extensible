@@ -5,15 +5,18 @@
  * Thailand Translations
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
 if(Ext.Updater) {
     Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">¡ÓÅÑ§âËÅŽ...</div>';
 }
 
-if(Ext.view.View){
+if(exists('Ext.view.View')){
   Ext.view.View.prototype.emptyText = "";
 }
 
-if(Ext.grid.Panel){
+if(exists('Ext.grid.Panel')){
   Ext.grid.Panel.prototype.ddText = "{0} àÅ×Í¡áÅéÇ·Ñé§ËÁŽá¶Ç";
 }
 
@@ -21,7 +24,7 @@ if(Ext.TabPanelItem){
   Ext.TabPanelItem.prototype.closeText = "»ÔŽá·çº¹Õé";
 }
 
-if(Ext.form.field.Base){
+if(exists('Ext.form.field.Base')){
   Ext.form.field.Base.prototype.invalidText = "€èÒ¢Í§ªèÍ§¹ÕéäÁè¶Ù¡µéÍ§";
 }
 
@@ -91,7 +94,7 @@ if(Ext.MessageBox){
   };
 }
 
-if(Ext.util.Format){
+if(exists('Ext.util.Format')){
     Ext.apply(Ext.util.Format, {
         thousandSeparator: '.',
         decimalSeparator: ',',
@@ -100,7 +103,7 @@ if(Ext.util.Format){
     });
 }
 
-if(Ext.picker.Date){
+if(exists('Ext.picker.Date')){
   Ext.apply(Ext.picker.Date.prototype, {
     todayText         : "ÇÑ¹¹Õé",
     minText           : "This date is before the minimum date",
@@ -118,14 +121,14 @@ if(Ext.picker.Date){
   });
 }
 
-if(Ext.picker.Month) {
+if(exists('Ext.picker.Month')) {
   Ext.apply(Ext.picker.Month.prototype, {
       okText            : "&#160;µ¡Å§&#160;",
       cancelText        : "Â¡àÅÔ¡"
   });
 }
 
-if(Ext.toolbar.Paging){
+if(exists('Ext.toolbar.Paging')){
   Ext.apply(Ext.PagingToolbar.prototype, {
     beforePageText : "Ë¹éÒ",
     afterPageText  : "of {0}",
@@ -139,7 +142,7 @@ if(Ext.toolbar.Paging){
   });
 }
 
-if(Ext.form.field.Text){
+if(exists('Ext.form.field.Text')){
   Ext.apply(Ext.form.field.Text.prototype, {
     minLengthText : "The minimum length for this field is {0}",
     maxLengthText : "The maximum length for this field is {0}",
@@ -149,7 +152,7 @@ if(Ext.form.field.Text){
   });
 }
 
-if(Ext.form.field.Number){
+if(exists('Ext.form.field.Number')){
   Ext.apply(Ext.form.field.Number.prototype, {
     minText : "The minimum value for this field is {0}",
     maxText : "The maximum value for this field is {0}",
@@ -157,7 +160,7 @@ if(Ext.form.field.Number){
   });
 }
 
-if(Ext.form.field.Date){
+if(exists('Ext.form.field.Date')){
   Ext.apply(Ext.form.field.Date.prototype, {
     disabledDaysText  : "»ÔŽ",
     disabledDatesText : "»ÔŽ",
@@ -169,14 +172,16 @@ if(Ext.form.field.Date){
   });
 }
 
-if(Ext.form.field.ComboBox){
+if(exists('Ext.form.field.ComboBox')){
   Ext.apply(Ext.form.field.ComboBox.prototype, {
-    loadingText       : "¡ÓÅÑ§âËÅŽ...",
     valueNotFoundText : undefined
   });
+    Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+        loadingText       : "¡ÓÅÑ§âËÅŽ..."
+    });
 }
 
-if(Ext.form.field.VTypes){
+if(exists('Ext.form.field.VTypes')){
   Ext.apply(Ext.form.field.VTypes, {
     emailText    : 'This field should be an e-mail address in the format "user@example.com"',
     urlText      : 'This field should be a URL in the format "http:/'+'/www.example.com"',
@@ -185,7 +190,7 @@ if(Ext.form.field.VTypes){
   });
 }
 
-if(Ext.form.field.HtmlEditor){
+if(exists('Ext.form.field.HtmlEditor')){
   Ext.apply(Ext.form.field.HtmlEditor.prototype, {
     createLinkText : 'Please enter the URL for the link:',
     buttonTips : {
@@ -263,7 +268,7 @@ if(Ext.form.field.HtmlEditor){
   });
 }
 
-if(Ext.grid.header.Container){
+if(exists('Ext.grid.header.Container')){
   Ext.apply(Ext.grid.header.Container.prototype, {
     sortAscText  : "Sort Ascending",
     sortDescText : "Sort Descending",
@@ -273,7 +278,7 @@ if(Ext.grid.header.Container){
   });
 }
 
-if(Ext.grid.GroupingFeature){
+if(exists('Ext.grid.GroupingFeature')){
   Ext.apply(Ext.grid.GroupingFeature.prototype, {
     emptyGroupText : '(None)',
     groupByText    : 'Group By This Field',
@@ -281,7 +286,7 @@ if(Ext.grid.GroupingFeature){
   });
 }
 
-if(Ext.grid.PropertyColumnModel){
+if(exists('Ext.grid.PropertyColumnModel')){
   Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
     nameText   : "Name",
     valueText  : "Value",
@@ -289,11 +294,5 @@ if(Ext.grid.PropertyColumnModel){
   });
 }
 
-if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-  Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-    splitTip            : "Drag to resize.",
-    collapsibleSplitTip : "Drag to resize. Double click to hide."
-  });
-}
 
 });

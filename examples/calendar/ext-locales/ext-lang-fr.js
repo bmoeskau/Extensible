@@ -6,14 +6,17 @@
  * updated by Thylia (20 Apr 2010)
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager,
+            exists = Ext.Function.bind(cm.get, cm);
+
     if(Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">En cours de chargement...</div>';
     }
-    if(Ext.view.View){
+    if(exists("Ext.view.View")){
         Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists("Ext.grid.Panel")){
         Ext.grid.Panel.prototype.ddText = "{0} ligne{1} sélectionnée{1}";
     }
 
@@ -115,7 +118,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists("Ext.picker.Date")){
         Ext.apply(Ext.picker.Date.prototype, {
             todayText         : "Aujourd'hui",
             minText           : "Cette date est antérieure à la date minimum",
@@ -133,14 +136,14 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Month) {
+    if(exists("Ext.picker.Month")) {
         Ext.apply(Ext.picker.Month.prototype, {
             okText            : "&#160;OK&#160;",
             cancelText        : "Annuler"
         });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists("Ext.toolbar.Paging")){
         Ext.apply(Ext.PagingToolbar.prototype, {
             beforePageText : "Page",
             afterPageText  : "sur {0}",
@@ -154,15 +157,15 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.Basic){
+    if(exists("Ext.form.Basic")){
         Ext.form.Basic.prototype.waitTitle = "Veuillez patienter...";
     }
 
-    if(Ext.form.field.Base){
+    if(exists("Ext.form.field.Base")){
         Ext.form.field.Base.prototype.invalidText = "La valeur de ce champ est invalide";
     }
 
-    if(Ext.form.field.Text){
+    if(exists("Ext.form.field.Text")){
         Ext.apply(Ext.form.field.Text.prototype, {
             minLengthText : "La longueur minimum de ce champ est de {0} caractère(s)",
             maxLengthText : "La longueur maximum de ce champ est de {0} caractère(s)",
@@ -172,7 +175,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Number){
+    if(exists("Ext.form.field.Number")){
         Ext.apply(Ext.form.field.Number.prototype, {
             decimalSeparator : ",",
             decimalPrecision : 2,
@@ -182,7 +185,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Date){
+    if(exists("Ext.form.field.Date")){
         Ext.apply(Ext.form.field.Date.prototype, {
             disabledDaysText  : "Désactivé",
             disabledDatesText : "Désactivé",
@@ -194,14 +197,16 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists("Ext.form.field.ComboBox")){
         Ext.apply(Ext.form.field.ComboBox.prototype, {
-            loadingText       : "En cours de chargement...",
             valueNotFoundText : undefined
+        });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "En cours de chargement..."
         });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists("Ext.form.field.VTypes")){
         Ext.apply(Ext.form.field.VTypes, {
             emailText    : 'Ce champ doit contenir une adresse email au format: "usager@example.com"',
             urlText      : 'Ce champ doit contenir une URL au format suivant: "http:/'+'/www.example.com"',
@@ -210,7 +215,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.HtmlEditor){
+    if(exists("Ext.form.field.HtmlEditor")){
         Ext.apply(Ext.form.field.HtmlEditor.prototype, {
             createLinkText : "Veuillez entrer l'URL pour ce lien:",
             buttonTips : {
@@ -288,7 +293,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.header.Container){
+    if(exists("Ext.grid.header.Container")){
         Ext.apply(Ext.grid.header.Container.prototype, {
             sortAscText  : "Tri croissant",
             sortDescText : "Tri décroissant",
@@ -296,7 +301,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.GroupingFeature){
+    if(exists("Ext.grid.GroupingFeature")){
         Ext.apply(Ext.grid.GroupingFeature.prototype, {
             emptyGroupText : '(Aucun)',
             groupByText    : 'Grouper par ce champ',
@@ -304,7 +309,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists("Ext.grid.PropertyColumnModel")){
         Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
             nameText   : "Propriété",
             valueText  : "Valeur",
@@ -314,14 +319,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-        Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-            splitTip            : "Cliquer et glisser pour redimensionner le panneau.",
-            collapsibleSplitTip : "Cliquer et glisser pour redimensionner le panneau. Double-cliquer pour le cacher."
-        });
-    }
-
-    if(Ext.form.field.Time){
+    if(exists("Ext.form.field.Time")){
         Ext.apply(Ext.form.field.Time.prototype, {
             minText     : "L'heure de ce champ ne peut être antérieure à {0}",
             maxText     : "L'heure de ce champ ne peut être postérieure à {0}",
@@ -331,13 +329,13 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.CheckboxGroup){
+    if(exists("Ext.form.CheckboxGroup")){
         Ext.apply(Ext.form.CheckboxGroup.prototype, {
             blankText : "Vous devez sélectionner au moins un élément dans ce groupe"
         });
     }
 
-    if(Ext.form.RadioGroup){
+    if(exists("Ext.form.RadioGroup")){
         Ext.apply(Ext.form.RadioGroup.prototype, {
             blankText : "Vous devez sélectionner au moins un élément dans ce groupe"
         });

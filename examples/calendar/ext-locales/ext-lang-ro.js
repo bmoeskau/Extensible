@@ -9,12 +9,15 @@
  * Changed by: Emil Cazamir, 2008-09-01
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     
     if(Ext.updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Încărcare...</div>';
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
        Ext.grid.Panel.prototype.ddText = "{0} rând(uri) selectate";
     }
 
@@ -22,7 +25,7 @@ Ext.onReady(function() {
        Ext.TabPanelItem.prototype.closeText = "Închide acest tab";
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
        Ext.form.field.Base.prototype.invalidText = "Valoarea acestui câmp este invalidă";
     }
 
@@ -93,7 +96,7 @@ Ext.onReady(function() {
        };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -102,7 +105,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
       Ext.apply(Ext.picker.Date.prototype, {
         todayText         : "Astăzi",
         minText           : "Această dată este anterioară datei minime",
@@ -120,14 +123,14 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.picker.Month) {
+    if(exists('Ext.picker.Month')) {
       Ext.apply(Ext.picker.Month.prototype, {
           okText            : "&#160;OK&#160;",
           cancelText        : "Renunță"
       });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
       Ext.apply(Ext.PagingToolbar.prototype, {
         beforePageText : "Pagina",
         afterPageText  : "din {0}",
@@ -141,7 +144,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
        Ext.apply(Ext.form.field.Text.prototype, {
           minLengthText : "Lungimea minimă pentru acest câmp este de {0}",
           maxLengthText : "Lungimea maximă pentru acest câmp este {0}",
@@ -151,7 +154,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
        Ext.apply(Ext.form.field.Number.prototype, {
           minText : "Valoarea minimă permisă a acestui câmp este {0}",
           maxText : "Valaorea maximă permisă a acestui câmp este {0}",
@@ -159,7 +162,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
       Ext.apply(Ext.form.field.Date.prototype, {
         disabledDaysText  : "Indisponibil",
         disabledDatesText : "Indisponibil",
@@ -171,14 +174,16 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
       Ext.apply(Ext.form.field.ComboBox.prototype, {
-        loadingText       : "Încărcare...",
         valueNotFoundText : undefined
       });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "Încărcare..."
+        });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
        Ext.apply(Ext.form.field.VTypes, {
           emailText    : 'Acest câmp trebuie să conţină o adresă de e-mail în formatul "user@domeniu.com"',
           urlText      : 'Acest câmp trebuie să conţină o adresă URL în formatul "http:/'+'/www.domeniu.com"',
@@ -187,7 +192,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.HtmlEditor){
+    if(exists('Ext.form.field.HtmlEditor')){
       Ext.apply(Ext.form.field.HtmlEditor.prototype, {
         createLinkText : 'Vă rugăm introduceti un URL pentru această legătură web:',
         buttonTips : {
@@ -266,7 +271,7 @@ Ext.onReady(function() {
     }
 
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
        Ext.apply(Ext.grid.header.Container.prototype, {
           sortAscText  : "Sortare ascendentă",
           sortDescText : "Sortare descendentă",
@@ -276,7 +281,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.grid.GroupingFeature){
+    if(exists('Ext.grid.GroupingFeature')){
       Ext.apply(Ext.grid.GroupingFeature.prototype, {
         emptyGroupText : '(Fără)',
         groupByText    : 'Grupează după această coloană',
@@ -284,7 +289,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
       Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
         nameText   : "Nume",
         valueText  : "Valoare",
@@ -292,10 +297,4 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-       Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-          splitTip            : "Trage pentru redimensionare.",
-          collapsibleSplitTip : "Trage pentru redimensionare. Dublu-click pentru ascundere."
-       });
-    }
 });

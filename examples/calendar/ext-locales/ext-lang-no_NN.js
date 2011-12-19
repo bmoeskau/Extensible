@@ -5,15 +5,18 @@
  *  
  */
 Ext.onReady(function (){
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
 if(Ext.Updater) {
     Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Lastar...</div>';
 }
 
-if(Ext.view.View){
+if(exists('Ext.view.View')){
   Ext.view.View.prototype.emptyText = "";
 }
 
-if(Ext.grid.Panel){
+if(exists('Ext.grid.Panel')){
   Ext.grid.Panel.prototype.ddText = "{0} markert(e) rad(er)";
 }
 
@@ -21,7 +24,7 @@ if(Ext.TabPanelItem){
   Ext.TabPanelItem.prototype.closeText = "Lukk denne fana";
 }
 
-if(Ext.form.field.Base){
+if(exists('Ext.form.field.Base')){
   Ext.form.field.Base.prototype.invalidText = "Verdien i dette feltet er ugyldig";
 }
 
@@ -92,7 +95,7 @@ if(Ext.MessageBox){
   };
 }
 
-if(Ext.util.Format){
+if(exists('Ext.util.Format')){
     Ext.apply(Ext.util.Format, {
         thousandSeparator: '.',
         decimalSeparator: ',',
@@ -101,7 +104,7 @@ if(Ext.util.Format){
     });
 }
 
-if(Ext.picker.Date){
+if(exists('Ext.picker.Date')){
   Ext.apply(Ext.picker.Date.prototype, {
     todayText         : "I dag",
     minText           : "Denne datoen er før tidlegaste tillatne dato",
@@ -119,14 +122,14 @@ if(Ext.picker.Date){
   });
 }
 
-if(Ext.picker.Month) {
+if(exists('Ext.picker.Month')) {
   Ext.apply(Ext.picker.Month.prototype, {
       okText            : "&#160;OK&#160;",
       cancelText        : "Avbryt"
   });
 }
 
-if(Ext.toolbar.Paging){
+if(exists('Ext.toolbar.Paging')){
   Ext.apply(Ext.PagingToolbar.prototype, {
     beforePageText : "Side",
     afterPageText  : "av {0}",
@@ -140,7 +143,7 @@ if(Ext.toolbar.Paging){
   });
 }
 
-if(Ext.form.field.Text){
+if(exists('Ext.form.field.Text')){
   Ext.apply(Ext.form.field.Text.prototype, {
     minLengthText : "Den minste lengda for dette feltet er {0}",
     maxLengthText : "Den største lengda for dette feltet er {0}",
@@ -150,7 +153,7 @@ if(Ext.form.field.Text){
   });
 }
 
-if(Ext.form.field.Number){
+if(exists('Ext.form.field.Number')){
   Ext.apply(Ext.form.field.Number.prototype, {
     minText : "Den minste verdien for dette feltet er {0}",
     maxText : "Den største verdien for dette feltet er {0}",
@@ -158,7 +161,7 @@ if(Ext.form.field.Number){
   });
 }
 
-if(Ext.form.field.Date){
+if(exists('Ext.form.field.Date')){
   Ext.apply(Ext.form.field.Date.prototype, {
     disabledDaysText  : "Deaktivert",
     disabledDatesText : "Deaktivert",
@@ -170,14 +173,16 @@ if(Ext.form.field.Date){
   });
 }
 
-if(Ext.form.field.ComboBox){
+if(exists('Ext.form.field.ComboBox')){
   Ext.apply(Ext.form.field.ComboBox.prototype, {
-    loadingText       : "Lastar...",
     valueNotFoundText : undefined
   });
+    Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+        loadingText       : "Lastar..."
+    });
 }
 
-if(Ext.form.field.VTypes){
+if(exists('Ext.form.field.VTypes')){
    Ext.apply(Ext.form.field.VTypes, {
       emailText    : 'Dette feltet skal vere ei epost adresse på formatet "bruker@domene.no"',
       urlText      : 'Dette feltet skal vere ein link (URL) på formatet "http:/'+'/www.domene.no"',
@@ -186,7 +191,7 @@ if(Ext.form.field.VTypes){
    });
 }
 
-if(Ext.form.field.HtmlEditor){
+if(exists('Ext.form.field.HtmlEditor')){
   Ext.apply(Ext.form.field.HtmlEditor.prototype, {
     createLinkText : 'Ver venleg og skriv inn URL for lenken:',
     buttonTips : {
@@ -264,7 +269,7 @@ if(Ext.form.field.HtmlEditor){
   });
 }
 
-if(Ext.grid.header.Container){
+if(exists('Ext.grid.header.Container')){
   Ext.apply(Ext.grid.header.Container.prototype, {
     sortAscText  : "Sorter stigande",
     sortDescText : "Sorter fallande",
@@ -274,7 +279,7 @@ if(Ext.grid.header.Container){
   });
 }
 
-if(Ext.grid.GroupingFeature){
+if(exists('Ext.grid.GroupingFeature')){
   Ext.apply(Ext.grid.GroupingFeature.prototype, {
     emptyGroupText : '(Ingen)',
     groupByText    : 'Grupper etter dette feltet',
@@ -282,7 +287,7 @@ if(Ext.grid.GroupingFeature){
   });
 }
 
-if(Ext.grid.PropertyColumnModel){
+if(exists('Ext.grid.PropertyColumnModel')){
   Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
     nameText   : "Namn",
     valueText  : "Verdi",
@@ -290,11 +295,5 @@ if(Ext.grid.PropertyColumnModel){
   });
 }
 
-if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-  Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-    splitTip            : "Dra for å endre storleik.",
-    collapsibleSplitTip : "Dra for å endre storleik. Dobbelklikk for å skjule."
-  });
-}
 
 });

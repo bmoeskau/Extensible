@@ -4,15 +4,18 @@
  * translated from ext-lang-en.js
  */ 
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     if(Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">A carregar...</div>';
     }
 
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
       Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
       Ext.grid.Panel.prototype.ddText = "{0} linha(s) seleccionada(s)";
     }
 
@@ -87,7 +90,7 @@ Ext.onReady(function() {
       };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -96,7 +99,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
       Ext.apply(Ext.picker.Date.prototype, {
         todayText         : "Hoje",
         minText           : "A data &eacute; anterior ao m&iacute;nimo definido",
@@ -114,14 +117,14 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.picker.Month) {
+    if(exists('Ext.picker.Month')) {
       Ext.apply(Ext.picker.Month.prototype, {
           okText            : "&#160;OK&#160;",
           cancelText        : "Cancelar"
       });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
       Ext.apply(Ext.PagingToolbar.prototype, {
         beforePageText : "P&aacute;gina",
         afterPageText  : "de {0}",
@@ -135,11 +138,11 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
       Ext.form.field.Base.prototype.invalidText = "O valor deste campo &eacute; inv&aacute;lido";
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
       Ext.apply(Ext.form.field.Text.prototype, {
         minLengthText : "O comprimento m&iacute;nimo deste campo &eaute; {0}",
         maxLengthText : "O comprimento m&aacute;ximo deste campo &eaute; {0}",
@@ -149,7 +152,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
       Ext.apply(Ext.form.field.Number.prototype, {
         minText : "O valor m&iacute;nimo deste campo &eaute; {0}",
         maxText : "O valor m&aacute;ximo deste campo &eaute; {0}",
@@ -157,7 +160,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
       Ext.apply(Ext.form.field.Date.prototype, {
         disabledDaysText  : "Desabilitado",
         disabledDatesText : "Desabilitado",
@@ -169,14 +172,16 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
       Ext.apply(Ext.form.field.ComboBox.prototype, {
-        loadingText       : "A Carregar...",
         valueNotFoundText : undefined
       });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "A Carregar..."
+        });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
       Ext.apply(Ext.form.field.VTypes, {
         emailText    : 'Este campo deve ser um endere&ccedil;o de email no formato "utilizador@dominio.com"',
         urlText      : 'Este campo deve ser um URL no formato "http:/'+'/www.dominio.com"',
@@ -185,7 +190,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.HtmlEditor){
+    if(exists('Ext.form.field.HtmlEditor')){
       Ext.apply(Ext.form.field.HtmlEditor.prototype, {
         createLinkText : 'Indique o endere&ccedil;o do link:',
         buttonTips : {
@@ -263,11 +268,11 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.Basic){
+    if(exists('Ext.form.Basic')){
       Ext.form.Basic.prototype.waitTitle = "Por favor espere...";
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
       Ext.apply(Ext.grid.header.Container.prototype, {
         sortAscText  : "Ordena&ccedil;&atilde;o Crescente",
         sortDescText : "Ordena&ccedil;&atilde;o Decrescente",
@@ -277,7 +282,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.grid.GroupingFeature){
+    if(exists('Ext.grid.GroupingFeature')){
       Ext.apply(Ext.grid.GroupingFeature.prototype, {
         emptyGroupText : '(Nenhum)',
         groupByText    : 'Agrupar por este campo',
@@ -285,7 +290,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
       Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
         nameText   : "Nome",
         valueText  : "Valor",
@@ -293,10 +298,4 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-      Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-        splitTip            : "Arastar para redimensionar.",
-        collapsibleSplitTip : "Arastar para redimensionar. DUplo clique para esconder"
-      });
-    }
 });

@@ -6,14 +6,17 @@
  *     by halkon_polako 14-aug-2008
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     if (Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Carregant...</div>';
     }
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
       Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
       Ext.grid.Panel.prototype.ddText = "{0} fila(es) seleccionada(es)";
     }
 
@@ -85,7 +88,7 @@ Ext.onReady(function() {
       };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -94,7 +97,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
       Ext.apply(Ext.picker.Date.prototype, {
         todayText         : "Avui",
         minText           : "Aquesta data &#233;s anterior a la data m&#237;nima",
@@ -112,14 +115,14 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.picker.Month) {
+    if(exists('Ext.picker.Month')) {
       Ext.apply(Ext.picker.Month.prototype, {
           okText            : "&#160;Acceptar&#160;",
           cancelText        : "Cancel&#183;lar"
       });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
       Ext.apply(Ext.PagingToolbar.prototype, {
         beforePageText : "P&#224;gina",
         afterPageText  : "de {0}",
@@ -133,11 +136,11 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
       Ext.form.field.Base.prototype.invalidText = "El valor d&#39;aquest camp &#233;s inv&#224;lid";
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
       Ext.apply(Ext.form.field.Text.prototype, {
         minLengthText : "El tamany m&#237;nim per aquest camp &#233;s {0}",
         maxLengthText : "El tamany m&#224;xim per aquest camp &#233;s {0}",
@@ -147,7 +150,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
       Ext.apply(Ext.form.field.Number.prototype, {
         decimalSeparator : ",",
         decimalPrecision : 2,
@@ -157,7 +160,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
       Ext.apply(Ext.form.field.Date.prototype, {
         disabledDaysText  : "Deshabilitat",
         disabledDatesText : "Deshabilitat",
@@ -169,14 +172,16 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
       Ext.apply(Ext.form.field.ComboBox.prototype, {
-        loadingText       : "Carregant...",
         valueNotFoundText : undefined
       });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "Carregant..."
+        });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
       Ext.apply(Ext.form.field.VTypes, {
         emailText    : 'Aquest camp ha de ser una adre&#231;a de e-mail amb el format "user@example.com"',
         urlText      : 'Aquest camp ha de ser una URL amb el format "http:/'+'/www.example.com"',
@@ -185,7 +190,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.HtmlEditor){
+    if(exists('Ext.form.field.HtmlEditor')){
       Ext.apply(Ext.form.field.HtmlEditor.prototype, {
         createLinkText : 'Si us plau, tecleixi la URL per l\'enlla&#231;:',
         buttonTips : {
@@ -263,7 +268,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
       Ext.apply(Ext.grid.header.Container.prototype, {
         sortAscText  : "Ordenaci&#243; Ascendent",
         sortDescText : "Ordenaci&#243; Descendent",
@@ -271,7 +276,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.grid.GroupingFeature){
+    if(exists('Ext.grid.GroupingFeature')){
       Ext.apply(Ext.grid.GroupingFeature.prototype, {
         emptyGroupText : '(Buit)',
         groupByText    : 'Agrupar Per Aquest Camp',
@@ -279,7 +284,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
       Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
         nameText   : "Nom",
         valueText  : "Valor",
@@ -287,14 +292,8 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-      Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-        splitTip            : "Cliqueu i arrossegueu per canviar el tamany del panell.",
-        collapsibleSplitTip : "Cliqueu i arrossegueu per canviar el tamany del panell. Doble clic per ocultar-ho."
-      });
-    }
 
-    if(Ext.form.field.Time){
+    if(exists('Ext.form.field.Time')){
       Ext.apply(Ext.form.field.Time.prototype, {
         minText : "L\'hora en aquest camp ha de ser igual o posterior a {0}",
         maxText : "L\'hora en aquest camp ha de ser igual o anterior {0}",
@@ -304,13 +303,13 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.CheckboxGroup){
+    if(exists('Ext.form.CheckboxGroup')){
       Ext.apply(Ext.form.CheckboxGroup.prototype, {
         blankText : "Ha de seleccionar almenys un &#233;tem d\'aquest group"
       });
     }
 
-    if(Ext.form.RadioGroup){
+    if(exists('Ext.form.RadioGroup')){
       Ext.apply(Ext.form.RadioGroup.prototype, {
         blankText : "Ha de seleccionar un &#233;tem d\'aquest grup"
       });

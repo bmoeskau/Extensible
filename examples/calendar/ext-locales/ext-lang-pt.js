@@ -7,15 +7,18 @@
  * 31 January 2008
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
 if(Ext.Updater){
     Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Carregando...</div>';
 }
 
-if(Ext.view.View){
+if(exists('Ext.view.View')){
    Ext.view.View.prototype.emptyText = "";
 }
 
-if(Ext.grid.Panel){
+if(exists('Ext.grid.Panel')){
    Ext.grid.Panel.prototype.ddText = "{0} linha(s) seleccionada(s)";
 }
 
@@ -23,7 +26,7 @@ if(Ext.TabPanelItem){
    Ext.TabPanelItem.prototype.closeText = "Fechar";
 }
 
-if(Ext.form.field.Base){
+if(exists('Ext.form.field.Base')){
    Ext.form.field.Base.prototype.invalidText = "O valor para este campo &eacute; inv&aacute;lido";
 }
 
@@ -66,7 +69,7 @@ if(Ext.MessageBox){
    };
 }
 
-if(Ext.util.Format){
+if(exists('Ext.util.Format')){
     Ext.apply(Ext.util.Format, {
         thousandSeparator: '.',
         decimalSeparator: ',',
@@ -75,7 +78,7 @@ if(Ext.util.Format){
     });
 }
 
-if(Ext.picker.Date){
+if(exists('Ext.picker.Date')){
    Ext.apply(Ext.picker.Date.prototype, {
       todayText         : "Hoje",
       minText           : "Esta data &eacute; anterior &agrave; menor data",
@@ -93,14 +96,14 @@ if(Ext.picker.Date){
    });
 }
 
-if(Ext.picker.Month) {
+if(exists('Ext.picker.Month')) {
   Ext.apply(Ext.picker.Month.prototype, {
       okText            : "&#160;OK&#160;",
       cancelText        : "Cancelar"
   });
 }
 
-if(Ext.toolbar.Paging){
+if(exists('Ext.toolbar.Paging')){
    Ext.apply(Ext.PagingToolbar.prototype, {
       beforePageText : "P&aacute;gina",
       afterPageText  : "de {0}",
@@ -114,7 +117,7 @@ if(Ext.toolbar.Paging){
    });
 }
 
-if(Ext.form.field.Text){
+if(exists('Ext.form.field.Text')){
    Ext.apply(Ext.form.field.Text.prototype, {
       minLengthText : "O tamanho m&iacute;nimo para este campo &eacute; {0}",
       maxLengthText : "O tamanho m&aacute;ximo para este campo &eacute; {0}",
@@ -124,7 +127,7 @@ if(Ext.form.field.Text){
    });
 }
 
-if(Ext.form.field.Number){
+if(exists('Ext.form.field.Number')){
    Ext.apply(Ext.form.field.Number.prototype, {
       minText : "O valor m&iacute;nimo para este campo &eacute; {0}",
       maxText : "O valor m&aacute;ximo para este campo &eacute; {0}",
@@ -132,7 +135,7 @@ if(Ext.form.field.Number){
    });
 }
 
-if(Ext.form.field.Date){
+if(exists('Ext.form.field.Date')){
    Ext.apply(Ext.form.field.Date.prototype, {
       disabledDaysText  : "Desabilitado",
       disabledDatesText : "Desabilitado",
@@ -143,14 +146,16 @@ if(Ext.form.field.Date){
    });
 }
 
-if(Ext.form.field.ComboBox){
+if(exists('Ext.form.field.ComboBox')){
    Ext.apply(Ext.form.field.ComboBox.prototype, {
-      loadingText       : "Carregando...",
       valueNotFoundText : undefined
    });
+    Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+        loadingText       : "Carregando..."
+    });
 }
 
-if(Ext.form.field.VTypes){
+if(exists('Ext.form.field.VTypes')){
    Ext.apply(Ext.form.field.VTypes, {
       emailText    : 'Este campo deve ser um endere&ccedil;o de e-mail v&aacute;lido, no formato "utilizador@dominio.com"',
       urlText      : 'Este campo deve ser um URL no formato "http:/'+'/www.dominio.com"',
@@ -159,7 +164,7 @@ if(Ext.form.field.VTypes){
    });
 }
 
-if(Ext.form.field.HtmlEditor){
+if(exists('Ext.form.field.HtmlEditor')){
    Ext.apply(Ext.form.field.HtmlEditor.prototype, {
 	 createLinkText : 'Por favor, entre com o URL do link:',
 	 buttonTips : {
@@ -237,7 +242,7 @@ if(Ext.form.field.HtmlEditor){
    });
 }
 
-if(Ext.grid.header.Container){
+if(exists('Ext.grid.header.Container')){
    Ext.apply(Ext.grid.header.Container.prototype, {
       sortAscText  : "Ordem Ascendente",
       sortDescText : "Ordem Descendente",
@@ -247,7 +252,7 @@ if(Ext.grid.header.Container){
    });
 }
 
-if(Ext.grid.PropertyColumnModel){
+if(exists('Ext.grid.PropertyColumnModel')){
    Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
       nameText   : "Nome",
       valueText  : "Valor",
@@ -255,10 +260,4 @@ if(Ext.grid.PropertyColumnModel){
    });
 }
 
-if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-   Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-      splitTip            : "Arraste para redimensionar.",
-      collapsibleSplitTip : "Arraste para redimensionar. Duplo clique para esconder."
-   });
-}
 });

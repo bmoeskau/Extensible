@@ -3,15 +3,18 @@
  * 25 April 2007
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     if(Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Nalagam...</div>';
     }
 
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
        Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
        Ext.grid.Panel.prototype.ddText = "{0} izbranih vrstic";
     }
 
@@ -19,7 +22,7 @@ Ext.onReady(function() {
        Ext.TabPanelItem.prototype.closeText = "Zapri zavihek";
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
        Ext.form.field.Base.prototype.invalidText = "Neveljavna vrednost";
     }
 
@@ -62,7 +65,7 @@ Ext.onReady(function() {
        };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -71,7 +74,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
        Ext.apply(Ext.picker.Date.prototype, {
           todayText         : "Danes",
           minText           : "Navedeni datum je pred spodnjim datumom",
@@ -89,7 +92,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
        Ext.apply(Ext.PagingToolbar.prototype, {
           beforePageText : "Stran",
           afterPageText  : "od {0}",
@@ -103,7 +106,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
        Ext.apply(Ext.form.field.Text.prototype, {
           minLengthText : "Minimalna dolžina tega polja je {0}",
           maxLengthText : "Maksimalna dolžina tega polja je {0}",
@@ -113,7 +116,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
        Ext.apply(Ext.form.field.Number.prototype, {
           minText : "Minimalna vrednost tega polja je {0}",
           maxText : "Maksimalna vrednost tega polja je {0}",
@@ -121,7 +124,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
        Ext.apply(Ext.form.field.Date.prototype, {
           disabledDaysText  : "Onemogočen",
           disabledDatesText : "Onemogočen",
@@ -132,14 +135,16 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
        Ext.apply(Ext.form.field.ComboBox.prototype, {
-          loadingText       : "Nalagam...",
           valueNotFoundText : undefined
        });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "Nalagam..."
+        });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
        Ext.apply(Ext.form.field.VTypes, {
           emailText    : 'To polje je e-mail naslov formata "ime@domena.si"',
           urlText      : 'To polje je URL naslov formata "http:/'+'/www.domena.si"',
@@ -148,7 +153,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
        Ext.apply(Ext.grid.header.Container.prototype, {
           sortAscText  : "Sortiraj naraščajoče",
           sortDescText : "Sortiraj padajoče",
@@ -158,7 +163,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
        Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
           nameText   : "Ime",
           valueText  : "Vrednost",
@@ -166,10 +171,4 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-       Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-          splitTip            : "Potegni za razširitev.",
-          collapsibleSplitTip : "Potegni za razširitev. Dvojni klik, če želite skriti."
-       });
-    }
 });

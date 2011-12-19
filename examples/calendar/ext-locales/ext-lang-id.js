@@ -8,15 +8,18 @@
  * Indonesian Translations
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     if(Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Pemuatan...</div>';
     }
 
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
       Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
       Ext.grid.Panel.prototype.ddText = "{0} selected row(s)";
       Ext.grid.Panel.prototype.ddText = "{0} baris terpilih";
     }
@@ -26,7 +29,7 @@ Ext.onReady(function() {
       Ext.TabPanelItem.prototype.closeText = "Tutup tab ini";
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
       Ext.form.field.Base.prototype.invalidText = "The value in this field is invalid";
       Ext.form.field.Base.prototype.invalidText = "Isian belum benar";
     }
@@ -98,7 +101,7 @@ Ext.onReady(function() {
       };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -107,7 +110,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
       Ext.apply(Ext.picker.Date.prototype, {
         todayText         : "Hari ini",
         minText           : "Tanggal ini sebelum batas tanggal minimal", 
@@ -125,14 +128,14 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.picker.Month) {
+    if(exists('Ext.picker.Month')) {
       Ext.apply(Ext.picker.Month.prototype, {
           okText            : "&#160;OK&#160;",
           cancelText        : "Batal"
       });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
       Ext.apply(Ext.PagingToolbar.prototype, {
         beforePageText : "Hal",
         afterPageText  : "dari {0}",
@@ -146,7 +149,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
       Ext.apply(Ext.form.field.Text.prototype, {
         minLengthText : "Panjang minimal untuk field ini adalah {0}",  
         maxLengthText : "Panjang maksimal untuk field ini adalah {0}", 
@@ -156,7 +159,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
       Ext.apply(Ext.form.field.Number.prototype, {
         minText : "Nilai minimal untuk field ini adalah {0}",  
         maxText : "Nilai maksimal untuk field ini adalah {0}",  
@@ -164,7 +167,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
       Ext.apply(Ext.form.field.Date.prototype, {
         disabledDaysText  : "Disfungsi",  
         disabledDatesText : "Disfungsi",  
@@ -177,14 +180,16 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
       Ext.apply(Ext.form.field.ComboBox.prototype, {
-        loadingText       : "Pemuatan...",  
         valueNotFoundText : undefined
       });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "Pemuatan..."
+        });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
       Ext.apply(Ext.form.field.VTypes, {
         emailText    : 'Field ini harus dalam format email seperti "user@example.com"', 
         urlText      : 'Field ini harus dalam format URL seperti "http:/'+'/www.example.com"', 
@@ -193,7 +198,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.HtmlEditor){
+    if(exists('Ext.form.field.HtmlEditor')){
       Ext.apply(Ext.form.field.HtmlEditor.prototype, {
         createLinkText : 'Silakan masukkan URL untuk tautan:', 
         buttonTips : {
@@ -271,7 +276,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
       Ext.apply(Ext.grid.header.Container.prototype, {
         sortAscText  : "Urut Naik", 
         sortDescText : "Urut Turun", 
@@ -281,7 +286,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.grid.GroupingFeature){
+    if(exists('Ext.grid.GroupingFeature')){
       Ext.apply(Ext.grid.GroupingFeature.prototype, {
         emptyGroupText : '(Kosong)', 
         groupByText    : 'Kelompokkan Berdasar Field Ini', 
@@ -289,7 +294,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
       Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
         nameText   : "Nama", 
         valueText  : "Nilai", 
@@ -297,10 +302,4 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-      Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-        splitTip            : "Seret untuk ubah ukuran.", 
-        collapsibleSplitTip : "Seret untuk ubah ukuran, Dobel klik untuk sembunyikan." 
-      });
-    }
 });

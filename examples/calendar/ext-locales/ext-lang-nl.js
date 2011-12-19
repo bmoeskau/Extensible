@@ -7,16 +7,19 @@
  * updated to 2.2 by Condor (8 Aug 2008)
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
 
     if (Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Bezig met laden...</div>';
     }
 
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
         Ext.view.View.prototype.emptyText = '';
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
         Ext.grid.Panel.prototype.ddText = '{0} geselecteerde rij(en)';
     }
 
@@ -96,7 +99,7 @@ Ext.onReady(function() {
         };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -105,7 +108,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
         Ext.apply(Ext.picker.Date.prototype, {
             todayText: 'Vandaag',
             minText: 'Deze datum is eerder dan de minimale datum',
@@ -123,14 +126,14 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Month) {
+    if(exists('Ext.picker.Month')) {
         Ext.apply(Ext.picker.Month.prototype, {
             okText: '&#160;OK&#160;',
             cancelText: 'Annuleren'
         });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
         Ext.apply(Ext.PagingToolbar.prototype, {
             beforePageText: 'Pagina',
             afterPageText: 'van {0}',
@@ -144,11 +147,11 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
         Ext.form.field.Base.prototype.invalidText = 'De waarde van dit veld is ongeldig';
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
         Ext.apply(Ext.form.field.Text.prototype, {
             minLengthText: 'De minimale lengte van dit veld is {0}',
             maxLengthText: 'De maximale lengte van dit veld is {0}',
@@ -158,7 +161,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
         Ext.apply(Ext.form.field.Number.prototype, {
             decimalSeparator : ",",
             decimalPrecision : 2,
@@ -168,7 +171,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
         Ext.apply(Ext.form.field.Date.prototype, {
             disabledDaysText: 'Uitgeschakeld',
             disabledDatesText: 'Uitgeschakeld',
@@ -180,14 +183,16 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
         Ext.apply(Ext.form.field.ComboBox.prototype, {
-            loadingText: 'Bezig met laden...',
             valueNotFoundText: undefined
+        });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText: 'Bezig met laden...'
         });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
         Ext.apply(Ext.form.field.VTypes, {
             emailText: 'Dit veld moet een e-mail adres bevatten in het formaat "gebruiker@domein.nl"',
             urlText: 'Dit veld moet een URL bevatten in het formaat "http:/'+'/www.domein.nl"',
@@ -196,7 +201,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.HtmlEditor){
+    if(exists('Ext.form.field.HtmlEditor')){
         Ext.apply(Ext.form.field.HtmlEditor.prototype, {
             createLinkText: 'Vul hier de URL voor de hyperlink in:',
             buttonTips: {
@@ -274,7 +279,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
         Ext.apply(Ext.grid.header.Container.prototype, {
             sortAscText: 'Sorteer oplopend',
             sortDescText: 'Sorteer aflopend',
@@ -282,7 +287,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.GroupingFeature){
+    if(exists('Ext.grid.GroupingFeature')){
         Ext.apply(Ext.grid.GroupingFeature.prototype, {
             emptyGroupText: '(Geen)',
             groupByText: 'Dit veld groeperen',
@@ -290,7 +295,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
         Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
             nameText: 'Naam',
             valueText: 'Waarde',
@@ -298,14 +303,8 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-        Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-            splitTip: 'Sleep om grootte aan te passen.',
-            collapsibleSplitTip: 'Sleep om grootte aan te passen. Dubbel klikken om te verbergen.'
-        });
-    }
 
-    if(Ext.form.field.Time){
+    if(exists('Ext.form.field.Time')){
         Ext.apply(Ext.form.field.Time.prototype, {
             minText: 'De tijd in dit veld moet op of na {0} liggen',
             maxText: 'De tijd in dit veld moet op of voor {0} liggen',
@@ -315,13 +314,13 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.CheckboxGroup){
+    if(exists('Ext.form.CheckboxGroup')){
         Ext.apply(Ext.form.CheckboxGroup.prototype, {
             blankText : 'Selecteer minimaal een element in deze groep'
         });
     }
 
-    if(Ext.form.RadioGroup){
+    if(exists('Ext.form.RadioGroup')){
         Ext.apply(Ext.form.RadioGroup.prototype, {
             blankText : 'Selecteer een element in deze groep'
         });

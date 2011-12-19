@@ -10,15 +10,18 @@
  * + added Ext.grid.GroupingFeature
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     if(Ext.Updater){
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Μεταφόρτωση δεδομένων...</div>';
     }
     
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
         Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
         Ext.grid.Panel.prototype.ddText = "{0} Επιλεγμένες σειρές";
     }
 
@@ -26,7 +29,7 @@ Ext.onReady(function() {
         Ext.TabPanelItem.prototype.closeText = "Κλείστε το tab";
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
         Ext.form.field.Base.prototype.invalidText = "Το περιεχόμενο του πεδίου δεν είναι αποδεκτό";
     }
 
@@ -109,7 +112,7 @@ Ext.onReady(function() {
         };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -118,7 +121,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
         Ext.apply(Ext.picker.Date.prototype, {
             todayText         : "Σήμερα",
             minText           : "Η Ημερομηνία είναι προγενέστερη από την παλαιότερη αποδεκτή",
@@ -135,7 +138,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
         Ext.apply(Ext.PagingToolbar.prototype, {
             beforePageText : "Σελίδα",
             afterPageText  : "από {0}",
@@ -149,7 +152,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
         Ext.apply(Ext.form.field.Text.prototype, {
             minLengthText : "Το μικρότερο αποδεκτό μήκος για το πεδίο είναι {0}",
             maxLengthText : "Το μεγαλύτερο αποδεκτό μήκος για το πεδίο είναι {0}",
@@ -159,7 +162,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
         Ext.apply(Ext.form.field.Number.prototype, {
             minText : "Η μικρότερη τιμή του πεδίου είναι {0}",
             maxText : "Η μεγαλύτερη τιμή του πεδίου είναι {0}",
@@ -167,7 +170,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
         Ext.apply(Ext.form.field.Date.prototype, {
             disabledDaysText  : "Ανενεργό",
             disabledDatesText : "Ανενεργό",
@@ -178,14 +181,16 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
         Ext.apply(Ext.form.field.ComboBox.prototype, {
-            loadingText       : "Μεταφόρτωση δεδομένων...",
             valueNotFoundText : undefined
+        });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "Μεταφόρτωση δεδομένων..."
         });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
         Ext.apply(Ext.form.field.VTypes, {
             emailText    : 'Το πεδίο δέχεται μόνο διευθύνσεις Email σε μορφή "user@example.com"',
             urlText      : 'Το πεδίο δέχεται μόνο URL σε μορφή "http:/'+'/www.example.com"',
@@ -194,7 +199,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.form.field.HtmlEditor){
+    if(exists('Ext.form.field.HtmlEditor')){
         Ext.apply(Ext.form.field.HtmlEditor.prototype, {
             createLinkText : 'Δώστε τη διεύθυνση (URL) για το σύνδεσμο (link):',
             buttonTips : {
@@ -273,7 +278,7 @@ Ext.onReady(function() {
     }
 
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
         Ext.apply(Ext.grid.header.Container.prototype, {
             sortAscText  : "Αύξουσα ταξινόμηση",
             sortDescText : "Φθίνουσα ταξινόμηση",
@@ -283,7 +288,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.GroupingFeature){
+    if(exists('Ext.grid.GroupingFeature')){
         Ext.apply(Ext.grid.GroupingFeature.prototype, {
             emptyGroupText : '(Καμμία)',
             groupByText    : 'Ομαδοποίηση βάσει αυτού του πεδίου',
@@ -291,7 +296,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
         Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
             nameText   : "Όνομα",
             valueText  : "Περιεχόμενο",
@@ -299,10 +304,4 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-        Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-            splitTip            : "Σύρετε για αλλαγή μεγέθους.",
-            collapsibleSplitTip : "Σύρετε για αλλαγή μεγέθους. Διπλό κλικ για απόκρυψη."
-        });
-    }
 });

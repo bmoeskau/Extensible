@@ -6,15 +6,18 @@
  * 12-April-2007 04:06PM
  */
 Ext.onReady(function(){
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     if(Ext.Updater){
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Đang tải...</div>';
     }
 
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
        Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
        Ext.grid.Panel.prototype.ddText = "{0} dòng được chọn";
     }
 
@@ -22,7 +25,7 @@ Ext.onReady(function(){
        Ext.TabPanelItem.prototype.closeText = "Đóng thẻ này";
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
        Ext.form.field.Base.prototype.invalidText = "Giá trị của ô này không hợp lệ.";
     }
 
@@ -66,7 +69,7 @@ Ext.onReady(function(){
        };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -75,7 +78,7 @@ Ext.onReady(function(){
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
        Ext.apply(Ext.picker.Date.prototype, {
           todayText         : "Hôm nay",
           minText           : "Ngày này nhỏ hơn ngày nhỏ nhất",
@@ -92,7 +95,7 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
        Ext.apply(Ext.PagingToolbar.prototype, {
           beforePageText : "Trang",
           afterPageText  : "of {0}",
@@ -106,7 +109,7 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
        Ext.apply(Ext.form.field.Text.prototype, {
           minLengthText : "Chiều dài tối thiểu của ô này là {0}",
           maxLengthText : "Chiều dài tối đa của ô này là {0}",
@@ -116,7 +119,7 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
        Ext.apply(Ext.form.field.Number.prototype, {
           minText : "Giá trị nhỏ nhất của ô này là {0}",
           maxText : "Giá trị lớn nhất của ô này là  {0}",
@@ -124,7 +127,7 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
        Ext.apply(Ext.form.field.Date.prototype, {
           disabledDaysText  : "Vô hiệu",
           disabledDatesText : "Vô hiệu",
@@ -135,14 +138,16 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
        Ext.apply(Ext.form.field.ComboBox.prototype, {
-          loadingText       : "Đang tải...",
           valueNotFoundText : undefined
        });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "Đang tải..."
+        });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
        Ext.apply(Ext.form.field.VTypes, {
           emailText    : 'Giá trị của ô này phải là một địa chỉ email có dạng như "ten@abc.com"',
           urlText      : 'Giá trị của ô này phải là một địa chỉ web(URL) hợp lệ, có dạng như "http:/'+'/www.example.com"',
@@ -151,7 +156,7 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
        Ext.apply(Ext.grid.header.Container.prototype, {
           sortAscText  : "Tăng dần",
           sortDescText : "Giảm dần",
@@ -161,7 +166,7 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
        Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
           nameText   : "Tên",
           valueText  : "Giá trị",
@@ -169,10 +174,4 @@ Ext.onReady(function(){
        });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-       Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-          splitTip            : "Kéo giữ chuột để thay đổi kích thước.",
-          collapsibleSplitTip : "Kéo giữ chuột để thay đổi kích thước. Nhấp đúp để ẩn đi."
-       });
-    }
 });

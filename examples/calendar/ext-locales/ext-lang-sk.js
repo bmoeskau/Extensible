@@ -5,15 +5,18 @@
  * 14 April 2007
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     if(Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Nahrávam...</div>';
     }
     
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
        Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
        Ext.grid.Panel.prototype.ddText = "{0} označených riadkov";
     }
 
@@ -21,7 +24,7 @@ Ext.onReady(function() {
        Ext.TabPanelItem.prototype.closeText = "Zavrieť túto záložku";
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
        Ext.form.field.Base.prototype.invalidText = "Hodnota v tomto poli je nesprávna";
     }
 
@@ -65,7 +68,7 @@ Ext.onReady(function() {
        };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -74,7 +77,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
        Ext.apply(Ext.picker.Date.prototype, {
           todayText         : "Dnes",
           minText           : "Tento dátum je menší ako minimálny možný dátum",
@@ -92,7 +95,7 @@ Ext.onReady(function() {
     }
 
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
        Ext.apply(Ext.PagingToolbar.prototype, {
           beforePageText : "Strana",
           afterPageText  : "z {0}",
@@ -107,7 +110,7 @@ Ext.onReady(function() {
     }
 
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
        Ext.apply(Ext.form.field.Text.prototype, {
           minLengthText : "Minimálna dĺžka pre toto pole je {0}",
           maxLengthText : "Maximálna dĺžka pre toto pole je {0}",
@@ -117,7 +120,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
        Ext.apply(Ext.form.field.Number.prototype, {
           minText : "Minimálna hodnota pre toto pole je {0}",
           maxText : "Maximálna hodnota pre toto pole je {0}",
@@ -125,7 +128,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
        Ext.apply(Ext.form.field.Date.prototype, {
           disabledDaysText  : "Zablokované",
           disabledDatesText : "Zablokované",
@@ -136,14 +139,16 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
        Ext.apply(Ext.form.field.ComboBox.prototype, {
-          loadingText       : "Nahrávam...",
           valueNotFoundText : undefined
        });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "Nahrávam..."
+        });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
        Ext.apply(Ext.form.field.VTypes, {
           emailText    : 'Toto pole musí byť e-mailová adresa vo formáte "user@example.com"',
           urlText      : 'Toto pole musí byť URL vo formáte "http:/'+'/www.example.com"',
@@ -152,7 +157,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
        Ext.apply(Ext.grid.header.Container.prototype, {
           sortAscText  : "Zoradiť vzostupne",
           sortDescText : "Zoradiť zostupne",
@@ -162,7 +167,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
        Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
           nameText   : "Názov",
           valueText  : "Hodnota",
@@ -170,10 +175,4 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-       Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-          splitTip            : "Potiahnite pre zmenu rozmeru",
-          collapsibleSplitTip : "Potiahnite pre zmenu rozmeru. Dvojklikom schováte."
-       });
-    }
 });

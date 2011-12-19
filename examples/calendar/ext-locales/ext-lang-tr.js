@@ -9,16 +9,19 @@
  * 2008-10-05, 06:22 PM
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
 
     if(Ext.Updater){
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Yükleniyor ...</div>';
     }
 
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
       Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Grid){
+    if(exists('Ext.grid.Grid')){
       Ext.grid.Grid.prototype.ddText = "Seçili satýr sayýsý : {0}";
     }
 
@@ -26,7 +29,7 @@ Ext.onReady(function() {
       Ext.TabPanelItem.prototype.closeText = "Sekmeyi kapat";
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
       Ext.form.field.Base.prototype.invalidText = "Bu alandaki deðer geçersiz";
     }
 
@@ -107,7 +110,7 @@ Ext.onReady(function() {
       };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -116,7 +119,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
       Ext.apply(Ext.picker.Date.prototype, {
         todayText         : "Bugün",
         minText           : "Bu tarih izin verilen en küçük tarihten daha önce",
@@ -134,7 +137,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.picker.Month) {
+    if(exists('Ext.picker.Month')) {
       Ext.apply(Ext.picker.Month.prototype, {
           okText            : "&#160;Tamam&#160;",
           cancelText        : "Ä°ptal"
@@ -142,7 +145,7 @@ Ext.onReady(function() {
     }
 
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
       Ext.apply(Ext.PagingToolbar.prototype, {
         beforePageText : "Sayfa",
         afterPageText  : " / {0}",
@@ -156,7 +159,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
       Ext.apply(Ext.form.field.Text.prototype, {
         minLengthText : "Girilen verinin uzunluðu en az {0} olabilir",
         maxLengthText : "Girilen verinin uzunluðu en fazla {0} olabilir",
@@ -166,7 +169,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
       Ext.apply(Ext.form.field.Number.prototype, {
         minText : "En az {0} girilebilir",
         maxText : "En çok {0} girilebilir",
@@ -174,7 +177,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
       Ext.apply(Ext.form.field.Date.prototype, {
         disabledDaysText  : "Disabled",
         disabledDatesText : "Disabled",
@@ -186,21 +189,23 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
       Ext.apply(Ext.form.field.ComboBox.prototype, {
-        loadingText       : "Yükleniyor ...",
         valueNotFoundText : undefined
       });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "Yükleniyor ..."
+        });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
     	Ext.form.field.VTypes["emailText"]='Bu alan "user@example.com" þŸeklinde elektronik posta formatýnda olmalýdýr';
     	Ext.form.field.VTypes["urlText"]='Bu alan "http://www.example.com" þŸeklinde URL adres formatýnda olmalýdýr';
     	Ext.form.field.VTypes["alphaText"]='Bu alan sadece harf ve _ içermeli';
     	Ext.form.field.VTypes["alphanumText"]='Bu alan sadece harf, sayý ve _ içermeli';
     }
 
-    if(Ext.form.field.HtmlEditor){
+    if(exists('Ext.form.field.HtmlEditor')){
       Ext.apply(Ext.form.field.HtmlEditor.prototype, {
         createLinkText : 'Lütfen bu baðlantý için gerekli URL adresini giriniz:',
         buttonTips : {
@@ -278,7 +283,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
       Ext.apply(Ext.grid.header.Container.prototype, {
         sortAscText  : "Artan sýrada sýrala",
         sortDescText : "Azalan sýrada sýrala",
@@ -288,7 +293,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.grid.GroupingFeature){
+    if(exists('Ext.grid.GroupingFeature')){
       Ext.apply(Ext.grid.GroupingFeature.prototype, {
         emptyGroupText : '(Yok)',
         groupByText    : 'Bu Alana Göre Grupla',
@@ -296,7 +301,7 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
       Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
         nameText   : "Ad",
         valueText  : "Deðer",
@@ -304,10 +309,4 @@ Ext.onReady(function() {
       });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-      Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-        splitTip            : "Yeniden boyutlandýrmak için sürükle.",
-        collapsibleSplitTip : "Yeniden boyutlandýrmak için sürükle. Saklamak için çift týkla."
-      });
-    }
 });

@@ -5,16 +5,19 @@
  * Changed by Cariad, 29 July 2007
  */
 Ext.onReady(function() {
+    var cm = Ext.ClassManager, 
+        exists = Ext.Function.bind(cm.get, cm);
+
     
     if (Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Laddar...</div>';
     }
 
-    if(Ext.view.View){
+    if(exists('Ext.view.View')){
        Ext.view.View.prototype.emptyText = "";
     }
 
-    if(Ext.grid.Panel){
+    if(exists('Ext.grid.Panel')){
        Ext.grid.Panel.prototype.ddText = "{0} markerade rad(er)";
     }
 
@@ -22,7 +25,7 @@ Ext.onReady(function() {
        Ext.TabPanelItem.prototype.closeText = "Stäng denna flik";
     }
 
-    if(Ext.form.field.Base){
+    if(exists('Ext.form.field.Base')){
        Ext.form.field.Base.prototype.invalidText = "Värdet i detta fält är inte tillåtet";
     }
 
@@ -66,7 +69,7 @@ Ext.onReady(function() {
        };
     }
 
-    if(Ext.util.Format){
+    if(exists('Ext.util.Format')){
         Ext.apply(Ext.util.Format, {
             thousandSeparator: '.',
             decimalSeparator: ',',
@@ -75,7 +78,7 @@ Ext.onReady(function() {
         });
     }
 
-    if(Ext.picker.Date){
+    if(exists('Ext.picker.Date')){
        Ext.apply(Ext.picker.Date.prototype, {
           todayText         : "Idag",
           minText           : "Detta datum inträffar före det tidigast tillåtna",
@@ -93,7 +96,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.toolbar.Paging){
+    if(exists('Ext.toolbar.Paging')){
        Ext.apply(Ext.PagingToolbar.prototype, {
           beforePageText : "Sida",
           afterPageText  : "av {0}",
@@ -107,7 +110,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.Text){
+    if(exists('Ext.form.field.Text')){
        Ext.apply(Ext.form.field.Text.prototype, {
           minLengthText : "Minsta tillåtna längd för detta fält är {0}",
           maxLengthText : "Största tillåtna längd för detta fält är {0}",
@@ -117,7 +120,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.Number){
+    if(exists('Ext.form.field.Number')){
        Ext.apply(Ext.form.field.Number.prototype, {
           minText : "Minsta tillåtna värde för detta fält är {0}",
           maxText : "Största tillåtna värde för detta fält är {0}",
@@ -125,7 +128,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.Date){
+    if(exists('Ext.form.field.Date')){
        Ext.apply(Ext.form.field.Date.prototype, {
           disabledDaysText  : "Inaktiverad",
           disabledDatesText : "Inaktiverad",
@@ -136,14 +139,16 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.form.field.ComboBox){
+    if(exists('Ext.form.field.ComboBox')){
        Ext.apply(Ext.form.field.ComboBox.prototype, {
-          loadingText       : "Laddar...",
           valueNotFoundText : undefined
        });
+        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+            loadingText       : "Laddar..."
+        });
     }
 
-    if(Ext.form.field.VTypes){
+    if(exists('Ext.form.field.VTypes')){
        Ext.apply(Ext.form.field.VTypes, {
           emailText    : 'Detta fält ska innehålla en e-post adress i formatet "användare@domän.se"',
           urlText      : 'Detta fält ska innehålla en länk (URL) i formatet "http:/'+'/www.domän.se"',
@@ -152,7 +157,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.grid.header.Container){
+    if(exists('Ext.grid.header.Container')){
        Ext.apply(Ext.grid.header.Container.prototype, {
           sortAscText  : "Sortera stigande",
           sortDescText : "Sortera fallande",
@@ -162,7 +167,7 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.grid.PropertyColumnModel){
+    if(exists('Ext.grid.PropertyColumnModel')){
        Ext.apply(Ext.grid.PropertyColumnModel.prototype, {
           nameText   : "Namn",
           valueText  : "Värde",
@@ -170,10 +175,4 @@ Ext.onReady(function() {
        });
     }
 
-    if(Ext.layout.BorderLayout && Ext.layout.BorderLayout.SplitRegion){
-       Ext.apply(Ext.layout.BorderLayout.SplitRegion.prototype, {
-          splitTip            : "Dra för att ändra storleken.",
-          collapsibleSplitTip : "Dra för att ändra storleken. Dubbelklicka för att gömma."
-       });
-    }
 });
