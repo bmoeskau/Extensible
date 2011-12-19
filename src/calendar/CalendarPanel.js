@@ -802,14 +802,16 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     
     // private
     updateNavState: function(){
-        if(this.showNavBar !== false){
-            var item = this.layout.activeItem,
-                suffix = item.id.split(this.id+'-')[1];
+        var me = this,
+            activeItem = me.layout.activeItem;
+        
+        if (activeItem && me.showNavBar !== false) {
+            var suffix = activeItem.id.split(me.id + '-')[1],
+                btn = Ext.getCmp(me.id + '-tb-' + suffix);
             
-            if(this.showNavToday){
-                Ext.getCmp(this.id+'-tb-today').setDisabled(item.isToday());
+            if (me.showNavToday) {
+                Ext.getCmp(me.id + '-tb-today').setDisabled(activeItem.isToday());
             }
-            var btn = Ext.getCmp(this.id+'-tb-'+suffix);
             btn.toggle(true);
         }
     },
