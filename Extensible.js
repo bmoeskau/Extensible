@@ -7,6 +7,19 @@
     
     Ext.ns('Ext.ensible.ux', 'Ext.ensible.sample', 'Ext.ensible.plugins', 'Ext.ensible.cal');
     
+    Ext.onReady(function() {
+        if (Ext.getScrollBarWidth() < 3) {
+            // OSX Lion introduced dynamic scrollbars that do not take up space in the
+            // body. Since certain aspects of the layout are calculated and rely on
+            // scrollbar width, we add this class if needed so that we can apply
+            // static style rules rather than recalculate sizes on each resize.
+            Ext.getBody().addClass('x-no-scrollbar');
+        }
+        if (Ext.isWindows) {
+            Ext.getBody().addClass('x-win');
+        }
+    });
+    
     Ext.apply(Ext.ensible, {
         /**
          * The version of the framework
