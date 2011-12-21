@@ -755,26 +755,38 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     
     // private
     setActiveView: function(id){
-        var l = this.layout,
-            tb = this.getDockedItems('toolbar')[0],
-            id = id || this.activeItem;
-            
-        // show/hide the toolbar first so that the layout will calculate the correct item size
-        if (tb) {
-            tb[id === this.id+'-edit' ? 'hide' : 'show']();
-        }
+        var me = this,
+            layout = me.layout,
+            id = id || me.activeItem,
+            editViewId = me.id + '-edit',
+            toolbar;
         
-        l.setActiveItem(id);
-        this.doComponentLayout();
-        this.activeView = l.getActiveItem();
-        
-        if(id !== this.id+'-edit'){
-           if(id !== this.preEditView){
-                l.activeItem.setStartDate(this.startDate, true);
+        // Make sure we're actually changing views
+        if (id !== layout.getActiveItem().id) {
+            // Show/hide the toolbar first so that the layout will calculate the correct item size
+            toolbar = me.getDockedItems('toolbar')[0];
+            if (toolbar) {
+                toolbar[id === editViewId ? 'hide' : 'show']();
             }
-           this.updateNavState();
+            
+            // Activate the new view and refresh the layout
+            layout.setActiveItem(id);
+            me.doComponentLayout();
+            me.activeView = layout.getActiveItem();
+            
+            if (id !== editViewId) {
+                if (id !== me.preEditView) {
+                    // We're changing to a different view, so the view dates are likely different.
+                    // Re-set the start date so that the view range will be updated if needed.
+                    layout.activeItem.setStartDate(me.startDate, true);
+                }
+                // Switching to a view that's not the edit view (i.e., the nav bar will be visible)
+                // so update the nav bar's selected view button
+                me.updateNavState();
+            }
+            // Notify any listeners that the view changed
+            me.fireViewChange();
         }
-        this.fireViewChange();
     },
     
     // private
