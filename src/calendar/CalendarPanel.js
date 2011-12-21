@@ -754,28 +754,38 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     
     // private
     setActiveView: function(id){
-        var l = this.layout,
-            tb = this.getTopToolbar();
-            
-        l.setActiveItem(id);
-        this.activeView = l.activeItem;
-        
-        if(id == this.id+'-edit'){
-            if(tb){
-                tb.hide();
+        var me = this,
+            layout = me.layout,
+            id = id || me.activeItem,
+            editViewId = me.id + '-edit',
+            toolbar;
+         
+        // Make sure we're actually changing views
+        if (id !== layout.activeItem.id) {
+            // Show/hide the toolbar first so that the layout will calculate the correct item size
+            toolbar = me.getTopToolbar();
+            if (toolbar) {
+                toolbar[id === editViewId ? 'hide' : 'show']();
             }
-            this.doLayout();
-        }
-        else{
-            if(id !== this.preEditView){
-                l.activeItem.setStartDate(this.startDate, true);
+             
+            // Activate the new view and refresh the layout
+            layout.setActiveItem(id);
+            me.doLayout();
+            me.activeView = layout.activeItem;
+             
+            if (id !== editViewId) {
+                if (id !== me.preEditView) {
+                    // We're changing to a different view, so the view dates are likely different.
+                    // Re-set the start date so that the view range will be updated if needed.
+                    layout.activeItem.setStartDate(me.startDate, true);
+                }
+                // Switching to a view that's not the edit view (i.e., the nav bar will be visible)
+                // so update the nav bar's selected view button
+                me.updateNavState();
             }
-            if(tb){
-               tb.show();
-           }
-           this.updateNavState();
+            // Notify any listeners that the view changed
+            me.fireViewChange();
         }
-        this.fireViewChange();
     },
     
     // private
