@@ -669,7 +669,9 @@ viewConfig: {
             }
             
             if(this.evtMaxCount[w] < this.eventGrid[w][d].length){
-                this.evtMaxCount[w] = Math.min(max+1, this.eventGrid[w][d].length);
+                // If calculating the max event count for the day/week view header, use the allDayGrid
+                // so that only all-day events displayed in that area get counted, otherwise count all events.
+                this.evtMaxCount[w] = Math.min(max+1, this[this.isHeaderView ? 'allDayGrid' : 'eventGrid'][w][d].length);
             }
             return true;
         }, this);

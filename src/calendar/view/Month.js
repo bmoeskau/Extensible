@@ -323,7 +323,7 @@ Ext.define('Extensible.calendar.view.Month', {
             viewStart: this.viewStart,
             tpl: this.getEventTemplate(),
             maxEventsPerDay: this.maxEventsPerDay,
-            id: this.id,
+            viewId: this.id,
             templateDataFn: Ext.bind(this.getTemplateEventData, this),
             evtMaxCount: this.evtMaxCount,
             weekCount: this.weekCount,
@@ -368,11 +368,11 @@ Ext.define('Extensible.calendar.view.Month', {
 	},
     
     // private
-    getEventHeight : function(){
-        if(!this.eventHeight){
+    getEventHeight : function() {
+        if (!this.eventHeight) {
             var evt = this.el.select('.ext-cal-evt').first();
             if(evt){
-                this.eventHeight = evt.parent('tr').getHeight();
+                this.eventHeight = evt.parent('td').getHeight();
             }
             else {
                 return 16; // no events rendered, so try setting this.eventHeight again later
@@ -384,8 +384,8 @@ Ext.define('Extensible.calendar.view.Month', {
     // private
 	getMaxEventsPerDay : function(){
 		var dayHeight = this.getDaySize(true).height,
-			h = this.getEventHeight(),
-            max = Math.max(Math.floor((dayHeight-h) / h), 0);
+			eventHeight = this.getEventHeight(),
+            max = Math.max(Math.floor((dayHeight - eventHeight) / eventHeight), 0);
 		
 		return max;
 	},
