@@ -35,7 +35,7 @@ Ext.ensible.cal.WeekEventRenderer = function() {
         var eventMappings = Ext.ensible.cal.EventMappings,
             eventData = event.data || event.event.data,
             startOfWeek = currentDate.clone(),
-            endOfWeek = startOfWeek.add(Date.DAY, dayCount).add(Date.MILLI, -1),
+            endOfWeek = startOfWeek.add(Date.DAY, dayCount - dayIndex).add(Date.MILLI, -1),
             eventRow = getEventRow(renderConfig.viewId, weekIndex, eventIndex),
             daysToEventEnd = Ext.ensible.Date.diffDays(currentDate, eventData[eventMappings.EndDate.name]) + 1,
             // Restrict the max span to the current week only since this is for the cuurent week's markup
