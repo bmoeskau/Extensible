@@ -210,7 +210,7 @@ Ext.define('Extensible.calendar.view.Day', {
     // private
     onResize : function(){
         this.forceSize();
-        Ext.defer(this.refresh, 1, this); //IE needs the defer
+        Ext.defer(this.refresh, Ext.isIE ? 1 : 0, this); //IE needs the defer
     },
     
     /*

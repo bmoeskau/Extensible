@@ -506,7 +506,8 @@ viewConfig: {
 			this.initDD();
         }
         
-        this.on('eventsrendered', this.forceSize);
+        this.on('eventsrendered', this.onEventsRendered);
+        
         Ext.defer(this.forceSize, 100, this);
     },
     
@@ -556,6 +557,12 @@ viewConfig: {
         
         Ext.apply(o.params, this.getStoreParams());
         this.store.load(o);
+    },
+    
+    // private
+    onEventsRendered: function() {
+        this.initialEventsRendered = true;
+        this.forceSize();
     },
     
     // private
@@ -1162,21 +1169,23 @@ viewConfig: {
      * @param {Date} dt The date used to calculate the new view boundaries
      */
     setStartDate : function(start, /*private*/reload){
+        var me = this;
+        
         Extensible.log('setStartDate (base) '+Ext.Date.format(start, 'Y-m-d'));
         
         var cloneDt = Ext.Date.clone,
-            cloneStartDate = this.startDate ? cloneDt(this.startDate) : null,
+            cloneStartDate = me.startDate ? cloneDt(me.startDate) : null,
             cloneStart = cloneDt(start),
-            cloneViewStart = this.viewStart ? cloneDt(this.viewStart) : null,
-            cloneViewEnd = this.viewEnd ? cloneDt(this.viewEnd) : null;
+            cloneViewStart = me.viewStart ? cloneDt(me.viewStart) : null,
+            cloneViewEnd = me.viewEnd ? cloneDt(me.viewEnd) : null;
         
-        if(this.fireEvent('beforedatechange', this, cloneStartDate, cloneStart, cloneViewStart, cloneViewEnd) !== false){
-            this.startDate = Ext.Date.clearTime(start);
-            this.setViewBounds(start);
-            if(this.rendered){
-                this.refresh(reload);
+        if (me.fireEvent('beforedatechange', me, cloneStartDate, cloneStart, cloneViewStart, cloneViewEnd) !== false) {
+            me.startDate = Ext.Date.clearTime(start);
+            me.setViewBounds(start);
+            if (me.rendered) {
+                me.refresh(reload);
             }
-            this.fireEvent('datechange', this, cloneDt(this.startDate), cloneDt(this.viewStart), cloneDt(this.viewEnd));
+            me.fireEvent('datechange', me, cloneDt(me.startDate), cloneDt(me.viewStart), cloneDt(me.viewEnd));
         }
     },
     

@@ -153,8 +153,8 @@ Ext.define('Extensible.calendar.view.Month', {
 	
     // private
 	onResize : function(){
-		if(this.monitorResize){
-			this.maxEventsPerDay = this.getMaxEventsPerDay();
+		if (this.monitorResize && this.initialEventsRendered) {
+            this.maxEventsPerDay = this.getMaxEventsPerDay();
 			this.refresh(false);
         }
 	},

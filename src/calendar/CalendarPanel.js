@@ -753,13 +753,20 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         return this;
     },
     
-    // private
-    setActiveView: function(id){
+    /**
+     * Set the active view, optionally specifying a new start date.
+     * @param {String} id The id of the view to activate
+     * @param {Date} startDate (optional) The new view start date (defaults to the current start date)
+     */
+    setActiveView: function(id, startDate){
         var me = this,
             layout = me.layout,
-            id = id || me.activeItem,
             editViewId = me.id + '-edit',
             toolbar;
+        
+        if (startDate) {
+            me.startDate = startDate;
+        }
         
         // Make sure we're actually changing views
         if (id !== layout.getActiveItem().id) {
@@ -770,14 +777,16 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             }
             
             // Activate the new view and refresh the layout
-            layout.setActiveItem(id);
+            layout.setActiveItem(id || me.activeItem);
             me.doComponentLayout();
             me.activeView = layout.getActiveItem();
             
             if (id !== editViewId) {
-                if (id !== me.preEditView) {
+                if (id && id !== me.preEditView) {
                     // We're changing to a different view, so the view dates are likely different.
                     // Re-set the start date so that the view range will be updated if needed.
+                    // If id is undefined, it means this is the initial pass after render so we can
+                    // skip this (as we don't want to cause a duplicate forced reload).
                     layout.activeItem.setStartDate(me.startDate, true);
                 }
                 // Switching to a view that's not the edit view (i.e., the nav bar will be visible)
@@ -844,8 +853,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         
     // private
     showWeek: function(dt){
-        this.setActiveView(this.id+'-week');
-        this.setStartDate(dt);
+        this.setActiveView(this.id+'-week', dt);
     },
     
     // private
