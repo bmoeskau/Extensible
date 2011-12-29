@@ -611,8 +611,15 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         this.callParent(arguments);
         
         this.body.addCls('x-cal-body');
-        this.updateNavState();
-        this.setActiveView();
+        
+        // This defer is needed because for certain containers/layouts this
+        // function is called before the calendar is *really* done rendering
+        // (e.g., when nested inside a Viewport). This is very unfortunate, 
+        // but necessary to work consistently.
+        Ext.defer(function() {
+            this.updateNavState();
+            this.setActiveView();
+        }, 1, this);
     },
     
     /**
