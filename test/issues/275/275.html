@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extensible Issue: 275</title>
+    <link rel="stylesheet" type="text/css" href="../../../../extjs/resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/extensible-all.css" />
+    <script type="text/javascript" src="../../../../extjs/ext-debug.js"></script>
+    <script type="text/javascript" src="../../../src/Extensible.js"></script>
+    <script type="text/javascript">
+    Ext.Loader.setConfig({
+        enabled: true,
+        disableCaching: false,
+        paths: {
+            'Extensible': '../../../src',
+            'Extensible.issues': '../'
+        }
+    });
+    
+    Ext.require([
+        'Ext.Viewport',
+        'Extensible.calendar.data.MemoryEventStore',
+        'Extensible.calendar.CalendarPanel'
+    ]);
+    
+    Ext.onReady(function() {
+        var today = Ext.Date.clearTime(new Date),
+        makeDate = function(d, h, m, s){
+            d = d * 86400;
+            h = (h || 0) * 3600;
+            m = (m || 0) * 60;
+            s = (s || 0);
+            return Ext.Date.add(today, Ext.Date.SECOND, d + h + m + s);
+        },
+        store = Ext.create('Extensible.calendar.data.MemoryEventStore', {
+            data: {
+                "evts" : [
+                    { "id": 1,  "title": "Event 1",  "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 2,  "title": "Event 2",  "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 3,  "title": "Event 3",  "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 4,  "title": "Event 4",  "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 5,  "title": "Event 5",  "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 6,  "title": "Event 6",  "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 7,  "title": "Event 7",  "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 8,  "title": "Event 8",  "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 9,  "title": "Event 9",  "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 10, "title": "Event 10", "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 11, "title": "Event 11", "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 12, "title": "Event 12", "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 13, "title": "Event 13", "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 14, "title": "Event 14", "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 15, "title": "Event 15", "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 16, "title": "Event 16", "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 17, "title": "Event 17", "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 18, "title": "Event 18", "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 19, "title": "Event 19", "start": makeDate(-3, 9), "end": makeDate(1, 9) },
+                    { "id": 20, "title": "Event 20", "start": makeDate(-3, 9), "end": makeDate(1, 9) }
+                ]
+            }
+        });
+
+        Ext.create('Ext.Viewport', {
+            layout: 'fit',
+            style: 'padding: 20px;',
+            items: [{
+                xtype: 'extensible.calendarpanel',
+                title: 'Week View All-day Event Overflow Test',
+                eventStore: store,
+                activeItem: 1
+            }]
+        });
+    });
+    </script>
+</head>
+<body>
+</body>
+</html>
