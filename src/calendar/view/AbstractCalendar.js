@@ -561,7 +561,6 @@ viewConfig: {
     
     // private
     onEventsRendered: function() {
-        this.initialEventsRendered = true;
         this.forceSize();
     },
     
