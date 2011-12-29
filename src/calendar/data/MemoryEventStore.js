@@ -55,7 +55,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
         // (see the source of test-app.js for an example of this). The autoMsg config is provided
         // to turn off this automatic messaging in any case where this store is used but the 
         // default messaging is not desired.
-        if(config.autoMsg !== false){
+        if (config.autoMsg !== false) {
             // Note that while the store provides individual add, update and remove events, those only 
             // signify that records were added to the store, NOT that your changes were actually 
             // persisted correctly in the back end (in remote scenarios). While this isn't an issue
@@ -100,7 +100,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
     onWrite: function(store, operation) {
         var me = this;
         
-        if(Extensible.example.msg) {
+        if (Extensible.example && Extensible.example.msg) {
             var success = operation.wasSuccessful(),
                 rec = operation.getRecords()[0],
                 title = rec.data[Extensible.calendar.data.EventMappings.Title.name];
