@@ -131,6 +131,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                                     tag: 'td',
                                     cls: 'ext-cal-ev',
                                     html: spaceChar,
+                                    //style: 'outline: 1px solid red;', // helpful for debugging
                                     id: config.viewId + '-empty-' + eventCount + '-day-' + currentDateString
                                 });
                             }
@@ -165,6 +166,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                             Ext.core.DomHelper.append(eventRow, {
                                 tag: 'td',
                                 cls: 'ext-cal-ev-more',
+                                //style: 'outline: 1px solid blue;', // helpful for debugging
                                 id: 'ext-cal-ev-more-' + Ext.Date.format(currentDate, 'Ymd'),
                                 cn: {
                                     tag: 'a',
@@ -181,6 +183,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                                     tag: 'td',
                                     cls: 'ext-cal-ev',
                                     html: spaceChar,
+                                    //style: 'outline: 1px solid green;', // helpful for debugging
                                     id: config.viewId + '-empty-' + (eventCount + 1) + '-day-' + currentDateString
                                 };
                                 
@@ -205,6 +208,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                                 tag: 'td',
                                 cls: 'ext-cal-ev',
                                 html: spaceChar,
+                                //style: 'outline: 1px solid purple;', // helpful for debugging
                                 id: config.viewId + '-empty-day-' + currentDateString
                             };
                             
