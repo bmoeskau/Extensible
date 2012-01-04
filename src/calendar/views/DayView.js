@@ -186,18 +186,21 @@ Ext.ensible.cal.DayView = Ext.extend(Ext.Container, {
         // general to make sure that the window resize is good and done first
         // so that we can properly calculate sizes.
         (function(){
-            var ct = this.el.up('.x-panel-body'),
-                hd = this.el.child('.ext-cal-day-header'),
-                h = ct.getHeight() - hd.getHeight();
-            
-            this.el.child('.ext-cal-body-ct').setHeight(h-1);
+            var container = this.el.up('.x-panel-body'),
+                header = this.el.child('.ext-cal-day-header'),
+                bodyHeight;
+                
+            if (container && header) {
+                bodyHeight = container.getHeight() - header.getHeight();
+                this.el.child('.ext-cal-body-ct').setHeight(bodyHeight-1);                
+            }
         }).defer(10, this);
     },
     
     // private
     onResize : function(){
         this.forceSize();
-        this.refresh.defer(1, this); //IE needs the defer
+        this.refresh.defer(1, this);
     },
     
     /*

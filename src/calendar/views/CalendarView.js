@@ -490,7 +490,7 @@ viewConfig: {
 			this.initDD();
         }
         
-        this.on('eventsrendered', this.forceSize);
+        this.on('eventsrendered', this.onEventsRendered, this);
         this.forceSize.defer(100, this);
     },
     
@@ -543,17 +543,20 @@ viewConfig: {
     },
     
     // private
+    onEventsRendered: function() {
+        this.forceSize();
+    },
+    
+    // private
     forceSize: function(){
         if(this.el && this.el.child){
-            var hd = this.el.child('.ext-cal-hd-ct'),
-                bd = this.el.child('.ext-cal-body-ct');
+            var header = this.el.child('.ext-cal-hd-ct'),
+                body = this.el.child('.ext-cal-body-ct'),
+                container = this.el.parent();
                 
-            if(bd==null || hd==null) return;
-                
-            var headerHeight = hd.getHeight(),
-                sz = this.el.parent().getSize();
-                   
-            bd.setHeight(sz.height-headerHeight);
+            if (header && body) {
+                body.setHeight(container.getHeight() - header.getHeight());
+            }
         }
     },
 
