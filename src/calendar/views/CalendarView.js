@@ -1262,6 +1262,7 @@ alert('End: '+bounds.end);
     /**
      * Updates the view to contain the passed date
      * @param {Date} dt The date to display
+     * @return {Date} The new view start date
      */
     moveTo : function(dt, /*private*/reload){
         if(Ext.isDate(dt)){
@@ -1273,7 +1274,7 @@ alert('End: '+bounds.end);
 
     /**
      * Updates the view to the next consecutive date(s)
-     * @return {Date} The new date
+     * @return {Date} The new view start date
      */
     moveNext : function(/*private*/reload){
         return this.moveTo(this.viewEnd.add(Date.DAY, 1), reload);
@@ -1281,7 +1282,7 @@ alert('End: '+bounds.end);
 
     /**
      * Updates the view to the previous consecutive date(s)
-     * @return {Date} The new date
+     * @return {Date} The new view start date
      */
     movePrev : function(/*private*/reload){
         var days = Ext.ensible.Date.diffDays(this.viewStart, this.viewEnd)+1;
@@ -1291,7 +1292,7 @@ alert('End: '+bounds.end);
     /**
      * Shifts the view by the passed number of months relative to the currently set date
      * @param {Number} value The number of months (positive or negative) by which to shift the view
-     * @return {Date} The new date
+     * @return {Date} The new view start date
      */
     moveMonths : function(value, /*private*/reload){
         return this.moveTo(this.startDate.add(Date.MONTH, value), reload);
@@ -1300,7 +1301,7 @@ alert('End: '+bounds.end);
     /**
      * Shifts the view by the passed number of weeks relative to the currently set date
      * @param {Number} value The number of weeks (positive or negative) by which to shift the view
-     * @return {Date} The new date
+     * @return {Date} The new view start date
      */
     moveWeeks : function(value, /*private*/reload){
         return this.moveTo(this.startDate.add(Date.DAY, value*7), reload);
@@ -1309,7 +1310,7 @@ alert('End: '+bounds.end);
     /**
      * Shifts the view by the passed number of days relative to the currently set date
      * @param {Number} value The number of days (positive or negative) by which to shift the view
-     * @return {Date} The new date
+     * @return {Date} The new view start date
      */
     moveDays : function(value, /*private*/reload){
         return this.moveTo(this.startDate.add(Date.DAY, value), reload);
