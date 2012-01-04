@@ -646,41 +646,45 @@ viewConfig: {
     },
     
     // private
-    prepareEventGrid : function(evts, w, d){
-        var row = 0,
-            dt = Ext.Date.clone(this.viewStart),
-            max = this.maxEventsPerDay ? this.maxEventsPerDay : 999;
+    prepareEventGrid : function(evts, w, d) {
+        var me = this,
+            row = 0,
+            dt = Ext.Date.clone(me.viewStart),
+            max = me.maxEventsPerDay || 999,
+            maxEventsForDay;
         
-        evts.each(function(evt){
+        evts.each(function(evt) {
             var M = Extensible.calendar.data.EventMappings;
             
-            if(Extensible.Date.diffDays(evt.data[M.StartDate.name], evt.data[M.EndDate.name]) > 0){
+            if (Extensible.Date.diffDays(evt.data[M.StartDate.name], evt.data[M.EndDate.name]) > 0) {
                 var daysInView = Extensible.Date.diffDays(
-                    Extensible.Date.max(this.viewStart, evt.data[M.StartDate.name]),
-                    Extensible.Date.min(this.viewEnd, evt.data[M.EndDate.name])) + 1;
+                    Extensible.Date.max(me.viewStart, evt.data[M.StartDate.name]),
+                    Extensible.Date.min(me.viewEnd, evt.data[M.EndDate.name])) + 1;
                     
-                this.prepareEventGridSpans(evt, this.eventGrid, w, d, daysInView);
-                this.prepareEventGridSpans(evt, this.allDayGrid, w, d, daysInView, true);
+                me.prepareEventGridSpans(evt, me.eventGrid, w, d, daysInView);
+                me.prepareEventGridSpans(evt, me.allDayGrid, w, d, daysInView, true);
             }
-            else{
-                row = this.findEmptyRowIndex(w,d);
-                this.eventGrid[w][d] = this.eventGrid[w][d] || [];
-                this.eventGrid[w][d][row] = evt;
+            else {
+                row = me.findEmptyRowIndex(w,d);
+                me.eventGrid[w][d] = me.eventGrid[w][d] || [];
+                me.eventGrid[w][d][row] = evt;
                 
                 if(evt.data[M.IsAllDay.name]){
-                    row = this.findEmptyRowIndex(w,d, true);
-                    this.allDayGrid[w][d] = this.allDayGrid[w][d] || [];
-                    this.allDayGrid[w][d][row] = evt;
+                    row = me.findEmptyRowIndex(w,d, true);
+                    me.allDayGrid[w][d] = me.allDayGrid[w][d] || [];
+                    me.allDayGrid[w][d][row] = evt;
                 }
             }
             
-            if(this.evtMaxCount[w] < this[this.isHeaderView ? 'allDayGrid' : 'eventGrid'][w][d].length){
-                // If calculating the max event count for the day/week view header, use the allDayGrid
-                // so that only all-day events displayed in that area get counted, otherwise count all events.
-                this.evtMaxCount[w] = Math.min(max+1, this[this.isHeaderView ? 'allDayGrid' : 'eventGrid'][w][d].length);
+            // If calculating the max event count for the day/week view header, use the allDayGrid
+            // so that only all-day events displayed in that area get counted, otherwise count all events.            
+            maxEventsForDay = me[me.isHeaderView ? 'allDayGrid' : 'eventGrid'][w][d] || [];
+            
+            if (maxEventsForDay.length && me.evtMaxCount[w] < maxEventsForDay.length) {
+                me.evtMaxCount[w] = Math.min(max + 1, maxEventsForDay.length);
             }
             return true;
-        }, this);
+        }, me);
     },
     
     // private
