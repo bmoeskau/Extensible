@@ -39,13 +39,13 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * the default calendar (and color).
      */
     /*
-     * @cfg {Boolean} enableRecurrence
+     * @cfg {Boolean} recurrence
      * True to show the recurrence field, false to hide it (default). Note that recurrence requires
      * something on the server-side that can parse the iCal RRULE format in order to generate the
      * instances of recurring events to display on the calendar, so this field should only be enabled
      * if the server supports it.
      */
-    //enableRecurrence: false,
+    recurrence: true,
     /**
      * @cfg {Boolean} readOnly
      * True to prevent clicks on events or the view from providing CRUD capabilities, false to enable CRUD (the default).
@@ -1474,6 +1474,7 @@ alert('End: '+bounds.end);
                 calendarStore: this.calendarStore,
                 modal: this.editModal,
                 enableEditDetails: this.enableEditDetails,
+                
                 listeners: {
                     'eventadd': {
                         fn: function(win, rec, animTarget) {

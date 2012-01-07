@@ -1,7 +1,16 @@
+Ext.require([
+    'Ext.form.Panel',
+    'Ext.Button',
+    'Ext.form.field.Date',
+    'Extensible.form.recurrence.Fieldset'
+]);
+
 Ext.onReady(function(){
-    var recurField = new Ext.ensible.cal.RecurrenceField({
+    var recurField = Ext.createWidget('extensible.recurrencefield', {
+        xtype: 'extensible.recurrencefield',
         id: 'recurrence',
         frequency: 'WEEKLY',
+        anchor: '90%',
         
         //value: 'FREQ=WEEKLY;INTERVAL=3;BYDAY=MO,FR'
         //value: 'FREQ=MONTHLY;INTERVAL=3;BYMONTHDAY=4;COUNT=10'
@@ -19,7 +28,7 @@ Ext.onReady(function(){
         //enableFx: false
     });
     
-    new Ext.form.FormPanel({
+    Ext.create('Ext.form.Panel', {
         renderTo: 'recur-panel',
         title: 'Recurrence Pattern',
         border: true,
@@ -27,15 +36,21 @@ Ext.onReady(function(){
         width: 600,
         bodyStyle: 'padding:10px 15px;',
         autoHeight: true,
-        items: recurField
-    })
+        items: [recurField, {
+            xtype: 'textfield',
+            disabled: true,
+            anchor: '90%',
+            fieldLabel: 'Dummy Field',
+            value: 'Just to test positioning'
+        }]
+    });
     
-    var startDt = new Ext.form.DateField({
+    var startDt = Ext.create('Ext.form.field.Date', {
         renderTo: 'recur-dt',
         value: new Date()
     });
     
-    new Ext.Button({
+    Ext.create('Ext.Button', {
         text: 'Refresh Panel',
         renderTo: 'recur-dt',
         handler: function(){
@@ -43,9 +58,10 @@ Ext.onReady(function(){
         }
     });
     
-    var btn = new Ext.Button({
+    var btn = Ext.create('Ext.Button', {
         text: 'Show the iCal string',
         renderTo: Ext.getBody(),
+        
         handler: function(){
             var pattern = Ext.get('recur-pattern');
             if(!pattern.isVisible()){
