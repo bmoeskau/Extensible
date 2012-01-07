@@ -12,7 +12,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     
     requires: [
         'Ext.form.CheckboxGroup',
-        'Ext.form.field.Display',
+        'Ext.form.Label',
         'Ext.form.field.ComboBox',
         'Ext.form.field.Checkbox',
         'Ext.layout.container.Card',
@@ -56,14 +56,14 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                     margins: '0 5 0 0'
                 },
                 items: [{
-                    xtype: 'displayfield',
-                    value: 'Repeat every'
+                    xtype: 'label',
+                    text: 'Repeat every'
                 },{
                     xtype: 'textfield',
                     width: 40
                 },{
-                    xtype: 'displayfield',
-                    value: '(whatever)'
+                    xtype: 'label',
+                    text: '(whatever)'
                 }]
             },{
                 xtype: 'fieldcontainer',
@@ -72,8 +72,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                     margins: '0 5 0 0'
                 },
                 items: [{
-                    xtype: 'displayfield',
-                    value: 'on:'
+                    xtype: 'label',
+                    text: 'on:'
                 },{
                     xtype: 'checkboxgroup',
                     flex: 1,
@@ -94,14 +94,14 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                     margins: '0 5 0 0'
                 },
                 items: [{
-                    xtype: 'displayfield',
-                    value: 'on the'
+                    xtype: 'label',
+                    text: 'on the'
                 },{
                     xtype: 'combobox',
                     store: []
                 },{
-                    xtype: 'displayfield',
-                    value: 'of each month'
+                    xtype: 'label',
+                    text: 'of each month'
                 }]
             },{
                 xtype: 'fieldcontainer',
@@ -110,14 +110,14 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                     margins: '0 5 0 0'
                 },
                 items: [{
-                    xtype: 'displayfield',
-                    value: 'on the'
+                    xtype: 'label',
+                    text: 'on the'
                 },{
                     xtype: 'combobox',
                     store: []
                 },{
-                    xtype: 'displayfield',
-                    value: 'each year'
+                    xtype: 'label',
+                    text: 'each year'
                 }]
             },{
                 xtype: 'fieldcontainer',
@@ -126,8 +126,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                     margins: '0 5 0 0'
                 },
                 items: [{
-                    xtype: 'displayfield',
-                    value: 'and continuing'
+                    xtype: 'label',
+                    text: 'and continuing'
                 },{
                     xtype: 'combobox',
                     store: []
@@ -136,16 +136,97 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         }];
         
         me.callParent(arguments);
+        
+        me.initField();
     },
     
-    showOptions : function(o){
+    // private
+    initValue: function(){
+        var me = this;
+
+        me.originalValue = me.lastValue = me.value;
+
+        // Set the initial value - prevent validation on initial set
+        me.suspendCheckChange++;
+        
+        me.setStartDate(me.startDate);
+        
+        if (me.value !== undefined) {
+            me.setValue(me.value);
+        }
+        else if (me.frequency !== undefined) {
+            me.setValue('FREQ=' + me.frequency);
+        }
+        else{
+            me.setValue('NONE');
+        }
+        me.suspendCheckChange--;
+    },
+    
+    setStartDate: function(dt) {
+        this.items.each(function(item) {
+            //item.setStartDate(dt);
+        });
+    },
+    
+    getValue : function(){
+        if (!this.rendered) {
+            return this.value;
+        }
+        if (this.frequency == 'NONE') {
+            return '';
+        }
+        
+        var value = 'FREQ=' + this.frequency;
+        
+        // this.items.each(function(item) {
+            // if(item.isVisible()){
+                // value += item.getValue();
+            // }
+        // });
+        return value;
+    },
+    
+    setValue : function(value){
+        var me = this;
+        
+        me.value = value;
+        
+        if (!value || value == 'NONE') {
+            //me.frequencyCombo.setValue('NONE');
+            me.showOptions('NONE');
+            return me;
+        }
+        
+        var parts = value.split(';');
+        
+        me.items.each(function(item){
+            //item.setValue(parts);
+        });
+        
+        Ext.each(parts, function(part) {
+            if (part.indexOf('FREQ') > -1) {
+                var freq = part.split('=')[1];
+                //me.frequencyCombo.setValue(freq);
+                me.showOptions(freq);
+                return;
+            }
+        }, me);
+        
+        me.checkChange();
+        
+        return me;
+    },
+    
+    showOptions: function(o) {
+        console.log('selected '+o);
         // var layoutChanged = false,
             // unit = 'day';
 //         
         // if(o != 'NONE'){
             // this.hideSubPanels();
         // }
-        // this.frequency = o;
+        this.frequency = o;
 //         
         // switch(o){
             // case 'DAILY':

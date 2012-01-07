@@ -23,40 +23,51 @@ Ext.define('Extensible.form.recurrence.Combo', {
         yearly: 'Yearly'
     },
     
-    initComponent: function(){
-        this.addEvents('recurrencechange');
+    initComponent: function() {
+        var me = this;
         
-        this.store = this.store || Ext.create('Ext.data.ArrayStore', {
+        /**
+         * @event recurrencechange
+         * Fires when a recurrence list item is selected.
+         * @param {Extensible.form.recurrence.Combo} combo This combo box
+         * @param {String} value The selected recurrence value (one of the values from )
+         */
+        me.addEvents('recurrencechange');
+        
+        /**
+         * @cfg {Array} recurrenceOptions
+         * An array of arrays, each containing the name/value pair that defines a recurrence
+         * option supported by the recurrence combo. This array is bound to the underlying
+         * {@link Ext.data.ArrayStore store} to provide the combo list items. Defaults to:
+         * 
+         *    [
+         *        ['NONE', this.recurrenceText.none],
+         *        ['DAILY', this.recurrenceText.daily],
+         *        ['WEEKLY', this.recurrenceText.weekly],
+         *        ['MONTHLY', this.recurrenceText.monthly],
+         *        ['YEARLY', this.recurrenceText.yearly]
+         *    ]
+         */
+        me.recurrenceOptions = me.recurrenceOptions || [
+            ['NONE', me.recurrenceText.none],
+            ['DAILY', me.recurrenceText.daily],
+            ['WEEKLY', me.recurrenceText.weekly],
+            ['MONTHLY', me.recurrenceText.monthly],
+            ['YEARLY', me.recurrenceText.yearly]
+        ];
+        
+        me.store = me.store || Ext.create('Ext.data.ArrayStore', {
             fields: ['id', 'pattern'],
             idIndex: 0,
-            data: [
-                ['NONE', this.recurrenceText.none],
-                ['DAILY', this.recurrenceText.daily],
-                ['WEEKLY', this.recurrenceText.weekly],
-                ['MONTHLY', this.recurrenceText.monthly],
-                ['YEARLY', this.recurrenceText.yearly]
-            ]
+            data: me.recurrenceOptions
         });
         
-        this.callParent(arguments);
+        me.on('select', me.onSelect, me);
+        
+        me.callParent(arguments);
     },
     
-    initValue : function(){
-        this.callParent(arguments);
-        
-        if(this.value != undefined){
-            this.fireEvent('recurrencechange', this.value);
-        }
-    },
-    
-    setValue : function(v){
-        var old = this.value;
-        
-        this.callParent(arguments);
-        
-        if(old != v){
-            this.fireEvent('recurrencechange', v);
-        }
-        return this;
+    onSelect: function(combo, records) {
+        this.fireEvent('recurrencechange', records[0].data.id);
     }
 });
