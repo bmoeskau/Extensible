@@ -24,8 +24,6 @@ Ext.define('Extensible.form.recurrence.Combo', {
     },
     
     initComponent: function(){
-        this.callParent(arguments);
-        
         this.addEvents('recurrencechange');
         
         this.store = this.store || Ext.create('Ext.data.ArrayStore', {
@@ -39,6 +37,8 @@ Ext.define('Extensible.form.recurrence.Combo', {
                 ['YEARLY', this.recurrenceText.yearly]
             ]
         });
+        
+        this.callParent(arguments);
     },
     
     initValue : function(){

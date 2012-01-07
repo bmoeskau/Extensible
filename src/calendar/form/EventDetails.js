@@ -43,7 +43,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         'Extensible.calendar.form.field.ReminderCombo',
         'Extensible.calendar.data.EventMappings',
         'Extensible.calendar.form.field.CalendarCombo',
-        'Extensible.form.recurrence.Combo',
+        'Extensible.form.recurrence.Fieldset',
         'Ext.layout.container.Column'
     ],
     
@@ -71,13 +71,13 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     autoHeight: true, // to allow for the notes field to autogrow
     
     /* // not currently supported
-     * @cfg {Boolean} enableRecurrence
+     * @cfg {Boolean} recurrence
      * True to show the recurrence field, false to hide it (default). Note that recurrence requires
      * something on the server-side that can parse the iCal RRULE format in order to generate the
      * instances of recurring events to display on the calendar, so this field should only be enabled
      * if the server supports it.
      */
-    enableRecurrence: false,
+    recurrence: false,
     
     // private properties:
     layout: 'column',
@@ -155,8 +155,9 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         var leftFields = [this.titleField, this.dateRangeField, this.reminderField], 
             rightFields = [this.notesField, this.locationField, this.urlField];
             
-        if(this.enableRecurrence){
+        if(this.recurrence){
             this.recurrenceField = Ext.create('Extensible.form.recurrence.Fieldset', {
+                recurrenceOptions: this.recurrence,
                 name: Extensible.calendar.data.EventMappings.RRule.name,
                 fieldLabel: this.repeatsLabelText,
                 anchor: '90%'

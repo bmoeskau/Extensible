@@ -2,22 +2,28 @@
 <html>
 <head>
     <title>Extensible Recurrence Field</title>
-    <!-- Ext includes -->
     <link rel="stylesheet" type="text/css" href="../../../extjs/resources/css/ext-all.css" />
-    <script type="text/javascript" src="../../../extjs/ext-all-debug.js"></script>
-    <!-- Any Ext overrides go here -->
-    
-    <!-- Extensible includes -->
     <link rel="stylesheet" type="text/css" href="../../resources/css/extensible-all.css" />
-    <script type="text/javascript" src="../../extensible-all-debug.js"></script>
-    <!-- Any Extensible overrides go here -->
+
+    <script type="text/javascript" src="../../../extjs/ext-debug.js"></script>
+    <script type="text/javascript" src="../../src/Extensible.js"></script>
+    <script type="text/javascript">
+        Ext.Loader.setConfig({
+            enabled: true,
+            paths: {
+                'Extensible': '../../src',
+                'Extensible.example': '../'
+            }
+        });
+    </script>
+    
+    <!-- Page-specific includes -->
+    <script type="text/javascript" src="recurrence-widget.js"></script>
     
     <!-- Shared example includes -->
     <link rel="stylesheet" type="text/css" href="../examples.css" />
     <script type="text/javascript" src="../examples.js"></script>
     
-    <!-- Page-specific includes -->
-    <!--script type="text/javascript" src="recurrence-widget.js"></script-->
     <style>
         #recur-pattern {
             padding: 5px 10px;
@@ -32,14 +38,12 @@
 <body>
     <div id="sample-overview">
         <h1>Extensible Recurrence Field</h1>
-        <p style="color:#f55;"><strong>NOTE:</strong> This component has not yet been ported to Ext 4.</p>
-        
-        <!--p class="view-src"><a target="_blank" href="recurrence-widget.js">View the source</a></p-->
+        <p class="view-src"><a target="_blank" href="recurrence-widget.js">View the source</a></p>
     </div>
     
-    <!--p>Changing this date will set the recurrence start date for the recurrence panel:</p>
+    <p>Changing this date will set the recurrence start date for the recurrence panel:</p>
     <div id="recur-dt"></div><br />
     <div id="recur-panel"></div><br />
-    <div id="recur-pattern"></div-->
+    <div id="recur-pattern"></div>
 </body>
 </html>

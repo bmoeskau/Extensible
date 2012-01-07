@@ -28,13 +28,13 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * active {@link Extensible.calendar.view.AbstractCalendar view} at any time using the {@link #activeView} property.
      */
     /*
-     * @cfg {Boolean} enableRecurrence
+     * @cfg {Boolean} recurrence
      * True to show the recurrence field, false to hide it (default). Note that recurrence requires
      * something on the server-side that can parse the iCal RRULE format in order to generate the
      * instances of recurring events to display on the calendar, so this field should only be enabled
      * if the server supports it.
      */
-    enableRecurrence: false, // not currently implemented
+    recurrence: false, // not currently implemented
     /**
      * @cfg {Boolean} showDayView
      * True to include the day view (and toolbar button), false to hide them (defaults to true).
@@ -501,7 +501,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             showTodayText: this.showTodayText,
             showTime: this.showTime,
             readOnly: this.readOnly,
-            enableRecurrence: this.enableRecurrence,
+            recurrence: this.recurrence,
             store: this.store,
             calendarStore: this.calendarStore,
             editModal: this.editModal,
@@ -577,7 +577,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             xtype: 'extensible.eventeditform',
             id: this.id+'-edit',
             calendarStore: this.calendarStore,
-            enableRecurrence: this.enableRecurrence,
+            recurrence: this.recurrence,
             listeners: {
                 'eventadd':    { scope: this, fn: this.onEventAdd },
                 'eventupdate': { scope: this, fn: this.onEventUpdate },
