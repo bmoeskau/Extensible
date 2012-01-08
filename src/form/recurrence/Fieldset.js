@@ -16,13 +16,14 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         'Ext.form.field.ComboBox',
         'Ext.form.field.Checkbox',
         'Ext.layout.container.Card',
-        'Extensible.form.recurrence.Combo',
+        'Extensible.form.recurrence.FrequencyCombo',
         'Extensible.form.recurrence.option.Interval'
     ],
     
     fieldLabel: 'Repeats',
     startDate: Ext.Date.clearTime(new Date()),
     enableFx: true,
+    monitorChanges: true,
     cls: 'extensible-recur-field',
     
     layout: 'anchor',
@@ -38,13 +39,13 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         }
         
         me.items = [{
-            xtype: 'extensible.recurrencecombo',
+            xtype: 'extensible.recurrence-frequency',
             hideLabel: true,
             itemId: this.id + '-frequency',
             
             listeners: {
-                'recurrencechange': {
-                    fn: this.showOptions,
+                'frequencychange': {
+                    fn: this.onFrequencyChange,
                     scope: this
                 }
             }
@@ -56,7 +57,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             layout: 'anchor',
             
             items: [{
-                xtype: 'extensible.recurrence-interval'
+                xtype: 'extensible.recurrence-interval',
+                itemId: this.id + '-interval'
             },{
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
@@ -70,13 +72,13 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                     xtype: 'checkboxgroup',
                     flex: 1,
                     items: [
-                        {boxLabel: 'Sun', inputValue: 'SU', name: this.id+'-weekly-SU'},
-                        {boxLabel: 'Mon', inputValue: 'MO', name: this.id+'-weekly-MO'},
-                        {boxLabel: 'Tue', inputValue: 'TU', name: this.id+'-weekly-TU'},
-                        {boxLabel: 'Wed', inputValue: 'WE', name: this.id+'-weekly-WE'},
-                        {boxLabel: 'Thu', inputValue: 'TH', name: this.id+'-weekly-TH'},
-                        {boxLabel: 'Fri', inputValue: 'FR', name: this.id+'-weekly-FR'},
-                        {boxLabel: 'Sat', inputValue: 'SA', name: this.id+'-weekly-SA'}
+                        {boxLabel: 'Sun', inputValue: 'SU', name: this.id + 'SU'},
+                        {boxLabel: 'Mon', inputValue: 'MO', name: this.id + 'MO'},
+                        {boxLabel: 'Tue', inputValue: 'TU', name: this.id + 'TU'},
+                        {boxLabel: 'Wed', inputValue: 'WE', name: this.id + 'WE'},
+                        {boxLabel: 'Thu', inputValue: 'TH', name: this.id + 'TH'},
+                        {boxLabel: 'Fri', inputValue: 'FR', name: this.id + 'FR'},
+                        {boxLabel: 'Sat', inputValue: 'SA', name: this.id + 'SA'}
                     ]
                 }]
             },{
@@ -154,6 +156,24 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         
         me.innerContainer = me.down('#' + me.id + '-inner-ct');
         me.frequencyCombo = me.down('#' + me.id + '-frequency');
+        me.intervalField = me.down('#' + me.id + '-interval');
+        
+        me.initChangeEvents();
+    },
+    
+    initChangeEvents: function() {
+        var me = this;
+        
+        me.intervalField.on('change', me.onChange, me);
+    },
+    
+    onChange: function() {
+        this.fireEvent('change', this, this.getValue());
+    },
+    
+    onFrequencyChange: function(freq) {
+        this.showOptions(freq);
+        this.onChange();
     },
     
     // private
@@ -177,6 +197,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             me.setValue('NONE');
         }
         me.suspendCheckChange--;
+        
+        me.onChange();
     },
     
     setStartDate: function(dt) {
@@ -212,13 +234,28 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         this.innerContainer.items.each(function(item) {
             if(item.isVisible() && item.getValue){
                 itemValue = item.getValue();
-                if (itemValue) {
+                if (this.isItemValueValid(itemValue)) {
                     values.push(itemValue);
                 }
             }
-        });
+        }, this);
         
         return values.length > 1 ? values.join(';') : values[0];
+    },
+    
+    getDescription: function() {
+        return 'Friendly text : ' + this.getValue();
+    },
+    
+    isItemValueValid: function(value) {
+        if (value) {
+            if (value === 'INTERVAL=1') {
+                // Interval is assumed to be 1 in the spec by default, no need to include it
+                return false;
+            }
+            return true;
+        }
+        return false;
     },
     
     setValue: function(value){

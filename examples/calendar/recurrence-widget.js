@@ -6,11 +6,20 @@ Ext.require([
 ]);
 
 Ext.onReady(function(){
+    var onRecurrenceChange = function(field, value) {
+        Ext.get('recur-value').update(field.getValue() || '(Empty string)');
+        Ext.get('recur-desc').update(field.getDescription() || '(Empty string)');
+    };
+    
     var recurField = Ext.createWidget('extensible.recurrencefield', {
         xtype: 'extensible.recurrencefield',
         id: 'recurrence',
         frequency: 'WEEKLY',
         anchor: '90%',
+        
+        listeners: {
+            'change': onRecurrenceChange
+        },
         
         //value: 'FREQ=WEEKLY;INTERVAL=3;BYDAY=MO,FR'
         //value: 'FREQ=MONTHLY;INTERVAL=3;BYMONTHDAY=4;COUNT=10'
@@ -55,21 +64,6 @@ Ext.onReady(function(){
         renderTo: 'recur-dt',
         handler: function(){
             recurField.setStartDate(startDt.getValue());
-        }
-    });
-    
-    var btn = Ext.create('Ext.Button', {
-        text: 'Show the iCal string',
-        renderTo: Ext.getBody(),
-        
-        handler: function(){
-            var pattern = Ext.get('recur-pattern');
-            if(!pattern.isVisible()){
-                pattern.slideIn('t', {duration:.25});
-                btn.setText('Refresh the iCal string');
-            }
-            var v = recurField.getValue();
-            pattern.update(v.length > 0 ? v : '(Empty)');
         }
     });
 });

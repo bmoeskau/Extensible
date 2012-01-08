@@ -25,13 +25,15 @@
     <script type="text/javascript" src="../examples.js"></script>
     
     <style>
-        #recur-pattern {
+        .recur-text {
             padding: 5px 10px;
             margin-bottom: 15px;
             background: #ffc;
             border: 1px solid #99BBE8;
-            width: 580px;
-            display: none;
+            width: 600px;
+        }
+        .recur-label {
+            font-weight: bold;
         }
     </style>
 </head>
@@ -44,6 +46,11 @@
     <p>Changing this date will set the recurrence start date for the recurrence panel:</p>
     <div id="recur-dt"></div><br />
     <div id="recur-panel"></div><br />
-    <div id="recur-pattern"></div>
+    
+    <label class="recur-label">Recurrence Value:</label>
+    <div id="recur-value" class="recur-text">Initializing recurrence pattern...</div>
+    
+    <label class="recur-label">Friendly Description:</label>
+    <div id="recur-desc" class="recur-text">Initializing recurrence pattern...</div>
 </body>
 </html>
