@@ -263,6 +263,15 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         
         me.value = value;
         
+        if (!me.frequencyCombo || !me.innerContainer) {
+            me.on('afterrender', function() {
+                me.setValue(value);
+            }, me, {
+                single: true
+            });
+            return;
+        }
+        
         if (!value || value == 'NONE') {
             me.frequencyCombo.setValue('NONE');
             me.showOptions('NONE');
@@ -271,10 +280,6 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         
         var parts = value.split(';');
         
-        me.items.each(function(item){
-            //item.setValue(parts);
-        });
-        
         Ext.each(parts, function(part) {
             if (part.indexOf('FREQ') > -1) {
                 var freq = part.split('=')[1];
@@ -282,6 +287,12 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 return;
             }
         }, me);
+        
+        me.innerContainer.items.each(function(item) {
+            if (item.setValue) {
+                item.setValue(parts);
+            }
+        });
         
         me.checkChange();
         

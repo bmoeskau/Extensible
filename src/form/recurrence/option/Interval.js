@@ -57,11 +57,21 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
     },
     
     setValue: function(v) {
+        var me = this;
+        
         if (!v) {
             return;
         }
-        var me = this,
-            parts = Ext.isArray(v) ? v : (Ext.isString(v) ? v.split(';') : v),
+        if (!me.intervalField) {
+            me.on('afterrender', function() {
+                me.setValue(v);
+            }, me, {
+                single: true
+            });
+            return;
+        }
+        
+        var parts = Ext.isArray(v) ? v : (Ext.isString(v) ? v.split(';') : v),
             interval = Ext.isNumber(v) ? v : null,
             setValueFn = function(v) {
                 me.value = me.key + '=' + v;
@@ -76,7 +86,7 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         else {
             Ext.each(parts, function(part) {
                 if (part.indexOf(me.key) > -1) {
-                    interval = p.split('=')[1];
+                    interval = part.split('=')[1];
                     setValueFn(interval);
                     return;
                 }
