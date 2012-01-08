@@ -3,6 +3,8 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
     alias: 'widget.extensible.recurrence-interval',
     
     dateLabelFormat: 'l, F j',
+    
+    key: 'INTERVAL',
 
     initComponent: function() {
         var me = this;
@@ -27,9 +29,7 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
             enableKeyEvents: true,
             listeners: {
                 'change': {
-                    fn: function(field, value) {
-                        this.setValue(value);
-                    },
+                    fn: this.onChange,
                     scope: this
                 }
             }
@@ -51,24 +51,22 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         me.dateLabel = me.down('#' + me.id + '-date-label');
     },
     
-    getValue: function() {
-        if (this.intervalField) {
-            var v = this.intervalField.getValue();
-            return v > 1 ? 'INTERVAL=' + v : '';
-        }
-        return this.value;
+    onChange: function(field, value) {
+        this.setValue(value);
+        this.fireEvent('change', this, this.getValue());
     },
     
     setValue: function(v) {
         if (!v) {
             return;
         }
-        var parts = Ext.isArray(v) ? v : (Ext.isString(v) ? v.split(';') : v),
+        var me = this,
+            parts = Ext.isArray(v) ? v : (Ext.isString(v) ? v.split(';') : v),
             interval = Ext.isNumber(v) ? v : null,
             setValueFn = function(v) {
-                this.value = 'INTERVAL=' + v;
-                if (this.intervalField) {
-                    this.intervalField.setValue(v);
+                me.value = me.key + '=' + v;
+                if (me.intervalField) {
+                    me.intervalField.setValue(v);
                 }
             }
         
@@ -77,16 +75,17 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         }
         else {
             Ext.each(parts, function(part) {
-                if (part.indexOf('INTERVAL') > -1) {
+                if (part.indexOf(me.key) > -1) {
                     interval = p.split('=')[1];
                     setValueFn(interval);
+                    return;
                 }
-            }, this);
+            }, me);
         }
         
-        this.updateLabel();
+        me.updateLabel();
         
-        return this;
+        return me;
     },
     
     updateLabel: function(intervalType){
