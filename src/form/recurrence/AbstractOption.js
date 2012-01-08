@@ -10,6 +10,8 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
         margins: '0 5 0 0'
     },
     
+    key: undefined,
+    
     initComponent: function() {
         this.callParent();
         this.initField();
