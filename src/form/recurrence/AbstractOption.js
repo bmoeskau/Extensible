@@ -24,5 +24,5 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
             this.updateLabel();
         }
         return this;
-    },
+    }
 });
