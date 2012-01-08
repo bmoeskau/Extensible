@@ -9,18 +9,19 @@ Ext.define('Extensible.form.recurrence.Combo', {
     
     width: 160,
     fieldLabel: 'Repeats',
-    mode: 'local',
+    queryMode: 'local',
     triggerAction: 'all',
     forceSelection: true,
     displayField: 'pattern',
     valueField: 'id',
     
     recurrenceText: {
-        none: 'Does not repeat',
-        daily: 'Daily',
-        weekly: 'Weekly',
-        monthly: 'Monthly',
-        yearly: 'Yearly'
+        none     : 'Does not repeat',
+        daily    : 'Daily',
+        weekdays : 'Every weekday (Mon-Fri)',
+        weekly   : 'Weekly',
+        monthly  : 'Monthly',
+        yearly   : 'Yearly'
     },
     
     initComponent: function() {
@@ -43,6 +44,7 @@ Ext.define('Extensible.form.recurrence.Combo', {
          *    [
          *        ['NONE', this.recurrenceText.none],
          *        ['DAILY', this.recurrenceText.daily],
+         *        ['WEEKDAYS', this.recurrenceText.weekdays],
          *        ['WEEKLY', this.recurrenceText.weekly],
          *        ['MONTHLY', this.recurrenceText.monthly],
          *        ['YEARLY', this.recurrenceText.yearly]
@@ -51,6 +53,7 @@ Ext.define('Extensible.form.recurrence.Combo', {
         me.recurrenceOptions = me.recurrenceOptions || [
             ['NONE', me.recurrenceText.none],
             ['DAILY', me.recurrenceText.daily],
+            ['WEEKDAYS', me.recurrenceText.weekdays],
             ['WEEKLY', me.recurrenceText.weekly],
             ['MONTHLY', me.recurrenceText.monthly],
             ['YEARLY', me.recurrenceText.yearly]
