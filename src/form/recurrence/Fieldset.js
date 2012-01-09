@@ -17,7 +17,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         'Ext.form.field.Checkbox',
         'Ext.layout.container.Card',
         'Extensible.form.recurrence.FrequencyCombo',
-        'Extensible.form.recurrence.option.Interval'
+        'Extensible.form.recurrence.option.Interval',
+        'Extensible.form.recurrence.option.ByDay'
     ],
     
     fieldLabel: 'Repeats',
@@ -60,27 +61,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 xtype: 'extensible.recurrence-interval',
                 itemId: this.id + '-interval'
             },{
-                xtype: 'fieldcontainer',
-                layout: 'hbox',
-                defaults: {
-                    margins: '0 5 0 0'
-                },
-                items: [{
-                    xtype: 'label',
-                    text: 'on:'
-                },{
-                    xtype: 'checkboxgroup',
-                    flex: 1,
-                    items: [
-                        {boxLabel: 'Sun', inputValue: 'SU', name: this.id + 'SU'},
-                        {boxLabel: 'Mon', inputValue: 'MO', name: this.id + 'MO'},
-                        {boxLabel: 'Tue', inputValue: 'TU', name: this.id + 'TU'},
-                        {boxLabel: 'Wed', inputValue: 'WE', name: this.id + 'WE'},
-                        {boxLabel: 'Thu', inputValue: 'TH', name: this.id + 'TH'},
-                        {boxLabel: 'Fri', inputValue: 'FR', name: this.id + 'FR'},
-                        {boxLabel: 'Sat', inputValue: 'SA', name: this.id + 'SA'}
-                    ]
-                }]
+                xtype: 'extensible.recurrence-byday',
+                itemId: this.id + '-byday'
             },{
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
@@ -152,11 +134,13 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     },
     
     initRefs: function() {
-        var me = this;
+        var me = this,
+            id = me.id;
         
-        me.innerContainer = me.down('#' + me.id + '-inner-ct');
-        me.frequencyCombo = me.down('#' + me.id + '-frequency');
-        me.intervalField = me.down('#' + me.id + '-interval');
+        me.innerContainer = me.down('#' + id + '-inner-ct');
+        me.frequencyCombo = me.down('#' + id + '-frequency');
+        me.intervalField = me.down('#' + id + '-interval');
+        me.byDayField = me.down('#' + id + '-byday');
         
         me.initChangeEvents();
     },
@@ -165,6 +149,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         var me = this;
         
         me.intervalField.on('change', me.onChange, me);
+        me.byDayField.on('change', me.onChange, me);
     },
     
     onChange: function() {
@@ -220,7 +205,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         }
     },
     
-    getValue: function(){
+    getValue: function() {
         if (!this.innerContainer) {
             return this.value;
         }
@@ -234,7 +219,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         this.innerContainer.items.each(function(item) {
             if(item.isVisible() && item.getValue){
                 itemValue = item.getValue();
-                if (this.isItemValueValid(itemValue)) {
+                if (this.includeItemValue(itemValue)) {
                     values.push(itemValue);
                 }
             }
@@ -243,19 +228,24 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         return values.length > 1 ? values.join(';') : values[0];
     },
     
-    getDescription: function() {
-        return 'Friendly text : ' + this.getValue();
-    },
-    
-    isItemValueValid: function(value) {
+    includeItemValue: function(value) {
         if (value) {
             if (value === 'INTERVAL=1') {
                 // Interval is assumed to be 1 in the spec by default, no need to include it
                 return false;
             }
+            var day = Ext.Date.format(this.startDate, 'D').substring(0,2).toUpperCase();
+            if (value === ('BYDAY=' + day)) {
+                // BYDAY is only required if different from the pattern start date
+                return false;
+            }
             return true;
         }
         return false;
+    },
+    
+    getDescription: function() {
+        return 'Friendly text : ' + this.getValue();
     },
     
     setValue: function(value){
