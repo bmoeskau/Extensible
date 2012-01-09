@@ -5,6 +5,8 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
     dateLabelFormat: 'l, F j',
     
     key: 'INTERVAL',
+    
+    unit: 'day',
 
     initComponent: function() {
         var me = this;
@@ -94,15 +96,21 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         return me;
     },
     
-    updateLabel: function(intervalType){
+    setUnit: function(unit) {
+        this.unit = unit;
+        return this;
+    },
+    
+    updateLabel: function(unit){
         var me = this;
         
         if (me.intervalField) {
+            //TODO: Refactor for localization
             var s = me.intervalField.getValue() == 1 ? '' : 's';
-            me.intervalType = intervalType ? intervalType.toLowerCase() : me.intervalType || 'day';
+            me.unit = unit ? unit.toLowerCase() : me.unit || 'day';
             
             if (me.dateLabel) {
-                me.dateLabel.update(me.intervalType + s + ' beginning ' + Ext.Date.format(me.startDate, me.dateLabelFormat));
+                me.dateLabel.update(me.unit + s + ' beginning ' + Ext.Date.format(me.startDate, me.dateLabelFormat));
             }
         }
         return me;

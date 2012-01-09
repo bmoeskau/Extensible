@@ -61,11 +61,25 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 xtype: 'extensible.recurrence-interval',
                 itemId: this.id + '-interval'
             },{
+                xtype: 'fieldcontainer',
+                layout: 'hbox',
+                itemId: this.id + '-start-date',
+                defaults: {
+                    margins: '0 5 0 0'
+                },
+                items: [{
+                    xtype: 'label',
+                    text: 'beginning'
+                },{
+                    xtype: 'datefield'
+                }]
+            },{
                 xtype: 'extensible.recurrence-byday',
                 itemId: this.id + '-byday'
             },{
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
+                itemId: this.id + '-monthly',
                 defaults: {
                     margins: '0 5 0 0'
                 },
@@ -82,6 +96,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             },{
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
+                itemId: this.id + '-yearly',
                 defaults: {
                     margins: '0 5 0 0'
                 },
@@ -98,18 +113,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             },{
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
-                defaults: {
-                    margins: '0 5 0 0'
-                },
-                items: [{
-                    xtype: 'label',
-                    text: 'starting on'
-                },{
-                    xtype: 'datefield'
-                }]
-            },{
-                xtype: 'fieldcontainer',
-                layout: 'hbox',
+                itemId: this.id + '-duration',
                 defaults: {
                     margins: '0 5 0 0'
                 },
@@ -141,6 +145,10 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         me.frequencyCombo = me.down('#' + id + '-frequency');
         me.intervalField = me.down('#' + id + '-interval');
         me.byDayField = me.down('#' + id + '-byday');
+        me.monthlyField = me.down('#' + id + '-monthly');
+        me.yearlyField = me.down('#' + id + '-yearly');
+        me.startDateField = me.down('#' + id + '-start-date');
+        me.durationField = me.down('#' + id + '-duration');
         
         me.initChangeEvents();
     },
@@ -157,7 +165,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     },
     
     onFrequencyChange: function(freq) {
-        this.showOptions(freq);
+        this.setFrequency(freq);
         this.onChange();
     },
     
@@ -179,7 +187,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             me.setValue('FREQ=' + me.frequency);
         }
         else{
-            me.setValue('NONE');
+            me.setValue('');
         }
         me.suspendCheckChange--;
         
@@ -245,13 +253,20 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     },
     
     getDescription: function() {
-        return 'Friendly text : ' + this.getValue();
+        var value = this.getValue(),
+            text = '';
+        
+        switch(value) {
+            default:
+                text = 'No recurrence';
+        }
+        return 'Friendly text : ' + text;
     },
     
     setValue: function(value){
         var me = this;
         
-        me.value = value;
+        me.value = (!value || value === 'NONE' ? '' : value); 
         
         if (!me.frequencyCombo || !me.innerContainer) {
             me.on('afterrender', function() {
@@ -300,61 +315,57 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         }
         else {
             me.on('afterrender', function() {
-                me.setFrequency(freq);
-            }, me, {
-                single: true
-            });
+                me.frequencyCombo.setValue(freq);
+                me.showOptions(freq);
+            }, me, {single: true});
         }
         return me;
     },
     
-    showOptions: function(o) {
-        console.log('selected '+o);
-        // var layoutChanged = false,
-            // unit = 'day';
-//         
-        // if(o != 'NONE'){
-            // this.hideSubPanels();
-        // }
-//         
-        // switch(o){
-            // case 'DAILY':
-                // layoutChanged = this.showSubPanel(this.repeatEvery);
-                // layoutChanged |= this.showSubPanel(this.until);
-                // break;
-//                 
-            // case 'WEEKLY':
-                // layoutChanged = this.showSubPanel(this.repeatEvery);
-                // layoutChanged |= this.showSubPanel(this.weekly);
-                // layoutChanged |= this.showSubPanel(this.until);
-                // unit = 'week';
-                // break;
-//                 
-            // case 'MONTHLY':
-                // layoutChanged = this.showSubPanel(this.repeatEvery);
-                // layoutChanged |= this.showSubPanel(this.monthly);
-                // layoutChanged |= this.showSubPanel(this.until);
-                // unit = 'month';
-                // break;
-//                 
-            // case 'YEARLY':
-                // layoutChanged = this.showSubPanel(this.repeatEvery);
-                // layoutChanged |= this.showSubPanel(this.yearly);
-                // layoutChanged |= this.showSubPanel(this.until);
-                // unit = 'year';
-                // break;
-//             
-            // default:
-                // // case NONE
-                // this.hideInnerCt();
-                // return; 
-        // }
-//         
-        // if(layoutChanged){
-            // this.innerCt.doLayout();
-        // }
-//         
-        // this.showInnerCt();
-        // this.repeatEvery.updateLabel(unit);
+    showOptions: function(freq) {
+        var me = this,
+            unit = 'day';
+        
+        if(freq === 'NONE'){
+            me.innerContainer.items.each(function(item) {
+                item.hide();
+            });
+        }
+        else {
+            me.intervalField.show();
+            me.durationField.show();
+            //me.startDateField.show();
+        }
+        
+        me.byDayField.hide();
+        me.monthlyField.hide();
+        me.yearlyField.hide();
+        
+        switch(freq){
+            case 'DAILY':
+                break;
+            
+            case 'WEEKDAYS':
+                unit = 'week';
+                break;
+            
+            case 'WEEKLY':
+                me.byDayField.show();
+                unit = 'week';
+                break;
+            
+            case 'MONTHLY':
+                me.monthlyField.show();
+                unit = 'month';
+                break;
+            
+            case 'YEARLY':
+                me.yearlyField.show();
+                unit = 'year';
+                break;
+        }
+        
+        me.doComponentLayout();
+        me.intervalField.updateLabel(unit);
     },
 });
