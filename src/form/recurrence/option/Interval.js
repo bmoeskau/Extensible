@@ -51,15 +51,11 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         me.dateLabel = me.down('#' + me.id + '-date-label');
     },
     
-    onChange: function(field, value) {
-        this.setValue(value);
-        this.fireEvent('change', this, this.getValue());
-    },
-    
     setValue: function(v) {
         var me = this;
         
         if (!v) {
+            me.value = undefined;
             return;
         }
         if (!me.intervalField) {

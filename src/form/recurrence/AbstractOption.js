@@ -13,8 +13,22 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     key: undefined,
     
     initComponent: function() {
+        this.addEvents(
+            /**
+             * @event change
+             * Fires when a user-initiated change is detected in the value of the field.
+             * @param {Extensible.form.recurrence.AbstractOption} this
+             * @param {Mixed} newValue The new value
+             */
+            'change'
+        );
         this.callParent();
         this.initField();
+    },
+    
+    onChange: function(field, value, oldValue) {
+        this.setValue(value);
+        this.fireEvent('change', this, this.getValue());
     },
     
     setStartDate: function(dt) {
