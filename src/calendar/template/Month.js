@@ -60,7 +60,8 @@ Ext.define('Extensible.calendar.template.Month', {
         var days = [],
             weeks = this.weekTpl.apply(o),
             dt = o.viewStart,
-            D = Extensible.Date;
+            D = Extensible.Date,
+            templateConfig;
         
         for(var i = 0; i < 7; i++){
             var d = D.add(dt, {days: i});
@@ -75,11 +76,18 @@ Ext.define('Extensible.calendar.template.Month', {
             extraClasses += ' ext-cal-week-links';
         }
         
-        return Extensible.calendar.template.Month.superclass.applyTemplate.call(this, {
+        templateConfig = {
             days: days,
             weeks: weeks,
             extraClasses: extraClasses
-        });
+        };
+         
+        if (Ext.getVersion().isLessThan('4.1')) {
+            return Extensible.calendar.template.Month.superclass.applyTemplate.call(this, templateConfig);
+        }
+        else {
+            return this.applyOut(templateConfig, []).join('');
+        }
     }
 }, 
 function() {

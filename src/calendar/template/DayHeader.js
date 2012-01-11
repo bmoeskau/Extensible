@@ -41,9 +41,16 @@ Ext.define('Extensible.calendar.template.DayHeader', {
     
     // private
     applyTemplate : function(o){
-        return Extensible.calendar.template.DayHeader.superclass.applyTemplate.call(this, {
+        var templateConfig = {
             allDayTpl: this.allDayTpl.apply(o)
-        });
+        };
+         
+        if (Ext.getVersion().isLessThan('4.1')) {
+            return Extensible.calendar.template.DayHeader.superclass.applyTemplate.call(this, templateConfig);
+        }
+        else {
+            return this.applyOut(templateConfig, []).join('');
+        }
     }
 }, 
 function() {

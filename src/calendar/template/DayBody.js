@@ -71,8 +71,9 @@ Ext.define('Extensible.calendar.template.DayBody', {
             start = this.viewStartHour,
             end = this.viewEndHour,
             mins = this.hourIncrement,
-            dayHeight = this.hourHeight * (end - start)
-            fmt = Extensible.Date.use24HourTime ? 'G:i' : 'ga';
+            dayHeight = this.hourHeight * (end - start),
+            fmt = Extensible.Date.use24HourTime ? 'G:i' : 'ga',
+            templateConfig;
         
         // use a fixed DST-safe date so times don't get skipped on DST boundaries
         dt = Extensible.Date.add(new Date('5/26/1972'), {hours: start});
@@ -81,8 +82,8 @@ Ext.define('Extensible.calendar.template.DayBody', {
             times.push(Ext.Date.format(dt, fmt));
             dt = Extensible.Date.add(dt, {minutes: mins});
         }
-        
-        return Extensible.calendar.template.DayBody.superclass.applyTemplate.call(this, {
+
+        templateConfig = {
             days: days,
             dayCount: days.length,
             times: times,
@@ -90,7 +91,14 @@ Ext.define('Extensible.calendar.template.DayBody', {
             hourSeparatorCls: this.showHourSeparator ? '' : 'no-sep', // the class suppresses the default separator
             dayHeight: dayHeight,
             hourSeparatorHeight: (this.hourHeight / 2)
-        });
+        };
+         
+        if (Ext.getVersion().isLessThan('4.1')) {
+            return Extensible.calendar.template.DayBody.superclass.applyTemplate.call(this, templateConfig);
+        }
+        else {
+            return this.applyOut(templateConfig, []).join('');
+        }
     }
 }, 
 function() {

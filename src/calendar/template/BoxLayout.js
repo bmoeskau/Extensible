@@ -153,9 +153,16 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
             }
         }
         
-        return Extensible.calendar.template.BoxLayout.superclass.applyTemplate.call(this, {
-            weeks: weeks
-        });
+        if (Ext.getVersion().isLessThan('4.1')) {
+            return Extensible.calendar.template.BoxLayout.superclass.applyTemplate.call(this, {
+                weeks: weeks
+            });
+        }
+        else {
+            return this.applyOut({
+                weeks: weeks
+            }, []).join('');
+        }
     },
     
     // private
