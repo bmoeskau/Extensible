@@ -342,6 +342,8 @@ Extensible.applyOverrides = function() {
 
     Ext.DomHelper = Ext.core.DomHelper;
     
+    var extVersion = Ext.getVersion();
+    
     // This was fixed in Ext 4.0.5:
     if (Ext.layout.container.AbstractCard) {
         Ext.layout.container.AbstractCard.override({
@@ -383,45 +385,47 @@ Extensible.applyOverrides = function() {
         });
     }
     
-    if (Ext.data && Ext.data.reader && Ext.data.reader.Reader) {
-        Ext.data.reader.Reader.override({
-            extractData : function(root) {
-                var me = this,
-                    values  = [],
-                    records = [],
-                    Model   = me.model,
-                    i       = 0,
-                    length  = root.length,
-                    idProp  = me.getIdProperty(),
-                    node, id, record;
-                    
-                if (!root.length && Ext.isObject(root)) {
-                    root = [root];
-                    length = 1;
-                }
-        
-                for (; i < length; i++) {
-                    node   = root[i];
-                    values = me.extractValues(node);
-                    
-                    // Assuming that the idProperty is intended to use the id mapping, if
-                    // available, getId() should read from the mapped values not the raw values.
-                    // Using the non-mapped id causes updates later to silently fail since
-                    // the updated data is replaced by id.
-                    //id = me.getId(node);
-                    id = me.getId(values);
-                    
-                    record = new Model(values, id, node);
-                    records.push(record);
+    if (extVersion.isLessThan('4.1')) {
+        if (Ext.data && Ext.data.reader && Ext.data.reader.Reader) {
+            Ext.data.reader.Reader.override({
+                extractData : function(root) {
+                    var me = this,
+                        values  = [],
+                        records = [],
+                        Model   = me.model,
+                        i       = 0,
+                        length  = root.length,
+                        idProp  = me.getIdProperty(),
+                        node, id, record;
                         
-                    if (me.implicitIncludes) {
-                        me.readAssociated(record, node);
+                    if (!root.length && Ext.isObject(root)) {
+                        root = [root];
+                        length = 1;
                     }
+            
+                    for (; i < length; i++) {
+                        node   = root[i];
+                        values = me.extractValues(node);
+                        
+                        // Assuming that the idProperty is intended to use the id mapping, if
+                        // available, getId() should read from the mapped values not the raw values.
+                        // Using the non-mapped id causes updates later to silently fail since
+                        // the updated data is replaced by id.
+                        //id = me.getId(node);
+                        id = me.getId(values);
+                        
+                        record = new Model(values, id, node);
+                        records.push(record);
+                            
+                        if (me.implicitIncludes) {
+                            me.readAssociated(record, node);
+                        }
+                    }
+            
+                    return records;
                 }
-        
-                return records;
-            }
-        });
+            });
+        }
     }
     
     if (Ext.form && Ext.form.Basic) {
