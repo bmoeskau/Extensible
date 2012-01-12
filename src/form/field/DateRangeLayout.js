@@ -1,4 +1,5 @@
-/**
+// Not currently used
+/*
  * @class Extensible.form.field.DateRangeLayout
  * @extends Ext.layout.container.Container
  * @markdown
