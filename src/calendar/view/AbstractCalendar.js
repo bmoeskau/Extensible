@@ -1462,30 +1462,33 @@ alert('End: '+bounds.end);
                 enableEditDetails: this.enableEditDetails,
                 listeners: {
                     'eventadd': {
-                        fn: function(win, rec, animTarget){
+                        fn: function(win, rec, animTarget) {
                             //win.hide(animTarget);
                             win.currentView.onEventAdd(null, rec);
                         },
                         scope: this
                     },
                     'eventupdate': {
-                        fn: function(win, rec, animTarget){
+                        fn: function(win, rec, animTarget) {
                             //win.hide(animTarget);
                             win.currentView.onEventUpdate(null, rec);
                         },
                         scope: this
                     },
                     'eventdelete': {
-                        fn: function(win, rec, animTarget){
+                        fn: function(win, rec, animTarget) {
                             //win.hide(animTarget);
                             win.currentView.onEventDelete(null, rec);
                         },
                         scope: this
                     },
                     'editdetails': {
-                        fn: function(win, rec, animTarget, view){
-                            win.hide(animTarget);
-                            win.currentView.fireEvent('editdetails', win.currentView, rec, animTarget);
+                        fn: function(win, rec, animTarget, view) {
+                            // explicitly do not animate the hide when switching to detail
+                            // view as it looks weird visually
+                            win.animateTarget = null;
+                            win.hide();
+                            win.currentView.fireEvent('editdetails', win.currentView, rec);
                         },
                         scope: this
                     },

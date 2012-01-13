@@ -252,12 +252,13 @@ Ext.define('Extensible.calendar.form.EventWindow', {
      */
     show: function(o, animateTarget){
 		// Work around the CSS day cell height hack needed for initial render in IE8/strict:
-		var anim = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget,
+		this.animateTarget = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget,
             M = Extensible.calendar.data.EventMappings;
 
-        this.callParent([this, anim, function(){
+        this.callParent([this.animateTarget, function(){
             this.titleField.focus(false, 100);
-        }]);
+        }, this]);
+        
         this.deleteButton[o.data && o.data[M.EventId.name] ? 'show' : 'hide']();
         
         var rec, f = this.formPanel.form;
@@ -314,7 +315,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     // private
     onCancel: function(){
     	this.cleanup(true);
-		this.fireEvent('eventcancel', this, this.animateTarget);
+		this.fireEvent('eventcancel', this, this.activeRecord, this.animateTarget);
     },
 
     // private
