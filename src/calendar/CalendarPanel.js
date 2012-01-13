@@ -234,23 +234,22 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         var multiDayViewCount = (this.multiDayViewCfg && this.multiDayViewCfg.dayCount) || 3,
             multiWeekViewCount = (this.multiWeekViewCfg && this.multiWeekViewCfg.weekCount) || 2;
         
+        //
+        // TODO: Pull the configs for the toolbar/buttons out to the prototype for overrideability
+        //
         if(this.showNavToday){
             this.tbar.items.push({
                 id: this.id+'-tb-today', text: this.todayText, handler: this.onTodayClick, scope: this
             });
         }
         if(this.showNavNextPrev){
-            this.tbar.items.push([
-                {id: this.id+'-tb-prev', handler: this.onPrevClick, scope: this, iconCls: 'x-tbar-page-prev'},
-                {id: this.id+'-tb-next', handler: this.onNextClick, scope: this, iconCls: 'x-tbar-page-next'}
-            ]);
+            this.tbar.items.push({id: this.id+'-tb-prev', handler: this.onPrevClick, scope: this, iconCls: 'x-tbar-page-prev'});
+            this.tbar.items.push({id: this.id+'-tb-next', handler: this.onNextClick, scope: this, iconCls: 'x-tbar-page-next'});
         }
         if(this.showNavJump){
-            this.tbar.items.push([
-                this.jumpToText,
-                {id: this.id+'-tb-jump-dt', xtype: 'datefield', showToday: false},
-                {id: this.id+'-tb-jump', text: this.goText, handler: this.onJumpClick, scope: this}
-            ]);
+            this.tbar.items.push(this.jumpToText);
+            this.tbar.items.push({id: this.id+'-tb-jump-dt', xtype: 'datefield', width: 120, showToday: false});
+            this.tbar.items.push({id: this.id+'-tb-jump', text: this.goText, handler: this.onJumpClick, scope: this});
         }
         
         this.tbar.items.push('->');
