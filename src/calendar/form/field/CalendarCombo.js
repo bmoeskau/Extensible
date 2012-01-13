@@ -25,7 +25,6 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
     queryMode: 'local',
     forceSelection: true,
     selectOnFocus: true,
-    width: 200,
     
     // private
     defaultCls: 'x-cal-default',

@@ -26,7 +26,6 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
     
     requires: ['Ext.data.ArrayStore'],
     
-    width: 200,
     fieldLabel: 'Reminder',
     queryMode: 'local',
     triggerAction: 'all',
