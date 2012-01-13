@@ -622,6 +622,9 @@ td.ext-cal-dtitle-today div {
 }
 
 /* Calendar Picker */
+.ext-calendar-picker {
+    position: relative;
+}
 .ext-calendar-picker .x-form-text {
     padding-left: 27px;
 }
