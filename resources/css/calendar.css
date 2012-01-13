@@ -836,12 +836,19 @@ td.ext-cal-dtitle-today div {
     padding: 10px;
     background: #DFE8F6;
 }
+.ext-cal-event-win .x-panel-body {
+    padding: 8px 10px 5px;
+}
 
 /*******************************************
  * 
  * DateRangeField styles
  *
  ******************************************/
+.ext-dt-range {
+    /* Don't double the bottom margin, use the contained fields' margin */
+    margin-bottom: 0 !important;
+}
 .ext-dt-range .x-form-cb-wrap {
     white-space: nowrap;
 }

@@ -67,7 +67,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     buttonAlign: 'left',
     editDetailsLinkClass: 'edit-dtl-link',
     enableEditDetails: true,
-    bodyStyle: 'padding: 8px 10px 5px;',
     layout: 'fit',
     
     formPanelConfig: {
