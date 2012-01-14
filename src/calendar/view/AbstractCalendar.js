@@ -220,6 +220,13 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      */
     hideMode: 'offsets',
     
+    /**
+     * @property ownerCalendarPanel
+     * @type Extensible.calendar.CalendarPanel
+     * If this view is hosted inside a {@link Extensible.calendar.CalendarPanel CalendarPanel} this property will reference
+     * it. If the view was created directly outside of a CalendarPanel this property will be null. Read-only.
+     */
+    
     //private properties -- do not override:
     weekCount: 1,
     dayCount: 1,
@@ -1185,6 +1192,13 @@ viewConfig: {
         if (me.fireEvent('beforedatechange', me, cloneStartDate, cloneStart, cloneViewStart, cloneViewEnd) !== false) {
             me.startDate = Ext.Date.clearTime(start);
             me.setViewBounds(start);
+            
+            if (me.ownerCalendarPanel && me.ownerCalendarPanel.startDate !== me.startDate) {
+                // Sync the owning CalendarPanel's start date directly, not via CalendarPanel.setStartDate(),
+                // since that would in turn call this method again.
+                me.ownerCalendarPanel.startDate = me.startDate;
+            }
+            
             if (me.rendered) {
                 me.refresh(reload);
             }
