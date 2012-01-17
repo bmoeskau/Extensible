@@ -35,7 +35,8 @@ cp $EXTENSIBLE_OUTPUT/$VER/extensible-all-debug.js $EXTENSIBLE_ROOT
 cp $EXTENSIBLE_OUTPUT/$VER/resources/css/extensible-all.css $EXTENSIBLE_ROOT/resources/css
 
 # Copy other resource files to output
-cp $EXTENSIBLE_ROOT/*.textile $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/Extensible-config.js $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/*.md $EXTENSIBLE_OUTPUT/$VER/
 cp $EXTENSIBLE_ROOT/*.txt $EXTENSIBLE_OUTPUT/$VER/
 cp $EXTENSIBLE_ROOT/*.html $EXTENSIBLE_OUTPUT/$VER/
 
