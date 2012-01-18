@@ -36,7 +36,9 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
     },
     
     // private
-    constructor: function(config){
+    constructor: function(config) {
+        config = config || {};
+        
         this.callParent(arguments);
         
         this.sorters = this.sorters || [{
@@ -89,7 +91,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
     
     // If the store started with preloaded inline data, we have to make sure the records are set up
     // properly as valid "saved" records otherwise they may get "added" on initial edit.
-    initRecs: function(){
+    initRecs: function() {
         this.each(function(rec){
             rec.store = this;
             rec.phantom = false;

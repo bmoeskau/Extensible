@@ -3,7 +3,9 @@ Ext.define('Extensible.calendar.data.EventStore', {
     extend: 'Ext.data.Store',
     model: 'Extensible.calendar.data.EventModel',
     
-    constructor: function(config){
+    constructor: function(config) {
+        config = config || {};
+        
         // By default autoLoad will cause the store to load itself during the
         // constructor, before the owning calendar view has a chance to set up
         // the initial date params to use during loading.  We replace autoLoad
@@ -17,7 +19,7 @@ Ext.define('Extensible.calendar.data.EventStore', {
         this.callParent(arguments);
     },
     
-    load : function(o){
+    load : function(o) {
         Extensible.log('store load');
         o = o || {};
         
