@@ -27,14 +27,20 @@ done
 # Build it
 java -jar $EXTENSIBLE_ROOT/build/JSBuilder2.jar --projectFile $EXTENSIBLE_ROOT/extensible.jsb2 --homeDir $EXTENSIBLE_OUTPUT
 
+# Copy the Extensible class definition to the root as extensible.js for dynamic loading support
+cp $EXTENSIBLE_ROOT/src/Extensible.js $EXTENSIBLE_OUTPUT/$VER/extensible.js
+
 # Copy the deploy files back into dev so that the samples get the latest code
 echo Updating dev...
-cp $EXTENSIBLE_OUTPUT/$VER/extensible-all.js $EXTENSIBLE_ROOT
-cp $EXTENSIBLE_OUTPUT/$VER/extensible-all-debug.js $EXTENSIBLE_ROOT
+cp $EXTENSIBLE_OUTPUT/$VER/extensible*.js $EXTENSIBLE_ROOT
 cp $EXTENSIBLE_OUTPUT/$VER/resources/css/extensible-all.css $EXTENSIBLE_ROOT/resources/css
 
 # Copy other resource files to output
-cp $EXTENSIBLE_ROOT/* $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/*.js $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/*.html $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/*.css $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/*.txt $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/*.md $EXTENSIBLE_OUTPUT/$VER/
 
 # Docs
 if [ "$docs" = "1" ]; then
