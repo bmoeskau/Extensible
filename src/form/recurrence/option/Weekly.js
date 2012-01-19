@@ -1,6 +1,6 @@
-Ext.define('Extensible.form.recurrence.option.ByDay', {
+Ext.define('Extensible.form.recurrence.option.Weekly', {
     extend: 'Extensible.form.recurrence.AbstractOption',
-    alias: 'widget.extensible.recurrence-byday',
+    alias: 'widget.extensible.recurrence-weekly',
     
     requires: [
         'Ext.form.field.Checkbox', // should be required by CheckboxGroup but isn't
