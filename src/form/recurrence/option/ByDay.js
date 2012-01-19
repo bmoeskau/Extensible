@@ -2,15 +2,12 @@ Ext.define('Extensible.form.recurrence.option.ByDay', {
     extend: 'Extensible.form.recurrence.AbstractOption',
     alias: 'widget.extensible.recurrence-byday',
     
+    requires: [
+        'Ext.form.field.Checkbox', // should be required by CheckboxGroup but isn't
+        'Ext.form.CheckboxGroup'
+    ],
+    
     key: 'BYDAY',
-
-    initComponent: function() {
-        var me = this;
-        
-        me.startDate = me.startDate || new Date();
-        me.items = me.getItemConfigs();
-        me.callParent(arguments);
-    },
     
     getItemConfigs: function() {
         var id = this.id;
@@ -41,11 +38,6 @@ Ext.define('Extensible.form.recurrence.option.ByDay', {
                 }
             }
         }]
-    },
-    
-    afterRender: function(){
-        this.callParent(arguments);
-        this.initRefs();
     },
     
     initRefs: function() {

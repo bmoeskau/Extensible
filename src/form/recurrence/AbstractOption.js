@@ -6,14 +6,19 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     },
     
     layout: 'hbox',
+    
     defaults: {
         margins: '0 5 0 0'
     },
     
     key: undefined,
     
+    dateValueFormat: 'Ymd\\T000000\\Z',
+    
     initComponent: function() {
-        this.addEvents(
+        var me = this;
+        
+        me.addEvents(
             /**
              * @event change
              * Fires when a user-initiated change is detected in the value of the field.
@@ -22,9 +27,23 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
              */
             'change'
         );
-        this.callParent();
-        this.initField();
+        me.startDate = me.startDate || new Date();
+        me.items = me.getItemConfigs();
+        
+        me.callParent(arguments);
+        
+        me.initField();
     },
+    
+    afterRender: function(){
+        this.callParent(arguments);
+        this.initRefs();
+        this.updateLabel();
+    },
+    
+    initRefs: Ext.emptyFn,
+    
+    updateLabel: Ext.emptyFn,
     
     onChange: function(field, value, oldValue) {
         this.setValue(value);
@@ -33,10 +52,7 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     
     setStartDate: function(dt) {
         this.startDate = dt;
-        
-        if (this.updateLabel) {
-            this.updateLabel();
-        }
+        this.updateLabel();
         return this;
     }
 });
