@@ -7,7 +7,6 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
     
     requires: ['Ext.data.ArrayStore'],
     
-    width: 160,
     fieldLabel: 'Repeats',
     queryMode: 'local',
     triggerAction: 'all',

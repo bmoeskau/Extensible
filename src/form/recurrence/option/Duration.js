@@ -35,7 +35,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             value: 'forever',
             store: ['forever', 'for', 'until'],
             listeners: {
-                'select': Ext.bind(me.onComboSelect, me)
+                'change': Ext.bind(me.onComboChange, me)
             }
         },{
             xtype: 'datefield',
@@ -45,7 +45,10 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             format: me.endDateFormat || Ext.form.field.Date.prototype.format,
             maxValue: me.maxEndDate,
             allowBlank: false,
-            hidden: true
+            hidden: true,
+            listeners: {
+                'change': Ext.bind(me.onDateChange, me)
+            }
         },{
             xtype: 'numberfield',
             itemId: me.id + '-duration-num',
@@ -54,7 +57,10 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             minValue: me.minOccurrences,
             maxValue: me.maxOccurrences,
             allowBlank: false,
-            hidden: true
+            hidden: true,
+            listeners: {
+                'change': Ext.bind(me.onNumberChange, me)
+            }
         },{
             xtype: 'label',
             itemId: me.id + '-duration-num-label',
@@ -71,7 +77,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         me.untilNumberLabel = me.down('#' + me.id + '-duration-num-label');
     },
     
-    onComboSelect: function(combo, rec) {
+    onComboChange: function(combo, rec) {
         var me = this,
             field = rec[0].data.field1;
             
@@ -111,19 +117,22 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             return;
         }
         
-        var parts = Ext.isArray(v) ? v : (Ext.isString(v) ? v.split(';') : v);
+        var parts = Ext.isArray(v) ? v : (Ext.isString(v) ? v.split(';') : v),
+            value;
 
         Ext.each(parts, function(part) {
-            if (p.indexOf('COUNT') > -1) {
-                var count = p.split('=')[1];
+            if (part.indexOf('COUNT') > -1) {
+                value = part.split('=')[1];
+                me.value = 'COUNT=' + value;
                 me.untilCombo.setValue('for');
-                me.untilNumberField.setValue(count).show();
+                me.untilNumberField.setValue(value).show();
                 me.untilNumberLabel.show();
             }
-            else if (p.indexOf('UNTIL') > -1) {
-                var dt = p.split('=')[1];
+            else if (part.indexOf('UNTIL') > -1) {
+                value = part.split('=')[1];
+                me.value = 'UNTIL=' + Ext.Date.format(value, me.dateValueFormat);
                 me.untilCombo.setValue('until');
-                me.untilDateField.setValue(Date.parseDate(dt, this.untilDateFormat)).show();
+                me.untilDateField.setValue(Date.parseDate(value, this.untilDateFormat)).show();
                 me.untilNumberLabel.hide();
             }
         }, me);

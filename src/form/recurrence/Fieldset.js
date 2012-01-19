@@ -16,6 +16,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         'Extensible.form.recurrence.option.Interval',
         'Extensible.form.recurrence.option.Weekly',
         'Extensible.form.recurrence.option.Monthly',
+        'Extensible.form.recurrence.option.Yearly',
         'Extensible.form.recurrence.option.Duration'
     ],
     
@@ -24,6 +25,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     enableFx: true,
     monitorChanges: true,
     cls: 'extensible-recur-field',
+    
+    fieldWidth: null, // defaults to the anchor value
     
     layout: 'anchor',
     defaults: {
@@ -40,6 +43,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         me.items = [{
             xtype: 'extensible.recurrence-frequency',
             hideLabel: true,
+            width: this.fieldWidth,
             itemId: this.id + '-frequency',
             
             listeners: {
@@ -78,22 +82,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 xtype: 'extensible.recurrence-monthly',
                 itemId: this.id + '-monthly'
             },{
-                xtype: 'fieldcontainer',
-                layout: 'hbox',
-                itemId: this.id + '-yearly',
-                defaults: {
-                    margins: '0 5 0 0'
-                },
-                items: [{
-                    xtype: 'label',
-                    text: 'on the'
-                },{
-                    xtype: 'combobox',
-                    store: []
-                },{
-                    xtype: 'label',
-                    text: 'each year'
-                }]
+                xtype: 'extensible.recurrence-yearly',
+                itemId: this.id + '-yearly'
             },{
                 xtype: 'extensible.recurrence-duration',
                 itemId: this.id + '-duration'
@@ -192,8 +182,15 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             return '';
         }
         
-        var values = ['FREQ=' + this.frequency],
+        var values,
             itemValue;
+        
+        if (this.frequency == 'WEEKDAYS') {
+            values = ['FREQ=WEEKLY','BYDAY=MO,TU,WE,TH,FR'];
+        }
+        else {
+            values = ['FREQ=' + this.frequency];
+        }
         
         this.innerContainer.items.each(function(item) {
             if(item.isVisible() && item.getValue){
@@ -314,10 +311,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         
         switch(freq){
             case 'DAILY':
-                break;
-            
             case 'WEEKDAYS':
-                unit = 'week';
                 break;
             
             case 'WEEKLY':

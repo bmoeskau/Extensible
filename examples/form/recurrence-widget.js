@@ -17,6 +17,10 @@ Ext.onReady(function(){
         //frequency: 'WEEKLY',
         anchor: '90%',
         
+        // Override the width of the combo, or set to null to anchor it.
+        // This config takes precedence over the anchor config if spoecified.
+        fieldWidth: 180,
+        
         listeners: {
             'change': onRecurrenceChange
         },
