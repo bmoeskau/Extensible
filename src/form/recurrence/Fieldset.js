@@ -12,10 +12,9 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     
     requires: [
         'Ext.form.Label',
-        'Ext.form.field.ComboBox',
         'Extensible.form.recurrence.FrequencyCombo',
         'Extensible.form.recurrence.option.Interval',
-        'Extensible.form.recurrence.option.ByDay',
+        'Extensible.form.recurrence.option.Weekly',
         'Extensible.form.recurrence.option.Monthly',
         'Extensible.form.recurrence.option.Duration'
     ],
@@ -73,8 +72,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                     xtype: 'datefield'
                 }]
             },{
-                xtype: 'extensible.recurrence-byday',
-                itemId: this.id + '-byday'
+                xtype: 'extensible.recurrence-weekly',
+                itemId: this.id + '-weekly'
             },{
                 xtype: 'extensible.recurrence-monthly',
                 itemId: this.id + '-monthly'
@@ -118,7 +117,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         me.innerContainer = me.down('#' + id + '-inner-ct');
         me.frequencyCombo = me.down('#' + id + '-frequency');
         me.intervalField = me.down('#' + id + '-interval');
-        me.byDayField = me.down('#' + id + '-byday');
+        me.weeklyField = me.down('#' + id + '-weekly');
         me.monthlyField = me.down('#' + id + '-monthly');
         me.yearlyField = me.down('#' + id + '-yearly');
         me.startDateField = me.down('#' + id + '-start-date');
@@ -131,7 +130,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         var me = this;
         
         me.intervalField.on('change', me.onChange, me);
-        me.byDayField.on('change', me.onChange, me);
+        me.weeklyField.on('change', me.onChange, me);
     },
     
     onChange: function() {
@@ -309,7 +308,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             //me.startDateField.show();
         }
         
-        me.byDayField.hide();
+        me.weeklyField.hide();
         me.monthlyField.hide();
         me.yearlyField.hide();
         
@@ -322,7 +321,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 break;
             
             case 'WEEKLY':
-                me.byDayField.show();
+                me.weeklyField.show();
                 unit = 'week';
                 break;
             
