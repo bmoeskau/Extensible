@@ -1,4 +1,3 @@
-
 Extensible = window.Extensible || {};
 
 /**
@@ -7,21 +6,28 @@ Extensible = window.Extensible || {};
  * your application with the proper paths directly.
  */
 Extensible.Config = {
-
     /**
-     * Sets up all configurable properties. Edit the property values in this method as needed. 
+     * Edit the values of these default configs to customize how Ext JS and Extensible are loaded.
      */
-    init: function() {
+    defaults: {
         /**
-         * Whether or not to load the debug versions of all Ext JS and Extensible scripts by automatically
-         * appending '-debug' to the end of script filename (e.g., 'ext-all-debug.js' vs. 'ext-all.js').
-         * Defaults to true.
+         * The mode to use for loading framework files. Valid values are:
+         * 
+         * - 'release': minified single file (e.g. ext-all.js)
+         * - 'debug': (default) non-minifed single file (e.g. ext-all-debug.js)
+         * 
+         * @config {String} mode
          */
-        this.IsDebug = true;
+        mode: 'debug',
         
         /**
          * The root path to the Ext JS framework (defaults to loading 3.4.0 from the Sencha CDN via
          * 'http://cdn.sencha.io/ext-3.4.0/'). Path should be absolute and should end with a '/'.
+         * 
+         * Note that the Sencha CDN does not always provide the most current version of Ext JS
+         * available (for example, support subscribers often have access to more up-to-date builds).
+         * If the version you need is not hosted you'll have to download it locally and update this
+         * path accordingly.
          * 
          * Alternate example values:
          * 
@@ -35,8 +41,10 @@ Extensible.Config = {
          * // A custom absolute path:
          * http://localhost/extjs/
          * http://mydomain/extjs/3.4.0/
+         * 
+         * @config {String} extJsRoot
          */
-        this.ExtJsRoot = 'http://cdn.sencha.io/ext-3.4.0/';
+        extJsRoot: 'http://cdn.sencha.io/ext-3.4.0/',
         
         /**
          * The root path to the Extensible framework (defaults to the current url of this script file,
@@ -48,9 +56,23 @@ Extensible.Config = {
          * // A custom absolute path:
          * http://localhost/extensible/
          * http://mydomain/extensible/1.0.1/
+         * 
+         * @config {String} extensibleRoot
          */
-        this.ExtensibleRoot = this.getSdkPath();
+        extensibleRoot: null // initialized dynamically in getSdkPath()
+    },
+
+    /**
+     * Sets up all configurable properties and writes all includes to the document.
+     */
+    init: function() {
+        var config = window.ExtensibleConfig || {};
         
+        this.mode = config.mode || this.defaults.mode;
+        this.extJsRoot = config.extJsRoot || this.defaults.extJsRoot;
+        this.extensibleRoot = config.extensibleRoot || this.defaults.extensibleRoot || this.getSdkPath();
+        
+        this.adjustPaths();
         this.writeIncludes();
     },
     
@@ -60,30 +82,58 @@ Extensible.Config = {
             thisScriptSrc = scripts[scripts.length - 1].src,
             sdkPath = thisScriptSrc.substring(0, thisScriptSrc.lastIndexOf('/') + 1);
         
-        if (sdkPath.indexOf('ext.ensible.com') > -1) {
-            // If hosted at ext.ensible.com force non-debug includes
-            this.IsDebug = false;
-        }
         return sdkPath;
+    },
+    
+    // private -- helper function for ease of deployment
+    adjustPaths: function() {
+        if (this.extensibleRoot.indexOf('ext.ensible.com') > -1) {
+            // If hosted at ext.ensible.com force non-debug release build includes
+            this.mode = 'release';
+        }
     },
     
     // private -- write out the CSS and script includes to the document
     writeIncludes: function() {
-        var debug = this.IsDebug ? '-debug' : '';
+        var suffix = (this.mode === 'debug' ? '-debug' : '');
         
-        // Ext JS includes:
-        document.write('<link rel="stylesheet" type="text/css" href="' + this.ExtJsRoot + 'resources/css/ext-all.css" />');
-        document.write('<script type="text/javascript" src="' + this.ExtJsRoot + 'adapter/ext/ext-base' + debug + '.js"></script>');
-        document.write('<script type="text/javascript" src="' + this.ExtJsRoot + 'ext-all' + debug + '.js"></script>');
+        var includes = [
+            '<link rel="stylesheet" type="text/css" href="' + this.extJsRoot + 'resources/css/ext-all.css" />',
+            '<script type="text/javascript" src="' + this.extJsRoot + 'adapter/ext/ext-base' + suffix + '.js"></script>',
+            '<script type="text/javascript" src="' + this.extJsRoot + 'ext-all' + suffix + '.js"></script>',
+            '<link rel="stylesheet" type="text/css" href="' + this.extensibleRoot + 'resources/css/extensible-all.css" />',
+            '<script type="text/javascript" src="' + this.extensibleRoot + 'extensible-all' + suffix + '.js"></script>',
+            '<link rel="stylesheet" type="text/css" href="' + this.extensibleRoot + 'examples/examples.css" />',
+            '<script type="text/javascript" src="' + this.extensibleRoot + 'examples/examples.js"></script>',
+        ].join('');
         
-        // Extensible includes:
-        document.write('<link rel="stylesheet" type="text/css" href="' + this.ExtensibleRoot + 'resources/css/extensible-all.css" />');
-        document.write('<script type="text/javascript" src="' + this.ExtensibleRoot + 'extensible-all' + debug + '.js"></script>');
-        
-        // Shared example includes:
-        document.write('<link rel="stylesheet" type="text/css" href="' + this.ExtensibleRoot + 'examples/examples.css" />');
-        document.write('<script type="text/javascript" src="' + this.ExtensibleRoot + 'examples/examples.js"></script>');
+        document.write(includes);
     }
 };
 
+/*
+ * Kick it off. To customize the configuration settings from external code, you can create a global
+ * object -- before including this Extensible-config.js script -- called "ExtensibleConfig" and give
+ * it properties corresponding to the Extensible.Config configs you want to set. If it exists the
+ * ExtensibleConfig object will be used and then destroyed automatically, otherwise the Extensible.Config
+ * defaults will be used. Any options not specified in the ExtensibleConfig object will simply use the
+ * default value. For example:
+ * 
+ * ExtensibleConfig = {
+ *     mode: 'release'
+ * }
+ * 
+ * Note that this global config object is primarily supported for testability and for one-off
+ * overriding of Extensible.Config. To change the configuration that you plan to use for your normal
+ * day-to-day use you should simply edit the Extensible.Configs.defaults as needed to change the
+ * settings globally without having to create this object on each page.
+ */
 Extensible.Config.init();
+
+// Clean up the global config override if it exists
+try {
+    delete window.ExtensibleConfig;
+}
+catch(ex) {
+    window.ExtensibleConfig = null;
+}
