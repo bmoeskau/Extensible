@@ -11,28 +11,37 @@ Extensible.Config = {
      */
     defaults: {
         /**
-         * The {@link Extensible.Config.includeModes mode} to use for loading framework files 
-         * (defaults to release). 
-         * @config {Extensible.Config.includeModes} mode
+         * The mode to use for loading framework files. Valid values are:
+         * 
+         * - 'release': minified single file (e.g. ext-all.js)
+         * - 'debug': (default) non-minifed single file (e.g. ext-all-debug.js)
+         * - 'dynamic': uses Ext.Loader to load classes individually (e.g., ext.js)
+         * 
+         * Typically the default of 'debug' is the best trade-off between code readability and
+         * load/execution speed. If you need to step into framework files frequently during
+         * debugging you might switch to 'dynamic' mode -- it is much slower during initial
+         * page load but generally provides a faster and easier debugging experience.
+         * 
+         * @config {String} mode
          */
-        mode: 'release',
+        mode: 'debug',
         
         /**
-         * The root path to the Ext JS framework (defaults to loading 4.0.2 from the Sencha CDN via
-         * 'http://cdn.sencha.io/ext-4.0.2/'). Path should be absolute and should end with a '/'.
+         * The root path to the Ext JS framework (defaults to loading 4.0.7 from the Sencha CDN via
+         * 'http://cdn.sencha.io/ext-4.0.7-gpl/'). Path should be absolute and should end with a '/'.
          * 
          * Note that the Sencha CDN does not always provide the most current version of Ext JS
-         * available (for example, support subscribers have access to more up-to-date builds). If
-         * the version you need is not hosted you'll have to download it locally and update this
+         * available (for example, support subscribers often have access to more up-to-date builds).
+         * If the version you need is not hosted you'll have to download it locally and update this
          * path accordingly.
          * 
          * Alternate example values:
          * 
          * // Older Ext JS versions:
-         * http://cdn.sencha.io/ext-4.0.1/
+         * http://cdn.sencha.io/ext-4.0.2/
          * 
          * // Direct to cachefly.net, e.g. if sencha.io is down:
-         * http://extjs.cachefly.net/ext-4.0.2/
+         * http://extjs.cachefly.net/ext-4.0.7-gpl/
          * 
          * // A custom absolute path:
          * http://localhost/extjs/
@@ -40,7 +49,7 @@ Extensible.Config = {
          * 
          * @config {String} extJsRoot
          */
-        extJsRoot: 'http://cdn.sencha.io/ext-4.0.2/',
+        extJsRoot: 'http://cdn.sencha.io/ext-4.0.7-gpl/',
         
         /**
          * The root path to the Extensible framework (defaults to the current url of this script file,
@@ -68,6 +77,7 @@ Extensible.Config = {
         this.extJsRoot = config.extJsRoot || this.defaults.extJsRoot;
         this.extensibleRoot = config.extensibleRoot || this.defaults.extensibleRoot || this.getSdkPath();
         
+        this.adjustPaths();
         this.writeIncludes();
         this.writeLoaderScript();
     },
@@ -78,11 +88,15 @@ Extensible.Config = {
             thisScriptSrc = scripts[scripts.length - 1].src,
             sdkPath = thisScriptSrc.substring(0, thisScriptSrc.lastIndexOf('/') + 1);
         
-        if (sdkPath.indexOf('ext.ensible.com') > -1) {
-            // If hosted at ext.ensible.com force non-debug release build includes
-            this.mode = this.includeModes.release;
-        }
         return sdkPath;
+    },
+    
+    // private -- helper function for ease of deployment
+    adjustPaths: function() {
+        if (this.extensibleRoot.indexOf('ext.ensible.com') > -1) {
+            // If hosted at ext.ensible.com force non-debug release build includes
+            this.mode = 'release';
+        }
     },
     
     // private -- write out the CSS and script includes to the document
@@ -137,9 +151,11 @@ Extensible.Config = {
 
 /*
  * Kick it off. To customize the configuration settings from external code, you can create a global
- * object called "ExtensibleConfig" and give it properties corresponding to the Extensible.Config
- * configs you want to set. If it exists the ExtensibleConfig object will be used and then cleaned
- * up automatically, otherwise the Extensible.Config defaults will be used. For example:
+ * object -- before including this Extensible-config.js script -- called "ExtensibleConfig" and give
+ * it properties corresponding to the Extensible.Config configs you want to set. If it exists the
+ * ExtensibleConfig object will be used and then destroyed automatically, otherwise the Extensible.Config
+ * defaults will be used. Any options not specified in the ExtensibleConfig object will simply use the
+ * default value. For example:
  * 
  * ExtensibleConfig = {
  *     mode: 'dynamic'
