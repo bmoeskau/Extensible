@@ -7,44 +7,36 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
     key: 'INTERVAL',
     
     unit: 'day',
-
-    initComponent: function() {
-        var me = this;
-        
-        me.startDate = me.startDate || new Date();
-        me.items = me.getItemConfigs();
-        me.callParent(arguments);
-    },
+    
+    minValue: 1,
+    
+    maxValue: 999,
     
     getItemConfigs: function() {
+        var me = this;
+        
         return [{
             xtype: 'label',
             text: 'Repeat every'
         },{
             xtype: 'numberfield',
-            itemId: this.id + '-interval',
+            itemId: me.id + '-interval',
             value: 1,
-            width: 45,
-            minValue: 1,
-            maxValue: 99,
+            width: 55,
+            minValue: me.minValue,
+            maxValue: me.maxValue,
             allowBlank: false,
             enableKeyEvents: true,
             listeners: {
                 'change': {
-                    fn: this.onChange,
+                    fn: me.onChange,
                     scope: this
                 }
             }
         },{
             xtype: 'label',
-            itemId: this.id + '-date-label'
+            itemId: me.id + '-date-label'
         }]
-    },
-    
-    afterRender: function(){
-        this.callParent(arguments);
-        this.initRefs();
-        this.updateLabel();
     },
     
     initRefs: function() {
@@ -63,9 +55,7 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         if (!me.intervalField) {
             me.on('afterrender', function() {
                 me.setValue(v);
-            }, me, {
-                single: true
-            });
+            }, me, {single: true});
             return;
         }
         

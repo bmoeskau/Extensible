@@ -11,14 +11,13 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     },
     
     requires: [
-        'Ext.form.CheckboxGroup',
         'Ext.form.Label',
         'Ext.form.field.ComboBox',
-        'Ext.form.field.Checkbox',
-        'Ext.layout.container.Card',
         'Extensible.form.recurrence.FrequencyCombo',
         'Extensible.form.recurrence.option.Interval',
-        'Extensible.form.recurrence.option.ByDay'
+        'Extensible.form.recurrence.option.ByDay',
+        'Extensible.form.recurrence.option.Monthly',
+        'Extensible.form.recurrence.option.Duration'
     ],
     
     fieldLabel: 'Repeats',
@@ -77,22 +76,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 xtype: 'extensible.recurrence-byday',
                 itemId: this.id + '-byday'
             },{
-                xtype: 'fieldcontainer',
-                layout: 'hbox',
-                itemId: this.id + '-monthly',
-                defaults: {
-                    margins: '0 5 0 0'
-                },
-                items: [{
-                    xtype: 'label',
-                    text: 'on the'
-                },{
-                    xtype: 'combobox',
-                    store: []
-                },{
-                    xtype: 'label',
-                    text: 'of each month'
-                }]
+                xtype: 'extensible.recurrence-monthly',
+                itemId: this.id + '-monthly'
             },{
                 xtype: 'fieldcontainer',
                 layout: 'hbox',
@@ -111,19 +96,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                     text: 'each year'
                 }]
             },{
-                xtype: 'fieldcontainer',
-                layout: 'hbox',
-                itemId: this.id + '-duration',
-                defaults: {
-                    margins: '0 5 0 0'
-                },
-                items: [{
-                    xtype: 'label',
-                    text: 'and continuing'
-                },{
-                    xtype: 'combobox',
-                    store: []
-                }]
+                xtype: 'extensible.recurrence-duration',
+                itemId: this.id + '-duration'
             }]
         }];
         
@@ -207,9 +181,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         else {
             this.on('afterrender', function() {
                 this.setStartDate(dt);
-            }, this, {
-                single: true
-            });
+            }, this, {single: true});
         }
     },
     
