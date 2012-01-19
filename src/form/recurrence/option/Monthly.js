@@ -7,14 +7,6 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
         'Extensible.lang.Number'
     ],
     
-    initComponent: function() {
-        var me = this;
-        
-        me.startDate = me.startDate || new Date();
-        me.items = me.getItemConfigs();
-        me.callParent(arguments);
-    },
-    
     afterRender: function() {
         this.callParent(arguments);
         this.initNthCombo();
@@ -50,18 +42,16 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             last = Ext.Date.getLastDateOfMonth(dt).getDate(),
             dayNum = dt.getDate(),
             nthDate = Ext.Date.format(dt, 'jS') + ' day',
-            s = '',
-            nthDayNum, nthDay, lastDay, idx, data;
-            
-        nthDayNum = Math.ceil(dayNum / 7);
-        nthDay = nthDayNum + Extensible.Number.getOrdinalSuffix(nthDayNum) + Ext.Date.format(dt, ' l');
-        data = [[nthDate],[nthDay]];
+            nthDayNum = Math.ceil(dayNum / 7),
+            nthDay = nthDayNum + Extensible.Number.getOrdinalSuffix(nthDayNum) + Ext.Date.format(dt, ' l'),
+            data = [[nthDate],[nthDay]],
+            idx
         
         if (last-dayNum < 7) {
-            data.push(['last '+Ext.Date.format(dt, 'l')+s]);
+            data.push(['last '+Ext.Date.format(dt, 'l')]);
         }
         if (last == dayNum) {
-            data.push(['last day'+s]);
+            data.push(['last day']);
         }
         
         idx = store.find('field1', cbo.getValue());
@@ -78,36 +68,31 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
     },
     
     setValue: function(v) {
-        // var me = this;
-//         
-        // if (!v) {
-            // me.value = undefined;
-            // return;
-        // }
-        // var parts = Ext.isArray(v) ? v : (Ext.isString(v) ? v.split(';') : v),
-            // interval = Ext.isNumber(v) ? v : null,
-            // setValueFn = function(v) {
-                // me.value = me.key + '=' + v;
-                // if (me.intervalField) {
-                    // me.intervalField.setValue(v);
-                // }
-            // }
-//         
-        // if (interval) {
-            // setValueFn(interval);
-        // }
-        // else {
-            // Ext.each(parts, function(part) {
-                // if (part.indexOf(me.key) > -1) {
-                    // interval = part.split('=')[1];
-                    // setValueFn(interval);
-                    // return;
-                // }
-            // }, me);
-        // }
-//         
-        // me.updateLabel();
-//         
-        // return me;
+        var me = this;
+        
+        if (!v) {
+            me.value = undefined;
+            return;
+        }
+
+        var parts = Ext.isArray(v) ? v : (Ext.isString(v) ? v.split(';') : v),
+            value;
+
+        Ext.each(parts, function(part) {
+            if (part.indexOf('BYMONTH') > -1) {
+                value = part.split('=')[1];
+                me.untilCombo.setValue('for');
+                me.untilNumberField.setValue(value).show();
+                me.untilNumberLabel.show();
+            }
+            else if (part.indexOf('UNTIL') > -1) {
+                value = part.split('=')[1];
+                me.untilCombo.setValue('until');
+                me.untilDateField.setValue(Date.parseDate(value, this.untilDateFormat)).show();
+                me.untilNumberLabel.hide();
+            }
+        }, me);
+        
+        return me;
     }
 })
