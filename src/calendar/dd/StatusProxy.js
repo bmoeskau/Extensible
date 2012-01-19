@@ -25,16 +25,16 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
     renderTpl: [
         '<div class="' + Ext.baseCSSPrefix + 'dd-drop-icon"></div>',
         '<div class="ext-dd-ghost-ct">',
-            '<div class="' + Ext.baseCSSPrefix + 'dd-drag-ghost"></div>',
-            '<div class="ext-dd-msg"></div>',
+            '<div id="{id}-ghost" class="' + Ext.baseCSSPrefix + 'dd-drag-ghost"></div>',
+            '<div id="{id}-message" class="ext-dd-msg"></div>',
         '</div>'
     ],
     
     // private -- applies only to Ext 4.1 and above, see notes in constructor
-    renderSelectors: {
-        ghost: '.' + Ext.baseCSSPrefix + 'dd-drag-ghost',
-        message: '.ext-dd-msg'
-    },
+    childEls: [
+        'ghost',
+        'message'
+    ],
     
     // private
     constructor: function(config) {
@@ -64,7 +64,7 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
         me.id = me.id || Ext.id();
         me.proxy = Ext.createWidget('component', {
             floating: true,
-            id: me.id,
+            id: me.id || Ext.id(),
             html: me.renderTpl.join(''),
             cls: Ext.baseCSSPrefix + 'dd-drag-proxy ' + me.dropNotAllowed,
             shadow: !config || config.shadow !== false,
