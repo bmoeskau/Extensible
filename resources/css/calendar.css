@@ -34,12 +34,12 @@
 .x-cal-panel .x-panel-body {
     background: white !important;
 }
-.x-panel-mc .x-panel-body .ext-cal-ct,
-.x-panel-mc .x-panel-body .ext-evt-edit-form {
-    border-left:1px solid #99BBE8;
-    border-right:1px solid #99BBE8;
+.x-panel-default-framed .x-panel-body .ext-cal-ct,
+.x-panel-default-framed .x-panel-body .ext-evt-edit-form {
+    border-left: 1px solid #99BBE8;
+    border-right: 1px solid #99BBE8;
 }
-.x-panel-mc .x-panel-body .ext-cal-day-header {
+.x-panel-default-framed .x-panel-body .ext-cal-day-header {
     border: 0;
 }
 .ext-cal-ct img {
@@ -62,7 +62,7 @@
 }
 
 /* Window specific rules */
-.x-window .x-window-mc .x-cal-body {
+.x-window .x-window-body .x-cal-body {
     border: 0 !important;
 }
 .x-window .ext-cal-toolbar {
@@ -187,7 +187,6 @@
     background-color: #fff;
     margin-top: -1px;
     border-bottom: 1px solid #bcf;
-    border-right: 1px solid #bcf;
 }
 .ext-cal-dayview .ext-cal-bg-rows {
     position: relative;
