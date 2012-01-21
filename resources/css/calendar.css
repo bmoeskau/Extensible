@@ -78,6 +78,10 @@
     top:0;
     width:100%;
 }
+.x-ie9 .ext-cal-dayview .ext-cal-body-ct .ext-cal-bg-tbl {
+    /* fix scroll position reset bug on IE9 on click */
+    position: relative;
+}
 
 /* Shared subheader */
 .ext-cal-hd-days-tbl {
