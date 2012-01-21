@@ -20,6 +20,7 @@ Harness.start({
 },{
     group: 'Visual',
     items: [
-        'visual/calendar.js'
+        'visual/calendar-basic.js',
+        'visual/calendar-read-only.js'
     ]
 });
