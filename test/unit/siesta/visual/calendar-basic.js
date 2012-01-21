@@ -25,12 +25,20 @@ StartTest(function(t) {
         // ==========================================================
         t.ok(eventStore.getCount() > 0, 'Event store is loaded');
         
-        var panel = Ext.create('Extensible.calendar.CalendarPanel', {
+        var eventClicked = false,
+        
+        panel = Ext.create('Extensible.calendar.CalendarPanel', {
             eventStore: eventStore,
             renderTo: Ext.getBody(),
             title: 'Basic Calendar',
             width: 500,
-            height: 400
+            height: 400,
+            
+            listeners: {
+                'eventclick': function() {
+                    eventClicked = true;
+                }
+            }
         });
         
         t.ok(Ext.get(panel.id), 'The CalendarPanel is rendered');
@@ -49,6 +57,7 @@ StartTest(function(t) {
             
             setTimeout(function() {
                 t.ok(editWindow.getEl().isVisible() === true, 'Edit window is visible');
+                t.ok(eventClicked, 'Eventclick event was handled');
                 
                 t.type(editWindow.getEl().down('input'), '[ESCAPE]', function() {
                     setTimeout(function() {

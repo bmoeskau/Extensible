@@ -1720,25 +1720,26 @@ alert('End: '+bounds.end);
      * click handling that calls this first.  This method returns true if it
      * can handle the click (and so the subclass should ignore it) else false.
      */
-    onClick : function(e, t){
-        if(this.readOnly === true){
-            return true;
+    onClick : function(e, t) {
+        var me = this,
+            el = e.getTarget(me.eventSelector, 5);
+        
+        if (me.dropZone) {
+            me.dropZone.clearShims();
         }
-        if(this.dropZone){
-            this.dropZone.clearShims();
-        }
-        if(this.menuActive === true){
+        if (me.menuActive === true) {
             // ignore the first click if a context menu is active (let it close)
-            this.menuActive = false;
+            me.menuActive = false;
             return true;
         }
-        var el = e.getTarget(this.eventSelector, 5);
-        if(el){
-            var id = this.getEventIdFromEl(el),
-                rec = this.getEventRecord(id);
+        if (el) {
+            var id = me.getEventIdFromEl(el),
+                rec = me.getEventRecord(id);
             
-            if(this.fireEvent('eventclick', this, rec, el) !== false){
-                this.showEventEditor(rec, el);
+            if (me.fireEvent('eventclick', me, rec, el) !== false) {
+                if (me.readOnly !== true) {
+                    me.showEventEditor(rec, el);
+                }
             }
             return true;
         }
