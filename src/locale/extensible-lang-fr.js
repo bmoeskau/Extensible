@@ -20,7 +20,7 @@ if(Ext.ensible.cal.MonthView) {
     Ext.apply(Ext.ensible.cal.MonthView.prototype, {
         moreText: '+{0} autres ...',
         getMoreText: function(numEvents){
-            return '+{0} autres ...';
+            return numEvents > 1 ? '+{0} autres ...' : '+{0} autre ...';
         },
         detailsTitleDateFormat: 'd F'
     });
