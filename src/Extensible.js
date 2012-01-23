@@ -23,10 +23,11 @@ Ext.define('Extensible', {
         patch: 0
     },
     /**
-     * The minimum version of Ext required to work with this version of Extensible
+     * The minimum version of Ext required to work with this version of Extensible, currently
+     * 4.0.1. Note that the 4.0.0 Ext JS release is not compatible.
      * @type String
      */
-    extVersion : '4.0.0',
+    extVersion : '4.0.1',
     
     // private
     hasBorderRadius : Ext.supports.CSS3BorderRadius,
