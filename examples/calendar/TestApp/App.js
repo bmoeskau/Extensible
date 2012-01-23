@@ -1,4 +1,13 @@
-﻿Ext.define('Extensible.example.calendar.TestApp.App', {
+﻿Ext.Loader.setConfig({
+    enabled: true,
+    disableCaching: false,
+    paths: {
+        "Extensible": "../../../src",
+        "Extensible.example": "../.."
+    }
+});
+
+Ext.define('Extensible.example.calendar.TestApp.App', {
     
     requires: [
         'Ext.Viewport',
@@ -250,4 +259,8 @@
     clearMsg: function(){
         Ext.fly('app-msg').update('').addCls('x-hidden');
     }
+});
+
+Ext.onReady(function() {
+    Ext.create('Extensible.example.calendar.TestApp.App');
 });

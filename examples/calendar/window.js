@@ -1,3 +1,11 @@
+Ext.Loader.setConfig({
+    enabled: true,
+    disableCaching: false,
+    paths: {
+        "Extensible": "../../src",
+        "Extensible.example": ".."
+    }
+});
 Ext.require([
     'Ext.Window',
     'Extensible.calendar.data.MemoryEventStore',
@@ -11,8 +19,8 @@ Ext.onReady(function(){
             this.calendarWin = Ext.create('Ext.Window', {
                 layout: 'fit',
                 title: 'Calendar Window',
-                width: 850,
-                height: 700,
+                width: 600,
+                height: 400,
                 modal: true,
                 closeAction: 'hide',
                 items: {

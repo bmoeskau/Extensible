@@ -1,3 +1,11 @@
+Ext.Loader.setConfig({
+    enabled: true,
+    disableCaching: false,
+    paths: {
+        "Extensible": "../../src",
+        "Extensible.example": ".."
+    }
+});
 Ext.require([
     'Ext.*',
     'Extensible.calendar.data.MemoryEventStore',

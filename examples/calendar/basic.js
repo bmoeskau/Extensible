@@ -1,3 +1,11 @@
+Ext.Loader.setConfig({
+    enabled: true,
+    disableCaching: false,
+    paths: {
+        "Extensible": "../../src",
+        "Extensible.example": ".."
+    }
+});
 Ext.require([
     'Extensible.calendar.data.MemoryEventStore',
     'Extensible.calendar.CalendarPanel',
@@ -5,7 +13,6 @@ Ext.require([
 ]);
 
 Ext.onReady(function(){
-    
     var eventStore = Ext.create('Extensible.calendar.data.MemoryEventStore', {
         // defined in ../data/Events.js
         data: Ext.create('Extensible.example.calendar.data.Events')
