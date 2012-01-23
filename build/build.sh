@@ -24,6 +24,9 @@ while [ "$1" != "" ]; do
     shift
 done
 
+# Any cleanup that needs to happen prior to the build
+rm $EXTENSIBLE_ROOT/resources/css/extensible-all.css
+
 # Build it
 java -jar $EXTENSIBLE_ROOT/build/JSBuilder2.jar --projectFile $EXTENSIBLE_ROOT/extensible.jsb2 --homeDir $EXTENSIBLE_OUTPUT
 
