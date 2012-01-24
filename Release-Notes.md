@@ -1,6 +1,40 @@
-# Extensible Release Notes
+# Extensible 1.5.x Release Notes
 
-## 1.5.0 - Ext 4
+These notes apply to the Ext 4.x branch of Extensible.
+
+## 1.5.1
+
+_January 25, 2012_
+
+**New Features**
+
+* Added Extensible-config.js for easier example path configuration (they now work out of the box by default)
+
+**Bugs Fixed**
+
+* Lots of fixes due to changes in the upcoming Ext 4.1 release
+    - Fixed Ext.data.Reader override due to internal refactoring that broke the override
+    - The XTemplate rendering process changed, forcing adjustments to all of the calendar templates
+    - Ext.dd.StatusProxy now extends Component, so the Extensible subclass had to be updated also
+    - Fixed field anchoring in the event form
+    - Refactored the DateRange field -- the old version did not work under the new layout changes
+    - Fixed a bug that broke the positioning of the CalendarCombo icon
+    - Form CSS tweaks
+    - Fixed how the CalendarPanel's toolbar items are initialized
+* Default all views to `hideMode: offsets` to preserve scroll position cross-browser
+* Fixed logic that sets the active view and navigation state on initial load
+* Refactored event rendering in month view to fix issues with some complex overlapping scenarios
+* Fixed issue with duplicate remote loads when switching views
+* Fixed potential null error in MemoryEventStore
+* Fixed an edge case that could cause certain events not to show up in the Day view header
+* Added null check to avoid errors when calculating the event rendering grid if the maxEvents array is empty
+* Fix calendar start date not getting set correctly in some cases
+* Added saftey checks around all Ext overrides to avoid errors if any classes are not present
+* Fixed EventWindow animateTarget not working
+* Fixed calendar to fire `eventclick` always, even when the calendar is read-only
+* Fixed IE9-specific scroll reset on click bug
+
+## 1.5.0
 
 _October 14, 2011_
 
@@ -39,7 +73,7 @@ _October 14, 2011_
 
 * The dd.ScrollManager seems to have some serious issues in 4.x at the moment, and so support for automatic container scrolling during drag in the calendar day/week views has been temporarily removed. It will be reinstated in a future release once this is resolved.
 
-## 1.5.0 (Beta) - Ext 4
+## 1.5.0 (Beta)
 
 _June 23, 2011_
 
@@ -55,6 +89,13 @@ This release is strictly for implementing Ext 4 support in the calendar componen
 * The DateTime picker currently only supports single-line (non-stacked) configuration, and may get cut off in fixed-width containers. This will be fixed in the next release.
 * IE has a mysterious black border around all-day and spanning events
 * The Extensible API documentation has not yet been updated to reflect all the changes in this release
+
+
+---
+
+The 1.0.x releases below were based on Ext 3.x. After the 1.0.1 release Extensible was branched to 1.5.x for Ext 4 support. The Extensible 1.0.x release notes are now maintained in the 1.0.x branch only going forward, but these notes are kept here for historical purposes.
+
+---
 
 ## 1.0.1 - Ext 3
 
