@@ -1,4 +1,30 @@
-# Extensible Release Notes
+# Extensible 1.0.x Release Notes
+
+## 1.0.2
+
+_January 25, 2012_
+
+**New Features**
+
+* Added `timeFormat` config to `DateRangeField`
+* Added new locales: Italian, German
+* Added Extensible-config.js for easier example path configuration (they now work out of the box by default)
+
+**Bugs Fixed**
+
+* Fix MonthDetailView to honor the enableContextMenu config
+* Fix event hover visual glitch in IE
+* Fixed resizing an event to midnight in the day view causing invalid event times
+* Enforce complete and case-sensitive event id matching when searching the event store
+* Added `DropZone.destroy()` to properly remove drag/drop shim elements
+* Default all views to `hideMode: offsets` to preserve scroll position cross-browser
+* Fixed logic that sets the active view and navigation state on initial load
+* Fixed layout under Mac OSX Lion, which changed scrollbar dimensions
+* Refactored event rendering in month view to fix issues with some complex overlapping scenarios
+* Fixed an edge case that could cause certain events not to show up in the Day view header
+* Added null check to avoid errors when calculating the event rendering grid if the maxEvents array is empty
+* Fix calendar start date not getting set correctly in some cases
+* Added saftey checks around all Ext overrides to avoid errors if any classes are not present
 
 ## 1.0.1
 
