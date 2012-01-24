@@ -1,4 +1,6 @@
-Extensible = {};
+Extensible = {
+    version: '1.5.1'
+};
 /**
  * This is intended as a development mode only convenience so that you can configure all include
  * paths for all Extensible examples in one place. For production deployment you should configure
@@ -112,6 +114,7 @@ Extensible.Config = {
     // private -- write out the CSS and script includes to the document
     writeIncludes: function() {
         var me = this,
+            cacheBuster = '?_dc=' + (+new Date),
             suffix = '';
         
         switch (me.mode) {
@@ -121,6 +124,9 @@ Extensible.Config = {
             
             case 'release':
                 suffix = '-all';
+                // For release we want to refresh the cache on first load, but allow caching
+                // after that, so use the version number instead of a unique string
+                cacheBuster = '?_dc=' + Extensible.version;
                 break;
             
             default:
@@ -133,12 +139,12 @@ Extensible.Config = {
         }
         
         me.includeStylesheet(me.extJsRoot + 'resources/css/ext-all.css');
-        me.includeStylesheet(me.extensibleRoot + 'resources/css/extensible-all.css');
-        me.includeStylesheet(me.extensibleRoot + 'examples/examples.css');
+        me.includeStylesheet(me.extensibleRoot + 'resources/css/extensible-all.css' + cacheBuster);
+        me.includeStylesheet(me.extensibleRoot + 'examples/examples.css' + cacheBuster);
         
         me.includeScript(me.extJsRoot + 'ext' + suffix + '.js');
-        me.includeScript(me.extensibleRoot + 'extensible' + suffix + '.js');
-        me.includeScript(me.extensibleRoot + 'examples/examples.js');
+        me.includeScript(me.extensibleRoot + 'extensible' + suffix + '.js' + cacheBuster);
+        me.includeScript(me.extensibleRoot + 'examples/examples.js' + cacheBuster);
     }
 };
 
