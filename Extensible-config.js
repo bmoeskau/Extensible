@@ -1,5 +1,6 @@
-Extensible = window.Extensible || {};
-
+Extensible = {
+    version: '1.0.1'
+};
 /**
  * This is intended as a development mode only convenience so that you can configure all include
  * paths for all Extensible examples in one place. For production deployment you should configure
@@ -66,14 +67,15 @@ Extensible.Config = {
      * Sets up all configurable properties and writes all includes to the document.
      */
     init: function() {
-        var config = window.ExtensibleConfig || {};
-        
-        this.mode = config.mode || this.defaults.mode;
-        this.extJsRoot = config.extJsRoot || this.defaults.extJsRoot;
-        this.extensibleRoot = config.extensibleRoot || this.defaults.extensibleRoot || this.getSdkPath();
-        
-        this.adjustPaths();
-        this.writeIncludes();
+        var me = this,
+            config = window.ExtensibleDefaults || {};
+         
+        me.mode = config.mode || me.defaults.mode;
+        me.extJsRoot = config.extJsRoot || me.defaults.extJsRoot;
+        me.extensibleRoot = config.extensibleRoot || me.defaults.extensibleRoot || me.getSdkPath();
+         
+        me.adjustPaths();
+        me.writeIncludes();
     },
     
     // private -- returns the current url to this script file, which is shipped in the SDK root folder
@@ -93,33 +95,42 @@ Extensible.Config = {
         }
     },
     
+    includeStylesheet: function(filePath) {
+        document.write('<link rel="stylesheet" type="text/css" href="' + filePath + '" />');
+    },
+     
+    includeScript: function(filePath) {
+        document.write('<script type="text/javascript" src="' + filePath + '"></script>');
+    },
+    
     // private -- write out the CSS and script includes to the document
     writeIncludes: function() {
-        var suffix = (this.mode === 'debug' ? '-debug' : '');
+        var me = this,
+            suffix = (this.mode === 'debug' ? '-debug' : ''),
+            // For release we want to refresh the cache on first load, but allow caching
+            // after that, so use the version number instead of a unique string
+            cacheBuster = '?_dc=' + (this.mode === 'debug' ? (+new Date) : Extensible.version);
         
-        var includes = [
-            '<link rel="stylesheet" type="text/css" href="' + this.extJsRoot + 'resources/css/ext-all.css" />',
-            '<script type="text/javascript" src="' + this.extJsRoot + 'adapter/ext/ext-base' + suffix + '.js"></script>',
-            '<script type="text/javascript" src="' + this.extJsRoot + 'ext-all' + suffix + '.js"></script>',
-            '<link rel="stylesheet" type="text/css" href="' + this.extensibleRoot + 'resources/css/extensible-all.css" />',
-            '<script type="text/javascript" src="' + this.extensibleRoot + 'extensible-all' + suffix + '.js"></script>',
-            '<link rel="stylesheet" type="text/css" href="' + this.extensibleRoot + 'examples/examples.css" />',
-            '<script type="text/javascript" src="' + this.extensibleRoot + 'examples/examples.js"></script>',
-        ].join('');
+        me.includeStylesheet(me.extJsRoot + 'resources/css/ext-all.css');
+        me.includeStylesheet(me.extensibleRoot + 'resources/css/extensible-all.css' + cacheBuster);
+        me.includeStylesheet(me.extensibleRoot + 'examples/examples.css' + cacheBuster);
         
-        document.write(includes);
+        me.includeScript(me.extJsRoot + 'adapter/ext/ext-base' + suffix + '.js'); 
+        me.includeScript(me.extJsRoot + 'ext-all' + suffix + '.js');
+        me.includeScript(me.extensibleRoot + 'extensible-all' + suffix + '.js' + cacheBuster);
+        me.includeScript(me.extensibleRoot + 'examples/examples.js' + cacheBuster);
     }
 };
 
 /*
  * Kick it off. To customize the configuration settings from external code, you can create a global
- * object -- before including this Extensible-config.js script -- called "ExtensibleConfig" and give
+ * object -- before including this Extensible-config.js script -- called "ExtensibleDefaults" and give
  * it properties corresponding to the Extensible.Config configs you want to set. If it exists the
- * ExtensibleConfig object will be used and then destroyed automatically, otherwise the Extensible.Config
- * defaults will be used. Any options not specified in the ExtensibleConfig object will simply use the
+ * ExtensibleDefaults object will be used and then destroyed automatically, otherwise the Extensible.Config
+ * defaults will be used. Any options not specified in the ExtensibleDefaults object will simply use the
  * default value. For example:
  * 
- * ExtensibleConfig = {
+ * ExtensibleDefaults = {
  *     mode: 'release'
  * }
  * 
@@ -132,8 +143,8 @@ Extensible.Config.init();
 
 // Clean up the global config override if it exists
 try {
-    delete window.ExtensibleConfig;
+    delete window.ExtensibleDefaults;
 }
 catch(ex) {
-    window.ExtensibleConfig = null;
+    window.ExtensibleDefaults = null;
 }
