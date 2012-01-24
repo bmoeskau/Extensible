@@ -1,8 +1,21 @@
+#############################################
+#
+#  Extensible build script
+#  by Extensible, LLC
+#
+#############################################
+
+# Configuration
 # The current version string, substituted into the build path below
 VER=extensible-1.5.0
+
+# Default the root to the parent of the current \build folder
 EXTENSIBLE_ROOT="`dirname "$0"`/.."
+
+# Output everything here
 EXTENSIBLE_OUTPUT=$EXTENSIBLE_ROOT/deploy
 
+# Program start
 function usage {
     echo "usage: sh build.sh [-d | --docs]"
 	echo
@@ -35,11 +48,13 @@ cp $EXTENSIBLE_ROOT/src/Extensible.js $EXTENSIBLE_OUTPUT/$VER/extensible.js
 
 # Copy the deploy files back into dev so that the samples get the latest code
 echo Updating dev...
-cp $EXTENSIBLE_OUTPUT/$VER/extensible*.js $EXTENSIBLE_ROOT
+cp $EXTENSIBLE_OUTPUT/$VER/extensible-all.js $EXTENSIBLE_ROOT
+cp $EXTENSIBLE_OUTPUT/$VER/extensible-all-debug.js $EXTENSIBLE_ROOT
 cp $EXTENSIBLE_OUTPUT/$VER/resources/css/extensible-all.css $EXTENSIBLE_ROOT/resources/css
 
 # Copy other resource files to output
-cp $EXTENSIBLE_ROOT/*.js $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/Extensible-config.js $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/extensible-1.0-compat.js $EXTENSIBLE_OUTPUT/$VER/
 cp $EXTENSIBLE_ROOT/*.html $EXTENSIBLE_OUTPUT/$VER/
 cp $EXTENSIBLE_ROOT/*.css $EXTENSIBLE_OUTPUT/$VER/
 cp $EXTENSIBLE_ROOT/*.txt $EXTENSIBLE_OUTPUT/$VER/
