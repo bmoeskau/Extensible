@@ -1,9 +1,21 @@
+#############################################
+#
+#  Extensible build script
+#  by Extensible, LLC
+#
+#############################################
+
+# Configuration
 # The current version string, substituted into the build path below
 VER=extensible-1.0.1
-EXTENSIBLE_ROOT=$HOME/Projects/Extensible
-EXTENSIBLE_OUTPUT=$EXTENSIBLE_ROOT/deploy
-docs=
 
+# Default the root to the parent of the current \build folder
+EXTENSIBLE_ROOT="`dirname "$0"`/.."
+
+# Output everything here
+EXTENSIBLE_OUTPUT=$EXTENSIBLE_ROOT/deploy
+
+# Program start
 function usage {
     echo "usage: sh build.sh [-d|--docs]"
 	echo
@@ -25,6 +37,9 @@ while [ "$1" != "" ]; do
     shift
 done
 
+# Any cleanup that needs to happen prior to the build
+rm $EXTENSIBLE_ROOT/resources/css/extensible-all.css
+
 # Build it
 java -jar JSBuilder2.jar --projectFile $EXTENSIBLE_ROOT/extensible.jsb2 --homeDir $EXTENSIBLE_OUTPUT
 
@@ -36,14 +51,15 @@ cp $EXTENSIBLE_OUTPUT/$VER/resources/css/extensible-all.css $EXTENSIBLE_ROOT/res
 
 # Copy other resource files to output
 cp $EXTENSIBLE_ROOT/Extensible-config.js $EXTENSIBLE_OUTPUT/$VER/
-cp $EXTENSIBLE_ROOT/*.md $EXTENSIBLE_OUTPUT/$VER/
-cp $EXTENSIBLE_ROOT/*.txt $EXTENSIBLE_OUTPUT/$VER/
 cp $EXTENSIBLE_ROOT/*.html $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/*.css $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/*.txt $EXTENSIBLE_OUTPUT/$VER/
+cp $EXTENSIBLE_ROOT/*.md $EXTENSIBLE_OUTPUT/$VER/
 
 # Docs
 if [ "$docs" = "1" ]; then
 	echo Generating docs...
-	java -jar ext-doc.jar -p extensible.xml -o $EXTENSIBLE_OUTPUT/$VER/docs -t template/ext/template.xml
+	java -jar $EXTENSIBLE_ROOT/build/ext-doc.jar -p $EXTENSIBLE_ROOT/build/extensible.xml -o $EXTENSIBLE_OUTPUT/$VER/docs -t $EXTENSIBLE_ROOT/build/template/ext/template.xml
 fi
 
 echo All done!
