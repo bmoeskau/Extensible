@@ -21,6 +21,7 @@ _January 25, 2012_
     - Fixed a bug that broke the positioning of the CalendarCombo icon
     - Form CSS tweaks
     - Fixed how the CalendarPanel's toolbar items are initialized
+    - Fixed FF-only positioning bug in CalendarCombo introduced by field layout switch to tables as wrappers
 * Default all views to `hideMode: offsets` to preserve scroll position cross-browser
 * Fixed logic that sets the active view and navigation state on initial load
 * Refactored event rendering in month view to fix issues with some complex overlapping scenarios

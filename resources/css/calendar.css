@@ -628,6 +628,10 @@ td.ext-cal-dtitle-today div {
 .ext-calendar-picker {
     position: relative;
 }
+.x-gecko .ext-calendar-picker {
+    /* http://stackoverflow.com/questions/5148041/does-firefox-support-position-relative-on-table-elements */
+    display: block;
+}
 .ext-calendar-picker .x-form-text {
     padding-left: 27px;
 }
