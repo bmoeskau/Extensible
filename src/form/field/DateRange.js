@@ -498,16 +498,6 @@ Ext.define('Extensible.form.field.DateRange', {
         return dirty;
     },
     
-    // private
-    onDisable : function(){
-        this.delegateFn('disable');
-    },
-    
-    // private
-    onEnable : function(){
-        this.delegateFn('enable');
-    },
-    
     // inherited docs
     reset : function(){
         this.delegateFn('reset');
