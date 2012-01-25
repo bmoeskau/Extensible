@@ -115,7 +115,8 @@ Extensible.Config = {
     writeIncludes: function() {
         var me = this,
             cacheBuster = '?_dc=' + (+new Date),
-            suffix = '';
+            suffix = '',
+            bootstrap = '';
         
         switch (me.mode) {
             case 'debug':
@@ -136,6 +137,9 @@ Extensible.Config = {
                 if (me.isIE) {
                     suffix = '-all-debug';
                 }
+                else {
+                    bootstrap = '-bootstrap';
+                }
         }
         
         me.includeStylesheet(me.extJsRoot + 'resources/css/ext-all.css');
@@ -143,7 +147,7 @@ Extensible.Config = {
         me.includeStylesheet(me.extensibleRoot + 'examples/examples.css' + cacheBuster);
         
         me.includeScript(me.extJsRoot + 'ext' + suffix + '.js');
-        me.includeScript(me.extensibleRoot + 'extensible' + suffix + '.js' + cacheBuster);
+        me.includeScript(me.extensibleRoot + 'extensible' + suffix + bootstrap + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'examples/examples.js' + cacheBuster);
     }
 };
