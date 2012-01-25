@@ -21,6 +21,7 @@ Harness.start({
     group: 'Visual',
     items: [
         'visual/calendar-basic.js',
-        'visual/calendar-read-only.js'
+        'visual/calendar-read-only.js',
+        'visual/calendar-list.js'
     ]
 });

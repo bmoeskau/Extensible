@@ -8,7 +8,7 @@ StartTest(function(t) {
         }
     });
     
-    t.beginAsync();
+    var frame = t.beginAsync();
     
     Ext.require([
         'Extensible.calendar.CalendarPanel',
@@ -58,7 +58,7 @@ StartTest(function(t) {
             t.ok(Ext.get(panel.id) == null, 'Calendar el is removed');
             
             t.done();
-            t.endAsync();
+            t.endAsync(frame);
         });
     });
 });
