@@ -25,13 +25,13 @@ Extensible is dual-licensed both commercially and under the open source GPL v3, 
 
 ## Ext Version Support
 
-Extensible now fully supports **both Ext 3 and Ext 4**. Unfortunately since Ext 4 is not backwards-compatible it means that Extensible must now be managed in 2 separate branches in order to maintain support for both versions of Ext. As long as Ext 3 is supported by Sencha, the Ext 3 compatible versions of all Extensible components will be maintained as well.
+Extensible fully supports **both Ext 3 and Ext 4**. Unfortunately since Ext 4 is not backwards-compatible it means that Extensible must be managed in two separate branches in order to maintain support for both versions of Ext. As long as Ext 3 is supported by Sencha, the Ext 3 compatible versions of all Extensible components will be maintained as well.
 
 The default [master branch](https://github.com/bmoeskau/Extensible) is now only compatible with Ext 4, and all Extensible releases from 1.5 forward will be for Ext 4. The Extensible [1.x branch](https://github.com/bmoeskau/Extensible/tree/1.x) (less than 1.5) will remain as the Ext 3 compatible line of code.
 
 ## Getting Started
 
-The easiest way to get started with Extensible is to download one of the [released packages](http://github.com/bmoeskau/Extensible/downloads), which already contain the fully-built distribution files and documentation, and unzip it into your local web root (required for Ajax requests to work). By default, all examples use a relative reference to the pre-built debug version of Extensible (`[Extensible]\lib\extensible-all-debug.js`) and a url to a recent version of Ext hosted on the Sencha CDN (e.g., `http://cdn.sencha.io/ext-4.0.7-gpl/`). As long as you have an internet connection, the examples should work out of the box.
+The easiest way to get started with Extensible is to download one of the [released packages](http://github.com/bmoeskau/Extensible/downloads), which already contain the fully-built distribution files and documentation, and unzip it into your local web root (required for Ajax requests to work). By default, all examples use a relative reference to the pre-built debug version of Extensible (`[Extensible]/lib/extensible-all-debug.js`) and a url to a recent version of Ext hosted on the Sencha CDN (e.g., `http://cdn.sencha.io/ext-4.0.7-gpl/`). As long as you have an internet connection, the examples should work out of the box.
 
 ## Configuration
 
@@ -47,11 +47,11 @@ By default, each build script uses the script file's location to reference other
 
 ### Generating Docs
 
-The jar file for the Ext-doc tool ([http://ext-doc.org/](http://ext-doc.org/)) is also included.  If you'd like to generate docs as part of your build, simply pass `-d` as a command line arg to the build script (e.g., `sh build.sh -d` or `build -d`) and the current documentation will also be created under `/docs`.
+The jar file for the [Ext-doc](http://ext-doc.org/) utility is also included.  If you'd like to generate docs as part of your build, simply pass `-d` as a command line arg to the build script (e.g., `sh build.sh -d` or `build -d`) and the current documentation will also be created under `/docs`.
 
-### Deployment
+## Deployment
 
-For use in your own application, you'll simply include the built framework files, just like any other typical Ext application dependencies. This could also be your own custom build files, if applicable. For example:
+For use in your own application, you'll simply include the built framework files, just like any other typical Ext application dependencies. This could be your own custom-built files, if you've made any changes to the Extensible source. For example:
 
     <!-- Load the Ext and Extensible CSS -->
     <link rel="stylesheet" type="text/css" href="path/to/extjs/resources/css/ext-all.css" />
@@ -64,14 +64,14 @@ For use in your own application, you'll simply include the built framework files
     <!-- Include your app and any other app-specific files -->
     <script type="text/javascript" src="MyApp.js"></script>
 
-## Upgrading from Extensible 1.x to 1.5
+## Upgrading from Extensible 1.x to 1.5+
 
-Nothing about the Extensible API changed between 1.x and 1.5 except the naming/namespacing and organization of classes. No new functionality was introduced that was not directly relevant to supporting Ext 4.0. Because of this upgrading should not be difficult, but since almost every single class was renamed and/or reorganized (to be more consistent with Ext 4 and also to provide support for dynamic loading), you may find it initially tedious to get existing application code back up and running under Extensible 1.5.
+Nothing about the Extensible API changed between 1.x and 1.5 except the naming/namespacing and organization of classes. No new functionality was introduced that was not directly relevant to supporting Ext 4.0. Because of this upgrading should not be difficult, but since almost every single class was renamed and/or reorganized (to be more consistent with Ext 4 and also to provide support for dynamic loading), you may find it initially tedious to get existing application code back up and running under Extensible 1.5+.
 
-To ease this transition there is a compatibility file in the `/lib` folder called `extensible-1.0-compat.js` that provides all of the necessary class aliases to get Extensible 1.x code working under 1.5+. Simply include it right after your existing `extensible-all[-debug].js` include. You should eventually update your own code with the new class names so that you can remove the compatibility file, but it will not hurt anything to run with it as needed.
+To ease this transition there is a compatibility file in the `/lib` folder called `extensible-1.0-compat.js` that provides all of the necessary class aliases to get Extensible 1.x code working under 1.5+. Simply include it right after your existing `extensible-all[-debug].js` reference. You should eventually update your own code with the new class names so that you can remove the compatibility file, but it will not hurt anything to run with it as needed.
 
 ## Additional Help
 
 For questions about using Extensible, or to report bugs, visit the [Extensible forums](http://ext.ensible.com/forum/).
 
-We also have [premium support subscriptions](http://ext.ensible.com/store/) available if you need access to more direct assistance.
+We also have [premium support subscriptions](http://ext.ensible.com/store/) available if you need more direct assistance, or would like to help support the project's continued development.
