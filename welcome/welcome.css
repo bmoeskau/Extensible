@@ -40,7 +40,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a#logo {
-    background: url(welcome/images/logo-extensible.gif) no-repeat 0 100%;
+    background: url(images/logo-extensible.gif) no-repeat 0 100%;
     display: block;
     height: 50px;
     margin: 30px 0 15px;
@@ -52,7 +52,7 @@ a#logo {
 }
 
 #header {
-    background: url(welcome/images/cal-screenshot.jpg) no-repeat 100% 0;
+    background: url(images/cal-screenshot.jpg) no-repeat 100% 0;
     height: 275px;
 }
 
@@ -165,35 +165,35 @@ div#container {
 }
 
 #engage a#twitter {
-    background: url(welcome/images/social_sprite.gif) no-repeat 0 0;
+    background: url(images/social_sprite.gif) no-repeat 0 0;
 }
 
 #engage a#twitter:hover {
-    background: url(welcome/images/social_sprite.gif) no-repeat 0 -16px;
+    background: url(images/social_sprite.gif) no-repeat 0 -16px;
 }
 
 #engage a#facebook {
-    background: url(welcome/images/social_sprite.gif) no-repeat 0 -64px;
+    background: url(images/social_sprite.gif) no-repeat 0 -64px;
 }
 
 #engage a#facebook:hover {
-    background: url(welcome/images/social_sprite.gif) no-repeat 0 -80px;
+    background: url(images/social_sprite.gif) no-repeat 0 -80px;
 }
 
 #engage a#blog {
-    background: url(welcome/images/social_sprite.gif) no-repeat 0 -96px;
+    background: url(images/social_sprite.gif) no-repeat 0 -96px;
 }
 
 #engage a#blog:hover {
-    background: url(welcome/images/social_sprite.gif) no-repeat 0 -112px;
+    background: url(images/social_sprite.gif) no-repeat 0 -112px;
 }
 
 #engage a#email {
-    background: url(welcome/images/social_sprite.gif) no-repeat 0 -128px;
+    background: url(images/social_sprite.gif) no-repeat 0 -128px;
 }
 
 #engage a#email:hover {
-    background: url(welcome/images/social_sprite.gif) no-repeat 0 -144px;
+    background: url(images/social_sprite.gif) no-repeat 0 -144px;
 }
 
 #license {
@@ -208,7 +208,7 @@ ul, ul li {
 
 #learn ul li,
 #license ul li {
-    background: url(welcome/images/li.png) no-repeat 1px 2px;
+    background: url(images/li.png) no-repeat 1px 2px;
     padding: 0 0 0.5em 10px;
     margin-left: 0;
 }

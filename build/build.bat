@@ -24,25 +24,25 @@ IF "%1" == "-h" GOTO E_USAGE
 del "%EXTENSIBLE_ROOT%\resources\css\extensible-all.css"
 
 :: Build it
-java -jar JSBuilder2.jar --projectFile %EXTENSIBLE_ROOT%\extensible.jsb2 --homeDir %EXTENSIBLE_OUTPUT%
+java -jar JSBuilder2.jar --projectFile %EXTENSIBLE_ROOT%\build\extensible.jsb2 --homeDir %EXTENSIBLE_OUTPUT%
 
 :: Copy the Extensible class definition to the root as extensible.js for dynamic loading support.
 :: Use "echo f | " to suppress the "copy as file or directory" prompt and force as file
-echo f | xcopy /y /q "%EXTENSIBLE_ROOT%\src\Extensible.js" "%EXTENSIBLE_OUTPUT%\%VER%\extensible.js" > nul
+echo f | xcopy /y /q "%EXTENSIBLE_ROOT%\src\Extensible.js" "%EXTENSIBLE_OUTPUT%\%VER%\lib\extensible-bootstrap.js" > nul
 
 :: Copy the deploy files back into dev so that the samples get the latest code
 echo Updating dev...
-xcopy /y /q "%EXTENSIBLE_OUTPUT%\%VER%\extensible-all.js" "%EXTENSIBLE_ROOT%" > nul
-xcopy /y /q "%EXTENSIBLE_OUTPUT%\%VER%\extensible-all-debug.js" "%EXTENSIBLE_ROOT%" > nul
+xcopy /y /q "%EXTENSIBLE_OUTPUT%\%VER%\lib\extensible-bootstrap.js" "%EXTENSIBLE_ROOT%\lib" > nul
+xcopy /y /q "%EXTENSIBLE_OUTPUT%\%VER%\lib\extensible-all.js" "%EXTENSIBLE_ROOT%\lib" > nul
+xcopy /y /q "%EXTENSIBLE_OUTPUT%\%VER%\lib\extensible-all-debug.js" "%EXTENSIBLE_ROOT%\lib" > nul
 xcopy /y /q "%EXTENSIBLE_OUTPUT%\%VER%\resources\css\extensible-all.css" "%EXTENSIBLE_ROOT%\resources\css" > nul
 
 :: Copy other resource files to output
-xcopy /y /q "%EXTENSIBLE_ROOT%\Extensible-config.js" "%EXTENSIBLE_OUTPUT%\%VER%\" > nul
-xcopy /y /q "%EXTENSIBLE_ROOT%\extensible-1.0-compat.js" "%EXTENSIBLE_OUTPUT%\%VER%\" > nul
-xcopy /y /q "%EXTENSIBLE_ROOT%\*.html" "%EXTENSIBLE_OUTPUT%\%VER%\" > nul
-xcopy /y /q "%EXTENSIBLE_ROOT%\*.css" "%EXTENSIBLE_OUTPUT%\%VER%\" > nul
-xcopy /y /q "%EXTENSIBLE_ROOT%\*.txt" "%EXTENSIBLE_OUTPUT%\%VER%\" > nul
-xcopy /y /q "%EXTENSIBLE_ROOT%\*.md" "%EXTENSIBLE_OUTPUT%\%VER%\" > nul
+xcopy /y /q "%EXTENSIBLE_ROOT%\Extensible-config.js" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
+xcopy /y /q "%EXTENSIBLE_ROOT%\lib\extensible-1.0-compat.js" "%EXTENSIBLE_OUTPUT%\%VER%\lib" > nul
+xcopy /y /q "%EXTENSIBLE_ROOT%\*.html" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
+xcopy /y /q "%EXTENSIBLE_ROOT%\*.txt" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
+xcopy /y /q "%EXTENSIBLE_ROOT%\*.md" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
 
 :: Docs
 IF "%1" == "-d" (

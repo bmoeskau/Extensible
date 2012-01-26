@@ -24,6 +24,11 @@ Extensible.Config = {
          * debugging you might switch to 'dynamic' mode -- it is much slower during initial
          * page load but generally provides a faster and easier debugging experience.
          * 
+         * Note that for debug and release modes to reflect any code or CSS changes made to Extensible
+         * files you must rebuild the framework after each change using the scripts provided under
+         * the `/build` folder (requires Java). If you cannot build the framework and you've made any
+         * changes to Extensible files you should use dynamic mode to ensure that changes are reflected.
+         * 
          * @config {String} mode
          */
         mode: 'debug',
@@ -147,7 +152,7 @@ Extensible.Config = {
         me.includeStylesheet(me.extensibleRoot + 'examples/examples.css' + cacheBuster);
         
         me.includeScript(me.extJsRoot + 'ext' + suffix + '.js');
-        me.includeScript(me.extensibleRoot + 'extensible' + suffix + bootstrap + '.js' + cacheBuster);
+        me.includeScript(me.extensibleRoot + 'lib/extensible' + suffix + bootstrap + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'examples/examples.js' + cacheBuster);
     }
 };
