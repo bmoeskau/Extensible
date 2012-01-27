@@ -1,4 +1,4 @@
-﻿App = function() {
+App = function() {
     return {
         init : function() {
             
