@@ -25,7 +25,7 @@
          * The version of the framework
          * @type String
          */
-        version : '1.0.1',
+        version : '1.0.2',
         /**
          * The version of the framework, broken out into its numeric parts. This returns an
          * object that contains the following integer properties: major, minor and patch.
@@ -34,8 +34,15 @@
         versionDetails : {
             major: 1,
             minor: 0,
-            patch: 1
+            patch: 2
         },
+        /**
+         * The minimum version of Ext required to work with this version of Extensible, currently
+         * 3.2.0. Note that this version of Extensible will not work under Ext 4.x (Extensible 1.5+
+         * is required for Ext 4.x compatibility).
+         * @type String
+         */
+        extVersion : '3.2.0',
         
         hasBorderRadius : !(Ext.isIE || Ext.isOpera),
         

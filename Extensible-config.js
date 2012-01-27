@@ -1,5 +1,5 @@
 Extensible = {
-    version: '1.0.1'
+    version: '1.0.2'
 };
 /**
  * This is intended as a development mode only convenience so that you can configure all include
