@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @class Ext.ux.form.DateTime
  * @extends Ext.form.Field
  *
