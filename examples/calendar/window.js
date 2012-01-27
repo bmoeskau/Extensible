@@ -4,8 +4,8 @@ Ext.onReady(function(){
             this.calendarWin = new Ext.Window({
                 layout: 'fit',
                 title: 'Calendar Window',
-                width: 850,
-                height: 700,
+                width: 600,
+                height: 450,
                 modal: true,
                 closeAction: 'hide',
                 items: {
