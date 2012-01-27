@@ -117,7 +117,7 @@ Extensible.Config = {
         
         me.includeScript(me.extJsRoot + 'adapter/ext/ext-base' + suffix + '.js'); 
         me.includeScript(me.extJsRoot + 'ext-all' + suffix + '.js');
-        me.includeScript(me.extensibleRoot + 'extensible-all' + suffix + '.js' + cacheBuster);
+        me.includeScript(me.extensibleRoot + 'lib/extensible-all' + suffix + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'examples/examples.js' + cacheBuster);
     }
 };

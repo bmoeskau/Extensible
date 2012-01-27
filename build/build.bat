@@ -25,7 +25,7 @@ IF "%1" == "-h" GOTO E_USAGE
 del "%EXTENSIBLE_ROOT%\resources\css\extensible-all.css"
 
 :: Build it
-java -jar JSBuilder2.jar --projectFile %EXTENSIBLE_ROOT%\extensible.jsb2 --homeDir %EXTENSIBLE_OUTPUT%
+java -jar JSBuilder2.jar --projectFile %EXTENSIBLE_ROOT%\build\extensible.jsb2 --homeDir %EXTENSIBLE_OUTPUT%
 
 :: Copy the deploy files back into dev so that the samples get the latest code
 echo Updating dev...

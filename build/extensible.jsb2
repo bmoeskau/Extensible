@@ -1,17 +1,17 @@
 {
     "projectName": "Extensible",
-    "deployDir": "extensible-1.0.1",
-    "licenseText": "Extensible 1.0.1\nCopyright(c) 2010-2011 Extensible, LLC\nlicensing@ext.ensible.com\nhttp://ext.ensible.com",
+    "deployDir": "extensible-1.0.2",
+    "licenseText": "Extensible 1.0.2\nCopyright(c) 2010-2012 Extensible, LLC\nlicensing@ext.ensible.com\nhttp://ext.ensible.com",
     "pkgs": [{
         "name": "Extensible Core",
         "file": "pkgs/extensible-core.js",
         "isDebug": true,
         "fileIncludes": [{
             "text": "Extensible.js",
-            "path": ""
+            "path": "../"
         },{
             "text": "Ext-overrides.js",
-            "path": ""
+            "path": "../"
         }]
     },{
         "name": "Calendar",
@@ -19,126 +19,126 @@
         "isDebug": true,
         "fileIncludes": [{
             "text": "DayHeaderTemplate.js",
-            "path": "src/calendar/templates/"
+            "path": "../src/calendar/templates/"
         },{
             "text": "DayBodyTemplate.js",
-            "path": "src/calendar/templates/"
+            "path": "../src/calendar/templates/"
         },{
             "text": "BoxLayoutTemplate.js",
-            "path": "src/calendar/templates/"
+            "path": "../src/calendar/templates/"
         },{
             "text": "MonthViewTemplate.js",
-            "path": "src/calendar/templates/"
+            "path": "../src/calendar/templates/"
         },{
             "text": "CalendarScrollManager.js",
-            "path": "src/calendar/dd/"
+            "path": "../src/calendar/dd/"
         },{
             "text": "StatusProxy.js",
-            "path": "src/calendar/dd/"
+            "path": "../src/calendar/dd/"
         },{
             "text": "CalendarDD.js",
-            "path": "src/calendar/dd/"
+            "path": "../src/calendar/dd/"
         },{
             "text": "DayViewDD.js",
-            "path": "src/calendar/dd/"
+            "path": "../src/calendar/dd/"
         },{
             "text": "EventStore.js",
-            "path": "src/calendar/data/"
+            "path": "../src/calendar/data/"
         },{
             "text": "EventMappings.js",
-            "path": "src/calendar/data/"
+            "path": "../src/calendar/data/"
         },{
             "text": "CalendarMappings.js",
-            "path": "src/calendar/data/"
+            "path": "../src/calendar/data/"
         },{
             "text": "EventRecord.js",
-            "path": "src/calendar/data/"
+            "path": "../src/calendar/data/"
         },{
             "text": "CalendarRecord.js",
-            "path": "src/calendar/data/"
+            "path": "../src/calendar/data/"
         },{
             "text": "WeekEventRenderer.js",
-            "path": "src/calendar/"
+            "path": "../src/calendar/"
         },{
             "text":"CalendarCombo.js",
-            "path":"src/calendar/widgets/"
+            "path":"../src/calendar/widgets/"
         },{
             "text": "RecurrenceCombo.js",
-            "path": "src/calendar/widgets/"
+            "path": "../src/calendar/widgets/"
         },{
             "text": "RecurrenceField.js",
-            "path": "src/calendar/widgets/"
+            "path": "../src/calendar/widgets/"
         },{
             "text": "DateRangeField.js",
-            "path": "src/calendar/widgets/"
+            "path": "../src/calendar/widgets/"
         },{
             "text": "ReminderField.js",
-            "path": "src/calendar/widgets/"
+            "path": "../src/calendar/widgets/"
         },{
             "text": "ColorPalette.js",
-            "path": "src/calendar/widgets/"
+            "path": "../src/calendar/widgets/"
         },{
             "text": "CalendarListMenu.js",
-            "path": "src/calendar/widgets/"
+            "path": "../src/calendar/widgets/"
         },{
             "text": "EventContextMenu.js",
-            "path": "src/calendar/widgets/"
+            "path": "../src/calendar/widgets/"
         },{
             "text": "CalendarList.js",
-            "path": "src/calendar/widgets/"
+            "path": "../src/calendar/widgets/"
         },{
             "text": "EventEditForm.js",
-            "path": "src/calendar/"
+            "path": "../src/calendar/"
         },{
             "text": "EventEditWindow.js",
-            "path": "src/calendar/"
+            "path": "../src/calendar/"
         },{
             "text": "CalendarView.js",
-            "path": "src/calendar/views/"
+            "path": "../src/calendar/views/"
         },{
             "text": "MonthView.js",
-            "path": "src/calendar/views/"
+            "path": "../src/calendar/views/"
         },{
             "text": "DayHeaderView.js",
-            "path": "src/calendar/views/"
+            "path": "../src/calendar/views/"
         },{
             "text": "DayBodyView.js",
-            "path": "src/calendar/views/"
+            "path": "../src/calendar/views/"
         },{
             "text": "DayView.js",
-            "path": "src/calendar/views/"
+            "path": "../src/calendar/views/"
         },{
             "text": "MultiDayView.js",
-            "path": "src/calendar/views/"
+            "path": "../src/calendar/views/"
         },{
             "text": "WeekView.js",
-            "path": "src/calendar/views/"
+            "path": "../src/calendar/views/"
         },{
             "text": "MultiWeekView.js",
-            "path": "src/calendar/views/"
+            "path": "../src/calendar/views/"
         },{
             "text": "MonthDayDetailView.js",
-            "path": "src/calendar/views/"
+            "path": "../src/calendar/views/"
         },{
             "text": "CalendarPanel.js",
-            "path": "src/calendar/"
+            "path": "../src/calendar/"
         }]
     },{
        "name": "Extensible All CSS",
        "file": "resources/css/extensible-all.css",
        "fileIncludes": [{
            "text": "calendar.css",
-           "path": "resources/css/"
+           "path": "../resources/css/"
        },{
            "text": "calendar-colors.css",
-           "path": "resources/css/"
+           "path": "../resources/css/"
        },{
            "text": "recurrence.css",
-           "path": "resources/css/"
+           "path": "../resources/css/"
        }]
     },{
         "name": "Extensible All",
-        "file": "extensible-all.js",
+        "file": "lib/extensible-all.js",
         "isDebug": true,
         "includeDeps": true,
         "pkgDeps": [
@@ -148,19 +148,19 @@
         "fileIncludes": []
     }],
     "resources": [{
-        "src": "src/",
+        "src": "../src/",
         "dest": "src/",
         "filters": ".*[\\.jpg|\\.png|\\.gif|\\.css|\\.js]"
     },{
-        "src": "examples/",
+        "src": "../examples/",
         "dest": "examples/",
         "filters": ".*[\\.html|\\.jpg|\\.png|\\.gif|\\.css|\\.js|\\.php]"
     },{
-        "src": "welcome/",
+        "src": "../welcome/",
         "dest": "welcome/",
         "filters": ".*[\\.html|\\.jpg|\\.png|\\.gif|\\.css|\\.js|\\.php]"
     },{
-        "src": "resources/",
+        "src": "../resources/",
         "dest": "resources/",
         "filters": ".*"
     }]
