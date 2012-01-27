@@ -94,7 +94,7 @@ This release is strictly for implementing Ext 4 support in the calendar componen
 
 ---
 
-The 1.0.x releases below were based on Ext 3.x. After the 1.0.1 release Extensible was branched to 1.5.x for Ext 4 support. The Extensible 1.0.x release notes are now maintained in the 1.0.x branch only going forward, but these notes are kept here for historical purposes.
+The 1.0.x releases below were based on Ext 3.x. After the 1.0.1 release Extensible was branched to 1.5.x for Ext 4 support. The Extensible 1.0.x release notes are now maintained in the [1.0.x branch](https://github.com/bmoeskau/Extensible/tree/1.x) only going forward, but these notes are kept here for historical purposes.
 
 ---
 
