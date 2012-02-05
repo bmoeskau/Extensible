@@ -4,7 +4,7 @@ These notes apply to the Ext 4.x branch of Extensible.
 
 ## 1.5.1
 
-_January 25, 2012_
+_February 5, 2012_
 
 **New Features**
 
