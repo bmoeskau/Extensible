@@ -71,7 +71,29 @@ Extensible.Config = {
          * 
          * @config {String} extensibleRoot
          */
-        extensibleRoot: null // initialized dynamically in getSdkPath()
+        extensibleRoot: null, // initialized dynamically in getSdkPath()
+        
+        /**
+         * True to allow the default browser behavior of caching the Extensible JS and CSS files
+         * after initial load (defaults to true), or false to append a unique cache-buster parameter
+         * to the url to enforce reloading Extensible files with each page refresh (useful if you are
+         * actively changing and debugging Extensible code). If true, the current version number of
+         * Extensible will still be used to force a reload with each new version of the framework, but
+         * after the initial load of each version the cached files will be used.
+         * 
+         * This option only applies when using `debug` or `dynamic` modes. In `release` mode the Extensible
+         * version number will be used to ensure that Extensible files are always cached after the initial
+         * load of each release and this option will be ignored. Note that when using `dynamic` mode you
+         * would additionally have to ensure that the Ext.Loader's `disableCaching` option is true in order
+         * to add the cache buster parameter to each dynamically-loaded class. 
+         * 
+         * Note that this option does not affect the caching of Ext JS files in any way. If you are
+         * using dynamic loading, the Ext Loader will govern caching, otherwise the default browser
+         * caching will be in effect.
+         * 
+         * @config {Boolean} cacheExtensible
+         */
+        cacheExtensible: true
     },
     
     /**
@@ -86,6 +108,7 @@ Extensible.Config = {
         me.mode = config.mode || me.defaults.mode;
         me.extJsRoot = config.extJsRoot || me.defaults.extJsRoot;
         me.extensibleRoot = config.extensibleRoot || me.defaults.extensibleRoot || me.getSdkPath();
+        me.cacheExtensible = config.cacheExtensible || me.defaults.cacheExtensible;
         
         me.adjustPaths();
         me.writeIncludes();
@@ -119,7 +142,7 @@ Extensible.Config = {
     // private -- write out the CSS and script includes to the document
     writeIncludes: function() {
         var me = this,
-            cacheBuster = '?_dc=' + (+new Date),
+            cacheBuster = '?_dc=' + (me.cacheExtensible ? Extensible.version : (+new Date)),
             suffix = '',
             bootstrap = '';
         
@@ -149,11 +172,11 @@ Extensible.Config = {
         
         me.includeStylesheet(me.extJsRoot + 'resources/css/ext-all.css');
         me.includeStylesheet(me.extensibleRoot + 'resources/css/extensible-all.css' + cacheBuster);
-        me.includeStylesheet(me.extensibleRoot + 'examples/examples.css' + cacheBuster);
+        me.includeStylesheet(me.extensibleRoot + 'examples/examples.css?_dc=' + Extensible.version);
         
         me.includeScript(me.extJsRoot + 'ext' + suffix + '.js');
         me.includeScript(me.extensibleRoot + 'lib/extensible' + suffix + bootstrap + '.js' + cacheBuster);
-        me.includeScript(me.extensibleRoot + 'examples/examples.js' + cacheBuster);
+        me.includeScript(me.extensibleRoot + 'examples/examples.js?_dc=' + Extensible.version);
     }
 };
 
