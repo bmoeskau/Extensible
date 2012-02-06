@@ -30,7 +30,7 @@ _February 6, 2012_
 * Fixed an edge case that could cause certain events not to show up in the Day view header
 * Added null check to avoid errors when calculating the event rendering grid if the maxEvents array is empty
 * Fix calendar start date not getting set correctly in some cases
-* Added saftey checks around all Ext overrides to avoid errors if any classes are not present
+* Added safety checks around all Ext overrides to avoid errors if any classes are not present
 * Fixed EventWindow animateTarget not working
 * Fixed calendar to fire `eventclick` always, even when the calendar is read-only
 * Fixed IE9-specific scroll reset on click bug
