@@ -2,7 +2,7 @@
 
 ## 1.0.2
 
-_January 25, 2012_
+_February 6, 2012_
 
 **New Features**
 
