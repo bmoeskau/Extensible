@@ -7,7 +7,7 @@
 
 # Configuration
 # The current version string, substituted into the build path below
-VER=extensible-1.5.0
+VER=extensible-1.5.1
 
 # Default the root to the parent of the current \build folder
 EXTENSIBLE_ROOT="`dirname "$0"`/.."
@@ -44,7 +44,7 @@ rm $EXTENSIBLE_ROOT/resources/css/extensible-all.css
 # Build it
 java -jar $EXTENSIBLE_ROOT/build/JSBuilder2.jar --projectFile $EXTENSIBLE_ROOT/build/extensible.jsb2 --homeDir $EXTENSIBLE_OUTPUT
 
-# Copy the Extensible class definition to the root as extensible.js for dynamic loading support
+# Copy the Extensible class definition to /lib as extensible-bootstrap.js for dynamic loading support
 cp $EXTENSIBLE_ROOT/src/Extensible.js $EXTENSIBLE_OUTPUT/$VER/lib/extensible-bootstrap.js
 
 # Copy the deploy files back into dev so that the samples get the latest code
