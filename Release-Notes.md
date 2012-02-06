@@ -7,7 +7,7 @@ _January 25, 2012_
 **New Features**
 
 * Added `timeFormat` config to `DateRangeField`
-* Added new locales: Italian, German
+* Added new Italian locale
 * Added Extensible-config.js for easier example path configuration (they now work out of the box by default)
 
 **Bugs Fixed**
