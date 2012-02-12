@@ -73,6 +73,20 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         border: false
     },
     
+    /**
+     * True to allow the user to save the initial default record displayed in the form while in Add mode 
+     * and the record is not dirty (default). If false, the form save action will be treated as a cancel action
+     * if no editing was performed while in Add mode and the record will not be added. Note that this setting
+     * does not apply when in Edit mode. The save action will always be treated as cancel in Edit mode if
+     * the form is not dirty.
+     * 
+     * When this option is true any blank or default field values should be allowed by the back end
+     * system handling the operation. For example, by default if the event title is blank the calendar views
+     * will substitute the value of {@link Extensible.calendar.view.AbstractCalendar#defaultEventTitleText 
+     * defaultEventTitleText} when displaying it. Any custom fields might require similar custom handling. 
+     */
+    allowDefaultAdd: true,
+    
     // private
     initComponent: function(){
         this.addEvents({
@@ -302,6 +316,12 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         this.activeRecord = rec;
         //this.el.setStyle('z-index', 12000);
         
+        // Using setValue() results in dirty fields, so we reset the field state
+        // after loading the form so that the current values are the "original" values
+        f.getFields().each(function(item) {
+            item.resetOriginalValue();
+        });
+        
 		return this;
     },
     
@@ -410,19 +430,26 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
     
     // private
-    onSave: function(){
-        if(!this.formPanel.form.isValid()){
+    onSave: function() {
+        var me = this,
+            form = me.formPanel.form;
+        
+        if (!form.isDirty() && !me.allowDefaultAdd) {
+            me.onCancel();
             return;
         }
-		if(!this.updateRecord(this.activeRecord)){
-			this.onCancel();
-			return;
+        if (form.isValid()) {
+    		if (!me.updateRecord(me.activeRecord)) {
+    			me.onCancel();
+    			return;
+    		}
+    		me.fireEvent(me.activeRecord.phantom ? 'eventadd' :
+    		      'eventupdate', me, me.activeRecord, me.animateTarget);
 		}
-		this.fireEvent(this.activeRecord.phantom ? 'eventadd' : 'eventupdate', this, this.activeRecord, this.animateTarget);
     },
     
     // private
-    onDelete: function(){
+    onDelete: function() {
 		this.fireEvent('eventdelete', this, this.activeRecord, this.animateTarget);
     }
 });

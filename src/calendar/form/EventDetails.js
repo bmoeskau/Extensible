@@ -216,27 +216,37 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     
     // inherited docs
     loadRecord: function(rec){
-        this.form.reset().loadRecord.apply(this.form, arguments);
-        this.activeRecord = rec;
-        this.dateRangeField.setValue(rec.data);
+        var me = this,
+            EventMappings = Extensible.calendar.data.EventMappings;
         
-        if(this.recurrenceField){
-            this.recurrenceField.setStartDate(rec.data[Extensible.calendar.data.EventMappings.StartDate.name]);
+        me.form.reset().loadRecord.apply(me.form, arguments);
+        me.activeRecord = rec;
+        me.dateRangeField.setValue(rec.data);
+        
+        if (me.recurrenceField) {
+            me.recurrenceField.setStartDate(rec.data[EventMappings.StartDate.name]);
         }
-        if(this.calendarStore){
-            this.form.setValues({'calendar': rec.data[Extensible.calendar.data.EventMappings.CalendarId.name]});
+        if (me.calendarStore) {
+            me.form.setValues({'calendar': rec.data[EventMappings.CalendarId.name]});
         }
         
-        //this.isAdd = !!rec.data[Extensible.calendar.data.EventMappings.IsNew.name];
-        if(rec.phantom){
-            this.setTitle(this.titleTextAdd);
-            this.down('#' + this.id + '-del-btn').hide();
+        //me.isAdd = !!rec.data[Extensible.calendar.data.EventMappings.IsNew.name];
+        if (rec.phantom) {
+            me.setTitle(me.titleTextAdd);
+            me.down('#' + me.id + '-del-btn').hide();
         }
         else {
-            this.setTitle(this.titleTextEdit);
-            this.down('#' + this.id + '-del-btn').show();
+            me.setTitle(me.titleTextEdit);
+            me.down('#' + me.id + '-del-btn').show();
         }
-        this.titleField.focus();
+        
+        // Using setValue() results in dirty fields, so we reset the field state
+        // after loading the form so that the current values are the "original" values
+        me.form.getFields().each(function(item) {
+            item.resetOriginalValue();
+        });
+        
+        me.titleField.focus();
     },
     
     // inherited docs
