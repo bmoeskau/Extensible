@@ -830,7 +830,7 @@ td.ext-cal-dtitle-today div {
 }
 .ext-evt-edit-form .x-panel-header {
     background: transparent url(../images/default/ext-cal-edit-hd.png) repeat-x;
-    padding: 9px 0 4px 5px !important;
+    padding: 6px 0 5px 5px !important;
     font-size: 13px !important;
     font-family: helvetica, arial, sans-serif;
     border-top: 0;
