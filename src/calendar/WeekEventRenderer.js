@@ -102,13 +102,14 @@ Ext.ensible.cal.WeekEventRenderer = function() {
                  
                 // Loop through each day in the current week grid
                 for (; dayIndex < dayCount; dayIndex++) {
+                    currentDateString = currentDate.format('Ymd');
+                    
                     // Make sure there is actually a day to process events for first
                     if (weekGrid && weekGrid[dayIndex]) {
                         eventIndex = 0;
                         skippedEventCount = 0;
                         dayGrid = weekGrid[dayIndex];
                         eventCount = dayGrid.length;
-                        currentDateString = currentDate.format('Ymd');
                          
                         // Loop through each event in the current day grid. Note that this grid can
                         // also contain placeholders representing segments of spanning events, though
