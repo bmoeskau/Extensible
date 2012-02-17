@@ -23,7 +23,13 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             width: 170,
             triggerAction: 'all',
             forceSelection: true,
-            store: []
+            store: [],
+            listeners: {
+                'change': {
+                    fn: this.onChange,
+                    scope: this
+                }
+            }
         },{
             xtype: 'label',
             text: 'of each month'
@@ -79,14 +85,16 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             value;
 
         Ext.each(parts, function(part) {
-            if (part.indexOf('BYMONTH') > -1) {
+            if (part.indexOf('BYMONTHDAY') > -1) {
                 value = part.split('=')[1];
+                me.value = part;
                 me.untilCombo.setValue('for');
                 me.untilNumberField.setValue(value).show();
                 me.untilNumberLabel.show();
             }
-            else if (part.indexOf('UNTIL') > -1) {
+            else if (part.indexOf('BYDAY') > -1) {
                 value = part.split('=')[1];
+                me.value = part;
                 me.untilCombo.setValue('until');
                 me.untilDateField.setValue(Date.parseDate(value, this.untilDateFormat)).show();
                 me.untilNumberLabel.hide();

@@ -61,7 +61,7 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
         
         if (this.daysCheckboxGroup) {
             this.daysCheckboxGroup.setValue({
-                SU:0, TU:0, WE:0, TH:0, FR:0, SA:0
+                SU:0, MO:0, TU:0, WE:0, TH:0, FR:0, SA:0
             });
         }
     },

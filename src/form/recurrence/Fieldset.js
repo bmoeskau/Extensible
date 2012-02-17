@@ -20,6 +20,16 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         'Extensible.form.recurrence.option.Duration'
     ],
     
+    //TODO: implement code to use this config.
+    // Maybe use xtypes instead for dynamic loading of custom options?
+    // Include secondly/minutely/hourly, plugins for M-W-F, T-Th, weekends
+    options: [
+        'daily', 'weekly', 'weekdays', 'monthly', 'yearly'
+    ],
+    
+    //TODO: implement
+    displayStyle: 'field', // or 'dialog'
+    
     fieldLabel: 'Repeats',
     startDate: Ext.Date.clearTime(new Date()),
     enableFx: true,
@@ -36,7 +46,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     initComponent : function() {
         var me = this;
         
-        if (!me.height) {
+        if (!me.height || me.displayStyle === 'field') {
+            delete me.height;
             me.autoHeight = true;
         }
         
@@ -121,9 +132,12 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         
         me.intervalField.on('change', me.onChange, me);
         me.weeklyField.on('change', me.onChange, me);
+        me.monthlyField.on('change', me.onChange, me);
+        me.yearlyField.on('change', me.onChange, me);
     },
     
     onChange: function() {
+        console.log(this.getValue());
         this.fireEvent('change', this, this.getValue());
     },
     
@@ -294,7 +308,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         var me = this,
             unit = 'day';
         
-        if(freq === 'NONE'){
+        if (freq === 'NONE') {
             me.innerContainer.items.each(function(item) {
                 item.hide();
             });
@@ -311,7 +325,11 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         
         switch(freq){
             case 'DAILY':
+                break;
+                
             case 'WEEKDAYS':
+                me.intervalField.hide();
+                unit = 'week';
                 break;
             
             case 'WEEKLY':
