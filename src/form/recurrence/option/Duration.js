@@ -79,7 +79,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     
     onComboChange: function(combo, rec) {
         var me = this,
-            field = rec[0].data.field1;
+            field = rec;//rec[0].data.field1;
             
         if (field == 'until') {
             me.untilDateField.show();
@@ -103,6 +103,15 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         }
     },
     
+    onNumberChange: function(field, value, oldValue) {
+        this.onChange.call(this, field, 'COUNT=' + value, 'COUNT=' + oldValue);
+    },
+    
+    onDateChange: function(field, value, oldValue) {
+        this.onChange.call(this, field, 'UNTIL=' + Ext.Date.format(value, me.dateValueFormat), 
+            'UNTIL=' + oldValue);
+    },
+    
     setValue : function(v) {
         var me = this;
         
@@ -110,7 +119,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             me.value = undefined;
             return;
         }
-        if (!me.intervalField) {
+        if (!me.untilCombo) {
             me.on('afterrender', function() {
                 me.setValue(v);
             }, me, {single: true});
@@ -123,16 +132,16 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         Ext.each(parts, function(part) {
             if (part.indexOf('COUNT') > -1) {
                 value = part.split('=')[1];
-                me.value = 'COUNT=' + value;
+                me.value = part;
                 me.untilCombo.setValue('for');
-                me.untilNumberField.setValue(value).show();
+                //me.untilNumberField.setValue(value).show();
                 me.untilNumberLabel.show();
             }
             else if (part.indexOf('UNTIL') > -1) {
                 value = part.split('=')[1];
-                me.value = 'UNTIL=' + Ext.Date.format(value, me.dateValueFormat);
+                me.value = part;
                 me.untilCombo.setValue('until');
-                me.untilDateField.setValue(Date.parseDate(value, this.untilDateFormat)).show();
+                //me.untilDateField.setValue(Date.parseDate(value, this.untilDateFormat)).show();
                 me.untilNumberLabel.hide();
             }
         }, me);
