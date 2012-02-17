@@ -1351,7 +1351,7 @@ alert('End: '+bounds.end);
         // form edits are explicitly canceled, but we may not know if a drag/drop operation
         // succeeded until after a server round trip. if the update failed we have to explicitly
         // reject the changes so that the record doesn't stick around in the store's modified list 
-        if(arg.reject){
+        if (arg && Ext.isFunction(arg.reject)) {
             arg.reject();
         }
     },
