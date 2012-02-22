@@ -192,14 +192,14 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         if (!this.innerContainer) {
             return this.value;
         }
-        if (this.frequency == 'NONE') {
+        if (this.frequency === 'NONE') {
             return '';
         }
         
         var values,
             itemValue;
         
-        if (this.frequency == 'WEEKDAYS') {
+        if (this.frequency === 'WEEKDAYS') {
             values = ['FREQ=WEEKLY','BYDAY=MO,TU,WE,TH,FR'];
         }
         else {
@@ -238,17 +238,17 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         var value = this.getValue(),
             text = '';
         
-        switch(value) {
-            default:
-                text = 'No recurrence';
-        }
+        // switch(value) {
+            // default:
+                // text = 'No recurrence';
+        // }
         return 'Friendly text : ' + text;
     },
     
     setValue: function(value){
         var me = this;
         
-        me.value = (!value || value === 'NONE' ? '' : value); 
+        me.value = (!value || value === 'NONE' ? '' : value);
         
         if (!me.frequencyCombo || !me.innerContainer) {
             me.on('afterrender', function() {
@@ -259,7 +259,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             return;
         }
         
-        if (!value || value == 'NONE') {
+        if (!value || value === 'NONE') {
             me.frequencyCombo.setValue('NONE');
             me.showOptions('NONE');
             return me;
@@ -350,5 +350,5 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         
         me.doComponentLayout();
         me.intervalField.updateLabel(unit);
-    },
+    }
 });
