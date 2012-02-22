@@ -46,7 +46,7 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     updateLabel: Ext.emptyFn,
     
     onChange: function(field, value, oldValue) {
-        this.setValue(value);
+        //this.setValue(value);
         this.fireEvent('change', this, this.getValue());
     },
     
