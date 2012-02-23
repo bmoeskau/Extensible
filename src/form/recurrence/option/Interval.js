@@ -4,8 +4,6 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
     
     dateLabelFormat: 'l, F j',
     
-    key: 'INTERVAL',
-    
     unit: 'day',
     
     minValue: 1,
@@ -28,15 +26,12 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
             allowBlank: false,
             enableKeyEvents: true,
             listeners: {
-                'change': {
-                    fn: me.onChange,
-                    scope: this
-                }
+                'change': Ext.bind(me.onIntervalChange, me)
             }
         },{
             xtype: 'label',
             itemId: me.id + '-date-label'
-        }]
+        }];
     },
     
     initRefs: function() {
@@ -45,43 +40,35 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         me.dateLabel = me.down('#' + me.id + '-date-label');
     },
     
+    onIntervalChange: function(field, value, oldValue) {
+        this.checkChange();
+    },
+    
+    getValue: function() {
+        if (this.intervalField) {
+            return 'INTERVAL=' + this.intervalField.getValue();
+        }
+        return '';
+    },
+    
     setValue: function(v) {
         var me = this;
         
-        if (!v) {
-            me.value = undefined;
-            return;
+        if (!me.preSetValue(v, me.intervalField)) {
+            return me;
         }
-        if (!me.intervalField) {
-            me.on('afterrender', function() {
-                me.setValue(v);
-            }, me, {single: true});
-            return;
-        }
-        
-        var parts = Ext.isArray(v) ? v : (Ext.isString(v) ? v.split(';') : v),
-            interval = Ext.isNumber(v) ? v : null,
-            setValueFn = function(v) {
-                me.value = me.key + '=' + v;
-                if (me.intervalField) {
-                    me.intervalField.setValue(v);
-                }
+        var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),
+            parts;
+
+        Ext.each(options, function(option) {
+            parts = option.split('=');
+            
+            if (parts[0] === 'INTERVAL') {
+                me.intervalField.setValue(parts[1]);
+                me.updateLabel();
+                return;
             }
-        
-        if (interval) {
-            setValueFn(interval);
-        }
-        else {
-            Ext.each(parts, function(part) {
-                if (part.indexOf(me.key) > -1) {
-                    interval = part.split('=')[1];
-                    setValueFn(interval);
-                    return;
-                }
-            }, me);
-        }
-        
-        me.updateLabel();
+        }, me);
         
         return me;
     },
@@ -96,7 +83,7 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         
         if (me.intervalField) {
             //TODO: Refactor for localization
-            var s = me.intervalField.getValue() == 1 ? '' : 's';
+            var s = me.intervalField.getValue() === 1 ? '' : 's';
             me.unit = unit ? unit.toLowerCase() : me.unit || 'day';
             
             if (me.dateLabel) {
@@ -105,4 +92,4 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         }
         return me;
     }
-})
+});

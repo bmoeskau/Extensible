@@ -115,16 +115,10 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     },
     
     onOccurrenceCountChange: function(field, value, oldValue) {
-        // var me = this;
-        // me.value = 'COUNT=' + value;
-        // me.onChange.call(me, field, me.value, 'COUNT=' + oldValue);
         this.checkChange();
     },
     
     onEndDateChange: function(field, value, oldValue) {
-        // var me = this;
-        // me.value = 'UNTIL=' + Ext.Date.format(value, me.dateValueFormat);
-        // me.onChange.call(me, field, me.value, 'UNTIL=' + oldValue);
         this.checkChange();
     },
     
@@ -146,17 +140,9 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     setValue: function(v) {
         var me = this;
         
-        if (!v) {
-            me.originalValue = me.lastValue = me.value = undefined;
-            return;
-        }
-        if (!me.untilCombo) {
-            me.on('afterrender', function() {
-                me.setValue(v);
-            }, me, {single: true});
+        if (!me.preSetValue(v, me.untilCombo)) {
             return me;
         }
-        
         var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),
             parts;
 
@@ -165,11 +151,13 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             
             if (parts[0] === 'COUNT') {
                 me.untilNumberField.setValue(parts[1]);
-                this.toggleFields('for');
+                me.toggleFields('for');
+                return;
             }
             else if (parts[0] === 'UNTIL') {
                 me.untilDateField.setValue(me.formatDate(parts[1]));
-                this.toggleFields('until');
+                me.toggleFields('until');
+                return;
             }
         }, me);
         
