@@ -15,6 +15,8 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     
     dateValueFormat: 'Ymd\\T000000\\Z',
     
+    optionDelimiter: ';',
+    
     initComponent: function() {
         var me = this;
         
@@ -24,6 +26,7 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
              * Fires when a user-initiated change is detected in the value of the field.
              * @param {Extensible.form.recurrence.AbstractOption} this
              * @param {Mixed} newValue The new value
+             * @param {Mixed} oldValue The old value
              */
             'change'
         );
@@ -33,6 +36,10 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
         me.callParent(arguments);
         
         me.initField();
+    },
+    
+    formatDate: function(date) {
+        return Ext.Date.format(date, this.dateValueFormat);
     },
     
     afterRender: function(){
@@ -45,10 +52,9 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     
     updateLabel: Ext.emptyFn,
     
-    onChange: function(field, value, oldValue) {
-        //this.setValue(value);
-        this.fireEvent('change', this, this.getValue());
-    },
+    //onChange: function(newValue, oldValue) {
+        //this.fireEvent('change', this, newValue, oldValue);
+    //},
     
     setStartDate: function(dt) {
         this.startDate = dt;
