@@ -1,3 +1,8 @@
+
+// TODO: Create Extensible.form.recurrence.Parser and factor all
+//       rrule value getting/setting out of these option classes
+//       and into the parser.
+
 Ext.define('Extensible.form.recurrence.AbstractOption', {
     extend: 'Ext.form.FieldContainer',
     
@@ -52,13 +57,25 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     
     updateLabel: Ext.emptyFn,
     
-    //onChange: function(newValue, oldValue) {
-        //this.fireEvent('change', this, newValue, oldValue);
-    //},
-    
     setStartDate: function(dt) {
         this.startDate = dt;
         this.updateLabel();
         return this;
+    },
+    
+    preSetValue: function(v, readyField) {
+        var me = this;
+        
+        if (!v) {
+            me.originalValue = me.lastValue = me.value = undefined;
+            return false;
+        }
+        if (!readyField) {
+            me.on('afterrender', function() {
+                me.setValue(v);
+            }, me, {single: true});
+            return false;
+        }
+        return true;
     }
 });

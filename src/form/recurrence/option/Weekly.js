@@ -7,7 +7,7 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
         'Ext.form.CheckboxGroup'
     ],
     
-    key: 'BYDAY',
+    dayValueDelimiter: ',',
     
     getItemConfigs: function() {
         var id = this.id;
@@ -32,28 +32,30 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
                 { boxLabel: 'Sat', name: 'SA', id: id + '-SA' }
             ],
             listeners: {
-                'change': {
-                    fn: this.onChange,
-                    scope: this
-                }
+                'change': Ext.bind(this.onSelectionChange, this)
             }
-        }]
+        }];
+    },
+    
+    initValue: function() {
+        this.callParent(arguments);
+        
+        if (!this.value) {
+            this.selectByDate();
+        }
     },
     
     initRefs: function() {
         this.daysCheckboxGroup = this.down('#' + this.id + '-days');
     },
     
+    onSelectionChange: function(field, value, oldValue) {
+        this.checkChange();
+    },
+    
     selectByDate: function(dt) {
-        var day = Ext.Date.format(dt, 'D').substring(0,2).toUpperCase(),
-            value = {};
-        
-        this.clearValue();
-        
-        if (this.daysCheckboxGroup) {
-            value[day] = true;
-            this.daysCheckboxGroup.setValue(value);
-        }
+        var day = Ext.Date.format(dt || this.startDate, 'D').substring(0,2).toUpperCase();
+        this.setValue('BYDAY=' + day);
     },
     
     clearValue: function() {
@@ -66,63 +68,52 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
         }
     },
     
+    getValue: function() {
+        var me = this;
+        
+        if (me.daysCheckboxGroup) {
+            // Checkbox group value will look like {MON:"on", TUE:"on", FRI:"on"}
+            var fieldValue = me.daysCheckboxGroup.getValue(),
+                days = [],
+                property;
+            
+            for (property in fieldValue) {
+                if (fieldValue.hasOwnProperty(property)) {
+                    // Push the name ('MON') not the value ('on')
+                    days.push(property);
+                }
+            }
+            return days.length > 0 ? 'BYDAY=' + days.join(me.dayValueDelimiter) : '';
+        }
+        return '';
+    },
+    
     setValue: function(v) {
         var me = this;
         
-        if (!v) {
-            me.value = undefined;
-            return;
+        if (!me.preSetValue(v, me.daysCheckboxGroup)) {
+            return me;
         }
         
-        if (Ext.isObject(v)) {
-            // If the value is an object, it's originating from the underlying CheckboxGroup's
-            // getValue() function (e.g. {MON:"on", TUE:"on", FRI:"on"}). In this case there is
-            // no need to set the underlying field's value again, just convert the object into
-            // the appropriate iCal string value for this component.
-            var prop,
-                values = [];
+        var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),
+            compositeValue = {},
+            parts, days;
+
+        Ext.each(options, function(option) {
+            parts = option.split('=');
             
-            for (prop in v) {
-                if (v.hasOwnProperty(prop)) {
-                    values.push(prop)
-                }
-            }
-            me.value = me.key + '=' + values.join(',');
-            return;
-        }
-        // If the value is not an object then it's either an iCal-formatted recurrence
-        // string or an array of recurrence name/value pairs. In this case the value must
-        // be processed to see if it contains a BYDAY component to set as the field's value.
-        var parts = Ext.isArray(v) ? v : v.split(';'),
-            set = false,
-            daysString,
-            daysArray,
-            parts,
-            values = {}
-        
-        Ext.each(parts, function(part) {
-            if (part.indexOf(me.key) > -1) {
-                daysString = part.split('=')[1],
-                daysArray = daysString.split(',');
+            if (parts[0] === 'BYDAY') {
+                days = parts[1].split(me.dayValueDelimiter);
                     
-                Ext.each(daysArray, function(day) {
-                    values[day] = true;
+                Ext.each(days, function(day) {
+                    compositeValue[day] = true;
                 }, me);
                 
-                me.value = me.key + '=' + daysString;
-                
-                if (me.daysCheckboxGroup) {
-                    me.daysCheckboxGroup.setValue(values);
-                }
-                else {
-                    me.on('afterrender', function() {
-                        me.daysCheckboxGroup.setValue(values);
-                    }, me, {single: true});
-                }
-                return set = true;
+                me.daysCheckboxGroup.setValue(compositeValue);
+                return;
             }
         }, me);
         
         return me;
     }
-})
+});
