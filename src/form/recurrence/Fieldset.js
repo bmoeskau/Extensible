@@ -134,6 +134,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         me.weeklyField.on('change', me.onChange, me);
         me.monthlyField.on('change', me.onChange, me);
         me.yearlyField.on('change', me.onChange, me);
+        me.durationField.on('change', me.onChange, me);
     },
     
     onChange: function() {
