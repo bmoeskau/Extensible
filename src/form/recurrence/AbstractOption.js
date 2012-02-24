@@ -55,11 +55,8 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     
     initRefs: Ext.emptyFn,
     
-    updateLabel: Ext.emptyFn,
-    
     setStartDate: function(dt) {
         this.startDate = dt;
-        this.updateLabel();
         return this;
     },
     
@@ -67,7 +64,7 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
         var me = this;
         
         if (!v) {
-            me.originalValue = me.lastValue = me.value = undefined;
+            me.value = undefined;
             return false;
         }
         if (!readyField) {

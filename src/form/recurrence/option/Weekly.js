@@ -9,6 +9,8 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
     
     dayValueDelimiter: ',',
     
+    cls: 'extensible-recur-weekly',
+    
     getItemConfigs: function() {
         var id = this.id;
         
@@ -51,6 +53,7 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
     
     onSelectionChange: function(field, value, oldValue) {
         this.checkChange();
+        this.updateLabel();
     },
     
     selectByDate: function(dt) {

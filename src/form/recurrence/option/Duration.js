@@ -17,6 +17,8 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     
     endDateWidth: 120,
     
+    cls: 'extensible-recur-duration',
+    
     //endDateFormat: null, // inherit by default
     
     getItemConfigs: function() {
