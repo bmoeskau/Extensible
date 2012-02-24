@@ -74,19 +74,6 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 xtype: 'extensible.recurrence-interval',
                 itemId: this.id + '-interval'
             },{
-                xtype: 'fieldcontainer',
-                layout: 'hbox',
-                itemId: this.id + '-start-date',
-                defaults: {
-                    margins: '0 5 0 0'
-                },
-                items: [{
-                    xtype: 'label',
-                    text: 'beginning'
-                },{
-                    xtype: 'datefield'
-                }]
-            },{
                 xtype: 'extensible.recurrence-weekly',
                 itemId: this.id + '-weekly'
             },{
@@ -121,7 +108,6 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         me.weeklyField = me.down('#' + id + '-weekly');
         me.monthlyField = me.down('#' + id + '-monthly');
         me.yearlyField = me.down('#' + id + '-yearly');
-        me.startDateField = me.down('#' + id + '-start-date');
         me.durationField = me.down('#' + id + '-duration');
         
         me.initChangeEvents();
@@ -138,7 +124,6 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     },
     
     onChange: function() {
-        console.log(this.getValue());
         this.fireEvent('change', this, this.getValue());
     },
     
@@ -317,7 +302,6 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         else {
             me.intervalField.show();
             me.durationField.show();
-            //me.startDateField.show();
         }
         
         me.weeklyField.hide();
@@ -329,7 +313,6 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 break;
                 
             case 'WEEKDAYS':
-                me.intervalField.hide();
                 unit = 'week';
                 break;
             

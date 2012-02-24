@@ -10,6 +10,8 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
     
     maxValue: 999,
     
+    cls: 'extensible-recur-interval',
+    
     getItemConfigs: function() {
         var me = this;
         
@@ -42,6 +44,7 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
     
     onIntervalChange: function(field, value, oldValue) {
         this.checkChange();
+        this.updateLabel();
     },
     
     getValue: function() {
@@ -73,8 +76,15 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         return me;
     },
     
+    setStartDate: function(dt) {
+        this.startDate = dt;
+        this.updateLabel();
+        return this;
+    },
+    
     setUnit: function(unit) {
         this.unit = unit;
+        this.updateLabel();
         return this;
     },
     

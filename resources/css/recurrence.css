@@ -2,20 +2,6 @@
  * Extensible recurrence control styles
  *
  ******************************************/
-.extensible-recur-ct .x-table-layout-ct {
-    margin-top: 5px;
-}
-.extensible-recur-ct .x-table-layout-cell {
-    padding-right: 5px;
-    font-size: 12px;
-}
-.extensible-recur-ct .x-form-check-wrap {
-    white-space: nowrap;
-    margin-right: 10px;
-}
-.extensible-recur-ct .x-form-check-group .x-column {
-    xmargin-right: 5px;
-}
 .extensible-recur-inner-ct {
     padding-left: 10px;
     border-left: 2px solid #ddd;
@@ -23,4 +9,19 @@
 .x-panel-mc .extensible-recur-inner-ct {
     /* inside a framed panel with a blue bg */
     border-left: 2px solid #A7C5DF;
+}
+.extensible-recur-inner-ct label {
+    margin-top: 4px;
+}
+.extensible-recur-weekly label {
+    /* checkbox alignment is slightly different */
+    margin-top: 3px;
+    margin-right: 5px;
+}
+.extensible-recur-duration,
+.extensible-recur-interval,
+.extensible-recur-monthly,
+.extensible-recur-weekly,
+.extensible-recur-yearly {
+    margin-bottom: 0;
 }
