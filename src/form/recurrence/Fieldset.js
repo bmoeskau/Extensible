@@ -36,7 +36,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     monitorChanges: true,
     cls: 'extensible-recur-field',
     
-    fieldWidth: null, // defaults to the anchor value
+    frequencyWidth: null, // defaults to the anchor value
     
     layout: 'anchor',
     defaults: {
@@ -54,7 +54,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         me.items = [{
             xtype: 'extensible.recurrence-frequency',
             hideLabel: true,
-            width: this.fieldWidth,
+            width: this.frequencyWidth,
             itemId: this.id + '-frequency',
             
             listeners: {
@@ -69,7 +69,11 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             cls: 'extensible-recur-inner-ct',
             autoHeight: true,
             layout: 'anchor',
-            
+            hideMode: 'offsets',
+            hidden: true,
+            defaults: {
+                hidden: true
+            },
             items: [{
                 xtype: 'extensible.recurrence-interval',
                 itemId: this.id + '-interval'
@@ -154,6 +158,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         }
         me.suspendCheckChange--;
         
+        Ext.defer(me.doLayout, 1, me);
         me.onChange();
     },
     
@@ -233,7 +238,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     
     setValue: function(value){
         var me = this;
-        
+        console.log('set value '+value);
         me.value = (!value || value === 'NONE' ? '' : value);
         
         if (!me.frequencyCombo || !me.innerContainer) {
@@ -248,6 +253,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         if (!value || value === 'NONE') {
             me.frequencyCombo.setValue('NONE');
             me.showOptions('NONE');
+            me.checkChange();
             return me;
         }
         
@@ -257,6 +263,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             if (part.indexOf('FREQ') > -1) {
                 var freq = part.split('=')[1];
                 me.setFrequency(freq);
+                me.checkChange();
                 return;
             }
         }, me);
@@ -295,44 +302,51 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             unit = 'day';
         
         if (freq === 'NONE') {
-            me.innerContainer.items.each(function(item) {
-                item.hide();
-            });
+            // me.innerContainer.items.each(function(item) {
+                // item.hide();
+            // });
+            me.innerContainer.hide();
         }
         else {
             me.intervalField.show();
             me.durationField.show();
+            me.innerContainer.show();
         }
-        
-        me.weeklyField.hide();
-        me.monthlyField.hide();
-        me.yearlyField.hide();
         
         switch(freq){
             case 'DAILY':
-                break;
-                
             case 'WEEKDAYS':
-                unit = 'week';
+                me.weeklyField.hide();
+                me.monthlyField.hide();
+                me.yearlyField.hide();
+                
+                if (freq === 'WEEKDAYS') {
+                    unit = 'week';
+                }
                 break;
             
             case 'WEEKLY':
                 me.weeklyField.show();
+                me.monthlyField.hide();
+                me.yearlyField.hide();
                 unit = 'week';
                 break;
             
             case 'MONTHLY':
                 me.monthlyField.show();
+                me.weeklyField.hide();
+                me.yearlyField.hide();
                 unit = 'month';
                 break;
             
             case 'YEARLY':
                 me.yearlyField.show();
+                me.weeklyField.hide();
+                me.monthlyField.hide();
                 unit = 'year';
                 break;
         }
-        
-        me.doComponentLayout();
+
         me.intervalField.updateLabel(unit);
     }
 });
