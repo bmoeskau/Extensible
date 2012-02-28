@@ -161,6 +161,9 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
                 me.toggleFields('until');
                 return;
             }
+            else {
+                me.toggleFields('forever');
+            }
         }, me);
         
         return me;
