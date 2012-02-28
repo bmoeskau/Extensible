@@ -14,67 +14,90 @@ Ext.require([
 ]);
 
 Ext.onReady(function(){
-    var onRecurrenceChange = function(field, value) {
-        Ext.get('recur-value').update(field.getValue() || '(Empty string)');
-        Ext.get('recur-desc').update(field.getDescription() || '(Empty string)');
-    };
-    
     var recurField = Ext.createWidget('extensible.recurrencefield', {
         xtype: 'extensible.recurrencefield',
-        id: 'recurrence',
-        //frequency: 'WEEKLY',
         anchor: '90%',
-        
-        // Override the width of the combo, or set to null to anchor it.
-        // This config takes precedence over the anchor config if spoecified.
-        fieldWidth: 180,
-        
         listeners: {
-            'change': onRecurrenceChange
+            'change': function(field, value) {
+                Ext.get('recur-value').update(field.getValue() || '(Empty string)');
+                Ext.get('recur-desc').update(field.getDescription() || '(Empty string)');
+            }
         },
         
-        //value: 'FREQ=WEEKLY;INTERVAL=3;BYDAY=MO,FR'
-        //value: 'FREQ=MONTHLY;INTERVAL=3;BYMONTHDAY=4;COUNT=10'
-        //value: 'FREQ=MONTHLY;INTERVAL=3;BYDAY=1FR'
-        //value: 'FREQ=MONTHLY;INTERVAL=6;BYMONTHDAY=7;COUNT=8'
-        //value: 'FREQ=MONTHLY;INTERVAL=6;BYMONTHDAY=7;UNTIL=20110531T000000Z'
+        // You can provide an explicit width for the frequency combo, or omit it to allow the
+        // default anchor setting (as defined in Extensible.form.recurrence.Fieldset) to take effect.
+        // Note that this sets the width of the frequency combo ONLY, not the entire enclosing
+        // field container (which can be set separately via the standard width or anchor configs).
+        frequencyWidth: 181
         
-        // optionally specify the recurrence start date:
-        //startDate: new Date().add(Date.DAY, 10),
+        // You can set the frequency value explicitly, which will also display the
+        // associated sub-fields with their default values. If you are using the value
+        // config to populate the recurrence field values then this config is not needed
+        // (and will be overridden if the value contains a different frequency).
+        //, frequency: 'WEEKLY'
         
-        // defaults to autoHeight, but you can optionally fix the height:
-        //height: 110,
+        // Optionally specify the recurrence start date. It will default to the browser's
+        // current date, but in most cases if this recurrence rule is tied to some existing
+        // event, the event start date would typically be used to initialize the recurrence field.
+        //, startDate: Extensible.Date.add(Extensible.Date.today(), {days: 10})
         
-        // disable slide effect when hiding/showing sub-fields:
-        //enableFx: false
+        // You can easily initialize the recurrence field with any supported iCal-formatted
+        // RRULE string. This takes the exact same value format as what is saved from the
+        // field via getValue() and sets all of the internal fields automatically.
+        //, value: 'FREQ=WEEKLY;INTERVAL=3;BYDAY=MO,FR'
+        //, value: 'FREQ=MONTHLY;INTERVAL=3;BYMONTHDAY=4;COUNT=10'
+        , value: 'FREQ=MONTHLY;INTERVAL=3;BYDAY=-1TU'
+        //, value: 'FREQ=MONTHLY;INTERVAL=6;BYMONTHDAY=7;COUNT=8'
+        //, value: 'FREQ=MONTHLY;INTERVAL=6;BYMONTHDAY=7;UNTIL=20110531T000000Z'
     });
     
-    Ext.create('Ext.form.Panel', {
+    var panel = Ext.create('Ext.form.Panel', {
         renderTo: 'recur-panel',
-        title: 'Recurrence Pattern',
+        title: 'Recurrence Field Tester',
         border: true,
         labelWidth: 70,
         width: 600,
         bodyStyle: 'padding:10px 15px;',
         autoHeight: true,
-        items: [recurField, {
+        frame: true,
+        collapsible: true,
+        
+        items: [{
+            xtype: 'datefield',
+            fieldLabel: 'Start Date',
+            value: new Date(),
+            width: 285,
+            listeners: {
+                'change': function(field) {
+                    recurField.setStartDate(field.getValue());
+                }
+            }
+        },
+            recurField,
+        {
             xtype: 'textfield',
             anchor: '90%',
             fieldLabel: 'Dummy Field',
             emptyText: 'Just to test positioning'
+        }],
+        
+        fbar: [{
+            text: 'Disable form',
+            handler: function(btn) {
+                var disable = (btn.text === 'Disable form');
+                
+                panel.items.each(function(item) {
+                    item[disable ? 'disable' : 'enable']();
+                });
+                btn.setText(disable ? 'Enable form' : 'Disable form');
+            }
+        },{
+            text: 'Reset form',
+            handler: function() {
+                panel.items.each(function(item) {
+                    item.reset();
+                });
+            }
         }]
-    });
-    
-    var startDt = Ext.create('Ext.form.field.Date', {
-        renderTo: 'recur-dt',
-        value: new Date()
-    });
-    
-    Ext.create('Ext.Button', {
-        text: 'Refresh Panel',
-        renderTo: 'recur-dt',
-        handler: function(){
-            recurField.setStartDate(startDt.getValue());
-        }
     });
 });
