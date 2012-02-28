@@ -23,11 +23,17 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
         },{
             xtype: 'combobox',
             itemId: this.id + '-nth-combo',
-            mode: 'local',
+            queryMode: 'local',
             width: this.nthComboWidth,
             triggerAction: 'all',
             forceSelection: true,
-            store: [],
+            displayField: 'text',
+            valueField: 'value',
+            store: Ext.create('Ext.data.ArrayStore', {
+                fields: ['text', 'value'],
+                idIndex: 0,
+                data: []
+            }),
             listeners: {
                 'change': Ext.bind(this.onComboChange, this)
             }
@@ -59,18 +65,22 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             store = combo.store,
             dt = me.startDate,
             lastDayOfMonth = Ext.Date.getLastDateOfMonth(dt).getDate(),
-            monthDay = Ext.Date.format(dt, 'jS') + ' day',
+            monthDayText = Ext.Date.format(dt, 'jS') + ' day',
             dayNum = dt.getDate(),
             dayIndex = Math.ceil(dayNum / 7),
-            dayOfWeek = dayIndex + Extensible.Number.getOrdinalSuffix(dayIndex) + Ext.Date.format(dt, ' l'),
-            data = [[monthDay],[dayOfWeek]],
-            idx = store.find('field1', combo.getValue());
+            dayNameAbbreviated = Ext.Date.format(dt, 'D').substring(0,2).toUpperCase(),
+            dayOfWeekText = dayIndex + Extensible.Number.getOrdinalSuffix(dayIndex) + Ext.Date.format(dt, ' l'),
+            data = [
+                [monthDayText, 'BYMONTHDAY=' + dayNum],
+                [dayOfWeekText, 'BYDAY=' + dayIndex + dayNameAbbreviated]
+            ],
+            idx = store.find('value', combo.getValue());
         
         if (lastDayOfMonth - dayNum < 7) {
-            data.push(['last ' + Ext.Date.format(dt, 'l')]);
+            data.push(['last ' + Ext.Date.format(dt, 'l'), 'BYDAY=-1' + dayNameAbbreviated]);
         }
         if (lastDayOfMonth === dayNum) {
-            data.push(['last day']);
+            data.push(['last day', 'BYMONTHDAY=-1']);
         }
         
         store.removeAll();
@@ -80,7 +90,8 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
         if (idx > data.length - 1) {
             idx = data.length - 1;
         }
-        combo.setValue(store.getAt(idx > -1 ? idx : 0).data.field1);
+        
+        combo.setValue(store.getAt(idx > -1 ? idx : 0).data.value);
         
         return me;
     },
@@ -89,29 +100,7 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
         var me = this;
         
         if (me.nthCombo) {
-            var combo = me.nthCombo,
-                idx = combo.store.find('field1', combo.getValue()),
-                day = Ext.Date.format(me.startDate, 'D').substring(0,2).toUpperCase(),
-                value = '';
-            
-            switch (idx) {
-                case 0:
-                    value = 'BYMONTHDAY=' + Ext.Date.format(me.startDate, 'j');
-                    break;
-                
-                case 1:
-                    value = 'BYDAY=' + combo.getValue()[0].substring(0,1) + day;
-                    break;
-                
-                case 2:
-                    value = 'BYDAY=-1' + day;
-                    break;
-                
-                default:
-                    value = 'BYMONTHDAY=-1';
-                    break;
-            }
-            return value;
+            return me.nthCombo.getValue();
         }
         return '';
     },
@@ -127,16 +116,8 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
 
         Ext.each(options, function(option) {
             parts = option.split('=');
-            
-            /*
-             * TODO ********************************
-             */
-            if (parts[0] === 'BYMONTHDAY') {
-                
-                return;
-            }
-            else if (parts[0] === 'BYDAY') {
-                
+            if (parts[0] === 'BYMONTHDAY' || parts[0] === 'BYDAY') {
+                me.nthCombo.setValue(option);
                 return;
             }
         }, me);

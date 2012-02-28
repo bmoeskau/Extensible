@@ -112,8 +112,8 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     
     initUntilDate: function() {
         var dt = this.startDate || Extensible.Date.today;
-        this.untilDateField.setValue(Ext.Date.add(dt, Ext.Date.DAY, 5));
         this.untilDateField.setMinValue(Ext.Date.add(dt, Ext.Date.DAY, 1));
+        this.untilDateField.setValue(Ext.Date.add(dt, Ext.Date.DAY, 5));
     },
     
     onOccurrenceCountChange: function(field, value, oldValue) {
@@ -122,6 +122,12 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     
     onEndDateChange: function(field, value, oldValue) {
         this.checkChange();
+    },
+    
+    setStartDate: function(dt) {
+        this.startDate = dt;
+        this.initUntilDate();
+        return this;
     },
     
     getValue: function() {
@@ -146,6 +152,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             return me;
         }
         var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),
+            didSetValue = false,
             parts;
 
         Ext.each(options, function(option) {
@@ -154,17 +161,20 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             if (parts[0] === 'COUNT') {
                 me.untilNumberField.setValue(parts[1]);
                 me.toggleFields('for');
+                didSetValue = true;
                 return;
             }
             else if (parts[0] === 'UNTIL') {
                 me.untilDateField.setValue(me.formatDate(parts[1]));
                 me.toggleFields('until');
+                didSetValue = true;
                 return;
             }
-            else {
-                me.toggleFields('forever');
-            }
         }, me);
+        
+        if (!didSetValue) {
+            me.toggleFields('forever');
+        }
         
         return me;
     }
