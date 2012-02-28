@@ -13,6 +13,7 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
     forceSelection: true,
     displayField: 'pattern',
     valueField: 'id',
+    cls: 'extensible-recur-frequency',
     
     frequencyText: {
         none     : 'Does not repeat',
@@ -30,17 +31,17 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
          * @event frequencychange
          * Fires when a frequency list item is selected.
          * @param {Extensible.form.recurrence.Combo} combo This combo box
-         * @param {String} value The selected frequency value (one of the values 
+         * @param {String} value The selected frequency value (one of the values
          * from {@link #frequencyOptions})
          */
         me.addEvents('frequencychange');
         
         /**
          * @cfg {Array} frequencyOptions
-         * An array of arrays, each containing the name/value pair that defines a recurring 
+         * An array of arrays, each containing the name/value pair that defines a recurring
          * frequency option supported by the frequency combo. This array is bound to the underlying
          * {@link Ext.data.ArrayStore store} to provide the combo list items. Defaults to:
-         * 
+         *
          *    [
          *        ['NONE', this.frequencyText.none],
          *        ['DAILY', this.frequencyText.daily],
