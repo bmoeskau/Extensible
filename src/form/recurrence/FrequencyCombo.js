@@ -31,8 +31,8 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
          * @event frequencychange
          * Fires when a frequency list item is selected.
          * @param {Extensible.form.recurrence.Combo} combo This combo box
-         * @param {String} value The selected frequency value (one of the values
-         * from {@link #frequencyOptions})
+         * @param {String} value The selected frequency value (one of the names
+         * from {@link #frequencyOptions}, e.g. 'DAILY')
          */
         me.addEvents('frequencychange');
         

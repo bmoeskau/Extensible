@@ -249,28 +249,26 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             });
             return;
         }
+
+        var parts = me.value.split(';');
         
-        if (!value || value === 'NONE') {
-            me.frequencyCombo.setValue('NONE');
-            me.showOptions('NONE');
-            me.checkChange();
-            return me;
+        if (me.value === '') {
+            me.setFrequency('NONE');
         }
-        
-        var parts = value.split(';');
-        
-        Ext.each(parts, function(part) {
-            if (part.indexOf('FREQ') > -1) {
-                var freq = part.split('=')[1];
-                me.setFrequency(freq);
-                me.checkChange();
-                return;
-            }
-        }, me);
+        else {
+            Ext.each(parts, function(part) {
+                if (part.indexOf('FREQ') > -1) {
+                    var freq = part.split('=')[1];
+                    me.setFrequency(freq);
+                    me.checkChange();
+                    return;
+                }
+            }, me);
+        }
         
         me.innerContainer.items.each(function(item) {
             if (item.setValue) {
-                item.setValue(parts);
+                item.setValue(me.value);
             }
         });
         

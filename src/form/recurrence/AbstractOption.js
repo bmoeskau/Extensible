@@ -70,12 +70,15 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
         return this;
     },
     
+    getDefaultValue: function() {
+        return '';
+    },
+    
     preSetValue: function(v, readyField) {
         var me = this;
         
         if (!v) {
-            me.value = undefined;
-            return false;
+            v = me.getDefaultValue();
         }
         if (!readyField) {
             me.on('afterrender', function() {
@@ -83,6 +86,9 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
             }, me, {single: true});
             return false;
         }
+        
+        me.value = v;
+        
         return true;
     }
 });
