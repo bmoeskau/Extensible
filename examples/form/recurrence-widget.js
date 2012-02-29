@@ -20,7 +20,7 @@ Ext.onReady(function(){
         listeners: {
             'change': function(field, value) {
                 Ext.get('recur-value').update(field.getValue() || '(Empty string)');
-                Ext.get('recur-desc').update(field.getDescription() || '(Empty string)');
+                //Ext.get('recur-desc').update(field.getDescription() || '(Empty string)');
             }
         },
         
@@ -43,12 +43,16 @@ Ext.onReady(function(){
         
         // You can easily initialize the recurrence field with any supported iCal-formatted
         // RRULE string. This takes the exact same value format as what is saved from the
-        // field via getValue() and sets all of the internal fields automatically.
+        // field via getValue() and sets all of the internal fields automatically. Note that
+        // certain options like BYDAY, BYMONTHDAY, etc. rely on the corresponding start date
+        // to match the expected day -- if they do not match the value for that field will
+        // simply be left blank.
         //, value: 'FREQ=WEEKLY;INTERVAL=3;BYDAY=MO,FR'
         //, value: 'FREQ=MONTHLY;INTERVAL=3;BYMONTHDAY=4;COUNT=10'
-        , value: 'FREQ=MONTHLY;INTERVAL=3;BYDAY=-1TU'
-        //, value: 'FREQ=MONTHLY;INTERVAL=6;BYMONTHDAY=7;COUNT=8'
-        //, value: 'FREQ=MONTHLY;INTERVAL=6;BYMONTHDAY=7;UNTIL=20110531T000000Z'
+        //, value: 'FREQ=MONTHLY;INTERVAL=3;BYDAY=-1WE'
+        //, value: 'FREQ=YEARLY;INTERVAL=3;BYMONTH=2;BYDAY=-1WE'
+        //, value: 'FREQ=MONTHLY;INTERVAL=6;BYMONTHDAY=29;UNTIL=20120531T000000Z'
+        //, value: 'FREQ=MONTHLY;INTERVAL=6;BYMONTHDAY=29;COUNT=10'
     });
     
     var panel = Ext.create('Ext.form.Panel', {

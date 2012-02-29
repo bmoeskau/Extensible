@@ -238,7 +238,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     
     setValue: function(value){
         var me = this;
-        console.log('set value '+value);
+        
         me.value = (!value || value === 'NONE' ? '' : value);
         
         if (!me.frequencyCombo || !me.innerContainer) {

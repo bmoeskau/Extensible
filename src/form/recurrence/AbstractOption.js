@@ -47,6 +47,16 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
         return Ext.Date.format(date, this.dateValueFormat);
     },
     
+    parseDate: function(dateString, options) {
+        options = options || {};
+        try {
+            return Ext.Date.parseDate(dateString, options.format || this.dateValueFormat, options.strict);
+        }
+        catch(ex) {
+            return options.defaultValue || new Date();
+        }
+    },
+    
     afterRender: function(){
         this.callParent(arguments);
         this.initRefs();

@@ -13,6 +13,16 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     
     maxOccurrences: 999,
     
+    /**
+     * The number of days after the recurrence start date to set the end date by default
+     */
+    defaultEndDateOffset: 5,
+    
+    /**
+     * The number of days after the recurrence start date to set as the minimum allowable end date
+     */
+    minDateOffset: 1,
+    
     maxEndDate: new Date('12/31/9999'),
     
     endDateWidth: 120,
@@ -111,9 +121,11 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     },
     
     initUntilDate: function() {
-        var dt = this.startDate || Extensible.Date.today;
-        this.untilDateField.setMinValue(Ext.Date.add(dt, Ext.Date.DAY, 1));
-        this.untilDateField.setValue(Ext.Date.add(dt, Ext.Date.DAY, 5));
+        var me = this;
+            dt = me.startDate || Extensible.Date.today;
+        
+        me.untilDateField.setMinValue(Ext.Date.add(dt, Ext.Date.DAY, me.minDateOffset));
+        me.untilDateField.setValue(Ext.Date.add(dt, Ext.Date.DAY, me.defaultEndDateOffset));
     },
     
     onOccurrenceCountChange: function(field, value, oldValue) {
@@ -165,7 +177,9 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
                 return;
             }
             else if (parts[0] === 'UNTIL') {
-                me.untilDateField.setValue(me.formatDate(parts[1]));
+                me.untilDateField.setValue(me.parseDate(parts[1], {
+                    defaultValue: Ext.Date.add(me.startDate, Ext.Date.DAY, me.defaultEndDateOffset)
+                }));
                 me.toggleFields('until');
                 didSetValue = true;
                 return;
