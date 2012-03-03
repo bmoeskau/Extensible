@@ -36,7 +36,11 @@ Ext.define('Extensible.calendar.menu.Event', {
      * The text to display for the 'Move to...' option in the menu.
      */
     moveToText: 'Move to...',
-    
+    /**
+     * @cfg {String} copyText
+     * The text to display for the copy option in the menu
+     */
+    copyText: 'Copy',
     /** 
      * @cfg {Boolean} enableScrolling
      * @hide 
@@ -92,7 +96,14 @@ Ext.define('Extensible.calendar.menu.Event', {
              * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event to be moved
              * @param {Date} dt The new start date for the event (the existing event start time will be preserved)
              */
-            'eventmove'
+            'eventmove',
+            /**@event event copy
+             * Fires when the user selects copy menu option.
+             * @param {Extensible.calendar.menu.Event} this
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event to be moved
+             * @param {Ext.Element} el The element associated with this context menu
+             */
+            'eventcopy'
         );
         this.buildMenu();
         this.callParent(arguments);
@@ -120,7 +131,7 @@ Ext.define('Extensible.calendar.menu.Event', {
                 iconCls: 'extensible-cal-icon-evt-edit',
                 scope: this,
                 handler: function(){
-                    this.fireEvent('editdetails', this, this.rec, this.ctxEl);
+                    this.fireEvent('editdetails', this, this.rec, this.ctxEl, Extensible.Date.add(this.rec.get(Extensible.calendar.data.EventMappings.StartDate.name, {days:1})));
                 }
             },{
                 text: this.deleteText,
@@ -133,6 +144,14 @@ Ext.define('Extensible.calendar.menu.Event', {
                 text: this.moveToText,
                 iconCls: 'extensible-cal-icon-evt-move',
                 menu: this.dateMenu
+            },{
+                text: this.copyText,
+                iconCls: 'extensible-cal-icon-evt-copy',
+                scope: this,
+                handler: function(){
+                	
+                	this.fireEvent('eventcopy', this, this.rec, this.ctxEl);
+                }
             }]
         });
     },
