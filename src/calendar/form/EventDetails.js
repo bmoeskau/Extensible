@@ -49,8 +49,8 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     
     labelWidth: 65,
     labelWidthRightCol: 65,
-    colWidthLeft: .6,
-    colWidthRight: .4,
+    colWidthLeft: '.6',
+    colWidthRight: '.4',
     title: 'Event Form',
     titleTextAdd: 'Add Event',
     titleTextEdit: 'Edit Event',
@@ -152,7 +152,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             anchor: '100%'
         });
         
-        var leftFields = [this.titleField, this.dateRangeField, this.reminderField], 
+        var leftFields = [this.titleField, this.dateRangeField, this.reminderField],
             rightFields = [this.notesField, this.locationField, this.urlField];
             
         if(this.recurrence){
@@ -160,7 +160,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
                 recurrenceOptions: this.recurrence,
                 name: Extensible.calendar.data.EventMappings.RRule.name,
                 fieldLabel: this.repeatsLabelText,
-                anchor: '90%'
+                anchor: '70%'
             });
             leftFields.splice(2, 0, this.recurrenceField);
         }
@@ -173,7 +173,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
                 anchor: '70%'
             });
             leftFields.splice(2, 0, this.calendarField);
-        };
+        }
         
         this.items = [{
             id: this.id+'-left-col',
@@ -205,6 +205,10 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         
         this.addCls('ext-evt-edit-form');
         
+        Ext.apply(this.initialConfig, {
+            trackResetOnLoad: true
+        });
+        
         this.callParent(arguments);
     },
     
@@ -226,6 +230,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         
         if (me.recurrenceField) {
             me.recurrenceField.setStartDate(rec.data[EventMappings.StartDate.name]);
+            me.recurrenceField.setValue(rec.data[EventMappings.RRule.name]);
         }
         if (me.calendarStore) {
             me.form.setValues({'calendar': rec.data[EventMappings.CalendarId.name]});
@@ -265,7 +270,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         // updates happen and the record dirty status is reset internally to
         // that call. We need the dirty status, plus currently the DateRangeField
         // does not map directly to the record values, so for now we'll duplicate
-        // the setter logic here (we need to be able to pick up any custom-added 
+        // the setter logic here (we need to be able to pick up any custom-added
         // fields generically). Need to revisit this later and come up with a better solution.
         fs.each(function(f){
             var field = this.form.findField(f.name);
@@ -273,7 +278,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
                 var value = field.getValue();
                 if (value.getGroupValue) {
                     value = value.getGroupValue();
-                } 
+                }
                 else if (field.eachItem) {
                     value = [];
                     field.eachItem(function(item){
