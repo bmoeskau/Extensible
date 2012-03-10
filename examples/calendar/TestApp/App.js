@@ -92,6 +92,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                     border: false,
                     id:'app-calendar',
                     region: 'center',
+                    recurrence: true,
                     activeItem: 3, // month view
                     
                     // Any generic view options that should be applied to all sub views:
