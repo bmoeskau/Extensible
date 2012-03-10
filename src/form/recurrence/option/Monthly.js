@@ -66,7 +66,7 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
         var me = this,
             combo = me.nthCombo,
             store = combo.store,
-            dt = me.startDate,
+            dt = me.getStartDate(),
             
             // e.g. 30 (for June):
             lastDayOfMonth = Ext.Date.getLastDateOfMonth(dt).getDate(),
@@ -138,6 +138,10 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
         var me = this;
         
         if (!me.preSetValue(v, me.nthCombo)) {
+            return me;
+        }
+        if (!v) {
+            me.nthCombo.setValue(me.nthCombo.store.getAt(0).data.value);
             return me;
         }
         var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),

@@ -60,6 +60,10 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         if (!me.preSetValue(v, me.intervalField)) {
             return me;
         }
+        if (!v) {
+            me.intervalField.setValue(me.minValue);
+            return me;
+        }
         var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),
             parts;
 
@@ -97,7 +101,8 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
             me.unit = unit ? unit.toLowerCase() : me.unit || 'day';
             
             if (me.dateLabel) {
-                me.dateLabel.update(me.unit + s + ' beginning ' + Ext.Date.format(me.startDate, me.dateLabelFormat));
+                me.dateLabel.update(me.unit + s + ' beginning ' +
+                    Ext.Date.format(me.getStartDate(), me.dateLabelFormat));
             }
         }
         return me;

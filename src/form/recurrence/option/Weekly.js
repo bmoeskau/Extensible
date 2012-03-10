@@ -57,7 +57,7 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
     },
     
     selectByDate: function(dt) {
-        var day = Ext.Date.format(dt || this.startDate, 'D').substring(0,2).toUpperCase();
+        var day = Ext.Date.format(dt || this.getStartDate(), 'D').substring(0,2).toUpperCase();
         this.setValue('BYDAY=' + day);
     },
     
@@ -97,7 +97,10 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
         if (!me.preSetValue(v, me.daysCheckboxGroup)) {
             return me;
         }
-        
+        if (!v) {
+            me.daysCheckboxGroup.setValue(null);
+            return me;
+        }
         var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),
             compositeValue = {},
             parts, days;

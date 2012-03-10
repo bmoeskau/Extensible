@@ -70,6 +70,10 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
         return this;
     },
     
+    getStartDate: function() {
+        return this.startDate || Extensible.Date.today();
+    },
+    
     getDefaultValue: function() {
         return '';
     },

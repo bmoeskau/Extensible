@@ -122,7 +122,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     
     initUntilDate: function() {
         var me = this;
-            dt = me.startDate || Extensible.Date.today;
+            dt = me.getStartDate();
         
         me.untilDateField.setMinValue(Ext.Date.add(dt, Ext.Date.DAY, me.minDateOffset));
         me.untilDateField.setValue(Ext.Date.add(dt, Ext.Date.DAY, me.defaultEndDateOffset));
@@ -163,6 +163,10 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         if (!me.preSetValue(v, me.untilCombo)) {
             return me;
         }
+        if (!v) {
+            me.toggleFields('forever');
+            return me;
+        }
         var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),
             didSetValue = false,
             parts;
@@ -178,7 +182,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             }
             else if (parts[0] === 'UNTIL') {
                 me.untilDateField.setValue(me.parseDate(parts[1], {
-                    defaultValue: Ext.Date.add(me.startDate, Ext.Date.DAY, me.defaultEndDateOffset)
+                    defaultValue: Ext.Date.add(me.getStartDate(), Ext.Date.DAY, me.defaultEndDateOffset)
                 }));
                 me.toggleFields('until');
                 didSetValue = true;
