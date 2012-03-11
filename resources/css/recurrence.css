@@ -11,12 +11,12 @@
     border-left: 1px solid #A7C5DF;
 }
 .extensible-recur-inner-ct label {
-    margin-top: 4px;
+    margin-top: 2px !important;
 }
 .extensible-recur-weekly label {
     /* checkbox alignment is slightly different */
-    margin-top: 3px;
-    margin-right: 5px;
+    margin-top: 1px !important;
+    margin-right: 5px !important;
 }
 .extensible-recur-frequency,
 .extensible-recur-duration,
@@ -24,5 +24,5 @@
 .extensible-recur-monthly,
 .extensible-recur-weekly,
 .extensible-recur-yearly {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
 }
