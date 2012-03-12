@@ -122,6 +122,16 @@ Ext.define('Extensible.calendar.view.Day', {
      * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.</p>
      */
     hideMode: 'offsets',
+    /**
+     * @cfg {Number} minBodyHeight
+     * The minimum height for the scrollable body view (defaults to 150 pixels). By default the body is auto
+     * height and simply fills the available area left by the overall layout. However, if the browser window
+     * is too short and/or the header area contains a lot of events on a given day, the body area could
+     * become too small to be usable. Because of that, if the body falls below this minimum height, the
+     * layout will automatically adjust itself by fixing the body height to this minimum height and making the
+     * overall Day view container vertically scrollable.
+     */
+    minBodyHeight: 150,
     
     // private
     initComponent : function(){
@@ -194,17 +204,28 @@ Ext.define('Extensible.calendar.view.Day', {
     },
     
     // private
-    forceSize: function(){
+    forceSize: function() {
+        var me = this;
+        
         // The defer call is mainly for good ol' IE, but it doesn't hurt in
         // general to make sure that the window resize is good and done first
         // so that we can properly calculate sizes.
-        Ext.defer(function(){
-            var ct = this.el.up('.x-panel-body'),
-                hd = this.el.down('.ext-cal-day-header'),
-                h = ct.getHeight() - hd.getHeight();
+        Ext.defer(function() {
+            var ct = me.el.up('.x-panel-body'),
+                header = me.el.down('.ext-cal-day-header'),
+                bodyHeight = ct ? ct.getHeight() - header.getHeight() : false;
             
-            this.el.down('.ext-cal-body-ct').setHeight(h-1);
-        }, 1, this);
+            if (bodyHeight) {
+                if (bodyHeight < me.minBodyHeight) {
+                    bodyHeight = me.minBodyHeight;
+                    me.addCls('ext-cal-overflow-y');
+                }
+                else {
+                    me.removeCls('ext-cal-overflow-y');
+                }
+                me.el.down('.ext-cal-body-ct').setHeight(bodyHeight - 1);
+            }
+        }, Ext.isIE ? 1 : 0, me);
     },
     
     // private
@@ -257,7 +278,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * Returns true if the view is currently displaying today's date, else false.
      * @return {Boolean} True or false
      */
-    isToday : function(){
+    isToday: function() {
         return this.header.isToday();
     },
     
@@ -266,27 +287,36 @@ Ext.define('Extensible.calendar.view.Day', {
      * @param {Date} dt The date to display
      * @return {Date} The new view start date
      */
-    moveTo : function(dt){
-        this.header.moveTo(dt);
-        return this.body.moveTo(dt, true);
+    moveTo: function(dt) {
+        var dt = this.header.moveTo(dt);
+        this.body.moveTo(dt, true);
+        this.forceSize();
+        
+        return dt;
     },
     
     /**
      * Updates the view to the next consecutive date(s)
      * @return {Date} The new view start date
      */
-    moveNext : function(){
-        this.header.moveNext();
-        return this.body.moveNext(true);
+    moveNext: function() {
+        var dt = this.header.moveNext();
+        this.body.moveNext(true);
+        this.forceSize();
+        
+        return dt;
     },
     
     /**
      * Updates the view to the previous consecutive date(s)
      * @return {Date} The new view start date
      */
-    movePrev : function(noRefresh){
-        this.header.movePrev();
-        return this.body.movePrev(true);
+    movePrev: function(noRefresh) {
+        var dt = this.header.movePrev();
+        this.body.movePrev(true);
+        this.forceSize();
+        
+        return dt;
     },
 
     /**
@@ -294,18 +324,24 @@ Ext.define('Extensible.calendar.view.Day', {
      * @param {Number} value The number of days (positive or negative) by which to shift the view
      * @return {Date} The new view start date
      */
-    moveDays : function(value){
-        this.header.moveDays(value);
-        return this.body.moveDays(value, true);
+    moveDays: function(value) {
+        var dt = this.header.moveDays(value);
+        this.body.moveDays(value, true);
+        this.forceSize();
+        
+        return dt;
     },
     
     /**
      * Updates the view to show today
      * @return {Date} Today's date
      */
-    moveToday : function(){
-        this.header.moveToday();
-        return this.body.moveToday(true);
+    moveToday: function() {
+        var dt = this.header.moveToday();
+        this.body.moveToday(true);
+        this.forceSize();
+        
+        return dt;
     },
     
     /**

@@ -68,6 +68,15 @@ Ext.define('Extensible.calendar.view.Month', {
      * defaults to 'ext-week-link-over').
      */
     weekLinkOverClass: 'ext-week-link-over',
+    /**
+     * @cfg {Number} morePanelMinWidth
+     * When there are more events in a given day than can be displayed in the calendar view, the extra events
+     * are hidden and a "{@link #getMoreText more events}" link is displayed. When clicked, the link pops up a
+     * detail panel that displays all events for that day. By default the panel will be the same width as the day
+     * box, but this config allows you to set the minimum width of the panel in the case where the width
+     * of the day box is too narrow for the events to be easily readable (defaults to 220 pixels).
+     */
+    morePanelMinWidth: 220,
     
     //private properties -- do not override:
     daySelector: '.ext-cal-day',
@@ -462,6 +471,7 @@ Ext.define('Extensible.calendar.view.Month', {
 				layout: 'fit',
 				floating: true,
 				renderTo: Ext.getBody(),
+				hideMode: 'offsets',
 				tools: [{
 					type: 'close',
 					handler: function(e, t, p){
@@ -495,9 +505,26 @@ Ext.define('Extensible.calendar.view.Month', {
 	onDetailViewUpdated : function(view, dt, numEvents){
 		var p = this.detailPanel,
 			dayEl = this.getDayEl(dt),
-			box = dayEl.getBox();
+			box = dayEl.getBox(),
+			innerTplHeight = p.el.down('.ext-cal-mdv').getHeight(),
+			header = p.getDockedItems('header')[0],
+			frameHeight = p.frameSize.top + p.frameSize.bottom + header.getHeight(),
+			bodyHeight = innerTplHeight + frameHeight + 5,
+			documentBodyHeight = Ext.getBody().getHeight() - 20,
+			calculatedHeight = Math.min(bodyHeight, documentBodyHeight);
 		
-		p.setWidth(Math.max(box.width, 220));
+		// Check for overflow first -- if overflow is needed the scrollbar
+		// will affect the body width in some browsers
+        if (calculatedHeight === documentBodyHeight) {
+            p.body.addCls('ext-cal-overflow-y');
+        }
+        else {
+            p.body.removeCls('ext-cal-overflow-y');
+        }
+        // Now set the new calculated panel dimensions
+		p.setWidth(Math.max(box.width, this.morePanelMinWidth));
+		p.setHeight(calculatedHeight);
+		
 		p.show();
 		p.getPositionEl().alignTo(dayEl, 't-t?');
 	},

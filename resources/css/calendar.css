@@ -27,6 +27,9 @@
     padding: 0 3px;
 }
 
+.ext-cal-overflow-y {
+    overflow-y: scroll !important;
+}
 .ext-cal-ct {
     position: relative;
     font-family: helvetica, arial, sans-serif;
