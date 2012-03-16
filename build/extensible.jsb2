@@ -1,7 +1,7 @@
 {
     "projectName": "Extensible",
     "deployDir": "extensible-1.5.1",
-    "licenseText": "Extensible 1.5.1\nCopyright(c) 2010-2011 Extensible, LLC\nlicensing@ext.ensible.com\nhttp://ext.ensible.com",
+    "licenseText": "Extensible 1.5.1\nCopyright(c) 2010-2012 Extensible, LLC\nlicensing@ext.ensible.com\nhttp://ext.ensible.com",
     "pkgs": [{
         "name": "Extensible Core",
         "file": "pkgs/extensible-core.js",
@@ -9,6 +9,9 @@
         "fileIncludes": [{
             "text": "Extensible.js",
             "path": "../src/"
+        },{
+            "text": "Number.js",
+            "path": "../src/lang/"
         }]
     },{
         "name": "Calendar",
@@ -72,12 +75,6 @@
             "text":"CalendarCombo.js",
             "path":"../src/calendar/form/field/"
         },{
-            "text": "FrequencyCombo.js",
-            "path": "../src/form/recurrence/"
-        },{
-            "text": "Fieldset.js",
-            "path": "../src/form/recurrence/"
-        },{
             "text": "DateRangeLayout.js",
             "path": "../src/form/field/"
         },{
@@ -136,6 +133,35 @@
             "path": "../src/calendar/"
         }]
     },{
+       "name": "Recurrence",
+        "file": "pkgs/recurrence.js",
+        "isDebug": true,
+        "fileIncludes": [{
+            "text": "AbstractOption.js",
+            "path": "../src/form/recurrence/"
+        },{
+            "text": "Duration.js",
+            "path": "../src/form/recurrence/option/"
+        },{
+            "text": "Interval.js",
+            "path": "../src/form/recurrence/option/"
+        },{
+            "text": "Monthly.js",
+            "path": "../src/form/recurrence/option/"
+        },{
+            "text": "Weekly.js",
+            "path": "../src/form/recurrence/option/"
+        },{
+            "text": "Yearly.js",
+            "path": "../src/form/recurrence/option/"
+        },{
+            "text": "FrequencyCombo.js",
+            "path": "../src/form/recurrence/"
+        },{
+            "text": "Fieldset.js",
+            "path": "../src/form/recurrence/"
+       }]
+    },{
        "name": "Extensible All CSS",
        "file": "resources/css/extensible-all.css",
        "fileIncludes": [{
@@ -155,6 +181,7 @@
         "includeDeps": true,
         "pkgDeps": [
             "pkgs/extensible-core.js",
+            "pkgs/recurrence.js",
             "pkgs/calendar.js"
         ],
         "fileIncludes": []
