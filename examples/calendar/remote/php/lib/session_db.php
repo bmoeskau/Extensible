@@ -6,8 +6,10 @@
 class SessionDB {
     public function __construct() {
         if (!isset($_SESSION['pk'])) {
-            $_SESSION['pk'] = 1020;         // <-- start fake pks at 1020
-            $_SESSION['rs'] = getData();    // <-- populate $_SESSION with data.
+            // start fake pks at 1020, after the hard-coded getData() events
+	    $_SESSION['pk'] = 1020;
+	    // populate $_SESSION with default data
+            $_SESSION['rs'] = getData();
         }
     }
     // fake a database pk
@@ -30,7 +32,12 @@ class SessionDB {
 }
 
 function getDT($format) {
-	return date('c', strtotime(date('Y-m-d', strtotime(date('Y-m-d'))).$format));
+	// Today (date only with no time component so everything starts consistently)
+	$today = date('Y-m-d');
+	// Add/subtract from today based on the format passed in, e.g. "+5 days"
+	$newDate = strtotime($today.$format);
+	// Convert the new timestamp back to a properly-formatted date to return
+	return date($_SESSION['dtformat'], $newDate);
 }
 
 function getData() {

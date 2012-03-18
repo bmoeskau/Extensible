@@ -41,7 +41,7 @@ class Event extends Model {
         // add a day to the range end to include event times on that day
         $endTime = new DateTime($end);
         $endTime->modify('+1 day');
-        $endTime = strtotime($endTime->format('Y-m-d H:i:s'));
+        $endTime = strtotime($endTime->format($_SESSION['dtformat']));
         
         foreach ($dbh->rs() as $attr) {
             $recStart = strtotime($attr['start']);
@@ -52,9 +52,13 @@ class Event extends Model {
             $spansRange = ($recStart < $startTime && $recEnd > $endTime);
             
             if ($startsInRange || $endsInRange || $spansRange) {
-                array_push($found, $attr);
                 if ($attr['rrule']) {
                     $found = array_merge($found, self::generateInstances($attr));
+                }
+                else {
+                    // Only add the found event here if non-recurring since the
+                    // same event will be calculated as a recurring instance above
+                    array_push($found, $attr);
                 }
             }
         }
@@ -64,18 +68,25 @@ class Event extends Model {
     private function generateInstances($attr) {
         $rrule = $attr['rrule'];
         $instances = array();
+        $counter = 0;
         
         if ($rrule) {
             $duration = self::calculateDuration($attr);
             $recurrence = new When();
             $rdates = $recurrence->recur($attr['start'])->rrule($rrule);
+            $idx = 1;
             
             while ($rdate = $rdates->next()) {
                 $copy = $attr;
+                $copy['id'] = $attr['id'].'-rid-'.$idx++;
                 $copy['duration'] = $duration;
-                $copy['start'] = $rdate->format('c');
-                $copy['end'] = $rdate->add(new DateInterval('PT'.$duration.'M'))->format('c');
+                $copy['start'] = $rdate->format($_SESSION['dtformat']);
+                $copy['end'] = $rdate->add(new DateInterval('PT'.$duration.'M'))->format($_SESSION['dtformat']);
                 array_push($instances, $copy);
+                
+                if (++$counter > 99) {
+                    break;
+                }
             }
         }
         return $instances;
