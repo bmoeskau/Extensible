@@ -55,8 +55,7 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "start" : makeDate(5),
                 "end"   : makeDate(7, 0, 0, -1),
                 "ad"    : true,
-                "rem"   : "2880",
-                "rrule" : "FREQ=DAILY;COUNT=3"
+                "rem"   : "2880"
             },{
                 "id"    : 1007,
                 "cid"   : 1,

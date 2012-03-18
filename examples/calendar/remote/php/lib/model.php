@@ -5,11 +5,31 @@
  */
 class Model {
     public $id, $attributes;
-    static function create($params) {
-        $obj = new self(get_object_vars($params));
-        $obj->save();
-        return $obj;
+    
+    /**
+     * Template method to be overridden to customize the record before
+     * finalizing the create action
+     */
+    private function beforeCreate($rec) {
+        return $rec;
     }
+    /**
+     * Template method to be overridden to customize the record before
+     * finalizing the update action
+     */
+    private function beforeUpdate($rec) {
+        return $rec;
+    }
+    
+    static function create($params) {
+        $rec = new self(get_object_vars($params));
+        
+        self::beforeCreate($rec);
+        
+        $rec->save();
+        return $rec;
+    }
+    
     static function find($id) {
         global $dbh;
         $found = null;
@@ -21,6 +41,7 @@ class Model {
         }
         return $found;
     }
+    
     static function update($id, $params) {
         global $dbh;
         $rec = self::find($id);
@@ -28,6 +49,8 @@ class Model {
         if ($rec == null) {
             return $rec;
         }
+        self::beforeUpdate($rec);
+        
         $rs = $dbh->rs();
 
         foreach ($rs as $idx => $row) {
@@ -39,6 +62,7 @@ class Model {
         }
         return $rec;
     }
+    
     static function destroy($id) {
         global $dbh;
         $rec = null;
@@ -51,6 +75,7 @@ class Model {
         }
         return $rec;
     }
+    
     static function all() {
         global $dbh;
         return $dbh->rs();
@@ -60,11 +85,13 @@ class Model {
         $this->id = isset($params['id']) ? $params['id'] : null;
         $this->attributes = $params;
     }
+    
     public function save() {
         global $dbh;
         $this->attributes['id'] = $dbh->pk();
         $dbh->insert($this->attributes);
     }
+    
     public function to_hash() {
         return $this->attributes;
     }
