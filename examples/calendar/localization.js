@@ -105,6 +105,8 @@ Ext.onReady(function() {
             multiDayViewCfg: {
                 dayCount: 5
             },
+            showListView: true,
+            activeItem: 4, // default to month view
             eventStore: Ext.create('Extensible.calendar.data.MemoryEventStore', {
                 // defined in ../data/Events.js
                 data: Ext.create('Extensible.example.calendar.data.Events')

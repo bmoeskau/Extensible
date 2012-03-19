@@ -99,8 +99,11 @@ Ext.onReady(function(){
             collapsible: true,
             split: true,
             autoScroll: true,
+        	showListView: true
             contentEl: 'sample-overview'
         }, cp]
+
+
     });
     
     // You can optionally call load() here if you prefer instead of using the

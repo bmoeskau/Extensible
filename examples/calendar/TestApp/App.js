@@ -119,7 +119,12 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                     multiWeekViewCfg: {
                         //weekCount: 3
                     },
-                    
+
+                    listViewCfg: {
+                        linkDatesToDayView: true,
+                        dateRangeDefault: '3months'
+                    },
+
                     // Some optional CalendarPanel configs to experiment with:
                     //readOnly: true,
                     //showDayView: false,
@@ -127,6 +132,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                     //showWeekView: false,
                     //showMultiWeekView: false,
                     //showMonthView: false,
+                    showListView: true,
                     //showNavBar: false,
                     //showTodayText: false,
                     //showTime: false,
@@ -135,6 +141,12 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                     //title: 'My Calendar', // the header of the calendar, could be a subtitle for the app
                     
                     listeners: {
+                        'datechange': {
+                            fn: function(vw, startDt, viewStart, viewEnd){
+                                this.updateTitle(viewStart, viewEnd);
+                            },
+                            scope: this
+                        },
                         'eventclick': {
                             fn: function(vw, rec, el){
                                 this.clearMsg();
