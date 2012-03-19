@@ -44,6 +44,7 @@ Ext.onReady(function() {
             dayText: 'Day',
             weekText: 'Week',
             monthText: 'Month',
+            listText: 'List',
             jumpToText: 'Jump to:',
             goText: 'Go',
             multiDayText: '{0} Days', // deprecated
@@ -199,4 +200,35 @@ Ext.onReady(function() {
             dayHeaderTitleFormat: 'l, F j, Y'
         });
     }
+
+    if (exists('Extensible.calendar.template.ListBody')) {
+        Ext.apply(Extensible.calendar.template.ListBody.prototype, {
+            dayDateFormat: 'D M j',
+            hourFormat: 'g:ia',
+            allDayText: 'All day',
+            locationText: 'Location',
+            webLinkText: 'Web Link',
+            notesText: 'Notes',
+            noEventsText: 'There are no events for the selected date range.',
+            prevLinkText: 'Previous',
+            nextLinkText: 'Next',
+            reminderTooltip: 'Reminder is activated',
+            recurringTooltip: 'Recurring event'
+        });
+    }
+
+    if (exists('Extensible.calendar.view.ListHeader')) {
+        Ext.apply(Extensible.calendar.view.ListHeader.prototype, {
+            dateRangeOneDay: 'One day',
+            dateRangeOneWeek: 'One week',
+            dateRangeOneMonth: 'One month',
+            dateRangeThreeMonths: 'Three months',
+            dateRangeOneYear: 'One year',
+            dateRangeText: 'Date range',
+            showDetailsText: 'Show details',
+            addBtnText: 'Add event',
+            resetBtnText: 'Reset'
+        });
+    }
+
 });
