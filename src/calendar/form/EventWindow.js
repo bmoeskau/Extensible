@@ -414,10 +414,16 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             }
         });
         
-        var dates = this.dateRangeField.getValue();
-        obj[M.StartDate.name] = dates[0];
-        obj[M.EndDate.name] = dates[1];
-        obj[M.IsAllDay.name] = dates[2];
+        var dates = this.dateRangeField.getValue(),
+            allday = obj[M.IsAllDay.name] = dates[2],
+            // Clear times for all day events so that they are stored consistently
+            startDate = allday ? Extensible.Date.clearTime(dates[0]) : dates[0],
+            endDate = allday ? Extensible.Date.clearTime(dates[1]) : dates[1];
+        
+        obj[M.StartDate.name] = startDate;
+        // If the event is all day, calculate the end date as midnight of the day after the end
+        // date minus 1 second, resulting in 23:59:59 on the end date
+        obj[M.EndDate.name] = allday ? Extensible.Date.add(endDate, { days: 1, seconds: -1 }) : endDate;
 
         record.beginEdit();
         record.set(obj);

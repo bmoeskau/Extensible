@@ -10,21 +10,21 @@ class Model {
      * Template method to be overridden to customize the record before
      * finalizing the create action
      */
-    private function beforeCreate($rec) {
+    protected function beforeCreate($rec) {
         return $rec;
     }
     /**
      * Template method to be overridden to customize the record before
      * finalizing the update action
      */
-    private function beforeUpdate($rec) {
+    protected function beforeUpdate($rec) {
         return $rec;
     }
     
     static function create($params) {
         $rec = new self(get_object_vars($params));
         
-        self::beforeCreate($rec);
+        static::beforeCreate($rec);
         
         $rec->save();
         return $rec;
@@ -49,13 +49,15 @@ class Model {
         if ($rec == null) {
             return $rec;
         }
-        self::beforeUpdate($rec);
         
         $rs = $dbh->rs();
 
         foreach ($rs as $idx => $row) {
             if ($row['id'] == $id) {
                 $rec->attributes = array_merge($rec->attributes, get_object_vars($params));
+                
+                static::beforeUpdate($rec);
+                
                 $dbh->update($idx, $rec->attributes);
                 break;
             }

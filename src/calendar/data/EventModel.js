@@ -2,8 +2,8 @@
  * @class Extensible.calendar.data.EventModel
  * @extends Ext.data.Record
  * <p>This is the {@link Ext.data.Record Record} specification for calendar event data used by the
- * {@link Extensible.calendar.CalendarPanel CalendarPanel}'s underlying store. It can be overridden as 
- * necessary to customize the fields supported by events, although the existing field definition names 
+ * {@link Extensible.calendar.CalendarPanel CalendarPanel}'s underlying store. It can be overridden as
+ * necessary to customize the fields supported by events, although the existing field definition names
  * should not be altered. If your model fields are named differently you should update the <b>mapping</b>
  * configs accordingly.</p>
  * <p>The only required fields when creating a new event record instance are <tt>StartDate</tt> and
@@ -38,16 +38,16 @@ rec.data[M.Notes.name] = 'Some notes';
  */
 Ext.define('Extensible.calendar.data.EventModel', {
     extend: 'Ext.data.Model',
-    
+
     requires: [
         'Ext.util.MixedCollection',
         'Extensible.calendar.data.EventMappings'
     ],
-    
+
     statics: {
         /**
          * Reconfigures the default record definition based on the current {@link Extensible.calendar.data.EventMappings EventMappings}
-         * object. See the header documentation for {@link Extensible.calendar.data.EventMappings} for complete details and 
+         * object. See the header documentation for {@link Extensible.calendar.data.EventMappings} for complete details and
          * examples of reconfiguring an EventRecord.
          * @method create
          * @static
@@ -58,18 +58,18 @@ Ext.define('Extensible.calendar.data.EventModel', {
                 Mappings = Data.EventMappings,
                 proto = Data.EventModel.prototype,
                 fields = [];
-            
+
             // It is critical that the id property mapping is updated in case it changed, since it
             // is used elsewhere in the data package to match records on CRUD actions:
             proto.idProperty = Mappings.EventId.name || 'id';
-            
-            for(prop in Mappings){
-                if(Mappings.hasOwnProperty(prop)){
+
+            for (var prop in Mappings) {
+                if (Mappings.hasOwnProperty(prop)) {
                     fields.push(Mappings[prop]);
                 }
             }
             proto.fields.clear();
-            for(var i = 0, len = fields.length; i < len; i++){
+            for (var i = 0, len = fields.length; i < len; i++) {
                 proto.fields.add(Ext.create('Ext.data.Field', fields[i]));
             }
             return Data.EventModel;
@@ -83,8 +83,13 @@ Ext.define('Extensible.calendar.data.EventModel', {
         copy.data = data;
         
         return copy;
+    },
+
+    isRecurring: function() {
+        var rrule = this.data[Extensible.calendar.data.EventMappings.RRule.name];
+        return (rrule !== undefined && rrule !== '');
     }
 },
-function(){
+function() {
     Extensible.calendar.data.EventModel.reconfigure();
 });

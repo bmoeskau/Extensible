@@ -329,6 +329,10 @@ var futureDate = Extensible.Date.add(now, {
             }
              
             return o.clearTime ? ExtDate.clearTime(newDt): newDt;
+        },
+        
+        clearTime: function(dt, clone) {
+            return Ext.Date.clearTime(dt, clone);
         }
     }
 });

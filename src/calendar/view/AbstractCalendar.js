@@ -868,6 +868,21 @@ viewConfig: {
         // clear flag for other events to resume normally
         this.dragPending = false;
     },
+    
+    /**
+     * Determine whether a store reload is required after a given CRUD action on a given record.
+     * By default, anytime a recurring record is involved the store will be reloaded since the
+     * recurring event instances are calculated on the server by default, so a change in recurrence
+     * means a new set of events may be needed in the store before refreshing the view. This
+     * behavior can be customized by overriding this method.
+     * @param {String} action One of 'create', 'update' or 'delete'
+     * @param {Extensible.calendar.data.EventModel} rec The affected event record
+     * @return {Boolean} true if a reload is required, else false
+     */
+    storeReloadRequired: function(action, rec) {
+        // This is the default logic for all actions
+        return rec.isRecurring();
+    },
 	
     // private
     onUpdate : function(ds, rec, operation){
@@ -878,10 +893,7 @@ viewConfig: {
             Extensible.log('onUpdate');
             this.dismissEventEditor();
             
-            var rrule = rec.data[Extensible.calendar.data.EventMappings.RRule.name];
-            // if the event has a recurrence rule we have to reload the store in case
-            // any event instances were updated on the server
-            this.refresh(rrule !== undefined && rrule !== '');
+            this.refresh(this.storeReloadRequired('update', rec));
             
 			if(this.enableFx && this.enableUpdateFx){
 				this.doUpdateFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
@@ -918,13 +930,10 @@ viewConfig: {
         
         Extensible.log('onAdd');
         
-		var rrule = rec.data[Extensible.calendar.data.EventMappings.RRule.name];
-        
         this.dismissEventEditor();    
 		this.tempEventId = rec.id;
-        // if the new event has a recurrence rule we have to reload the store in case
-        // new event instances were generated on the server
-		this.refresh(rrule !== undefined && rrule !== '');
+		
+        this.refresh(this.storeReloadRequired('create', rec));
 		
 		if(this.enableFx && this.enableAddFx){
 			this.doAddFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
@@ -956,21 +965,18 @@ viewConfig: {
         Extensible.log('onRemove');
         this.dismissEventEditor();
         
-        var rrule = rec.data[Extensible.calendar.data.EventMappings.RRule.name],
-            // if the new event has a recurrence rule we have to reload the store in case
-            // new event instances were generated on the server
-            isRecurring = rrule !== undefined && rrule !== '';
+        var reloadRequired = this.storeReloadRequired('delete', rec);
         
 		if(this.enableFx && this.enableRemoveFx){
 			this.doRemoveFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
 	            remove: true,
 	            scope: this,
-				callback: Ext.bind(this.refresh, this, [isRecurring])
+				callback: Ext.bind(this.refresh, this, [reloadRequired])
 			});
 		}
 		else{
 			this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]).remove();
-            this.refresh(isRecurring);
+            this.refresh(reloadRequired);
 		}
     },
 	
