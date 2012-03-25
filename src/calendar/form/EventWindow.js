@@ -41,7 +41,8 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     requires: [
         'Ext.form.Panel',
         'Extensible.calendar.data.EventModel',
-        'Extensible.calendar.data.EventMappings'
+        'Extensible.calendar.data.EventMappings',
+        'Extensible.form.recurrence.RangeEditWindow'
     ],
     
     // Locale configs
@@ -435,8 +436,35 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         return this;
     },
     
+    getRecurrenceRangeEditor: function() {
+        if (!this.recurrenceRangeEditor) {
+            this.recurrenceRangeEditor = Ext.create('Extensible.form.recurrence.RangeEditWindow');
+        }
+        return this.recurrenceRangeEditor;
+    },
+    
+    
     // private
-    onSave: function() {
+    // onSave: function() {
+        // var me = this,
+            // form = me.formPanel.form;
+//         
+        // if (!form.isDirty() && !me.allowDefaultAdd) {
+            // me.onCancel();
+            // return;
+        // }
+        // if (form.isValid()) {
+    		// if (!me.updateRecord(me.activeRecord)) {
+    			// me.onCancel();
+    			// return;
+    		// }
+    		// me.fireEvent(me.activeRecord.phantom ? 'eventadd' :
+    		      // 'eventupdate', me, me.activeRecord, me.animateTarget);
+		// }
+    // },
+    
+    // private
+    onSave: function(){
         var me = this,
             form = me.formPanel.form;
         
@@ -444,14 +472,28 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             me.onCancel();
             return;
         }
-        if (form.isValid()) {
-    		if (!me.updateRecord(me.activeRecord)) {
-    			me.onCancel();
-    			return;
-    		}
-    		me.fireEvent(me.activeRecord.phantom ? 'eventadd' :
-    		      'eventupdate', me, me.activeRecord, me.animateTarget);
-		}
+        if (!form.isValid()) {
+            return;
+        }
+        
+        if (!me.updateRecord(me.activeRecord)) {
+            me.onCancel();
+            return;
+        }
+        
+        if (me.activeRecord.phantom) {
+            me.fireEvent('eventadd', me, me.activeRecord, me.animateTarget);
+        }
+        else {
+            if (me.activeRecord.isRecurring()) {
+                me.getRecurrenceRangeEditor().prompt(function(result) {
+                    me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget, result);
+                }, me);
+            }
+            else {
+                me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
+            }
+        }
     },
     
     // private

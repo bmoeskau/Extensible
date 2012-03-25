@@ -31,8 +31,10 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     displayStyle: 'field', // or 'dialog'
     
     fieldLabel: 'Repeats',
+    fieldContainerWidth: 400,
     startDate: Ext.Date.clearTime(new Date()),
-    enableFx: true,
+    
+    //enableFx: true,
     monitorChanges: true,
     cls: 'extensible-recur-field',
     
@@ -71,6 +73,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             layout: 'anchor',
             hideMode: 'offsets',
             hidden: true,
+            width: this.fieldContainerWidth,
             defaults: {
                 hidden: true
             },
@@ -177,6 +180,13 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 this.setStartDate(dt);
             }, this, {single: true});
         }
+    },
+    
+    /**
+     * Return true if the fieldset currently has a recurrence value set, otherwise returns false.
+     */
+    isRecurring: function() {
+        return this.getValue() !== '';
     },
     
     getValue: function() {

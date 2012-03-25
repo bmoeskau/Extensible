@@ -1507,23 +1507,23 @@ alert('End: '+bounds.end);
                 
                 listeners: {
                     'eventadd': {
-                        fn: function(win, rec, animTarget) {
+                        fn: function(win, rec, animTarget, options) {
                             //win.hide(animTarget);
-                            win.currentView.onEventAdd(null, rec);
+                            win.currentView.onEventAdd(null, rec, options);
                         },
                         scope: this
                     },
                     'eventupdate': {
-                        fn: function(win, rec, animTarget) {
+                        fn: function(win, rec, animTarget, options) {
                             //win.hide(animTarget);
-                            win.currentView.onEventUpdate(null, rec);
+                            win.currentView.onEventUpdate(null, rec, options);
                         },
                         scope: this
                     },
                     'eventdelete': {
-                        fn: function(win, rec, animTarget) {
+                        fn: function(win, rec, animTarget, options) {
                             //win.hide(animTarget);
-                            win.currentView.onEventDelete(null, rec);
+                            win.currentView.onEventDelete(null, rec, options);
                         },
                         scope: this
                     },
@@ -1619,7 +1619,7 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onEventAdd: function(form, rec){
+    onEventAdd: function(form, rec, options){
         this.newRecord = rec;
         if(!rec.store){
             this.store.add(rec);
@@ -1629,13 +1629,13 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onEventUpdate: function(form, rec){
+    onEventUpdate: function(form, rec, options){
         this.save();
         this.fireEvent('eventupdate', this, rec);
     },
     
     // private
-    onEventDelete: function(form, rec){
+    onEventDelete: function(form, rec, options){
         if(rec.store){
             this.store.remove(rec);
         }

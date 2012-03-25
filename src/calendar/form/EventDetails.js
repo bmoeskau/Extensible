@@ -44,13 +44,14 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         'Extensible.calendar.data.EventMappings',
         'Extensible.calendar.form.field.CalendarCombo',
         'Extensible.form.recurrence.Fieldset',
-        'Ext.layout.container.Column'
+        'Ext.layout.container.Column',
+        'Extensible.form.recurrence.RangeEditWindow'
     ],
     
     labelWidth: 65,
     labelWidthRightCol: 65,
-    colWidthLeft: '.6',
-    colWidthRight: '.4',
+    colWidthLeft: '.9',
+    colWidthRight: '.1',
     title: 'Event Form',
     titleTextAdd: 'Add Event',
     titleTextEdit: 'Edit Event',
@@ -68,7 +69,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     bodyStyle: 'padding:20px 20px 10px;',
     border: false,
     buttonAlign: 'center',
-    autoHeight: true, // to allow for the notes field to autogrow
+    autoScroll: true,
     
     /* // not currently supported
      * @cfg {Boolean} recurrence
@@ -119,12 +120,12 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         this.titleField = Ext.create('Ext.form.TextField', {
             fieldLabel: this.titleLabelText,
             name: Extensible.calendar.data.EventMappings.Title.name,
-            anchor: '90%'
+            anchor: '70%'
         });
         this.dateRangeField = Ext.create('Extensible.form.field.DateRange', {
             fieldLabel: this.datesLabelText,
             singleLine: false,
-            anchor: '90%',
+            anchor: '70%',
             listeners: {
                 'change': Ext.bind(this.onDateChange, this)
             }
@@ -139,21 +140,25 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             name: Extensible.calendar.data.EventMappings.Notes.name,
             grow: true,
             growMax: 150,
-            anchor: '100%'
+            anchor: '70%'
         });
         this.locationField = Ext.create('Ext.form.TextField', {
             fieldLabel: this.locationLabelText,
             name: Extensible.calendar.data.EventMappings.Location.name,
-            anchor: '100%'
+            anchor: '70%'
         });
         this.urlField = Ext.create('Ext.form.TextField', {
             fieldLabel: this.webLinkLabelText,
             name: Extensible.calendar.data.EventMappings.Url.name,
-            anchor: '100%'
+            anchor: '70%'
         });
         
-        var leftFields = [this.titleField, this.dateRangeField, this.reminderField],
-            rightFields = [this.notesField, this.locationField, this.urlField];
+        // var leftFields = [this.titleField, this.dateRangeField, this.reminderField],
+            // rightFields = [this.notesField, this.locationField, this.urlField];
+            
+        var rightFields = [],
+            leftFields  = [this.titleField, this.dateRangeField, this.reminderField,
+                           this.notesField, this.locationField, this.urlField];
             
         if(this.recurrence){
             this.recurrenceField = Ext.create('Extensible.form.recurrence.Fieldset', {
@@ -175,12 +180,16 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             leftFields.splice(2, 0, this.calendarField);
         }
         
+        // Now that all fields are in one column by default, make sure we use
+        // the largest configured label width for all fields:
+        var labelWidth = Math.max(this.labelWidthRightCol, this.labelWidth);
+        
         this.items = [{
             id: this.id+'-left-col',
             columnWidth: this.colWidthLeft,
             layout: 'anchor',
             fieldDefaults: {
-                labelWidth: this.labelWidth
+                labelWidth: labelWidth
             },
             border: false,
             items: leftFields
@@ -189,7 +198,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             columnWidth: this.colWidthRight,
             layout: 'anchor',
             fieldDefaults: {
-                labelWidth: this.labelWidthRightCol || this.labelWidth
+                labelWidth: labelWidth
             },
             border: false,
             items: rightFields
@@ -300,6 +309,13 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         return dirty;
     },
     
+    getRecurrenceRangeEditor: function() {
+        if (!this.recurrenceRangeEditor) {
+            this.recurrenceRangeEditor = Ext.create('Extensible.form.recurrence.RangeEditWindow');
+        }
+        return this.recurrenceRangeEditor;
+    },
+    
     // private
     onCancel: function(){
         this.cleanup(true);
@@ -320,14 +336,30 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     
     // private
     onSave: function(){
-        if(!this.form.isValid()){
+        var me = this,
+            isRecurring = me.activeRecord.isRecurring();
+        
+        if (!me.form.isValid()) {
             return;
         }
-        if(!this.updateRecord()){
-            this.onCancel();
+        
+        if (!me.updateRecord()) {
+            me.onCancel();
             return;
         }
-        this.fireEvent(this.activeRecord.phantom ? 'eventadd' : 'eventupdate', this, this.activeRecord);
+        
+        if (me.activeRecord.phantom) {
+            me.fireEvent('eventadd', me, me.activeRecord);
+        }
+        else {
+            //if (me.recurrenceField && (me.recurrenceField.isRecurring() || me.recurrenceField.isDirty())) {
+            if (isRecurring || me.activeRecord.isRecurring()) {
+                me.getRecurrenceRangeEditor().show();
+            }
+            else {
+                me.fireEvent('eventupdate', me, me.activeRecord);
+            }
+        }
     },
 
     // private

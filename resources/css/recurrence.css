@@ -26,3 +26,23 @@
 .extensible-recur-yearly {
     margin-bottom: 0 !important;
 }
+
+.extensible-recur-edit-options .x-btn {
+    margin: 0 5px;
+}
+/* Recurrence edit options icon classes */
+.extensible-recur-edit-options .recur-edit-single {
+    width: 50px !important;
+    margin: 0 auto;
+    background: url(../images/default/recur-edit-options.gif) -100px -3px !important;
+}
+.extensible-recur-edit-options .recur-edit-future {
+    width: 50px !important;
+    margin: 0 auto;
+    background: url(../images/default/recur-edit-options.gif) -50px -3px !important;
+}
+.extensible-recur-edit-options .recur-edit-all {
+    width: 50px !important;
+    margin: 0 auto;
+    background: url(../images/default/recur-edit-options.gif) 0 -3px !important;
+}
