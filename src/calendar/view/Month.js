@@ -305,7 +305,7 @@ Ext.define('Extensible.calendar.view.Month', {
         }
         
 		data._extraCls = extraClasses.join(' ');
-        data._isRecurring = evt.Recurrence && evt.Recurrence != '';
+        data._isRecurring = evt[M.RRule.name] && evt[M.RRule.name] != '';
         data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] != '';
         data.Title = (evt[M.IsAllDay.name] ? '' : Ext.Date.format(evt[M.StartDate.name], fmt)) + 
                 (!title || title.length == 0 ? this.defaultEventTitleText : title);
