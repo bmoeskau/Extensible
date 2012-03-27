@@ -1,6 +1,6 @@
 /**
  * @class Extensible.calendar.data.EventModel
- * @extends Ext.data.Record
+ * @extends Extensible.data.Model
  * <p>This is the {@link Ext.data.Record Record} specification for calendar event data used by the
  * {@link Extensible.calendar.CalendarPanel CalendarPanel}'s underlying store. It can be overridden as
  * necessary to customize the fields supported by events, although the existing field definition names
@@ -37,53 +37,15 @@ rec.data[M.Notes.name] = 'Some notes';
  * Record will be created with an {@link #Record.id automatically generated id}.
  */
 Ext.define('Extensible.calendar.data.EventModel', {
-    extend: 'Ext.data.Model',
+    extend: 'Extensible.data.Model',
 
     requires: [
-        'Ext.util.MixedCollection',
         'Extensible.calendar.data.EventMappings'
     ],
-
-    statics: {
-        /**
-         * Reconfigures the default record definition based on the current {@link Extensible.calendar.data.EventMappings EventMappings}
-         * object. See the header documentation for {@link Extensible.calendar.data.EventMappings} for complete details and
-         * examples of reconfiguring an EventRecord.
-         * @method create
-         * @static
-         * @return {Function} The updated EventRecord constructor function
-         */
-        reconfigure: function() {
-            var Data = Extensible.calendar.data,
-                Mappings = Data.EventMappings,
-                proto = Data.EventModel.prototype,
-                fields = [];
-
-            // It is critical that the id property mapping is updated in case it changed, since it
-            // is used elsewhere in the data package to match records on CRUD actions:
-            proto.idProperty = Mappings.EventId.name || 'id';
-
-            for (var prop in Mappings) {
-                if (Mappings.hasOwnProperty(prop)) {
-                    fields.push(Mappings[prop]);
-                }
-            }
-            proto.fields.clear();
-            for (var i = 0, len = fields.length; i < len; i++) {
-                proto.fields.add(Ext.create('Ext.data.Field', fields[i]));
-            }
-            return Data.EventModel;
-        }
-    },
     
-    clone: function() {
-        var copy = Ext.create('Extensible.calendar.data.EventModel'),
-            data = Ext.apply({}, this.data);
-        
-        copy.data = data;
-        
-        return copy;
-    },
+    mappingClass: 'Extensible.calendar.data.EventMappings',
+    
+    mappingIdProperty: 'EventId',
 
     isRecurring: function() {
         var rrule = this.data[Extensible.calendar.data.EventMappings.RRule.name];
@@ -91,5 +53,5 @@ Ext.define('Extensible.calendar.data.EventModel', {
     }
 },
 function() {
-    Extensible.calendar.data.EventModel.reconfigure();
+    this.reconfigure();
 });
