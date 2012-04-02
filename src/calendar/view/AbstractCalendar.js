@@ -1649,11 +1649,11 @@ alert('End: '+bounds.end);
         this.menuActive = true;
     },
     // private
-    onCopyEvent: function(menu, rec, el){
-    	this.copyEvent(rec);
+    onCopyEvent: function(menu, rec, sdt, edt){
+    	this.copyEvent(rec, sdt, edt);
     	this.menuActive = false;
     },
-    copyEvent: function(rec, dt){
+    copyEvent: function(rec, sdt, edt){
     	var d = rec.data;
     	var newd = {};
     	Ext.Object.each(d, function(key, val, myself){
@@ -1666,9 +1666,10 @@ alert('End: '+bounds.end);
     			this[key] = val;
     		}
     	}, newd);
-    	var sd = Extensible.Date.add(rec.get('StartDate'), {days:1});
-    	var ed = Extensible.Date.add(rec.get('EndDate'), {days:1});
-    	
+    	//var sd = Extensible.Date.add(rec.get('StartDate'), {days:1});
+    	//var ed = Extensible.Date.add(rec.get('EndDate'), {days:1});
+    	var sd = sdt;
+        var ed = edt;
     	newd.EventId = '';
 
     	newd.StartDate = sd;

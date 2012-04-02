@@ -98,10 +98,11 @@ Ext.define('Extensible.calendar.menu.Event', {
              */
             'eventmove',
             /**@event event copy
-             * Fires when the user selects copy menu option.
+             * Fires when the user selects copy menu option and selects a date.
              * @param {Extensible.calendar.menu.Event} this
              * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event to be moved
-             * @param {Ext.Element} el The element associated with this context menu
+             * @param {Date} stdt The start date time to copy the event to
+             * @param {Date} endt The end date time
              */
             'eventcopy'
         );
@@ -122,6 +123,14 @@ Ext.define('Extensible.calendar.menu.Event', {
             handler: function(dp, dt){
                 dt = Extensible.Date.copyTime(this.rec.data[Extensible.calendar.data.EventMappings.StartDate.name], dt);
                 this.fireEvent('eventmove', this, this.rec, dt);
+            }
+        });
+        this.copyMenu = Ext.create('Ext.menu.DatePicker',{
+            scope: this,
+            handler: function(dp,dt){
+                stdt = Extensible.Date.copyTime(this.rec.data[Extensible.calendar.data.EventMappings.StartDate.name], dt);
+                endt = Extensible.Date.copyTime(this.rec.data[Extensible.calendar.data.EventMappings.EndDate.name], dt);
+                this.fireEvent('eventcopy', this, this.rec, stdt, endt);
             }
         });
         
@@ -147,11 +156,7 @@ Ext.define('Extensible.calendar.menu.Event', {
             },{
                 text: this.copyText,
                 iconCls: 'extensible-cal-icon-evt-copy',
-                scope: this,
-                handler: function(){
-                	
-                	this.fireEvent('eventcopy', this, this.rec, this.ctxEl);
-                }
+                menu: this.copyMenu
             }]
         });
     },
