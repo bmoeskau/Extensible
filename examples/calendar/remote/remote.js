@@ -84,6 +84,7 @@ Ext.onReady(function(){
         calendarStore: calendarStore,
         renderTo: 'cal',
         title: 'Remote Calendar',
+        recurrence: true,
         width: 900,
         height: 700
     });
