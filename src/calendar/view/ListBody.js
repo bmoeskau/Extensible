@@ -32,16 +32,11 @@ Ext.define('Extensible.calendar.view.ListBody', {
     linkDatesToDayView: true,
 
     /**
-    * @property filterConfig
-    * @type {Object}
-    * A reference to an object that contains key/value pairs to be used as the filtering configuration when loading events.
-    * Typically, such an object is obtained from method {@link Ext.form.Basic#getFieldValues} and assigned to instances of
-    * this class using method {@link #setFilterConfig}.
-    */
-    filterConfig: {
-        period: 'month',
-        details: false
-    },
+     * @cfg {String} dateRangeDefault
+     * Defines the default value for the date range. Supported values are: <i>day</i>, <i>week</i>, <i>month</i>,
+     * <i>3months</i> and <i>year</i>.Defaults to <tt>month</tt>.
+     */
+    dateRangeDefault: 'month',
 
     /**
      * @property ownerCalendarView
@@ -49,7 +44,15 @@ Ext.define('Extensible.calendar.view.ListBody', {
      * A reference to the calendar view that hosts this view. Read-only.
      */
 
-    // private properties -- do not override
+    // private properties
+    /*
+     * Private
+     * @property filterConfig
+     * @type {Object}
+     * An object that contains key/value pairs to be used as the filtering configuration when loading events.
+     * Use method {@link #setFilterConfig} to set this property. This ensures that the new filter configuration is put
+     * into operation immediately.
+     */
     dayLinkSelector: '.ext-cal-day-link',
     dayLinkIdDelimiter: 'ext-cal-day-',
     prevLinkSelector: 'ext-cal-list-bd-prev-link',
@@ -60,7 +63,11 @@ Ext.define('Extensible.calendar.view.ListBody', {
 
     // private
     initComponent : function(){
-        this.callParent(arguments);
+
+        this.filterConfig =  {
+            period: this.dateRangeDefault,
+            details: false
+        };
 
         this.addEvents({
             /**
@@ -71,6 +78,8 @@ Ext.define('Extensible.calendar.view.ListBody', {
              */
             dayclick: true
         });
+
+        this.callParent(arguments);
     },
 
     // Private
@@ -224,7 +233,7 @@ Ext.define('Extensible.calendar.view.ListBody', {
 
     /**
     * Sets the filter configuration to be used when calculating view bounds and loading events.
-    * @param {Object} filterConfig An object of key/value pairs representing filtering conditions.
+    * @param {Object} filterConfig An object of key/value pairs representing filter conditions.
     */
     setFilterConfig: function(filterConfig) {
         this.filterConfig = filterConfig;
@@ -232,7 +241,7 @@ Ext.define('Extensible.calendar.view.ListBody', {
     },
 
     /**
-     * Little helper function that converts a string expressing a date period into an object that can be used as
+     * Helper function that converts a string expressing a date period into an object that can be used as
      * parameter for the {@link Extensible.Date#add} function.
      * @param {String} period Supported values are: <i>day</i>, <i>week</i>, <i>month</i>, <i>3months</i> and
      * <i>year</i>. If an unknown value is passed for period, then <i>months</i> is used.
@@ -260,8 +269,7 @@ Ext.define('Extensible.calendar.view.ListBody', {
         var me = this,
             Dt = Extensible.Date,
             start = startDate || me.startDate,
-            filterConfig = me.filterConfig || {period: 'month'},
-            period = filterConfig.period || 'month',
+            period = me.filterConfig.period || this.dateRangeDefault,
             addParam;
 
         addParam = this.getDateAddParam(period, false);
@@ -290,8 +298,7 @@ Ext.define('Extensible.calendar.view.ListBody', {
      */
     moveNext : function(/*private*/reload){
         var me = this,
-            filterConfig = me.filterConfig || {period: 'month'},
-            period = filterConfig.period || 'month',
+            period = me.filterConfig.period || this.dateRangeDefault,
             addParam;
         addParam = this.getDateAddParam(period);
         return this.moveTo(Extensible.Date.add(this.viewStart, addParam), reload);
@@ -303,8 +310,7 @@ Ext.define('Extensible.calendar.view.ListBody', {
      */
     movePrev : function(/*private*/reload){
         var me = this,
-            filterConfig = me.filterConfig || {period: 'month'},
-            period = filterConfig.period || 'month',
+            period = me.filterConfig.period || this.dateRangeDefault,
             addParam;
         addParam = this.getDateAddParam(period, true);
         return this.moveTo(Extensible.Date.add(this.viewStart, addParam), reload);
