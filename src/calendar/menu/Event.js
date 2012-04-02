@@ -125,6 +125,7 @@ Ext.define('Extensible.calendar.menu.Event', {
                 this.fireEvent('eventmove', this, this.rec, dt);
             }
         });
+        
         this.copyMenu = Ext.create('Ext.menu.DatePicker',{
             scope: this,
             handler: function(dp,dt){

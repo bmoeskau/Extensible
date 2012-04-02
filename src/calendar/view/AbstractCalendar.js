@@ -1668,6 +1668,7 @@ alert('End: '+bounds.end);
     	}, newd);
     	//var sd = Extensible.Date.add(rec.get('StartDate'), {days:1});
     	//var ed = Extensible.Date.add(rec.get('EndDate'), {days:1});
+
     	var sd = sdt;
         var ed = edt;
     	newd.EventId = '';
