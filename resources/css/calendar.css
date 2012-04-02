@@ -877,7 +877,9 @@ td.ext-cal-dtitle-today div {
 .extensible-cal-icon-evt-move {
     background-image:url(../images/default/silk/date_go.png) !important;
 }
-
+.extensible-cal-icon-evt-copy {
+    background-image:url(../images/default/silk/date_link.png) !important;
+}
 /*******************************************
  * 
  * CalendarList styles
