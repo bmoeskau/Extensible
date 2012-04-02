@@ -72,7 +72,7 @@
             "text":"CalendarCombo.js",
             "path":"../src/calendar/form/field/"
         },{
-            "text": "Combo.js",
+            "text": "FrequencyCombo.js",
             "path": "../src/form/recurrence/"
         },{
             "text": "Fieldset.js",
