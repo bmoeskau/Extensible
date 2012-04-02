@@ -39,13 +39,13 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * the default calendar (and color).
      */
     /*
-     * @cfg {Boolean} enableRecurrence
+     * @cfg {Boolean} recurrence
      * True to show the recurrence field, false to hide it (default). Note that recurrence requires
      * something on the server-side that can parse the iCal RRULE format in order to generate the
      * instances of recurring events to display on the calendar, so this field should only be enabled
      * if the server supports it.
      */
-    //enableRecurrence: false,
+    recurrence: true,
     /**
      * @cfg {Boolean} readOnly
      * True to prevent clicks on events or the view from providing CRUD capabilities, false to enable CRUD (the default).
@@ -1474,6 +1474,7 @@ alert('End: '+bounds.end);
                 calendarStore: this.calendarStore,
                 modal: this.editModal,
                 enableEditDetails: this.enableEditDetails,
+                
                 listeners: {
                     'eventadd': {
                         fn: function(win, rec, animTarget) {
@@ -1640,14 +1641,44 @@ alert('End: '+bounds.end);
                 listeners: {
                     'editdetails': Ext.bind(this.onEditDetails, this),
                     'eventdelete': Ext.bind(this.onDeleteEvent, this),
-                    'eventmove'  : Ext.bind(this.onMoveEvent, this)
+                    'eventmove'  : Ext.bind(this.onMoveEvent, this),
+                    'eventcopy': Ext.bind(this.onCopyEvent, this)
                 }
             });
         }
         this.eventMenu.showForEvent(this.getEventRecordFromEl(el), el, xy);
         this.menuActive = true;
     },
-    
+    // private
+    onCopyEvent: function(menu, rec, sdt, edt){
+    	this.copyEvent(rec, sdt, edt);
+    	this.menuActive = false;
+    },
+    copyEvent: function(rec, sdt, edt){
+    	var d = rec.data;
+    	var newd = {};
+    	Ext.Object.each(d, function(key, val, myself){
+    		if(key === 'StartDate' || key === 'EndDate'){
+    			return;
+    		}
+    		if(key.charAt(0) === '_'){
+    			
+    		}else{
+    			this[key] = val;
+    		}
+    	}, newd);
+    	//var sd = Extensible.Date.add(rec.get('StartDate'), {days:1});
+    	//var ed = Extensible.Date.add(rec.get('EndDate'), {days:1});
+
+    	var sd = sdt;
+        var ed = edt;
+    	newd.EventId = '';
+
+    	newd.StartDate = sd;
+    	newd.EndDate = ed;
+    	var mod = Ext.create('Extensible.calendar.data.EventModel',newd);
+    	this.store.add(mod);
+    },
     // private
     onEditDetails : function(menu, rec, el){
         this.fireEvent('editdetails', this, rec, el);
