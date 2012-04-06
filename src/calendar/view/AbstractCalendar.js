@@ -1640,14 +1640,44 @@ alert('End: '+bounds.end);
                 listeners: {
                     'editdetails': Ext.bind(this.onEditDetails, this),
                     'eventdelete': Ext.bind(this.onDeleteEvent, this),
-                    'eventmove'  : Ext.bind(this.onMoveEvent, this)
+                    'eventmove'  : Ext.bind(this.onMoveEvent, this),
+                    'eventcopy': Ext.bind(this.onCopyEvent, this)
                 }
             });
         }
         this.eventMenu.showForEvent(this.getEventRecordFromEl(el), el, xy);
         this.menuActive = true;
     },
-    
+    // private
+    onCopyEvent: function(menu, rec, sdt, edt){
+    	this.copyEvent(rec, sdt, edt);
+    	this.menuActive = false;
+    },
+    copyEvent: function(rec, sdt, edt){
+    	var d = rec.data;
+    	var newd = {};
+    	Ext.Object.each(d, function(key, val, myself){
+    		if(key === 'StartDate' || key === 'EndDate'){
+    			return;
+    		}
+    		if(key.charAt(0) === '_'){
+    			
+    		}else{
+    			this[key] = val;
+    		}
+    	}, newd);
+    	//var sd = Extensible.Date.add(rec.get('StartDate'), {days:1});
+    	//var ed = Extensible.Date.add(rec.get('EndDate'), {days:1});
+
+    	var sd = sdt;
+        var ed = edt;
+    	newd.EventId = '';
+
+    	newd.StartDate = sd;
+    	newd.EndDate = ed;
+    	var mod = Ext.create('Extensible.calendar.data.EventModel',newd);
+    	this.store.add(mod);
+    },
     // private
     onEditDetails : function(menu, rec, el){
         this.fireEvent('editdetails', this, rec, el);

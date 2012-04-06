@@ -36,7 +36,11 @@ Ext.define('Extensible.calendar.menu.Event', {
      * The text to display for the 'Move to...' option in the menu.
      */
     moveToText: 'Move to...',
-    
+    /**
+     * @cfg {String} copyText
+     * The text to display for the copy option in the menu
+     */
+    copyText: 'Copy',
     /** 
      * @cfg {Boolean} enableScrolling
      * @hide 
@@ -113,7 +117,14 @@ Ext.define('Extensible.calendar.menu.Event', {
                 this.fireEvent('eventmove', this, this.rec, dt);
             }
         });
-        
+        this.copyMenu = Ext.create('Ext.menu.DatePicker',{
+            scope: this,
+            handler: function(dp,dt){
+                stdt = Extensible.Date.copyTime(this.rec.data[Extensible.calendar.data.EventMappings.StartDate.name], dt);
+                endt = Extensible.Date.copyTime(this.rec.data[Extensible.calendar.data.EventMappings.EndDate.name], dt);
+                this.fireEvent('eventcopy', this, this.rec, stdt, endt);
+            }
+        });
         Ext.apply(this, {
             items: [{
                 text: this.editDetailsText,
@@ -133,6 +144,10 @@ Ext.define('Extensible.calendar.menu.Event', {
                 text: this.moveToText,
                 iconCls: 'extensible-cal-icon-evt-move',
                 menu: this.dateMenu
+            },{
+                text: this.copyText,
+                iconCls: 'extensible-cal-icon-evt-copy',
+                menu: this.copyMenu
             }]
         });
     },
