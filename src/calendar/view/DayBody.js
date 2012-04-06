@@ -78,6 +78,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         var cfg = {
             view: this,
             createText: this.ddCreateEventText,
+            copyText: this.ddCopyEventText,
             moveText: this.ddMoveEventText,
             resizeText: this.ddResizeEventText,
             ddIncrement: this.ddIncrement,

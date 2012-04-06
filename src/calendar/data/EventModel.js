@@ -74,6 +74,15 @@ Ext.define('Extensible.calendar.data.EventModel', {
             }
             return Data.EventModel;
         }
+    },
+    
+    clone: function() {
+        var copy = Ext.create('Extensible.calendar.data.EventModel'),
+            data = Ext.apply({}, this.data);
+        
+        copy.data = data;
+        
+        return copy;
     }
 },
 function(){

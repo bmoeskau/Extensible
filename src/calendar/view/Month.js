@@ -123,6 +123,7 @@ Ext.define('Extensible.calendar.view.Month', {
 		var cfg = {
 			view: this,
 			createText: this.ddCreateEventText,
+			copyText: this.ddCopyEventText,
 			moveText: this.ddMoveEventText,
             ddGroup : this.ddGroup || this.id+'-MonthViewDD'
 		};

@@ -137,6 +137,12 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * 'Create event for {0}' where {0} is a date range supplied by the view)
      */
 	ddCreateEventText: 'Create event for {0}',
+	/**
+     * @cfg {String} ddCopyEventText
+     * The text to display inside the drag proxy while alt-dragging an event to copy it (defaults to 
+     * 'Copy event to {0}' where {0} is the updated event start date/time supplied by the view)
+     */
+    ddCopyEventText: 'Copy event to {0}',
     /**
      * @cfg {String} ddMoveEventText
      * The text to display inside the drag proxy while dragging an event to reposition it (defaults to 
@@ -378,6 +384,27 @@ viewConfig: {
              * function call (e.g., callback()).
              */
 			rangeselect: true,
+            /**
+             * @event beforeeventcopy
+             * Fires before an existing event is duplicated by the user view the "copy" command. This is a
+             * cancelable event, so returning false from a handler will cancel the copy operation.
+             * @param {Extensible.calendar.view.AbstractCalendar} this
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
+             * record} for the event that will be copied
+             * @param {Date} dt The new start date to be set in the copy (the end date will be automaticaly
+             * adjusted to match the original event duration)
+             */
+            beforeeventcopy: true,
+            /**
+             * @event eventcopy
+             * Fires after an event has been duplicated by the user via the "copy" command. If you need to
+             * cancel the copy operation you should handle the {@link #beforeeventcopy} event and return
+             * false from your handler function.
+             * @param {Extensible.calendar.view.AbstractCalendar} this
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
+             * record} for the event that was copied (with updated start and end dates)
+             */
+            eventcopy: true,
             /**
              * @event beforeeventmove
              * Fires before an event element is dragged by the user and dropped in a new position. This is a cancelable event, so 
@@ -807,8 +834,8 @@ viewConfig: {
     },
 	
     // private
-	onEventDrop : function(rec, dt){
-        this.moveEvent(rec, dt);
+	onEventDrop : function(rec, dt, mode){
+        this[(mode || 'move') + 'Event'](rec, dt);
 	},
     
     // private
@@ -1634,50 +1661,55 @@ alert('End: '+bounds.end);
     },
     
     // private
-    showEventMenu : function(el, xy){
-        if(!this.eventMenu){
-            this.eventMenu = Ext.create('Extensible.calendar.menu.Event', {
+    showEventMenu: function(el, xy) {
+        var me = this;
+        
+        if (!me.eventMenu) {
+            me.eventMenu = Ext.create('Extensible.calendar.menu.Event', {
                 listeners: {
-                    'editdetails': Ext.bind(this.onEditDetails, this),
-                    'eventdelete': Ext.bind(this.onDeleteEvent, this),
-                    'eventmove'  : Ext.bind(this.onMoveEvent, this),
-                    'eventcopy': Ext.bind(this.onCopyEvent, this)
+                    'editdetails': Ext.bind(me.onEditDetails, me),
+                    'eventdelete': Ext.bind(me.onDeleteEvent, me),
+                    'eventmove'  : Ext.bind(me.onMoveEvent, me),
+                    'eventcopy'  : Ext.bind(me.onCopyEvent, me)
                 }
             });
         }
-        this.eventMenu.showForEvent(this.getEventRecordFromEl(el), el, xy);
-        this.menuActive = true;
+        
+        me.eventMenu.showForEvent(me.getEventRecordFromEl(el), el, xy);
+        me.menuActive = true;
     },
+    
     // private
-    onCopyEvent: function(menu, rec, sdt, edt){
-    	this.copyEvent(rec, sdt, edt);
+    onCopyEvent: function(menu, rec, dt) {
+    	this.copyEvent(rec, dt);
     	this.menuActive = false;
     },
-    copyEvent: function(rec, sdt, edt){
-    	var d = rec.data;
-    	var newd = {};
-    	Ext.Object.each(d, function(key, val, myself){
-    		if(key === 'StartDate' || key === 'EndDate'){
-    			return;
-    		}
-    		if(key.charAt(0) === '_'){
-    			
-    		}else{
-    			this[key] = val;
-    		}
-    	}, newd);
-    	//var sd = Extensible.Date.add(rec.get('StartDate'), {days:1});
-    	//var ed = Extensible.Date.add(rec.get('EndDate'), {days:1});
-
-    	var sd = sdt;
-        var ed = edt;
-    	newd.EventId = '';
-
-    	newd.StartDate = sd;
-    	newd.EndDate = ed;
-    	var mod = Ext.create('Extensible.calendar.data.EventModel',newd);
-    	this.store.add(mod);
+    
+    /**
+     * Create a copy of the event with a new start date, preserving the original event duration.
+     * @param {Object} rec The original event {@link Extensible.calendar.data.EventModel record}
+     * @param {Object} dt The new start date. The end date of the created event copy will be adjusted
+     * automatically to preserve the original duration.
+     */
+    copyEvent: function(rec, startDate){
+        var me = this,
+            EventMappings = Extensible.calendar.data.EventMappings,
+            diff = startDate.getTime() - rec.data[EventMappings.StartDate.name].getTime(),
+            copy = rec.clone();
+        
+        if (me.fireEvent('beforeeventcopy', me, rec, Ext.Date.clone(startDate)) !== false) {
+            delete copy.data[EventMappings.EventId.name];
+            copy.data[EventMappings.StartDate.name] = startDate;
+            copy.data[EventMappings.EndDate.name] =
+                Extensible.Date.add(rec.data[EventMappings.EndDate.name], { millis: diff });
+            
+            me.store.add(copy);
+            me.save();
+            
+            me.fireEvent('eventcopy', me, copy);
+        }
     },
+    
     // private
     onEditDetails : function(menu, rec, el){
         this.fireEvent('editdetails', this, rec, el);

@@ -594,9 +594,10 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             fn: function(c){
                 // relay view events so that app code only has to handle them in one place.
                 // these events require no special handling by the calendar panel 
-                this.relayEvents(c, ['eventsrendered','eventclick','dayclick','eventover','eventout','beforedatechange',
-                    'datechange','rangeselect','beforeeventmove','eventmove','initdrag','dayover','dayout','beforeeventresize',
-                    'eventresize','eventadd','eventupdate','beforeeventdelete','eventdelete','eventcancel']);
+                this.relayEvents(c, ['eventsrendered', 'eventclick', 'dayclick', 'eventover', 'eventout',
+                    'beforedatechange', 'datechange', 'rangeselect', 'beforeeventcopy', 'eventcopy',
+                    'beforeeventmove', 'eventmove', 'initdrag', 'dayover', 'dayout', 'beforeeventresize',
+                    'eventresize', 'eventadd', 'eventupdate', 'beforeeventdelete', 'eventdelete', 'eventcancel']);
                 
                 c.on('editdetails', this.onEditDetails, this);
             },

@@ -28,6 +28,7 @@ Ext.define('Extensible.calendar.dd.DropZone', {
     
     onNodeOver : function(n, dd, e, data){
         var D = Extensible.Date,
+            eventDragText = (e.ctrlKey || e.altKey) ? this.copyText : this.moveText,
             start = data.type == 'eventdrag' ? n.date : D.min(data.start, n.date),
             end = data.type == 'eventdrag' ? D.add(n.date, {days: D.diffDays(data.eventStart, data.eventEnd)}) :
                 D.max(data.start, n.date);
@@ -43,9 +44,12 @@ Ext.define('Extensible.calendar.dd.DropZone', {
                 end = Ext.Date.format(end, this.dateFormat);
                 range = Ext.String.format(this.dateRangeFormat, range, end);
             }
-            var msg = Ext.String.format(data.type == 'eventdrag' ? this.moveText : this.createText, range);
-            data.proxy.updateMsg(msg);
+            this.currentRange = range;
         }
+                
+        data.proxy.updateMsg(Ext.String.format(data.type === 'eventdrag' ? eventDragText :
+            this.createText, this.currentRange));
+            
         return this.dropAllowed;
     },
     
@@ -148,7 +152,7 @@ Ext.define('Extensible.calendar.dd.DropZone', {
                 var rec = this.view.getEventRecordFromEl(data.ddel),
                     dt = Extensible.Date.copyTime(rec.data[Extensible.calendar.data.EventMappings.StartDate.name], n.date);
                     
-                this.view.onEventDrop(rec, dt);
+                this.view.onEventDrop(rec, dt, (e.ctrlKey || e.altKey) ? 'copy' : 'move');
                 this.onCalendarDragComplete();
                 return true;
             }

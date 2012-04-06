@@ -187,15 +187,15 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                             },
                             scope: this
                         },
+                        'eventcopy': {
+                            fn: function(vw, rec){
+                                this.onEventCopyOrMove(rec, 'copy');
+                            },
+                            scope: this
+                        },
                         'eventmove': {
                             fn: function(vw, rec){
-                                var mappings = Extensible.calendar.data.EventMappings,
-                                    time = rec.data[mappings.IsAllDay.name] ? '' : ' \\a\\t g:i a';
-                                
-                                rec.commit();
-                                
-                                this.showMsg('Event '+ rec.data[mappings.Title.name] +' was moved to '+
-                                    Ext.Date.format(rec.data[mappings.StartDate.name], ('F jS'+time)));
+                                this.onEventCopyOrMove(rec, 'move');
                             },
                             scope: this
                         },
@@ -247,6 +247,18 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
         else{
             p.setTitle(fmt(startDt, 'F j, Y') + ' - ' + fmt(endDt, 'F j, Y'));
         }
+    },
+    
+    // Handle event moves or copies generically
+    onEventCopyOrMove: function(rec, mode) {
+        var mappings = Extensible.calendar.data.EventMappings,
+            time = rec.data[mappings.IsAllDay.name] ? '' : ' \\a\\t g:i a',
+            action = mode === 'copy' ? 'copied' : 'moved';
+        
+        rec.commit();
+        
+        this.showMsg('Event '+ rec.data[mappings.Title.name] +' was ' + action + ' to '+
+            Ext.Date.format(rec.data[mappings.StartDate.name], ('F jS'+time)));
     },
     
     // This is an application-specific way to communicate CalendarPanel event messages back to the user.

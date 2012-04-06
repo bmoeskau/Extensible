@@ -75,7 +75,7 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
                 box.x = n.el.getLeft();
                 
                 this.shim(n.date, box);
-                text = this.moveText;
+                text = (e.ctrlKey || e.altKey) ? this.copyText : this.moveText;
             }
             if(data.type == 'eventresize'){
                 if(!this.resizeDt){
@@ -136,7 +136,7 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
         if(n && data){
             if(data.type == 'eventdrag'){
                 var rec = this.view.getEventRecordFromEl(data.ddel);
-                this.view.onEventDrop(rec, n.date);
+                this.view.onEventDrop(rec, n.date, (e.ctrlKey || e.altKey) ? 'copy' : 'move');
                 this.onCalendarDragComplete();
                 delete this.dragOffset;
                 return true;
