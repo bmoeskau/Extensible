@@ -55,5 +55,30 @@ Ext.define('Extensible.data.Model', {
             }
             return this;
         }
+    },
+    
+    /**
+     * Returns a new instance of this Model with the `data` property deep-copied from the
+     * original record. By default the {@link #idProperty} value will be deleted to avoid returning
+     * the cloned record with a duplicate id, but you can optionally preserve the id by passing `true`.
+     * 
+     * The behavior is different than the default {@link Ext.data.Model#copy} (which preserves the
+     * existing id by default and performs a shallow copy of the data) and is better-suited
+     * to the typical default desired behavior when duplicating a record.
+     * 
+     * @param {Boolean} (optional) preserveId True to preserve the record's data {@link idProperty id},
+     * false to delete it in the returned clone (defaults to false)
+     * @return {Extensible.data.Model} The cloned record
+     */
+    clone: function(preserveId) {
+        var copy = Ext.create(this.$className),
+            dataProp = this.persistenceProperty;
+        
+        copy[dataProp] = Ext.Object.merge({}, this[dataProp]);
+        
+        if (preserveId !== true) {
+            delete copy[dataProp][this.idProperty];
+        }
+        return copy;
     }
 });

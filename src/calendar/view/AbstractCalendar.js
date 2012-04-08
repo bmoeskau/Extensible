@@ -1699,13 +1699,12 @@ alert('End: '+bounds.end);
         var me = this,
             EventMappings = Extensible.calendar.data.EventMappings,
             diff = startDate.getTime() - rec.data[EventMappings.StartDate.name].getTime(),
+            endDate = Extensible.Date.add(rec.data[EventMappings.EndDate.name], { millis: diff }),
             copy = rec.clone();
         
         if (me.fireEvent('beforeeventcopy', me, rec, Ext.Date.clone(startDate)) !== false) {
-            delete copy.data[EventMappings.EventId.name];
             copy.data[EventMappings.StartDate.name] = startDate;
-            copy.data[EventMappings.EndDate.name] =
-                Extensible.Date.add(rec.data[EventMappings.EndDate.name], { millis: diff });
+            copy.data[EventMappings.EndDate.name] = endDate;
             
             me.store.add(copy);
             me.save();
