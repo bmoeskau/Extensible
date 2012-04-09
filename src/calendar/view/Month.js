@@ -509,7 +509,8 @@ Ext.define('Extensible.calendar.view.Month', {
 			box = dayEl.getBox(),
 			innerTplHeight = p.el.down('.ext-cal-mdv').getHeight(),
 			header = p.getDockedItems('header')[0],
-			frameHeight = p.frameSize.top + p.frameSize.bottom + header.getHeight(),
+			frameSize = p.frameSize || {top:0, bottom:0},
+			frameHeight = frameSize.top + frameSize.bottom + header.getHeight(),
 			bodyHeight = innerTplHeight + frameHeight + 5,
 			documentBodyHeight = Ext.getBody().getHeight() - 20,
 			calculatedHeight = Math.min(bodyHeight, documentBodyHeight);
