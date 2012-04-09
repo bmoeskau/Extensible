@@ -842,13 +842,16 @@ Ext.define('Extensible.calendar.CalendarPanel', {
                 cloneDt = Ext.Date.clone;
                 
             if (view) {
-                var info = {
-                    activeDate: cloneDt(view.getStartDate())
-                };
+                var info;
+                
+                // some views do not have these properties, e.g. the detailed edit form
                 if (view.getViewBounds) {
                     var vb = view.getViewBounds();
-                    info.viewStart = cloneDt(vb.start);
-                    info.viewEnd = cloneDt(vb.end);
+                    info = {
+                        viewStart: cloneDt(vb.start),
+                        viewEnd: cloneDt(vb.end),
+                        activeDate: cloneDt(view.getStartDate())
+                    };
                 }
                 if (view.dismissEventEditor){
                     view.dismissEventEditor();
