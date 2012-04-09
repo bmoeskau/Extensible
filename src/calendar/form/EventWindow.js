@@ -399,7 +399,8 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     // private
     onSave: function(){
         var me = this,
-            form = me.formPanel.form;
+            form = me.formPanel.form,
+            originalHasRecurrence = me.activeRecord.isRecurring();
         
         if (!form.isDirty() && !me.allowDefaultAdd) {
             me.onCancel();
@@ -418,7 +419,9 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             me.fireEvent('eventadd', me, me.activeRecord, me.animateTarget);
         }
         else {
-            if (me.activeRecord.isRecurring()) {
+            if (originalHasRecurrence) {
+                // We only need to prompt when editing an existing recurring event. If a normal
+                // event is edited to make it recurring just do a standard update.
                 me.onRecurrenceUpdate();
             }
             else {
