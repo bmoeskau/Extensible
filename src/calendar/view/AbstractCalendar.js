@@ -43,6 +43,13 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * if the server supports it.
      */
     recurrence: true,
+    
+    recurrenceExpansionMode: 'remote',
+
+    recurrenceExpansionParam: {
+        name: 'singleEvents',
+        value: true
+    },
     /**
      * @cfg {Boolean} readOnly
      * True to prevent clicks on events or the view from providing CRUD capabilities, false to enable CRUD (the default).
@@ -237,6 +244,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     eventOverClass: 'ext-evt-over',
 	eventElIdDelimiter: '-evt-',
     dayElIdDelimiter: '-day-',
+    recurringInstanceIdDelimiter: '-rid-',
     
     /**
      * Returns a string of HTML template markup to be used as the body portion of the event template created
@@ -587,6 +595,11 @@ viewConfig: {
         o.params = o.params || {};
         
         Ext.apply(o.params, this.getStoreParams());
+        
+        if (this.recurrence && this.recurrenceExpansionMode === 'remote') {
+            o.params[this.recurrenceExpansionParam.name] = this.recurrenceExpansionParam.value;
+        }
+        
         this.store.load(o);
     },
     
@@ -1084,8 +1097,11 @@ viewConfig: {
 	 * @return {String} The selector class
 	 */
 	getEventSelectorCls : function(eventId, forSelect){
-		var prefix = forSelect ? '.' : '';
-		return prefix + this.id + this.eventElIdDelimiter + this.getEventId(eventId);
+		var prefix = forSelect ? '.' : '',
+            id = this.getEventId(eventId),
+            cls = prefix + this.id + this.eventElIdDelimiter + id;
+        
+        return cls;
 	},
 
 	/**
@@ -1110,7 +1126,7 @@ viewConfig: {
     },
 
     // private
-    onDataChanged : function(store){
+    onDataChanged : function(store, records) {
         Extensible.log('onDataChanged');
         this.refresh(false);
     },
@@ -1619,7 +1635,7 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onEventAdd: function(form, rec, options){
+    onEventAdd: function(form, rec){
         this.newRecord = rec;
         if(!rec.store){
             this.store.add(rec);
@@ -1629,13 +1645,13 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onEventUpdate: function(form, rec, options){
+    onEventUpdate: function(form, rec){
         this.save();
         this.fireEvent('eventupdate', this, rec);
     },
     
     // private
-    onEventDelete: function(form, rec, options){
+    onEventDelete: function(form, rec){
         if(rec.store){
             this.store.remove(rec);
         }

@@ -64,7 +64,7 @@ class Events extends ApplicationController {
 			$res->success = true;
 			$res->message = "Updated " . count($res->data) . " records";
 		} else {
-			if ($rec = Event::update($this->params->id, $this->params)) {
+			if ($rec = Event::update($this->id, $this->params)) {
 				$res->data = $rec->to_hash();
 				$res->success = true;
 				$res->message = "Updated record";

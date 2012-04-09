@@ -354,12 +354,23 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         else {
             //if (me.recurrenceField && (me.recurrenceField.isRecurring() || me.recurrenceField.isDirty())) {
             if (isRecurring || me.activeRecord.isRecurring()) {
-                me.getRecurrenceRangeEditor().show();
+                me.onRecurrenceUpdate();
             }
             else {
                 me.fireEvent('eventupdate', me, me.activeRecord);
             }
         }
+    },
+    
+    onRecurrenceUpdate: function() {
+        var me = this;
+        
+        me.getRecurrenceRangeEditor().prompt(function(editMode) {
+            if (editMode) {
+                me.activeRecord.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+                me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
+            }
+        }, me);
     },
 
     // private

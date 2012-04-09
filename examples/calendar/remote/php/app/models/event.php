@@ -40,6 +40,24 @@ class Event extends Model {
         $attr = $rec->attributes;
         
         if ($attr['rrule']) {
+            if ($attr['redit'] !== '') {
+                $editMode = $attr['redit'];
+                if ($editMode == 'single') {
+                    $copy = $attr;
+                    $copy['rrule'] = '';
+                    $copy['redit'] = '';
+                    self::create($copy);
+                    
+                    $exdates = $attr['exdates'];
+                    $separator = strlen($exdates) > 0 ? ',' : '';
+                    $start = new DateTime($attr['start']);
+                    $exdates .= $separator.$start->format($_SESSION['exceptionFormat']);
+                    
+                    $orig = self::find($rec->id);
+                    $orig->attributes['exdates'] = $exdates;
+                    return $orig;
+                }
+            }
             // If this is a recurring event,first calculate the duration between
             // the start and end datetimes so that each recurring instance can
             // be properly calculated.
@@ -100,6 +118,17 @@ class Event extends Model {
         return $found;
     }
     
+    private function exceptionMatch($exdates, $eventDate) {
+        $dt = $eventDate->format($_SESSION['exceptionFormat']);
+        
+        foreach ($exdates as $exDate) {
+            if ($exDate == $dt) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     private function generateInstances($attr, $startTime, $endTime) {
         $rrule = $attr['rrule'];
         $instances = array();
@@ -109,11 +138,16 @@ class Event extends Model {
             $duration = $attr['duration'];
             $recurrence = new When();
             $rdates = $recurrence->recur($attr['start'])->rrule($rrule);
+            $exdates = explode(',', $attr['exdates']);
             $idx = 1;
             
             while ($rdate = $rdates->next()) {
                 $rtime = strtotime($rdate->format('c'));
                 
+                if (self::exceptionMatch($exdates, $rdate)) {
+                    // The current instance falls on an exception date so skip it
+                    continue;
+                }
                 if ($rtime < $startTime) {
                     // Instance falls before the range: skip, but keep trying
                     continue;

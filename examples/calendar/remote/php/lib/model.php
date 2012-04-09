@@ -22,7 +22,7 @@ class Model {
     }
     
     static function create($params) {
-        $rec = new self(get_object_vars($params));
+        $rec = new self(is_array($params) ? $params : get_object_vars($params));
         
         static::beforeCreate($rec);
         

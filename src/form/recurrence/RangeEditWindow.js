@@ -8,7 +8,7 @@ Ext.define('Extensible.form.recurrence.RangeEditWindow', {
     
     // Locale configs
     title: 'Recurring Event Options',
-    width: 400,
+    width: 350,
     height: 240,
     saveButtonText: 'Save',
     cancelButtonText: 'Cancel',
@@ -59,14 +59,13 @@ Ext.define('Extensible.form.recurrence.RangeEditWindow', {
     },
     
     onSaveAction: function() {
-        this.callbackFunction({
-            recurrenceEditMode: this.getComponent(this.id + '-recur-panel').getEditMode()
-        });
+        var mode = this.getComponent(this.id + '-recur-panel').getEditMode();
+        this.callbackFunction(mode);
         this.close();
     },
     
     onCancelAction: function() {
-        this.callbackFunction();
+        this.callbackFunction(false);
         this.close();
     }
 });

@@ -75,16 +75,16 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
     
     /**
-     * True to allow the user to save the initial default record displayed in the form while in Add mode 
+     * True to allow the user to save the initial default record displayed in the form while in Add mode
      * and the record is not dirty (default). If false, the form save action will be treated as a cancel action
      * if no editing was performed while in Add mode and the record will not be added. Note that this setting
      * does not apply when in Edit mode. The save action will always be treated as cancel in Edit mode if
      * the form is not dirty.
-     * 
+     *
      * When this option is true any blank or default field values should be allowed by the back end
      * system handling the operation. For example, by default if the event title is blank the calendar views
-     * will substitute the value of {@link Extensible.calendar.view.AbstractCalendar#defaultEventTitleText 
-     * defaultEventTitleText} when displaying it. Any custom fields might require similar custom handling. 
+     * will substitute the value of {@link Extensible.calendar.view.AbstractCalendar#defaultEventTitleText
+     * defaultEventTitleText} when displaying it. Any custom fields might require similar custom handling.
      */
     allowDefaultAdd: true,
     
@@ -146,10 +146,10 @@ Ext.define('Extensible.calendar.form.EventWindow', {
                 text: this.saveButtonText,
                 itemId: this.id + '-save-btn',
                 disabled: false,
-                handler: this.onSave, 
+                handler: this.onSave,
                 scope: this
             },{
-                text: this.deleteButtonText, 
+                text: this.deleteButtonText,
                 itemId: this.id + '-delete-btn',
                 disabled: false,
                 handler: this.onDelete,
@@ -174,7 +174,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
     
     // private
-    onRender : function(ct, position){        
+    onRender : function(ct, position){
         this.formPanel = Ext.create('Ext.FormPanel', Ext.applyIf({
             fieldDefaults: {
                 labelWidth: this.labelWidth
@@ -258,17 +258,18 @@ Ext.define('Extensible.calendar.form.EventWindow', {
 	
 	/**
      * Shows the window, rendering it first if necessary, or activates it and brings it to front if hidden.
-	 * @param {Ext.data.Record/Object} o Either a {@link Ext.data.Record} if showing the form
-	 * for an existing event in edit mode, or a plain object containing a StartDate property (and 
-	 * optionally an EndDate property) for showing the form in add mode. 
+     * @param {Ext.data.Record/Object} o Either a {@link Ext.data.Record} if showing the form
+     * for an existing event in edit mode, or a plain object containing a StartDate property (and
+     * optionally an EndDate property) for showing the form in add mode.
      * @param {String/Element} animateTarget (optional) The target element or id from which the window should
      * animate while opening (defaults to null with no animation)
      * @return {Ext.Window} this
      */
     show: function(o, animateTarget){
+        var M = Extensible.calendar.data.EventMappings;
+        
 		// Work around the CSS day cell height hack needed for initial render in IE8/strict:
-		this.animateTarget = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget,
-            M = Extensible.calendar.data.EventMappings;
+		this.animateTarget = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget;
 
         this.callParent([this.animateTarget, function(){
             this.titleField.focus(false, 100);
@@ -283,7 +284,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
 			//this.isAdd = !!rec.data[Extensible.calendar.data.EventMappings.IsNew.name];
 			if(rec.phantom){
 				// Enable adding the default record that was passed in
-				// if it's new even if the user makes no changes 
+				// if it's new even if the user makes no changes
 				//rec.markDirty();
 				this.setTitle(this.titleTextAdd);
 			}
@@ -304,7 +305,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             //rec.data[M.EventId.name] = this.newId++;
             rec.data[M.StartDate.name] = start;
             rec.data[M.EndDate.name] = end;
-            rec.data[M.IsAllDay.name] = !!o[M.IsAllDay.name] || start.getDate() != Extensible.Date.add(end, {millis: 1}).getDate();
+            rec.data[M.IsAllDay.name] = !!o[M.IsAllDay.name] || start.getDate() !== Extensible.Date.add(end, {millis: 1}).getDate();
             
             f.reset();
             f.loadRecord(rec);
@@ -329,13 +330,13 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     // private
     roundTime: function(dt, incr){
         incr = incr || 15;
-        var m = parseInt(dt.getMinutes());
+        var m = parseInt(dt.getMinutes(), 10);
         return dt.add('mi', incr - (m % incr));
     },
     
     // private
     onCancel: function(){
-    	this.cleanup(true);
+        this.cleanup(true);
 		this.fireEvent('eventcancel', this, this.activeRecord, this.animateTarget);
     },
 
@@ -352,54 +353,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             this.hide();
         }
     },
-    
-    // private
-//    updateRecord: function(keepEditing){
-//        var dates = this.dateRangeField.getValue(),
-//            M = Extensible.calendar.data.EventMappings,
-//            rec = this.activeRecord,
-//            form = this.formPanel.form,
-//            fs = rec.fields,
-//            dirty = false;
-//            
-//        rec.beginEdit();
-//
-//        //TODO: This block is copied directly from BasicForm.updateRecord.
-//        // Unfortunately since that method internally calls begin/endEdit all
-//        // updates happen and the record dirty status is reset internally to
-//        // that call. We need the dirty status, plus currently the DateRangeField
-//        // does not map directly to the record values, so for now we'll duplicate
-//        // the setter logic here (we need to be able to pick up any custom-added 
-//        // fields generically). Need to revisit this later and come up with a better solution.
-//        fs.each(function(f){
-//            var field = form.findField(f.name);
-//            if(field){
-//                var value = field.getValue();
-//                if (value.getGroupValue) {
-//                    value = value.getGroupValue();
-//                } 
-//                else if (field.eachItem) {
-//                    value = [];
-//                    field.eachItem(function(item){
-//                        value.push(item.getValue());
-//                    });
-//                }
-//                rec.set(f.name, value);
-//            }
-//        }, this);
-//        
-//        rec.set(M.StartDate.name, dates[0]);
-//        rec.set(M.EndDate.name, dates[1]);
-//        rec.set(M.IsAllDay.name, dates[2]);
-//        
-//        dirty = rec.dirty;
-//        
-//        if(!keepEditing){
-//            rec.endEdit();
-//        }
-//        
-//        return dirty;
-//    },
     
     updateRecord: function(record, keepEditing) {
         var fields = record.fields,
@@ -443,26 +396,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         return this.recurrenceRangeEditor;
     },
     
-    
-    // private
-    // onSave: function() {
-        // var me = this,
-            // form = me.formPanel.form;
-//         
-        // if (!form.isDirty() && !me.allowDefaultAdd) {
-            // me.onCancel();
-            // return;
-        // }
-        // if (form.isValid()) {
-    		// if (!me.updateRecord(me.activeRecord)) {
-    			// me.onCancel();
-    			// return;
-    		// }
-    		// me.fireEvent(me.activeRecord.phantom ? 'eventadd' :
-    		      // 'eventupdate', me, me.activeRecord, me.animateTarget);
-		// }
-    // },
-    
     // private
     onSave: function(){
         var me = this,
@@ -486,14 +419,23 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         }
         else {
             if (me.activeRecord.isRecurring()) {
-                me.getRecurrenceRangeEditor().prompt(function(result) {
-                    me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget, result);
-                }, me);
+                me.onRecurrenceUpdate();
             }
             else {
                 me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
             }
         }
+    },
+    
+    onRecurrenceUpdate: function() {
+        var me = this;
+        
+        me.getRecurrenceRangeEditor().prompt(function(editMode) {
+            if (editMode) {
+                me.activeRecord.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+                me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
+            }
+        }, me);
     },
     
     // private
