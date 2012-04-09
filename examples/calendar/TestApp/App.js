@@ -1,6 +1,6 @@
 Ext.Loader.setConfig({
     enabled: true,
-    disableCaching: false,
+    //disableCaching: false,
     paths: {
         "Extensible": "../../../src",
         "Extensible.example": "../.."
@@ -156,12 +156,6 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                             },
                             scope: this
                         },
-                        'eventdelete': {
-                            fn: function(cp, rec){
-                                this.showMsg('Event '+ rec.data[Extensible.calendar.data.EventMappings.Title.name] +' was deleted');
-                            },
-                            scope: this
-                        },
                         'eventcancel': {
                             fn: function(cp, rec){
                                 // edit canceled
@@ -234,11 +228,11 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
         var p = Ext.getCmp('app-center'),
             fmt = Ext.Date.format;
         
-        if(Ext.Date.clearTime(startDt).getTime() == Ext.Date.clearTime(endDt).getTime()){
+        if(Ext.Date.clearTime(startDt).getTime() === Ext.Date.clearTime(endDt).getTime()){
             p.setTitle(fmt(startDt, 'F j, Y'));
         }
-        else if(startDt.getFullYear() == endDt.getFullYear()){
-            if(startDt.getMonth() == endDt.getMonth()){
+        else if(startDt.getFullYear() === endDt.getFullYear()){
+            if(startDt.getMonth() === endDt.getMonth()){
                 p.setTitle(fmt(startDt, 'F j') + ' - ' + fmt(endDt, 'j, Y'));
             }
             else{

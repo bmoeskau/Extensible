@@ -85,12 +85,12 @@ Extensible.calendar.data.EventMappings = {
     EventId: {
         name:    'EventId',
         mapping: 'id',
-        type:    'int'
+        type:    'string'
     },
     CalendarId: {
         name:    'CalendarId',
         mapping: 'cid',
-        type:    'int'
+        type:    'string'
     },
     Title: {
         name:    'Title',
@@ -134,6 +134,12 @@ Extensible.calendar.data.EventMappings = {
         mapping: 'rem',
         type:    'string'
     },
+    
+    RecurrenceId: {
+        name:    'RecurrenceId',
+        mapping: 'rid',
+        type:    'int'
+    },
 
     // The iCal-formatted RRULE (recurrence rule) pattern
     // See: http://www.kanzaki.com/docs/ical/rrule.html
@@ -156,11 +162,18 @@ Extensible.calendar.data.EventMappings = {
         type:    'int'
     },
     
-    // A comma-delimited list of exception dates that should be excluded
-    // from the list of event instances generated from the RRULE pattern
-    ExceptionDates: {
-        name:    'ExceptionDates',
-        mapping: 'exdates',
+    // Recurrence edit metadata
+    REditMode: {
+        name:    'REditMode',
+        mapping: 'redit',
         type:    'string'
     }
+    
+    // A comma-delimited list of exception dates that should be excluded
+    // from the list of event instances generated from the RRULE pattern
+    // ExceptionDates: {
+        // name:    'ExceptionDates',
+        // mapping: 'exdates',
+        // type:    'string'
+    // }
 };
