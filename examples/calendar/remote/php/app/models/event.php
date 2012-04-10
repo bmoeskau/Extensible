@@ -40,22 +40,19 @@ class Event extends Model {
         $attr = $rec->attributes;
         
         if ($attr['rrule']) {
-            if ($attr['redit'] !== '') {
+            if (isset($attr['redit'])) {
                 $editMode = $attr['redit'];
+                
                 if ($editMode == 'single') {
                     $copy = $attr;
                     $copy['rrule'] = '';
+                    $copy['rid'] = '';
                     $copy['redit'] = '';
                     self::create($copy);
                     
-                    $exdates = $attr['exdates'];
-                    $separator = strlen($exdates) > 0 ? ',' : '';
-                    $start = new DateTime($attr['start']);
-                    $exdates .= $separator.$start->format($_SESSION['exceptionFormat']);
+                    self::addExceptionDate($attr['start']);
                     
-                    $orig = self::find($rec->id);
-                    $orig->attributes['exdates'] = $exdates;
-                    return $orig;
+                    return $rec;
                 }
             }
             // If this is a recurring event,first calculate the duration between
@@ -73,6 +70,14 @@ class Event extends Model {
         $rec->attributes = $attr;
         
         return $rec;
+    }
+
+    private function addExceptionDate($dt) {
+        $exdates = $_SESSION['exdates'];
+        $separator = strlen($exdates) > 0 ? ',' : '';
+        $start = new DateTime($dt);
+        $exdates .= $separator.$start->format($_SESSION['exceptionFormat']);
+        $_SESSION['exdates'] = $exdates;
     }
     
     protected function beforeCreate($rec) {
@@ -118,12 +123,15 @@ class Event extends Model {
         return $found;
     }
     
-    private function exceptionMatch($exdates, $eventDate) {
+    private function exceptionMatch($eventDate) {
         $dt = $eventDate->format($_SESSION['exceptionFormat']);
+        $exdates = $_SESSION['exdates'];
         
-        foreach ($exdates as $exDate) {
-            if ($exDate == $dt) {
-                return true;
+        if (isset($exdates)) {
+            foreach ($exdates as $exDate) {
+                if ($exDate == $dt) {
+                    return true;
+                }
             }
         }
         return false;
@@ -138,13 +146,12 @@ class Event extends Model {
             $duration = $attr['duration'];
             $recurrence = new When();
             $rdates = $recurrence->recur($attr['start'])->rrule($rrule);
-            $exdates = explode(',', $attr['exdates']);
             $idx = 1;
             
             while ($rdate = $rdates->next()) {
                 $rtime = strtotime($rdate->format('c'));
                 
-                if (self::exceptionMatch($exdates, $rdate)) {
+                if (self::exceptionMatch($rdate)) {
                     // The current instance falls on an exception date so skip it
                     continue;
                 }

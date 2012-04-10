@@ -7,8 +7,8 @@ class SessionDB {
     public function __construct() {
         if (!isset($_SESSION['pk'])) {
             // start fake pks at 1020, after the hard-coded getData() events
-	    $_SESSION['pk'] = 1020;
-	    // populate $_SESSION with default data
+    	    $_SESSION['pk'] = 1020;
+    	    // populate $_SESSION with default data
             $_SESSION['rs'] = getData();
         }
     }

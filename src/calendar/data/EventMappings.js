@@ -162,18 +162,13 @@ Extensible.calendar.data.EventMappings = {
         type:    'int'
     },
     
-    // Recurrence edit metadata
+    // Recurrence edit mode ('single', 'future' or 'all'). This is transient data
+    // and would typically not be persisted (it's ignored by the calendar for
+    // display purposes), but it's kept on the record for ease of transmission to
+    // the server, and because multiple batched events could have different edit modes.
     REditMode: {
         name:    'REditMode',
         mapping: 'redit',
         type:    'string'
     }
-    
-    // A comma-delimited list of exception dates that should be excluded
-    // from the list of event instances generated from the RRULE pattern
-    // ExceptionDates: {
-        // name:    'ExceptionDates',
-        // mapping: 'exdates',
-        // type:    'string'
-    // }
 };
