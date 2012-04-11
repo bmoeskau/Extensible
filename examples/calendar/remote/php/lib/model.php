@@ -10,25 +10,25 @@ class Model {
      * Template method to be overridden to customize the record before
      * finalizing the create action
      */
-    protected function beforeCreate($rec) {
-        return $rec;
-    }
+    // protected function beforeCreate($rec) {
+        // return $rec;
+    // }
     /**
      * Template method to be overridden to customize the record before
      * finalizing the update action
      */
-    protected function beforeUpdate($rec) {
-        return $rec;
-    }
+    // protected function beforeUpdate($rec) {
+        // return $rec;
+    // }
     
-    static function create($params) {
-        $rec = new self(is_array($params) ? $params : get_object_vars($params));
-        
-        static::beforeCreate($rec);
-        
-        $rec->save();
-        return $rec;
-    }
+    // static function create($params) {
+        // $rec = new self(is_array($params) ? $params : get_object_vars($params));
+//         
+        // static::beforeCreate($rec);
+//         
+        // $rec->save();
+        // return $rec;
+    // }
     
     static function find($id) {
         global $dbh;
@@ -42,28 +42,28 @@ class Model {
         return $found;
     }
     
-    static function update($id, $params) {
-        global $dbh;
-        $rec = self::find($id);
-
-        if ($rec == null) {
-            return $rec;
-        }
-        
-        $rs = $dbh->rs();
-
-        foreach ($rs as $idx => $row) {
-            if ($row['id'] == $id) {
-                $rec->attributes = array_merge($rec->attributes, get_object_vars($params));
-                
-                static::beforeUpdate($rec);
-                
-                $dbh->update($idx, $rec->attributes);
-                break;
-            }
-        }
-        return $rec;
-    }
+    // static function update($id, $params) {
+        // global $dbh;
+        // $rec = self::find($id);
+// 
+        // if ($rec == null) {
+            // return $rec;
+        // }
+//         
+        // $rs = $dbh->rs();
+// 
+        // foreach ($rs as $idx => $row) {
+            // if ($row['id'] == $id) {
+                // $rec->attributes = array_merge($rec->attributes, get_object_vars($params));
+//                 
+                // static::beforeUpdate($rec);
+//                 
+                // $dbh->update($idx, $rec->attributes);
+                // break;
+            // }
+        // }
+        // return $rec;
+    // }
     
     static function destroy($id) {
         global $dbh;

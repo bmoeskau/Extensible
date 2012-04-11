@@ -135,10 +135,12 @@ Extensible.calendar.data.EventMappings = {
         type:    'string'
     },
     
-    RecurrenceId: {
-        name:    'RecurrenceId',
-        mapping: 'rid',
-        type:    'int'
+// ----- Recurrence properties -----
+    
+    OriginalEventId: {
+        name:    'OriginalEventId',
+        mapping: 'origid',
+        type:    'string'
     },
 
     // The iCal-formatted RRULE (recurrence rule) pattern
