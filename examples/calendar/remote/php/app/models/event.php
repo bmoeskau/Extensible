@@ -242,7 +242,7 @@ class Event extends Model {
                     return;
                 }
             }
-            array_push($_SESSION['exdates'], array('id' => $eventId, 'dates' => $newExDate));
+            array_push($_SESSION['exdates'], array('id' => $eventId, 'dates' => array($newExDate)));
         }
         else {
             $_SESSION['exdates'] = array(
@@ -275,7 +275,6 @@ class Event extends Model {
                     return;
                 }
             }
-            array_push($_SESSION['exdates'], array('id' => $eventId, 'dates' => $newExDate));
         }
     }
     
