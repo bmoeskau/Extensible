@@ -151,6 +151,15 @@ Extensible.calendar.data.EventMappings = {
         type:    'string'
     },
     
+    // The start date of the recurrence pattern, which could be different
+    // than the start date of the event
+    RStartDate: {
+        name:       'RStartDate',
+        mapping:    'rstart',
+        type:       'date',
+        dateFormat: 'c'
+    },
+    
     // When using recurrence, the EndDate value above will be the end date
     // of the _recurrence pattern_, not the end date of the "event". In fact,
     // with recurrence there is no single "event", only a pattern that generates

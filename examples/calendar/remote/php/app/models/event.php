@@ -107,42 +107,71 @@ class Event extends Model {
             return $rec;
         }
         
-        $rs = $dbh->rs();
+        //$rs = $dbh->rs();
 
+        // foreach ($rs as $idx => $row) {
+            // if ($row['id'] == $id) {
+        
+        $attr = $rec->attributes;
+        $params = get_object_vars($params);
+        $recurrenceEditMode = $params['redit'];
+        
+        if ($recurrenceEditMode) {
+            switch ($recurrenceEditMode) {
+                case 'single':
+                    // Create a new event based on the data passed in (the
+                    // original event does not need to be updated in this case):
+                    self::createSingleCopy($params);
+                    // Add an exception date for the start date passed in
+                    // (not the original event start date, which could be different):
+                    self::addExceptionDate($id, $params['start']);
+                    break;
+                    
+                case 'future':
+                    break;
+                    
+                case 'all':
+                    // Update the original source event:
+                    $attr = array_merge($attr, $params);
+                    // Make sure the id is the original id, not the recurrence instance id:
+                    $attr['id'] = $id;
+                    // Recalculate recurrence properties:
+                    $attr['duration'] = self::calculateDuration($attr);
+                    $attr['end'] = self::calculateEndDate($attr);
+                    // Update the record to save:
+                    $rec->attributes = $attr;
+                    break;
+            }
+        }
+        else {
+            // No recurrence, so just do a simple update
+            $rec->attributes = array_merge($rec->attributes, $params);
+        }
+        
+        //$updated = self::adjustForRecurrence($rec);
+        
+        $dbh->update($idx, $rec->attributes);
+        
+                // break;
+            // }
+        // }
+        return $rec;
+    }
+
+    static function destroy($id) {
+        global $dbh;
+        $rec = null;
+        $rs = $dbh->rs();
+        
         foreach ($rs as $idx => $row) {
             if ($row['id'] == $id) {
-                $attr = $rec->attributes;
-                $recurrenceEditMode = $params->redit;
-                
-                if ($recurrenceEditMode) {
-                    switch ($recurrenceEditMode) {
-                        case 'single':
-                            self::createSingleCopy($attr);
-                            self::addExceptionDate($id, $attr['start']);
-                            break;
-                            
-                        case 'future':
-                            break;
-                            
-                        case 'all':
-                            $attr = array_merge($attr, get_object_vars($params));
-                            $attr['id'] = $id;
-                            $attr['duration'] = self::calculateDuration($attr);
-                            $attr['end'] = self::calculateEndDate($attr);
-                            $rec->attributes = $attr;
-                            break;
-                    }
-                }
-                else {
-                    $rec->attributes = array_merge($rec->attributes, get_object_vars($params));
-                }
-                
-                //$updated = self::adjustForRecurrence($rec);
-                
-                $dbh->update($idx, $rec->attributes);
+                $rec = new self($dbh->destroy($idx));
                 break;
             }
         }
+        
+        self::removeExceptionDates($id);
+        
         return $rec;
     }
     
@@ -206,8 +235,9 @@ class Event extends Model {
             foreach ($exDates as $idx => $exDate) {
                 if ($exDate['id'] == $eventId) {
                     $dates = $exDate['dates'];
-                    $separator = strlen($dates) > 0 ? ',' : '';
-                    $dates .= $separator.$newExDate;
+                    if (!in_array($newExDate, $dates)) {
+                        array_push($dates, $newExDate);
+                    }
                     $_SESSION['exdates'][$idx] = array('id' => $eventId, 'dates' => $dates);
                     return;
                 }
@@ -216,8 +246,36 @@ class Event extends Model {
         }
         else {
             $_SESSION['exdates'] = array(
-                array('id' => $eventId, 'dates' => $newExDate)
+                array('id' => $eventId, 'dates' => array($newExDate))
             );
+        }
+    }
+    
+    private function removeExceptionDates($eventId, $dt = false) {
+        $exDates = $_SESSION['exdates'];
+        
+        if ($exDates) {
+            if ($dt) {
+                $delDate = new DateTime($dt);
+                $delDate = $delDate->format($_SESSION['exceptionFormat']);
+            }
+            foreach ($exDates as $idx => $exDate) {
+                if ($exDate['id'] == $eventId) {
+                    if ($delDate) {
+                        $dates = $exDate['dates'];
+                        if (in_array($delDate, $dates)) {
+                            $key = array_search($delDate, $dates);
+                            array_shift(array_splice($dates, $key, 1));
+                        }
+                        $_SESSION['exdates'][$idx] = array('id' => $eventId, 'dates' => $dates);
+                    }
+                    else {
+                        array_shift(array_splice($_SESSION['exdates'], $idx, 1));
+                    }
+                    return;
+                }
+            }
+            array_push($_SESSION['exdates'], array('id' => $eventId, 'dates' => $newExDate));
         }
     }
     
@@ -228,9 +286,7 @@ class Event extends Model {
         if ($exDates) {
             foreach ($exDates as $idx => $exDate) {
                 if ($exDate['id'] == $eventId) {
-                    $dates = explode(',', $exDate['dates']);
-                    
-                    foreach ($dates as $date) {
+                    foreach ($exDate['dates'] as $date) {
                         if ($dateString == $date) {
                             return true;
                         }
@@ -248,7 +304,7 @@ class Event extends Model {
         
         if ($rrule) {
             $duration = $attr['duration'];
-            $recurrence = new When();
+            $recurrence = new When(); // from lib/recur.php
             $rdates = $recurrence->recur($attr['start'])->rrule($rrule);
             $idx = 1;
             

@@ -65,18 +65,22 @@ class Model {
         // return $rec;
     // }
     
-    static function destroy($id) {
-        global $dbh;
-        $rec = null;
-        $rs = $dbh->rs();
-        foreach ($rs as $idx => $row) {
-            if ($row['id'] == $id) {
-                $rec = new self($dbh->destroy($idx));
-                break;
-            }
-        }
-        return $rec;
-    }
+    // static function destroy($id) {
+        // global $dbh;
+        // $rec = null;
+        // $rs = $dbh->rs();
+//         
+        // foreach ($rs as $idx => $row) {
+            // if ($row['id'] == $id) {
+                // $rec = new self($dbh->destroy($idx));
+                // break;
+            // }
+        // }
+//         
+        // self::removeExceptionDates($id);
+//         
+        // return $rec;
+    // }
     
     static function all() {
         global $dbh;
