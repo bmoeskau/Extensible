@@ -227,7 +227,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     // private
     handleColorChange: function(menu, id, colorId, origColorId){
         var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id);
-        rec.data[Extensible.calendar.data.CalendarMappings.ColorId.name] = colorId;
+        rec.set(Extensible.calendar.data.CalendarMappings.ColorId.name, colorId);
         rec.commit();
     },
     
@@ -240,7 +240,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     showEventMenu : function(el, xy){
         var id = this.getCalendarId(el.parent('li')),
             rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id);
-            colorId = rec.data[Extensible.calendar.data.CalendarMappings.ColorId.name];
+            colorId = rec.get(Extensible.calendar.data.CalendarMappings.ColorId.name);
             
         if(!this.menu){
             this.menu = Ext.create('Extensible.calendar.gadget.CalendarListMenu');
