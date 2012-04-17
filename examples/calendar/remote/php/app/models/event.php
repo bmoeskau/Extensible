@@ -80,19 +80,18 @@ class Event extends Model {
     
     static function create($params) {
         $rec = new self(is_array($params) ? $params : get_object_vars($params));
-        $attr = $rec->attributes;
         
-        if ($attr['rrule']) {
+        if ($rec->attributes['rrule']) {
             // If this is a recurring event,first calculate the duration between
             // the start and end datetimes so that each recurring instance can
             // be properly calculated.
-            $attr['duration'] = self::calculateDuration($attr);
+            $rec->attributes['duration'] = self::calculateDuration($rec->attributes);
             
             // Now that duration is set, we have to update the event end date to
             // match the recurrence pattern end date (or max date if the recurring
             // pattern does not end) so that the stored record will be returned for
             // any query within the range of recurrence.
-            $attr['end'] = self::calculateEndDate($attr);
+            $rec->attributes['end'] = self::calculateEndDate($rec->attributes);
         }
         
         $rec->save();
@@ -107,54 +106,54 @@ class Event extends Model {
             return $rec;
         }
         
-        //$rs = $dbh->rs();
+        $rs = $dbh->rs();
 
-        // foreach ($rs as $idx => $row) {
-            // if ($row['id'] == $id) {
+        foreach ($rs as $idx => $row) {
+            if ($row['id'] == $id) {
         
-        $attr = $rec->attributes;
-        $params = get_object_vars($params);
-        $recurrenceEditMode = $params['redit'];
+                $attr = $rec->attributes;
+                $params = get_object_vars($params);
+                $recurrenceEditMode = $params['redit'];
+                
+                if ($recurrenceEditMode) {
+                    switch ($recurrenceEditMode) {
+                        case 'single':
+                            // Create a new event based on the data passed in (the
+                            // original event does not need to be updated in this case):
+                            self::createSingleCopy($params);
+                            // Add an exception date for the start date passed in
+                            // (not the original event start date, which could be different):
+                            self::addExceptionDate($id, $params['start']);
+                            break;
+                            
+                        case 'future':
+                            break;
+                            
+                        case 'all':
+                            // Update the original source event:
+                            $attr = array_merge($attr, $params);
+                            // Make sure the id is the original id, not the recurrence instance id:
+                            $attr['id'] = $id;
+                            // Recalculate recurrence properties:
+                            $attr['duration'] = self::calculateDuration($attr);
+                            $attr['end'] = self::calculateEndDate($attr);
+                            // Update the record to save:
+                            $rec->attributes = $attr;
+                            break;
+                    }
+                }
+                else {
+                    // No recurrence, so just do a simple update
+                    $rec->attributes = array_merge($rec->attributes, $params);
+                }
+                
+                //$updated = self::adjustForRecurrence($rec);
+                
+                $dbh->update($idx, $rec->attributes);
         
-        if ($recurrenceEditMode) {
-            switch ($recurrenceEditMode) {
-                case 'single':
-                    // Create a new event based on the data passed in (the
-                    // original event does not need to be updated in this case):
-                    self::createSingleCopy($params);
-                    // Add an exception date for the start date passed in
-                    // (not the original event start date, which could be different):
-                    self::addExceptionDate($id, $params['start']);
-                    break;
-                    
-                case 'future':
-                    break;
-                    
-                case 'all':
-                    // Update the original source event:
-                    $attr = array_merge($attr, $params);
-                    // Make sure the id is the original id, not the recurrence instance id:
-                    $attr['id'] = $id;
-                    // Recalculate recurrence properties:
-                    $attr['duration'] = self::calculateDuration($attr);
-                    $attr['end'] = self::calculateEndDate($attr);
-                    // Update the record to save:
-                    $rec->attributes = $attr;
-                    break;
+                break;
             }
         }
-        else {
-            // No recurrence, so just do a simple update
-            $rec->attributes = array_merge($rec->attributes, $params);
-        }
-        
-        //$updated = self::adjustForRecurrence($rec);
-        
-        $dbh->update($idx, $rec->attributes);
-        
-                // break;
-            // }
-        // }
         return $rec;
     }
 
@@ -178,7 +177,7 @@ class Event extends Model {
     private function createSingleCopy($attr) {
         $copy = $attr;
         
-        $copy['id'] = '';
+        unset($copy['id']);
         $copy['rrule'] = '';
         $copy['rid'] = '';
         $copy['redit'] = '';
