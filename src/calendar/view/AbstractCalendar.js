@@ -1115,9 +1115,10 @@ viewConfig: {
     // private
     isEventVisible : function(evt){
         var M = Extensible.calendar.data.EventMappings,
+            CM = Extensible.calendar.data.CalendarMappings,
             data = evt.data || evt,
             calRec = this.calendarStore ? 
-                this.calendarStore.findRecord(M.CalendarId.name, evt[M.CalendarId.name]) : null;
+                this.calendarStore.findRecord(CM.CalendarId.name, evt[M.CalendarId.name]) : null;
             
         if(calRec && calRec.data[Extensible.calendar.data.CalendarMappings.IsHidden.name] === true){
             // if the event is on a hidden calendar then no need to test the date boundaries
