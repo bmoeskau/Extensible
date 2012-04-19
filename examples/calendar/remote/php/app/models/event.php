@@ -85,6 +85,18 @@ class Event extends Model {
                             break;
                             
                         case 'future':
+                            // Only end-date the original event, don't update it otherwise:
+                            $endDate = new DateTime($params['start']);
+                            $endDate->modify('-1 second');
+                            $rec->attributes['end'] = $endDate->format('c');
+                            $dbh->update($idx, $rec->attributes);
+                            
+                            // Create a new event for the updated future recurrence series:
+                            $copy = array_merge($attr, $params);
+                            $copy['start'] = $copy['rstart'] = $params['start'];
+                            unset($copy['id']);
+                            
+                            self::create($copy);
                             break;
                             
                         case 'all':
@@ -102,6 +114,8 @@ class Event extends Model {
                             $attr['end'] = self::calculateEndDate($attr);
                             // Update the record to save:
                             $rec->attributes = $attr;
+                            
+                            $dbh->update($idx, $rec->attributes);
                             break;
                     }
                 }
@@ -112,7 +126,7 @@ class Event extends Model {
                 
                 //$updated = self::adjustForRecurrence($rec);
                 
-                $dbh->update($idx, $rec->attributes);
+                //$dbh->update($idx, $rec->attributes);
         
                 break;
             }
@@ -265,6 +279,7 @@ class Event extends Model {
         
         if ($rrule) {
             $duration = $attr['duration'];
+            $rangeEnd = min($endTime, strtotime($attr['end']));
             $recurrence = new When(); // from lib/recur.php
             $rdates = $recurrence->recur($attr['start'])->rrule($rrule);
             $idx = 1;
@@ -280,7 +295,7 @@ class Event extends Model {
                     // Instance falls before the range: skip, but keep trying
                     continue;
                 }
-                if ($rtime > $endTime) {
+                if ($rtime > $rangeEnd) {
                     // Instance falls after the range: exit and return the current set
                     break;
                 }
