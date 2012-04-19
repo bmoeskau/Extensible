@@ -165,21 +165,38 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         me.onChange();
     },
     
+    /**
+     * Sets the start date of the recurrence pattern
+     * @param {Date} The new start date
+     * @return {Extensible.form.recurrence.Fieldset} this
+     */
     setStartDate: function(dt) {
-        this.startDate = dt;
+        var me = this;
         
-        if (this.innerContainer) {
-            this.innerContainer.items.each(function(item) {
+        me.startDate = dt;
+        
+        if (me.innerContainer) {
+            me.innerContainer.items.each(function(item) {
                 if (item.setStartDate) {
                     item.setStartDate(dt);
                 }
             });
         }
         else {
-            this.on('afterrender', function() {
-                this.setStartDate(dt);
-            }, this, {single: true});
+            me.on('afterrender', function() {
+                me.setStartDate(dt);
+            }, me, {single: true});
         }
+        return me;
+    },
+    
+    /**
+     * Returns the start date of the recurrence pattern (defaults to the current date
+     * if not explicitly set via {@link #setStartDate} or the constructor).
+     * @return {Date} The recurrence start date
+     */
+    getStartDate: function() {
+        return this.startDate;
     },
     
     /**

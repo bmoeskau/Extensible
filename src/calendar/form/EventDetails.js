@@ -231,14 +231,15 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     // inherited docs
     loadRecord: function(rec){
         var me = this,
-            EventMappings = Extensible.calendar.data.EventMappings;
+            EventMappings = Extensible.calendar.data.EventMappings,
+            recurrenceStart = rec.data[EventMappings.RStartDate.name] || rec.data[EventMappings.StartDate.name];
         
         me.form.reset().loadRecord.apply(me.form, arguments);
         me.activeRecord = rec;
         me.dateRangeField.setValue(rec.data);
         
         if (me.recurrenceField) {
-            me.recurrenceField.setStartDate(rec.data[EventMappings.StartDate.name]);
+            me.recurrenceField.setStartDate(recurrenceStart);
             me.recurrenceField.setValue(rec.data[EventMappings.RRule.name]);
         }
         if (me.calendarStore) {
@@ -301,6 +302,12 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         rec.set(M.StartDate.name, dates[0]);
         rec.set(M.EndDate.name, dates[1]);
         rec.set(M.IsAllDay.name, dates[2]);
+        
+        //if (rec.phantom) {
+            // On initial creation, set the recurrence start date so that every instance
+            // generated later has it available regardless of instance start date
+            rec.set(M.RStartDate.name, this.recurrenceField.getStartDate());
+        //}
         
         dirty = rec.dirty;
         //delete rec.store; // make sure the record does not try to autosave

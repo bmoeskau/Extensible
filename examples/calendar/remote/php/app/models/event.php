@@ -36,48 +36,6 @@ class Event extends Model {
         return $end;
     }
     
-    // private function adjustForRecurrence($rec) {
-        // $attr = $rec->attributes;
-//         
-        // if ($attr['rrule']) {
-            // if ($attr['redit']) {
-                // //$origId = explode('-rid-', $attr['id']);
-                // //$attr['id'] = $origId[0];
-                // $attr['id'] = $attr['origid'];
-//                 
-                // $editMode = $attr['redit'];
-//                 
-                // if ($editMode == 'single') {
-                    // $copy = $attr;
-                    // $copy['id'] = '';
-                    // $copy['rrule'] = '';
-                    // $copy['rid'] = '';
-                    // $copy['redit'] = '';
-                    // $copy['origid'] = '';
-                    // self::create($copy);
-//                     
-                    // self::addExceptionDate($attr['id'], $attr['start']);
-//                     
-                    // return $rec;
-                // }
-            // }
-            // // If this is a recurring event,first calculate the duration between
-            // // the start and end datetimes so that each recurring instance can
-            // // be properly calculated.
-            // $attr['duration'] = self::calculateDuration($attr);
-//             
-            // // Now that duration is set, we have to update the event end date to
-            // // match the recurrence pattern end date (or max date if the recurring
-            // // pattern does not end) so that the stored record will be returned for
-            // // any query within the range of recurrence.
-            // $attr['end'] = self::calculateEndDate($attr);
-        // }
-//         
-        // $rec->attributes = $attr;
-//         
-        // return $rec;
-    // }
-    
     static function create($params) {
         $rec = new self(is_array($params) ? $params : get_object_vars($params));
         
@@ -134,8 +92,13 @@ class Event extends Model {
                             $attr = array_merge($attr, $params);
                             // Make sure the id is the original id, not the recurrence instance id:
                             $attr['id'] = $id;
-                            // Recalculate recurrence properties:
+                            // Recalculate recurrence properties...
+                            // Base duration off of the current instance start / end:
                             $attr['duration'] = self::calculateDuration($attr);
+                            // Now update start to be the original series start since we are
+                            // updating the original source event for the series:
+                            $attr['start'] = $attr['rstart'];
+                            // Finally recalculate the series end date:
                             $attr['end'] = self::calculateEndDate($attr);
                             // Update the record to save:
                             $rec->attributes = $attr;
