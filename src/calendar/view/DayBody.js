@@ -181,20 +181,25 @@ Ext.define('Extensible.calendar.view.DayBody', {
     
     // private -- called from DayViewDropZone
     onEventResize : function(rec, data){
-        if(this.fireEvent('beforeeventresize', this, rec, data) !== false){
-            var D = Extensible.Date,
-                start = Extensible.calendar.data.EventMappings.StartDate.name,
-                end = Extensible.calendar.data.EventMappings.EndDate.name;
+        if (this.fireEvent('beforeeventresize', this, rec, data) !== false) {
+            var compareFn = Extensible.Date.compare,
+                EventMappings = Extensible.calendar.data.EventMappings,
+                startDateName = EventMappings.StartDate.name,
+                endDateName = EventMappings.EndDate.name,
+                updateData = {};
                 
-            if(D.compare(rec.data[start], data.StartDate) === 0 &&
-                D.compare(rec.data[end], data.EndDate) === 0){
+            if (compareFn(rec.getStartDate(), data[startDateName]) === 0 &&
+                compareFn(rec.getEndDate(), data[endDateName]) === 0) {
                 // no changes
                 return;
-            } 
-            rec.set(start, data.StartDate);
-            rec.set(end, data.EndDate);
-            this.onEventUpdate(null, rec);
+            }
             
+            updateData[startDateName] = data[startDateName];
+            updateData[endDateName] = data[endDateName];
+            
+            rec.set(updateData);
+            
+            this.onEventUpdate(null, rec);
             this.fireEvent('eventresize', this, rec);
         }
     },

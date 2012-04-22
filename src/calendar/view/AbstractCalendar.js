@@ -635,9 +635,11 @@ viewConfig: {
         if(reloadData === true){
             this.reloadStore();
         }
-        this.prepareData();
-        this.renderTemplate();
-        this.renderItems();
+        else {
+            this.prepareData();
+            this.renderTemplate();
+            this.renderItems();
+        }
     },
     
     // private
@@ -1746,19 +1748,25 @@ alert('End: '+bounds.end);
      * @param {Object} rec The event {@link Extensible.calendar.data.EventModel record}
      * @param {Object} dt The new start date
      */
-    moveEvent : function(rec, dt){
-        if(Extensible.Date.compare(rec.data[Extensible.calendar.data.EventMappings.StartDate.name], dt) === 0){
+    moveEvent: function(rec, dt) {
+        var EventMappings = Extensible.calendar.data.EventMappings,
+            eventStartDate = rec.getStartDate(),
+            diff,
+            updateData = {};
+        
+        if (Extensible.Date.compare(eventStartDate, dt) === 0) {
             // no changes
             return;
         }
-        if(this.fireEvent('beforeeventmove', this, rec, Ext.Date.clone(dt)) !== false){
-            var diff = dt.getTime() - rec.data[Extensible.calendar.data.EventMappings.StartDate.name].getTime();
-            rec.beginEdit();
-            rec.set(Extensible.calendar.data.EventMappings.StartDate.name, dt);
-            rec.set(Extensible.calendar.data.EventMappings.EndDate.name, Extensible.Date.add(rec.data[Extensible.calendar.data.EventMappings.EndDate.name], {millis: diff}));
-            rec.endEdit();
-            this.save();
+        
+        if (this.fireEvent('beforeeventmove', this, rec, Ext.Date.clone(dt)) !== false) {
+            diff = dt.getTime() - eventStartDate.getTime();
             
+            updateData[EventMappings.StartDate.name] = dt;
+            updateData[EventMappings.EndDate.name] = Extensible.Date.add(rec.getEndDate(), {millis: diff});
+            rec.set(updateData);
+            
+            this.save();
             this.fireEvent('eventmove', this, rec);
         }
     },

@@ -121,7 +121,19 @@ class Event extends Model {
                 }
                 else {
                     // No recurrence, so just do a simple update
-                    $rec->attributes = array_merge($rec->attributes, $params);
+                    $attr = array_merge($rec->attributes, $params);
+                    
+                    if ($attr['rrule']) {
+                        // There was no recurrence edit mode, but there is an rrule, so this was
+                        // an existing non-recurring event that had recurrence added to it. Need
+                        // to calculate the duration and end date for the series.
+                        $attr['duration'] = self::calculateDuration($attr);
+                        $attr['end'] = self::calculateEndDate($attr);
+                        $attr['rstart'] = $attr['start'];
+                    }
+                    
+                    $rec->attributes = $attr;
+                    $dbh->update($idx, $rec->attributes);
                 }
                 
                 //$updated = self::adjustForRecurrence($rec);

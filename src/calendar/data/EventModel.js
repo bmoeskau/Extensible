@@ -47,9 +47,45 @@ Ext.define('Extensible.calendar.data.EventModel', {
     
     mappingIdProperty: 'EventId',
 
+    inheritableStatics: {
+        /**
+         * The minimum time unit supported by events (defaults to 'minutes'). Other valid
+         * values would be 'seconds' or 'millis'. This is used primarily in calculating date
+         * ranges and event duration.  For example, an all-day event will be saved with a start time
+         * of 0:00:00-00 and an end time of 0:00:00-00 the next day minus 1 unit as specified by this
+         * resolution setting (1 minute by default, resulting in an end time of 23:59:00-00). This
+         * setting could be changed to provide greater resolution, e.g. 'seconds' would result in an
+         * all-day end time of 23:59:59-00 instead (although, by default, this would not result in
+         * any visible display difference unless the calendar views were also customized).
+         */
+        resolution: 'minutes'
+    },
+    
     isRecurring: function() {
-        var rrule = this.data[Extensible.calendar.data.EventMappings.RRule.name];
-        return (rrule !== undefined && rrule !== '');
+        var RRule = Extensible.calendar.data.EventMappings.RRule;
+        
+        if (RRule) {
+            var ruleString = this.get(RRule.name);
+            return (ruleString !== undefined && ruleString !== '');
+        }
+        return false;
+    },
+    
+    getStartDate: function() {
+        return this.get(Extensible.calendar.data.EventMappings.StartDate.name);
+    },
+    
+    getEndDate: function() {
+        var EventMappings = Extensible.calendar.data.EventMappings,
+            duration = EventMappings.Duration ? this.get(EventMappings.Duration.name) : null;
+        
+        if (duration !== null) {
+            var durationObj = {};
+            durationObj[Extensible.calendar.data.EventModel.resolution] = duration;
+            
+            return Extensible.Date.add(this.getStartDate(), durationObj);
+        }
+        return this.get(EventMappings.EndDate.name);
     }
 },
 function() {

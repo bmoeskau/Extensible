@@ -266,54 +266,97 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     },
     
     // inherited docs
-    updateRecord: function(){
-        var dates = this.dateRangeField.getValue(),
-            M = Extensible.calendar.data.EventMappings,
-            rec = this.activeRecord,
-            fs = rec.fields,
-            dirty = false;
-            
-        rec.beginEdit();
-        
-        //TODO: This block is copied directly from BasicForm.updateRecord.
-        // Unfortunately since that method internally calls begin/endEdit all
-        // updates happen and the record dirty status is reset internally to
-        // that call. We need the dirty status, plus currently the DateRangeField
-        // does not map directly to the record values, so for now we'll duplicate
-        // the setter logic here (we need to be able to pick up any custom-added
-        // fields generically). Need to revisit this later and come up with a better solution.
-        fs.each(function(f){
-            var field = this.form.findField(f.name);
-            if(field){
-                var value = field.getValue();
-                if (value.getGroupValue) {
-                    value = value.getGroupValue();
-                }
-                else if (field.eachItem) {
-                    value = [];
-                    field.eachItem(function(item){
-                        value.push(item.getValue());
-                    });
-                }
-                rec.set(f.name, value);
+    // updateRecord: function(){
+        // var dates = this.dateRangeField.getValue(),
+            // M = Extensible.calendar.data.EventMappings,
+            // rec = this.activeRecord,
+            // fs = rec.fields,
+            // dirty = false;
+//             
+        // rec.beginEdit();
+//         
+        // //TODO: This block is copied directly from BasicForm.updateRecord.
+        // // Unfortunately since that method internally calls begin/endEdit all
+        // // updates happen and the record dirty status is reset internally to
+        // // that call. We need the dirty status, plus currently the DateRangeField
+        // // does not map directly to the record values, so for now we'll duplicate
+        // // the setter logic here (we need to be able to pick up any custom-added
+        // // fields generically). Need to revisit this later and come up with a better solution.
+        // fs.each(function(f){
+            // var field = this.form.findField(f.name);
+            // if(field){
+                // var value = field.getValue();
+                // if (value.getGroupValue) {
+                    // value = value.getGroupValue();
+                // }
+                // else if (field.eachItem) {
+                    // value = [];
+                    // field.eachItem(function(item){
+                        // value.push(item.getValue());
+                    // });
+                // }
+                // rec.set(f.name, value);
+            // }
+        // }, this);
+//         
+        // rec.set(M.StartDate.name, dates[0]);
+        // rec.set(M.EndDate.name, dates[1]);
+        // rec.set(M.IsAllDay.name, dates[2]);
+//         
+        // //if (rec.phantom) {
+            // // On initial creation, set the recurrence start date so that every instance
+            // // generated later has it available regardless of instance start date
+            // rec.set(M.RStartDate.name, this.recurrenceField.getStartDate());
+        // //}
+//         
+        // dirty = rec.dirty;
+        // //delete rec.store; // make sure the record does not try to autosave
+        // rec.endEdit();
+//         
+        // return dirty;
+    // },
+    
+    updateRecord: function(record) {
+        var fields = record.fields,
+            values = this.getForm().getValues(),
+            EventMappings = Extensible.calendar.data.EventMappings,
+            name,
+            obj = {};
+
+        fields.each(function(f) {
+            name = f.name;
+            if (name in values) {
+                obj[name] = values[name];
             }
-        }, this);
+        });
         
-        rec.set(M.StartDate.name, dates[0]);
-        rec.set(M.EndDate.name, dates[1]);
-        rec.set(M.IsAllDay.name, dates[2]);
+        var dates = this.dateRangeField.getValue(),
+            allday = obj[EventMappings.IsAllDay.name] = dates[2],
+            // Clear times for all day events so that they are stored consistently
+            startDate = allday ? Extensible.Date.clearTime(dates[0]) : dates[0],
+            endDate = allday ? Extensible.Date.clearTime(dates[1]) : dates[1],
+            singleDayDurationConfig = { days: 1 };
         
-        //if (rec.phantom) {
-            // On initial creation, set the recurrence start date so that every instance
-            // generated later has it available regardless of instance start date
-            rec.set(M.RStartDate.name, this.recurrenceField.getStartDate());
-        //}
+        // The full length of a day based on the minimum event time resolution:
+        singleDayDurationConfig[Extensible.calendar.data.EventModel.resolution] = -1;
         
-        dirty = rec.dirty;
-        //delete rec.store; // make sure the record does not try to autosave
-        rec.endEdit();
+        obj[EventMappings.StartDate.name] = startDate;
         
-        return dirty;
+        // If the event is all day, calculate the end date as midnight of the day after the end
+        // date minus 1 unit based on the EventModel resolution, e.g. 23:59:00 on the end date
+        obj[EventMappings.EndDate.name] = allday ?
+            Extensible.Date.add(endDate, singleDayDurationConfig) : endDate;
+        
+        if (EventMappings.Duration) {
+            obj[EventMappings.Duration.name] = Extensible.Date.diff(startDate, obj[EventMappings.EndDate.name],
+                Extensible.calendar.data.EventModel.resolution);
+        }
+        
+        if (this.recurrenceField && EventMappings.RStartDate) {
+            obj[EventMappings.RStartDate.name] = this.recurrenceField.getStartDate();
+        }
+        
+        return record.set(obj);
     },
     
     getRecurrenceRangeEditor: function() {
@@ -350,7 +393,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             return;
         }
         
-        if (!me.updateRecord()) {
+        if (!me.updateRecord(me.activeRecord)) {
             me.onCancel();
             return;
         }
