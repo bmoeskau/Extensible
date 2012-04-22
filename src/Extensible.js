@@ -81,21 +81,21 @@ Ext.define('Extensible', {
          * calendar days (ignoring time) between two dates use {@link Ext.ensible.Date.diffDays diffDays} instead.
          * @param {Date} start The start date
          * @param {Date} end The end date
-         * @param {String} unit (optional) The time unit to return. Valid values are 'ms' (milliseconds,
-         * the default), 's' (seconds), 'm' (minutes) or 'h' (hours).
+         * @param {String} unit (optional) The time unit to return. Valid values are 'millis' (the default),
+         * 'seconds', 'minutes' or 'hours'.
          * @return {Number} The time difference between the dates in the units specified by the unit param
          */
         diff: function(start, end, unit) {
             var denom = 1,
                 diff = end.getTime() - start.getTime();
             
-            if (unit === 's') {
+            if (unit === 's' || unit === 'seconds') {
                 denom = 1000;
             }
-            else if (unit === 'm') {
+            else if (unit === 'm' || unit === 'minutes') {
                 denom = 1000*60;
             }
-            else if (unit === 'h') {
+            else if (unit === 'h' || unit === 'hours') {
                 denom = 1000*60*60;
             }
             return Math.round(diff / denom);
