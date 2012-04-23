@@ -266,65 +266,64 @@ Ext.define('Extensible.calendar.form.EventWindow', {
      * @return {Ext.Window} this
      */
     show: function(o, animateTarget){
-        var M = Extensible.calendar.data.EventMappings;
+        var me = this,
+            EventMappings = Extensible.calendar.data.EventMappings,
+            form, rec;
         
 		// Work around the CSS day cell height hack needed for initial render in IE8/strict:
-		this.animateTarget = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget;
+		me.animateTarget = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget;
 
-        this.callParent([this.animateTarget, function(){
-            this.titleField.focus(false, 100);
-        }, this]);
+        me.callParent([me.animateTarget, function(){
+            me.titleField.focus(false, 100);
+        }, me]);
         
-        this.deleteButton[o.data && o.data[M.EventId.name] ? 'show' : 'hide']();
+        form = me.formPanel.form;
         
-        var rec, f = this.formPanel.form;
-
-        if(o.data){
+        // Only show the delete button if the data includes an EventID, otherwise
+        // we're adding a new record
+        me.deleteButton[o.data && o.data[EventMappings.EventId.name] ? 'show' : 'hide']();
+        
+        if (o.data) {
             rec = o;
-			//this.isAdd = !!rec.data[Extensible.calendar.data.EventMappings.IsNew.name];
-			if(rec.phantom){
-				// Enable adding the default record that was passed in
-				// if it's new even if the user makes no changes
-				//rec.markDirty();
-				this.setTitle(this.titleTextAdd);
-			}
-			else{
-				this.setTitle(this.titleTextEdit);
-			}
-            
-            f.loadRecord(rec);
+			me.setTitle(rec.phantom ? me.titleTextAdd : me.titleTextEdit);
+            form.loadRecord(rec);
         }
-        else{
-			//this.isAdd = true;
-            this.setTitle(this.titleTextAdd);
+        else {
+            me.setTitle(me.titleTextAdd);
 
-            var start = o[M.StartDate.name],
-                end = o[M.EndDate.name] || Extensible.Date.add(start, {hours: 1});
+            var start = o[EventMappings.StartDate.name],
+                end = o[EventMappings.EndDate.name] || Extensible.Date.add(start, {hours: 1});
                 
             rec = Ext.create('Extensible.calendar.data.EventModel');
-            //rec.data[M.EventId.name] = this.newId++;
-            rec.data[M.StartDate.name] = start;
-            rec.data[M.EndDate.name] = end;
-            rec.data[M.IsAllDay.name] = !!o[M.IsAllDay.name] || start.getDate() !== Extensible.Date.add(end, {millis: 1}).getDate();
             
-            f.reset();
-            f.loadRecord(rec);
+            rec.data[EventMappings.StartDate.name] = start;
+            rec.data[EventMappings.EndDate.name] = end;
+            
+            rec.data[EventMappings.IsAllDay.name] = !!o[EventMappings.IsAllDay.name] ||
+                (start.getDate() !== Extensible.Date.add(end, {millis: 1}).getDate());
+            
+            rec.data[EventMappings.CalendarId.name] = me.calendarStore ?
+                    me.calendarStore.getAt(0).data[Extensible.calendar.data.CalendarMappings.CalendarId.name] : '';
+            
+            if (EventMappings.Duration) {
+                rec.data[EventMappings.Duration.name] = Extensible.Date.diff(start, end,
+                    Extensible.calendar.data.EventModel.resolution);
+            }
+            
+            form.reset();
+            form.loadRecord(rec);
         }
         
-        if(this.calendarStore){
-            this.calendarField.setValue(rec.data[M.CalendarId.name]);
-        }
-        this.dateRangeField.setValue(rec.data);
-        this.activeRecord = rec;
-        //this.el.setStyle('z-index', 12000);
+        me.dateRangeField.setValue(rec.data);
+        me.activeRecord = rec;
         
         // Using setValue() results in dirty fields, so we reset the field state
         // after loading the form so that the current values are the "original" values
-        f.getFields().each(function(item) {
+        form.getFields().each(function(item) {
             item.resetOriginalValue();
         });
         
-		return this;
+		return me;
     },
     
     // private
@@ -392,13 +391,13 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         }
 
         record.beginEdit();
-        modified = record.set(obj);
+        record.set(obj);
         
         if (!keepEditing || !modified) {
             record.endEdit();
         }
 
-        return modified;
+        return record.dirty;
     },
     
     getRecurrenceRangeEditor: function() {
