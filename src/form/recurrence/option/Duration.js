@@ -31,13 +31,9 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     
     //endDateFormat: null, // inherit by default
     
-    afterRender: function() {
-        this.callParent(arguments);
-        this.initUntilDate();
-    },
-    
     getItemConfigs: function() {
-        var me = this;
+        var me = this,
+            startDate = me.getStartDate();
         
         return [{
             xtype: 'label',
@@ -63,6 +59,8 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             maxValue: me.maxEndDate,
             allowBlank: false,
             hidden: true,
+            minValue: Ext.Date.add(startDate, Ext.Date.DAY, me.minDateOffset),
+            value: Ext.Date.add(startDate, Ext.Date.DAY, me.defaultEndDateOffset),
             listeners: {
                 'change': Ext.bind(me.onEndDateChange, me)
             }
@@ -125,28 +123,12 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         }
     },
     
-    initUntilDate: function() {
-        var me = this;
-            dt = me.getStartDate();
-        
-        if (me.rendered) {
-            me.untilDateField.setMinValue(Ext.Date.add(dt, Ext.Date.DAY, me.minDateOffset));
-            me.untilDateField.setValue(Ext.Date.add(dt, Ext.Date.DAY, me.defaultEndDateOffset));
-        }
-    },
-    
     onOccurrenceCountChange: function(field, value, oldValue) {
         this.checkChange();
     },
     
     onEndDateChange: function(field, value, oldValue) {
         this.checkChange();
-    },
-    
-    setStartDate: function(dt) {
-        this.startDate = dt;
-        this.initUntilDate();
-        return this;
     },
     
     getValue: function() {
