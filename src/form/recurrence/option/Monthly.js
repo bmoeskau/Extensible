@@ -63,6 +63,9 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
     },
     
     initNthCombo: function(){
+        if (!this.rendered) {
+            return;
+        }
         var me = this,
             combo = me.nthCombo,
             store = combo.store,

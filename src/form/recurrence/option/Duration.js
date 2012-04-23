@@ -31,6 +31,11 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     
     //endDateFormat: null, // inherit by default
     
+    afterRender: function() {
+        this.callParent(arguments);
+        this.initUntilDate();
+    },
+    
     getItemConfigs: function() {
         var me = this;
         
@@ -124,8 +129,10 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         var me = this;
             dt = me.getStartDate();
         
-        me.untilDateField.setMinValue(Ext.Date.add(dt, Ext.Date.DAY, me.minDateOffset));
-        me.untilDateField.setValue(Ext.Date.add(dt, Ext.Date.DAY, me.defaultEndDateOffset));
+        if (me.rendered) {
+            me.untilDateField.setMinValue(Ext.Date.add(dt, Ext.Date.DAY, me.minDateOffset));
+            me.untilDateField.setValue(Ext.Date.add(dt, Ext.Date.DAY, me.defaultEndDateOffset));
+        }
     },
     
     onOccurrenceCountChange: function(field, value, oldValue) {
