@@ -137,7 +137,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
             var resultSet = operation.getResultSet(),
                 successful = operation.wasSuccessful();
 
-            records = operation.getRecords();
+            records = operation.getRecords() || [];
 
             if (resultSet) {
                 me.totalCount = resultSet.total;
