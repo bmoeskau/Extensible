@@ -79,10 +79,9 @@ Ext.define('Extensible.calendar.data.EventModel', {
         var EventMappings = Extensible.calendar.data.EventMappings,
             duration = EventMappings.Duration ? this.get(EventMappings.Duration.name) : null;
         
-        if (duration !== null) {
+        if (duration !== null && duration > -1) {
             var durationObj = {};
             durationObj[Extensible.calendar.data.EventModel.resolution] = duration;
-            
             return Extensible.Date.add(this.getStartDate(), durationObj);
         }
         return this.get(EventMappings.EndDate.name);

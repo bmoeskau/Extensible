@@ -168,9 +168,10 @@ Extensible.calendar.data.EventMappings = {
     // recurrence so that the end date of each event instance can be
     // properly calculated.
     Duration: {
-        name:    'Duration',
-        mapping: 'duration',
-        type:    'int'
+        name:         'Duration',
+        mapping:      'duration',
+        defaultValue: -1,
+        type:         'int'
     },
     
     // Recurrence edit mode ('single', 'future' or 'all'). This is transient data
