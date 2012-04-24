@@ -69,7 +69,7 @@ class Events extends ApplicationController {
 				$res->success = true;
 				$res->message = "Updated record";
 			} else {
-				$res->message = "Failed to updated record " . $this->params->id;
+				$res->message = "Failed to update record " . $this->params->id;
 				$res->success = false;
 			}
 
@@ -97,7 +97,7 @@ class Events extends ApplicationController {
                 $res->success = true;
                 $res->message = "Destroyed record";
 			} else {
-				$res->message = "Failed to Destroy event";
+				$res->message = "Failed to destroy event " . $this->params->id;
 			}
 		}
 		return $res->to_json();
