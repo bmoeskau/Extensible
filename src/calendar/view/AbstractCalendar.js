@@ -1637,9 +1637,10 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onEventAdd: function(form, rec){
+    onEventAdd: function(form, rec) {
         this.newRecord = rec;
-        if(!rec.store){
+        
+        if (this.store.indexOf(rec) === -1) {
             this.store.add(rec);
             this.save();
         }
@@ -1653,8 +1654,8 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onEventDelete: function(form, rec){
-        if(rec.store){
+    onEventDelete: function(form, rec) {
+        if (this.store.indexOf(rec) > -1) {
             this.store.remove(rec);
         }
         this.save();
