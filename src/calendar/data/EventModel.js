@@ -85,6 +85,19 @@ Ext.define('Extensible.calendar.data.EventModel', {
             return Extensible.Date.add(this.getStartDate(), durationObj);
         }
         return this.get(EventMappings.EndDate.name);
+    },
+    
+    clearRecurrence: function() {
+        var me = this,
+            EventMappings = Extensible.calendar.data.EventMappings;
+        
+        delete me.data[EventMappings.OriginalEventId.name];
+        delete me.data[EventMappings.RRule.name];
+        delete me.data[EventMappings.RSeriesStartDate.name];
+        delete me.data[EventMappings.ROccurrenceStartDate.name];
+        delete me.data[EventMappings.REditMode.name];
+        
+        return me;
     }
 },
 function() {

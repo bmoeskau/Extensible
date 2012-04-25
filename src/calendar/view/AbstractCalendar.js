@@ -45,12 +45,14 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      */
     recurrence: true,
     
-    recurrenceExpansionMode: 'remote',
-
-    recurrenceExpansionParam: {
-        name: 'singleEvents',
-        value: true
+    recurrenceOptions: {
+        expansionMode: 'remote',
+        expansionParam: {
+            name: 'singleEvents',
+            value: true
+        }
     },
+    
     /**
      * @cfg {Boolean} readOnly
      * True to prevent clicks on events or the view from providing CRUD capabilities, false to enable CRUD (the default).
@@ -592,13 +594,16 @@ viewConfig: {
      */
     reloadStore : function(o){
         Extensible.log('reloadStore');
+        
+        var recurrenceOptions = this.recurrenceOptions;
+            
         o = Ext.isObject(o) ? o : {};
         o.params = o.params || {};
         
         Ext.apply(o.params, this.getStoreParams());
         
-        if (this.recurrence && this.recurrenceExpansionMode === 'remote') {
-            o.params[this.recurrenceExpansionParam.name] = this.recurrenceExpansionParam.value;
+        if (this.recurrence && recurrenceOptions.expansionParam && recurrenceOptions.expansionMode === 'remote') {
+            o.params[recurrenceOptions.expansionParam.name] = recurrenceOptions.expansionParam.value;
         }
         
         this.store.load(o);
@@ -1704,88 +1709,108 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onCopyEvent: function(menu, rec, dt) {
-    	this.copyEvent(rec, dt);
+    onCopyEvent: function(menu, rec, newStartDate) {
     	this.menuActive = false;
+    	this.shiftEvent(rec, newStartDate, 'copy');
+    },
+    
+    // private
+    onMoveEvent : function(menu, rec, newStartDate){
+        this.menuActive = false;
+        this.shiftEvent(rec, newStartDate, 'move');
     },
     
     /**
      * Create a copy of the event with a new start date, preserving the original event duration.
      * @param {Object} rec The original event {@link Extensible.calendar.data.EventModel record}
-     * @param {Object} dt The new start date. The end date of the created event copy will be adjusted
+     * @param {Object} newStartDate The new start date. The end date of the created event copy will be adjusted
      * automatically to preserve the original duration.
      */
-    copyEvent: function(rec, startDate){
-        var me = this,
-            EventMappings = Extensible.calendar.data.EventMappings,
-            diff = startDate.getTime() - rec.data[EventMappings.StartDate.name].getTime(),
-            endDate = Extensible.Date.add(rec.data[EventMappings.EndDate.name], { millis: diff }),
-            copy = rec.clone();
+    copyEvent: function(rec, newStartDate){
+        this.shiftEvent(rec, newStartDate, 'copy');
+    },
+    
+    /**
+     * Move the event to a new start date, preserving the original event duration.
+     * @param {Object} rec The event {@link Extensible.calendar.data.EventModel record}
+     * @param {Object} newStartDate The new start date
+     */
+    moveEvent: function(rec, newStartDate) {
+        this.shiftEvent(rec, newStartDate, 'move');
+    },
+    
+    // private
+    shiftEvent: function(rec, newStartDate, moveOrCopy) {
+        var me = this;
         
-        if (me.fireEvent('beforeeventcopy', me, rec, Ext.Date.clone(startDate)) !== false) {
-            copy.data[EventMappings.StartDate.name] = startDate;
-            copy.data[EventMappings.EndDate.name] = endDate;
-            
-            me.store.add(copy);
-            me.save();
-            
-            me.fireEvent('eventcopy', me, copy);
+        if (moveOrCopy === 'move') {
+            if (Extensible.Date.compare(rec.getStartDate(), newStartDate) === 0) {
+                // No changes, so we aren't actually moving. Copying to the same date is OK.
+                return;
+            }
+            newRec = rec;
         }
+        else {
+            newRec = rec.clone();
+        }
+        
+        if (me.fireEvent('beforeevent' + moveOrCopy, me, newRec, Ext.Date.clone(newStartDate)) !== false) {
+            if (newRec.isRecurring()) {
+                //if (me.recurrenceOptions.editSingleOnDrag) {
+                    me.onRecurrenceEditModeSelected('single', newRec, newStartDate, moveOrCopy)
+                //}
+                // else {
+                    // Extensible.form.recurrence.RangeEditWindow.prompt({
+                        // callback: Ext.bind(me.onRecurrenceEditModeSelected, me, [newRec, newStartDate, moveOrCopy], true),
+                        // editModes: ['single', 'future'],
+                        // scope: me
+                    // });
+                // }
+            }
+            else {
+                me.doShiftEvent(newRec, newStartDate, moveOrCopy);
+            }
+        }
+    },
+    
+    // private
+    onRecurrenceEditModeSelected: function(editMode, rec, newStartDate, moveOrCopy) {
+        var EventMappings = Extensible.calendar.data.EventMappings;
+        
+        if (editMode) {
+            if (moveOrCopy === 'copy') {
+                rec.clearRecurrence();
+            }
+            rec.data[EventMappings.REditMode.name] = editMode;
+            rec.data[EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            this.doShiftEvent(rec, newStartDate, moveOrCopy);
+        }
+        // else user canceled
+    },
+    
+    // private
+    doShiftEvent: function(rec, newStartDate, moveOrCopy) {
+        var EventMappings = Extensible.calendar.data.EventMappings,
+            diff = newStartDate.getTime() - rec.getStartDate().getTime(),
+            updateData = {};
+        
+        updateData[EventMappings.StartDate.name] = newStartDate;
+        updateData[EventMappings.EndDate.name] = Extensible.Date.add(rec.getEndDate(), {millis: diff});
+        
+        rec.set(updateData);
+        
+        if (rec.phantom) {
+            this.store.add(rec);
+        }
+        
+        this.save();
+        this.fireEvent('event' + moveOrCopy, this, rec);
     },
     
     // private
     onEditDetails : function(menu, rec, el){
         this.fireEvent('editdetails', this, rec, el);
         this.menuActive = false;
-    },
-    
-    // private
-    onMoveEvent : function(menu, rec, dt){
-        this.moveEvent(rec, dt);
-        this.menuActive = false;
-    },
-    
-    /**
-     * Move the event to a new start date, preserving the original event duration.
-     * @param {Object} rec The event {@link Extensible.calendar.data.EventModel record}
-     * @param {Object} dt The new start date
-     */
-    moveEvent: function(rec, newStartDate) {
-        var me = this;
-        
-        if (Extensible.Date.compare(rec.getStartDate(), newStartDate) === 0) {
-            // no changes
-            return;
-        }
-        if (me.fireEvent('beforeeventmove', me, rec, Ext.Date.clone(newStartDate)) !== false) {
-            if (rec.isRecurring()) {
-                Extensible.form.recurrence.RangeEditWindow.prompt({
-                    callback: Ext.bind(me.onRecurrenceMoveModeSelected, me, [rec, newStartDate], true),
-                    editModes: ['single', 'future'],
-                    scope: me
-                });
-            }
-            else {
-                me.doMoveEvent(rec, newStartDate);
-            }
-        }
-    },
-    
-    // private
-    doMoveEvent: function(rec, newStartDate) {
-        var EventMappings = Extensible.calendar.data.EventMappings,
-            eventStartDate = rec.getStartDate(),
-            diff,
-            updateData = {};
-        
-        diff = newStartDate.getTime() - eventStartDate.getTime();
-        
-        updateData[EventMappings.StartDate.name] = newStartDate;
-        updateData[EventMappings.EndDate.name] = Extensible.Date.add(rec.getEndDate(), {millis: diff});
-        rec.set(updateData);
-        
-        this.save();
-        this.fireEvent('eventmove', this, rec);
     },
     
     // private
