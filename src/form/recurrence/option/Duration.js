@@ -131,6 +131,21 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         this.checkChange();
     },
     
+    setStartDate: function(dt) {
+        var me = this,
+            value = me.getValue();
+        
+        if (dt.getTime() !== me.startDate.getTime()) {
+            me.callParent(arguments);
+            me.untilDateField.setMinValue(dt);
+            
+            if (!value || me.untilDateField.getValue() < dt) {
+                me.untilDateField.setValue(Ext.Date.add(dt, Ext.Date.DAY, me.defaultEndDateOffset));
+            }
+        }
+        return me;
+    },
+    
     getValue: function() {
         var me = this;
         
