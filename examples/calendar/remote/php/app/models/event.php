@@ -145,19 +145,51 @@ class Event extends Model {
         return $rec;
     }
 
-    static function destroy($id) {
+    static function destroy($id, $params) {
         global $dbh;
-        $rec = null;
+        $rec = self::find($id);
+
+        if ($rec == null) {
+            return $rec;
+        }
+        
         $rs = $dbh->rs();
         
         foreach ($rs as $idx => $row) {
             if ($row['id'] == $id) {
-                $rec = new self($dbh->destroy($idx));
-                break;
+                
+                $params = get_object_vars($params);
+                $recurrenceEditMode = $params['redit'];
+                
+                if ($recurrenceEditMode) {
+                    switch ($recurrenceEditMode) {
+                        case 'single':
+                            // Not actually deleting, just adding an exception
+                            self::addExceptionDate($id, $params['occstart']);
+                            break;
+                            
+                        case 'future':
+                            // Not actually deleting, just updating the series end date
+                            $endDate = new DateTime($params['start']);
+                            $endDate->modify('-1 second');
+                            $rec->attributes['end'] = $endDate->format('c');
+                            $dbh->update($idx, $rec->attributes);
+                            break;
+                            
+                        case 'all':
+                            // Actually destroy the master event
+                            $rec = new self($dbh->destroy($idx));
+                            self::removeExceptionDates($id);
+                            break;
+                    }
+                }
+                else {
+                    $rec = new self($dbh->destroy($idx));
+                    self::removeExceptionDates($id);
+                    break;
+                }
             }
         }
-        
-        self::removeExceptionDates($id);
         
         return $rec;
     }

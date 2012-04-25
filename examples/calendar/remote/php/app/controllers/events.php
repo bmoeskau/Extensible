@@ -93,7 +93,7 @@ class Events extends ApplicationController {
 			$res->success = true;
 			$res->message = 'Destroyed ' . count($destroyed) . ' records';
 		} else {
-			if ($rec = Event::destroy($this->id)) {
+			if ($rec = Event::destroy($this->id, $this->params)) {
                 $res->success = true;
                 $res->message = "Destroyed record";
 			} else {

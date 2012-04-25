@@ -1533,21 +1533,21 @@ alert('End: '+bounds.end);
                     'eventadd': {
                         fn: function(win, rec, animTarget, options) {
                             //win.hide(animTarget);
-                            win.currentView.onEventAdd(null, rec, options);
+                            win.currentView.onEventEditorAdd(null, rec, options);
                         },
                         scope: this
                     },
                     'eventupdate': {
                         fn: function(win, rec, animTarget, options) {
                             //win.hide(animTarget);
-                            win.currentView.onEventUpdate(null, rec, options);
+                            win.currentView.onEventEditorUpdate(null, rec, options);
                         },
                         scope: this
                     },
                     'eventdelete': {
                         fn: function(win, rec, animTarget, options) {
                             //win.hide(animTarget);
-                            win.currentView.onEventDelete(null, rec, options);
+                            win.currentView.onEventEditorDelete(null, rec, options);
                         },
                         scope: this
                     },
@@ -1564,7 +1564,7 @@ alert('End: '+bounds.end);
                     'eventcancel': {
                         fn: function(win, rec, animTarget){
                             this.dismissEventEditor(null, animTarget);
-                            win.currentView.onEventCancel();
+                            win.currentView.onEventEditorCancel();
                         },
                         scope: this
                     }
@@ -1643,7 +1643,7 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onEventAdd: function(form, rec) {
+    onEventEditorAdd: function(form, rec) {
         this.newRecord = rec;
         
         if (this.store.indexOf(rec) === -1) {
@@ -1654,22 +1654,19 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onEventUpdate: function(form, rec){
+    onEventEditorUpdate: function(form, rec){
         this.save();
         this.fireEvent('eventupdate', this, rec);
     },
     
     // private
-    onEventDelete: function(form, rec) {
-        if (this.store.indexOf(rec) > -1) {
-            this.store.remove(rec);
-        }
-        this.save();
-        this.fireEvent('eventdelete', this, rec);
+    onEventEditorDelete: function(form, rec) {
+        rec._deleting = true;
+        this.deleteEvent(rec);
     },
     
     // private
-    onEventCancel: function(form, rec){
+    onEventEditorCancel: function(form, rec){
         this.fireEvent('eventcancel', this, rec);
     },
     
@@ -1834,12 +1831,37 @@ alert('End: '+bounds.end);
      * Delete the specified event.
      * @param {Object} rec The event {@link Extensible.calendar.data.EventModel record}
      */
-    deleteEvent: function(rec, /* private */el){
-        if(this.fireEvent('beforeeventdelete', this, rec, el) !== false){
-            this.store.remove(rec);
-            this.save();
-            this.fireEvent('eventdelete', this, rec, el);
+    deleteEvent: function(rec, /* private */el) {
+        var me = this;
+        
+        if (me.fireEvent('beforeeventdelete', me, rec, el) !== false) {
+            if (rec.isRecurring()) {
+                Extensible.form.recurrence.RangeEditWindow.prompt({
+                    callback: Ext.bind(me.onRecurrenceDeleteModeSelected, me, [rec, el], true),
+                    scope: me
+                });
+            }
+            else {
+                me.doDeleteEvent(rec, el);
+            }
         }
+    },
+    
+    // private
+    onRecurrenceDeleteModeSelected: function(editMode, rec, el) {
+        if (editMode) {
+            rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+            rec.data[Extensible.calendar.data.EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            this.doDeleteEvent(rec, el);
+        }
+        // else user canceled
+    },
+    
+    // private
+    doDeleteEvent: function(rec, /* private */el) {
+        this.store.remove(rec);
+        this.save();
+        this.fireEvent('eventdelete', this, rec, el);
     },
     
     // private
