@@ -314,6 +314,8 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             form.loadRecord(rec);
         }
         
+        rec.data[EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+        
         me.dateRangeField.setValue(rec.data);
         me.activeRecord = rec;
         
@@ -400,13 +402,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         return record.dirty;
     },
     
-    getRecurrenceRangeEditor: function() {
-        if (!this.recurrenceRangeEditor) {
-            this.recurrenceRangeEditor = Ext.create('Extensible.form.recurrence.RangeEditWindow');
-        }
-        return this.recurrenceRangeEditor;
-    },
-    
     // private
     onSave: function(){
         var me = this,
@@ -441,15 +436,22 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         }
     },
     
+    // private
     onRecurrenceUpdate: function() {
+        Extensible.form.recurrence.RangeEditWindow.prompt({
+            callback: this.onRecurrenceEditModeSelected,
+            scope: this
+        });
+    },
+    
+    // private
+    onRecurrenceEditModeSelected: function(editMode) {
         var me = this;
         
-        me.getRecurrenceRangeEditor().prompt(function(editMode) {
-            if (editMode) {
-                me.activeRecord.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
-                me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
-            }
-        }, me);
+        if (editMode) {
+            me.activeRecord.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+            me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
+        }
     },
     
     // private

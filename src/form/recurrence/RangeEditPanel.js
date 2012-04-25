@@ -108,6 +108,28 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
         return this.editMode;
     },
     
+    showEditModes: function(modes) {
+        modes = modes || [];
+        
+        var me = this,
+            i = 0,
+            btn,
+            len = modes.length;
+        
+        // If modes were passed in hide all by default so we can only show the
+        // passed ones, otherwise if nothing was passed in show all
+        me.down('#' + me.id + '-single')[len ? 'hide' : 'show']();
+        me.down('#' + me.id + '-future')[len ? 'hide' : 'show']();
+        me.down('#' + me.id + '-all')[len ? 'hide' : 'show']();
+        
+        for (; i < len; len++) {
+            btn = this.getComponent(this.id + '-' + modes[i]);
+            if (btn) {
+                btn.hide();
+            }
+        }
+    },
+    
     onToggle: function(btn) {
         var me = this,
             summaryEl = me.getComponent(me.id + '-summary').getEl();

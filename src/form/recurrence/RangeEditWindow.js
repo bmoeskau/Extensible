@@ -1,6 +1,7 @@
 Ext.define('Extensible.form.recurrence.RangeEditWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.extensible.recurrence-rangeeditwindow',
+    singleton: true,
     
     requires: [
         'Extensible.form.recurrence.RangeEditPanel'
@@ -35,8 +36,17 @@ Ext.define('Extensible.form.recurrence.RangeEditWindow', {
         this.callParent(arguments);
     },
     
-    prompt: function(callback, scope) {
-        this.callbackFunction = Ext.bind(callback, scope || this);
+    getRangeEditPanel: function() {
+        return this.down('#' + this.id + '-recur-panel');
+    },
+    
+    /**
+     * Configure the window and show it
+     * @param {Object} options Valid properties: editModes[], callback, scope 
+     */
+    prompt: function(o) {
+        this.callbackFunction = Ext.bind(o.callback, o.scope || this);
+        this.getRangeEditPanel().showEditModes(o.editModes);
         this.show();
     },
     

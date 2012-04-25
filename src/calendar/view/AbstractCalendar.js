@@ -19,7 +19,8 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         'Extensible.calendar.form.EventWindow',
         'Extensible.calendar.menu.Event',
         'Extensible.calendar.dd.DragZone',
-        'Extensible.calendar.dd.DropZone'
+        'Extensible.calendar.dd.DropZone',
+        'Extensible.form.recurrence.RangeEditWindow'
     ],
     
     /**
@@ -1749,27 +1750,51 @@ alert('End: '+bounds.end);
      * @param {Object} rec The event {@link Extensible.calendar.data.EventModel record}
      * @param {Object} dt The new start date
      */
-    moveEvent: function(rec, dt) {
+    moveEvent: function(rec, newStartDate) {
+        var me = this;
+        
+        if (Extensible.Date.compare(rec.getStartDate(), newStartDate) === 0) {
+            // no changes
+            return;
+        }
+        if (me.fireEvent('beforeeventmove', me, rec, Ext.Date.clone(newStartDate)) !== false) {
+            if (rec.isRecurring()) {
+                Extensible.form.recurrence.RangeEditWindow.prompt({
+                    callback: Ext.bind(me.onRecurrenceMoveModeSelected, me, [rec, newStartDate], true),
+                    scope: me
+                });
+            }
+            else {
+                me.doMoveEvent(rec, newStartDate);
+            }
+        }
+    },
+    
+    // private
+    doMoveEvent: function(rec, newStartDate) {
         var EventMappings = Extensible.calendar.data.EventMappings,
             eventStartDate = rec.getStartDate(),
             diff,
             updateData = {};
         
-        if (Extensible.Date.compare(eventStartDate, dt) === 0) {
-            // no changes
-            return;
-        }
+        diff = newStartDate.getTime() - eventStartDate.getTime();
         
-        if (this.fireEvent('beforeeventmove', this, rec, Ext.Date.clone(dt)) !== false) {
-            diff = dt.getTime() - eventStartDate.getTime();
-            
-            updateData[EventMappings.StartDate.name] = dt;
-            updateData[EventMappings.EndDate.name] = Extensible.Date.add(rec.getEndDate(), {millis: diff});
-            rec.set(updateData);
-            
-            this.save();
-            this.fireEvent('eventmove', this, rec);
+        updateData[EventMappings.StartDate.name] = newStartDate;
+        updateData[EventMappings.EndDate.name] = Extensible.Date.add(rec.getEndDate(), {millis: diff});
+        rec.set(updateData);
+        
+        this.save();
+        this.fireEvent('eventmove', this, rec);
+    },
+    
+    // private
+    onRecurrenceMoveModeSelected: function(editMode, rec, newStartDate) {
+        if (editMode) {
+            rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+            rec.data[Extensible.calendar.data.EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            this.doMoveEvent(rec, newStartDate);
         }
+        // else user canceled
     },
     
     // private

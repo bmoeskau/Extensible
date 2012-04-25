@@ -79,9 +79,8 @@ class Event extends Model {
                             // Create a new event based on the data passed in (the
                             // original event does not need to be updated in this case):
                             self::createSingleCopy($params);
-                            // Add an exception date for the start date passed in
-                            // (not the original event start date, which could be different):
-                            self::addExceptionDate($id, $params['start']);
+                            // Add an exception for the original occurrence start date:
+                            self::addExceptionDate($id, $params['occstart']);
                             break;
                             
                         case 'future':

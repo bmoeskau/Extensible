@@ -232,7 +232,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     loadRecord: function(rec) {
         var me = this,
             EventMappings = Extensible.calendar.data.EventMappings,
-            recurrenceStart = rec.data[EventMappings.RStartDate.name] || rec.data[EventMappings.StartDate.name];
+            recurrenceStart = rec.data[EventMappings.RSeriesStartDate.name] || rec.data[EventMappings.StartDate.name];
         
         me.form.reset().loadRecord.apply(me.form, arguments);
         me.activeRecord = rec;
@@ -242,10 +242,14 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             me.recurrenceField.setStartDate(recurrenceStart);
             me.recurrenceField.setValue(rec.data[EventMappings.RRule.name]);
             
-            if (!rec.data[EventMappings.RStartDate.name]) {
+            if (!rec.data[EventMappings.RSeriesStartDate.name]) {
                 // If the record is new we have to set the recurrence start date explicitly to match the
                 // field's default so that it does not show up later as dirty if it is not edited:
-                rec.data[EventMappings.RStartDate.name] = recurrenceStart;
+                rec.data[EventMappings.RSeriesStartDate.name] = recurrenceStart;
+            }
+            if (!rec.data[EventMappings.ROccurrenceStartDate.name]) {
+                // Same thing for the occurrence being edited
+                rec.data[EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
             }
         }
         
@@ -312,7 +316,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         // //if (rec.phantom) {
             // // On initial creation, set the recurrence start date so that every instance
             // // generated later has it available regardless of instance start date
-            // rec.set(M.RStartDate.name, this.recurrenceField.getStartDate());
+            // rec.set(M.RSeriesStartDate.name, this.recurrenceField.getStartDate());
         // //}
 //         
         // dirty = rec.dirty;
@@ -358,19 +362,12 @@ Ext.define('Extensible.calendar.form.EventDetails', {
                 Extensible.calendar.data.EventModel.resolution);
         }
         
-        if (this.recurrenceField && EventMappings.RStartDate) {
-            obj[EventMappings.RStartDate.name] = this.recurrenceField.getStartDate();
+        if (this.recurrenceField && EventMappings.RSeriesStartDate) {
+            obj[EventMappings.RSeriesStartDate.name] = this.recurrenceField.getStartDate();
         }
         
         record.set(obj);
         return record.dirty;
-    },
-    
-    getRecurrenceRangeEditor: function() {
-        if (!this.recurrenceRangeEditor) {
-            this.recurrenceRangeEditor = Ext.create('Extensible.form.recurrence.RangeEditWindow');
-        }
-        return this.recurrenceRangeEditor;
     },
     
     // private
@@ -420,15 +417,22 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         }
     },
     
+    // private
     onRecurrenceUpdate: function() {
+        Extensible.form.recurrence.RangeEditWindow.prompt({
+            callback: this.onRecurrenceEditModeSelected,
+            scope: this
+        });
+    },
+    
+    // private
+    onRecurrenceEditModeSelected: function(editMode) {
         var me = this;
         
-        me.getRecurrenceRangeEditor().prompt(function(editMode) {
-            if (editMode) {
-                me.activeRecord.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
-                me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
-            }
-        }, me);
+        if (editMode) {
+            me.activeRecord.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+            me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
+        }
     },
 
     // private

@@ -55,7 +55,7 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
     },
     
     setStartDate: function(dt) {
-        if (dt !== this.startDate) {
+        if (dt.getTime() !== this.startDate.getTime()) {
             this.callParent(arguments);
             this.initNthCombo();
         }
