@@ -1761,6 +1761,7 @@ alert('End: '+bounds.end);
             if (rec.isRecurring()) {
                 Extensible.form.recurrence.RangeEditWindow.prompt({
                     callback: Ext.bind(me.onRecurrenceMoveModeSelected, me, [rec, newStartDate], true),
+                    editModes: ['single', 'future'],
                     scope: me
                 });
             }
