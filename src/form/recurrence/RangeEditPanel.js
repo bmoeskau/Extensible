@@ -122,10 +122,10 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
         me.down('#' + me.id + '-future')[len ? 'hide' : 'show']();
         me.down('#' + me.id + '-all')[len ? 'hide' : 'show']();
         
-        for (; i < len; len++) {
-            btn = this.getComponent(this.id + '-' + modes[i]);
+        for (; i < len; i++) {
+            btn = me.down('#' + me.id + '-' + modes[i]);
             if (btn) {
-                btn.hide();
+                btn.show();
             }
         }
     },
