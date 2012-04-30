@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extensible : Styling Working Hours</title>
+    <!-- Sets up all Ext and Extensible includes: -->
+    <script type="text/javascript" src="../../../Extensible-config.js"></script>
+    <style>
+        #ct { 
+            height: 500px; 
+        }
+        
+        /*
+         * This is required for the column lines to show correctly after
+         * customizing the row background colors
+         */
+        .ext-cal-day-col {
+            border: 0;
+        }
+        .ext-cal-day-col .ext-cal-day-col-inner {
+            border-left: 1px solid #ddd;
+        }
+        /*
+         * The row numbers correspond to the ending hour (e.g. row 1 is 12am - 1am).
+         * The following will highlight the start of the day to 8am:
+         */
+        .ext-cal-bg-rows .ext-row-1,
+        .ext-cal-bg-rows .ext-row-2,
+        .ext-cal-bg-rows .ext-row-3,
+        .ext-cal-bg-rows .ext-row-4,
+        .ext-cal-bg-rows .ext-row-5,
+        .ext-cal-bg-rows .ext-row-6,
+        .ext-cal-bg-rows .ext-row-7,
+        .ext-cal-bg-rows .ext-row-8,
+        /* 6pm - midnight: */
+        .ext-cal-bg-rows .ext-row-19,
+        .ext-cal-bg-rows .ext-row-20,
+        .ext-cal-bg-rows .ext-row-21,
+        .ext-cal-bg-rows .ext-row-22,
+        .ext-cal-bg-rows .ext-row-23,
+        .ext-cal-bg-rows .ext-row-24
+         {
+            background-color: #eee;
+        }
+        /*
+         * To change color on a half-hour, you have to start with the original
+         * background color and then add the new color to the child div. This block
+         * will highlight the half-hour between 8am and 8:30am:
+         */
+        .ext-cal-bg-rows .ext-row-9 {
+            background-color: #fff;
+        }
+        .ext-cal-bg-rows .ext-row-9 .ext-cal-bg-row-div {
+            background-color: #eee;
+        }
+    </style>
+    <script>
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false,
+            paths: {
+                "Extensible": "../../../src",
+                "Extensible.example": "../.."
+            }
+        });
+        Ext.require([
+            'Extensible.calendar.data.MemoryEventStore',
+            'Extensible.calendar.CalendarPanel',
+            'Extensible.example.calendar.data.Events'
+        ]);
+        
+        Ext.onReady(function(){
+            var eventStore = Ext.create('Extensible.calendar.data.MemoryEventStore', {
+                data: Ext.create('Extensible.example.calendar.data.Events')
+            });
+            Ext.create('Extensible.calendar.CalendarPanel', {
+                eventStore: eventStore,
+                renderTo: 'ct',
+                title: 'Working Hours',
+                width: 700,
+                height: 500,
+                activeItem: 1
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="sample-overview">
+        <h1>Styling Working Hours</h1>
+        <p>See the source CSS comments for details. Note that the markup will be revised in
+            version 2.0 to make working hours (and other custom block styling) a direct feature of the calendar.</p>
+    </div>
+
+    <div id="ct"></div>
+</body>
+</html>
