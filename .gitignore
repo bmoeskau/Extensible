@@ -1,5 +1,7 @@
-.project
-.tmp*
+*.project
+*.tmp*
+*.idea
+*.komodoproject
 
 # These get placed here after builds and are here in the 
 # packaged releases but we don't want them versioned:
@@ -7,4 +9,3 @@ deploy
 extensible-all*
 /examples-1.0/
 /examples/calendar/test.html
-.idea
