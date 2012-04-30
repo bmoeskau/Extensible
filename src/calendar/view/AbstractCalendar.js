@@ -891,18 +891,14 @@ viewConfig: {
     },
     
     /**
-     * Determine whether a store reload is required after a given CRUD action on a given record.
-     * By default, anytime a recurring record is involved the store will be reloaded since the
-     * recurring event instances are calculated on the server by default, so a change in recurrence
-     * means a new set of events may be needed in the store before refreshing the view. This
-     * behavior can be customized by overriding this method.
+     * Determine whether a store reload is required after a given CRUD operation.
      * @param {String} action One of 'create', 'update' or 'delete'
-     * @param {Extensible.calendar.data.EventModel} rec The affected event record
+     * @param {Ext.data.Operation} operation The affected operation
      * @return {Boolean} true if a reload is required, else false
      */
-    storeReloadRequired: function(action, rec) {
+    storeReloadRequired: function(action, operation) {
         // This is the default logic for all actions
-        return rec.isRecurring();
+        return false; //rec.isRecurring();
     },
 	
     // private
@@ -939,27 +935,28 @@ viewConfig: {
 	},
 	
     // private
-    onAdd : function(ds, recs, index){
-        var rec = Ext.isArray(recs) ? recs[0] : recs; 
+    onAdd : function(ds, operation, index){
+        //var rec = Ext.isArray(recs) ? recs[0] : recs;
+        
         if(this.hidden === true || this.monitorStoreEvents === false){
             return;
         }
-        if(rec._deleting){
-            delete rec._deleting;
-            return;
-        }
+        // if(rec._deleting){
+            // delete rec._deleting;
+            // return;
+        // }
         
         Extensible.log('onAdd');
         
         this.dismissEventEditor();    
-		this.tempEventId = rec.id;
+		//this.tempEventId = rec.id;
 		
-        this.refresh(this.storeReloadRequired('create', rec));
+        this.refresh(this.storeReloadRequired('create', operation));
 		
 		if(this.enableFx && this.enableAddFx){
-			this.doAddFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
-                scope: this
-            });
+			// this.doAddFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
+                // scope: this
+            // });
 		};
     },
 	
@@ -1626,17 +1623,17 @@ alert('End: '+bounds.end);
     // private
     onWrite: function(store, operation){
         if (operation.wasSuccessful()) {
-            var rec = operation.records[0];
+            //var rec = operation.records[0];
             
             switch(operation.action){
                 case 'create': 
-                    this.onAdd(store, rec);
+                    this.onAdd(store, operation);
                     break;
                 case 'update':
-                    this.onUpdate(store, rec, Ext.data.Record.COMMIT);
+                    this.onUpdate(store, operation, Ext.data.Record.COMMIT);
                     break;
                 case 'destroy':
-                    this.onRemove(store, rec);
+                    this.onRemove(store, operation);
                     break;
             }
         }

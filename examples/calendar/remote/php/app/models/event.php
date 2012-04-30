@@ -53,7 +53,15 @@ class Event extends Model {
         }
         
         $rec->save();
-        return $rec;
+        
+        if ($rec->attributes['rrule']) {
+            $recs = self::generateInstances($rec->attributes, $_SESSION['startDate'], $_SESSION['endDate']);
+        }
+        else {
+            $recs = array($rec->attributes);
+        }
+        
+        return $recs;
     }
     
     static function update($id, $params) {
@@ -78,7 +86,7 @@ class Event extends Model {
                         case 'single':
                             // Create a new event based on the data passed in (the
                             // original event does not need to be updated in this case):
-                            self::createSingleCopy($params);
+                            $rec = self::createSingleCopy($params);
                             // Add an exception for the original occurrence start date:
                             self::addExceptionDate($id, $params['occstart']);
                             break;
@@ -95,7 +103,8 @@ class Event extends Model {
                             $copy['start'] = $copy['rstart'] = $params['start'];
                             unset($copy['id']);
                             
-                            self::create($copy);
+                            $newRec = self::create($copy);
+                            $rec = array_merge($rec->attributes, $newRec);
                             break;
                             
                         case 'all':
@@ -135,14 +144,22 @@ class Event extends Model {
                     $dbh->update($idx, $rec->attributes);
                 }
                 
-                //$updated = self::adjustForRecurrence($rec);
-                
-                //$dbh->update($idx, $rec->attributes);
-        
                 break;
             }
         }
-        return $rec;
+
+        if (is_array($rec)) {
+            return $rec;
+        }
+        
+        if ($rec->attributes['rrule']) {
+            $recs = self::generateInstances($rec->attributes, $_SESSION['startDate'], $_SESSION['endDate']);
+        }
+        else {
+            $recs = array($rec->attributes);
+        }
+        
+        return $recs;
     }
 
     static function destroy($id, $params) {
@@ -208,7 +225,9 @@ class Event extends Model {
         return $new;
     }
      
-    private function inRange($attr, $startTime, $endTime) {
+    private function inRange($attr, $startDate, $endDate) {
+        $startTime = strtotime($startDate);
+        $endTime = strtotime($endDate);
         $recStart = strtotime($attr['start']);
         $recEnd = strtotime($attr['end']);
         
@@ -219,20 +238,19 @@ class Event extends Model {
         return $startsInRange || $endsInRange || $spansRange;
     }
     
-    static function range($start, $end) {
+    static function range($startDate, $endDate) {
         global $dbh;
         $found = array();
-        $startTime = strtotime($start);
         // add a day to the range end to include event times on that day
-        $endTime = new DateTime($end);
-        $endTime->modify('+1 day');
-        $endTime = strtotime($endTime->format('c'));
+        $endDate = new DateTime($endDate);
+        $endDate->modify('+1 day');
+        $endDate = $endDate->format('c');
         $allRows = $dbh->rs();
         
         foreach ($allRows as $attr) {
-            if (self::inRange($attr, $startTime, $endTime)) {
+            if (self::inRange($attr, $startDate, $endDate)) {
                 if ($attr['rrule']) {
-                    $found = array_merge($found, self::generateInstances($attr, $startTime, $endTime));
+                    $found = array_merge($found, self::generateInstances($attr, $startDate, $endDate));
                 }
                 else {
                     // Only add the found event here if non-recurring since the
@@ -315,12 +333,14 @@ class Event extends Model {
         return false;
     }
     
-    private function generateInstances($attr, $startTime, $endTime) {
+    private function generateInstances($attr, $startDate, $endDate) {
         $rrule = $attr['rrule'];
         $instances = array();
         $counter = 0;
         
         if ($rrule) {
+            $startTime = strtotime($startDate);
+            $endTime = strtotime($endDate);
             $duration = $attr['duration'];
             $rangeEnd = min($endTime, strtotime($attr['end']));
             $recurrence = new When(); // from lib/recur.php
