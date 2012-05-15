@@ -298,6 +298,10 @@ Ext.define('Extensible.calendar.view.Month', {
         colorCls += (evt._renderAsAllDay ? '-ad' : '');
         extraClasses.push(colorCls);
         
+        if (evt._renderAsAllDay) {
+            extraClasses.push('ext-evt-block');
+        }
+        
         if(this.getEventClass){
             var rec = this.getEventRecord(evt[M.EventId.name]),
                 cls = this.getEventClass(rec, !!evt._renderAsAllDay, data, this.store);

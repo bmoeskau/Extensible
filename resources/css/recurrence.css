@@ -34,15 +34,15 @@
 .extensible-recur-edit-options .recur-edit-single {
     width: 50px !important;
     margin: 0 auto;
-    background: url(../images/default/recur-edit-options.gif) -100px -3px !important;
+    background: url(../images/default/recur-edit-options.png) -100px -3px !important;
 }
 .extensible-recur-edit-options .recur-edit-future {
     width: 50px !important;
     margin: 0 auto;
-    background: url(../images/default/recur-edit-options.gif) -50px -3px !important;
+    background: url(../images/default/recur-edit-options.png) -50px -3px !important;
 }
 .extensible-recur-edit-options .recur-edit-all {
     width: 50px !important;
     margin: 0 auto;
-    background: url(../images/default/recur-edit-options.gif) 0 -3px !important;
+    background: url(../images/default/recur-edit-options.png) 0 -3px !important;
 }

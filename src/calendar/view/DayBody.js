@@ -319,6 +319,8 @@ Ext.define('Extensible.calendar.view.DayBody', {
         colorCls += (evt._renderAsAllDay ? '-ad' : '') + (Ext.isIE || Ext.isOpera ? '-x' : '');
         extraClasses.push(colorCls);
         
+        extraClasses.push('ext-evt-block');
+        
         if(this.getEventClass){
             var rec = this.getEventRecord(evt[M.EventId.name]),
                 cls = this.getEventClass(rec, !!evt._renderAsAllDay, data, this.store);
