@@ -5,12 +5,12 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
     cls: 'extensible-recur-edit-options',
     
     headerText: 'There are multiple events in this series. How would you like your changes applied?',
-    optionSingleButtonText: 'This Only',
-    optionSingleDescription: 'Only change this event. No other events in the series will be modified.',
+    optionSingleButtonText: 'Single',
+    optionSingleDescription: 'Apply to this event only. No other events in the series will be affected.',
     optionFutureButtonText: 'Future',
-    optionFutureDescription: 'Change this and all following events. Past events will be unchanged.',
+    optionFutureDescription: 'Apply to this and all following events only. Past events will be unaffected.',
     optionAllButtonText: 'All Events',
-    optionAllDescription: 'Change every event in this series.',
+    optionAllDescription: 'Apply to every event in this series.',
     
     editModes: {
         single: 'single',
