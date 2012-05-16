@@ -181,27 +181,61 @@ Ext.define('Extensible.calendar.view.DayBody', {
     
     // private -- called from DayViewDropZone
     onEventResize : function(rec, data){
-        if (this.fireEvent('beforeeventresize', this, rec, data) !== false) {
-            var compareFn = Extensible.Date.compare,
-                EventMappings = Extensible.calendar.data.EventMappings,
-                startDateName = EventMappings.StartDate.name,
-                endDateName = EventMappings.EndDate.name,
-                updateData = {};
-                
-            if (compareFn(rec.getStartDate(), data[startDateName]) === 0 &&
-                compareFn(rec.getEndDate(), data[endDateName]) === 0) {
-                // no changes
-                return;
-            }
+        var me = this,
+            EventMappings = Extensible.calendar.data.EventMappings,
+            compareFn = Extensible.Date.compare;
             
-            updateData[startDateName] = data[startDateName];
-            updateData[endDateName] = data[endDateName];
-            
-            rec.set(updateData);
-            
-            this.onEventUpdate(null, rec);
-            this.fireEvent('eventresize', this, rec);
+        if (compareFn(rec.getStartDate(), data[EventMappings.StartDate.name]) === 0 &&
+            compareFn(rec.getEndDate(), data[EventMappings.EndDate.name]) === 0) {
+            // no changes
+            return;
         }
+        
+        if (me.fireEvent('beforeeventresize', me, rec, data) !== false) {
+            if (rec.isRecurring()) {
+                if (me.recurrenceOptions.editSingleOnResize) {
+                    me.onRecurrenceResizeModeSelected('single', rec, data)
+                }
+                else {
+                    Extensible.form.recurrence.RangeEditWindow.prompt({
+                        callback: Ext.bind(me.onRecurrenceResizeModeSelected, me, [rec, data], true),
+                        scope: me
+                    });
+                }
+            }
+            else {
+                me.doEventResize(rec, data);
+            }
+        }
+    },
+    
+    // private
+    onRecurrenceResizeModeSelected: function(editMode, rec, data) {
+        var EventMappings = Extensible.calendar.data.EventMappings;
+        
+        if (editMode) {
+            rec.data[EventMappings.REditMode.name] = editMode;
+            rec.data[EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            this.doEventResize(rec, data);
+        }
+        // else user canceled
+    },
+    
+    doEventResize : function(rec, data){
+        var EventMappings = Extensible.calendar.data.EventMappings,
+            startDateName = EventMappings.StartDate.name,
+            endDateName = EventMappings.EndDate.name,
+            updateData = {};
+            
+        updateData[startDateName] = data[startDateName];
+        updateData[endDateName] = data[endDateName];
+        
+        rec.set(updateData);
+        
+        this.save();
+        
+        this.fireEvent('eventupdate', this, rec);
+        this.fireEvent('eventresize', this, rec);
     },
 
     // inherited docs
