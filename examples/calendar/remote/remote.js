@@ -7,6 +7,8 @@ Ext.Loader.setConfig({
     }
 });
 Ext.require([
+    'Ext.Viewport',
+    'Ext.layout.container.Border',
     'Ext.data.proxy.Rest',
     'Extensible.calendar.data.MemoryCalendarStore',
     'Extensible.calendar.data.EventStore',
