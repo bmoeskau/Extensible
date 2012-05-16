@@ -49,12 +49,16 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     
     parseDate: function(dateString, options) {
         options = options || {};
+        
         try {
-            return Ext.Date.parseDate(dateString, options.format || this.dateValueFormat, options.strict);
+            var date = Ext.Date.parse(dateString, options.format || this.dateValueFormat, options.strict);
+            if (date) {
+                return date;
+            }
         }
-        catch(ex) {
-            return options.defaultValue || new Date();
-        }
+        catch(ex) {}
+        
+        return options.defaultValue || new Date();
     },
     
     afterRender: function(){

@@ -186,6 +186,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             }
             else if (parts[0] === 'UNTIL') {
                 me.untilDateField.setValue(me.parseDate(parts[1], {
+                    format: 'c',
                     defaultValue: Ext.Date.add(me.getStartDate(), Ext.Date.DAY, me.defaultEndDateOffset)
                 }));
                 me.toggleFields('until');
