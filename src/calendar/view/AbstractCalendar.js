@@ -898,19 +898,21 @@ viewConfig: {
      */
     storeReloadRequired: function(action, operation) {
         // This is the default logic for all actions
-        return false; //rec.isRecurring();
+        return operation.getRecords()[0].isRecurring();
     },
 	
     // private
-    onUpdate : function(ds, rec, operation){
-        if(this.hidden === true || this.monitorStoreEvents === false){
+    onUpdate : function(store, operation, updateType){
+        if (this.hidden === true || this.monitorStoreEvents === false) {
             return;
         }
-        if(operation == Ext.data.Record.COMMIT){
+        if (updateType === Ext.data.Record.COMMIT) {
             Extensible.log('onUpdate');
             this.dismissEventEditor();
             
-            this.refresh(this.storeReloadRequired('update', rec));
+            this.refresh(this.storeReloadRequired('update', operation));
+            
+            var rec = operation.getRecords()[0];
             
 			if(this.enableFx && this.enableUpdateFx){
 				this.doUpdateFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
@@ -935,8 +937,8 @@ viewConfig: {
 	},
 	
     // private
-    onAdd : function(ds, operation, index){
-        //var rec = Ext.isArray(recs) ? recs[0] : recs;
+    onAdd : function(store, operation) {
+        var rec = operation.getRecords()[0];
         
         if(this.hidden === true || this.monitorStoreEvents === false){
             return;
@@ -948,7 +950,7 @@ viewConfig: {
         
         Extensible.log('onAdd');
         
-        this.dismissEventEditor();    
+        this.dismissEventEditor();
 		//this.tempEventId = rec.id;
 		
         this.refresh(this.storeReloadRequired('create', operation));
@@ -975,7 +977,7 @@ viewConfig: {
 	},
 	
     // private
-    onRemove : function(ds, rec){
+    onRemove : function(store, operation){
         if(this.hidden === true || this.monitorStoreEvents === false){
             return;
         }
@@ -983,7 +985,8 @@ viewConfig: {
         Extensible.log('onRemove');
         this.dismissEventEditor();
         
-        var reloadRequired = this.storeReloadRequired('delete', rec);
+        var reloadRequired = this.storeReloadRequired('delete', operation),
+            rec = operation.getRecords()[0];
         
 		if(this.enableFx && this.enableRemoveFx){
 			this.doRemoveFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
@@ -1808,14 +1811,14 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onRecurrenceMoveModeSelected: function(editMode, rec, newStartDate) {
-        if (editMode) {
-            rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
-            rec.data[Extensible.calendar.data.EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
-            this.doMoveEvent(rec, newStartDate);
-        }
-        // else user canceled
-    },
+    // onRecurrenceMoveModeSelected: function(editMode, rec, newStartDate) {
+        // if (editMode) {
+            // rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+            // rec.data[Extensible.calendar.data.EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            // this.doShiftEvent(rec, newStartDate, 'move');
+        // }
+        // // else user canceled
+    // },
     
     // private
     onDeleteEvent: function(menu, rec, el){

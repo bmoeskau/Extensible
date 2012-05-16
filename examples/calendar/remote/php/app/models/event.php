@@ -87,24 +87,36 @@ class Event extends Model {
                             // Create a new event based on the data passed in (the
                             // original event does not need to be updated in this case):
                             $rec = self::createSingleCopy($params);
-                            // Add an exception for the original occurrence start date:
+                            // Add an exception for the original occurrence start date
+                            // so that the original instance will not be displayed:
                             self::addExceptionDate($id, $params['occstart']);
                             break;
                             
                         case 'future':
-                            // Only end-date the original event, don't update it otherwise:
-                            $endDate = new DateTime($params['start']);
+                            // In this sample code we're going to split the original event
+                            // into two: the original up to the edit date and a new event
+                            // from the edit date to the series end date. Because of this we
+                            // only end-date the original event, don't update it otherwise:
+                            $endDate = new DateTime($params['occstart']);
                             $endDate->modify('-1 second');
-                            $rec->attributes['end'] = $endDate->format('c');
+                            self::endDateRecurringSeries($rec, $endDate);
                             $dbh->update($idx, $rec->attributes);
                             
-                            // Create a new event for the updated future recurrence series:
-                            $copy = array_merge($attr, $params);
-                            $copy['start'] = $copy['rstart'] = $params['start'];
+                            // Create the new event for the updated future series:
+                            $copy = $params;
+                            // Update the recurrence start dates:
+                            $copy['rstart'] = $copy['occstart'] = $copy['start'];
+                            // Don't reuse the existing instance id:
                             unset($copy['id']);
+                            // Create the new event:
+                            $copy = self::create($copy);
                             
-                            $newRec = self::create($copy);
-                            $rec = array_merge($rec->attributes, $newRec);
+                            // We want to return the union of both series, so first generate the
+                            // instances from the original event based on the new end date:
+                            $result = self::generateInstances($rec->attributes, $_SESSION['startDate'], $_SESSION['endDate']);
+                            // Then merge the results ($copy is already an array since self::create
+                            // returns the created recurrence set):
+                            $rec = array_merge($result, $copy);
                             break;
                             
                         case 'all':
@@ -189,7 +201,7 @@ class Event extends Model {
                             // Not actually deleting, just updating the series end date
                             $endDate = new DateTime($params['start']);
                             $endDate->modify('-1 second');
-                            $rec->attributes['end'] = $endDate->format('c');
+                            self::endDateRecurringSeries($rec, $endDate);
                             $dbh->update($idx, $rec->attributes);
                             break;
                             
@@ -209,6 +221,23 @@ class Event extends Model {
         }
         
         return $rec;
+    }
+
+    private function endDateRecurringSeries($rec, $endDate) {
+        $rec->attributes['end'] = $endDate->format('c');
+        
+        $parts = explode(';', $rec->attributes['rrule']);
+        $newRrule = array();
+        $untilFound = false;
+        
+        foreach($parts as $part) {
+            if (strrpos($part, 'UNTIL=') === false) {
+                array_push($newRrule, $part);
+            }
+        }
+        array_push($newRrule, 'UNTIL='.$endDate->format($_SESSION['dtformat']).'Z');
+        
+        $rec->attributes['rrule'] = implode(';', $newRrule);
     }
     
     private function createSingleCopy($attr) {
