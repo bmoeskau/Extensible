@@ -134,6 +134,9 @@ Ext.define('Extensible.calendar.view.Day', {
     minBodyHeight: 150,
     
     // private
+    isDayView: true,
+    
+    // private
     initComponent : function(){
         /**
          * @cfg {String} ddCreateEventText
@@ -197,10 +200,13 @@ Ext.define('Extensible.calendar.view.Day', {
     },
     
     // private
-    refresh : function(){
+    refresh : function(reloadData) {
         Extensible.log('refresh (DayView)');
-        this.header.refresh();
-        this.body.refresh();
+        if (reloadData === undefined) {
+            reloadData = false;
+        }
+        this.header.refresh(reloadData);
+        this.body.refresh(reloadData);
     },
     
     // private
@@ -264,8 +270,8 @@ Ext.define('Extensible.calendar.view.Day', {
      * @param {Date} dt The date used to calculate the new view boundaries
      */
     setStartDate: function(dt){
-        this.header.setStartDate(dt, true);
-        this.body.setStartDate(dt);
+        this.header.setStartDate(dt, false);
+        this.body.setStartDate(dt, true);
     },
 
     // private
@@ -288,7 +294,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * @return {Date} The new view start date
      */
     moveTo: function(dt) {
-        var dt = this.header.moveTo(dt);
+        var dt = this.header.moveTo(dt, false);
         this.body.moveTo(dt, true);
         this.forceSize();
         
@@ -300,7 +306,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * @return {Date} The new view start date
      */
     moveNext: function() {
-        var dt = this.header.moveNext();
+        var dt = this.header.moveNext(false);
         this.body.moveNext(true);
         this.forceSize();
         
@@ -312,7 +318,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * @return {Date} The new view start date
      */
     movePrev: function(noRefresh) {
-        var dt = this.header.movePrev();
+        var dt = this.header.movePrev(false);
         this.body.movePrev(true);
         this.forceSize();
         
@@ -325,7 +331,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * @return {Date} The new view start date
      */
     moveDays: function(value) {
-        var dt = this.header.moveDays(value);
+        var dt = this.header.moveDays(value, false);
         this.body.moveDays(value, true);
         this.forceSize();
         
@@ -337,7 +343,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * @return {Date} Today's date
      */
     moveToday: function() {
-        var dt = this.header.moveToday();
+        var dt = this.header.moveToday(false);
         this.body.moveToday(true);
         this.forceSize();
         

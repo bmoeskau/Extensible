@@ -76,13 +76,13 @@ Ext.define('Extensible.calendar.view.DayHeader', {
     },
     
     // private
-    moveNext : function(){
-        return this.moveDays(this.dayCount);
+    moveNext : function() {
+        return this.moveDays(this.dayCount, false);
     },
 
     // private
-    movePrev : function(){
-        return this.moveDays(-this.dayCount);
+    movePrev : function() {
+        return this.moveDays(-this.dayCount, false);
     },
     
     // private
@@ -97,5 +97,11 @@ Ext.define('Extensible.calendar.view.DayHeader', {
             }
         }
         this.callParent(arguments);
+    },
+    
+    // inherited docs
+    isActiveView: function() {
+        var calendarPanel = this.ownerCalendarPanel;
+        return (calendarPanel && calendarPanel.getActiveView().isDayView);
     }
 });

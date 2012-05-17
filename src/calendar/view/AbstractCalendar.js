@@ -637,8 +637,13 @@ viewConfig: {
      * data (defaults to false)
      */
     refresh : function(reloadData){
-        Extensible.log('refresh (base), reload = '+reloadData);
-        if(reloadData === true){
+        if (!this.isActiveView()) {
+            Extensible.log('refresh (AbstractCalendar), skipped for non-active view (' + this.id + ')');
+            return;
+        }
+        Extensible.log('refresh (AbstractCalendar), reload = ' + reloadData);
+        
+        if (reloadData === true) {
             this.reloadStore();
         }
         else {
@@ -1487,13 +1492,13 @@ alert('End: '+bounds.end);
      */
     setCalendarStore : function(store, initial){
         if(!initial && this.calendarStore){
-            this.calendarStore.un("datachanged", this.refresh, this);
+            this.calendarStore.un("datachanged", this.onDataChanged, this);
             this.calendarStore.un("add", this.refresh, this);
             this.calendarStore.un("remove", this.refresh, this);
             this.calendarStore.un("update", this.refresh, this);
         }
         if(store){
-            store.on("datachanged", this.refresh, this);
+            store.on("datachanged", this.onDataChanged, this);
             store.on("add", this.refresh, this);
             store.on("remove", this.refresh, this);
             store.on("update", this.refresh, this);
@@ -1979,6 +1984,18 @@ alert('End: '+bounds.end);
     // private, MUST be implemented by subclasses
     renderItems : function(){
         throw 'This method must be implemented by a subclass';
+    },
+    
+    /**
+     * Returns true only if this is the active view inside of an owning
+     * {@link Extensible.calendar.CalendarPanel CalendarPanel}. If it is not active, or
+     * not hosted inside a CalendarPanel, returns false.
+     * @return {Boolean} True if this is the active CalendarPanel view, else false
+     * @since 2.0
+     */
+    isActiveView: function() {
+        var calendarPanel = this.ownerCalendarPanel;
+        return (calendarPanel && calendarPanel.getActiveView().id === this.id);
     },
     
     // private

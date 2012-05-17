@@ -34,7 +34,7 @@ Ext.define('Extensible', {
     
     // private
     log: function(s){
-        console.log(s);
+        //console.log(s);
     },
     
     // private

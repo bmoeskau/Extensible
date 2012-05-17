@@ -560,5 +560,11 @@ Ext.define('Extensible.calendar.view.DayBody', {
         if(day && day.date){
             this.onDayClick(day.date, false, null);
         }
+    },
+    
+    // inherited docs
+    isActiveView: function() {
+        var calendarPanel = this.ownerCalendarPanel;
+        return (calendarPanel && calendarPanel.getActiveView().isDayView);
     }
 });
