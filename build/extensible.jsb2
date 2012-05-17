@@ -12,6 +12,9 @@
         },{
             "text": "Number.js",
             "path": "../src/lang/"
+        },{
+            "text": "Model.js",
+            "path": "../src/data/"
         }]
     },{
         "name": "Calendar",
@@ -159,6 +162,12 @@
             "path": "../src/form/recurrence/"
         },{
             "text": "Fieldset.js",
+            "path": "../src/form/recurrence/"
+        },{
+            "text": "RangeEditPanel.js",
+            "path": "../src/form/recurrence/"
+        },{
+            "text": "RangeEditWindow.js",
             "path": "../src/form/recurrence/"
        }]
     },{

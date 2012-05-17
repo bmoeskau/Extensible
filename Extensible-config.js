@@ -31,7 +31,7 @@ Extensible.Config = {
          * 
          * @config {String} mode
          */
-        mode: 'dynamic',
+        mode: 'debug',
         
         /**
          * The root path to the Ext JS framework (defaults to loading 4.0.7 from the Sencha CDN via
@@ -56,8 +56,7 @@ Extensible.Config = {
          * 
          * @config {String} extJsRoot
          */
-        //extJsRoot: 'http://cdn.sencha.io/ext-4.0.7-gpl/',
-        extJsRoot: 'http://projects.marge/ext-current/',
+        extJsRoot: 'http://cdn.sencha.io/ext-4.0.7-gpl/',
         
         /**
          * The root path to the Extensible framework (defaults to the current url of this script file,
@@ -94,7 +93,7 @@ Extensible.Config = {
          * 
          * @config {Boolean} cacheExtensible
          */
-        cacheExtensible: false
+        cacheExtensible: true
     },
     
     /**
@@ -175,7 +174,7 @@ Extensible.Config = {
         me.includeStylesheet(me.extensibleRoot + 'resources/css/extensible-all.css' + cacheBuster);
         me.includeStylesheet(me.extensibleRoot + 'examples/examples.css?_dc=' + Extensible.version);
         
-        me.includeScript(me.extJsRoot + 'ext' + suffix + '-debug.js');
+        me.includeScript(me.extJsRoot + 'ext' + suffix + '.js');
         me.includeScript(me.extensibleRoot + 'lib/extensible' + suffix + bootstrap + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'examples/examples.js?_dc=' + Extensible.version);
     }
