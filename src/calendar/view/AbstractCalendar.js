@@ -43,7 +43,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * instances of recurring events to display on the calendar, so this field should only be enabled
      * if the server supports it.
      */
-    recurrence: true,
+    recurrence: false,
     
     recurrenceOptions: {
         expansionMode: 'remote',

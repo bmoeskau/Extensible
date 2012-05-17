@@ -95,8 +95,7 @@ Ext.onReady(function(){
         region: 'center',
         eventStore: eventStore,
         calendarStore: calendarStore,
-        title: 'Remote Calendar',
-        recurrence: true
+        title: 'Remote Calendar'
     });
     
     Ext.create('Ext.Viewport', {

@@ -71,7 +71,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     buttonAlign: 'center',
     autoScroll: true,
     
-    /* // not currently supported
+    /**
      * @cfg {Boolean} recurrence
      * True to show the recurrence field, false to hide it (default). Note that recurrence requires
      * something on the server-side that can parse the iCal RRULE format in order to generate the

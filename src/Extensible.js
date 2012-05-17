@@ -39,7 +39,7 @@ Ext.define('Extensible', {
     
     // private
     getScrollWidth: function() {
-        return Ext.getScrollbarSize ? Ext.getScrollbarSize().width: Ext.getScrollBarWidth();
+        return Ext.getScrollbarSize ? Ext.getScrollbarSize().width : Ext.getScrollBarWidth();
     },
     
     // private
