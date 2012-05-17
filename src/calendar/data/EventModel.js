@@ -1,9 +1,9 @@
 /**
  * @class Extensible.calendar.data.EventModel
- * @extends Ext.data.Record
+ * @extends Extensible.data.Model
  * <p>This is the {@link Ext.data.Record Record} specification for calendar event data used by the
- * {@link Extensible.calendar.CalendarPanel CalendarPanel}'s underlying store. It can be overridden as 
- * necessary to customize the fields supported by events, although the existing field definition names 
+ * {@link Extensible.calendar.CalendarPanel CalendarPanel}'s underlying store. It can be overridden as
+ * necessary to customize the fields supported by events, although the existing field definition names
  * should not be altered. If your model fields are named differently you should update the <b>mapping</b>
  * configs accordingly.</p>
  * <p>The only required fields when creating a new event record instance are <tt>StartDate</tt> and
@@ -37,54 +37,82 @@ rec.data[M.Notes.name] = 'Some notes';
  * Record will be created with an {@link #Record.id automatically generated id}.
  */
 Ext.define('Extensible.calendar.data.EventModel', {
-    extend: 'Ext.data.Model',
-    
+    extend: 'Extensible.data.Model',
+
     requires: [
-        'Ext.util.MixedCollection',
         'Extensible.calendar.data.EventMappings'
     ],
     
-    statics: {
+    mappingClass: 'Extensible.calendar.data.EventMappings',
+    
+    mappingIdProperty: 'EventId',
+    
+    associations: [{
+        type: 'hasMany',
+        model: 'Extensible.calendar.data.EventModel',
+        primaryKey: 'EventId',
+        foreignKey: 'ParentId',
+        autoLoad: true
+    },{
+        type: 'belongsTo',
+        model: 'Extensible.calendar.data.EventModel',
+        primaryKey: 'EventId',
+        foreignKey: 'ParentId'
+    }],
+
+    inheritableStatics: {
         /**
-         * Reconfigures the default record definition based on the current {@link Extensible.calendar.data.EventMappings EventMappings}
-         * object. See the header documentation for {@link Extensible.calendar.data.EventMappings} for complete details and 
-         * examples of reconfiguring an EventRecord.
-         * @method create
-         * @static
-         * @return {Function} The updated EventRecord constructor function
+         * The minimum time unit supported by events (defaults to 'minutes'). Other valid
+         * values would be 'seconds' or 'millis'. This is used primarily in calculating date
+         * ranges and event duration.  For example, an all-day event will be saved with a start time
+         * of 0:00:00-00 and an end time of 0:00:00-00 the next day minus 1 unit as specified by this
+         * resolution setting (1 minute by default, resulting in an end time of 23:59:00-00). This
+         * setting could be changed to provide greater resolution, e.g. 'seconds' would result in an
+         * all-day end time of 23:59:59-00 instead (although, by default, this would not result in
+         * any visible display difference unless the calendar views were also customized).
          */
-        reconfigure: function() {
-            var Data = Extensible.calendar.data,
-                Mappings = Data.EventMappings,
-                proto = Data.EventModel.prototype,
-                fields = [];
-            
-            // It is critical that the id property mapping is updated in case it changed, since it
-            // is used elsewhere in the data package to match records on CRUD actions:
-            proto.idProperty = Mappings.EventId.name || 'id';
-            
-            for(prop in Mappings){
-                if(Mappings.hasOwnProperty(prop)){
-                    fields.push(Mappings[prop]);
-                }
-            }
-            proto.fields.clear();
-            for(var i = 0, len = fields.length; i < len; i++){
-                proto.fields.add(Ext.create('Ext.data.Field', fields[i]));
-            }
-            return Data.EventModel;
-        }
+        resolution: 'minutes'
     },
     
-    clone: function() {
-        var copy = Ext.create('Extensible.calendar.data.EventModel'),
-            data = Ext.apply({}, this.data);
+    isRecurring: function() {
+        var RRule = Extensible.calendar.data.EventMappings.RRule;
         
-        copy.data = data;
+        if (RRule) {
+            var ruleString = this.get(RRule.name);
+            return (ruleString !== undefined && ruleString !== '');
+        }
+        return false;
+    },
+    
+    getStartDate: function() {
+        return this.get(Extensible.calendar.data.EventMappings.StartDate.name);
+    },
+    
+    getEndDate: function() {
+        var EventMappings = Extensible.calendar.data.EventMappings,
+            duration = EventMappings.Duration ? this.get(EventMappings.Duration.name) : null;
         
-        return copy;
+        if (duration !== null && duration > -1) {
+            var durationObj = {};
+            durationObj[Extensible.calendar.data.EventModel.resolution] = duration;
+            return Extensible.Date.add(this.getStartDate(), durationObj);
+        }
+        return this.get(EventMappings.EndDate.name);
+    },
+    
+    clearRecurrence: function() {
+        var me = this,
+            EventMappings = Extensible.calendar.data.EventMappings;
+        
+        delete me.data[EventMappings.OriginalEventId.name];
+        delete me.data[EventMappings.RRule.name];
+        delete me.data[EventMappings.RSeriesStartDate.name];
+        delete me.data[EventMappings.ROccurrenceStartDate.name];
+        delete me.data[EventMappings.REditMode.name];
+        
+        return me;
     }
 },
-function(){
-    Extensible.calendar.data.EventModel.reconfigure();
+function() {
+    this.reconfigure();
 });

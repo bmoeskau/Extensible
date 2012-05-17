@@ -181,22 +181,61 @@ Ext.define('Extensible.calendar.view.DayBody', {
     
     // private -- called from DayViewDropZone
     onEventResize : function(rec, data){
-        if(this.fireEvent('beforeeventresize', this, rec, data) !== false){
-            var D = Extensible.Date,
-                start = Extensible.calendar.data.EventMappings.StartDate.name,
-                end = Extensible.calendar.data.EventMappings.EndDate.name;
-                
-            if(D.compare(rec.data[start], data.StartDate) === 0 &&
-                D.compare(rec.data[end], data.EndDate) === 0){
-                // no changes
-                return;
-            } 
-            rec.set(start, data.StartDate);
-            rec.set(end, data.EndDate);
-            this.onEventUpdate(null, rec);
+        var me = this,
+            EventMappings = Extensible.calendar.data.EventMappings,
+            compareFn = Extensible.Date.compare;
             
-            this.fireEvent('eventresize', this, rec);
+        if (compareFn(rec.getStartDate(), data[EventMappings.StartDate.name]) === 0 &&
+            compareFn(rec.getEndDate(), data[EventMappings.EndDate.name]) === 0) {
+            // no changes
+            return;
         }
+        
+        if (me.fireEvent('beforeeventresize', me, rec, data) !== false) {
+            if (rec.isRecurring()) {
+                if (me.recurrenceOptions.editSingleOnResize) {
+                    me.onRecurrenceResizeModeSelected('single', rec, data)
+                }
+                else {
+                    Extensible.form.recurrence.RangeEditWindow.prompt({
+                        callback: Ext.bind(me.onRecurrenceResizeModeSelected, me, [rec, data], true),
+                        scope: me
+                    });
+                }
+            }
+            else {
+                me.doEventResize(rec, data);
+            }
+        }
+    },
+    
+    // private
+    onRecurrenceResizeModeSelected: function(editMode, rec, data) {
+        var EventMappings = Extensible.calendar.data.EventMappings;
+        
+        if (editMode) {
+            rec.data[EventMappings.REditMode.name] = editMode;
+            rec.data[EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            this.doEventResize(rec, data);
+        }
+        // else user canceled
+    },
+    
+    doEventResize : function(rec, data){
+        var EventMappings = Extensible.calendar.data.EventMappings,
+            startDateName = EventMappings.StartDate.name,
+            endDateName = EventMappings.EndDate.name,
+            updateData = {};
+            
+        updateData[startDateName] = data[startDateName];
+        updateData[endDateName] = data[endDateName];
+        
+        rec.set(updateData);
+        
+        this.save();
+        
+        this.fireEvent('eventupdate', this, rec);
+        this.fireEvent('eventresize', this, rec);
     },
 
     // inherited docs
@@ -314,6 +353,8 @@ Ext.define('Extensible.calendar.view.DayBody', {
         colorCls += (evt._renderAsAllDay ? '-ad' : '') + (Ext.isIE || Ext.isOpera ? '-x' : '');
         extraClasses.push(colorCls);
         
+        extraClasses.push('ext-evt-block');
+        
         if(this.getEventClass){
             var rec = this.getEventRecord(evt[M.EventId.name]),
                 cls = this.getEventClass(rec, !!evt._renderAsAllDay, data, this.store);
@@ -321,7 +362,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         }
         
         data._extraCls = extraClasses.join(' ');
-        data._isRecurring = evt.Recurrence && evt.Recurrence != '';
+        data._isRecurring = evt[M.RRule.name] && evt[M.RRule.name] != '';
         data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] != '';
         data.Title = (evt[M.IsAllDay.name] ? '' : Ext.Date.format(evt[M.StartDate.name], fmt)) + 
                 (!title || title.length == 0 ? this.defaultEventTitleText : title);
@@ -519,5 +560,11 @@ Ext.define('Extensible.calendar.view.DayBody', {
         if(day && day.date){
             this.onDayClick(day.date, false, null);
         }
+    },
+    
+    // inherited docs
+    isActiveView: function() {
+        var calendarPanel = this.ownerCalendarPanel;
+        return (calendarPanel && calendarPanel.getActiveView().isDayView);
     }
 });

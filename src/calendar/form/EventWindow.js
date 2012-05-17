@@ -41,7 +41,8 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     requires: [
         'Ext.form.Panel',
         'Extensible.calendar.data.EventModel',
-        'Extensible.calendar.data.EventMappings'
+        'Extensible.calendar.data.EventMappings',
+        'Extensible.form.recurrence.RangeEditWindow'
     ],
     
     // Locale configs
@@ -74,16 +75,16 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
     
     /**
-     * True to allow the user to save the initial default record displayed in the form while in Add mode 
+     * True to allow the user to save the initial default record displayed in the form while in Add mode
      * and the record is not dirty (default). If false, the form save action will be treated as a cancel action
      * if no editing was performed while in Add mode and the record will not be added. Note that this setting
      * does not apply when in Edit mode. The save action will always be treated as cancel in Edit mode if
      * the form is not dirty.
-     * 
+     *
      * When this option is true any blank or default field values should be allowed by the back end
      * system handling the operation. For example, by default if the event title is blank the calendar views
-     * will substitute the value of {@link Extensible.calendar.view.AbstractCalendar#defaultEventTitleText 
-     * defaultEventTitleText} when displaying it. Any custom fields might require similar custom handling. 
+     * will substitute the value of {@link Extensible.calendar.view.AbstractCalendar#defaultEventTitleText
+     * defaultEventTitleText} when displaying it. Any custom fields might require similar custom handling.
      */
     allowDefaultAdd: true,
     
@@ -145,10 +146,10 @@ Ext.define('Extensible.calendar.form.EventWindow', {
                 text: this.saveButtonText,
                 itemId: this.id + '-save-btn',
                 disabled: false,
-                handler: this.onSave, 
+                handler: this.onSave,
                 scope: this
             },{
-                text: this.deleteButtonText, 
+                text: this.deleteButtonText,
                 itemId: this.id + '-delete-btn',
                 disabled: false,
                 handler: this.onDelete,
@@ -173,7 +174,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
     
     // private
-    onRender : function(ct, position){        
+    onRender : function(ct, position){
         this.formPanel = Ext.create('Ext.FormPanel', Ext.applyIf({
             fieldDefaults: {
                 labelWidth: this.labelWidth
@@ -257,84 +258,86 @@ Ext.define('Extensible.calendar.form.EventWindow', {
 	
 	/**
      * Shows the window, rendering it first if necessary, or activates it and brings it to front if hidden.
-	 * @param {Ext.data.Record/Object} o Either a {@link Ext.data.Record} if showing the form
-	 * for an existing event in edit mode, or a plain object containing a StartDate property (and 
-	 * optionally an EndDate property) for showing the form in add mode. 
+     * @param {Ext.data.Record/Object} o Either a {@link Ext.data.Record} if showing the form
+     * for an existing event in edit mode, or a plain object containing a StartDate property (and
+     * optionally an EndDate property) for showing the form in add mode.
      * @param {String/Element} animateTarget (optional) The target element or id from which the window should
      * animate while opening (defaults to null with no animation)
      * @return {Ext.Window} this
      */
     show: function(o, animateTarget){
+        var me = this,
+            EventMappings = Extensible.calendar.data.EventMappings,
+            form, rec;
+        
 		// Work around the CSS day cell height hack needed for initial render in IE8/strict:
-		this.animateTarget = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget,
-            M = Extensible.calendar.data.EventMappings;
+		me.animateTarget = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget;
 
-        this.callParent([this.animateTarget, function(){
-            this.titleField.focus(false, 100);
-        }, this]);
+        me.callParent([me.animateTarget, function(){
+            me.titleField.focus(false, 100);
+        }, me]);
         
-        this.deleteButton[o.data && o.data[M.EventId.name] ? 'show' : 'hide']();
+        form = me.formPanel.form;
         
-        var rec, f = this.formPanel.form;
-
-        if(o.data){
+        // Only show the delete button if the data includes an EventID, otherwise
+        // we're adding a new record
+        me.deleteButton[o.data && o.data[EventMappings.EventId.name] ? 'show' : 'hide']();
+        
+        if (o.data) {
             rec = o;
-			//this.isAdd = !!rec.data[Extensible.calendar.data.EventMappings.IsNew.name];
-			if(rec.phantom){
-				// Enable adding the default record that was passed in
-				// if it's new even if the user makes no changes 
-				//rec.markDirty();
-				this.setTitle(this.titleTextAdd);
-			}
-			else{
-				this.setTitle(this.titleTextEdit);
-			}
-            
-            f.loadRecord(rec);
+			me.setTitle(rec.phantom ? me.titleTextAdd : me.titleTextEdit);
+            form.loadRecord(rec);
         }
-        else{
-			//this.isAdd = true;
-            this.setTitle(this.titleTextAdd);
+        else {
+            me.setTitle(me.titleTextAdd);
 
-            var start = o[M.StartDate.name],
-                end = o[M.EndDate.name] || Extensible.Date.add(start, {hours: 1});
+            var start = o[EventMappings.StartDate.name],
+                end = o[EventMappings.EndDate.name] || Extensible.Date.add(start, {hours: 1});
                 
             rec = Ext.create('Extensible.calendar.data.EventModel');
-            //rec.data[M.EventId.name] = this.newId++;
-            rec.data[M.StartDate.name] = start;
-            rec.data[M.EndDate.name] = end;
-            rec.data[M.IsAllDay.name] = !!o[M.IsAllDay.name] || start.getDate() != Extensible.Date.add(end, {millis: 1}).getDate();
             
-            f.reset();
-            f.loadRecord(rec);
+            rec.data[EventMappings.StartDate.name] = start;
+            rec.data[EventMappings.EndDate.name] = end;
+            
+            rec.data[EventMappings.IsAllDay.name] = !!o[EventMappings.IsAllDay.name] ||
+                (start.getDate() !== Extensible.Date.add(end, {millis: 1}).getDate());
+            
+            rec.data[EventMappings.CalendarId.name] = me.calendarStore ?
+                    me.calendarStore.getAt(0).data[Extensible.calendar.data.CalendarMappings.CalendarId.name] : '';
+            
+            if (EventMappings.Duration) {
+                rec.data[EventMappings.Duration.name] = Extensible.Date.diff(start, end,
+                    Extensible.calendar.data.EventModel.resolution);
+            }
+            
+            form.reset();
+            form.loadRecord(rec);
         }
         
-        if(this.calendarStore){
-            this.calendarField.setValue(rec.data[M.CalendarId.name]);
-        }
-        this.dateRangeField.setValue(rec.data);
-        this.activeRecord = rec;
-        //this.el.setStyle('z-index', 12000);
+        rec.data[EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+        
+        me.dateRangeField.setValue(rec.data);
+        me.activeRecord = rec;
         
         // Using setValue() results in dirty fields, so we reset the field state
         // after loading the form so that the current values are the "original" values
-        f.getFields().each(function(item) {
+        form.getFields().each(function(item) {
             item.resetOriginalValue();
         });
         
-		return this;
+		return me;
     },
     
     // private
     roundTime: function(dt, incr){
         incr = incr || 15;
-        var m = parseInt(dt.getMinutes());
+        var m = parseInt(dt.getMinutes(), 10);
         return dt.add('mi', incr - (m % incr));
     },
     
     // private
     onCancel: function(){
-    	this.cleanup(true);
+        this.cleanup(true);
 		this.fireEvent('eventcancel', this, this.activeRecord, this.animateTarget);
     },
 
@@ -352,60 +355,13 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         }
     },
     
-    // private
-//    updateRecord: function(keepEditing){
-//        var dates = this.dateRangeField.getValue(),
-//            M = Extensible.calendar.data.EventMappings,
-//            rec = this.activeRecord,
-//            form = this.formPanel.form,
-//            fs = rec.fields,
-//            dirty = false;
-//            
-//        rec.beginEdit();
-//
-//        //TODO: This block is copied directly from BasicForm.updateRecord.
-//        // Unfortunately since that method internally calls begin/endEdit all
-//        // updates happen and the record dirty status is reset internally to
-//        // that call. We need the dirty status, plus currently the DateRangeField
-//        // does not map directly to the record values, so for now we'll duplicate
-//        // the setter logic here (we need to be able to pick up any custom-added 
-//        // fields generically). Need to revisit this later and come up with a better solution.
-//        fs.each(function(f){
-//            var field = form.findField(f.name);
-//            if(field){
-//                var value = field.getValue();
-//                if (value.getGroupValue) {
-//                    value = value.getGroupValue();
-//                } 
-//                else if (field.eachItem) {
-//                    value = [];
-//                    field.eachItem(function(item){
-//                        value.push(item.getValue());
-//                    });
-//                }
-//                rec.set(f.name, value);
-//            }
-//        }, this);
-//        
-//        rec.set(M.StartDate.name, dates[0]);
-//        rec.set(M.EndDate.name, dates[1]);
-//        rec.set(M.IsAllDay.name, dates[2]);
-//        
-//        dirty = rec.dirty;
-//        
-//        if(!keepEditing){
-//            rec.endEdit();
-//        }
-//        
-//        return dirty;
-//    },
-    
     updateRecord: function(record, keepEditing) {
         var fields = record.fields,
             values = this.formPanel.getForm().getValues(),
+            EventMappings = Extensible.calendar.data.EventMappings,
             name,
-            M = Extensible.calendar.data.EventMappings,
-            obj = {};
+            obj = {},
+            modified;
 
         fields.each(function(f) {
             name = f.name;
@@ -414,38 +370,88 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             }
         });
         
-        var dates = this.dateRangeField.getValue();
-        obj[M.StartDate.name] = dates[0];
-        obj[M.EndDate.name] = dates[1];
-        obj[M.IsAllDay.name] = dates[2];
+        var dates = this.dateRangeField.getValue(),
+            allday = obj[EventMappings.IsAllDay.name] = dates[2],
+            // Clear times for all day events so that they are stored consistently
+            startDate = allday ? Extensible.Date.clearTime(dates[0]) : dates[0],
+            endDate = allday ? Extensible.Date.clearTime(dates[1]) : dates[1],
+            singleDayDurationConfig = { days: 1 };
+        
+        // The full length of a day based on the minimum event time resolution:
+        singleDayDurationConfig[Extensible.calendar.data.EventModel.resolution] = -1;
+        
+        obj[EventMappings.StartDate.name] = startDate;
+        
+        // If the event is all day, calculate the end date as midnight of the day after the end
+        // date minus 1 unit based on the EventModel resolution, e.g. 23:59:00 on the end date
+        obj[EventMappings.EndDate.name] = allday ?
+            Extensible.Date.add(endDate, singleDayDurationConfig) : endDate;
+        
+        if (EventMappings.Duration) {
+            obj[EventMappings.Duration.name] = Extensible.Date.diff(startDate, obj[EventMappings.EndDate.name],
+                Extensible.calendar.data.EventModel.resolution);
+        }
 
         record.beginEdit();
         record.set(obj);
         
-        if (!keepEditing) {
+        if (!keepEditing || !modified) {
             record.endEdit();
         }
 
-        return this;
+        return record.dirty;
     },
     
     // private
-    onSave: function() {
+    onSave: function(){
         var me = this,
-            form = me.formPanel.form;
+            form = me.formPanel.form,
+            originalHasRecurrence = me.activeRecord.isRecurring();
         
         if (!form.isDirty() && !me.allowDefaultAdd) {
             me.onCancel();
             return;
         }
-        if (form.isValid()) {
-    		if (!me.updateRecord(me.activeRecord)) {
-    			me.onCancel();
-    			return;
-    		}
-    		me.fireEvent(me.activeRecord.phantom ? 'eventadd' :
-    		      'eventupdate', me, me.activeRecord, me.animateTarget);
-		}
+        if (!form.isValid()) {
+            return;
+        }
+        
+        if (!me.updateRecord(me.activeRecord)) {
+            me.onCancel();
+            return;
+        }
+        
+        if (me.activeRecord.phantom) {
+            me.fireEvent('eventadd', me, me.activeRecord, me.animateTarget);
+        }
+        else {
+            if (originalHasRecurrence) {
+                // We only need to prompt when editing an existing recurring event. If a normal
+                // event is edited to make it recurring just do a standard update.
+                me.onRecurrenceUpdate();
+            }
+            else {
+                me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
+            }
+        }
+    },
+    
+    // private
+    onRecurrenceUpdate: function() {
+        Extensible.form.recurrence.RangeEditWindow.prompt({
+            callback: this.onRecurrenceEditModeSelected,
+            scope: this
+        });
+    },
+    
+    // private
+    onRecurrenceEditModeSelected: function(editMode) {
+        var me = this;
+        
+        if (editMode) {
+            me.activeRecord.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+            me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
+        }
     },
     
     // private

@@ -577,7 +577,7 @@ td.ext-cal-dtitle-today div {
 	position: absolute;
 	top: 0;*/
 }
-.ext-cal-spl {
+/*.ext-cal-spl {
     background-position:-1px -11px;
     left: 0;
 }
@@ -587,23 +587,36 @@ td.ext-cal-dtitle-today div {
 }
 .x-ie .ext-cal-spr {
     right: -5px;
-}
+}*/
 
 /* Generic calendar icons */
 .ext-cal-ic {
-    background-image:url(../images/default/calendar-sprites.gif);
-    background-repeat:no-repeat;
-    display:inline-block;
-    height:11px;
-    line-height:11px;
-    margin-left:4px;
-    width:14px;
+    background-image: url(../images/default/calendar-sprites.gif);
+    background-repeat: no-repeat;
+    display: none;
+    height: 11px;
+    line-height: 11px;
+    margin-left: 4px;
+    width: 12px;
 }
+.ext-evt-over .ext-cal-ic {
+    display: inline-block;
+}
+/* Text-only recurring (dark icon) */
 .ext-cal-ic-rcr {
-    background-position:0 0;
+    background-position: 0 0;
 }
+/* Block recurring (light icon) */
+.ext-evt-block .ext-cal-ic-rcr {
+    background-position: -12px 0;
+}
+/* Text-only reminder (dark icon) */
 .ext-cal-ic-rem {
-    background-position:-14px 0;
+    background-position: -24px 0;
+}
+/* Block reminder (dark icon) */
+.ext-evt-block .ext-cal-ic-rem {
+    background-position: -36px 0;
 }
 
 /* Calendar DD styles */
@@ -910,14 +923,14 @@ td.ext-cal-dtitle-today div {
     position: absolute;
     height: 11px;
     line-height: 11px;
-    width: 12px;
+    width: 14px;
     top: 2px;
-    background-position: -40px 0;
+    background-position: -60px 0;
     right: 0;
 }
 .x-calendar-list .hover em {
-    background-position: -28px 0;
-    right: 2px;
+    background-position: -48px 0;
+    xright: 2px;
     opacity:.7;
     -moz-opacity:.7;
 }

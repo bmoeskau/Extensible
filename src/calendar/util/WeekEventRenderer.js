@@ -41,7 +41,8 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                 startOfWeek = Ext.Date.clone(currentDate),
                 endOfWeek = Extensible.Date.add(startOfWeek, {days: dayCount - dayIndex, millis: -1}),
                 eventRow = this.getEventRow(renderConfig.viewId, weekIndex, eventIndex),
-                daysToEventEnd = Extensible.Date.diffDays(currentDate, eventData[eventMappings.EndDate.name]) + 1,
+                eventEndDate = (event.event || event).getEndDate(),
+                daysToEventEnd = Extensible.Date.diffDays(currentDate, eventEndDate) + 1,
                 // Restrict the max span to the current week only since this is for the cuurent week's markup
                 colspan = Math.min(daysToEventEnd, dayCount - dayIndex);
             
@@ -50,7 +51,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
             eventData._weekIndex = weekIndex;
             eventData._renderAsAllDay = eventData[eventMappings.IsAllDay.name] || event.isSpanStart;
             eventData.spanLeft = eventData[eventMappings.StartDate.name].getTime() < startOfWeek.getTime();
-            eventData.spanRight = eventData[eventMappings.EndDate.name].getTime() > endOfWeek.getTime();
+            eventData.spanRight = eventEndDate.getTime() > endOfWeek.getTime();
             eventData.spanCls = (eventData.spanLeft ? (eventData.spanRight ?
                 'ext-cal-ev-spanboth' : 'ext-cal-ev-spanleft') : (eventData.spanRight ? 'ext-cal-ev-spanright' : ''));
             

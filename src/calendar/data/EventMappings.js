@@ -1,12 +1,12 @@
 /**
  * @class Extensible.calendar.data.EventMappings
  * @extends Object
- * <p>A simple object that provides the field definitions for 
+ * <p>A simple object that provides the field definitions for
  * {@link Extensible.calendar.EventRecord EventRecord}s so that they can be easily overridden.</p>
- * 
- * <p>There are several ways of overriding the default Event record mappings to customize how 
- * Ext records are mapped to your back-end data model. If you only need to change a handful 
- * of field properties you can directly modify the EventMappings object as needed and then 
+ *
+ * <p>There are several ways of overriding the default Event record mappings to customize how
+ * Ext records are mapped to your back-end data model. If you only need to change a handful
+ * of field properties you can directly modify the EventMappings object as needed and then
  * reconfigure it. The simplest approach is to only override specific field attributes:</p>
  * <pre><code>
 var M = Extensible.calendar.data.EventMappings;
@@ -14,9 +14,9 @@ M.Title.mapping = 'evt_title';
 M.Title.name = 'EventTitle';
 Extensible.calendar.EventRecord.reconfigure();
 </code></pre>
- * 
- * <p>You can alternately override an entire field definition using object-literal syntax, or 
- * provide your own custom field definitions (as in the following example). Note that if you do 
+ *
+ * <p>You can alternately override an entire field definition using object-literal syntax, or
+ * provide your own custom field definitions (as in the following example). Note that if you do
  * this, you <b>MUST</b> include a complete field definition, including the <tt>type</tt> attribute
  * if the field is not the default type of <tt>string</tt>.</p>
  * <pre><code>
@@ -28,12 +28,12 @@ Extensible.calendar.data.EventMappings.Timestamp = {
 };
 Extensible.calendar.EventRecord.reconfigure();
 </code></pre>
- * 
- * <p>If you are overriding a significant number of field definitions it may be more convenient 
+ *
+ * <p>If you are overriding a significant number of field definitions it may be more convenient
  * to simply redefine the entire EventMappings object from scratch. The following example
- * redefines the same fields that exist in the standard EventRecord object but the names and 
- * mappings have all been customized. Note that the name of each field definition object 
- * (e.g., 'EventId') should <b>NOT</b> be changed for the default EventMappings fields as it 
+ * redefines the same fields that exist in the standard EventRecord object but the names and
+ * mappings have all been customized. Note that the name of each field definition object
+ * (e.g., 'EventId') should <b>NOT</b> be changed for the default EventMappings fields as it
  * is the key used to access the field data programmatically.</p>
  * <pre><code>
 Extensible.calendar.data.EventMappings = {
@@ -56,10 +56,10 @@ Extensible.calendar.data.EventMappings = {
 // Don't forget to reconfigure!
 Extensible.calendar.EventRecord.reconfigure();
 </code></pre>
- * 
- * <p><b>NOTE:</b> Any record reconfiguration you want to perform must be done <b>PRIOR to</b> 
+ *
+ * <p><b>NOTE:</b> Any record reconfiguration you want to perform must be done <b>PRIOR to</b>
  * initializing your data store, otherwise the changes will not be reflected in the store's records.</p>
- * 
+ *
  * <p>Another important note is that if you alter the default mapping for <tt>EventId</tt>, make sure to add
  * that mapping as the <tt>idProperty</tt> of your data reader, otherwise it won't recognize how to
  * access the data correctly and will treat existing records as phantoms. Here's an easy way to make sure
@@ -85,12 +85,12 @@ Extensible.calendar.data.EventMappings = {
     EventId: {
         name:    'EventId',
         mapping: 'id',
-        type:    'int'
+        type:    'string'
     },
     CalendarId: {
         name:    'CalendarId',
         mapping: 'cid',
-        type:    'int'
+        type:    'string'
     },
     Title: {
         name:    'Title',
@@ -108,11 +108,6 @@ Extensible.calendar.data.EventMappings = {
         mapping:    'end',
         type:       'date',
         dateFormat: 'c'
-    },
-    RRule: { // not currently used
-        name:    'RecurRule', 
-        mapping: 'rrule', 
-        type:    'string' 
     },
     Location: {
         name:    'Location',
@@ -137,6 +132,62 @@ Extensible.calendar.data.EventMappings = {
     Reminder: {
         name:    'Reminder',
         mapping: 'rem',
+        type:    'string'
+    },
+    
+// ----- Recurrence properties -----
+    
+    OriginalEventId: {
+        name:    'OriginalEventId',
+        mapping: 'origid',
+        type:    'string'
+    },
+
+    // The iCal-formatted RRULE (recurrence rule) pattern
+    // See: http://www.kanzaki.com/docs/ical/rrule.html
+    RRule: {
+        name:    'RRule',
+        mapping: 'rrule',
+        type:    'string'
+    },
+    
+    // The start date of the recurrence pattern, which could be different
+    // than the start date of the event
+    RSeriesStartDate: {
+        name:       'RSeriesStartDate',
+        mapping:    'rstart',
+        type:       'date',
+        dateFormat: 'c'
+    },
+    
+    ROccurrenceStartDate: {
+        name:       'ROccurrenceStartDate',
+        mapping:    'occstart',
+        type:       'date',
+        dateFormat: 'c'
+    },
+    
+    // When using recurrence, the EndDate value above will be the end date
+    // of the _recurrence pattern_, not the end date of the "event". In fact,
+    // with recurrence there is no single "event", only a pattern that generates
+    // event instances, each of which has a separate start and end date.
+    // Because of this we also store the duration of the event when using
+    // recurrence so that the end date of each event instance can be
+    // properly calculated.
+    Duration: {
+        name:         'Duration',
+        mapping:      'duration',
+        defaultValue: -1,
+        type:         'int'
+    },
+    
+    // Recurrence edit mode ('single', 'future' or 'all'). This is transient data
+    // and would typically not be persisted (it's ignored by the calendar for
+    // display purposes), but it's kept on the record for ease of transmission to
+    // the server, and because multiple batched events could have different edit modes.
+    REditMode: {
+        name:    'REditMode',
+        mapping: 'redit',
         type:    'string'
     }
 };

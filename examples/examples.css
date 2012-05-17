@@ -24,6 +24,9 @@ strong {
 .sample-ct {
     margin-bottom:20px;
 }
+#sample-overview {
+    padding: 15px 20px;
+}
 #sample-overview ul {
     margin: 0 20px 15px;
     list-style: disc;

@@ -14,9 +14,9 @@ class Events extends ApplicationController {
 		$res->message = "Loaded data";
 		//var_dump($this->request);
         if (isset($_REQUEST['startDate'])) {
-            $this->startDate = $_REQUEST['startDate'];
-            $this->endDate = $_REQUEST['endDate'];
-            $res->data = Event::range($this->startDate, $this->endDate);
+            $_SESSION['startDate'] = $_REQUEST['startDate'];
+            $_SESSION['endDate'] = $_REQUEST['endDate'];
+            $res->data = Event::range($_REQUEST['startDate'], $_REQUEST['endDate']);
         } else {
         	$res->data = Event::all();
         }
@@ -37,7 +37,7 @@ class Events extends ApplicationController {
 			$res->message = "Created " . count($res->data) . ' records';
 		} else {
 			if ($rec = Event::create($this->params)) {
-				$res->data = $rec->to_hash();
+				$res->data = $rec;//->to_hash();
                 $res->success = true;
                 $res->message = "Created record";
 			} else {
@@ -64,12 +64,12 @@ class Events extends ApplicationController {
 			$res->success = true;
 			$res->message = "Updated " . count($res->data) . " records";
 		} else {
-			if ($rec = Event::update($this->params->id, $this->params)) {
-				$res->data = $rec->to_hash();
+			if ($rec = Event::update($this->id, $this->params)) {
+				$res->data = $rec;//->to_hash();
 				$res->success = true;
 				$res->message = "Updated record";
 			} else {
-				$res->message = "Failed to updated record " . $this->params->id;
+				$res->message = "Failed to update record " . $this->params->id;
 				$res->success = false;
 			}
 
@@ -93,11 +93,11 @@ class Events extends ApplicationController {
 			$res->success = true;
 			$res->message = 'Destroyed ' . count($destroyed) . ' records';
 		} else {
-			if ($rec = Event::destroy($this->id)) {
+			if ($rec = Event::destroy($this->id, $this->params)) {
                 $res->success = true;
                 $res->message = "Destroyed record";
 			} else {
-				$res->message = "Failed to Destroy event";
+				$res->message = "Failed to destroy event " . $this->params->id;
 			}
 		}
 		return $res->to_json();

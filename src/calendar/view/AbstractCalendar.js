@@ -14,15 +14,13 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     extend: 'Ext.Component',
     
     requires: [
-        'Ext.CompositeElement'
-    ],
-    
-    requires: [
+        'Ext.CompositeElement',
         'Extensible.calendar.form.EventDetails',
         'Extensible.calendar.form.EventWindow',
         'Extensible.calendar.menu.Event',
         'Extensible.calendar.dd.DragZone',
-        'Extensible.calendar.dd.DropZone'
+        'Extensible.calendar.dd.DropZone',
+        'Extensible.form.recurrence.RangeEditWindow'
     ],
     
     /**
@@ -39,13 +37,22 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * the default calendar (and color).
      */
     /*
-     * @cfg {Boolean} enableRecurrence
+     * @cfg {Boolean} recurrence
      * True to show the recurrence field, false to hide it (default). Note that recurrence requires
      * something on the server-side that can parse the iCal RRULE format in order to generate the
      * instances of recurring events to display on the calendar, so this field should only be enabled
      * if the server supports it.
      */
-    //enableRecurrence: false,
+    recurrence: false,
+    
+    recurrenceOptions: {
+        expansionMode: 'remote',
+        expansionParam: {
+            name: 'singleEvents',
+            value: true
+        }
+    },
+    
     /**
      * @cfg {Boolean} readOnly
      * True to prevent clicks on events or the view from providing CRUD capabilities, false to enable CRUD (the default).
@@ -240,6 +247,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     eventOverClass: 'ext-evt-over',
 	eventElIdDelimiter: '-evt-',
     dayElIdDelimiter: '-day-',
+    recurringInstanceIdDelimiter: '-rid-',
     
     /**
      * Returns a string of HTML template markup to be used as the body portion of the event template created
@@ -586,10 +594,18 @@ viewConfig: {
      */
     reloadStore : function(o){
         Extensible.log('reloadStore');
+        
+        var recurrenceOptions = this.recurrenceOptions;
+            
         o = Ext.isObject(o) ? o : {};
         o.params = o.params || {};
         
         Ext.apply(o.params, this.getStoreParams());
+        
+        if (this.recurrence && recurrenceOptions.expansionParam && recurrenceOptions.expansionMode === 'remote') {
+            o.params[recurrenceOptions.expansionParam.name] = recurrenceOptions.expansionParam.value;
+        }
+        
         this.store.load(o);
     },
     
@@ -621,13 +637,20 @@ viewConfig: {
      * data (defaults to false)
      */
     refresh : function(reloadData){
-        Extensible.log('refresh (base), reload = '+reloadData);
-        if(reloadData === true){
+        if (!this.isActiveView()) {
+            Extensible.log('refresh (AbstractCalendar), skipped for non-active view (' + this.id + ')');
+            return;
+        }
+        Extensible.log('refresh (AbstractCalendar), reload = ' + reloadData);
+        
+        if (reloadData === true) {
             this.reloadStore();
         }
-        this.prepareData();
-        this.renderTemplate();
-        this.renderItems();
+        else {
+            this.prepareData();
+            this.renderTemplate();
+            this.renderItems();
+        }
     },
     
     // private
@@ -871,20 +894,30 @@ viewConfig: {
         // clear flag for other events to resume normally
         this.dragPending = false;
     },
+    
+    /**
+     * Determine whether a store reload is required after a given CRUD operation.
+     * @param {String} action One of 'create', 'update' or 'delete'
+     * @param {Ext.data.Operation} operation The affected operation
+     * @return {Boolean} true if a reload is required, else false
+     */
+    storeReloadRequired: function(action, operation) {
+        // This is the default logic for all actions
+        return operation.getRecords()[0].isRecurring();
+    },
 	
     // private
-    onUpdate : function(ds, rec, operation){
-        if(this.hidden === true || this.monitorStoreEvents === false){
+    onUpdate : function(store, operation, updateType){
+        if (this.hidden === true || this.monitorStoreEvents === false) {
             return;
         }
-        if(operation == Ext.data.Record.COMMIT){
+        if (updateType === Ext.data.Record.COMMIT) {
             Extensible.log('onUpdate');
             this.dismissEventEditor();
             
-            var rrule = rec.data[Extensible.calendar.data.EventMappings.RRule.name];
-            // if the event has a recurrence rule we have to reload the store in case
-            // any event instances were updated on the server
-            this.refresh(rrule !== undefined && rrule !== '');
+            this.refresh(this.storeReloadRequired('update', operation));
+            
+            var rec = operation.getRecords()[0];
             
 			if(this.enableFx && this.enableUpdateFx){
 				this.doUpdateFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
@@ -909,30 +942,28 @@ viewConfig: {
 	},
 	
     // private
-    onAdd : function(ds, recs, index){
-        var rec = Ext.isArray(recs) ? recs[0] : recs; 
+    onAdd : function(store, operation) {
+        var rec = operation.getRecords()[0];
+        
         if(this.hidden === true || this.monitorStoreEvents === false){
             return;
         }
-        if(rec._deleting){
-            delete rec._deleting;
-            return;
-        }
+        // if(rec._deleting){
+            // delete rec._deleting;
+            // return;
+        // }
         
         Extensible.log('onAdd');
         
-		var rrule = rec.data[Extensible.calendar.data.EventMappings.RRule.name];
-        
-        this.dismissEventEditor();    
-		this.tempEventId = rec.id;
-        // if the new event has a recurrence rule we have to reload the store in case
-        // new event instances were generated on the server
-		this.refresh(rrule !== undefined && rrule !== '');
+        this.dismissEventEditor();
+		//this.tempEventId = rec.id;
+		
+        this.refresh(this.storeReloadRequired('create', operation));
 		
 		if(this.enableFx && this.enableAddFx){
-			this.doAddFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
-                scope: this
-            });
+			// this.doAddFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
+                // scope: this
+            // });
 		};
     },
 	
@@ -951,7 +982,7 @@ viewConfig: {
 	},
 	
     // private
-    onRemove : function(ds, rec){
+    onRemove : function(store, operation){
         if(this.hidden === true || this.monitorStoreEvents === false){
             return;
         }
@@ -959,21 +990,19 @@ viewConfig: {
         Extensible.log('onRemove');
         this.dismissEventEditor();
         
-        var rrule = rec.data[Extensible.calendar.data.EventMappings.RRule.name],
-            // if the new event has a recurrence rule we have to reload the store in case
-            // new event instances were generated on the server
-            isRecurring = rrule !== undefined && rrule !== '';
+        var reloadRequired = this.storeReloadRequired('delete', operation),
+            rec = operation.getRecords()[0];
         
 		if(this.enableFx && this.enableRemoveFx){
 			this.doRemoveFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
 	            remove: true,
 	            scope: this,
-				callback: Ext.bind(this.refresh, this, [isRecurring])
+				callback: Ext.bind(this.refresh, this, [reloadRequired])
 			});
 		}
 		else{
 			this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]).remove();
-            this.refresh(isRecurring);
+            this.refresh(reloadRequired);
 		}
     },
 	
@@ -1081,8 +1110,11 @@ viewConfig: {
 	 * @return {String} The selector class
 	 */
 	getEventSelectorCls : function(eventId, forSelect){
-		var prefix = forSelect ? '.' : '';
-		return prefix + this.id + this.eventElIdDelimiter + this.getEventId(eventId);
+		var prefix = forSelect ? '.' : '',
+            id = this.getEventId(eventId),
+            cls = prefix + this.id + this.eventElIdDelimiter + id;
+        
+        return cls;
 	},
 
 	/**
@@ -1107,7 +1139,7 @@ viewConfig: {
     },
 
     // private
-    onDataChanged : function(store){
+    onDataChanged : function(store, records) {
         Extensible.log('onDataChanged');
         this.refresh(false);
     },
@@ -1460,13 +1492,13 @@ alert('End: '+bounds.end);
      */
     setCalendarStore : function(store, initial){
         if(!initial && this.calendarStore){
-            this.calendarStore.un("datachanged", this.refresh, this);
+            this.calendarStore.un("datachanged", this.onDataChanged, this);
             this.calendarStore.un("add", this.refresh, this);
             this.calendarStore.un("remove", this.refresh, this);
             this.calendarStore.un("update", this.refresh, this);
         }
         if(store){
-            store.on("datachanged", this.refresh, this);
+            store.on("datachanged", this.onDataChanged, this);
             store.on("add", this.refresh, this);
             store.on("remove", this.refresh, this);
             store.on("update", this.refresh, this);
@@ -1501,25 +1533,26 @@ alert('End: '+bounds.end);
                 calendarStore: this.calendarStore,
                 modal: this.editModal,
                 enableEditDetails: this.enableEditDetails,
+                
                 listeners: {
                     'eventadd': {
-                        fn: function(win, rec, animTarget) {
+                        fn: function(win, rec, animTarget, options) {
                             //win.hide(animTarget);
-                            win.currentView.onEventAdd(null, rec);
+                            win.currentView.onEventEditorAdd(null, rec, options);
                         },
                         scope: this
                     },
                     'eventupdate': {
-                        fn: function(win, rec, animTarget) {
+                        fn: function(win, rec, animTarget, options) {
                             //win.hide(animTarget);
-                            win.currentView.onEventUpdate(null, rec);
+                            win.currentView.onEventEditorUpdate(null, rec, options);
                         },
                         scope: this
                     },
                     'eventdelete': {
-                        fn: function(win, rec, animTarget) {
+                        fn: function(win, rec, animTarget, options) {
                             //win.hide(animTarget);
-                            win.currentView.onEventDelete(null, rec);
+                            win.currentView.onEventEditorDelete(null, rec, options);
                         },
                         scope: this
                     },
@@ -1536,7 +1569,7 @@ alert('End: '+bounds.end);
                     'eventcancel': {
                         fn: function(win, rec, animTarget){
                             this.dismissEventEditor(null, animTarget);
-                            win.currentView.onEventCancel();
+                            win.currentView.onEventEditorCancel();
                         },
                         scope: this
                     }
@@ -1598,26 +1631,27 @@ alert('End: '+bounds.end);
     // private
     onWrite: function(store, operation){
         if (operation.wasSuccessful()) {
-            var rec = operation.records[0];
+            //var rec = operation.records[0];
             
             switch(operation.action){
                 case 'create': 
-                    this.onAdd(store, rec);
+                    this.onAdd(store, operation);
                     break;
                 case 'update':
-                    this.onUpdate(store, rec, Ext.data.Record.COMMIT);
+                    this.onUpdate(store, operation, Ext.data.Record.COMMIT);
                     break;
                 case 'destroy':
-                    this.onRemove(store, rec);
+                    this.onRemove(store, operation);
                     break;
             }
         }
     },
     
     // private
-    onEventAdd: function(form, rec){
+    onEventEditorAdd: function(form, rec) {
         this.newRecord = rec;
-        if(!rec.store){
+        
+        if (this.store.indexOf(rec) === -1) {
             this.store.add(rec);
             this.save();
         }
@@ -1625,22 +1659,19 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onEventUpdate: function(form, rec){
+    onEventEditorUpdate: function(form, rec){
         this.save();
         this.fireEvent('eventupdate', this, rec);
     },
     
     // private
-    onEventDelete: function(form, rec){
-        if(rec.store){
-            this.store.remove(rec);
-        }
-        this.save();
-        this.fireEvent('eventdelete', this, rec);
+    onEventEditorDelete: function(form, rec) {
+        rec._deleting = true;
+        this.deleteEvent(rec);
     },
     
     // private
-    onEventCancel: function(form, rec){
+    onEventEditorCancel: function(form, rec){
         this.fireEvent('eventcancel', this, rec);
     },
     
@@ -1680,34 +1711,102 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onCopyEvent: function(menu, rec, dt) {
-    	this.copyEvent(rec, dt);
+    onCopyEvent: function(menu, rec, newStartDate) {
     	this.menuActive = false;
+    	this.shiftEvent(rec, newStartDate, 'copy');
+    },
+    
+    // private
+    onMoveEvent : function(menu, rec, newStartDate){
+        this.menuActive = false;
+        this.shiftEvent(rec, newStartDate, 'move');
     },
     
     /**
      * Create a copy of the event with a new start date, preserving the original event duration.
      * @param {Object} rec The original event {@link Extensible.calendar.data.EventModel record}
-     * @param {Object} dt The new start date. The end date of the created event copy will be adjusted
+     * @param {Object} newStartDate The new start date. The end date of the created event copy will be adjusted
      * automatically to preserve the original duration.
      */
-    copyEvent: function(rec, startDate){
-        var me = this,
-            EventMappings = Extensible.calendar.data.EventMappings,
-            diff = startDate.getTime() - rec.data[EventMappings.StartDate.name].getTime(),
-            copy = rec.clone();
+    copyEvent: function(rec, newStartDate){
+        this.shiftEvent(rec, newStartDate, 'copy');
+    },
+    
+    /**
+     * Move the event to a new start date, preserving the original event duration.
+     * @param {Object} rec The event {@link Extensible.calendar.data.EventModel record}
+     * @param {Object} newStartDate The new start date
+     */
+    moveEvent: function(rec, newStartDate) {
+        this.shiftEvent(rec, newStartDate, 'move');
+    },
+    
+    // private
+    shiftEvent: function(rec, newStartDate, moveOrCopy) {
+        var me = this;
         
-        if (me.fireEvent('beforeeventcopy', me, rec, Ext.Date.clone(startDate)) !== false) {
-            delete copy.data[EventMappings.EventId.name];
-            copy.data[EventMappings.StartDate.name] = startDate;
-            copy.data[EventMappings.EndDate.name] =
-                Extensible.Date.add(rec.data[EventMappings.EndDate.name], { millis: diff });
-            
-            me.store.add(copy);
-            me.save();
-            
-            me.fireEvent('eventcopy', me, copy);
+        if (moveOrCopy === 'move') {
+            if (Extensible.Date.compare(rec.getStartDate(), newStartDate) === 0) {
+                // No changes, so we aren't actually moving. Copying to the same date is OK.
+                return;
+            }
+            newRec = rec;
         }
+        else {
+            newRec = rec.clone();
+        }
+        
+        if (me.fireEvent('beforeevent' + moveOrCopy, me, newRec, Ext.Date.clone(newStartDate)) !== false) {
+            if (newRec.isRecurring()) {
+                //if (me.recurrenceOptions.editSingleOnDrag) {
+                    me.onRecurrenceEditModeSelected('single', newRec, newStartDate, moveOrCopy)
+                //}
+                // else {
+                    // Extensible.form.recurrence.RangeEditWindow.prompt({
+                        // callback: Ext.bind(me.onRecurrenceEditModeSelected, me, [newRec, newStartDate, moveOrCopy], true),
+                        // editModes: ['single', 'future'],
+                        // scope: me
+                    // });
+                // }
+            }
+            else {
+                me.doShiftEvent(newRec, newStartDate, moveOrCopy);
+            }
+        }
+    },
+    
+    // private
+    onRecurrenceEditModeSelected: function(editMode, rec, newStartDate, moveOrCopy) {
+        var EventMappings = Extensible.calendar.data.EventMappings;
+        
+        if (editMode) {
+            if (moveOrCopy === 'copy') {
+                rec.clearRecurrence();
+            }
+            rec.data[EventMappings.REditMode.name] = editMode;
+            rec.data[EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            this.doShiftEvent(rec, newStartDate, moveOrCopy);
+        }
+        // else user canceled
+    },
+    
+    // private
+    doShiftEvent: function(rec, newStartDate, moveOrCopy) {
+        var EventMappings = Extensible.calendar.data.EventMappings,
+            diff = newStartDate.getTime() - rec.getStartDate().getTime(),
+            updateData = {};
+        
+        updateData[EventMappings.StartDate.name] = newStartDate;
+        updateData[EventMappings.EndDate.name] = Extensible.Date.add(rec.getEndDate(), {millis: diff});
+        
+        rec.set(updateData);
+        
+        if (rec.phantom) {
+            this.store.add(rec);
+        }
+        
+        this.save();
+        this.fireEvent('event' + moveOrCopy, this, rec);
     },
     
     // private
@@ -1717,32 +1816,14 @@ alert('End: '+bounds.end);
     },
     
     // private
-    onMoveEvent : function(menu, rec, dt){
-        this.moveEvent(rec, dt);
-        this.menuActive = false;
-    },
-    
-    /**
-     * Move the event to a new start date, preserving the original event duration.
-     * @param {Object} rec The event {@link Extensible.calendar.data.EventModel record}
-     * @param {Object} dt The new start date
-     */
-    moveEvent : function(rec, dt){
-        if(Extensible.Date.compare(rec.data[Extensible.calendar.data.EventMappings.StartDate.name], dt) === 0){
-            // no changes
-            return;
-        }
-        if(this.fireEvent('beforeeventmove', this, rec, Ext.Date.clone(dt)) !== false){
-            var diff = dt.getTime() - rec.data[Extensible.calendar.data.EventMappings.StartDate.name].getTime();
-            rec.beginEdit();
-            rec.set(Extensible.calendar.data.EventMappings.StartDate.name, dt);
-            rec.set(Extensible.calendar.data.EventMappings.EndDate.name, Extensible.Date.add(rec.data[Extensible.calendar.data.EventMappings.EndDate.name], {millis: diff}));
-            rec.endEdit();
-            this.save();
-            
-            this.fireEvent('eventmove', this, rec);
-        }
-    },
+    // onRecurrenceMoveModeSelected: function(editMode, rec, newStartDate) {
+        // if (editMode) {
+            // rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+            // rec.data[Extensible.calendar.data.EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            // this.doShiftEvent(rec, newStartDate, 'move');
+        // }
+        // // else user canceled
+    // },
     
     // private
     onDeleteEvent: function(menu, rec, el){
@@ -1755,12 +1836,37 @@ alert('End: '+bounds.end);
      * Delete the specified event.
      * @param {Object} rec The event {@link Extensible.calendar.data.EventModel record}
      */
-    deleteEvent: function(rec, /* private */el){
-        if(this.fireEvent('beforeeventdelete', this, rec, el) !== false){
-            this.store.remove(rec);
-            this.save();
-            this.fireEvent('eventdelete', this, rec, el);
+    deleteEvent: function(rec, /* private */el) {
+        var me = this;
+        
+        if (me.fireEvent('beforeeventdelete', me, rec, el) !== false) {
+            if (rec.isRecurring()) {
+                Extensible.form.recurrence.RangeEditWindow.prompt({
+                    callback: Ext.bind(me.onRecurrenceDeleteModeSelected, me, [rec, el], true),
+                    scope: me
+                });
+            }
+            else {
+                me.doDeleteEvent(rec, el);
+            }
         }
+    },
+    
+    // private
+    onRecurrenceDeleteModeSelected: function(editMode, rec, el) {
+        if (editMode) {
+            rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+            rec.data[Extensible.calendar.data.EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            this.doDeleteEvent(rec, el);
+        }
+        // else user canceled
+    },
+    
+    // private
+    doDeleteEvent: function(rec, /* private */el) {
+        this.store.remove(rec);
+        this.save();
+        this.fireEvent('eventdelete', this, rec, el);
     },
     
     // private
@@ -1878,6 +1984,18 @@ alert('End: '+bounds.end);
     // private, MUST be implemented by subclasses
     renderItems : function(){
         throw 'This method must be implemented by a subclass';
+    },
+    
+    /**
+     * Returns true only if this is the active view inside of an owning
+     * {@link Extensible.calendar.CalendarPanel CalendarPanel}. If it is not active, or
+     * not hosted inside a CalendarPanel, returns false.
+     * @return {Boolean} True if this is the active CalendarPanel view, else false
+     * @since 2.0
+     */
+    isActiveView: function() {
+        var calendarPanel = this.ownerCalendarPanel;
+        return (calendarPanel && calendarPanel.getActiveView().id === this.id);
     },
     
     // private

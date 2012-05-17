@@ -1,6 +1,6 @@
 Ext.define('Extensible.example.calendar.data.Events', {
     constructor :  function() {
-        var today = Ext.Date.clearTime(new Date),
+        var today = Ext.Date.clearTime(new Date()),
             makeDate = function(d, h, m, s){
                 d = d * 86400;
                 h = (h || 0) * 3600;
@@ -106,6 +106,6 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "start" : makeDate(5, 10),
                 "end"   : makeDate(5, 12)
             }]
-        }
+        };
     }
 });

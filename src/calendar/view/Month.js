@@ -298,6 +298,10 @@ Ext.define('Extensible.calendar.view.Month', {
         colorCls += (evt._renderAsAllDay ? '-ad' : '');
         extraClasses.push(colorCls);
         
+        if (evt._renderAsAllDay) {
+            extraClasses.push('ext-evt-block');
+        }
+        
         if(this.getEventClass){
             var rec = this.getEventRecord(evt[M.EventId.name]),
                 cls = this.getEventClass(rec, !!evt._renderAsAllDay, data, this.store);
@@ -305,7 +309,7 @@ Ext.define('Extensible.calendar.view.Month', {
         }
         
 		data._extraCls = extraClasses.join(' ');
-        data._isRecurring = evt.Recurrence && evt.Recurrence != '';
+        data._isRecurring = evt[M.RRule.name] && evt[M.RRule.name] != '';
         data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] != '';
         data.Title = (evt[M.IsAllDay.name] ? '' : Ext.Date.format(evt[M.StartDate.name], fmt)) + 
                 (!title || title.length == 0 ? this.defaultEventTitleText : title);
@@ -509,7 +513,8 @@ Ext.define('Extensible.calendar.view.Month', {
 			box = dayEl.getBox(),
 			innerTplHeight = p.el.down('.ext-cal-mdv').getHeight(),
 			header = p.getDockedItems('header')[0],
-			frameHeight = p.frameSize.top + p.frameSize.bottom + header.getHeight(),
+			frameSize = p.frameSize || {top:0, bottom:0},
+			frameHeight = frameSize.top + frameSize.bottom + header.getHeight(),
 			bodyHeight = innerTplHeight + frameHeight + 5,
 			documentBodyHeight = Ext.getBody().getHeight() - 20,
 			calculatedHeight = Math.min(bodyHeight, documentBodyHeight);

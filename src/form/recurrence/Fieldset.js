@@ -3,629 +3,375 @@
  * Rrule info: http://www.kanzaki.com/docs/ical/rrule.html
  */
 Ext.define('Extensible.form.recurrence.Fieldset', {
-    extend: 'Ext.form.Field',
+    extend: 'Ext.form.FieldContainer',
     alias: 'widget.extensible.recurrencefield',
     
-    requires: ['Extensible.form.recurrence.Combo'],
+    mixins: {
+        field: 'Ext.form.field.Field'
+    },
+    
+    requires: [
+        'Ext.form.Label',
+        'Extensible.form.recurrence.FrequencyCombo',
+        'Extensible.form.recurrence.option.Interval',
+        'Extensible.form.recurrence.option.Weekly',
+        'Extensible.form.recurrence.option.Monthly',
+        'Extensible.form.recurrence.option.Yearly',
+        'Extensible.form.recurrence.option.Duration'
+    ],
+    
+    //TODO: implement code to use this config.
+    // Maybe use xtypes instead for dynamic loading of custom options?
+    // Include secondly/minutely/hourly, plugins for M-W-F, T-Th, weekends
+    options: [
+        'daily', 'weekly', 'weekdays', 'monthly', 'yearly'
+    ],
+    
+    //TODO: implement
+    displayStyle: 'field', // or 'dialog'
     
     fieldLabel: 'Repeats',
+    fieldContainerWidth: 400,
     startDate: Ext.Date.clearTime(new Date()),
-    enableFx: true,
     
-    initComponent : function(){
-        this.callParent(arguments);
+    //enableFx: true,
+    monitorChanges: true,
+    cls: 'extensible-recur-field',
+    
+    frequencyWidth: null, // defaults to the anchor value
+    
+    layout: 'anchor',
+    defaults: {
+        anchor: '100%'
+    },
+    
+    initComponent : function() {
+        var me = this;
         
-        if(!this.height){
-            this.autoHeight = true;
+        if (!me.height || me.displayStyle === 'field') {
+            delete me.height;
+            me.autoHeight = true;
         }
-    },
-    
-    onRender: function(ct, position){
-        if(!this.el){
-            this.frequencyCombo = Ext.create('Extensible.form.recurrence.Combo', {
-                id: this.id+'-frequency',
-                listeners: {
-                    'recurrencechange': {
-                        fn: this.showOptions,
-                        scope: this
-                    }
+        
+        me.items = [{
+            xtype: 'extensible.recurrence-frequency',
+            hideLabel: true,
+            width: this.frequencyWidth,
+            itemId: this.id + '-frequency',
+            
+            listeners: {
+                'frequencychange': {
+                    fn: this.onFrequencyChange,
+                    scope: this
                 }
-            });
-            if(this.fieldLabel){
-                this.frequencyCombo.fieldLabel = this.fieldLabel;
             }
-            
-            this.innerCt = Ext.create('Ext.Container', {
-                cls: 'extensible-recur-inner-ct',
-                items: []
-            });
-            this.fieldCt = Ext.create('Ext.Container', {
-                autoEl: {id:this.id}, //make sure the container el has the field's id
-                cls: 'extensible-recur-ct',
-                renderTo: ct,
-                items: [this.frequencyCombo, this.innerCt]
-            });
-            
-            this.fieldCt.ownerCt = this;
-            this.innerCt.ownerCt = this.fieldCt;
-            this.el = this.fieldCt.getEl();
-            this.items = Ext.create('Ext.util.MixedCollection');
-            this.items.addAll(this.initSubComponents());
-        }
-        this.callParent(arguments);
+        },{
+            xtype: 'container',
+            itemId: this.id + '-inner-ct',
+            cls: 'extensible-recur-inner-ct',
+            autoHeight: true,
+            layout: 'anchor',
+            hideMode: 'offsets',
+            hidden: true,
+            width: this.fieldContainerWidth,
+            defaults: {
+                hidden: true
+            },
+            items: [{
+                xtype: 'extensible.recurrence-interval',
+                itemId: this.id + '-interval'
+            },{
+                xtype: 'extensible.recurrence-weekly',
+                itemId: this.id + '-weekly'
+            },{
+                xtype: 'extensible.recurrence-monthly',
+                itemId: this.id + '-monthly'
+            },{
+                xtype: 'extensible.recurrence-yearly',
+                itemId: this.id + '-yearly'
+            },{
+                xtype: 'extensible.recurrence-duration',
+                itemId: this.id + '-duration'
+            }]
+        }];
+        
+        me.callParent(arguments);
+        
+        me.initField();
     },
     
-//    afterRender : function(){
-//        this.callParent(arguments);
-//        this.setStartDate(this.startDate);
-//    },
+    afterRender: function() {
+        this.callParent(arguments);
+        this.initRefs();
+    },
+    
+    initRefs: function() {
+        var me = this,
+            id = me.id;
+        
+        me.innerContainer = me.down('#' + id + '-inner-ct');
+        me.frequencyCombo = me.down('#' + id + '-frequency');
+        me.intervalField = me.down('#' + id + '-interval');
+        me.weeklyField = me.down('#' + id + '-weekly');
+        me.monthlyField = me.down('#' + id + '-monthly');
+        me.yearlyField = me.down('#' + id + '-yearly');
+        me.durationField = me.down('#' + id + '-duration');
+        
+        me.initChangeEvents();
+    },
+    
+    initChangeEvents: function() {
+        var me = this;
+        
+        me.intervalField.on('change', me.onChange, me);
+        me.weeklyField.on('change', me.onChange, me);
+        me.monthlyField.on('change', me.onChange, me);
+        me.yearlyField.on('change', me.onChange, me);
+        me.durationField.on('change', me.onChange, me);
+    },
+    
+    onChange: function() {
+        this.fireEvent('change', this, this.getValue());
+    },
+    
+    onFrequencyChange: function(freq) {
+        this.setFrequency(freq);
+        this.onChange();
+    },
     
     // private
-    initValue : function(){
-        this.setStartDate(this.startDate);
+    initValue: function(){
+        var me = this;
+
+        me.originalValue = me.lastValue = me.value;
+
+        // Set the initial value - prevent validation on initial set
+        me.suspendCheckChange++;
         
-        if(this.value !== undefined){
-            this.setValue(this.value);
+        me.setStartDate(me.startDate);
+        
+        if (me.value !== undefined) {
+            me.setValue(me.value);
         }
-        else if(this.frequency !== undefined){
-            this.setValue('FREQ='+this.frequency);
+        else if (me.frequency !== undefined) {
+            me.setValue('FREQ=' + me.frequency);
         }
         else{
-            this.setValue('NONE');
+            me.setValue('');
         }
-        this.originalValue = this.getValue();
-    },
-    
-    showOptions : function(o){
-        var layoutChanged = false, unit = 'day';
+        me.suspendCheckChange--;
         
-        if(o != 'NONE'){
-            this.hideSubPanels();
-        }
-        this.frequency = o;
+        Ext.defer(me.doLayout, 1, me);
+        me.onChange();
+    },
+    
+    /**
+     * Sets the start date of the recurrence pattern
+     * @param {Date} The new start date
+     * @return {Extensible.form.recurrence.Fieldset} this
+     */
+    setStartDate: function(dt) {
+        var me = this;
         
-        switch(o){
-            case 'DAILY':
-                layoutChanged = this.showSubPanel(this.repeatEvery);
-                layoutChanged |= this.showSubPanel(this.until);
-                break;
-                
-            case 'WEEKLY':
-                layoutChanged = this.showSubPanel(this.repeatEvery);
-                layoutChanged |= this.showSubPanel(this.weekly);
-                layoutChanged |= this.showSubPanel(this.until);
-                unit = 'week';
-                break;
-                
-            case 'MONTHLY':
-                layoutChanged = this.showSubPanel(this.repeatEvery);
-                layoutChanged |= this.showSubPanel(this.monthly);
-                layoutChanged |= this.showSubPanel(this.until);
-                unit = 'month';
-                break;
-                
-            case 'YEARLY':
-                layoutChanged = this.showSubPanel(this.repeatEvery);
-                layoutChanged |= this.showSubPanel(this.yearly);
-                layoutChanged |= this.showSubPanel(this.until);
-                unit = 'year';
-                break;
-            
-            default:
-                // case NONE
-                this.hideInnerCt();
-                return; 
-        }
+        me.startDate = dt;
         
-        if(layoutChanged){
-            this.innerCt.doLayout();
+        if (me.innerContainer) {
+            me.innerContainer.items.each(function(item) {
+                if (item.setStartDate) {
+                    item.setStartDate(dt);
+                }
+            });
         }
-        
-        this.showInnerCt();
-        this.repeatEvery.updateLabel(unit);
+        else {
+            me.on('afterrender', function() {
+                me.setStartDate(dt);
+            }, me, {single: true});
+        }
+        return me;
     },
     
-    showSubPanel : function(p){
-        if (p.rendered) {
-            p.show();
-            return false;
-        }
-        else{
-            if(this.repeatEvery.rendered){
-                // make sure weekly/monthly options show in the middle
-                p = this.innerCt.insert(1, p);
-            }
-            else{
-                p = this.innerCt.add(p);
-            }
-            p.show();
-            return true;
-        }
+    /**
+     * Returns the start date of the recurrence pattern (defaults to the current date
+     * if not explicitly set via {@link #setStartDate} or the constructor).
+     * @return {Date} The recurrence start date
+     */
+    getStartDate: function() {
+        return this.startDate;
     },
     
-    showInnerCt: function(){
-        if(!this.innerCt.isVisible()){
-            if(this.enableFx && Ext.enableFx){
-                this.innerCt.getPositionEl().slideIn('t', {
-                    duration: .3
-                });
-            }
-            else{
-                this.innerCt.show();
-            }
-        }
+    /**
+     * Return true if the fieldset currently has a recurrence value set, otherwise returns false.
+     */
+    isRecurring: function() {
+        return this.getValue() !== '';
     },
     
-    hideInnerCt: function(){
-        if(this.innerCt.isVisible()){
-            if(this.enableFx && Ext.enableFx){
-                this.innerCt.getPositionEl().slideOut('t', {
-                    duration: .3,
-                    easing: 'easeIn',
-                    callback: this.hideSubPanels,
-                    scope: this
-                });
-            }
-            else{
-                this.innerCt.hide();
-                this.hideSubPanels();
-            }
-        }
-    },
-    
-    setStartDate : function(dt){
-        this.items.each(function(p){
-            p.setStartDate(dt);
-        });
-    },
-    
-    getValue : function(){
-        if(!this.rendered) {
+    getValue: function() {
+        if (!this.innerContainer) {
             return this.value;
         }
-        if(this.frequency=='NONE'){
+        if (this.frequency === 'NONE') {
             return '';
         }
-        var value = 'FREQ='+this.frequency;
-        this.items.each(function(p){
-            if(p.isVisible()){
-                value += p.getValue();
-            }
-        });
-        return value;
-    },
-    
-    setValue : function(v){
-        this.value = v;
         
-        if(v == null || v == '' || v == 'NONE'){
-            this.frequencyCombo.setValue('NONE');
-            this.showOptions('NONE');
-            return this;
+        var values,
+            itemValue;
+        
+        if (this.frequency === 'WEEKDAYS') {
+            values = ['FREQ=WEEKLY','BYDAY=MO,TU,WE,TH,FR'];
         }
-        var parts = v.split(';');
-        this.items.each(function(p){
-            p.setValue(parts);
-        });
-        Ext.each(parts, function(p){
-            if(p.indexOf('FREQ') > -1){
-                var freq = p.split('=')[1];
-                this.frequencyCombo.setValue(freq);
-                this.showOptions(freq);
-                return;
+        else {
+            values = ['FREQ=' + this.frequency];
+        }
+        
+        this.innerContainer.items.each(function(item) {
+            if(item.isVisible() && item.getValue){
+                itemValue = item.getValue();
+                if (this.includeItemValue(itemValue)) {
+                    values.push(itemValue);
+                }
             }
         }, this);
         
-        return this;
+        return values.length > 1 ? values.join(';') : values[0];
     },
     
-    hideSubPanels : function(){
-        this.items.each(function(p){
-            p.hide();
-        });
+    includeItemValue: function(value) {
+        if (value) {
+            if (value === 'INTERVAL=1') {
+                // Interval is assumed to be 1 in the spec by default, no need to include it
+                return false;
+            }
+            var day = Ext.Date.format(this.startDate, 'D').substring(0,2).toUpperCase();
+            if (value === ('BYDAY=' + day)) {
+                // BYDAY is only required if different from the pattern start date
+                return false;
+            }
+            return true;
+        }
+        return false;
     },
     
-    initSubComponents : function(){
-        Extensible.calendar.recurrenceBase = Ext.extend(Ext.Container, {
-            fieldLabel: ' ',
-            labelSeparator: '',
-            hideLabel: true,
-            layout: 'table',
-            anchor: '100%',
-            startDate: this.startDate,
+    getDescription: function() {
+        var value = this.getValue(),
+            text = '';
+        
+        // switch(value) {
+            // default:
+                // text = 'No recurrence';
+        // }
+        return 'Friendly text : ' + text;
+    },
+    
+    setValue: function(value){
+        var me = this;
+        
+        me.value = (!value || value === 'NONE' ? '' : value);
+        
+        if (!me.frequencyCombo || !me.innerContainer) {
+            me.on('afterrender', function() {
+                me.setValue(value);
+            }, me, {
+                single: true
+            });
+            return;
+        }
 
-            //TODO: This is not I18N-able:
-            getSuffix : function(n){
-                if(!Ext.isNumber(n)){
-                    return '';
-                }
-                switch (n) {
-                    case 1:
-                    case 21:
-                    case 31:
-                        return "st";
-                    case 2:
-                    case 22:
-                        return "nd";
-                    case 3:
-                    case 23:
-                        return "rd";
-                    default:
-                        return "th";
-                }
-            },
-            
-            //shared by monthly and yearly components:
-            initNthCombo: function(cbo){
-                var cbo = Ext.getCmp(this.id+'-combo'),
-                    dt = this.startDate,
-                    store = cbo.getStore(),
-                    last = dt.getLastDateOfMonth().getDate(),
-                    dayNum = dt.getDate(),
-                    nthDate = Ext.Date.format(dt, 'jS') + ' day',
-                    isYearly = this.id.indexOf('-yearly') > -1,
-                    yearlyText = ' in ' + Ext.Date.format(dt, 'F'),
-                    nthDayNum, nthDay, lastDay, lastDate, idx, data, s;
-                    
-                nthDayNum = Math.ceil(dayNum / 7);
-                nthDay = nthDayNum + this.getSuffix(nthDayNum) + Ext.Date.format(dt, ' l');
-                if(isYearly){
-                    nthDate += yearlyText;
-                    nthDay += yearlyText;
-                }
-                data = [[nthDate],[nthDay]];
-                
-                s = isYearly ? yearlyText : '';
-                if(last-dayNum < 7){
-                    data.push(['last '+Ext.Date.format(dt, 'l')+s]);
-                }
-                if(last == dayNum){
-                    data.push(['last day'+s]);
-                }
-                
-                idx = store.find('field1', cbo.getValue());
-                store.removeAll();
-                cbo.clearValue();
-                store.loadData(data);
-                
-                if(idx > data.length-1){
-                    idx = data.length-1;
-                }
-                cbo.setValue(store.getAt(idx > -1 ? idx : 0).data.field1);
-                return this;
-            },
-            setValue:Ext.emptyFn
-        });
+        var parts = me.value.split(';');
         
-        this.repeatEvery = new Extensible.calendar.recurrenceBase({
-            id: this.id+'-every',
-            layoutConfig: {
-                columns: 3
-            },
-            items: [{
-                xtype: 'label',
-                text: 'Repeat every'
-            },{
-                xtype: 'numberfield',
-                id: this.id+'-every-num',
-                value: 1,
-                width: 35,
-                minValue: 1,
-                maxValue: 99,
-                allowBlank: false,
-                enableKeyEvents: true,
-                listeners: {
-                    'keyup': {
-                        fn: function(){
-                            this.repeatEvery.updateLabel();
-                        },
-                        scope: this
-                    }
+        if (me.value === '') {
+            me.setFrequency('NONE');
+        }
+        else {
+            Ext.each(parts, function(part) {
+                if (part.indexOf('FREQ') > -1) {
+                    var freq = part.split('=')[1];
+                    me.setFrequency(freq);
+                    me.checkChange();
+                    return;
                 }
-            },{
-                xtype: 'label',
-                id: this.id+'-every-label'
-            }],
-            setStartDate: function(dt){
-                this.startDate = dt;
-                this.updateLabel();
-                return this;
-            },
-            getValue: function(){
-                var v = Ext.getCmp(this.id+'-num').getValue();
-                return v > 1 ? ';INTERVAL='+v : '';
-            },
-            setValue : function(v){
-                var set = false, 
-                    parts = Ext.isArray(v) ? v : v.split(';');
-                
-                Ext.each(parts, function(p){
-                    if(p.indexOf('INTERVAL') > -1){
-                        var interval = p.split('=')[1];
-                        Ext.getCmp(this.id+'-num').setValue(interval);
-                    }
-                }, this);
-                return this;
-            },
-            updateLabel: function(type){
-                if(this.rendered){
-                    var s = Ext.getCmp(this.id+'-num').getValue() == 1 ? '' : 's';
-                    this.type = type ? type.toLowerCase() : this.type || 'day';
-                    var lbl = Ext.getCmp(this.id+'-label');
-                    if(lbl.rendered){
-                        lbl.update(this.type + s + ' beginning ' + Ext.Date.format(this.startDate, 'l, F j'));
-                    }
-                }
-                return this;
-            },
-            afterRender: function(){
-                this.callParent(arguments);
-                this.updateLabel();
-            }
-        });
-            
-        this.weekly = new Extensible.calendar.recurrenceBase({
-            id: this.id+'-weekly',
-            layoutConfig: {
-                columns: 2
-            },
-            items: [{
-                xtype: 'label',
-                text: 'on:'
-            },{
-                xtype: 'checkboxgroup',
-                id: this.id+'-weekly-days',
-                items: [
-                    {boxLabel: 'Sun', name: 'SU', id: this.id+'-weekly-SU'},
-                    {boxLabel: 'Mon', name: 'MO', id: this.id+'-weekly-MO'},
-                    {boxLabel: 'Tue', name: 'TU', id: this.id+'-weekly-TU'},
-                    {boxLabel: 'Wed', name: 'WE', id: this.id+'-weekly-WE'},
-                    {boxLabel: 'Thu', name: 'TH', id: this.id+'-weekly-TH'},
-                    {boxLabel: 'Fri', name: 'FR', id: this.id+'-weekly-FR'},
-                    {boxLabel: 'Sat', name: 'SA', id: this.id+'-weekly-SA'}
-                ]
-            }],
-            setStartDate: function(dt){
-                this.startDate = dt;
-                this.selectToday();
-                return this;
-            },
-            selectToday: function(){
-                this.clearValue();
-                var day = Ext.Date.format(this.startDate, 'D').substring(0,2).toUpperCase();
-                Ext.getCmp(this.id + '-days').setValue(day, true);
-            },
-            clearValue: function(){
-                Ext.getCmp(this.id + '-days').setValue([false, false, false, false, false, false, false]);
-            },
-            getValue: function(){
-                var v = '', sel = Ext.getCmp(this.id+'-days').getValue();
-                Ext.each(sel, function(chk){
-                    if(v.length > 0){
-                        v += ',';
-                    }
-                    v += chk.name;
-                });
-                var day = Ext.Date.format(this.startDate, 'D').substring(0,2).toUpperCase();
-                return v.length > 0 && v != day ? ';BYDAY='+v : '';
-            },
-            setValue : function(v){
-                var set = false, 
-                    parts = Ext.isArray(v) ? v : v.split(';');
-                
-                this.clearValue();
-                
-                Ext.each(parts, function(p){
-                    if(p.indexOf('BYDAY') > -1){
-                        var days = p.split('=')[1].split(','),
-                            vals = {};
-                            
-                        Ext.each(days, function(d){
-                            vals[d] = true;
-                        }, this);
-                        
-                        Ext.getCmp(this.id+'-days').setValue(vals);
-                        return set = true;
-                    }
-                }, this);
-                
-                if(!set){
-                    this.selectToday();
-                }
-                return this;
-            }
-        });
-            
-        this.monthly = new Extensible.calendar.recurrenceBase({
-            id: this.id+'-monthly',
-            layoutConfig: {
-                columns: 3
-            },
-            items: [{
-                xtype: 'label',
-                text: 'on the'
-            },{
-                xtype: 'combo',
-                id: this.id+'-monthly-combo',
-                mode: 'local',
-                width: 150,
-                triggerAction: 'all',
-                forceSelection: true,
-                store: []
-            },{
-                xtype: 'label',
-                text: 'of each month'
-            }],
-            setStartDate: function(dt){
-                this.startDate = dt;
-                this.initNthCombo();
-                return this;
-            },
-            getValue: function(){
-                var cbo = Ext.getCmp(this.id+'-combo'),
-                    store = cbo.getStore(),
-                    idx = store.find('field1', cbo.getValue()),
-                    dt = this.startDate,
-                    day = Ext.Date.format(dt, 'D').substring(0,2).toUpperCase();
-                
-                if (idx > -1) {
-                    switch(idx){
-                        case 0:  return ';BYMONTHDAY='+Ext.Date.format(dt, 'j');
-                        case 1:  return ';BYDAY='+cbo.getValue()[0].substring(0,1)+day;
-                        case 2:  return ';BYDAY=-1'+day;
-                        default: return ';BYMONTHDAY=-1';
-                    }
-                }
-                return '';
-            }
-        });
-            
-        this.yearly = new Extensible.calendar.recurrenceBase({
-            id: this.id+'-yearly',
-            layoutConfig: {
-                columns: 3
-            },
-            items: [{
-                xtype: 'label',
-                text: 'on the'
-            },{
-                xtype: 'combo',
-                id: this.id+'-yearly-combo',
-                mode: 'local',
-                width: 170,
-                triggerAction: 'all',
-                forceSelection: true,
-                store: []
-            },{
-                xtype: 'label',
-                text: 'each year'
-            }],
-            setStartDate: function(dt){
-                this.startDate = dt;
-                this.initNthCombo();
-                return this;
-            },
-            getValue: function(){
-                var cbo = Ext.getCmp(this.id+'-combo'),
-                    store = cbo.getStore(),
-                    idx = store.find('field1', cbo.getValue()),
-                    dt = this.startDate,
-                    day = Ext.Date.format(dt, 'D').substring(0,2).toUpperCase(),
-                    byMonth = ';BYMONTH='+dt.format('n');
-                
-                if(idx > -1){
-                    switch(idx){
-                        case 0:  return byMonth;
-                        case 1:  return byMonth+';BYDAY='+cbo.getValue()[0].substring(0,1)+day;
-                        case 2:  return byMonth+';BYDAY=-1'+day;
-                        default: return byMonth+';BYMONTHDAY=-1';
-                    }
-                }
-                return '';
-            }
-        });
-            
-        this.until = new Extensible.calendar.recurrenceBase({
-            id: this.id+'-until',
-            untilDateFormat: 'Ymd\\T000000\\Z',
-            layoutConfig: {
-                columns: 5
-            },
-            items: [{
-                xtype: 'label',
-                text: 'and continuing'
-            },{
-                xtype: 'combo',
-                id: this.id+'-until-combo',
-                mode: 'local',
-                width: 85,
-                triggerAction: 'all',
-                forceSelection: true,
-                value: 'forever',
-                store: ['forever', 'for', 'until'],
-                listeners: {
-                    'select': {
-                        fn: function(cbo, rec){
-                            var dt = Ext.getCmp(this.id+'-until-date');
-                            if(rec.data.field1 == 'until'){
-                                dt.show();
-                                if (dt.getValue() == '') {
-                                    dt.setValue(this.startDate.add(Date.DAY, 5));
-                                    dt.setMinValue(this.startDate.clone().add(Date.DAY, 1));
-                                }
-                            }
-                            else{
-                                dt.hide();
-                            }
-                            if(rec.data.field1 == 'for'){
-                                Ext.getCmp(this.id+'-until-num').show();
-                                Ext.getCmp(this.id+'-until-endlabel').show();
-                            }
-                            else{
-                                Ext.getCmp(this.id+'-until-num').hide();
-                                Ext.getCmp(this.id+'-until-endlabel').hide();
-                            }
-                        },
-                        scope: this
-                    }
-                }
-            },{
-                xtype: 'datefield',
-                id: this.id+'-until-date',
-                showToday: false,
-                hidden: true
-            },{
-                xtype: 'numberfield',
-                id: this.id+'-until-num',
-                value: 5,
-                width: 35,
-                minValue: 1,
-                maxValue: 99,
-                allowBlank: false,
-                hidden: true
-            },{
-                xtype: 'label',
-                id: this.id+'-until-endlabel',
-                text: 'occurrences',
-                hidden: true
-            }],
-            setStartDate: function(dt){
-                this.startDate = dt;
-                return this;
-            },
-            getValue: function(){
-                var dt = Ext.getCmp(this.id+'-date');
-                if(dt.isVisible()){
-                    return ';UNTIL='+Ext.String.format(dt.getValue(), this.untilDateFormat);
-                }
-                var ct = Ext.getCmp(this.id+'-num');
-                if(ct.isVisible()){
-                    return ';COUNT='+ct.getValue();
-                }
-                return '';
-            },
-            setValue : function(v){
-                var set = false, 
-                    parts = Ext.isArray(v) ? v : v.split(';');
-                
-                Ext.each(parts, function(p){
-                    if(p.indexOf('COUNT') > -1){
-                        var count = p.split('=')[1];
-                        Ext.getCmp(this.id+'-combo').setValue('for');
-                        Ext.getCmp(this.id+'-num').setValue(count).show();
-                        Ext.getCmp(this.id+'-endlabel').show();
-                    }
-                    else if(p.indexOf('UNTIL') > -1){
-                        var dt = p.split('=')[1];
-                        Ext.getCmp(this.id+'-combo').setValue('until');
-                        Ext.getCmp(this.id+'-date').setValue(Date.parseDate(dt, this.untilDateFormat)).show();
-                        Ext.getCmp(this.id+'-endlabel').hide();
-                    }
-                }, this);
-                return this;
+            }, me);
+        }
+        
+        me.innerContainer.items.each(function(item) {
+            if (item.setValue) {
+                item.setValue(me.value);
             }
         });
         
-        return [this.repeatEvery, this.weekly, this.monthly, this.yearly, this.until];
+        me.checkChange();
+        
+        return me;
+    },
+    
+    setFrequency: function(freq) {
+        var me = this;
+        
+        me.frequency = freq;
+        
+        if (me.frequencyCombo) {
+            me.frequencyCombo.setValue(freq);
+            me.showOptions(freq);
+        }
+        else {
+            me.on('afterrender', function() {
+                me.frequencyCombo.setValue(freq);
+                me.showOptions(freq);
+            }, me, {single: true});
+        }
+        return me;
+    },
+    
+    showOptions: function(freq) {
+        var me = this,
+            unit = 'day';
+        
+        if (freq === 'NONE') {
+            // me.innerContainer.items.each(function(item) {
+                // item.hide();
+            // });
+            me.innerContainer.hide();
+        }
+        else {
+            me.intervalField.show();
+            me.durationField.show();
+            me.innerContainer.show();
+        }
+        
+        switch(freq){
+            case 'DAILY':
+            case 'WEEKDAYS':
+                me.weeklyField.hide();
+                me.monthlyField.hide();
+                me.yearlyField.hide();
+                
+                if (freq === 'WEEKDAYS') {
+                    unit = 'week';
+                }
+                break;
+            
+            case 'WEEKLY':
+                me.weeklyField.show();
+                me.monthlyField.hide();
+                me.yearlyField.hide();
+                unit = 'week';
+                break;
+            
+            case 'MONTHLY':
+                me.monthlyField.show();
+                me.weeklyField.hide();
+                me.yearlyField.hide();
+                unit = 'month';
+                break;
+            
+            case 'YEARLY':
+                me.yearlyField.show();
+                me.weeklyField.hide();
+                me.monthlyField.hide();
+                unit = 'year';
+                break;
+        }
+
+        me.intervalField.updateLabel(unit);
     }
 });
