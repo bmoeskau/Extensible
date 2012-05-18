@@ -903,7 +903,7 @@ viewConfig: {
      */
     storeReloadRequired: function(action, operation) {
         // This is the default logic for all actions
-        return operation.getRecords()[0].isRecurring();
+        return operation.records[0].isRecurring();
     },
 	
     // private
@@ -917,7 +917,7 @@ viewConfig: {
             
             this.refresh(this.storeReloadRequired('update', operation));
             
-            var rec = operation.getRecords()[0];
+            var rec = operation.records[0];
             
 			if(this.enableFx && this.enableUpdateFx){
 				this.doUpdateFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
@@ -943,7 +943,7 @@ viewConfig: {
 	
     // private
     onAdd : function(store, operation) {
-        var rec = operation.getRecords()[0];
+        var rec = operation.records[0];
         
         if(this.hidden === true || this.monitorStoreEvents === false){
             return;
@@ -991,7 +991,7 @@ viewConfig: {
         this.dismissEventEditor();
         
         var reloadRequired = this.storeReloadRequired('delete', operation),
-            rec = operation.getRecords()[0];
+            rec = operation.records[0];
         
 		if(this.enableFx && this.enableRemoveFx){
 			this.doRemoveFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {

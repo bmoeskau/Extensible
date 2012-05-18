@@ -104,7 +104,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
         
         if (Extensible.example && Extensible.example.msg) {
             var success = operation.wasSuccessful(),
-                rec = operation.getRecords()[0],
+                rec = operation.records[0],
                 title = rec.data[Extensible.calendar.data.EventMappings.Title.name];
     
             switch (operation.action) {
@@ -137,7 +137,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
             var resultSet = operation.getResultSet(),
                 successful = operation.wasSuccessful();
 
-            records = operation.getRecords() || [];
+            records = operation.records || [];
 
             if (resultSet) {
                 me.totalCount = resultSet.total;
