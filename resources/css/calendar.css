@@ -868,8 +868,9 @@ td.ext-cal-dtitle-today div {
  * DateRangeField styles
  *
  ******************************************/
-.ext-dt-range {
-    /* Don't double the bottom margin, use the contained fields' margin */
+.x-4-0 .ext-dt-range {
+    /* Don't double the bottom margin, use the contained fields' margin.
+     * This was only an issue in Ext 4.0.x */
     margin-bottom: 0 !important;
 }
 .ext-dt-range .x-form-cb-wrap {

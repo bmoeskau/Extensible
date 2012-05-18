@@ -57,6 +57,13 @@ Ext.define('Extensible', {
             if (Ext.isWindows) {
                 Ext.getBody().addCls('x-win');
             }
+            
+            var extVer = Ext.getVersion();
+            if (extVer.isLessThan('4.1')) {
+                // Unfortunately some styling changed in 4.1 that requires version-specific
+                // CSS differences to handle properly across versions. Ugh.
+                Ext.getBody().addCls('x-4-0');
+            }
         });
     },
 
