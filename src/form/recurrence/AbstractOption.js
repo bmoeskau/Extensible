@@ -40,6 +40,7 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
         
         me.callParent(arguments);
         
+        me.initRefs();
         me.initField();
     },
     
@@ -63,7 +64,6 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     
     afterRender: function(){
         this.callParent(arguments);
-        this.initRefs();
         this.updateLabel();
     },
     

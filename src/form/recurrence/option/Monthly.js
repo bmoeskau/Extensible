@@ -144,7 +144,10 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             return me;
         }
         if (!v) {
-            me.nthCombo.setValue(me.nthCombo.store.getAt(0).data.value);
+            var defaultItem = me.nthCombo.store.getAt(0);
+            if (defaultItem) {
+                me.nthCombo.setValue(defaultItem.data.value);
+            }
             return me;
         }
         var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),
