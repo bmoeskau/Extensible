@@ -103,4 +103,3 @@ class Events extends ApplicationController {
 		return $res->to_json();
 	}
 }
-
