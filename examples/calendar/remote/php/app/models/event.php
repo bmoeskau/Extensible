@@ -502,8 +502,12 @@ class Event extends Model {
                 $duration = 0;
             }
             $rangeEnd = min($endTime, strtotime($attr[Event::$end_date]));
-            $recurrence = new When(); // from lib/recur.php
-            $rdates = $recurrence->recur($attr[Event::$start_date])->rrule($rrule);
+            // Third-party recurrence parser -- see: lib/recur.php
+            $recurrence = new When();
+            // Make sure to pass the "until" portion to limit the search -- in cases where the RRULE has no
+            // end date or count, the parser will keep looping without this. We are also checking the results
+            // below, but limiting the parser when possible should help a bit with efficiency.
+            $rdates = $recurrence->recur($startDate)->rrule($rrule)->until($endDate);
             $idx = 1;
             
             while ($rdate = $rdates->next()) {
