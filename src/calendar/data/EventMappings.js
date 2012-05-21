@@ -136,6 +136,11 @@ Extensible.calendar.data.EventMappings = {
     },
     
 // ----- Recurrence properties -----
+
+    // NOTE: Only RRule and Duration need to be persisted. The other properties
+    // do need to be mapped as they are used on the back end, but typically they
+    // are transient properties only used during processing of requests and do
+    // not need to be stored in a DB.
     
     // The iCal-formatted RRULE (recurrence rule) pattern.
     // (See: http://www.kanzaki.com/docs/ical/rrule.html)
@@ -149,6 +154,20 @@ Extensible.calendar.data.EventMappings = {
         name:    'RRule',
         mapping: 'rrule',
         type:    'string'
+    },
+    
+    // When using recurrence, the standard EndDate value will be the end date
+    // of the _recurrence series_, not the end date of the "event". In fact,
+    // with recurrence there is no single "event", only a pattern that generates
+    // event instances, each of which has a separate start and end date.
+    // Because of this we also store the duration of the event when using
+    // recurrence so that the end date of each event instance can be
+    // properly calculated.
+    Duration: {
+        name:         'Duration',
+        mapping:      'duration',
+        defaultValue: -1, // the standard int default of 0 is actually a valid duration
+        type:         'int'
     },
     
     // This is used to associate recurring event instances back to their
@@ -172,20 +191,6 @@ Extensible.calendar.data.EventMappings = {
         mapping:    'ristart',
         type:       'date',
         dateFormat: 'c'
-    },
-    
-    // When using recurrence, the standard EndDate value will be the end date
-    // of the _recurrence series_, not the end date of the "event". In fact,
-    // with recurrence there is no single "event", only a pattern that generates
-    // event instances, each of which has a separate start and end date.
-    // Because of this we also store the duration of the event when using
-    // recurrence so that the end date of each event instance can be
-    // properly calculated.
-    Duration: {
-        name:         'Duration',
-        mapping:      'duration',
-        defaultValue: -1,
-        type:         'int'
     },
     
     // Recurrence edit mode ('single', 'future' or 'all'). This is transient data
