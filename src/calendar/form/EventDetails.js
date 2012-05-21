@@ -241,10 +241,10 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             me.recurrenceField.setStartDate(rec.data[EventMappings.StartDate.name]);
             me.recurrenceField.setValue(rec.data[EventMappings.RRule.name]);
             
-            if (!rec.data[EventMappings.ROccurrenceStartDate.name]) {
+            if (!rec.data[EventMappings.RInstanceStartDate.name]) {
                 // If the record is new we have to set the instance start date explicitly to match the
                 // field's default so that it does not show up later as dirty if it is not edited:
-                rec.data[EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+                rec.data[EventMappings.RInstanceStartDate.name] = rec.getStartDate();
             }
         }
         

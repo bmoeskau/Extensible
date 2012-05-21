@@ -106,8 +106,7 @@ Ext.define('Extensible.calendar.data.EventModel', {
         
         delete me.data[EventMappings.OriginalEventId.name];
         delete me.data[EventMappings.RRule.name];
-        delete me.data[EventMappings.RSeriesStartDate.name];
-        delete me.data[EventMappings.ROccurrenceStartDate.name];
+        delete me.data[EventMappings.RInstanceStartDate.name];
         delete me.data[EventMappings.REditMode.name];
         
         return me;

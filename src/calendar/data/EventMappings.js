@@ -137,29 +137,45 @@ Extensible.calendar.data.EventMappings = {
     
 // ----- Recurrence properties -----
     
-    OriginalEventId: {
-        name:    'OriginalEventId',
-        mapping: 'origid',
-        type:    'string'
-    },
-
-    // The iCal-formatted RRULE (recurrence rule) pattern
-    // See: http://www.kanzaki.com/docs/ical/rrule.html
+    // The iCal-formatted RRULE (recurrence rule) pattern.
+    // (See: http://www.kanzaki.com/docs/ical/rrule.html)
+    // While technically recurrence could be implemented in other custom
+    // ways, the iCal format is the de facto industry standard, offers
+    // interoperability with other calendar apps (e.g. Google Calendar,
+    // Apple iCal, etc.) and provides a compact storage format. You could
+    // choose to provide a custom implementation, but out of the box only
+    // the iCal RRULE format is handled by the components.
     RRule: {
         name:    'RRule',
         mapping: 'rrule',
         type:    'string'
     },
     
-    ROccurrenceStartDate: {
-        name:       'ROccurrenceStartDate',
-        mapping:    'occstart',
+    // This is used to associate recurring event instances back to their
+    // original master events when sending edit requests to the server. This
+    // is required since each individual event instance will have a unique id
+    // (required by Ext stores) which is not guaranteed to be a real PK since
+    // typically these will be generated from the RRULE pattern, not real events
+    // that exist in the DB.
+    OriginalEventId: {
+        name:    'OriginalEventId',
+        mapping: 'origid',
+        type:    'string'
+    },
+    
+    // In cases where editing an event would require an exception date to be stored,
+    // the event instance's original start date must be used. Since the start date
+    // could be edited (and would not match as an exception in that case) the original
+    // start date is preserved prior to editing and sent with each request.
+    RInstanceStartDate: {
+        name:       'RInstanceStartDate',
+        mapping:    'ristart',
         type:       'date',
         dateFormat: 'c'
     },
     
-    // When using recurrence, the EndDate value above will be the end date
-    // of the _recurrence pattern_, not the end date of the "event". In fact,
+    // When using recurrence, the standard EndDate value will be the end date
+    // of the _recurrence series_, not the end date of the "event". In fact,
     // with recurrence there is no single "event", only a pattern that generates
     // event instances, each of which has a separate start and end date.
     // Because of this we also store the duration of the event when using

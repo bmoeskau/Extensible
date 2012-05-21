@@ -215,7 +215,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         
         if (editMode) {
             rec.data[EventMappings.REditMode.name] = editMode;
-            rec.data[EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            rec.data[EventMappings.RInstanceStartDate.name] = rec.getStartDate();
             this.doEventResize(rec, data);
         }
         // else user canceled

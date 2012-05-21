@@ -314,7 +314,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             form.loadRecord(rec);
         }
         
-        rec.data[EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+        rec.data[EventMappings.RInstanceStartDate.name] = rec.getStartDate();
         
         me.dateRangeField.setValue(rec.data);
         me.activeRecord = rec;

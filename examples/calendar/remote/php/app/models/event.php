@@ -26,7 +26,7 @@ class Event extends Model {
     public static $orig_event_id        = 'origid';
     public static $recur_instance_id    = 'rid';
     public static $recur_edit_mode      = 'redit';
-    public static $recur_instance_start = 'occstart';
+    public static $recur_instance_start = 'ristart';
     
     
     //=================================================================================================

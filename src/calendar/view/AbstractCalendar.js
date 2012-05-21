@@ -1784,7 +1784,7 @@ alert('End: '+bounds.end);
                 rec.clearRecurrence();
             }
             rec.data[EventMappings.REditMode.name] = editMode;
-            rec.data[EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            rec.data[EventMappings.RInstanceStartDate.name] = rec.getStartDate();
             this.doShiftEvent(rec, newStartDate, moveOrCopy);
         }
         // else user canceled
@@ -1819,7 +1819,7 @@ alert('End: '+bounds.end);
     // onRecurrenceMoveModeSelected: function(editMode, rec, newStartDate) {
         // if (editMode) {
             // rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
-            // rec.data[Extensible.calendar.data.EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            // rec.data[Extensible.calendar.data.EventMappings.RInstanceStartDate.name] = rec.getStartDate();
             // this.doShiftEvent(rec, newStartDate, 'move');
         // }
         // // else user canceled
@@ -1856,7 +1856,7 @@ alert('End: '+bounds.end);
     onRecurrenceDeleteModeSelected: function(editMode, rec, el) {
         if (editMode) {
             rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
-            rec.data[Extensible.calendar.data.EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
+            rec.data[Extensible.calendar.data.EventMappings.RInstanceStartDate.name] = rec.getStartDate();
             this.doDeleteEvent(rec, el);
         }
         // else user canceled
