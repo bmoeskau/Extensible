@@ -101,7 +101,7 @@ class Event extends Model {
         $rec->save();
         
         if ($rec->attributes[Event::$rrule]) {
-            $recs = self::generateInstances($rec->attributes, $_SESSION['startDate'], $_SESSION['endDate']);
+            $recs = self::generateInstances($rec->attributes, $_SESSION[$GLOBALS['app_id']]['startDate'], $_SESSION[$GLOBALS['app_id']]['endDate']);
         }
         else {
             $recs = array($rec->attributes);
@@ -179,7 +179,7 @@ class Event extends Model {
                             
                             // We want to return the union of both series, so first generate the
                             // instances from the original event based on the new end date:
-                            $result = self::generateInstances($rec->attributes, $_SESSION['startDate'], $_SESSION['endDate']);
+                            $result = self::generateInstances($rec->attributes, $_SESSION[$GLOBALS['app_id']]['startDate'], $_SESSION[$GLOBALS['app_id']]['endDate']);
                             // Then merge the results ($copy is already an array since self::create
                             // returns the created recurrence set):
                             $rec = array_merge($result, $copy);
@@ -230,7 +230,7 @@ class Event extends Model {
         }
         
         if ($rec->attributes[Event::$rrule]) {
-            $recs = self::generateInstances($rec->attributes, $_SESSION['startDate'], $_SESSION['endDate']);
+            $recs = self::generateInstances($rec->attributes, $_SESSION[$GLOBALS['app_id']]['startDate'], $_SESSION[$GLOBALS['app_id']]['endDate']);
         }
         else {
             $recs = array($rec->attributes);
@@ -398,7 +398,7 @@ class Event extends Model {
      * persist exceptions to a DB, and possibly would use standard EXRULE and/or EXDATE syntax.
      */
     private function addExceptionDate($eventId, $dt) {
-        $exDates = $_SESSION['exdates'];
+        $exDates = $_SESSION[$GLOBALS['app_id']]['exdates'];
         $newExDate = new DateTime($dt);
         
         $newExDate = $newExDate->format($_SESSION['exceptionFormat']);
@@ -410,14 +410,14 @@ class Event extends Model {
                     if (!in_array($newExDate, $dates)) {
                         array_push($dates, $newExDate);
                     }
-                    $_SESSION['exdates'][$idx] = array(Event::$event_id => $eventId, 'dates' => $dates);
+                    $_SESSION[$GLOBALS['app_id']]['exdates'][$idx] = array(Event::$event_id => $eventId, 'dates' => $dates);
                     return;
                 }
             }
-            array_push($_SESSION['exdates'], array(Event::$event_id => $eventId, 'dates' => array($newExDate)));
+            array_push($_SESSION[$GLOBALS['app_id']]['exdates'], array(Event::$event_id => $eventId, 'dates' => array($newExDate)));
         }
         else {
-            $_SESSION['exdates'] = array(
+            $_SESSION[$GLOBALS['app_id']]['exdates'] = array(
                 array(Event::$event_id => $eventId, 'dates' => array($newExDate))
             );
         }
@@ -428,7 +428,7 @@ class Event extends Model {
      * as a cleanup step after deleting recurring events that have existing exceptions.
      */
     private function removeExceptionDates($eventId, $dt = false) {
-        $exDates = $_SESSION['exdates'];
+        $exDates = $_SESSION[$GLOBALS['app_id']]['exdates'];
         
         if ($exDates) {
             if ($dt) {
@@ -443,10 +443,10 @@ class Event extends Model {
                             $key = array_search($delDate, $dates);
                             array_shift(array_splice($dates, $key, 1));
                         }
-                        $_SESSION['exdates'][$idx] = array(Event::$event_id => $eventId, 'dates' => $dates);
+                        $_SESSION[$GLOBALS['app_id']]['exdates'][$idx] = array(Event::$event_id => $eventId, 'dates' => $dates);
                     }
                     else {
-                        array_shift(array_splice($_SESSION['exdates'], $idx, 1));
+                        array_shift(array_splice($_SESSION[$GLOBALS['app_id']]['exdates'], $idx, 1));
                     }
                     return;
                 }
@@ -460,7 +460,7 @@ class Event extends Model {
      */
     private function exceptionMatch($eventId, $dt) {
         $dateString = $dt->format($_SESSION['exceptionFormat']);
-        $exDates = $_SESSION['exdates'];
+        $exDates = $_SESSION[$GLOBALS['app_id']]['exdates'];
         
         if ($exDates) {
             foreach ($exDates as $idx => $exDate) {

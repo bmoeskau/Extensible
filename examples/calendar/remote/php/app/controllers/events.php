@@ -12,10 +12,10 @@ class Events extends ApplicationController {
 		$res = new Response();
 		$res->success = true;
 		$res->message = "Loaded data";
-		//var_dump($this->request);
+		
         if (isset($_REQUEST['startDate'])) {
-            $_SESSION['startDate'] = $_REQUEST['startDate'];
-            $_SESSION['endDate'] = $_REQUEST['endDate'];
+            $_SESSION[$GLOBALS['app_id']]['startDate'] = $_REQUEST['startDate'];
+            $_SESSION[$GLOBALS['app_id']]['endDate'] = $_REQUEST['endDate'];
             $res->data = Event::range($_REQUEST['startDate'], $_REQUEST['endDate']);
         } else {
         	$res->data = Event::all();

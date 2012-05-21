@@ -16,6 +16,13 @@ class TestData {
         return date($_SESSION['dtformat'], $newDate);
     }
     
+    public static function getEvents() {
+        if ($GLOBALS['app_id'] == 'recurrence_example') {
+            return self::getRecurringEvents();
+        }
+        return self::getStandardEvents();
+    }
+    
     /**
      * Generate test data for standard (non-recurring) events
      */

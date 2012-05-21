@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Extensible : Recurrence Demo</title>
+    <!-- Sets up all Ext and Extensible includes: -->
+    <script type="text/javascript" src="../../../Extensible-config.js"></script>
+    
+    <!-- Page-specific includes -->
+    <script type="text/javascript" src="recurrence.js"></script>
+</head>
+<body>
+    <div style="visibility:hidden;">
+        <div id="sample-overview">
+            <h1>Recurrence Demo</h1>
+            <p>This sample demonstrates the recurrence support built into Calendar Pro. It loads a
+                default data set showing off some of the supported recurrence patterns, and also enables
+                the recurrence editor widget in the detailed event form. To enable recurrence editing you
+                simply pass <code>recurrence: true</code> to the CalendarPanel during creation.</p>
+                
+            <p>The meat of the implementation is actually in the back-end PHP code. Note that this is not
+                intended to be production-quality code -- it is merely an example of how one might approach
+                the implementation. Recurrence can be implemented in many different ways, and your chosen
+                platform and tools will influence how you do it.</p>
+                
+            <p>The PHP code is documented inline, so make sure to check the source for details. The primary
+                place to look for the recurrence processing logic is:<br><br>'remote/php/app/models/event.php'</p>
+                
+            <p class="view-src"><a target="_blank" href="recurrence.js">View the source</a></p>
+        </div>
+    </div>
+</body>
+</htm

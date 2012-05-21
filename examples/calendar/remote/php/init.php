@@ -16,10 +16,17 @@
     // Format for recurrence exception dates.
     $_SESSION['exceptionFormat'] = 'Y-m-d\TH:i:s';
     
+    $GLOBALS['app_id'] = isset($_REQUEST['app_id']) ? $_REQUEST['app_id'] : 'default';
+    
+    if (!isset($_SESSION[$GLOBALS['app_id']])) {
+        $_SESSION[$GLOBALS['app_id']] = array();
+    }
+    
     // The timezone to use for all datetimes so they are set consistently
     //date_default_timezone_set('America/Chicago');
 
     // base framework
+    require(dirname(__FILE__).'/lib/test_data.php');
     require(dirname(__FILE__).'/lib/session_db.php');
     require(dirname(__FILE__).'/lib/application_controller.php');
     require(dirname(__FILE__).'/lib/model.php');
