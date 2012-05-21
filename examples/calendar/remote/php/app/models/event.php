@@ -193,18 +193,15 @@ class Event extends Model {
                             $attr = array_merge($attr, $params);
                             // Make sure the id is the original id, not the recurrence instance id:
                             $attr[Event::$event_id] = $id;
-                            // Recalculate recurrence properties...
                             // Base duration off of the current instance start / end since the end
                             // date for the series will be some future date:
                             $attr[Event::$duration] = self::calculateDuration($attr);
-                            // Now update start to be the original series start since we are
-                            // updating the original source event for the series:
-                            $attr[Event::$start_date] = $attr[Event::$recur_series_start];
-                            // Finally recalculate the series end date:
-                            $attr[Event::$end_date] = self::calculateEndDate($attr);
-                            // Update the record to save:
+                            // Since we are updating the original master event (not an instance) make
+                            // sure we still have the original series start and end dates:
+                            $attr[Event::$start_date] = $rec->attributes[Event::$start_date];
+                            $attr[Event::$end_date] = $rec->attributes[Event::$end_date];
+                            // Update the record and save it:
                             $rec->attributes = $attr;
-                            
                             $dbh->update($idx, $rec->attributes);
                             break;
                     }
@@ -492,22 +489,25 @@ class Event extends Model {
         $counter = 0;
         
         if ($rrule) {
-            $startTime = strtotime($startDate);
-            $endTime = strtotime($endDate);
             $duration = $attr[Event::$duration];
+            
             if (!$duration) {
                 // Duration is required to calculate the end date of each instance. You could raise
                 // an error here if appropriate, but we'll just be nice and default it to 0 (i.e.
                 // same start and end dates):
                 $duration = 0;
             }
-            $rangeEnd = min($endTime, strtotime($attr[Event::$end_date]));
+            
+            // Only parse to the earlier of event end or current view end:
+            $rangeEnd = min($endDate, $attr[Event::$end_date]);
+            
             // Third-party recurrence parser -- see: lib/recur.php
             $recurrence = new When();
+            
             // Make sure to pass the "until" portion to limit the search -- in cases where the RRULE has no
             // end date or count, the parser will keep looping without this. We are also checking the results
             // below, but limiting the parser when possible should help a bit with efficiency.
-            $rdates = $recurrence->recur($startDate)->rrule($rrule)->until($endDate);
+            $rdates = $recurrence->recur($attr[Event::$start_date])->rrule($rrule)->until($rangeEnd);
             $idx = 1;
             
             while ($rdate = $rdates->next()) {
@@ -517,11 +517,11 @@ class Event extends Model {
                     // The current instance falls on an exception date so skip it
                     continue;
                 }
-                if ($rtime < $startTime) {
+                if ($rtime < strtotime($attr[Event::$start_date])) {
                     // Instance falls before the range: skip, but keep trying
                     continue;
                 }
-                if ($rtime > $rangeEnd) {
+                if ($rtime > strtotime($rangeEnd)) {
                     // Instance falls after the range: the returned set is sorted in date
                     // order, so we can now exit and return the current set:
                     break;
@@ -537,6 +537,7 @@ class Event extends Model {
                 $copy[Event::$orig_event_id] = $attr[Event::$event_id];
                 $copy[Event::$duration] = $duration;
                 $copy[Event::$start_date] = $rdate->format($_SESSION['dtformat']);
+                $copy[Event::$recur_series_start] = $attr[Event::$start_date];
                 $copy[Event::$end_date] = $rdate->add(new DateInterval('PT'.$duration.'M'))->format($_SESSION['dtformat']);
                 
                 array_push($instances, $copy);
