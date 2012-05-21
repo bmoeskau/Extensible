@@ -231,24 +231,19 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     // inherited docs
     loadRecord: function(rec) {
         var me = this,
-            EventMappings = Extensible.calendar.data.EventMappings,
-            recurrenceStart = rec.data[EventMappings.RSeriesStartDate.name] || rec.data[EventMappings.StartDate.name];
+            EventMappings = Extensible.calendar.data.EventMappings;
         
         me.form.reset().loadRecord.apply(me.form, arguments);
         me.activeRecord = rec;
         me.dateRangeField.setValue(rec.data);
         
         if (me.recurrenceField) {
-            me.recurrenceField.setStartDate(recurrenceStart);
+            me.recurrenceField.setStartDate(rec.data[EventMappings.StartDate.name]);
             me.recurrenceField.setValue(rec.data[EventMappings.RRule.name]);
             
-            if (!rec.data[EventMappings.RSeriesStartDate.name]) {
-                // If the record is new we have to set the recurrence start date explicitly to match the
-                // field's default so that it does not show up later as dirty if it is not edited:
-                rec.data[EventMappings.RSeriesStartDate.name] = recurrenceStart;
-            }
             if (!rec.data[EventMappings.ROccurrenceStartDate.name]) {
-                // Same thing for the occurrence being edited
+                // If the record is new we have to set the instance start date explicitly to match the
+                // field's default so that it does not show up later as dirty if it is not edited:
                 rec.data[EventMappings.ROccurrenceStartDate.name] = rec.getStartDate();
             }
         }
@@ -313,12 +308,6 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         // rec.set(M.EndDate.name, dates[1]);
         // rec.set(M.IsAllDay.name, dates[2]);
 //         
-        // //if (rec.phantom) {
-            // // On initial creation, set the recurrence start date so that every instance
-            // // generated later has it available regardless of instance start date
-            // rec.set(M.RSeriesStartDate.name, this.recurrenceField.getStartDate());
-        // //}
-//         
         // dirty = rec.dirty;
         // //delete rec.store; // make sure the record does not try to autosave
         // rec.endEdit();
@@ -360,10 +349,6 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         if (EventMappings.Duration) {
             obj[EventMappings.Duration.name] = Extensible.Date.diff(startDate, obj[EventMappings.EndDate.name],
                 Extensible.calendar.data.EventModel.resolution);
-        }
-        
-        if (this.recurrenceField && EventMappings.RSeriesStartDate) {
-            obj[EventMappings.RSeriesStartDate.name] = this.recurrenceField.getStartDate();
         }
         
         record.set(obj);

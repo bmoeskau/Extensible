@@ -151,15 +151,6 @@ Extensible.calendar.data.EventMappings = {
         type:    'string'
     },
     
-    // The start date of the recurrence pattern, which could be different
-    // than the start date of the event
-    RSeriesStartDate: {
-        name:       'RSeriesStartDate',
-        mapping:    'rstart',
-        type:       'date',
-        dateFormat: 'c'
-    },
-    
     ROccurrenceStartDate: {
         name:       'ROccurrenceStartDate',
         mapping:    'occstart',

@@ -26,7 +26,6 @@ class Event extends Model {
     public static $orig_event_id        = 'origid';
     public static $recur_instance_id    = 'rid';
     public static $recur_edit_mode      = 'redit';
-    public static $recur_series_start   = 'rstart';
     public static $recur_instance_start = 'occstart';
     
     
@@ -171,7 +170,7 @@ class Event extends Model {
                             // Now create the new event for the updated future series:
                             $copy = $params;
                             // Update the recurrence start dates to the edited date:
-                            $copy[Event::$recur_series_start] = $copy[Event::$recur_instance_start] = $copy[Event::$start_date];
+                            $copy[Event::$recur_instance_start] = $copy[Event::$start_date];
                             // Don't reuse the existing instance id since we're creating a new event:
                             unset($copy[Event::$event_id]);
                             // Create the new event (which also persists it) -- note that this method
@@ -216,7 +215,6 @@ class Event extends Model {
                         // to calculate the duration and end date for the series.
                         $attr[Event::$duration] = self::calculateDuration($attr);
                         $attr[Event::$end_date] = self::calculateEndDate($attr);
-                        $attr[Event::$recur_series_start] = $attr[Event::$start_date];
                     }
                     
                     $rec->attributes = $attr;
@@ -537,7 +535,6 @@ class Event extends Model {
                 $copy[Event::$orig_event_id] = $attr[Event::$event_id];
                 $copy[Event::$duration] = $duration;
                 $copy[Event::$start_date] = $rdate->format($_SESSION['dtformat']);
-                $copy[Event::$recur_series_start] = $attr[Event::$start_date];
                 $copy[Event::$end_date] = $rdate->add(new DateInterval('PT'.$duration.'M'))->format($_SESSION['dtformat']);
                 
                 array_push($instances, $copy);
