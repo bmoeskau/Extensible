@@ -39,7 +39,7 @@ class Event extends Model {
      * Retrieve all events that fall between two dates inclusively. Used when retrieving
      * events to display within a specific calendar view (basically a specialized READ method).
      */
-    static function range($startDate, $endDate) {
+    public static function range($startDate, $endDate) {
         global $dbh;
         $found = array();
         // add a day to the range end to include event times on that day
@@ -66,7 +66,7 @@ class Event extends Model {
     /**
      * Helper method for range() that tests whether or not an event falls between two dates inclusively.
      */
-    private function inRange($attr, $startDate, $endDate) {
+    private static function inRange($attr, $startDate, $endDate) {
         $startTime = strtotime($startDate);
         $endTime = strtotime($endDate);
         $recStart = strtotime($attr[Event::$start_date]);
@@ -82,7 +82,7 @@ class Event extends Model {
     /**
      * Create a new event, returning multiple events if recurring
      */
-    static function create($params) {
+    public static function create($params) {
         $rec = new self(is_array($params) ? $params : get_object_vars($params));
         
         if ($rec->attributes[Event::$rrule]) {
@@ -113,7 +113,7 @@ class Event extends Model {
     /**
      * Update an event or recurring series
      */
-    static function update($id, $params) {
+    public static function update($id, $params) {
         global $dbh;
         $rec = self::find($id);
 
@@ -242,7 +242,7 @@ class Event extends Model {
     /**
      * Destroy the event, or possibly add an exception for a recurring instance
      */
-    static function destroy($id, $params) {
+    public static function destroy($id, $params) {
         global $dbh;
         $rec = self::find($id);
 
@@ -317,7 +317,7 @@ class Event extends Model {
     /**
      * Returns the duration of the event in minutes
      */
-    private function calculateDuration($attr) {
+    private static function calculateDuration($attr) {
         $start = new DateTime($attr[Event::$start_date]);
         $end = new DateTime($attr[Event::$end_date]);
         $interval = $start->diff($end);
@@ -342,7 +342,7 @@ class Event extends Model {
      * means that in a real-world implementation querying might be slightly
      * less efficient (which does not apply in this example).
      */
-    private function calculateEndDate($attr) {
+    private static function calculateEndDate($attr) {
         $end = $attr[Event::$end_date];
         
         if ($attr[Event::$rrule]) {
@@ -357,7 +357,7 @@ class Event extends Model {
      * an existing UNTIL value or adding it if needed so that there is only one
      * unqiue UNTIL value when this method returns.
      */
-    private function endDateRecurringSeries($rec, $endDate) {
+    private static function endDateRecurringSeries($rec, $endDate) {
         $rec->attributes[Event::$end_date] = $endDate->format('c');
         
         $parts = explode(';', $rec->attributes[Event::$rrule]);
@@ -377,7 +377,7 @@ class Event extends Model {
     /**
      * Return a single, non-recurring copy of an event based on its attributes
      */
-    private function createSingleCopy($attr) {
+    private static function createSingleCopy($attr) {
         $copy = $attr;
         
         unset($copy[Event::$event_id]);
@@ -397,7 +397,7 @@ class Event extends Model {
      * are simply stored in session using the event's id as the key. A real implementation would
      * persist exceptions to a DB, and possibly would use standard EXRULE and/or EXDATE syntax.
      */
-    private function addExceptionDate($eventId, $dt) {
+    private static function addExceptionDate($eventId, $dt) {
         $exDates = $_SESSION[$GLOBALS['app_id']]['exdates'];
         $newExDate = new DateTime($dt);
         
@@ -427,10 +427,10 @@ class Event extends Model {
      * Remove exception dates added by addExceptionDate(). Currently this is only done
      * as a cleanup step after deleting recurring events that have existing exceptions.
      */
-    private function removeExceptionDates($eventId, $dt = false) {
-        $exDates = $_SESSION[$GLOBALS['app_id']]['exdates'];
-        
-        if ($exDates) {
+    private static function removeExceptionDates($eventId, $dt = false) {
+        if (isset($_SESSION[$GLOBALS['app_id']]['exdates'])) {
+            $exDates = $_SESSION[$GLOBALS['app_id']]['exdates'];
+            
             if ($dt) {
                 $delDate = new DateTime($dt);
                 $delDate = $delDate->format($_SESSION['exceptionFormat']);
@@ -458,11 +458,12 @@ class Event extends Model {
      * Helper method to verify whether or not an exception date already exists for a given
      * event to avoid adding duplicate exception dates.
      */
-    private function exceptionMatch($eventId, $dt) {
+    private static function exceptionMatch($eventId, $dt) {
         $dateString = $dt->format($_SESSION['exceptionFormat']);
-        $exDates = $_SESSION[$GLOBALS['app_id']]['exdates'];
         
-        if ($exDates) {
+        if (isset($_SESSION[$GLOBALS['app_id']]['exdates'])) {
+            $exDates = $_SESSION[$GLOBALS['app_id']]['exdates'];
+            
             foreach ($exDates as $idx => $exDate) {
                 if ($exDate[Event::$event_id] == $eventId) {
                     foreach ($exDate['dates'] as $date) {
@@ -481,7 +482,7 @@ class Event extends Model {
     /**
      * Return all recurring event instances that fall between two dates.
      */
-    private function generateInstances($attr, $startDate, $endDate) {
+    private static function generateInstances($attr, $startDate, $endDate) {
         $rrule = $attr[Event::$rrule];
         $instances = array();
         $counter = 0;

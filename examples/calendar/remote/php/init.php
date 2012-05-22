@@ -4,7 +4,7 @@
     
     // Return errors as message + call stack, not as the default
     // HTML page since our API is Ajax-based not page based
-    ini_set(html_errors, 0);
+    ini_set('html_errors', 0);
     
     // Format all datetime values explicitly without timezone
     // so that dates will be displayed as user-local. In a real
@@ -22,8 +22,9 @@
         $_SESSION[$GLOBALS['app_id']] = array();
     }
     
-    // The timezone to use for all datetimes so they are set consistently
-    //date_default_timezone_set('America/Chicago');
+    // The timezone to use for all datetimes. This seems to be required on
+    // Windows or it will throw an error.
+    date_default_timezone_set('UTC');
 
     // base framework
     require(dirname(__FILE__).'/lib/test_data.php');
