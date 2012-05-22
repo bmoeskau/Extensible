@@ -16,8 +16,11 @@
     // Format for recurrence exception dates.
     $_SESSION['exceptionFormat'] = 'Y-m-d\TH:i:s';
     
+    // This will be the current example's session key so that multiple
+    // examples can use this same server code without stepping on each other.
     $GLOBALS['app_id'] = isset($_REQUEST['app_id']) ? $_REQUEST['app_id'] : 'default';
     
+    // If this is the first time this example has run init its session container.
     if (!isset($_SESSION[$GLOBALS['app_id']])) {
         $_SESSION[$GLOBALS['app_id']] = array();
     }
