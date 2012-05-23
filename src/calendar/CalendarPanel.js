@@ -955,7 +955,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     
     /**
      * Return the calendar view that is currently active, which will be a subclass of
-     * {@link Extensible.calendar.view.AbstractCalendar CalendarView}.
+     * {@link Extensible.calendar.view.AbstractCalendar AbstractCalendar}.
      * @return {Extensible.calendar.view.AbstractCalendar} The active view
      */
     getActiveView: function(){

@@ -2026,7 +2026,7 @@ alert('End: '+bounds.end);
      * {@link Extensible.calendar.CalendarPanel CalendarPanel}. If it is not active, or
      * not hosted inside a CalendarPanel, returns false.
      * @return {Boolean} True if this is the active CalendarPanel view, else false
-     * @since 2.0
+     * @since 2.0.0
      */
     isActiveView: function() {
         var calendarPanel = this.ownerCalendarPanel;
