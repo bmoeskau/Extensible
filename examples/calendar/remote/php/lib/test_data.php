@@ -7,7 +7,7 @@ class TestData {
     /**
      * Helper method to generate dates relative to the current date
      */
-    private function getDt($format) {
+    private static function getDt($format) {
         // Today (date only with no time component so everything starts consistently)
         $today = date('Y-m-d');
         // Add/subtract from today based on the format passed in, e.g. "+5 days"
