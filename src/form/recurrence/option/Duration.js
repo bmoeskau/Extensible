@@ -155,10 +155,20 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
                 return 'COUNT=' + me.untilNumberField.getValue();
             }
             else if (me.untilDateField.isVisible()) {
-                return 'UNTIL=' + me.formatDate(me.untilDateField.getValue());
+                return 'UNTIL=' + me.formatDate(this.adjustUntilDateValue(me.untilDateField.getValue()));
             }
         }
         return '';
+    },
+    
+    /**
+     * If a recurrence UNTIL date is specified, it must be inclusive of all times on that date. By default
+     * the returned date value is incremented by one day minus one second to ensure that.
+     * @param {Object} untilDate The raw UNTIL date value returned from the untilDateField
+     * @return {Date} The adjusted Date object
+     */
+    adjustUntilDateValue: function(untilDate) {
+        return Extensible.Date.add(untilDate, {days: 1, seconds: -1});
     },
     
     setValue: function(v) {
