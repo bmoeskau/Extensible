@@ -506,7 +506,23 @@ viewConfig: {
              * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was deleted
              * @param {Ext.Element} el The target element
              */
-            eventdelete: true
+            eventdelete: true,
+            /**
+             * @event eventexception
+             * Fires after an event has been processed via an Ext proxy and returned with an exception. This
+             * could be because of a server error, or because the data returned <code>success: false</code>.
+             *
+             * The view provides default handling via the overrideable {@link #notifyOnException} method. If
+             * any function handling this event returns false, the notifyOnException method will not be called.
+             *
+             * Note that only Server proxy and subclasses (including Ajax proxy) will raise this event.
+             *
+             * @param {Extensible.calendar.view.AbstractCalendar} this
+             * @param {Object} response The raw response object returned from the server
+             * @param {Ext.data.Operation} operation The operation that was processed
+             * @since 2.0.0
+             */
+            eventexception: true
         });
     },
 
@@ -1482,13 +1498,17 @@ alert('End: '+bounds.end);
             currStore.un("load", this.onEventStoreLoad, this);
             currStore.un("clear", this.refresh, this);
             currStore.un("write", this.onWrite, this);
-            currStore.un("exception", this.onException, this);
+            // Note that this handler is attached to the proxy's exception event. In Ext 4 the store no longer
+            // raises an exception event. Store.sync() does accept a callback argument in 4.1+, but in 4.0.x
+            // unfortunately the only way to handle this is directly on the proxy, so for ease of compatibility
+            // that's what we're doing here.
+            currStore.getProxy().un("exception", this.onException, this);
         }
         if (store) {
             store.on("load", this.onEventStoreLoad, this);
             store.on("clear", this.refresh, this);
             store.on("write", this.onWrite, this);
-            store.on("exception", this.onException, this);
+            store.getProxy().on("exception", this.onException, this);
         }
         this.store = store;
     },
@@ -1503,14 +1523,54 @@ alert('End: '+bounds.end);
     // No longer used, but kept here for compatibility
     onDataChanged: this.onEventStoreLoad,
 
-    // private
-    onException: function(proxy, type, action, o, res, arg) {
-        // form edits are explicitly canceled, but we may not know if a drag/drop operation
-        // succeeded until after a server round trip. if the update failed we have to explicitly
-        // reject the changes so that the record doesn't stick around in the store's modified list
-        if (arg && Ext.isFunction(arg.reject)) {
-            arg.reject();
+    /**
+     * This method handles internal housekeeping for cleaning up unsaved records in the store, and also
+     * calls {@link #notifyOnException} to provide an easily overrideable mechanism for customizing if/how
+     * the user should be notified when an error occurs.
+     * @private
+     */
+    onException: function(proxy, response, operation) {
+        // Form edits are explicitly canceled, but we may not know if a drag/drop operation
+        // succeeded until after a server round trip. If the server action failed for any reason we have to
+        // explicitly reject the changes so that the record doesn't stick around in the store's modified list
+        // if the user cancels the action without successfully persisting the change to the server.
+        Ext.each(operation.records, function(rec) {
+            if (rec.dirty) {
+                if (rec.phantom) {
+                    rec.unjoin(this.eventStore);
+                }
+                else {
+                    rec.reject();
+                }
+            }
+        }, this);
+        
+        if (this.fireEvent('eventexception', this, response, operation) !== false) {
+            this.notifyOnException(response, operation);
         }
+    },
+    
+    /**
+     * This is an overrideable method for notifying the user when an exception occurs while attempting to
+     * process records via a proxy. The default implementation is to display a standard Ext MessageBox with
+     * the returned error message, but you can override this method to provide any desired notification.
+     *
+     * Note that the view will also raise the {@link #eventexception} event automatically. Event handling
+     * functions can return false to bypass this method if application-specific code might conditionally
+     * handle exceptions, and still fall back to this method in other cases. To bypass this method globally
+     * you can simply remove it like so (or you could do the same thing in a view subclass):
+     * <pre><code>
+Ext.override(Extensible.calendar.view.AbstractCalendar, {
+    notifyOnException: Ext.emptyFn
+});
+     * </code></pre>
+     * @param {Object} response The raw response object returned from the server
+     * @param {Ext.data.Operation} operation The operation that was processed
+     * @since 2.0.0
+     */
+    notifyOnException: function(response, operation) {
+        Ext.Msg.alert('Server Exception', 'The action failed with the following response:<br>' +
+            response.responseText);
     },
 
     /**

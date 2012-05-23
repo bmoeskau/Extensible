@@ -522,6 +522,22 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              *        {@link Extensible.calendar.data.EventModel record} for the event that was resized
              * containing the updated start and end dates
              */
+            /**
+             * @event eventexception
+             * Fires after an event has been processed via an Ext proxy and returned with an exception. This
+             * could be because of a server error, or because the data returned <code>success: false</code>.
+             *
+             * The view provides default handling via the overrideable
+             * {@link Extensible.calendar.view.AbstractCalendar#notifyOnException notifyOnException} method. If
+             * any function handling this event returns false, the notifyOnException method will not be called.
+             *
+             * Note that only Server proxy and subclasses (including Ajax proxy) will raise this event.
+             *
+             * @param {Extensible.calendar.CalendarPanel} this
+             * @param {Object} response The raw response object returned from the server
+             * @param {Ext.data.Operation} operation The operation that was processed
+             * @since 2.0.0
+             */
         });
         
         this.addCls('x-cal-panel');
@@ -629,12 +645,13 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         cfg.listeners = cfg.listeners || {};
         cfg.listeners.afterrender = {
             fn: function(c){
-                // relay view events so that app code only has to handle them in one place.
-                // these events require no special handling by the calendar panel 
+                // Relay view events so that app code only has to handle them in one place.
+                // These events require no special handling by the calendar panel.
                 this.relayEvents(c, ['eventsrendered', 'eventclick', 'dayclick', 'eventover', 'eventout',
                     'beforedatechange', 'datechange', 'rangeselect', 'beforeeventcopy', 'eventcopy',
                     'beforeeventmove', 'eventmove', 'initdrag', 'dayover', 'dayout', 'beforeeventresize',
-                    'eventresize', 'eventadd', 'eventupdate', 'beforeeventdelete', 'eventdelete', 'eventcancel']);
+                    'eventresize', 'eventadd', 'eventupdate', 'beforeeventdelete', 'eventdelete',
+                    'eventcancel', 'eventexception']);
                 
                 c.on('editdetails', this.onEditDetails, this);
             },
