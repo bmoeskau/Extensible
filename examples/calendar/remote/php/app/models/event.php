@@ -514,11 +514,7 @@ class Event extends Model {
             
             // Third-party recurrence parser -- see: lib/recur.php
             $recurrence = new When();
-            
-            // Make sure to pass the "until" portion to limit the search -- in cases where the RRULE has no
-            // end date or count, the parser will keep looping without this. We are also checking the results
-            // below, but limiting the parser when possible should help a bit with efficiency.
-            $rdates = $recurrence->recur($attr[Event::$start_date])->rrule($rrule)->until($rangeEnd);
+            $rdates = $recurrence->recur($attr[Event::$start_date])->rrule($rrule);
             $idx = 1;
             
             while ($rdate = $rdates->next()) {
@@ -554,7 +550,9 @@ class Event extends Model {
                 
                 if (++$counter > 99) {
                     // Should never get here, but it's our safety valve against infinite looping.
-                    // You'd probably want to raise an application error if this happens.
+                    // You'd probably want to raise an application error if this happens. Note that 99
+                    // is sufficient for the current max view span, but if a multi-month or year view was
+                    // implemented the max instance count would need to be bumped up as needed.
                     break;
                 }
             }
