@@ -180,7 +180,9 @@ class Event extends Model {
                             
                             // We want to return the union of both series, so first generate the
                             // instances from the original event based on the new end date:
-                            $result = self::generateInstances($rec->attributes, $_SESSION[$GLOBALS['app_id']]['startDate'], $_SESSION[$GLOBALS['app_id']]['endDate']);
+                            $result = self::generateInstances($rec->attributes,
+                                $_SESSION[$GLOBALS['app_id']]['startDate'],
+                                $_SESSION[$GLOBALS['app_id']]['endDate']);
                             // Then merge the results ($copy is already an array since self::create
                             // returns the created recurrence set):
                             $rec = array_merge($result, $copy);
@@ -196,9 +198,18 @@ class Event extends Model {
                             // Base duration off of the current instance start / end since the end
                             // date for the series will be some future date:
                             $attr[Event::$duration] = self::calculateDuration($attr);
-                            // Since we are updating the original master event (not an instance) make
-                            // sure we still have the original series start and end dates:
-                            $attr[Event::$start_date] = $rec->attributes[Event::$start_date];
+                            // In case the start date was edited by the user, we need to recalculate
+                            // the updated start date based on the time difference between the original
+                            // and current values:
+                            $instanceStart = new DateTime($params[Event::$recur_instance_start]);
+                            $newStart = new DateTime($params[Event::$start_date]);
+                            $diff = $instanceStart->diff($newStart);
+                            // Now apply the diff timespan to the original start date:
+                            $origStart = new DateTime($rec->attributes[Event::$start_date]);
+                            $attr[Event::$start_date] = $origStart->add($diff)->format('c');
+                            // Finally update the end date to the original series end date. This is
+                            // important in the case where the series may have been split previously
+                            // (e.g. by a "future" edit) so we want to preserve that:
                             $attr[Event::$end_date] = $rec->attributes[Event::$end_date];
                             // Update the record and save it:
                             $rec->attributes = $attr;
@@ -346,7 +357,7 @@ class Event extends Model {
     private static function calculateEndDate($attr) {
         $end = $attr[Event::$end_date];
         
-        if ($attr[Event::$rrule]) {
+        if (isset($attr[Event::$rrule]) && $attr[Event::$rrule] != '') {
             $end = date($_SESSION['dtformat'], PHP_INT_MAX);
         }
         return $end;
@@ -365,7 +376,7 @@ class Event extends Model {
         $newRrule = array();
         $untilFound = false;
         
-        foreach($parts as $part) {
+        foreach ($parts as $part) {
             if (strrpos($part, 'UNTIL=') === false) {
                 array_push($newRrule, $part);
             }
