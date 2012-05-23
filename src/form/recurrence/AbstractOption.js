@@ -18,7 +18,12 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     
     key: undefined,
     
-    dateValueFormat: 'Ymd\\T000000\\Z',
+    /**
+     * @cfg {String} dateValueFormat
+     * The date string format to return in the RRULE. This is the standard ISO-style iCal
+     * date format, e.g. January 31, 2012, 14:00 would be formatted as: "20120131T140000Z".
+     */
+    dateValueFormat: 'Ymd\\THis\\Z',
     
     optionDelimiter: ';',
     
