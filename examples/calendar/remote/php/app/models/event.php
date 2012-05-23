@@ -50,7 +50,7 @@ class Event extends Model {
         
         foreach ($allRows as $attr) {
             if (self::inRange($attr, $startDate, $endDate)) {
-                if ($attr[Event::$rrule]) {
+                if (isset($attr[Event::$rrule]) && $attr[Event::$rrule] != '') {
                     $found = array_merge($found, self::generateInstances($attr, $startDate, $endDate));
                 }
                 else {
@@ -85,7 +85,7 @@ class Event extends Model {
     public static function create($params) {
         $rec = new self(is_array($params) ? $params : get_object_vars($params));
         
-        if ($rec->attributes[Event::$rrule]) {
+        if (isset($rec->attributes[Event::$rrule]) && $rec->attributes[Event::$rrule] != '') {
             // If this is a recurring event,first calculate the duration between
             // the start and end datetimes so that each recurring instance can
             // be properly calculated.
@@ -100,8 +100,9 @@ class Event extends Model {
         
         $rec->save();
         
-        if ($rec->attributes[Event::$rrule]) {
-            $recs = self::generateInstances($rec->attributes, $_SESSION[$GLOBALS['app_id']]['startDate'], $_SESSION[$GLOBALS['app_id']]['endDate']);
+        if (isset($rec->attributes[Event::$rrule]) && $rec->attributes[Event::$rrule] != '') {
+            $recs = self::generateInstances($rec->attributes, $_SESSION[$GLOBALS['app_id']]['startDate'],
+                $_SESSION[$GLOBALS['app_id']]['endDate']);
         }
         else {
             $recs = array($rec->attributes);
@@ -398,12 +399,12 @@ class Event extends Model {
      * persist exceptions to a DB, and possibly would use standard EXRULE and/or EXDATE syntax.
      */
     private static function addExceptionDate($eventId, $dt) {
-        $exDates = $_SESSION[$GLOBALS['app_id']]['exdates'];
         $newExDate = new DateTime($dt);
-        
         $newExDate = $newExDate->format($_SESSION['exceptionFormat']);
         
-        if ($exDates) {
+        if (isset($_SESSION[$GLOBALS['app_id']]['exdates'])) {
+            $exDates = $_SESSION[$GLOBALS['app_id']]['exdates'];
+            
             foreach ($exDates as $idx => $exDate) {
                 if ($exDate[Event::$event_id] == $eventId) {
                     $dates = $exDate['dates'];

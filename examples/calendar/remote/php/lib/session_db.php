@@ -27,6 +27,8 @@ class SessionDB {
         $_SESSION[$GLOBALS['app_id']]['rs'][$idx] = $rec;
     }
     public function destroy($idx) {
-        return array_shift(array_splice($_SESSION[$GLOBALS['app_id']]['rs'], $idx, 1));
+        $tmp = array_splice($_SESSION[$GLOBALS['app_id']]['rs'], $idx, 1);
+        $newarray = array_shift($tmp);
+        return $newarray;
     }
 }
