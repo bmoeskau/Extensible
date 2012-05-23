@@ -1680,8 +1680,8 @@ alert('End: '+bounds.end);
 
         if (this.store.indexOf(rec) === -1) {
             this.store.add(rec);
-            this.save();
         }
+        this.save();
         this.fireEvent('eventadd', this, rec);
     },
 
