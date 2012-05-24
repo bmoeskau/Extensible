@@ -21,7 +21,7 @@ IF NOT EXIST %EXTENSIBLE_ROOT%\NUL GOTO E_FOLDER_NOT_FOUND
 IF "%1" == "-h" GOTO E_USAGE
 
 :: Any cleanup that needs to happen prior to the build
-del "%EXTENSIBLE_ROOT%\resources\css\extensible-all.css"
+if exist %EXTENSIBLE_ROOT%\resources\css\extensible-all.css del %EXTENSIBLE_ROOT%\resources\css\extensible-all.css
 
 :: Build it
 java -jar JSBuilder2.jar --projectFile %EXTENSIBLE_ROOT%\build\extensible.jsb2 --homeDir %EXTENSIBLE_OUTPUT%
