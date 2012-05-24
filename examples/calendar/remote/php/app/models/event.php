@@ -4,6 +4,19 @@
  */
 class Event extends Model {
     
+	// This is the maximum number of event instances per master recurring event to generate and return
+	// when recurrence is in use. Generally the recurrence pattern defined on each event, in combination
+	// with the supplied query date range, should already limit the instances returned to a reasonable
+	// range. This value is a saftey check in case something is not specified correctly to avoid the
+	// recurrence parser looping forever (e.g., no end date is supplied). This value should accommodate
+	// the max realistic combination of events for the supported views and event frequency. For example,
+	// by default the maximum frequency is daily, so given a maximum view range of 6 weeks and one
+	// instance per day, the minimum required value would be 42. The default of 99 will handle any
+	// views supported by Extensible out of the box, but if some custom view range was implemented
+	// (e.g. year view) or if the recurrence resolution was increased (e.g., hourly) then you would
+	// have to increase this value accordingly.
+	public static $max_event_instances = 99;
+	
     //=================================================================================================
     //
     // Event property mappings. The default values match the property names as used in the example
@@ -548,7 +561,7 @@ class Event extends Model {
                 
                 array_push($instances, $copy);
                 
-                if (++$counter > 99) {
+                if (++$counter > Event::$max_event_instances) {
                     // Should never get here, but it's our safety valve against infinite looping.
                     // You'd probably want to raise an application error if this happens. Note that 99
                     // is sufficient for the current max view span, but if a multi-month or year view was
