@@ -74,6 +74,10 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     
     initRefs: Ext.emptyFn,
     
+    setFrequency: function(freq) {
+        this.frequency = freq;
+    },
+    
     setStartDate: function(dt) {
         this.startDate = dt;
         return this;

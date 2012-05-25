@@ -14,12 +14,20 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     maxOccurrences: 999,
     
     /**
-     * The number of days after the recurrence start date to set the end date by default
+     * @cfg {Number} defaultEndDateOffset
+     * The unit of time after the start date to set the end date field when no end date is specified in the
+     * recurrence rule (defaults to 5). The specific date value depends on the recurrence frequency
+     * (selected in the {@link Extensible.form.recurrence.FrequencyCombo FrequencyCombo}) which is the
+     * unit by which this setting is multiplied to calculate the default date. For example, if recurrence
+     * frequency is daily, then the resulting date would be 5 days after the start date. However, if
+     * frequency is monthly, then the date would be 5 months after the start date.
      */
     defaultEndDateOffset: 5,
     
     /**
-     * The number of days after the recurrence start date to set as the minimum allowable end date
+     * @cfg {Number} minDateOffset
+     * The number of days after the start date to set as the minimum allowable end date
+     * (defaults to 1).
      */
     minDateOffset: 1,
     
@@ -60,7 +68,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             allowBlank: false,
             hidden: true,
             minValue: Ext.Date.add(startDate, Ext.Date.DAY, me.minDateOffset),
-            value: Ext.Date.add(startDate, Ext.Date.DAY, me.defaultEndDateOffset),
+            value: me.getDefaultEndDate(startDate),
             listeners: {
                 'change': Ext.bind(me.onEndDateChange, me)
             }
@@ -110,6 +118,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         }
         else {
             me.untilDateField.hide();
+            me.untilDateField.setValue(null);
         }
         
         if (toShow === 'for') {
@@ -140,10 +149,52 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             me.untilDateField.setMinValue(dt);
             
             if (!value || me.untilDateField.getValue() < dt) {
-                me.untilDateField.setValue(Ext.Date.add(dt, Ext.Date.DAY, me.defaultEndDateOffset));
+                me.initUntilDate(dt);
             }
         }
         return me;
+    },
+    
+    setFrequency: function() {
+        this.callParent(arguments);
+        this.initUntilDate();
+        
+        return this;
+    },
+    
+    initUntilDate: function(startDate) {
+        if (!this.untilDateField.getValue()) {
+            var endDate = this.getDefaultEndDate(startDate || this.getStartDate());
+            this.untilDateField.setValue(endDate);
+        }
+        return this;
+    },
+    
+    getDefaultEndDate: function(startDate) {
+        var options = {},
+            unit;
+        
+        switch (this.frequency) {
+            case 'WEEKLY':
+            case 'WEEKDAYS':
+                unit = 'weeks';
+                break;
+            
+            case 'MONTHLY':
+                unit = 'months';
+                break;
+            
+            case 'YEARLY':
+                unit = 'years';
+                break;
+            
+            default:
+                unit = 'days';
+        }
+        
+        options[unit] = this.defaultEndDateOffset;
+        
+        return Extensible.Date.add(startDate, options);
     },
     
     getValue: function() {

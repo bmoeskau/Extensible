@@ -312,6 +312,10 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         if (me.frequencyCombo) {
             me.frequencyCombo.setValue(freq);
             me.showOptions(freq);
+            
+            this.innerContainer.items.each(function(item) {
+                item.setFrequency(freq);
+            });
         }
         else {
             me.on('afterrender', function() {
