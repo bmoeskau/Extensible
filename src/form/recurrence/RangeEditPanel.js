@@ -13,9 +13,9 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
     optionAllDescription: 'Apply to every event in this series.',
     
     editModes: {
-        single: 'single',
-        future: 'future',
-        all: 'all'
+        SINGLE: 'single',
+        FUTURE: 'future',
+        ALL: 'all'
     },
     
     border: false,
@@ -29,7 +29,7 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
     initComponent: function(){
         var me = this;
         
-        me.editMode = me.editModes.single;
+        me.editMode = me.editMode || me.editModes.ALL;
         
         me.items = [
             me.getHeaderConfig(),
@@ -86,19 +86,19 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
             itemId: me.id + '-single',
             text: me.optionSingleButtonText,
             iconCls: 'recur-edit-single',
-            pressed: me.editMode === me.editModes.single
+            pressed: me.editMode === me.editModes.SINGLE
         }, defaultConfig),
         Ext.apply({
             itemId: me.id + '-future',
             text: me.optionFutureButtonText,
             iconCls: 'recur-edit-future',
-            pressed: me.editMode === me.editModes.future
+            pressed: me.editMode === me.editModes.FUTURE
         }, defaultConfig),
         Ext.apply({
             itemId: me.id + '-all',
             text: me.optionAllButtonText,
             iconCls: 'recur-edit-all',
-            pressed: me.editMode === me.editModes.all
+            pressed: me.editMode === me.editModes.ALL
         }, defaultConfig)];
         
         return items;
@@ -136,15 +136,15 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
         
         if (btn.itemId === me.id + '-single') {
             summaryEl.update(me.optionSingleDescription);
-            me.editMode = me.editModes.single;
+            me.editMode = me.editModes.SINGLE;
         }
         else if (btn.itemId === me.id + '-future') {
             summaryEl.update(me.optionFutureDescription);
-            me.editMode = me.editModes.future;
+            me.editMode = me.editModes.FUTURE;
         }
         else {
             summaryEl.update(me.optionAllDescription);
-            me.editMode = me.editModes.all;
+            me.editMode = me.editModes.ALL;
         }
     }
 });
