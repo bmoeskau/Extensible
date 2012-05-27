@@ -38,7 +38,7 @@ Ext.onReady(function() {
             dayText: 'Tag',
             weekText: 'Woche',
             monthText: 'Monat',
-            listText: 'Liste',
+            agendaText: 'Agenda',
             jumpToText: 'Springe zu:',
             goText: 'Los',
             multiDayText: '{0} Tage',
@@ -195,8 +195,8 @@ Ext.onReady(function() {
         });
     }
 
-    if (exists('Extensible.calendar.template.ListBody')) {
-        Ext.apply(Extensible.calendar.template.ListBody.prototype, {
+    if (exists('Extensible.calendar.template.AgendaBody')) {
+        Ext.apply(Extensible.calendar.template.AgendaBody.prototype, {
             dayDateFormat: 'D. j. M.',
             hourFormat: 'G:i',
             allDayText: 'Ganzer Tag',
@@ -211,8 +211,8 @@ Ext.onReady(function() {
         });
     }
 
-    if (exists('Extensible.calendar.view.ListHeader')) {
-        Ext.apply(Extensible.calendar.view.ListHeader.prototype, {
+    if (exists('Extensible.calendar.view.AgendaHeader')) {
+        Ext.apply(Extensible.calendar.view.AgendaHeader.prototype, {
             dateRangeOneDay: 'Ein Tag',
             dateRangeOneWeek: 'Eine Woche',
             dateRangeOneMonth: 'Ein Monat',

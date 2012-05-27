@@ -28,7 +28,7 @@ Ext.onReady(function(){
         width: 700,
         height: 500,
         activeItem: 3, // default to month view
-        showListView: true
+        showAgendaView: true
     });
     
     //
@@ -40,7 +40,7 @@ Ext.onReady(function(){
         eventStore: eventStore,
         renderTo: 'panel',
         title: 'Calendar with Panel Configs',
-        showListView: true,
+        showAgendaView: true,
         activeItem: 1, // default to week view
         width: 700,
         height: 500,

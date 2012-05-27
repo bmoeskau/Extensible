@@ -44,7 +44,7 @@ Ext.onReady(function() {
             dayText: 'Day',
             weekText: 'Week',
             monthText: 'Month',
-            listText: 'List',
+            agendaText: 'Agenda',
             jumpToText: 'Jump to:',
             goText: 'Go',
             multiDayText: '{0} Days', // deprecated
@@ -201,8 +201,8 @@ Ext.onReady(function() {
         });
     }
 
-    if (exists('Extensible.calendar.template.ListBody')) {
-        Ext.apply(Extensible.calendar.template.ListBody.prototype, {
+    if (exists('Extensible.calendar.template.AgendaBody')) {
+        Ext.apply(Extensible.calendar.template.AgendaBody.prototype, {
             dayDateFormat: 'D M j',
             hourFormat: 'g:ia',
             allDayText: 'All day',
@@ -217,8 +217,8 @@ Ext.onReady(function() {
         });
     }
 
-    if (exists('Extensible.calendar.view.ListHeader')) {
-        Ext.apply(Extensible.calendar.view.ListHeader.prototype, {
+    if (exists('Extensible.calendar.view.AgendaHeader')) {
+        Ext.apply(Extensible.calendar.view.AgendaHeader.prototype, {
             dateRangeOneDay: 'One day',
             dateRangeOneWeek: 'One week',
             dateRangeOneMonth: 'One month',

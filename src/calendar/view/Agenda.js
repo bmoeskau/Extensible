@@ -1,22 +1,22 @@
 /**
- * @class Extensible.calendar.view.List
+ * @class Extensible.calendar.view.Agenda
  * @extends Ext.Container
  *
  * <p><b>This class is currently beta code and the API is still subject to change before the next release.</b></p>
  *
- * <p>List view display events as a sorted list, similar to the agenda view in Google calendar. It supports CRUD
+ * <p>Agenda view display events as a sorted list, similar to the agenda view in Google calendar. It supports CRUD
  * operations on events, filtering of events based on calendar and a selectable date range. The view can be
- * switched between details view and summary view.</p>
+ * switched between a summary view and a details view.</p>
  *
- * <p>The view is divided into two main sections: the {@link Extensible.calendar.view.ListHeader header} and the
- * {@link Extensible.calendar.view.ListBody event list}. The header hosts a form and a toolbar that can be
+ * <p>The view is divided into two main sections: the {@link Extensible.calendar.view.AgendaHeader header} and the
+ * {@link Extensible.calendar.view.AgendaBody event list}. The header hosts a form and a toolbar that can be
  * used to filter events, choose display options, apply action on events, etc. Both header and toolbar are
  * easily configurable.</p>
  *
  * <p>Unlike other calendar views, this view is not actually a subclass of {@link Extensible.calendar.view.AbstractCalendar AbstractCalendar}.
  * Instead it is a {@link Ext.Container} subclass that internally creates and manages the layouts of
- * a {@link Extensible.calendar.view.ListHeader ListHeader} and a {@link Extensible.calendar.view.ListBody ListBody}. As such
- * this class accepts any config values that are valid for ListHeaderView and ListBodyView and passes those through
+ * a {@link Extensible.calendar.view.AgendaHeader AgendaHeader} and a {@link Extensible.calendar.view.AgendaBody AgendaBody}.
+ * As such this class accepts any config values that are valid for AgendaHeaderView and AgendaBodyView and passes those through
  * to the contained views. It also supports the interface required of any calendar view and in turn calls methods
  * on the contained views as necessary.</p>
  *
@@ -24,14 +24,14 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.define('Extensible.calendar.view.List', {
+Ext.define('Extensible.calendar.view.Agenda', {
     extend: 'Ext.Container',
-    alias: 'widget.extensible.listview',
+    alias: 'widget.extensible.agendaview',
 
     requires: [
         'Extensible.calendar.view.AbstractCalendar',
-        'Extensible.calendar.view.ListHeader',
-        'Extensible.calendar.view.ListBody'
+        'Extensible.calendar.view.AgendaHeader',
+        'Extensible.calendar.view.AgendaBody'
     ],
 
     /**
@@ -64,7 +64,7 @@ Ext.define('Extensible.calendar.view.List', {
         var cfg = Ext.apply({}, this.initialConfig);
 
         var header = Ext.applyIf({
-            xtype: 'extensible.listheaderview',
+            xtype: 'extensible.agendaheaderview',
             id: this.id+'-hd',
             ownerCalendarView: this,
             listeners: {
@@ -74,14 +74,14 @@ Ext.define('Extensible.calendar.view.List', {
         }, cfg);
 
         var body = Ext.applyIf({
-            xtype: 'extensible.listbodyview',
+            xtype: 'extensible.agendabodyview',
             id: this.id+'-bd',
             ownerCalendarPanel: this.ownerCalendarPanel,
             ownerCalendarView: this
         }, cfg);
 
         this.items = [header, body];
-        this.addCls('ext-cal-list ext-cal-ct');
+        this.addCls('ext-cal-agenda ext-cal-ct');
 
         this.callParent(arguments);
     },
@@ -104,7 +104,7 @@ Ext.define('Extensible.calendar.view.List', {
 
     // private
     refresh : function(){
-        Extensible.log('refresh (ListView)');
+        Extensible.log('refresh (AgendaView)');
         // this.header.refresh();
         this.body.refresh();
     },
@@ -148,7 +148,7 @@ Ext.define('Extensible.calendar.view.List', {
         /*
         Ext.defer(function(){
             var ct = this.el.up('.x-panel-body'),
-                hd = this.el.down('.ext-cal-list-header'),
+                hd = this.el.down('.ext-cal-agenda-header'),
                 h = ct.getHeight() - hd.getHeight();
 
             this.el.down('.ext-cal-body-ct').setHeight(h-1);

@@ -1,12 +1,12 @@
 /**
- * @class Extensible.calendar.view.ListHeader
+ * @class Extensible.calendar.view.AgendaHeader
  * @extends Ext.form.Panel
  *
  * <p><b>This class is currently beta code and the API is still subject to change before the next release.</b></p>
  *
- * <p>This is the header area container within the {@link Extensible.calendar.view.List List} view. Normally you should
- * not need to use this class directly -- instead you should use {@link Extensible.calendar.view.List List} view which
- * aggregates this class and the {@link Extensible.calendar.view.ListBody ListBody} view into a single unified view
+ * <p>This is the header area container within the {@link Extensible.calendar.view.Agenda Agenda} view. Normally you should
+ * not need to use this class directly -- instead you should use {@link Extensible.calendar.view.Agenda Agenda} view which
+ * aggregates this class and the {@link Extensible.calendar.view.AgendaBody AgendaBody} view into a single unified view
  * presented by {@link Extensible.calendar.CalendarPanel CalendarPanel}.</p>
  *
  * <p>This header consists of a form and a toolbar. Both can easily be extended or hidden. The header form is intended
@@ -21,9 +21,9 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.define('Extensible.calendar.view.ListHeader', {
+Ext.define('Extensible.calendar.view.AgendaHeader', {
     extend: 'Ext.form.Panel',
-    alias: 'widget.extensible.listheaderview',
+    alias: 'widget.extensible.agendaheaderview',
 
     requires: [
         'Ext.form.ComboBox',
@@ -137,7 +137,7 @@ Ext.define('Extensible.calendar.view.ListHeader', {
                 xtype: 'toolbar',
                 dock: 'bottom',
                 ui: 'default',
-                cls: 'ext-cal-list-hd-tb',
+                cls: 'ext-cal-agenda-hd-tb',
                 items: tbItems
             }];
         }
@@ -152,7 +152,7 @@ Ext.define('Extensible.calendar.view.ListHeader', {
             /**
              * @event formchange
              * Fires after the filter form changes.
-             * @param {Extensible.calendar.view.ListHeader} this
+             * @param {Extensible.calendar.view.AgendaHeader} this
              * @param {Ext.form.Basic} form The filter form.
              * @param {Ext.form.field.Field} field Form field that changed.
              * @param {Object} newValue New form field value.
@@ -164,7 +164,7 @@ Ext.define('Extensible.calendar.view.ListHeader', {
             /**
              * @event addevent
              * Fires after the user clicks the add event button.
-             * @param {Extensible.calendar.view.ListHeader} this
+             * @param {Extensible.calendar.view.AgendaHeader} this
              * @param {Ext.button.Button} button The button clicked.
              * @param {Event} event
              * @param {Object} eOpts The options object passed to {@link Ext.util.Observable.addListener}.
@@ -286,7 +286,7 @@ Ext.define('Extensible.calendar.view.ListHeader', {
 
     /* Private
      * Event handler that is called when the user clicks on the add event button.
-     * @param {Extensible.calendar.view.ListHeader} this
+     * @param {Extensible.calendar.view.AgendaHeader} this
      * @param {Ext.button.Button} bt
      * @param {Event} e
      * @param {Object} eOpts
@@ -297,18 +297,18 @@ Ext.define('Extensible.calendar.view.ListHeader', {
 
     // private
     afterRender : function(){
-        this.addCls('ext-cal-list-hd');
+        this.addCls('ext-cal-agenda-hd');
         this.callParent(arguments);
     },
 
     // private
     refresh : function(reloadData){
-        Extensible.log('refresh (ListHeader)');
+        Extensible.log('refresh (AgendaHeader)');
         this.callParent(arguments);
     },
 
     /**
-     * This method is called by the {@link Extensible.calendar.view.List List} view that hosts this header when the user chooses to
+     * This method is called by the {@link Extensible.calendar.view.Agenda Agenda} view that hosts this header when the user chooses to
      * move to a new date. The current implementation does nothing but can be overriden to update the header form if
      * necessary.
      * @param {Date} dt The new view start date.

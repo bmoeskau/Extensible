@@ -116,7 +116,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                         //weekCount: 3
                     },
 
-                    listViewCfg: {
+                    agendaViewCfg: {
                         linkDatesToDayView: true,
                         dateRangeDefault: '3months'
                     },
@@ -128,7 +128,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                     //showWeekView: false,
                     //showMultiWeekView: false,
                     //showMonthView: false,
-                    showListView: true,
+                    showAgendaView: true,
                     //showNavBar: false,
                     //showTodayText: false,
                     //showTime: false,

@@ -1,28 +1,28 @@
 /**
- * @class Extensible.calendar.view.ListBody
+ * @class Extensible.calendar.view.AgendaBody
  * @extends Extensible.calendar.view.AbstractCalendar
  *
  * <p><b>This class is currently beta code and the API is still subject to change before the next release.</b></p>
  *
- * <p>This is the body area view within the list view. Normally you should not need to use this class directly
- * -- instead you should use {@link Extensible.calendar.view.List List} view which aggregates this class and the
- * {@link Extensible.calendar.view.ListHeader ListHeader} view into a single unified view
+ * <p>This is the body area view within the agenda view. Normally you should not need to use this class directly
+ * -- instead you should use {@link Extensible.calendar.view.Agenda Agenda} view which aggregates this class and the
+ * {@link Extensible.calendar.view.AgendaHeader AgendaHeader} view into a single unified view
  * presented by {@link Extensible.calendar.CalendarPanel CalendarPanel}.</p>
  *
  * <p>This component displays the list of events and supports CRUD operations on events. The layout of the events
- * is controlled by template {@link Extensible.calendar.template.ListBody}.</p>
+ * is controlled by template {@link Extensible.calendar.template.AgendaBody}.</p>
  *
  * @author Gabriel Sidler, sidler@teamup.com
  * @constructor
  * @param {Object} config The config object
  */
-Ext.define('Extensible.calendar.view.ListBody', {
+Ext.define('Extensible.calendar.view.AgendaBody', {
     extend: 'Extensible.calendar.view.AbstractCalendar',
-    alias: 'widget.extensible.listbodyview',
+    alias: 'widget.extensible.agendabodyview',
 
     requires: [
         'Ext.XTemplate',
-        'Extensible.calendar.template.ListBody'
+        'Extensible.calendar.template.AgendaBody'
     ],
 
     /**
@@ -55,8 +55,8 @@ Ext.define('Extensible.calendar.view.ListBody', {
      */
     dayLinkSelector: '.ext-cal-day-link',
     dayLinkIdDelimiter: 'ext-cal-day-',
-    prevLinkSelector: 'ext-cal-list-bd-prev-link',
-    nextLinkSelector: 'ext-cal-list-bd-next-link',
+    prevLinkSelector: 'ext-cal-agenda-bd-prev-link',
+    nextLinkSelector: 'ext-cal-agenda-bd-next-link',
     flex: 1,
     autoScroll: true,
     padding: '10 0 10 0',
@@ -73,7 +73,7 @@ Ext.define('Extensible.calendar.view.ListBody', {
             /**
              * @event dayclick
              * Fires after the user clicks on a day date
-             * @param {Extensible.calendar.view.ListBody} this
+             * @param {Extensible.calendar.view.AgendaBody} this
              * @param {Date} dt The date that was clicked on.
              */
             dayclick: true
@@ -182,7 +182,7 @@ Ext.define('Extensible.calendar.view.ListBody', {
     // private
     afterRender : function(){
         if(!this.tpl){
-            this.tpl = Ext.create('Extensible.calendar.template.ListBody', {
+            this.tpl = Ext.create('Extensible.calendar.template.AgendaBody', {
                 id: this.id,
                 linkDatesToDayView: this.linkDatesToDayView,
                 defaultEventTitleText: this.defaultEventTitleText,
@@ -191,7 +191,7 @@ Ext.define('Extensible.calendar.view.ListBody', {
             });
             this.tpl.compile();
         }
-        this.addCls('ext-cal-list-bd ext-cal-ct');
+        this.addCls('ext-cal-agenda-bd ext-cal-ct');
 
         this.callParent(arguments);
     },
@@ -218,7 +218,7 @@ Ext.define('Extensible.calendar.view.ListBody', {
 
     // private
 	refresh : function(reloadData){
-        Extensible.log('refresh (ListView)');
+        Extensible.log('refresh (AgendaView)');
 		this.callParent(arguments);
 	},
 
@@ -330,7 +330,7 @@ Ext.define('Extensible.calendar.view.ListBody', {
         var el;
 
         // Handle click on an existing event
-        if(Extensible.calendar.view.ListBody.superclass.onClick.apply(this, arguments)){
+        if(Extensible.calendar.view.AgendaBody.superclass.onClick.apply(this, arguments)){
             // The superclass handled the click already so exit
             return;
         }
