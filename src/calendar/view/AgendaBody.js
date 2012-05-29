@@ -350,5 +350,12 @@ Ext.define('Extensible.calendar.view.AgendaBody', {
             this.ownerCalendarView.moveNext(true);
         }
 
+    },
+
+    // inherited docs
+    isActiveView: function() {
+        var calendarPanel = this.ownerCalendarPanel;
+        return (calendarPanel && calendarPanel.getActiveView().isAgendaView);
     }
+
 });

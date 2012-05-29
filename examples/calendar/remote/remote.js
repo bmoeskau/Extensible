@@ -88,7 +88,8 @@ Ext.onReady(function(){
         eventStore: eventStore,
         calendarStore: calendarStore,
         title: 'Remote Calendar',
-        showAgendaView: true
+        showAgendaView: true,
+        activeItem: 3 // month view
     });
     
     Ext.create('Ext.Viewport', {
@@ -100,7 +101,6 @@ Ext.onReady(function(){
             collapsible: true,
             split: true,
             autoScroll: true,
-        	showListView: true
             contentEl: 'sample-overview'
         }, cp]
 

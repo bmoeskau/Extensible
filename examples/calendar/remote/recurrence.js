@@ -91,7 +91,9 @@ Ext.onReady(function () {
         eventStore: eventStore,
         calendarStore: calendarStore,
         title: 'Recurrence Calendar',
-        
+        showAgendaView: false,
+        activeItem: 3, // month view
+
         // This is the magical config that enables the recurrence edit
         // widget to appear in the event form. Without it, any existing
         // recurring events sent from the server will still be rendered
