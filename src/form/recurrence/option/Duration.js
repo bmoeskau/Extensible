@@ -118,7 +118,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         }
         else {
             me.untilDateField.hide();
-            me.untilDateField.setValue(null);
+            me.untilDateIsSet = false;
         }
         
         if (toShow === 'for') {
@@ -163,7 +163,8 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     },
     
     initUntilDate: function(startDate) {
-        if (!this.untilDateField.getValue()) {
+        if (!this.untilDateIsSet) {
+            this.untilDateIsSet = true;
             var endDate = this.getDefaultEndDate(startDate || this.getStartDate());
             this.untilDateField.setValue(endDate);
         }
