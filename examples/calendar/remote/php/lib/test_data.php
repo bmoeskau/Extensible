@@ -16,6 +16,18 @@ class TestData {
         return date($_SESSION['dtformat'], $newDate);
     }
     
+    /**
+     * Helper that returns the max supported date (e.g., "no end date")
+     */
+    private static function getMaxDt() {
+        return date($_SESSION['dtformat'], PHP_INT_MAX);
+    }
+    
+    /**
+     * Called from the example code to get the default starting set of events
+     * to display. The "app_id" key can be set by any example to load a different
+     * set of data from the default as shown below.
+     */
     public static function getEvents() {
         if ($GLOBALS['app_id'] == 'recurrence_example') {
             return self::getRecurringEvents();
@@ -116,13 +128,9 @@ class TestData {
     /**
      * Generate recurrence test data.
      * 
-     * - 'end' would normally be the true calculated series end date based on the recurrence pattern
-     *   in order to minimize the looping required after a query to eliminate events outside the
-     *   query range. For test purposes, any arbitrary high date is OK.
-     * 
-     * - 'duration' and 'rrule' are required (in addition to the 'end' date representing the series
-     *   end date) to make a recurring event. All other recurrence-specific attributes you may see in
-     *   code or defined in the EventMappings are used only at runtime to handle editing.
+     * 'duration' and 'rrule' are required (in addition to the 'end' date representing the series
+     * end date) to make a recurring event. All other recurrence-specific attributes you may see in
+     * code or defined in the EventMappings are used only at runtime to handle editing.
      */
     public static function getRecurringEvents() {
         return array(
@@ -131,35 +139,35 @@ class TestData {
                 'cid' => 1,
                 'title' => 'Recur daily 10 times',
                 'start' => self::getDt('+8 hour'),
-                'end' => self::getDt('+10 year'),
+                'end' => self::getDt('+10 day'),
                 'duration' => 120,
                 'rrule' => 'FREQ=DAILY;COUNT=10'
             ),
             array(
                 'id' => 1002,
                 'cid' => 2,
-                'title' => 'Recur weekly 6 times',
-                'start' => self::getDt('-1 week'),
-                'end' => self::getDt('+10 year'),
+                'title' => 'Recur weekly 8 times',
+                'start' => self::getDt('+1 hour'),
+                'end' => self::getDt('+8 week'),
                 'duration' => 0,
                 'ad' => true,
-                'rrule' => 'FREQ=WEEKLY;COUNT=6'
+                'rrule' => 'FREQ=WEEKLY;COUNT=8'
             ),
             array(
                 'id' => 1003,
                 'cid' => 3,
                 'title' => 'Recur weekdays',
                 'start' => self::getDt('-3 week +13 hour'),
-                'end' => self::getDt('+10 year'),
+                'end' => self::getMaxDt(),
                 'duration' => 60,
                 'rrule' => 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR'
             ),
             array(
                 'id' => 1004,
                 'cid' => 4,
-                'title' => 'Recur last Fri of month',
+                'title' => 'Recur last Friday of month',
                 'start' => self::getDt('-5 week'),
-                'end' => self::getDt('+10 year'),
+                'end' => self::getMaxDt(),
                 'duration' => 0,
                 'ad' => true,
                 'rrule' => 'FREQ=MONTHLY;BYDAY=-1FR'
@@ -169,7 +177,7 @@ class TestData {
                 'cid' => 1,
                 'title' => 'Recur weekend days',
                 'start' => self::getDt('-3 week'),
-                'end' => self::getDt('+10 year'),
+                'end' => self::getMaxDt(),
                 'duration' => 0,
                 'ad' => true,
                 'rrule' => 'FREQ=WEEKLY;BYDAY=SU,SA'
@@ -179,7 +187,7 @@ class TestData {
                 'cid' => 4,
                 'title' => 'Multi-day, recur every Tuesday',
                 'start' => self::getDt('-5 week'),
-                'end' => self::getDt('+10 year'),
+                'end' => self::getMaxDt(),
                 'duration' => 2879,
                 'ad' => true,
                 'rrule' => 'FREQ=WEEKLY;BYDAY=TU'
@@ -189,7 +197,7 @@ class TestData {
                 'cid' => 2,
                 'title' => 'Recur first day of each month',
                 'start' => self::getDt('-5 week'),
-                'end' => self::getDt('+10 year'),
+                'end' => self::getMaxDt(),
                 'duration' => 60,
                 'ad' => true,
                 'rrule' => 'FREQ=MONTHLY;BYMONTHDAY=1'
@@ -199,7 +207,7 @@ class TestData {
                 'cid' => 3,
                 'title' => 'Recur every third Wednesday',
                 'start' => self::getDt('-5 week'),
-                'end' => self::getDt('+10 year'),
+                'end' => self::getMaxDt(),
                 'duration' => 0,
                 'ad' => true,
                 'rrule' => 'FREQ=MONTHLY;BYDAY=3WE'

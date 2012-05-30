@@ -4,19 +4,19 @@
  */
 class Event extends Model {
     
-	// This is the maximum number of event instances per master recurring event to generate and return
-	// when recurrence is in use. Generally the recurrence pattern defined on each event, in combination
-	// with the supplied query date range, should already limit the instances returned to a reasonable
-	// range. This value is a saftey check in case something is not specified correctly to avoid the
-	// recurrence parser looping forever (e.g., no end date is supplied). This value should accommodate
-	// the max realistic combination of events for the supported views and event frequency. For example,
-	// by default the maximum frequency is daily, so given a maximum view range of 6 weeks and one
-	// instance per day, the minimum required value would be 42. The default of 99 will handle any
-	// views supported by Extensible out of the box, but if some custom view range was implemented
-	// (e.g. year view) or if the recurrence resolution was increased (e.g., hourly) then you would
-	// have to increase this value accordingly.
-	public static $max_event_instances = 99;
-	
+    // This is the maximum number of event instances per master recurring event to generate and return
+    // when recurrence is in use. Generally the recurrence pattern defined on each event, in combination
+    // with the supplied query date range, should already limit the instances returned to a reasonable
+    // range. This value is a saftey check in case something is not specified correctly to avoid the
+    // recurrence parser looping forever (e.g., no end date is supplied). This value should accommodate
+    // the max realistic combination of events for the supported views and event frequency. For example,
+    // by default the maximum frequency is daily, so given a maximum view range of 6 weeks and one
+    // instance per day, the minimum required value would be 42. The default of 99 will handle any
+    // views supported by Extensible out of the box, but if some custom view range was implemented
+    // (e.g. year view) or if the recurrence resolution was increased (e.g., hourly) then you would
+    // have to increase this value accordingly.
+    public static $max_event_instances = 99;
+    
     //=================================================================================================
     //
     // Event property mappings. The default values match the property names as used in the example
@@ -223,7 +223,8 @@ class Event extends Model {
                             // Finally update the end date to the original series end date. This is
                             // important in the case where the series may have been split previously
                             // (e.g. by a "future" edit) so we want to preserve that:
-                            $attr[Event::$end_date] = $rec->attributes[Event::$end_date];
+                            //$attr[Event::$end_date] = $rec->attributes[Event::$end_date];
+                            $attr[Event::$end_date] = self::calculateEndDate($attr);
                             // Update the record and save it:
                             $rec->attributes = $attr;
                             $dbh->update($idx, $rec->attributes);
@@ -371,7 +372,32 @@ class Event extends Model {
         $end = $attr[Event::$end_date];
         
         if (isset($attr[Event::$rrule]) && $attr[Event::$rrule] != '') {
-            $end = date($_SESSION['dtformat'], PHP_INT_MAX);
+            $max_date = new DateTime('9999-12-31');
+            $recurrence = new When();
+            $recurrence->rrule($attr[Event::$rrule]);
+            
+            if (isset($recurrence->end_date) && $recurrence->end_date < $max_date) {
+                $end = $recurrence->end_date->format($_SESSION['dtformat']).'Z';
+            }
+            else if (isset($recurrence->count) && $recurrence->count > 0) {
+                $count = 0;
+                $newEnd;
+                $rdates = $recurrence->recur($attr[Event::$start_date])->rrule($attr[Event::$rrule]);
+                
+                while ($rdate = $rdates->next()) {
+                    $newEnd = $rdate;
+                    if (++$count > $recurrence->count) {
+                        break;
+                    }
+                }
+                // The 'minutes' portion should match Extensible.calendar.data.EventModel.resolution:
+                $newEnd->modify('+'.$attr[Event::$duration].' minutes');
+                $end = $newEnd->format($_SESSION['dtformat']).'Z';
+            }
+            else {
+                // default to max date if nothing else
+                $end = date($_SESSION['dtformat'], PHP_INT_MAX).'Z';
+            }
         }
         return $end;
     }
@@ -507,7 +533,7 @@ class Event extends Model {
     /**
      * Return all recurring event instances that fall between two dates.
      */
-    private static function generateInstances($attr, $startDate, $endDate) {
+    private static function generateInstances($attr, $viewStartDate, $viewEndDate) {
         $rrule = $attr[Event::$rrule];
         $instances = array();
         $counter = 0;
@@ -515,57 +541,77 @@ class Event extends Model {
         if ($rrule) {
             $duration = $attr[Event::$duration];
             
-            if (!$duration) {
+            if (!isset($duration)) {
                 // Duration is required to calculate the end date of each instance. You could raise
                 // an error here if appropriate, but we'll just be nice and default it to 0 (i.e.
                 // same start and end dates):
                 $duration = 0;
             }
             
-            // Only parse to the earlier of event end or current view end:
-            $rangeEnd = min($endDate, $attr[Event::$end_date]);
+            // Start parsing at the later of event start or current view start:
+            $rangeStart = max($viewStartDate, $attr[Event::$start_date]);
+            $rangeStartTime = strtotime($rangeStart);
+            
+            // Stop parsing at the earlier of event end or current view end:
+            $rangeEnd = min($viewEndDate, $attr[Event::$end_date]);
+            $rangeEndTime = strtotime($rangeEnd);
             
             // Third-party recurrence parser -- see: lib/recur.php
             $recurrence = new When();
+            // TODO: Need to properly handle patterns with no defined day in order
+            // to parse starting at $rangeStart which could be a different day of week
+            //$rdates = $recurrence->recur($rangeStart)->rrule($rrule);
             $rdates = $recurrence->recur($attr[Event::$start_date])->rrule($rrule);
+            
+            // Counter used for generating simple unique instance ids below
             $idx = 1;
             
+            // Loop through all valid recurrence instances as determined by the parser
+            // and validate that they are within the valid view range (and not exceptions).
             while ($rdate = $rdates->next()) {
-                $rtime = strtotime($rdate->format('c'));
-                
                 if (self::exceptionMatch($attr[Event::$event_id], $rdate)) {
                     // The current instance falls on an exception date so skip it
                     continue;
                 }
-                if ($rtime < strtotime($attr[Event::$start_date])) {
+                $rtime = strtotime($rdate->format('c'));
+                
+                // When there is no end date or maximum count as part of the recurrence RRULE
+                // pattern, the parser by default will simply loop until the end of time. For
+                // this reason it is critical to have these boundary checks in place:
+                if ($rtime < $rangeStartTime) {
                     // Instance falls before the range: skip, but keep trying
                     continue;
                 }
-                if ($rtime > strtotime($rangeEnd)) {
+                if ($rtime > $rangeEndTime) {
                     // Instance falls after the range: the returned set is sorted in date
-                    // order, so we can now exit and return the current set:
+                    // order, so we can now exit and return the current event set
                     break;
                 }
                 
                 // Make a copy of the original event and add the needed recurrence-specific stuff:
                 $copy = $attr;
+                
                 // On the client side, Ext stores will require a unique id for all returned events.
-                // The specific id format doesn't really matter (Event::$orig_event_id will be used to tie them
-                // together) but all ids must be unique:
+                // The specific id format doesn't really matter (Event::$orig_event_id will be used
+                // to tie them together) but all ids must be unique:
                 $copy[Event::$event_id] = $attr[Event::$event_id].'-rid-'.$idx++;
+                
                 // Associate the instance to its master event for later editing:
                 $copy[Event::$orig_event_id] = $attr[Event::$event_id];
                 $copy[Event::$duration] = $duration;
                 $copy[Event::$start_date] = $rdate->format($_SESSION['dtformat']);
+                
+                // By default the master event's end date will be the end date of the entire series.
+                // For each instance, we actually want to calculate a proper instance end date from
+                // the duration value so that the view can simply treat them as standard events:
                 $copy[Event::$end_date] = $rdate->add(new DateInterval('PT'.$duration.'M'))->format($_SESSION['dtformat']);
                 
+                // Add the instance to the set to be returned:
                 array_push($instances, $copy);
                 
                 if (++$counter > Event::$max_event_instances) {
                     // Should never get here, but it's our safety valve against infinite looping.
-                    // You'd probably want to raise an application error if this happens. Note that 99
-                    // is sufficient for the current max view span, but if a multi-month or year view was
-                    // implemented the max instance count would need to be bumped up as needed.
+                    // You'd probably want to raise an application error if this happens.
                     break;
                 }
             }

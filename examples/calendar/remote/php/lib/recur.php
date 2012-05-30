@@ -10,44 +10,44 @@
  */
 class When
 {
-    protected $frequency;
+    public $frequency;
     
-    protected $start_date;
-    protected $try_date;
+    public $start_date;
+    public $try_date;
     
-    protected $end_date;
+    public $end_date;
     
-    protected $gobymonth;
-    protected $bymonth;
+    public $gobymonth;
+    public $bymonth;
     
-    protected $gobyweekno;
-    protected $byweekno;
+    public $gobyweekno;
+    public $byweekno;
     
-    protected $gobyyearday;
-    protected $byyearday;
+    public $gobyyearday;
+    public $byyearday;
     
-    protected $gobymonthday;
-    protected $bymonthday;
+    public $gobymonthday;
+    public $bymonthday;
     
-    protected $gobyday;
-    protected $byday;
+    public $gobyday;
+    public $byday;
     
-    protected $gobysetpos;
-    protected $bysetpos;
+    public $gobysetpos;
+    public $bysetpos;
         
-    protected $suggestions;
+    public $suggestions;
     
-    protected $count;
-    protected $counter;
+    public $count;
+    public $counter;
     
-    protected $goenddate;
+    public $goenddate;
     
-    protected $interval;
+    public $interval;
     
-    protected $wkst;
+    public $wkst;
     
-    protected $valid_week_days;
-    protected $valid_frequency;
+    public $valid_week_days;
+    public $valid_frequency;
         
     /**
      * __construct
