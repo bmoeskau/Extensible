@@ -1,14 +1,13 @@
 <?php
-    $dtname = $_REQUEST['doctype'];
-    $dtd = $_REQUEST['dtd'];
     $doctype = '';
     
-    if(isset($dtd) && $dtd != ''){
-        if($dtd == 'html5'){
+    if (isset($_REQUEST['dtd']) && $_REQUEST['dtd'] != '') {
+        if ($_REQUEST['dtd'] == 'html5') {
             $doctype = '<!DOCTYPE html>';
         }
         else {
-            $doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD '.$dtname.'//EN" "http://www.w3.org/TR/'.$dtd.'.dtd">';
+            $doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD '.$_REQUEST['doctype'].
+                       '//EN" "http://www.w3.org/TR/'.$_REQUEST['dtd'].'.dtd">';
         }
     }
     echo $doctype;
