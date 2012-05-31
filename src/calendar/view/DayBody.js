@@ -220,20 +220,25 @@ Ext.define('Extensible.calendar.view.DayBody', {
         }
         // else user canceled
     },
-    
+
     doEventResize : function(rec, data){
         var EventMappings = Extensible.calendar.data.EventMappings,
             startDateName = EventMappings.StartDate.name,
             endDateName = EventMappings.EndDate.name,
             updateData = {};
-            
+
         updateData[startDateName] = data[startDateName];
         updateData[endDateName] = data[endDateName];
         
+        if (EventMappings.Duration) {
+            updateData[EventMappings.Duration.name] = Extensible.Date.diff(data[startDateName], data[endDateName],
+                Extensible.calendar.data.EventModel.resolution);
+        }
+
         rec.set(updateData);
-        
+
         this.save();
-        
+
         this.fireEvent('eventupdate', this, rec);
         this.fireEvent('eventresize', this, rec);
     },
