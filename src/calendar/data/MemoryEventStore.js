@@ -34,6 +34,11 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
             type: 'json'
         }
     },
+    
+    // Since we are faking persistence in memory, we also have to fake our primary
+    // keys for things to work consistently. This starting id value will be auto-
+    // incremented as records are created:
+    idSeed: 2000,
 
     // private
     constructor: function(config) {
@@ -84,7 +89,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
                 len = records.length;
 
             for (; i < len; i++) {
-                records[i].data[Extensible.calendar.data.EventMappings.EventId.name] = records[i].id;
+                records[i].data[Extensible.calendar.data.EventMappings.EventId.name] = this.idSeed++;
             }
         }
     },
