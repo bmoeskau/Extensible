@@ -488,7 +488,7 @@ class Event extends Model {
             }
             foreach ($exDates as $idx => $exDate) {
                 if ($exDate[Event::$event_id] == $eventId) {
-                    if ($delDate) {
+                    if (isset($delDate)) {
                         $dates = $exDate['dates'];
                         if (in_array($delDate, $dates)) {
                             $key = array_search($delDate, $dates);
@@ -531,6 +531,46 @@ class Event extends Model {
     }
     
     /**
+     * Utility function used by generateInstances() to ensure that the starting date used for
+     * parsing the recurrence pattern is set to the correct day of week.
+     */
+    // private static function adjustRecurrenceRangeStart($rangeStart, $attr) {
+        // if (preg_match('/INTERVAL/', $attr[Event::$rrule])) {
+            // // If an interval is specified, there is no way to safely use the view start
+            // // date. In order to calculate dates that are valid for the recurrence pattern
+            // // you MUST parse beginning with the event start date in this case.
+            // return $attr[Event::$start_date];
+        // }
+//         
+        // $hasByDay = preg_match('/(BYDAY|BYMONTHDAY|BYYEARDAY)/', $attr[Event::$rrule]);
+//         
+        // if (!$hasByDay) {
+            // // When the recurrence pattern does not define the day of week, it defaults to the
+            // // day of week of the start date passed into the parser. Since we may be using the
+            // // view start date for efficiency reasons, we have to manually ensure that the start
+            // // date used for parsing the pattern is the same day of week as the event's start
+            // // date, otherwise event instances will be returned on the wrong days. Note that this
+            // // is actually a weakness of the current parser library used in this example -- ideally
+            // // the parser itself would handle filtering by view range so we could avoid this.
+            // $rangeStartDay = date('w', strtotime($rangeStart));
+            // $eventStartDay = date('w', strtotime($attr[Event::$start_date]));
+//             
+            // if ($rangeStartDay < $eventStartDay) {
+                // // The days of week are different, so adjust the view start date to match the
+                // // event start date's day of the week. That way we can parse efficiently and
+                // // still return the correct dates. 
+                // $diff = $eventStartDay - $rangeStartDay;
+                // $newStart = new DateTime($rangeStart);
+                // $newStart->modify('+'.$diff.' days');
+                // return $newStart->format('c');
+            // }
+        // }
+// 
+        // // Nothing to do in this case, just return the given range start date
+        // return $rangeStart;
+    // }
+    
+    /**
      * Return all recurring event instances that fall between two dates.
      */
     private static function generateInstances($attr, $viewStartDate, $viewEndDate) {
@@ -550,6 +590,7 @@ class Event extends Model {
             
             // Start parsing at the later of event start or current view start:
             $rangeStart = max($viewStartDate, $attr[Event::$start_date]);
+            //$rangeStart = self::adjustRecurrenceRangeStart($rangeStart, $attr);
             $rangeStartTime = strtotime($rangeStart);
             
             // Stop parsing at the earlier of event end or current view end:
@@ -558,8 +599,15 @@ class Event extends Model {
             
             // Third-party recurrence parser -- see: lib/recur.php
             $recurrence = new When();
-            // TODO: Need to properly handle patterns with no defined day in order
-            // to parse starting at $rangeStart which could be a different day of week
+            
+            // TODO: Using the event start date here is the correct approach, but is inefficient
+            // based on the current recurrence library in use, which does not accept a starting
+            // date other than the event start date. The farther in the future the view range is,
+            // the more processing is required and the slower performance will be. If you can parse
+            // only relative to the current view range, parsing speed is much faster, but it
+            // introduces a lot more complexity to ensure that the returned dates are valid for the
+            // recurrence pattern. For now we'll sacrifice performance to ensure validity, but this
+            // may need to be revisited in the future.
             //$rdates = $recurrence->recur($rangeStart)->rrule($rrule);
             $rdates = $recurrence->recur($attr[Event::$start_date])->rrule($rrule);
             
@@ -569,10 +617,6 @@ class Event extends Model {
             // Loop through all valid recurrence instances as determined by the parser
             // and validate that they are within the valid view range (and not exceptions).
             while ($rdate = $rdates->next()) {
-                if (self::exceptionMatch($attr[Event::$event_id], $rdate)) {
-                    // The current instance falls on an exception date so skip it
-                    continue;
-                }
                 $rtime = strtotime($rdate->format('c'));
                 
                 // When there is no end date or maximum count as part of the recurrence RRULE
@@ -588,6 +632,11 @@ class Event extends Model {
                     break;
                 }
                 
+                if (self::exceptionMatch($attr[Event::$event_id], $rdate)) {
+                    // The current instance falls on an exception date so skip it
+                    continue;
+                }
+                
                 // Make a copy of the original event and add the needed recurrence-specific stuff:
                 $copy = $attr;
                 
@@ -598,9 +647,10 @@ class Event extends Model {
                 
                 // Associate the instance to its master event for later editing:
                 $copy[Event::$orig_event_id] = $attr[Event::$event_id];
+                // Save the duration in case it wasn't already set:
                 $copy[Event::$duration] = $duration;
+                // Replace the series start date with the current instance start date:
                 $copy[Event::$start_date] = $rdate->format($_SESSION['dtformat']);
-                
                 // By default the master event's end date will be the end date of the entire series.
                 // For each instance, we actually want to calculate a proper instance end date from
                 // the duration value so that the view can simply treat them as standard events:
