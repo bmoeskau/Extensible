@@ -908,7 +908,7 @@ viewConfig: {
             this.showEventEditor(dates, null);
             
             if (this.editWin) {
-                this.editWin.on('hide', onComplete, this, {single:true});
+                this.editWin.on('hide', boundOnComplete, this, {single:true});
             }
             else {
                 boundOnComplete();
