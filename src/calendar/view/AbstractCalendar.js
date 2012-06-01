@@ -1591,17 +1591,22 @@ alert('End: '+bounds.end);
     
     // private
     getExceptionMessage: function(response) {
-        var msg = response.message || response.statusText;
+        var msg = '';
         
-        if (!msg) {
-            if (response.responseText) {
-                msg = Ext.decode(response.responseText).message;
-            }
-            else {
-                msg = this.notifyOnExceptionDefaultMessage;
-            }
+        if (response.responseText) {
+            msg += '<br><b>responseText</b>: ' + Ext.decode(response.responseText).message;
         }
-        return msg;
+        if (response.message) {
+            msg += '<br><b>message</b>: ' + response.message;
+        }
+        if (response.status) {
+            msg += '<br><b>status</b>: ' + response.status;
+        }
+        if (response.statusText) {
+            msg += '<br><b>statusText</b>: ' + response.statusText;
+        }
+        
+        return msg || ('<br>' + this.notifyOnExceptionDefaultMessage);
     },
     
     /**
