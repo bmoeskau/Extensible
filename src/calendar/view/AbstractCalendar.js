@@ -235,7 +235,28 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.</p>
      */
     hideMode: 'offsets',
-
+    /**
+     * @cfg {String} notifyOnExceptionTitle
+     * @since 2.0.0
+     * The notification title used by the {@link #notifyOnException} method when a server error occurs
+     * (defaults to "Server Error").
+     */
+    notifyOnExceptionTitle: 'Server Error',
+    /**
+     * @cfg {String} notifyOnExceptionText
+     * @since 2.0.0
+     * The notification starting text used by the {@link #notifyOnException} method when a server error occurs
+     * (defaults to "The action failed with the following response:"). The text of the error is appended.
+     */
+    notifyOnExceptionText: 'The action failed with the following response:',
+    /**
+     * @cfg {String} notifyOnExceptionDefaultMessage
+     * @since 2.0.0
+     * The default notification message text used by the {@link #notifyOnException} method when a server error occurs
+     * and no error message is returned from the server (defaults to "An unknown error occurred").
+     */
+    notifyOnExceptionDefaultMessage: 'An unknown error occurred',
+    
     /**
      * @property ownerCalendarPanel
      * @type Extensible.calendar.CalendarPanel
@@ -1550,6 +1571,21 @@ alert('End: '+bounds.end);
         }
     },
     
+    // private
+    getExceptionMessage: function(response) {
+        var msg = response.message || response.statusText;
+        
+        if (!msg) {
+            if (response.responseText) {
+                msg = Ext.decode(response.responseText).message;
+            }
+            else {
+                msg = this.notifyOnExceptionDefaultMessage;
+            }
+        }
+        return msg;
+    },
+    
     /**
      * This is an overrideable method for notifying the user when an exception occurs while attempting to
      * process records via a proxy. The default implementation is to display a standard Ext MessageBox with
@@ -1569,8 +1605,8 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
      * @since 2.0.0
      */
     notifyOnException: function(response, operation) {
-        Ext.Msg.alert('Server Exception', 'The action failed with the following response:<br>' +
-            response.responseText);
+        Ext.Msg.alert(this.notifyOnExceptionTitle, this.notifyOnExceptionText + '<br>' +
+            this.getExceptionMessage(response));
     },
 
     /**
