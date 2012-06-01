@@ -2051,8 +2051,8 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         if (el) {
             var id = me.getEventIdFromEl(el),
                 rec = me.getEventRecord(id);
-
-            if (me.fireEvent('eventclick', me, rec, el) !== false) {
+            
+            if (rec && me.fireEvent('eventclick', me, rec, el) !== false) {
                 if (me.readOnly !== true) {
                     me.showEventEditor(rec, el);
                 }
