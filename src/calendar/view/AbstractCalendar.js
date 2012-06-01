@@ -730,7 +730,8 @@ viewConfig: {
         };
 
         for(; w < weeks; w++) {
-            this.evtMaxCount[w] = 0;
+            this.evtMaxCount[w] = this.evtMaxCount[w] || 0;
+            
             if (this.weekCount === -1 && currentDt > lastInMonth) {
                 //current week is fully in next month so skip
                 break;
@@ -756,7 +757,6 @@ viewConfig: {
         var me = this,
             row = 0,
             dt = Ext.Date.clone(me.viewStart),
-            max = me.maxEventsPerDay || 999,
             maxEventsForDay;
 
         evts.each(function(evt) {
@@ -781,16 +781,26 @@ viewConfig: {
                     me.allDayGrid[w][d][row] = evt;
                 }
             }
+            
+            me.setMaxEventsForDay(w, d);
 
-            // If calculating the max event count for the day/week view header, use the allDayGrid
-            // so that only all-day events displayed in that area get counted, otherwise count all events.
-            maxEventsForDay = me[me.isHeaderView ? 'allDayGrid' : 'eventGrid'][w][d] || [];
-
-            if (maxEventsForDay.length && me.evtMaxCount[w] < maxEventsForDay.length) {
-                me.evtMaxCount[w] = Math.min(max + 1, maxEventsForDay.length);
-            }
             return true;
         }, me);
+    },
+    
+    // private
+    setMaxEventsForDay: function(weekIndex, dayIndex) {
+        var max = (this.maxEventsPerDay + 1) || 999;
+        
+        // If calculating the max event count for the day/week view header, use the allDayGrid
+        // so that only all-day events displayed in that area get counted, otherwise count all events.
+        var maxEventsForDay = this[this.isHeaderView ? 'allDayGrid' : 'eventGrid'][weekIndex][dayIndex] || [];
+        
+        this.evtMaxCount[weekIndex] = this.evtMaxCount[weekIndex] || 0;
+        
+        if (maxEventsForDay.length && this.evtMaxCount[weekIndex] < maxEventsForDay.length) {
+            this.evtMaxCount[weekIndex] = Math.min(max, maxEventsForDay.length);
+        }
     },
 
     // private
@@ -813,7 +823,9 @@ viewConfig: {
         
         grid[w][d] = grid[w][d] || [];
         grid[w][d][row] = start;
-
+        
+        this.setMaxEventsForDay(w, d);
+        
         while (--days) {
             dt = Extensible.Date.add(dt, {days: 1});
             
@@ -835,6 +847,12 @@ viewConfig: {
                 spanLeft: (w1 > w) && (d1 % 7 === 0),
                 spanRight: (d1 === 6) && (days > 1)
             };
+            
+            // In this loop we are pre-processing empty span placeholders. In the case
+            // where a given week might only contain such spans, we have to make this
+            // max event check on each iteration to make sure that our empty placeholder
+            // divs get created correctly even without "real" events:
+            this.setMaxEventsForDay(w1, d1);
         }
     },
 
