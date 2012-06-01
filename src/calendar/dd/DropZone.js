@@ -157,6 +157,11 @@ Ext.define('Extensible.calendar.dd.DropZone', {
                 return true;
             }
             if(data.type == 'caldrag'){
+                if (!this.dragEndDate) {
+                    // this can occur on a long click where drag starts but onNodeOver is never executed
+                    this.dragStartDate = Ext.Date.clearTime(data.start);
+                    this.dragEndDate = Extensible.Date.add(this.dragStartDate, {days: 1, millis: -1, clearTime: true});
+                }
                 this.view.onCalendarEndDrag(this.dragStartDate, this.dragEndDate, 
                     Ext.bind(this.onCalendarDragComplete, this));
                 //shims are NOT cleared here -- they stay visible until the handling
