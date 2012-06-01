@@ -56,14 +56,6 @@ Ext.onReady(function(){
             writer: {
                 type: 'json',
                 nameProperty: 'mapping'
-            },
-            
-            listeners: {
-                exception: function(proxy, response, operation, options){
-                    var msg = response.message ? response.message : Ext.decode(response.responseText).message;
-                    // ideally an app would provide a less intrusive message display
-                    Ext.Msg.alert('Server Error', msg);
-                }
             }
         },
 
