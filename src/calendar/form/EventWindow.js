@@ -75,6 +75,8 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
     
     /**
+     * @cfg {Boolean} allowDefaultAdd
+     * @since 2.0.0
      * True to allow the user to save the initial default record displayed in the form while in Add mode
      * and the record is not dirty (default). If false, the form save action will be treated as a cancel action
      * if no editing was performed while in Add mode and the record will not be added. Note that this setting
@@ -399,7 +401,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             record.endEdit();
         }
 
-        return record.dirty;
+        return record.dirty || (record.phantom && this.allowDefaultAdd);
     },
     
     // private
