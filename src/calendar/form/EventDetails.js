@@ -80,6 +80,22 @@ Ext.define('Extensible.calendar.form.EventDetails', {
      */
     recurrence: false,
     
+    /**
+     * @cfg {Boolean} allowDefaultAdd
+     * @since 2.0.0
+     * True to allow the user to save the initial default record displayed in the form while in Add mode
+     * and the record is not dirty (default). If false, the form save action will be treated as a cancel action
+     * if no editing was performed while in Add mode and the record will not be added. Note that this setting
+     * does not apply when in Edit mode. The save action will always be treated as cancel in Edit mode if
+     * the form is not dirty.
+     *
+     * When this option is true any blank or default field values should be allowed by the back end
+     * system handling the operation. For example, by default if the event title is blank the calendar views
+     * will substitute the value of {@link Extensible.calendar.view.AbstractCalendar#defaultEventTitleText
+     * defaultEventTitleText} when displaying it. Any custom fields might require similar custom handling.
+     */
+    allowDefaultAdd: true,
+    
     // private properties:
     layout: 'column',
     
@@ -352,7 +368,8 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         }
         
         record.set(obj);
-        return record.dirty;
+        
+        return record.dirty || (record.phantom && this.allowDefaultAdd);
     },
     
     // private
@@ -378,7 +395,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         var me = this,
             originalHasRecurrence = me.activeRecord.isRecurring();
         
-        if (!me.form.isValid()) {
+        if (!me.form.isValid() && !me.allowDefaultAdd) {
             return;
         }
         
