@@ -80,35 +80,35 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * Whether or not the view tracks and responds to the browser mouseover event on contained elements (defaults to
      * true). If you don't need mouseover event highlighting you can disable this.
      */
-	trackMouseOver: true,
+    trackMouseOver: true,
     /**
      * @cfg {Boolean} enableFx
      * Determines whether or not visual effects for CRUD actions are enabled (defaults to true). If this is false
      * it will override any values for {@link #enableAddFx}, {@link #enableUpdateFx} or {@link enableRemoveFx} and
      * all animations will be disabled.
      */
-	enableFx: true,
+    enableFx: true,
     /**
      * @cfg {Boolean} enableAddFx
      * True to enable a visual effect on adding a new event (the default), false to disable it. Note that if
      * {@link #enableFx} is false it will override this value. The specific effect that runs is defined in the
      * {@link #doAddFx} method.
      */
-	enableAddFx: true,
+    enableAddFx: true,
     /**
      * @cfg {Boolean} enableUpdateFx
      * True to enable a visual effect on updating an event, false to disable it (the default). Note that if
      * {@link #enableFx} is false it will override this value. The specific effect that runs is defined in the
      * {@link #doUpdateFx} method.
      */
-	enableUpdateFx: false,
+    enableUpdateFx: false,
     /**
      * @cfg {Boolean} enableRemoveFx
      * True to enable a visual effect on removing an event (the default), false to disable it. Note that if
      * {@link #enableFx} is false it will override this value. The specific effect that runs is defined in the
      * {@link #doRemoveFx} method.
      */
-	enableRemoveFx: true,
+    enableRemoveFx: true,
     /**
      * @cfg {Boolean} enableDD
      * True to enable drag and drop in the calendar view (the default), false to disable it
@@ -146,8 +146,8 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * The text to display inside the drag proxy while dragging over the calendar to create a new event (defaults to
      * 'Create event for {0}' where {0} is a date range supplied by the view)
      */
-	ddCreateEventText: 'Create event for {0}',
-	/**
+    ddCreateEventText: 'Create event for {0}',
+    /**
      * @cfg {String} ddCopyEventText
      * The text to display inside the drag proxy while alt-dragging an event to copy it (defaults to
      * 'Copy event to {0}' where {0} is the updated event start date/time supplied by the view)
@@ -158,7 +158,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * The text to display inside the drag proxy while dragging an event to reposition it (defaults to
      * 'Move event to {0}' where {0} is the updated event start date/time supplied by the view)
      */
-	ddMoveEventText: 'Move event to {0}',
+    ddMoveEventText: 'Move event to {0}',
     /**
      * @cfg {String} ddResizeEventText
      * The string displayed to the user in the drag proxy while dragging the resize handle of an event (defaults to
@@ -269,7 +269,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     dayCount: 1,
     eventSelector : '.ext-cal-evt',
     eventOverClass: 'ext-evt-over',
-	eventElIdDelimiter: '-evt-',
+    eventElIdDelimiter: '-evt-',
     dayElIdDelimiter: '-day-',
     recurringInstanceIdDelimiter: '-rid-',
 
@@ -415,7 +415,7 @@ viewConfig: {
              * range selection). The callback is already created in the proper scope, so it simply needs to be executed as a standard
              * function call (e.g., callback()).
              */
-			rangeselect: true,
+            rangeselect: true,
             /**
              * @event beforeeventcopy
              * Fires before an existing event is duplicated by the user view the "copy" command. This is a
@@ -455,7 +455,7 @@ viewConfig: {
              * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was moved with
              * updated start and end dates
              */
-			eventmove: true,
+            eventmove: true,
             /**
              * @event initdrag
              * Fires when a drag operation is initiated in the view
@@ -573,7 +573,7 @@ viewConfig: {
             'mouseover': this.onMouseOver,
             'mouseout': this.onMouseOut,
             'click': this.onClick,
-			//'resize': this.onResize,
+            //'resize': this.onResize,
             scope: this
         });
 
@@ -582,10 +582,10 @@ viewConfig: {
             this.el.on('contextmenu', this.onContextMenu, this);
         }
 
-		this.el.unselectable();
+        this.el.unselectable();
 
         if (this.enableDD && this.readOnly !== true && this.initDD) {
-			this.initDD();
+            this.initDD();
         }
 
         this.on('eventsrendered', this.onEventsRendered);
@@ -882,40 +882,40 @@ viewConfig: {
      * refresh itself automatically when CRUD actions occur. To enable store events see {@link #enableStoreEvents}.
      * @return {CalendarView} this
      */
-	disableStoreEvents: function() {
-		this.monitorStoreEvents = false;
+    disableStoreEvents: function() {
+        this.monitorStoreEvents = false;
         return this;
-	},
+    },
 
     /**
      * Enable store event monitoring within this view if disabled by {@link #disbleStoreEvents}.
      * @return {CalendarView} this
      */
-	enableStoreEvents: function(refresh) {
-		this.monitorStoreEvents = true;
-		if (refresh === true) {
-			this.refresh();
-		}
+    enableStoreEvents: function(refresh) {
+        this.monitorStoreEvents = true;
+        if (refresh === true) {
+            this.refresh();
+        }
         return this;
-	},
+    },
 
     // private
-	onResize: function() {
-		this.refresh(false);
-	},
+    onResize: function() {
+        this.refresh(false);
+    },
 
     // private
-	onInitDrag: function() {
+    onInitDrag: function() {
         this.fireEvent('initdrag', this);
     },
 
     // private
-	onEventDrop: function(rec, dt, mode) {
+    onEventDrop: function(rec, dt, mode) {
         this[(mode || 'move') + 'Event'](rec, dt);
-	},
+    },
 
     // private
-	onCalendarEndDrag: function(start, end, onComplete) {
+    onCalendarEndDrag: function(start, end, onComplete) {
         // set this flag for other event handlers that might conflict while we're waiting
         this.dragPending = true;
 
@@ -939,7 +939,7 @@ viewConfig: {
             // client code canceled the selection so clean up immediately
             this.onCalendarEndDragComplete(boundOnComplete);
         }
-	},
+    },
 
     // private
     onCalendarEndDragComplete: function(onComplete) {
@@ -973,11 +973,11 @@ viewConfig: {
 
             var rec = operation.records[0];
 
-			if (this.enableFx && this.enableUpdateFx) {
-				this.doUpdateFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
+            if (this.enableFx && this.enableUpdateFx) {
+                this.doUpdateFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
                     scope: this
                 });
-			}
+            }
         }
     },
 
@@ -991,9 +991,9 @@ viewConfig: {
      * object only contains the current scope (<tt>{scope:this}</tt>) but you can also add any additional fx-specific
      * options that might be needed for a particular effect to this object.
      */
-	doUpdateFx: function(els, o) {
-		this.highlightEvent(els, null, o);
-	},
+    doUpdateFx: function(els, o) {
+        this.highlightEvent(els, null, o);
+    },
 
     // private
     onAdd: function(store, operation) {
@@ -1010,15 +1010,15 @@ viewConfig: {
         Extensible.log('onAdd');
 
         this.dismissEventEditor();
-		//this.tempEventId = rec.id;
+        //this.tempEventId = rec.id;
 
         this.refresh(this.storeReloadRequired('create', operation));
 
-		if (this.enableFx && this.enableAddFx) {
-			// this.doAddFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
+        // if (this.enableFx && this.enableAddFx) {
+            // this.doAddFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
                 // scope: this
             // });
-		}
+        // }
     },
 
     /**
@@ -1031,9 +1031,9 @@ viewConfig: {
      * object only contains the current scope (<tt>{scope:this}</tt>) but you can also add any additional fx-specific
      * options that might be needed for a particular effect to this object.
      */
-	doAddFx: function(els, o) {
-		els.fadeIn(Ext.apply(o, { duration: 2000 }));
-	},
+    doAddFx: function(els, o) {
+        els.fadeIn(Ext.apply(o, { duration: 2000 }));
+    },
 
     // private
     onRemove: function(store, operation) {
@@ -1047,17 +1047,17 @@ viewConfig: {
         var reloadRequired = this.storeReloadRequired('delete', operation),
             rec = operation.records[0];
 
-		if (this.enableFx && this.enableRemoveFx) {
-			this.doRemoveFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
+        if (this.enableFx && this.enableRemoveFx) {
+            this.doRemoveFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
                 remove: true,
                 scope: this,
-				callback: Ext.bind(this.refresh, this, [reloadRequired])
-			});
-		}
-		else {
-			this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]).remove();
+                callback: Ext.bind(this.refresh, this, [reloadRequired])
+            });
+        }
+        else {
+            this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]).remove();
             this.refresh(reloadRequired);
-		}
+        }
     },
 
     /**
@@ -1079,7 +1079,7 @@ viewConfig: {
      * callback method (and scope) MUST still be passed in order for the view to refresh correctly after the removal.
      * Please see the inline code comments before overriding this method.
      */
-	doRemoveFx: function(els, o) {
+    doRemoveFx: function(els, o) {
         // Please make sure you keep this entire code block or removing events might not work correctly!
         // Removing is a little different because we have to wait for the fx to finish, then we have to actually
         // refresh the view AFTER the fx are run (this is different than add and update).
@@ -1094,19 +1094,19 @@ viewConfig: {
             // you still pass that object in whatever fx method you choose.
             els.fadeOut(o);
         }
-	},
+    },
 
-	/**
-	 * Visually highlights an event using {@link Ext.Fx#highlight} config options.
-	 * @param {Ext.CompositeElement} els The element(s) to highlight
-	 * @param {Object} color (optional) The highlight color. Should be a 6 char hex
-	 * color without the leading # (defaults to yellow: 'ffff9c')
-	 * @param {Object} o (optional) Object literal with any of the {@link Ext.Fx} config
-	 * options. See {@link Ext.Fx#highlight} for usage examples.
-	 */
-	highlightEvent: function(els, color, o) {
-		if (this.enableFx) {
-			if (Ext.isIE || Ext.isOpera) {
+    /**
+     * Visually highlights an event using {@link Ext.Fx#highlight} config options.
+     * @param {Ext.CompositeElement} els The element(s) to highlight
+     * @param {Object} color (optional) The highlight color. Should be a 6 char hex
+     * color without the leading # (defaults to yellow: 'ffff9c')
+     * @param {Object} o (optional) Object literal with any of the {@link Ext.Fx} config
+     * options. See {@link Ext.Fx#highlight} for usage examples.
+     */
+    highlightEvent: function(els, color, o) {
+        if (this.enableFx) {
+            if (Ext.isIE || Ext.isOpera) {
                 // Fun IE/Opera handling:
                 var highlightEl;
                 
@@ -1118,27 +1118,27 @@ viewConfig: {
                         highlightEl.highlight(color, o);
                     }
                 }, this);
-			}
-			else {
+            }
+            else {
                 els.highlight(color, o);
-			}
-		}
-	},
+            }
+        }
+    },
 
-	/**
-	 * Retrieve an Event object's id from its corresponding node in the DOM.
-	 * @param {String/Element/HTMLElement} el An {@link Ext.Element}, DOM node or id
-	 */
-//	getEventIdFromEl: function(el) {
-//		el = Ext.get(el);
-//		var id = el.id.split(this.eventElIdDelimiter)[1];
+    /**
+     * Retrieve an Event object's id from its corresponding node in the DOM.
+     * @param {String/Element/HTMLElement} el An {@link Ext.Element}, DOM node or id
+     */
+//    getEventIdFromEl: function(el) {
+//        el = Ext.get(el);
+//        var id = el.id.split(this.eventElIdDelimiter)[1];
 //        if (id.indexOf('-w_') > -1) {
 //            //This id has the index of the week it is rendered in as part of the suffix.
 //            //This allows events that span across weeks to still have reproducibly-unique DOM ids.
 //            id = id.split('-w_')[0];
 //        }
 //        return id;
-//	},
+//    },
     getEventIdFromEl: function(el) {
         el = Ext.get(el);
         var parts, id = '', cls, classes = el.dom.className.split(' ');
@@ -1154,40 +1154,40 @@ viewConfig: {
         return id;
     },
 
-	// private
-	getEventId: function(eventId) {
-		if (eventId === undefined && this.tempEventId) {
+    // private
+    getEventId: function(eventId) {
+        if (eventId === undefined && this.tempEventId) {
             // temp record id assigned during an add, will be overwritten later
-			eventId = this.tempEventId;
-		}
-		return eventId;
-	},
+            eventId = this.tempEventId;
+        }
+        return eventId;
+    },
 
-	/**
-	 *
-	 * @param {String} eventId
-	 * @param {Boolean} forSelect
-	 * @return {String} The selector class
-	 */
-	getEventSelectorCls: function(eventId, forSelect) {
-		var prefix = forSelect ? '.' : '',
+    /**
+     *
+     * @param {String} eventId
+     * @param {Boolean} forSelect
+     * @return {String} The selector class
+     */
+    getEventSelectorCls: function(eventId, forSelect) {
+        var prefix = forSelect ? '.' : '',
             id = this.getEventId(eventId),
             cls = prefix + this.id + this.eventElIdDelimiter + id;
 
         return cls;
-	},
+    },
 
-	/**
-	 *
-	 * @param {String} eventId
-	 * @return {Ext.CompositeElement} The matching CompositeElement of nodes
-	 * that comprise the rendered event.  Any event that spans across a view
-	 * boundary will contain more than one internal Element.
-	 */
-	getEventEls: function(eventId) {
-		var els = this.el.select(this.getEventSelectorCls(this.getEventId(eventId), true), false);
-		return Ext.create('Ext.CompositeElement', els);
-	},
+    /**
+     *
+     * @param {String} eventId
+     * @return {Ext.CompositeElement} The matching CompositeElement of nodes
+     * that comprise the rendered event.  Any event that spans across a view
+     * boundary will contain more than one internal Element.
+     */
+    getEventEls: function(eventId) {
+        var els = this.el.select(this.getEventSelectorCls(this.getEventId(eventId), true), false);
+        return Ext.create('Ext.CompositeElement', els);
+    },
 
     /**
      * Returns true if the view is currently displaying today's date, else false.
@@ -1386,63 +1386,63 @@ alert('End: '+bounds.end);
         };
     },
 
-	/* private
-	 * Sort events for a single day for display in the calendar.  This sorts allday
-	 * events first, then non-allday events are sorted either based on event start
-	 * priority or span priority based on the value of {@link #spansHavePriority}
-	 * (defaults to event start priority).
-	 * @param {MixedCollection} evts A {@link Ext.util.MixedCollection MixedCollection}
-	 * of {@link #Extensible.calendar.data.EventModel EventRecord} objects
-	 */
-	sortEventRecordsForDay: function(evts) {
+    /* private
+     * Sort events for a single day for display in the calendar.  This sorts allday
+     * events first, then non-allday events are sorted either based on event start
+     * priority or span priority based on the value of {@link #spansHavePriority}
+     * (defaults to event start priority).
+     * @param {MixedCollection} evts A {@link Ext.util.MixedCollection MixedCollection}
+     * of {@link #Extensible.calendar.data.EventModel EventRecord} objects
+     */
+    sortEventRecordsForDay: function(evts) {
         if (evts.length < 2) {
             return;
         }
-		evts.sortBy(Ext.bind(function(evtA, evtB) {
-			var a = evtA.data,
+        evts.sortBy(Ext.bind(function(evtA, evtB) {
+            var a = evtA.data,
                 b = evtB.data,
                 M = Extensible.calendar.data.EventMappings;
 
-			// Always sort all day events before anything else
-			if (a[M.IsAllDay.name]) {
-				return -1;
-			}
-			else if (b[M.IsAllDay.name]) {
-				return 1;
-			}
-			if (this.spansHavePriority) {
-				// This logic always weights span events higher than non-span events
-				// (at the possible expense of start time order). This seems to
-				// be the approach used by Google calendar and can lead to a more
-				// visually appealing layout in complex cases, but event order is
-				// not guaranteed to be consistent.
-				var diff = Extensible.Date.diffDays;
-				if (diff(a[M.StartDate.name], a[M.EndDate.name]) > 0) {
-					if (diff(b[M.StartDate.name], b[M.EndDate.name]) > 0) {
-						// Both events are multi-day
-						if (a[M.StartDate.name].getTime() === b[M.StartDate.name].getTime()) {
-							// If both events start at the same time, sort the one
-							// that ends later (potentially longer span bar) first
-							return b[M.EndDate.name].getTime() - a[M.EndDate.name].getTime();
-						}
-						return a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime();
-					}
-					return -1;
-				}
-				else if (diff(b[M.StartDate.name], b[M.EndDate.name]) > 0) {
-					return 1;
-				}
-				return a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime();
-			}
-			else {
-				// Doing this allows span and non-span events to intermingle but
-				// remain sorted sequentially by start time. This seems more proper
-				// but can make for a less visually-compact layout when there are
-				// many such events mixed together closely on the calendar.
-				return a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime();
-			}
-		}, this));
-	},
+            // Always sort all day events before anything else
+            if (a[M.IsAllDay.name]) {
+                return -1;
+            }
+            else if (b[M.IsAllDay.name]) {
+                return 1;
+            }
+            if (this.spansHavePriority) {
+                // This logic always weights span events higher than non-span events
+                // (at the possible expense of start time order). This seems to
+                // be the approach used by Google calendar and can lead to a more
+                // visually appealing layout in complex cases, but event order is
+                // not guaranteed to be consistent.
+                var diff = Extensible.Date.diffDays;
+                if (diff(a[M.StartDate.name], a[M.EndDate.name]) > 0) {
+                    if (diff(b[M.StartDate.name], b[M.EndDate.name]) > 0) {
+                        // Both events are multi-day
+                        if (a[M.StartDate.name].getTime() === b[M.StartDate.name].getTime()) {
+                            // If both events start at the same time, sort the one
+                            // that ends later (potentially longer span bar) first
+                            return b[M.EndDate.name].getTime() - a[M.EndDate.name].getTime();
+                        }
+                        return a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime();
+                    }
+                    return -1;
+                }
+                else if (diff(b[M.StartDate.name], b[M.EndDate.name]) > 0) {
+                    return 1;
+                }
+                return a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime();
+            }
+            else {
+                // Doing this allows span and non-span events to intermingle but
+                // remain sorted sequentially by start time. This seems more proper
+                // but can make for a less visually-compact layout when there are
+                // many such events mixed together closely on the calendar.
+                return a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime();
+            }
+        }, this));
+    },
 
     /**
      * Updates the view to contain the passed date
@@ -1641,9 +1641,9 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
     },
 
     // private
-	getEventRecordFromEl: function(el) {
-		return this.getEventRecord(this.getEventIdFromEl(el));
-	},
+    getEventRecordFromEl: function(el) {
+        return this.getEventRecord(this.getEventIdFromEl(el));
+    },
 
     // private
     getEventEditor: function() {
@@ -1866,7 +1866,8 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
 
     // private
     shiftEvent: function(rec, newStartDate, moveOrCopy) {
-        var me = this;
+        var me = this,
+            newRec;
 
         if (moveOrCopy === 'move') {
             if (Extensible.Date.compare(rec.getStartDate(), newStartDate) === 0) {
