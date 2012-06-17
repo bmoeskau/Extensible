@@ -92,9 +92,28 @@ Ext.onReady(function () {
         eventStore: eventStore,
         calendarStore: calendarStore,
         title: 'Recurrence Calendar',
+        showAgendaView: true,
+        showListView: true,
+        activeItem: 3, // month view
 
         // Week start day. 0: Sunday, 1: Monday, 6: Saturday
         startDay: 0,
+
+        // Any generic view options that should be applied to all sub views:
+        viewConfig: {
+            startDay: 0
+        },
+
+        agendaViewCfg: {
+            linkDatesToDayView: true,
+            dateRangeDefault: '3months'
+        },
+
+        listViewCfg: {
+            linkDatesToDayView: true,
+            dateRangeDefault: '3months',
+            groupBy: 'week'
+        },
 
         // This is the magical config that enables the recurrence edit
         // widget to appear in the event form. Without it, any existing

@@ -69,6 +69,13 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      */
     showAgendaView: false,
     /**
+     * @cfg {Boolean} showListView
+     * True to include the list view (and toolbar button), false to hide them (defaults to false). The list view
+     * is an instance of {@link Extensible.calendar.view.Agenda agenda view} that is preconfigured to show a simple list
+     * of events rather than an agenda style list of events.
+     */
+    showListView: false,
+    /**
      * @cfg {Boolean} showNavBar
      * True to display the calendar navigation toolbar, false to hide it (defaults to true). Note that
      * if you hide the default navigation toolbar you'll have to provide an alternate means of navigating
@@ -165,6 +172,11 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      */
     agendaText: 'Agenda',
     /**
+     * @cfg {String} listText
+     * Text to use for the 'List' nav bar button.
+     */
+    listText: 'List',
+    /**
      * @cfg {Boolean} editModal
      * True to show the default event editor window modally over the entire page, false to allow user
      * interaction with the page while showing the window (the default). Note that if you replace the
@@ -230,7 +242,14 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      */
     /**
      * @cfg {Object} agendaViewCfg
-     * A config object that will be applied only to the {@link Extensible.calendar.view.Agenda AgendaView} managed by this CalendarPanel.
+     * A config object that will be applied only to the {@link Extensible.calendar.view.Agenda agenda view} managed
+     * by this CalendarPanel.
+     */
+    /**
+     * @cfg {Object} listViewCfg
+     * A config object that will be applied only to the {@link Extensible.calendar.view.Agenda list view} managed
+     * by this CalendarPanel. List view is an instance of {@link Extensible.calendar.view.Agenda agenda view} that is
+     * preconfigured to show a simple list of events rather than a agenda style list of events.
      */
     /**
      * @cfg {Object} editViewCfg
@@ -323,6 +342,12 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         if(this.showAgendaView){
             this.tbar.items.push({
                 id: this.id+'-tb-agenda', text: this.agendaText, handler: this.onAgendaNavClick, scope: this, toggleGroup: this.id+'-tb-views'
+            });
+            this.viewCount++;
+        }
+        if(this.showListView){
+            this.tbar.items.push({
+                id: this.id+'-tb-list', text: this.listText, handler: this.onListNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
@@ -678,7 +703,35 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             this.initEventRelay(agenda);
             this.add(agenda);
         }
+        if(this.showListView){
+            var list = Ext.applyIf({
+                xtype: 'extensible.agendaview',
+                title: this.listText,
+                simpleList: true,
+                groupBy: 'month',
+                listeners: {
+                    'dayclick': {
+                        fn: function(vw, dt){
+                            this.showDay(dt);
+                        },
+                        scope: this
+                    },
+                    'datechange': {
+                        fn: function(){
+                            // AgendaView allows the changing of start and end dates from within in the view. Update
+                            // the nav state this happens.
+                            this.updateNavState();
+                        },
+                        scope: this
+                    }
+                }
+            }, sharedViewCfg);
 
+            list = Ext.apply(Ext.apply(list, this.viewConfig), this.listViewCfg);
+            list.id = this.id+'-list';
+            this.initEventRelay(list);
+            this.add(list);
+        }
         this.add(Ext.applyIf({
             xtype: 'extensible.eventeditform',
             id: this.id+'-edit',
@@ -1034,7 +1087,12 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     onAgendaNavClick: function(){
         this.setActiveView(this.id+'-agenda');
     },
-    
+
+    // private
+    onListNavClick: function(){
+        this.setActiveView(this.id+'-list');
+    },
+
     /**
      * Return the calendar view that is currently active, which will be a subclass of
      * {@link Extensible.calendar.view.AbstractCalendar AbstractCalendar}.

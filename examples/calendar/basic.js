@@ -28,7 +28,8 @@ Ext.onReady(function(){
         width: 700,
         height: 500,
         activeItem: 3, // default to month view
-        showAgendaView: true
+        showAgendaView: true,
+        showListView: true
     });
     
     //
@@ -41,6 +42,7 @@ Ext.onReady(function(){
         renderTo: 'panel',
         title: 'Calendar with Panel Configs',
         showAgendaView: true,
+        showListView: true,
         activeItem: 1, // default to week view
         width: 700,
         height: 500,
