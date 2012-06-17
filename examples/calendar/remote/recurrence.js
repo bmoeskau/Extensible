@@ -91,7 +91,7 @@ Ext.onReady(function () {
         eventStore: eventStore,
         calendarStore: calendarStore,
         title: 'Recurrence Calendar',
-        showAgendaView: false,
+        showAgendaView: true,
         activeItem: 3, // month view
 
         // This is the magical config that enables the recurrence edit
