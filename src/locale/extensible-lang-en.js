@@ -45,6 +45,7 @@ Ext.onReady(function() {
             weekText: 'Week',
             monthText: 'Month',
             agendaText: 'Agenda',
+            listText: 'List',
             jumpToText: 'Jump to:',
             goText: 'Go',
             multiDayText: '{0} Days', // deprecated
@@ -225,6 +226,10 @@ Ext.onReady(function() {
             dateRangeThreeMonths: 'Three months',
             dateRangeOneYear: 'One year',
             dateRangeText: 'Date range',
+            groupByMonths: 'Month',
+            groupByWeek: 'Week',
+            groupByNone: 'None',
+            groupByText: 'Group by',
             showDetailsText: 'Show details',
             addBtnText: 'Add event',
             resetBtnText: 'Reset'
