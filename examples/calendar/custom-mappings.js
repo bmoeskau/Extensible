@@ -20,8 +20,10 @@ Ext.onReady(function(){
 
     // For complete details on how to customize the EventMappings object to match your
     // application data model see the header documentation for the EventMappings class.
+    // It is best to use Ext.apply() to override mappings in case new default framework
+    // mappings are ever added in the future.
     
-    Extensible.calendar.data.EventMappings = {
+    Ext.apply(Extensible.calendar.data.EventMappings, {
         // These are the same fields as defined in the standard EventRecord object but the
         // names and mappings have all been customized. Note that the name of each field
         // definition object (e.g., 'EventId') should NOT be changed for the default fields
@@ -41,7 +43,7 @@ Ext.onReady(function(){
         // We can also add some new fields that do not exist in the standard EventRecord:
         CreatedBy:   {name: 'CreatedBy', mapping: 'created_by'},
         IsPrivate:   {name: 'Private', mapping:'private', type:'boolean'}
-    };
+    });
     // Don't forget to reconfigure!
     Extensible.calendar.data.EventModel.reconfigure();
     
@@ -54,14 +56,14 @@ Ext.onReady(function(){
         data: Ext.create('Extensible.example.calendar.data.EventsCustom')
     });
     
-    Extensible.calendar.data.CalendarMappings = {
+    Ext.apply(Extensible.calendar.data.CalendarMappings, {
         // Same basic concept for the CalendarMappings as above
         CalendarId:   {name:'ID', mapping: 'cal_id', type: 'string'}, // int by default
         Title:        {name:'CalTitle', mapping: 'cal_title', type: 'string'},
         Description:  {name:'Desc', mapping: 'cal_desc', type: 'string'},
         ColorId:      {name:'Color', mapping: 'cal_color', type: 'int'},
         IsHidden:     {name:'Hidden', mapping: 'hidden', type: 'boolean'}
-    };
+    });
     // Don't forget to reconfigure!
     Extensible.calendar.data.CalendarModel.reconfigure();
     
