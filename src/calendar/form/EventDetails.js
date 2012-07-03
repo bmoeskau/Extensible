@@ -3,8 +3,8 @@
  * @extends Ext.form.FormPanel
  * <p>A custom form used for detailed editing of events.</p>
  * <p>This is pretty much a standard form that is simply pre-configured for the options needed by the
- * calendar components. It is also configured to automatically bind records of type {@link Extensible.calendar.data.EventModel}
- * to and from the form.</p>
+ * calendar components. It is also configured to automatically bind records of type
+ * {@link Extensible.calendar.data.EventModel EventModel} to and from the form.</p>
  * <p>This form also provides custom events specific to the calendar so that other calendar components can be easily
  * notified when an event has been edited via this component.</p>
  * <p>The default configs are as follows:</p><pre><code>
@@ -74,7 +74,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     
     /**
      * @cfg {Boolean} recurrence
-     * @since 2.0.0
+     * @since 1.6.0
      * True to show the recurrence field, false to hide it (default). Note that recurrence requires
      * something on the server-side that can parse the iCal RRULE format in order to generate the
      * instances of recurring events to display on the calendar, so this field should only be enabled
@@ -84,7 +84,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     
     /**
      * @cfg {Boolean} allowDefaultAdd
-     * @since 2.0.0
+     * @since 1.6.0
      * True to allow the user to save the initial default record displayed in the form while in Add mode
      * and the record is not dirty (default). If false, the form save action will be treated as a cancel action
      * if no editing was performed while in Add mode and the record will not be added. Note that this setting
@@ -109,28 +109,32 @@ Ext.define('Extensible.calendar.form.EventDetails', {
              * @event eventadd
              * Fires after a new event is added
              * @param {Extensible.calendar.form.EventDetails} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was added
+             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+             * record} that was added
              */
             eventadd: true,
             /**
              * @event eventupdate
              * Fires after an existing event is updated
              * @param {Extensible.calendar.form.EventDetails} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was updated
+             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+             * record} that was updated
              */
             eventupdate: true,
             /**
              * @event eventdelete
              * Fires after an event is deleted
              * @param {Extensible.calendar.form.EventDetails} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was deleted
+             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+             * record} that was deleted
              */
             eventdelete: true,
             /**
              * @event eventcancel
              * Fires after an event add/edit operation is canceled by the user and no store update took place
              * @param {Extensible.calendar.form.EventDetails} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was canceled
+             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+             * record} that was canceled
              */
             eventcancel: true
         });

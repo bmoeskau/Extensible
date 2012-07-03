@@ -536,7 +536,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              * @param {Extensible.calendar.CalendarPanel} this
              * @param {Object} response The raw response object returned from the server
              * @param {Ext.data.Operation} operation The operation that was processed
-             * @since 2.0.0
+             * @since 1.6.0
              */
         });
         

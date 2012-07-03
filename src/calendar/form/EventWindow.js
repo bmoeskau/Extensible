@@ -76,7 +76,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     
     /**
      * @cfg {Boolean} allowDefaultAdd
-     * @since 2.0.0
+     * @since 1.6.0
      * True to allow the user to save the initial default record displayed in the form while in Add mode
      * and the record is not dirty (default). If false, the form save action will be treated as a cancel action
      * if no editing was performed while in Add mode and the record will not be added. Note that this setting
@@ -97,7 +97,8 @@ Ext.define('Extensible.calendar.form.EventWindow', {
              * @event eventadd
              * Fires after a new event is added
              * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was added
+             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+             * record} that was added
              * @param {Ext.Element} el The target element
              */
             eventadd: true,
@@ -105,7 +106,8 @@ Ext.define('Extensible.calendar.form.EventWindow', {
              * @event eventupdate
              * Fires after an existing event is updated
              * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was updated
+             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+             * record} that was updated
              * @param {Ext.Element} el The target element
              */
             eventupdate: true,
@@ -113,7 +115,8 @@ Ext.define('Extensible.calendar.form.EventWindow', {
              * @event eventdelete
              * Fires after an event is deleted
              * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was deleted
+             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+             * record} that was deleted
              * @param {Ext.Element} el The target element
              */
             eventdelete: true,
@@ -121,18 +124,20 @@ Ext.define('Extensible.calendar.form.EventWindow', {
              * @event eventcancel
              * Fires after an event add/edit operation is canceled by the user and no store update took place
              * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was canceled
+             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+             * record} that was canceled
              * @param {Ext.Element} el The target element
              */
             eventcancel: true,
             /**
              * @event editdetails
              * Fires when the user selects the option in this window to continue editing in the detailed edit form
-             * (by default, an instance of {@link Extensible.calendar.form.EventDetails}. Handling code should hide this window
-             * and transfer the current event record to the appropriate instance of the detailed form by showing it
-             * and calling {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
+             * (by default, an instance of {@link Extensible.calendar.form.EventDetails}. Handling code should hide
+             * this window and transfer the current event record to the appropriate instance of the detailed form by
+             * showing it and calling {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
              * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} that is currently being edited
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+             * that is currently being edited
              * @param {Ext.Element} el The target element
              */
             editdetails: true

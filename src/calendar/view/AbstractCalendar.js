@@ -237,21 +237,21 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     hideMode: 'offsets',
     /**
      * @cfg {String} notifyOnExceptionTitle
-     * @since 2.0.0
+     * @since 1.6.0
      * The notification title used by the {@link #notifyOnException} method when a server error occurs
      * (defaults to "Server Error").
      */
     notifyOnExceptionTitle: 'Server Error',
     /**
      * @cfg {String} notifyOnExceptionText
-     * @since 2.0.0
+     * @since 1.6.0
      * The notification starting text used by the {@link #notifyOnException} method when a server error occurs
      * (defaults to "The action failed with the following response:"). The text of the error is appended.
      */
     notifyOnExceptionText: 'The action failed with the following response:',
     /**
      * @cfg {String} notifyOnExceptionDefaultMessage
-     * @since 2.0.0
+     * @since 1.6.0
      * The default notification message text used by the {@link #notifyOnException} method when a server error occurs
      * and no error message is returned from the server (defaults to "An unknown error occurred").
      */
@@ -541,7 +541,7 @@ viewConfig: {
              * @param {Extensible.calendar.view.AbstractCalendar} this
              * @param {Object} response The raw response object returned from the server
              * @param {Ext.data.Operation} operation The operation that was processed
-             * @since 2.0.0
+             * @since 1.6.0
              */
             eventexception: true
         });
@@ -1625,7 +1625,7 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
      * </code></pre>
      * @param {Object} response The raw response object returned from the server
      * @param {Ext.data.Operation} operation The operation that was processed
-     * @since 2.0.0
+     * @since 1.6.0
      */
     notifyOnException: function(response, operation) {
         Ext.Msg.alert(this.notifyOnExceptionTitle, this.notifyOnExceptionText + '<br>' +
@@ -2146,7 +2146,7 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
      * {@link Extensible.calendar.CalendarPanel CalendarPanel}. If it is not active, or
      * not hosted inside a CalendarPanel, returns false.
      * @return {Boolean} True if this is the active CalendarPanel view, else false
-     * @since 2.0.0
+     * @since 1.6.0
      */
     isActiveView: function() {
         var calendarPanel = this.ownerCalendarPanel;
