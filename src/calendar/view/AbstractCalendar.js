@@ -267,7 +267,8 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     //private properties -- do not override:
     weekCount: 1,
     dayCount: 1,
-    eventSelector : '.ext-cal-evt',
+    eventSelector: '.ext-cal-evt',
+    eventSelectorDepth: 10,
     eventOverClass: 'ext-evt-over',
     eventElIdDelimiter: '-evt-',
     dayElIdDelimiter: '-day-',
@@ -2081,7 +2082,7 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
 
     // private
     handleEventMouseEvent: function(e, t, type) {
-        var el = e.getTarget(this.eventSelector, 5, true);
+        var el = e.getTarget(this.eventSelector, this.eventSelectorDepth, true);
         
         if (el) {
             var rel = Ext.get(e.getRelatedTarget());

@@ -28,7 +28,7 @@ Ext.define('Extensible.calendar.dd.DayDragZone', {
                 proxy: this.proxy
             };
         }
-        var t = e.getTarget(this.eventSelector, 3);
+        var t = e.getTarget(this.eventSelector, this.eventSelectorDepth);
         if(t){
             var rec = this.view.getEventRecordFromEl(t);
             if(!rec){

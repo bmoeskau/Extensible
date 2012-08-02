@@ -10,8 +10,9 @@ Ext.define('Extensible.calendar.dd.DragZone', {
         'Extensible.calendar.data.EventMappings'
     ],
     
-    ddGroup : 'CalendarDD',
-    eventSelector : '.ext-cal-evt',
+    ddGroup: 'CalendarDD',
+    eventSelector: '.ext-cal-evt',
+    eventSelectorDepth: 10,
     
     constructor : function(el, config){
         if(!Extensible.calendar._statusProxyInstance){
@@ -23,7 +24,7 @@ Ext.define('Extensible.calendar.dd.DragZone', {
     
     getDragData : function(e){
         // Check whether we are dragging on an event first
-        var t = e.getTarget(this.eventSelector, 3);
+        var t = e.getTarget(this.eventSelector, this.eventSelectorDepth);
         if(t){
             var rec = this.view.getEventRecordFromEl(t);
             if(!rec){
