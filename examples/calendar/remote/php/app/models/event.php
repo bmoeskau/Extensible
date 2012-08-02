@@ -492,12 +492,14 @@ class Event extends Model {
                         $dates = $exDate['dates'];
                         if (in_array($delDate, $dates)) {
                             $key = array_search($delDate, $dates);
-                            array_shift(array_splice($dates, $key, 1));
+                            $spliced = array_splice($dates, $key, 1);
+                            array_shift($spliced);
                         }
                         $_SESSION[$GLOBALS['app_id']]['exdates'][$idx] = array(Event::$event_id => $eventId, 'dates' => $dates);
                     }
                     else {
-                        array_shift(array_splice($_SESSION[$GLOBALS['app_id']]['exdates'], $idx, 1));
+                        $spliced = array_splice($_SESSION[$GLOBALS['app_id']]['exdates'], $idx, 1);
+                        array_shift($spliced);
                     }
                     return;
                 }
