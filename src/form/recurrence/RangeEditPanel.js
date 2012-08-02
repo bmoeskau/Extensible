@@ -52,7 +52,7 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
         return {
             xtype: 'component',
             itemId: this.id + '-summary',
-            html: this.optionSingleDescription,
+            html: this.optionAllDescription,
             flex: 1,
             padding: 15
         };
