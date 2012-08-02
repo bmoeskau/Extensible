@@ -47,18 +47,19 @@ Ext.define('Extensible.calendar.data.EventModel', {
     
     mappingIdProperty: 'EventId',
     
-    associations: [{
-        type: 'hasMany',
-        model: 'Extensible.calendar.data.EventModel',
-        primaryKey: 'EventId',
-        foreignKey: 'ParentId',
-        autoLoad: true
-    },{
-        type: 'belongsTo',
-        model: 'Extensible.calendar.data.EventModel',
-        primaryKey: 'EventId',
-        foreignKey: 'ParentId'
-    }],
+    // Experimental, not currently used:
+    // associations: [{
+        // type: 'hasMany',
+        // model: 'Extensible.calendar.data.EventModel',
+        // primaryKey: 'EventId',
+        // foreignKey: 'ParentId',
+        // autoLoad: true
+    // },{
+        // type: 'belongsTo',
+        // model: 'Extensible.calendar.data.EventModel',
+        // primaryKey: 'EventId',
+        // foreignKey: 'ParentId'
+    // }],
 
     inheritableStatics: {
         /**
