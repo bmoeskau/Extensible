@@ -809,7 +809,8 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     
     /**
      * Set the active view, optionally specifying a new start date.
-     * @param {String} id The id of the view to activate
+     * @param {String/Number} id The id of the view to activate (or the 0-based index of the view within
+     *        the CalendarPanel's internal card layout).
      * @param {Date} startDate (optional) The new view start date (defaults to the current start date)
      */
     setActiveView: function(id, startDate){
