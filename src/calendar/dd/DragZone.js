@@ -78,14 +78,14 @@ Ext.define('Extensible.calendar.dd.DragZone', {
     
     afterRepair : function(){
         if(Ext.enableFx && this.dragData.ddel){
-            Ext.Element.fly(this.dragData.ddel).highlight(this.hlColor || 'c3daf9');
+            Ext.fly(this.dragData.ddel).highlight(this.hlColor || 'c3daf9');
         }
         this.dragging = false;
     },
     
     getRepairXY : function(e){
         if(this.dragData.ddel){
-            return Ext.Element.fly(this.dragData.ddel).getXY();
+            return Ext.fly(this.dragData.ddel).getXY();
         }
     },
     
