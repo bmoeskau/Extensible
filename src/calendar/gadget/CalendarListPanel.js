@@ -143,7 +143,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
             CM = Extensible.calendar.data.CalendarMappings,
             isHidden = rec.data[CM.IsHidden.name]; 
         
-        rec.set([CM.IsHidden.name], !isHidden);
+        rec.set(CM.IsHidden.name, !isHidden);
         
         if(commit !== false){
             rec.commit();
