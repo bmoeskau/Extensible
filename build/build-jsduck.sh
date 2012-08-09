@@ -14,7 +14,7 @@
 # and configurable, but for now it is for testing only.
 #
 
-VER=extensible-1.5.1
+VER=extensible-1.6.0-b1
 
 EXTJS_SRC=$HOME/Projects/ext-4.0.2a/src
 EXTENSIBLE_ROOT=$HOME/Projects/Extensible

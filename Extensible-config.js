@@ -1,5 +1,5 @@
 Extensible = {
-    version: '1.5.1'
+    version: '1.6.0-b1'
 };
 /**
  * This is intended as a development mode only convenience so that you can configure all include
@@ -56,7 +56,6 @@ Extensible.Config = {
          * 
          * @config {String} extJsRoot
          */
-        //extJsRoot: 'http://cdn.sencha.io/ext-4.0.7-gpl/',
         extJsRoot: 'http://cdn.sencha.io/ext-4.1.0-gpl/',
         
         /**
