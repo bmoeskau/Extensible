@@ -2,6 +2,49 @@
 
 These notes apply to the Ext 4.x branch of Extensible.
 
+## 1.6.0 (Beta)
+
+_August 9, 2012_
+
+**New Features**
+
+* Recurrence! This is the main feature of this release, and it includes lots of specific things:
+    - Rewrote the previous experimental recurrence selection component from scratch (now `FrequencyCombo`)
+    - 10 classes under the new `Extensible.form.recurrence` namespace
+    - RangeEditPanel/Window components for editing recurring events
+    - New server-side recurrence example with a default PHP implementation
+* Copy events:
+    - Added new option to copy (clone) events in the event context menu
+    - Also supports holding Ctrl/Alt/Cmd while dragging an event to copy it
+    - New `copyToText` config and `eventcopy` event
+* Exception handling improvements:
+    - New `eventexception` event raised by views and CalendarPanel when proxies return an exception
+    - New `AnbstractCalendar.notifyOnException()` template method that defaults to showing an Ext MessageBox with exception messages
+    - New view configs: `notifyOnExceptionTitle`, `notifyOnExceptionText` and `notifyOnExceptionDefaultMessage`
+* New `Extensible.data.Model` abstract class to encapsulate some generic logic for Extensible models
+* Other new config options:
+    - `allowDefaultAdd` config in `EventDetails` and `EventEditWindow` forms to control the behavior of clicking the "Save" button on an unmodified form
+    - `morePanelMinWidth` config to control the width of the "More events" popup in Month view
+    - `minBodyHeight` config in Day view to control event overflow and scrolling when many events are displayed in the header area
+
+**Bugs Fixed**
+
+* Fixed bad empty day cell ids causing "date is undefined" error
+* Fixed dirty checking logic in event edit forms
+* Updated a few leftover Ext 3.x class references
+* The "More events" popup will now scroll vertically when the number of events causes overflow
+* Override for `Ext.form.CheckboxGroup.resetOriginalValue()` to fix issues with the Ext 4.0.x implementation
+* Fixed null error when changing calendar views in certain situations
+* Fix for an Ext 4.1 bug where the `Panel.frameSize` property is not always set as expected and can cause null errors
+* Fixed bug that caused record add operations after an initial validation failure to not be saved properly
+* Updated exception code to listen to the proxy rather than the store for exceptions (an Ext 4.x change)
+* Fixed: In weeks that *only* contained partial events spanning from previous weeks, the empty placeholder cells were not calculated correctly, leaving "dead" spots in the calendar that were not clickable.
+* Fixed "long clicks" on events that get interpreted as drag starts that were not properly initialized and caused errors
+* Changed the event and calendar mapping assignments to use `Ext.apply` to make them easier to partially override
+* Fixed a bug in the `CalendarListPanel` that could cause the calendar visibility toggling behavior to break
+* Fixed hard-coded event selector logic that could break with deeply-nested custom event body markup
+* Fixed invalid references to `Ext.Element.fly` that caused the invalid drop repair action to fail during drag drop
+
 ## 1.5.1
 
 _February 6, 2012_
