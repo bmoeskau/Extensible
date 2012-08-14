@@ -64,6 +64,10 @@ For use in your own application, you'll simply include the built framework files
     <!-- Include your app and any other app-specific files -->
     <script type="text/javascript" src="MyApp.js"></script>
 
+## Theming
+
+To modify the color schema of Extensible use the supplied SASS files in /resources/sass. A good starting point is in the [Learn Ext JS Guide](http://www.sencha.com/learn/theming/).
+
 ## Upgrading from Extensible 1.x to 1.5+
 
 Nothing about the Extensible API changed between 1.x and 1.5 except the naming/namespacing and organization of classes. No new functionality was introduced that was not directly relevant to supporting Ext 4.0. Because of this upgrading should not be difficult, but since almost every single class was renamed and/or reorganized (to be more consistent with Ext 4 and also to provide support for dynamic loading), you may find it initially tedious to get existing application code back up and running under Extensible 1.5+.
