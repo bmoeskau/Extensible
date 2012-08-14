@@ -1,4 +1,4 @@
-# Extensible 1.5.x Release Notes
+# Extensible Release Notes
 
 These notes apply to the Ext 4.x branch of Extensible.
 
