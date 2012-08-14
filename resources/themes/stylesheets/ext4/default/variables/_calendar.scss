@@ -1,0 +1,102 @@
+// Shared Colors
+$extensible-toolbar-button-color: 			#555 !default;
+$extensible-panel-border-color: 			#99bbe8 !default;
+$extensible-panel-inner-background-color:	#eee !default;
+
+
+//
+$extensible-cal-hd-color: 					#555 !default;
+$extensible-cal-hd-background-color: 		#d3e1f1 !default;
+$extensible-cal-hd-border-color: 			#c3d9ff !default;
+$extensible-cal-hd-border-separator-color:	#bcf !default;
+
+//Day/week-specific styles
+$extensible-cal-hd-days-background-color: 	#cddcef !default;
+$extensible-cal-hd-ad-background-color:		#fff !default;
+$extensible-cal-hd-ad-border-color:			#e3e9ff !default;
+$extensible-cal-days-row-border-color:		#ddd !default;
+$extensible-cal-days-times-color: 			#666 !default;
+$extensible-cal-days-times-border-color:	$extensible-cal-days-row-border-color !default;
+$extensible-cal-days-times-background-color: #f6f9fc !default;
+
+//Month-specific styles
+$extensible-cal-month-hd-background-color:	#95B8EF !default;
+$extensible-cal-month-background-color:		#fff !default;
+
+//Month view week link boxes
+$extensible-cal-month-week-link-color:						#999 !default;
+$extensible-cal-month-week-link-background-color: 			#EFEFEF !default;
+$extensible-cal-month-week-link-over-background-color: 		#E0E7EF !default;
+$extensible-cal-month-week-link-border-color:				#C3D9FF !default;
+$extensible-cal-month-week-link-border-top-color:			$extensible-panel-border-color !default;
+$extensible-cal-month-week-link-first-border-left-color: 	$extensible-cal-hd-border-color !default;
+
+//Month table cells
+$extensible-cal-month-day-border-color: 			$extensible-cal-hd-border-color !default;
+$extensible-cal-month-day-over-background-color: 	#D1EAEF !default;
+
+//Event title cell
+$extensible-cal-month-title-color: 					#A7C6DF !default;
+$extensible-cal-month-title-border-color: 			$extensible-cal-hd-border-color !default;
+$extensible-cal-month-title-first-border-color:		$extensible-cal-hd-border-separator-color !default;
+
+//Today's title cell
+$extensible-cal-month-today-color: 					#BFA52F !default;
+$extensible-cal-month-today-background-color: 		#FFF4BF !default;
+
+//Weekend cell
+$extensible-cal-month-weekend-background-color: 	#EFF9FC !default;
+
+//Prev Next cell
+$extensible-cal-month-prevnext-color: 				#bbb !default;
+$extensible-cal-month-prevnext-background-color: 	#EFEFEF !default;
+
+//Event cells
+$extensible-cal-ev-more-color:						#369 !default;
+
+//Day view event styles
+$extensible-cal-day-evt-color:						#fff !default;
+$extensible-cal-day-evt-link-color:					$extensible-cal-day-evt-color !default;
+
+//Calendar DD styles
+$extensible-dd-sel-background-color:				#C3D9FF !default;
+$extensible-dd-shim-background-color:				$extensible-dd-sel-background-color !default;
+$extensible-dd-ghost-color:							#000 !default;
+$extensible-dd-ghost-background-color:				#fff !default;
+$extensible-dd-ghost-border-color:					#ddd #bbb #bbb #ddd !default;
+
+//Event resize handle
+$extensible-resize-handle-border-color: 			#ccc !default;
+$extensible-resize-handle-border-opacity-color:		#fff !default;
+
+
+//Calendar navigation picker styles
+$extensible-navigation-picker-border-color:						#99BBE8 !default;
+$extensible-navigation-picker-header-background-color:			#D3E1F1 !default;
+
+$extensible-navigation-picker-button-color:						$extensible-toolbar-button-color !default;
+$extensible-navigation-picker-inner-border-color:				$extensible-cal-hd-border-separator-color !default;
+
+$extensible-navigation-picker-today-background-color:			#FFF4BF !default;
+$extensible-navigation-picker-today-border-color:				#BFA52F !default;
+
+$extensible-navigation-picker-month-border-color:				$extensible-navigation-picker-border-color !default;
+$extensible-navigation-picker-footer-background-color:			$extensible-navigation-picker-header-background-color !default;
+
+//Calendar editor window styles
+$extensible-editor-link-color:									#15428B !default;
+
+//Calendar form styles
+$extensible-form-toolbar-border-color:							#99BBE8 !default;
+$extensible-form-toolbar-background-color:						#DFE8F6 !default;
+$extensible-form-panel-border-top-color:						$extensible-form-toolbar-border-color !default;
+$extensible-form-panel-border-bottom-color:						#BBCCFF !default;
+
+//CalendarList styles
+$extensible-cal-list-background-color:							#fff !default;
+$extensible-cal-list-border-color:								#99BBE8 !default;
+$extensible-cal-list-header-color:								#555 !default;
+
+//CalendarList menu styles
+$extensible-cal-list-menu-link-color:							#f0f0f0 !default;
+$extensible-cal-list-menu-selected-color:						#8BB8F3 !default;
