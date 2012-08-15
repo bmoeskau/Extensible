@@ -764,7 +764,7 @@ td.ext-cal-dtitle-today div {
     border-style: none none solid;
     border-color: $extensible-navigation-picker-border-color;
 }
-.ext-cal-nav-picker .x-datepicker-header {
+.x-nlg .ext-cal-nav-picker .x-datepicker-header {
     background: $extensible-navigation-picker-header-background-color url(../images/default/ext/toolbar-bg.gif) repeat-x;
 }
 .ext-cal-nav-picker .x-datepicker-month,
@@ -807,7 +807,7 @@ td.ext-cal-dtitle-today div {
     top: 0 !important;
     left: 0 !important;
 }
-.ext-cal-nav-picker .x-datepicker-footer {
+.x-nlg .ext-cal-nav-picker .x-datepicker-footer {
     background: $extensible-navigation-picker-footer-background-color url(../images/default/ext/toolbar-bg.gif) repeat-x;
 }
 
@@ -845,13 +845,17 @@ td.ext-cal-dtitle-today div {
     border-bottom: 1px solid $extensible-form-toolbar-border-color;
 }
 .ext-evt-edit-form .x-panel-header {
-    background: transparent url(../images/default/ext-cal-edit-hd.png) repeat-x;
     padding: 6px 0 5px 5px !important;
     font-size: 13px !important;
     font-family: helvetica, arial, sans-serif;
     border-top: 0;
     border-bottom: 1px solid $extensible-form-panel-border-bottom-color;
 }
+
+.x-nlg .ext-evt-edit-form .x-panel-header {
+    background: transparent url(../images/default/ext-cal-edit-hd.png) repeat-x;
+}    
+
 .x-panel-mc .ext-evt-edit-form .x-panel-header {
    border-top: 1px solid $extensible-form-panel-border-top-color;
 }
