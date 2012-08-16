@@ -59,10 +59,10 @@ describe('Google Calendar', function() {
                         "self": true
                     },
                     "start": {
-                        "date": "2011-11-06"
+                        "date": "2012-11-06"
                     },
                     "end": {
-                        "date": "2011-11-07"
+                        "date": "2012-11-07"
                     },
                     "visibility": "public",
                     "iCalUID": "h@00fc4431adb8e05371ee936f9e2e11aa73fc2817@google.com",
@@ -100,7 +100,7 @@ describe('Google Calendar', function() {
         });
     });
     
-    it('should load EventList record header', function() {
+    it('should load EventList header data', function() {
         expect(eventListStore.getCount()).toEqual(1);
         
         var eventList = eventListStore.data.items[0].data;
@@ -114,15 +114,46 @@ describe('Google Calendar', function() {
         expect(eventList.accessRole).toEqual('reader');
     });
     
-    it('should load EventList child event records', function() {
-        debugger;
-        var eventList = eventListStore.data.items[0].data,
+    it('should load EventList.Event child records', function() {
+        var eventList = eventListStore.data.items[0],
             eventStore = eventList.events(),
-            firstEvent = eventStore.data.items[0];
+            firstEvent = eventStore.data.items[0].data;
         
-        expect(events.getCount()).toEqual(2);
+        expect(eventStore.getCount()).toEqual(2);
+        
+        // Extensible fields
+        expect(firstEvent.EventId).toEqual('h@00fc4431adb8e05371ee936f9e2e11aa73fc2817');
+        expect(firstEvent.StartDate).toEqual(new Date('2012-11-06'));
+        expect(firstEvent.EndDate).toEqual(new Date('2012-11-07'));
+        expect(firstEvent.Title).toEqual('Daylight Saving Time Ends');
+        
+        // Other
         expect(firstEvent.kind).toEqual('calendar#event');
+        expect(firstEvent.etag).toEqual('\"y3Ec45PWr056tgI9oyp5WeT3BzE/Q09ENl9wYVNKeEVBQUFBQUFBQUFBQT09\"');
+        expect(firstEvent.status).toEqual('confirmed');
+        expect(firstEvent.htmlLink).toEqual('https://www.google.com/calendar/event?eid=aEAwMGZjNDQzMWFkYjhlMDUzNzFlZTkzNmY5ZTJlMTFhYTczZmMyODE3IGVuLnVzYSNob2xpZGF5QHY');
+        expect(firstEvent.created).toEqual('2012-08-14T02:04:12.000Z');
+        expect(firstEvent.updated).toEqual('2012-08-14T02:04:12.000Z');
+        expect(firstEvent.creator.email).toEqual('en.usa#holiday@group.v.calendar.google.com');
+        expect(firstEvent.creator.displayName).toEqual('US Holidays');
+        expect(firstEvent.creator.self).toEqual(true);
+        expect(firstEvent.organizer.email).toEqual('en.usa#holiday@group.v.calendar.google.com');
+        expect(firstEvent.visibility).toEqual('public');
+        expect(firstEvent.iCalUID).toEqual('h@00fc4431adb8e05371ee936f9e2e11aa73fc2817@google.com');
+        expect(firstEvent.sequence).toEqual(1);
+    });
+    
+    it('should properly bind to a CalendarPanel', function() {
+        var eventStore = eventListStore.data.items[0].events();
         
+        expect(eventStore.getCount()).toEqual(2);
+        
+        var cp = Ext.create('Extensible.calendar.CalendarPanel', {
+            eventStore: eventStore,
+            height: 500,
+            width: 500,
+            renderTo: document.body
+        });
     });
 
 });
