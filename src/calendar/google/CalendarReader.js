@@ -8,19 +8,32 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
 
     root: 'items',
     
-    readRecords: function(data) {
+    readRecords: function(rawData) {
         var resultSet = this.callParent(arguments),
-            headerData = {}
+            EventMappings = Extensible.calendar.google.EventMappings,
+            records = resultSet.records,
+            len = records.length,
+            data,
+            i = 0,
+            // Attributes to copy from the header into the records:
+            timeZone = rawData.timeZone,
+            accessRole = rawData.accessRole;
         
-        // Append the header fields returned as part of the event list to the
-        // returned resultSet so they'll be available for future processing:
-        for (item in data) {
-            if (data.hasOwnProperty(item) && item !== 'items') {
-                headerData[item] = data[item];
+        for (i = 0; i < len; i++) {
+            data = records[i].data;
+            
+            if (timeZone) {
+                if (!data[EventMappings.StartTimeZone.name]) {
+                    data[EventMappings.StartTimeZone.name] = timeZone;
+                }
+                if (!data[EventMappings.EndTimeZone.name]) {
+                    data[EventMappings.EndTimeZone.name] = timeZone;
+                }
+            }
+            if (accessRole) {
+                data[EventMappings.AccessRole.name] = accessRole;
             }
         }
-        
-        resultSet.headerData = headerData;
         
         return resultSet;
     },
@@ -47,7 +60,6 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
             
             processed.push(records[i]);
         }
-        
         return processed;
     }
 });
