@@ -56,9 +56,14 @@ Ext.define('Extensible.calendar.dd.DropZone', {
     shim : function(start, end){
         this.currWeek = -1;
         var dt = Ext.Date.clone(start),
+            dt2 = Ext.Date.clone(end),
             i = 0, shim, box,
             D = Extensible.Date,
-            cnt = D.diffDays(dt, end) + 1;
+            // Since both dates have no time (00:00), the diff will always be one less than the number
+            // of highlighted days required (e.g. 2 selected days will only be 1 day difference). We adjust
+            // a day to account for that, plus a little extra so that the midnight boundary is not
+            // interpreted as the previous day in the diff.
+            cnt = D.diffDays(dt, D.add(dt2, {hours: 25}));
         
         Ext.each(this.shims, function(shim){
             if(shim){
