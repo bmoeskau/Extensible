@@ -22,6 +22,8 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
         for (i = 0; i < len; i++) {
             data = records[i].data;
             
+            // If the event list header specifies a time zone, default that value into
+            // any records that do not have an explicit time zone on the start or end dates:
             if (timeZone) {
                 if (!data[EventMappings.StartTimeZone.name]) {
                     data[EventMappings.StartTimeZone.name] = timeZone;
@@ -30,6 +32,9 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
                     data[EventMappings.EndTimeZone.name] = timeZone;
                 }
             }
+            
+            // Google's event model does not specify accessRole, but since we need it at the event
+            // level in Extensible to render the events properly just copy it into each event: 
             if (accessRole) {
                 data[EventMappings.AccessRole.name] = accessRole;
             }
