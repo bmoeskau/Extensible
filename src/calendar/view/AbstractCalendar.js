@@ -1597,11 +1597,11 @@ alert('End: '+bounds.end);
     },
     
     // private
-    getExceptionMessage: function(response) {
+    getExceptionMessage: function(response, operation) {
         var msg = '';
         
-        if (response.responseText) {
-            msg += '<br><b>responseText</b>: ' + Ext.decode(response.responseText).message;
+        if (operation.error) {
+            msg += '<br><b>error</b>: ' + operation.error;
         }
         if (response.message) {
             msg += '<br><b>message</b>: ' + response.message;
@@ -1611,6 +1611,9 @@ alert('End: '+bounds.end);
         }
         if (response.statusText) {
             msg += '<br><b>statusText</b>: ' + response.statusText;
+        }
+        if (response.responseText) {
+            msg += '<br><b>responseText</b>: ' + response.responseText;
         }
         
         return msg || ('<br>' + this.notifyOnExceptionDefaultMessage);
@@ -1636,7 +1639,7 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
      */
     notifyOnException: function(response, operation) {
         Ext.Msg.alert(this.notifyOnExceptionTitle, this.notifyOnExceptionText + '<br>' +
-            this.getExceptionMessage(response));
+            this.getExceptionMessage(response, operation));
     },
 
     /**
