@@ -32,14 +32,14 @@ Ext.onReady(function(){
         }
     });
     
+    var access_token = '';
+    
     var eventStore = Ext.create('Extensible.calendar.data.EventStore', {
-        autoLoad: true,
+        //autoLoad: true,
         
         proxy: {
             type: 'extensible.googlecalendar',
-            calendarId: 'en.usa%23holiday%40group.v.calendar.google.com', // US Holidays
             apiKey: 'AIzaSyB3JoleKFzjEQricJrXimhoHwkhLnbdSlg' // Read-only test API key provided by Google
-            // Note that for access to a personal calendar, an OAuth token would also be needed
         },
 
         // It's easy to provide generic CRUD messaging without having to handle events on every individual view.
@@ -64,6 +64,77 @@ Ext.onReady(function(){
             }
         }
     });
+    
+    var loadStore = function() {
+        var calendarId = Ext.getDom('calendarId').value;
+        
+        if (calendarId) {
+            eventStore.proxy.calendarId = calendarId;
+            eventStore.proxy.accessToken = access_token;
+            eventStore.removeAll();
+            eventStore.load();
+        }
+    }
+    
+    var authenticate = function() {
+        var url = 'https://accounts.google.com/o/oauth2/auth' +
+                  '?scope=https://www.googleapis.com/auth/calendar' +
+                  '&client_id=997710304425.apps.googleusercontent.com' +
+                  '&redirect_uri=http://localhost/Extensible/examples/calendar/google/oauth' +
+                  '&response_type=token';
+        
+        var win = window.open(url, 'auth_window', 'width=800, height=600');
+
+        var pollTimer = window.setInterval(function() {
+            try {
+                if (win.document.URL.indexOf('localhost/Extensible/examples/calendar/google/oauth') != -1) {
+                    window.clearInterval(pollTimer);
+                    
+                    var params = {},
+                        queryString = win.location.hash.substring(1),
+                        regex = /([^&=]+)=([^&]*)/g,
+                        m;
+                        
+                    while (m = regex.exec(queryString)) {
+                        params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+                    }
+                    
+                    win.close();
+                    access_token = params['access_token'];
+                    validateToken();
+                }
+            }
+            catch(ex) {}
+        }, 100);
+    }
+    
+    var validateToken = function() {
+        if (access_token !== '') {
+            Ext.Ajax.request({
+                url: 'https://www.googleapis.com/oauth2/v1/tokeninfo',
+                params : { 
+                    access_token: access_token
+                },
+                method: 'POST',
+                success: function (result, request) {
+                    if (result.status === 200) {
+                        var response = Ext.decode(result.responseText);
+                        if (response.audience === '997710304425.apps.googleusercontent.com') { // must match client_id
+                            loadStore();
+                        }
+                    }
+                },
+                failure: function (result, request) {
+                    Ext.Msg.alert('Token Invalid');
+                    console.dir(result);
+                }
+            });
+        }
+    }
+    
+    authenticate();
+    
+    Ext.get('btn-load').on('click', loadStore);
     
     var cp = Ext.create('Extensible.calendar.CalendarPanel', {
         region: 'center',

@@ -17,11 +17,15 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     
     apiKey: undefined,
     
+    accessToken: undefined,
+    
     apiMethod: 'events',
     
     url: 'https://www.googleapis.com/calendar/v3/calendars',
     
-    apiKeySeparator: '?key=',
+    apiKeySeparator: 'key=',
+    
+    accessTokenSeparator: 'access_token=',
     
     buildUrl: function(request) {
         var me        = this,
@@ -51,7 +55,12 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
         // API key is optional, append if specified.
         // NOTE that this must always be last after all elements of the REST url:
         if (me.apiKey) {
-            url += me.apiKeySeparator + me.apiKey;
+            url = Ext.String.urlAppend(url, me.apiKeySeparator + me.apiKey);
+        }
+        
+        // Authenticated requests require this:
+        if (me.accessToken) {
+            url = Ext.String.urlAppend(url, me.accessTokenSeparator + me.accessToken);
         }
         
         request.url = url;
