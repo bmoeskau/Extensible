@@ -34,8 +34,9 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.define('Extensible.calendar.form.EventWindow', {
+Ext.define('Extensible.calendar.form.EventEditWindow', {
     extend: 'Ext.window.Window',
+    alternateClassName: 'Extensible.calendar.form.EventWindow',
     alias: 'widget.extensible.eventeditwindow',
     
     requires: [
