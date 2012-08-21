@@ -20,43 +20,80 @@ function() {
         },
         StartDate: {
             name:    'StartDate',
-            mapping: 'start.datetime',
+            //mapping: 'start.dateTime',
+            mapping: function(data, reader) {
+                if (data.start) {
+                    if (data.start.date) {
+                        return data.start.date;
+                    }
+                    if (data.start.dateTime) {
+                        return data.start.dateTime;
+                    }
+                }
+                if (data.originalStartTime) {
+                    if (data.originalStartTime.date) {
+                        return data.originalStartTime.date;
+                    }
+                    if (data.originalStartTime.dateTime) {
+                        return data.originalStartTime.dateTime;
+                    }
+                }
+                debugger;
+                return null;
+            },
             type:    'date'
         },
         EndDate: {
             name:    'EndDate',
-            mapping: 'end.datetime',
+            //mapping: 'end.dateTime',
+            mapping: function(data, reader) {
+                if (data.end) {
+                    if (data.end.date) {
+                        return data.end.date;
+                    }
+                    if (data.end.dateTime) {
+                        return data.end.dateTime;
+                    }
+                }
+                if (data.start) {
+                    if (data.start.date) {
+                        return data.start.date;
+                    }
+                    if (data.start.dateTime) {
+                        return data.start.dateTime;
+                    }
+                }
+                if (data.originalStartTime) {
+                    if (data.originalStartTime.date) {
+                        return data.originalStartTime.date;
+                    }
+                    if (data.originalStartTime.dateTime) {
+                        return data.originalStartTime.dateTime;
+                    }
+                }
+                debugger;
+                return null;
+            },
             type:    'date'
         },
         IsAllDay: {
             name:    'IsAllDay',
             type:    'boolean'
         },
-        
-        //
-        // Required mappings to work around differences in the data API
-        // between Extensible and Google Calendar 
-        //
-        // While Extensible only requires a single StartDate and EndDate,
-        // Google provides separate data definitions for all-day dates
-        // (date only, no time) and non-all-day events (datetime). Each event
-        // passed from Google will have one or the other, and the mappings are
-        // different. In order to handle that, we're adding dummy mappings for
-        // StartDateAllDay and EndDateAllDay here. Then in the CalendarReader's
-        // extractData() method it determines which kind of date value should be
-        // used, applies the all-day mapping if needed, and removes these fields
-        // so that we still always end up with a single start and end date in the model.
-        StartDateAllDay: {
-            name:       'StartDateAllDay',
-            mapping:    'start.date',
-            type:       'date',
-            dateFormat: 'Y-m-d'
+        Location: {
+            name:    'Location',
+            mapping: 'location',
+            type:    'string'
         },
-        EndDateAllDay: {
-            name:       'EndDateAllDay',
-            mapping:    'end.date',
-            type:       'date',
-            dateFormat: 'Y-m-d'
+        Notes: {
+            name:    'Notes',
+            mapping: 'description',
+            type:    'string'
+        },
+        Url: {
+            name:    'Url',
+            mapping: 'htmlLink',
+            type:    'string'
         },
         
         //
@@ -69,12 +106,33 @@ function() {
         },
         StartTimeZone: {
             name:    'StartTimeZone',
-            mapping: 'start.timeZone',
+            //mapping: 'start.timeZone',
+            mapping: function(data, reader) {
+                if (data.start) {
+                    if (data.start.timeZone) {
+                        return data.start.timeZone;
+                    }
+                }
+                if (data.originalStartTime) {
+                    if (data.originalStartTime.timeZone) {
+                        return data.originalStartTime.timeZone;
+                    }
+                }
+                return null;
+            },
             type:    'string'
         },
         EndTimeZone: {
             name:    'EndTimeZone',
-            mapping: 'end.timeZone',
+            //mapping: 'end.timeZone',
+            mapping: function(data, reader) {
+                if (data.end) {
+                    if (data.end.timeZone) {
+                        return data.end.timeZone;
+                    }
+                }
+                return null;
+            },
             type:    'string'
         },
         Locked: {

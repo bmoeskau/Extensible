@@ -41,30 +41,30 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
         }
         
         return resultSet;
-    },
-    
-    extractData: function(root) {
-        var records = this.callParent(arguments),
-            EventMappings = Extensible.calendar.google.EventMappings,
-            data,
-            processed = [],
-            len = records.length,
-            i = 0;
-        
-        for (i = 0; i < len; i++) {
-            data = records[i].data;
-            
-            if (data[EventMappings.StartDateAllDay.name]) {
-                data[EventMappings.StartDate.name] = data[EventMappings.StartDateAllDay.name];
-                data[EventMappings.EndDate.name] = data[EventMappings.EndDateAllDay.name];
-                data[EventMappings.IsAllDay.name] = true;
-                
-                delete data[EventMappings.StartDateAllDay.name];
-                delete data[EventMappings.EndDateAllDay.name];
-            }
-            
-            processed.push(records[i]);
-        }
-        return processed;
     }
+    
+    // extractData: function(root) {
+        // var records = this.callParent(arguments),
+            // EventMappings = Extensible.calendar.google.EventMappings,
+            // data,
+            // processed = [],
+            // len = records.length,
+            // i = 0;
+//         
+        // for (i = 0; i < len; i++) {
+            // data = records[i].data;
+//             
+            // if (data[EventMappings.StartDateAllDay.name]) {
+                // data[EventMappings.StartDate.name] = data[EventMappings.StartDateAllDay.name];
+                // data[EventMappings.EndDate.name] = data[EventMappings.EndDateAllDay.name];
+                // data[EventMappings.IsAllDay.name] = true;
+//                 
+                // delete data[EventMappings.StartDateAllDay.name];
+                // delete data[EventMappings.EndDateAllDay.name];
+            // }
+//             
+            // processed.push(records[i]);
+        // }
+        // return processed;
+    // }
 });
