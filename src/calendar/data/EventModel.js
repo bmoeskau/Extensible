@@ -111,6 +111,10 @@ Ext.define('Extensible.calendar.data.EventModel', {
         delete me.data[EventMappings.REditMode.name];
         
         return me;
+    },
+    
+    isEditable: function() {
+        return true;
     }
 },
 function() {

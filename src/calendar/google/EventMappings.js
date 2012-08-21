@@ -86,4 +86,15 @@ function() {
     
     Extensible.calendar.data.EventModel.prototype.mappingClass = 'Extensible.calendar.google.EventMappings';
     Extensible.calendar.data.EventModel.reconfigure();
+    
+    Ext.override(Extensible.calendar.data.EventModel, {
+        isEditable: function() {
+            switch (this.data[Extensible.calendar.google.EventMappings.AccessRole.name]) {
+                case 'owner':
+                case 'writer':
+                    return true;
+            }
+            return false;
+        }
+    });
 });

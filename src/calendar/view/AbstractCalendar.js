@@ -196,6 +196,8 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * config will no longer apply.
      */
     editModal: false,
+    
+    viewModal: false,
     /**
      * @cfg {Boolean} enableEditDetails
      * True to show a link on the event edit window to allow switching to the detailed edit form (the default), false to remove the
@@ -256,6 +258,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * and no error message is returned from the server (defaults to "An unknown error occurred").
      */
     notifyOnExceptionDefaultMessage: 'An unknown error occurred',
+    
+    eventEditorClass: 'Extensible.calendar.form.EventEditWindow',
+    
+    eventViewerClass: 'Extensible.calendar.form.EventViewWindow',
     
     /**
      * @property ownerCalendarPanel
@@ -1675,7 +1681,7 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         this.editWin = this.editWin || Ext.WindowMgr.get('ext-cal-editwin');
 
         if (!this.editWin) {
-            this.editWin = Ext.create('Extensible.calendar.form.EventWindow', {
+            this.editWin = Ext.create(this.eventEditorClass, {
                 id: 'ext-cal-editwin',
                 calendarStore: this.calendarStore,
                 modal: this.editModal,
@@ -1728,6 +1734,28 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         this.editWin.currentView = this;
         return this.editWin;
     },
+    
+    // private
+    getEventViewer: function() {
+        // only create one instance of the edit window, even if there are multiple CalendarPanels
+        this.viewWin = this.viewWin || Ext.WindowMgr.get('ext-cal-viewwin');
+
+        if (!this.viewWin) {
+            this.viewWin = Ext.create(this.eventViewerClass, {
+                id: 'ext-cal-viewwin',
+                calendarStore: this.calendarStore,
+                modal: this.viewModal,
+
+                listeners: {
+
+                }
+            });
+        }
+
+        // allows the window to reference the current scope in its callbacks
+        this.viewWin.currentView = this;
+        return this.viewWin;
+    },
 
     /**
      * Show the currently configured event editor view (by default the shared instance of
@@ -1740,6 +1768,11 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
      */
     showEventEditor: function(rec, animateTarget) {
         this.getEventEditor().show(rec, animateTarget, this);
+        return this;
+    },
+    
+    showEventViewer: function(rec, animateTarget) {
+        this.getEventViewer().show(rec, animateTarget, this);
         return this;
     },
 
@@ -2054,7 +2087,10 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
                 rec = me.getEventRecord(id);
             
             if (rec && me.fireEvent('eventclick', me, rec, el) !== false) {
-                if (me.readOnly !== true) {
+                if (me.readOnly === true || !rec.isEditable()) {
+                    me.showEventViewer(rec, el);
+                }
+                else {
                     me.showEventEditor(rec, el);
                 }
             }
