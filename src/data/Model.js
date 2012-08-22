@@ -66,7 +66,7 @@ Ext.define('Extensible.data.Model', {
      * existing id by default and performs a shallow copy of the data) and is better-suited
      * to the typical default desired behavior when duplicating a record.
      * 
-     * @param {Boolean} (optional) preserveId True to preserve the record's data {@link idProperty id},
+     * @param {Boolean} (optional) preserveId True to preserve the record's data {@link #idProperty id},
      * false to delete it in the returned clone (defaults to false)
      * @return {Extensible.data.Model} The cloned record
      */
