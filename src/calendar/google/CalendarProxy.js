@@ -4,14 +4,15 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     
     requires: [
         'Extensible.calendar.google.CalendarReader',
+        'Extensible.calendar.google.EventMappings'
     ],
     
     reader: 'extensible.googlecalendar',
     
-    // writer: {
-        // type: 'json',
-        // nameProperty: 'mapping'
-    // },
+    writer: {
+        type: 'json',
+        nameProperty: 'mapping'
+    },
     
     calendarId: undefined,
     
@@ -27,6 +28,10 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     
     accessTokenSeparator: 'access_token=',
     
+    noCache: false,
+    
+    appendId: false,
+    
     buildUrl: function(request) {
         var me        = this,
             operation = request.operation,
@@ -35,8 +40,8 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
             url       = me.getUrl(request),
             id        = record ? record.getId() : operation.id;
         
-        // Google's version 3 calendar url format:
-        // https://www.googleapis.com/calendar/v3/calendars/{calendarId}/{apiMethod}?key={apiKey}
+        // Google's version 3 calendar url format (eventId is optional):
+        // https://www.googleapis.com/calendar/v3/calendars/{calendarId}/{apiMethod}[/{eventId}]?key={apiKey}
         
         // First clean the end of the base url in case it was customized
         // (make sure we have a trailing /):
@@ -47,8 +52,7 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
         // Append the calendar id and api method, both required:
         url += me.calendarId + '/' + me.apiMethod;
         
-        // Append the item's id, if needed:
-        if (me.appendId && id) {
+        if (request.action === 'update' || request.action === 'destroy') {
             url += '/' + id;
         }
         
