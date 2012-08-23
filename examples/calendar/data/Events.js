@@ -13,10 +13,19 @@ Ext.define('Extensible.example.calendar.data.Events', {
             "evts" : [{
                 "id"    : 1001,
                 "cid"   : 1,
-                "title" : "Vacation",
+                "title" : "Vacation!",
                 "start" : makeDate(-20, 10),
                 "end"   : makeDate(-10, 15),
-                "notes" : "Have fun"
+                "notes" : "Have fun",
+                "attendees" : [{
+                    "email": "brian@moeskau.com",
+                    "displayName": "Brian",
+                    "self": true,
+                    "organizer": true
+                },{
+                    "email": "fred@moeskau.com",
+                    "displayName": "Fred"
+                }]
             },{
                 "id"    : 1002,
                 "cid"   : 2,

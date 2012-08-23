@@ -40,7 +40,8 @@ Ext.define('Extensible.calendar.data.EventModel', {
     extend: 'Extensible.data.Model',
 
     requires: [
-        'Extensible.calendar.data.EventMappings'
+        'Extensible.calendar.data.EventMappings',
+        'Extensible.calendar.data.EventAttendeeModel'
     ],
     
     mappingClass: 'Extensible.calendar.data.EventMappings',
@@ -48,6 +49,11 @@ Ext.define('Extensible.calendar.data.EventModel', {
     mappingIdProperty: 'EventId',
     
     // Experimental, not currently used:
+    associations: [{
+        type: 'hasMany',
+        model: 'Extensible.calendar.data.EventAttendeeModel',
+        name: 'attendees'
+    }],
     // associations: [{
         // type: 'hasMany',
         // model: 'Extensible.calendar.data.EventModel',
