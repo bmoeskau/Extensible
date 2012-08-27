@@ -69,10 +69,15 @@ Ext.onReady(function(){
         var calendarId = Ext.getDom('calendarId').value;
         
         if (calendarId) {
-            eventStore.proxy.calendarId = calendarId;
-            eventStore.proxy.accessToken = access_token;
-            eventStore.removeAll();
-            eventStore.load();
+            if (access_token) {
+                eventStore.proxy.calendarId = calendarId;
+                eventStore.proxy.accessToken = access_token;
+                eventStore.removeAll();
+                eventStore.load();
+            }
+            else {
+                authenticate();
+            }
         }
     }
     
@@ -131,8 +136,6 @@ Ext.onReady(function(){
             });
         }
     }
-    
-    authenticate();
     
     Ext.get('btn-load').on('click', loadStore);
     
