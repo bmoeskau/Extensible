@@ -1,3 +1,10 @@
+/**
+ * These mappings, in conjunction with the custom Extensible.calendar.google.CalendarReader/Writer
+ * classes, provide the interchange between Google's calendar event API and Extensible's data model.
+ * 
+ * See Google's Event API reference here:
+ * https://developers.google.com/google-apps/calendar/v3/reference/events 
+ */
 Ext.require([
     'Extensible.calendar.data.EventModel'
 ],
@@ -24,23 +31,11 @@ function() {
             type:    'date',
             dateFormat: 'Y-m-d'
         },
-        StartDateTime: {
-            name:    'StartDateTime',
-            mapping: 'start.dateTime',
-            type:    'date',
-            dateFormat: 'c'
-        },
         EndDate: {
             name:    'EndDate',
             mapping: 'end.date',
             type:    'date',
             dateFormat: 'Y-m-d'
-        },
-        EndDateTime: {
-            name:    'EndDateTime',
-            mapping: 'end.dateTime',
-            type:    'date',
-            dateFormat: 'c'
         },
         IsAllDay: {
             name:    'IsAllDay',
@@ -61,9 +56,46 @@ function() {
             mapping: 'htmlLink',
             type:    'string'
         },
+        
+        //
+        // Additional core Extensible fields that require more customized mappings
+        //
+        
+        // TODO: Google does not directly provide a calendar id...
+        // CalendarId: {
+            // name:    'CalendarId',
+            // mapping: 'cid',
+            // type:    'string'
+        // },
+        
+        // TODO: Google provides a more robust reminder API than Extensible requires...
+        // Reminder: {
+            // name:    'Reminder',
+            // mapping: 'rem',
+            // type:    'string'
+        // },
+        
+        // The Google API provides both start.date and start.dateTime, and only one will ever be
+        // included in each response (the other will be undefined in the JSON). Because of this
+        // we have to map both explicitly, and then we have custom logic in
+        // Extensible.calendar.google.CalendarReader.extractData() that normalizes these fields
+        // for Extensible's consumption.  Same appiles to end date.
+        StartDateTime: {
+            name:    'StartDateTime',
+            mapping: 'start.dateTime',
+            type:    'date',
+            dateFormat: 'c'
+        },
+        EndDateTime: {
+            name:    'EndDateTime',
+            mapping: 'end.dateTime',
+            type:    'date',
+            dateFormat: 'c'
+        },
 
         //
-        // Additional mappings provided by the Google API and required for Extensible to work properly
+        // Additional mappings provided by the Google API that are not directly defined by Extensible,
+        // but are required for Extensible to provide equivalent functionality to Google calendar.
         //
         Status: {
             name: 'Status',
@@ -72,7 +104,8 @@ function() {
         },
         
         //
-        // Additional mappings provided by the Google API, but not used in the default Extensible UI
+        // Additional mappings provided by the Google API, but not used in Extensible by default.
+        // Mapped here for completeness and potential future use.
         //
         AccessRole: {
             name: 'AccessRole',
@@ -81,33 +114,12 @@ function() {
         },
         StartTimeZone: {
             name:    'StartTimeZone',
-            //mapping: 'start.timeZone',
-            mapping: function(data, reader) {
-                if (data.start) {
-                    if (data.start.timeZone) {
-                        return data.start.timeZone;
-                    }
-                }
-                if (data.originalStartTime) {
-                    if (data.originalStartTime.timeZone) {
-                        return data.originalStartTime.timeZone;
-                    }
-                }
-                return null;
-            },
+            mapping: 'start.timeZone',
             type:    'string'
         },
         EndTimeZone: {
             name:    'EndTimeZone',
-            //mapping: 'end.timeZone',
-            mapping: function(data, reader) {
-                if (data.end) {
-                    if (data.end.timeZone) {
-                        return data.end.timeZone;
-                    }
-                }
-                return null;
-            },
+            mapping: 'end.timeZone',
             type:    'string'
         },
         Locked: {
