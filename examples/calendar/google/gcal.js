@@ -92,7 +92,7 @@ Ext.onReady(function(){
 
         var pollTimer = window.setInterval(function() {
             try {
-                if (win.document.URL.indexOf('localhost/Extensible/examples/calendar/google/oauth') != -1) {
+                if (win.document.URL.indexOf('google/oauth') != -1) {
                     window.clearInterval(pollTimer);
                     
                     var params = {},
