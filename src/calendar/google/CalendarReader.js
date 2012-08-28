@@ -8,6 +8,14 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
 
     root: 'items',
     
+    googleConstants: {
+        Status: {
+            CONFIRMED: 'confirmed',
+            TENTATIVE: 'tentative',
+            CANCELLED: 'cancelled'
+        }
+    },
+    
     readRecords: function(rawData) {
         var resultSet = this.callParent(arguments),
             EventMappings = Extensible.calendar.google.EventMappings,
@@ -41,30 +49,37 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
         }
         
         return resultSet;
-    }
+    },
     
-    // extractData: function(root) {
-        // var records = this.callParent(arguments),
-            // EventMappings = Extensible.calendar.google.EventMappings,
-            // data,
-            // processed = [],
-            // len = records.length,
-            // i = 0;
-//         
-        // for (i = 0; i < len; i++) {
-            // data = records[i].data;
-//             
-            // if (data[EventMappings.StartDateAllDay.name]) {
-                // data[EventMappings.StartDate.name] = data[EventMappings.StartDateAllDay.name];
-                // data[EventMappings.EndDate.name] = data[EventMappings.EndDateAllDay.name];
-                // data[EventMappings.IsAllDay.name] = true;
-//                 
-                // delete data[EventMappings.StartDateAllDay.name];
-                // delete data[EventMappings.EndDateAllDay.name];
-            // }
-//             
-            // processed.push(records[i]);
-        // }
-        // return processed;
-    // }
+    extractData: function(root) {
+        var records = this.callParent(arguments),
+            EventMappings = Extensible.calendar.google.EventMappings,
+            data,
+            status,
+            processed = [],
+            len = records.length,
+            i = 0;
+        
+        for (i = 0; i < len; i++) {
+            data = records[i].data;
+            status = data[EventMappings.Status.name];
+            
+            if (status && status === this.googleConstants.Status.CANCELLED) {
+                // do not include cancelled events
+                continue;
+            }
+            
+            if (data[EventMappings.StartDateTime.name]) {
+                data[EventMappings.StartDate.name] = data[EventMappings.StartDateTime.name];
+                data[EventMappings.EndDate.name] = data[EventMappings.EndDateTime.name];
+                data[EventMappings.IsAllDay.name] = true;
+                
+                delete data[EventMappings.StartDateTime.name];
+                delete data[EventMappings.EndDateTime.name];
+            }
+            
+            processed.push(records[i]);
+        }
+        return processed;
+    }
 });

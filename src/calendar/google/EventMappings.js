@@ -20,61 +20,27 @@ function() {
         },
         StartDate: {
             name:    'StartDate',
-            //mapping: 'start.dateTime',
-            mapping: function(data, reader) {
-                if (data.start) {
-                    if (data.start.date) {
-                        return data.start.date;
-                    }
-                    if (data.start.dateTime) {
-                        return data.start.dateTime;
-                    }
-                }
-                if (data.originalStartTime) {
-                    if (data.originalStartTime.date) {
-                        return data.originalStartTime.date;
-                    }
-                    if (data.originalStartTime.dateTime) {
-                        return data.originalStartTime.dateTime;
-                    }
-                }
-                debugger;
-                return null;
-            },
-            type:    'date'
+            mapping: 'start.date',
+            type:    'date',
+            dateFormat: 'Y-m-d'
+        },
+        StartDateTime: {
+            name:    'StartDateTime',
+            mapping: 'start.dateTime',
+            type:    'date',
+            dateFormat: 'c'
         },
         EndDate: {
             name:    'EndDate',
-            //mapping: 'end.dateTime',
-            mapping: function(data, reader) {
-                if (data.end) {
-                    if (data.end.date) {
-                        return data.end.date;
-                    }
-                    if (data.end.dateTime) {
-                        return data.end.dateTime;
-                    }
-                }
-                if (data.start) {
-                    if (data.start.date) {
-                        return data.start.date;
-                    }
-                    if (data.start.dateTime) {
-                        return data.start.dateTime;
-                    }
-                }
-                if (data.originalStartTime) {
-                    if (data.originalStartTime.date) {
-                        return data.originalStartTime.date;
-                    }
-                    if (data.originalStartTime.dateTime) {
-                        return data.originalStartTime.dateTime;
-                    }
-                }
-                debugger;
-                return null;
-            },
-            type:    'date'
+            mapping: 'end.date',
+            type:    'date',
+            dateFormat: 'Y-m-d'
+        },
+        EndDateTime: {
+            name:    'EndDateTime',
+            mapping: 'end.dateTime',
+            type:    'date',
+            dateFormat: 'c'
         },
         IsAllDay: {
             name:    'IsAllDay',
@@ -94,6 +60,15 @@ function() {
             name:    'Url',
             mapping: 'htmlLink',
             type:    'string'
+        },
+
+        //
+        // Additional mappings provided by the Google API and required for Extensible to work properly
+        //
+        Status: {
+            name: 'Status',
+            mapping: 'status',
+            type: 'string'
         },
         
         //
