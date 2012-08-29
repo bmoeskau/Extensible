@@ -295,13 +295,15 @@ function() {
             // This is actually a complex object, but it does not have a specified data model as
             // it is used to store custom key/value pairs. This mapping will simply dump the raw object
             // into the record's data, but it will not be otherwise explicitly used.
-            name:    'ExtendedProperties',
-            mapping: 'extendedProperties'
+            name:        'ExtendedProperties',
+            mapping:     'extendedProperties',
+            defaultValue: null
         },
         Gadget: {
             // This is also a complex object, but is only used in the context of Google's calendar UI
-            name:    'Gadget',
-            mapping: 'gadget'
+            name:        'Gadget',
+            mapping:     'gadget',
+            defaultValue: null
         },
     };
     
