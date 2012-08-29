@@ -8,6 +8,8 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
     
     writeAllFields: false,
     
+    writeRecordId: false,
+    
     nameProperty: 'mapping',
     
     writeRecords: function(request, data) {

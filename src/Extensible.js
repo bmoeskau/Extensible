@@ -562,6 +562,63 @@ Extensible.applyOverrides = function() {
                 };
             }())
         });
+        
+        // Added support for writeRecordId in 4.1.2, and also fixed a bug where the non-mapped record id
+        // was always included in the output in addition to the mapped id when a mapping was used.
+        if (extVersion.isLessThan('4.1.2') && Ext.data && Ext.data.writer && Ext.data.writer.Writer) {
+            Ext.data.writer.Writer.override({
+                writeRecordId: true,
+                getRecordData: function(record, operation) {
+                    var isPhantom = record.phantom === true,
+                        writeAll = this.writeAllFields || isPhantom,
+                        fields = record.fields,
+                        fieldItems = fields.items,
+                        data = {},
+                        clientIdProperty = record.clientIdProperty,
+                        changes,
+                        field,
+                        key,
+                        value,
+                        mappedIdProperty,
+                        f, fLen;
+            
+                    if (writeAll) {
+                        fLen = fieldItems.length;
+            
+                        for (f = 0; f < fLen; f++) {
+                            field = fieldItems[f];
+                            if (field.persist) {
+                                this.writeValue(data, field, record);
+                            }
+                        }
+                    } else {
+                        // Only write the changes
+                        changes = record.getChanges();
+                        for (key in changes) {
+                            if (changes.hasOwnProperty(key)) {
+                                field = fields.get(key);
+                                if (field.persist) {
+                                    this.writeValue(data, field, record);
+                                }
+                            }
+                        }
+                    }
+                    if (isPhantom) {
+                        if (clientIdProperty && operation && operation.records.length > 1) {
+                            // include clientId for phantom records, if multiple records are being written to the server in one operation.
+                            // The server can then return the clientId with each record so the operation can match the server records with the client records
+                            data[clientIdProperty] = record.internalId;
+                        }
+                    } else if (this.writeRecordId) {
+                        // Make sure that if a mapping is in place the mapped id name is used instead of the default field name. 
+                        mappedIdProperty = fields.get(record.idProperty)[this.nameProperty] || record.idProperty;
+                        data[mappedIdProperty] = record.getId();
+                    }
+            
+                    return data;
+                }
+            })
+        }
     }
 };
 
