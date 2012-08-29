@@ -72,10 +72,12 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
             if (data[EventMappings.StartDateTime.name]) {
                 data[EventMappings.StartDate.name] = data[EventMappings.StartDateTime.name];
                 data[EventMappings.EndDate.name] = data[EventMappings.EndDateTime.name];
-                data[EventMappings.IsAllDay.name] = true;
                 
                 delete data[EventMappings.StartDateTime.name];
                 delete data[EventMappings.EndDateTime.name];
+            }
+            else {
+                data[EventMappings.IsAllDay.name] = true;
             }
             
             processed.push(records[i]);
