@@ -71,7 +71,7 @@ Ext.onReady(function(){
         if (calendarId) {
             if (access_token) {
                 eventStore.proxy.calendarId = calendarId;
-                eventStore.proxy.accessToken = access_token;
+                eventStore.proxy.setAuthToken(access_token);
                 eventStore.removeAll();
                 eventStore.load();
             }

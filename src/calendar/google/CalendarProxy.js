@@ -4,33 +4,61 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     
     requires: [
         'Extensible.calendar.google.CalendarReader',
+        'Extensible.calendar.google.CalendarWriter',
         'Extensible.calendar.google.EventMappings'
     ],
     
     reader: 'extensible.googlecalendar',
     
-    writer: {
-        type: 'json',
-        nameProperty: 'mapping'
-    },
+    writer: 'extensible.googlecalendar',
     
     calendarId: undefined,
     
     apiKey: undefined,
     
-    accessToken: undefined,
+    authToken: undefined,
+    
+    authPrefix: 'Bearer ', // mandated by Google
     
     apiMethod: 'events',
     
+    apiKeyName: 'key', // mandated by Google
+    
     url: 'https://www.googleapis.com/calendar/v3/calendars',
-    
-    apiKeySeparator: 'key=',
-    
-    accessTokenSeparator: 'access_token=',
     
     noCache: false,
     
     appendId: false,
+    
+    pageParam: undefined,
+    
+    startParam: undefined,
+    
+    limitParam: undefined,
+    
+    constructor: function(config) {
+        this.callParent(arguments);
+        
+        if (config && config.apiKey) {
+            this.setApiKey(config.apiKey);
+        }
+    },
+    
+    setAuthToken: function(authToken) {
+        var me = this;
+        
+        me.authToken = authToken;
+        me.headers = me.headers || {};
+        
+        Ext.apply(me.headers, {
+            Authorization: me.authPrefix + authToken
+        });
+    },
+    
+    setApiKey: function(apiKey) {
+        this.apiKey = apiKey;
+        this.setExtraParam(this.apiKeyName, apiKey);
+    },
     
     buildUrl: function(request) {
         var me        = this,
@@ -54,17 +82,6 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
         
         if (request.action === 'update' || request.action === 'destroy') {
             url += '/' + id;
-        }
-        
-        // API key is optional, append if specified.
-        // NOTE that this must always be last after all elements of the REST url:
-        if (me.apiKey) {
-            url = Ext.String.urlAppend(url, me.apiKeySeparator + me.apiKey);
-        }
-        
-        // Authenticated requests require this:
-        if (me.accessToken) {
-            url = Ext.String.urlAppend(url, me.accessTokenSeparator + me.accessToken);
         }
         
         request.url = url;
