@@ -12,7 +12,7 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     
     writer: 'extensible.googlecalendar',
     
-    calendarId: undefined,
+    calendarId: 'primary',
     
     apiKey: undefined,
     
