@@ -22,7 +22,7 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     
     apiMethod: 'events',
     
-    apiKeyName: 'key', // mandated by Google
+    apiKeySeparator: 'key=', // mandated by Google
     
     url: 'https://www.googleapis.com/calendar/v3/calendars',
     
@@ -35,14 +35,6 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     startParam: undefined,
     
     limitParam: undefined,
-    
-    constructor: function(config) {
-        this.callParent(arguments);
-        
-        if (config && config.apiKey) {
-            this.setApiKey(config.apiKey);
-        }
-    },
     
     setAuthToken: function(authToken) {
         var me = this;
@@ -57,7 +49,6 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     
     setApiKey: function(apiKey) {
         this.apiKey = apiKey;
-        this.setExtraParam(this.apiKeyName, apiKey);
     },
     
     buildUrl: function(request) {
@@ -82,6 +73,16 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
         
         if (request.action === 'update' || request.action === 'destroy') {
             url += '/' + id;
+        }
+        
+        // API key is optional, append if specified.
+        // NOTE that this must always be last after all elements of the REST url.
+        // Also note -- do NOT set this as a param programmatically via this.setExtraParam() or similar
+        // as this will cause DELETEs to fail. Google rejects DELETE requests containing body data, but
+        // Ext.data.Connection will automagically grab any configured params and use them as the request
+        // body when there is no JSON data present. Normally this is OK, but it breaks Google's API in this case.
+        if (me.apiKey) {
+            url = Ext.String.urlAppend(url, me.apiKeySeparator + me.apiKey);
         }
         
         request.url = url;
