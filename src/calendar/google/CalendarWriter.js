@@ -10,6 +10,10 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
     
     writeRecordId: false,
     
+    expandMappings: true,
+    
+    usePatchUpdates: true,
+    
     nameProperty: 'mapping',
     
     writeRecords: function(request, data) {
@@ -21,6 +25,20 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
             // ensure that no request body is set. The event id is already passed in the url, which
             // in addition to the DELETE request type, is all that's required.
             return request;
+        }
+        return this.callParent(arguments);
+    },
+    
+    getRecordData: function(record, operation) {
+        var EventMappings = Extensible.calendar.google.EventMappings,
+            startName = EventMappings.StartDate.name,
+            endName = EventMappings.EndDate.name;
+        
+        if (!this.usePatchUpdates) {
+            // Google's API requires start and end dates to always be included in UPDATE requests,
+            // even if they have not been modified. If using the PATCH method, these can be ommitted.
+            record.modified[startName] = record.get(startName);
+            record.modified[endName] = record.get(endName);
         }
         return this.callParent(arguments);
     }

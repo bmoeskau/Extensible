@@ -36,6 +36,16 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     
     limitParam: undefined,
     
+    usePatchUpdates: true,
+    
+    constructor: function(config) {
+        this.callParent(arguments);
+        
+        if (this.usePatchUpdates) {
+            this.actionMethods.update = 'PATCH';
+        }
+    },
+    
     setAuthToken: function(authToken) {
         var me = this;
         
