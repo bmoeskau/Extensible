@@ -11,21 +11,6 @@ Extensible.calendar.data.EventAttendeeMappings = {
         mapping: 'displayName',
         type:    'string'
     },
-    Organizer: {
-        name:    'Organizer',
-        mapping: 'organizer',
-        type:    'boolean'
-    },
-    Self: {
-        name:    'Self',
-        mapping: 'self',
-        type:    'boolean'
-    },
-    Resource: {
-        name:    'Resource',
-        mapping: 'resource',
-        type:    'boolean'
-    },
     Optional: {
         name:    'Optional',
         mapping: 'optional',
@@ -45,5 +30,27 @@ Extensible.calendar.data.EventAttendeeMappings = {
         name:    'AdditionalGuests',
         mapping: 'additionalGuests',
         type:    'int'
+    },
+    
+    //
+    // Read-only fields that cannot be persisted:
+    //
+    Organizer: {
+        name:    'Organizer',
+        mapping: 'organizer',
+        type:    'boolean',
+        persist: false
+    },
+    Self: {
+        name:    'Self',
+        mapping: 'self',
+        type:    'boolean',
+        persist: false
+    },
+    Resource: {
+        name:    'Resource',
+        mapping: 'resource',
+        type:    'boolean',
+        persist: false
     }
 };
