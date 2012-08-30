@@ -10,7 +10,7 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
     
     writeRecordId: false,
     
-    expandMappings: true,
+    expandData: true,
     
     usePatchUpdates: true,
     
