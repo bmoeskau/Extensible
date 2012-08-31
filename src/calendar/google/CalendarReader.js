@@ -77,6 +77,7 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
                 delete data[EventMappings.EndDateTime.name];
             }
             else {
+                data[EventMappings.EndDate.name] = Extensible.Date.add(data[EventMappings.EndDate.name], { days: -1 });
                 data[EventMappings.IsAllDay.name] = true;
             }
             

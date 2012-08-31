@@ -38,6 +38,9 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
         if (record.get(EventMappings.IsAllDay.name)) {
             delete data[startDateTimeMapping];
             delete data[endDateTimeMapping];
+            
+            var adjustedEndDate = Extensible.Date.add(record.get(EventMappings.EndDate.name), { days: 1 });
+            data[EventMappings.EndDate.mapping] = Ext.Date.format(adjustedEndDate, 'Y-m-d');
         }
         else {
             data[startDateTimeMapping] = Ext.Date.format(record.get(EventMappings.StartDate.name), 'c');

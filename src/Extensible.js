@@ -122,9 +122,9 @@ Ext.define('Extensible', {
                 clear = Ext.Date.clearTime,
                 diff;
             
-            if (Extensible.Date.isMidnight(end)) {
-                end = Extensible.Date.add(end, {'seconds': -1});
-            }
+            // if (Extensible.Date.isMidnight(end)) {
+                // end = Extensible.Date.add(end, {'seconds': -1});
+            // }
             diff = clear(end, true).getTime() - clear(start, true).getTime();
             
             return Math.ceil(diff / day);
