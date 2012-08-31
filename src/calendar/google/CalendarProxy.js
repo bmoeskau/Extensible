@@ -38,6 +38,16 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     
     usePatchUpdates: true,
     
+    /**
+     * @cfg {Boolean} includeDeletedEvents
+     * True to tell Google to return deleted events (eventStatus: 'cancelled') in the response,
+     * false to omit them (default). When false, an extra param is automatically added to each request notifying
+     * Google that such events such not be returned. These events do not include complete event data (including
+     * start and end dates) and cannot be handled by Extensible by default, so this config should be left as
+     * false unless specific handling is added for cancelled items.
+     */
+    includeDeletedEvents: false,
+    
     constructor: function(config) {
         this.callParent(arguments);
         
@@ -83,6 +93,11 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
         
         if (request.action === 'update' || request.action === 'destroy') {
             url += '/' + id;
+        }
+        
+        // Append extra params as needed
+        if (request.action === 'read' && !this.includeDeletedEvents) {
+            url = Ext.String.urlAppend(url, 'showDeleted=false');
         }
         
         // API key is optional, append if specified.
