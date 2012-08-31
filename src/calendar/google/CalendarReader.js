@@ -3,7 +3,8 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
     alias : 'reader.extensible.googlecalendar',
     
     requires: [
-        'Extensible.calendar.google.EventMappings'
+        'Extensible.calendar.google.EventMappings',
+        'Extensible.calendar.google.CalendarSettings'
     ],
 
     root: 'items',
@@ -33,6 +34,8 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
             // If the event list header specifies a time zone, default that value into
             // any records that do not have an explicit time zone on the start or end dates:
             if (timeZone) {
+                Extensible.calendar.google.CalendarSettings.userTimeZoneName = timeZone;
+                
                 if (!data[EventMappings.StartTimeZone.name]) {
                     data[EventMappings.StartTimeZone.name] = timeZone;
                 }

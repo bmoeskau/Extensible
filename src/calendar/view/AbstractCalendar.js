@@ -48,13 +48,13 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     // @private
     // At the moment these are used, but not required to be modified. In the future, these may be used
     // for customizing how recurrence data is requested and processed.
-    recurrenceOptions: {
-        expansionMode: 'remote',
-        expansionParam: {
-            name: 'singleEvents',
-            value: true
-        }
-    },
+    // recurrenceOptions: {
+        // expansionMode: 'remote',
+        // expansionParam: {
+            // name: 'singleEvents',
+            // value: true
+        // }
+    // },
 
     /**
      * @cfg {Boolean} readOnly
@@ -649,9 +649,9 @@ viewConfig: {
 
         Ext.apply(o.params, this.getStoreParams());
 
-        if (this.recurrence && recurrenceOptions.expansionParam && recurrenceOptions.expansionMode === 'remote') {
-            o.params[recurrenceOptions.expansionParam.name] = recurrenceOptions.expansionParam.value;
-        }
+        // if (this.recurrence && recurrenceOptions.expansionParam && recurrenceOptions.expansionMode === 'remote') {
+            // o.params[recurrenceOptions.expansionParam.name] = recurrenceOptions.expansionParam.value;
+        // }
 
         this.store.load(o);
     },

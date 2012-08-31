@@ -75,6 +75,14 @@ function() {
         // RRule mapping while Google provides an array of multiple strings, each of which could be an
         // RRULE, RDATE, EXRULE or EXDATE. This will have to be handled specially inside the reader.
         //
+        RRule: {
+            // Required by Extensible. Will not be sent to the Google API, but will be used internally
+            // and mapped into the Recurrence field programmatically.
+            name:    'RRule',
+            mapping: 'rrule',
+            type:    'string',
+            persist: false
+        },
         Recurrence: {
             name:    'Recurrence',
             mapping: 'recurrence'
@@ -195,6 +203,18 @@ function() {
             type:    'string',
             persist: false
         },
+        StartTimeZone: {
+            // Required in some cases, like inserting recurring events
+            name:    'StartTimeZone',
+            mapping: 'start.timeZone',
+            type:    'string'
+        },
+        EndTimeZone: {
+            // Required in some cases, like inserting recurring events
+            name:    'EndTimeZone',
+            mapping: 'end.timeZone',
+            type:    'string'
+        },
         
         //==================================================================================================
         //
@@ -207,18 +227,6 @@ function() {
         // These fields are potentially editable, but not implemented at this time. Because of this,
         // they will be marked persist: false by default, but this could be changed if needed.
         //
-        StartTimeZone: {
-            name:    'StartTimeZone',
-            mapping: 'start.timeZone',
-            type:    'string',
-            persist: false
-        },
-        EndTimeZone: {
-            name:    'EndTimeZone',
-            mapping: 'end.timeZone',
-            type:    'string',
-            persist: false
-        },
         Sequence: {
             name:    'Sequence',
             mapping: 'sequence',

@@ -5,7 +5,8 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     requires: [
         'Extensible.calendar.google.CalendarReader',
         'Extensible.calendar.google.CalendarWriter',
-        'Extensible.calendar.google.EventMappings'
+        'Extensible.calendar.google.EventMappings',
+        'Extensible.calendar.google.CalendarSettings'
     ],
     
     reader: 'extensible.googlecalendar',
@@ -77,7 +78,7 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
             records   = operation.records || [],
             record    = records[0],
             url       = me.getUrl(request),
-            id        = record ? record.getId() : operation.id;
+            id        = record ? record.getId() : null;
         
         // Google's version 3 calendar url format (eventId is optional):
         // https://www.googleapis.com/calendar/v3/calendars/{calendarId}/{apiMethod}[/{eventId}]?key={apiKey}
@@ -93,6 +94,15 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
         
         if (request.action === 'update' || request.action === 'destroy') {
             url += '/' + id;
+        }
+        
+        if (request.action === 'read' && !id) {
+            // Assume this is a list retrieval
+            if (Extensible.calendar.google.CalendarSettings.expandRecurringEvents) {
+                // Request expansion of recurring events to separate instances on the server
+                url = Ext.String.urlAppend(url, 'singleEvents=true');
+                url = Ext.String.urlAppend(url, 'orderBy=startTime');
+            }
         }
         
         // Append extra params as needed

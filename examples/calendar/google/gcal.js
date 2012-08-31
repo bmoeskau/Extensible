@@ -143,7 +143,8 @@ Ext.onReady(function(){
         region: 'center',
         eventStore: eventStore,
         calendarStore: calendarStore,
-        title: 'Google Calendar'
+        title: 'Google Calendar',
+        recurrence: true
     });
     
     Ext.create('Ext.Viewport', {

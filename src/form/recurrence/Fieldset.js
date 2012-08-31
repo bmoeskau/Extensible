@@ -27,6 +27,10 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         'daily', 'weekly', 'weekdays', 'monthly', 'yearly'
     ],
     
+    ruleType: 'RRULE', // or 'EXRULE' for exceptions
+    
+    includeRuleTypePrefix: true,
+    
     //TODO: implement
     displayStyle: 'field', // or 'dialog'
     
@@ -215,7 +219,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         }
         
         var values,
-            itemValue;
+            itemValue,
+            returnValue;
         
         if (this.frequency === 'WEEKDAYS') {
             values = ['FREQ=WEEKLY','BYDAY=MO,TU,WE,TH,FR'];
@@ -233,7 +238,12 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             }
         }, this);
         
-        return values.length > 1 ? values.join(';') : values[0];
+        returnValue = values.length > 1 ? values.join(';') : values[0];
+        
+        if (this.includeRuleTypePrefix) {
+            returnValue = this.ruleType + ':' + returnValue;
+        }
+        return returnValue;
     },
     
     includeItemValue: function(value) {

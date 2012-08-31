@@ -33,7 +33,8 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
         var EventMappings = Extensible.calendar.google.EventMappings,
             data = this.callParent(arguments),
             startDateTimeMapping = EventMappings.StartDateTime.mapping,
-            endDateTimeMapping = EventMappings.EndDateTime.mapping;
+            endDateTimeMapping = EventMappings.EndDateTime.mapping,
+            timeZone = Extensible.calendar.google.CalendarSettings.userTimeZoneName;
         
         if (record.get(EventMappings.IsAllDay.name)) {
             delete data[startDateTimeMapping];
@@ -56,6 +57,14 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
             // record.modified[startDate] = data[startDate];
             // record.modified[endDate] = data[endDate];
         // }
+        
+        if (EventMappings.RRule && record.get(EventMappings.RRule.name).length > 0) {
+            data[EventMappings.Recurrence.mapping] = [record.get(EventMappings.RRule.name)];
+            
+            // Google requires the timezone to be explicitly set when inserting recurring events
+            data[EventMappings.StartTimeZone.mapping] = timeZone;
+            data[EventMappings.EndTimeZone.mapping] = timeZone;
+        }
         
         return data;
     },
