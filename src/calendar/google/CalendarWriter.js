@@ -31,15 +31,53 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
     
     getRecordData: function(record, operation) {
         var EventMappings = Extensible.calendar.google.EventMappings,
-            startName = EventMappings.StartDate.name,
-            endName = EventMappings.EndDate.name;
+            data = this.callParent(arguments),
+            startDateTimeMapping = EventMappings.StartDateTime.mapping,
+            endDateTimeMapping = EventMappings.EndDateTime.mapping;
         
-        if (!this.usePatchUpdates) {
-            // Google's API requires start and end dates to always be included in UPDATE requests,
-            // even if they have not been modified. If using the PATCH method, these can be ommitted.
-            record.modified[startName] = record.get(startName);
-            record.modified[endName] = record.get(endName);
+        if (record.get(EventMappings.IsAllDay.name)) {
+            delete data[startDateTimeMapping];
+            delete data[endDateTimeMapping];
         }
-        return this.callParent(arguments);
+        else {
+            data[startDateTimeMapping] = Ext.Date.format(record.get(EventMappings.StartDate.name), 'c');
+            data[endDateTimeMapping] = Ext.Date.format(record.get(EventMappings.EndDate.name), 'c');
+            delete data[EventMappings.StartDate.mapping];
+            delete data[EventMappings.EndDate.mapping];
+        }
+        delete data[EventMappings.IsAllDay.mapping];
+        
+        // if (!this.usePatchUpdates) {
+            // // Google's API requires start and end dates to always be included in UPDATE requests,
+            // // even if they have not been modified. If using the PATCH method, these can be ommitted.
+            // record.modified[startDate] = data[startDate];
+            // record.modified[endDate] = data[endDate];
+        // }
+        
+        return data;
+    },
+    
+    writeValue: function(data, field, record){
+        var name = field[this.nameProperty] || field.name,
+            dateFormat = field.dateFormat,
+            value = record.get(field.name);
+        
+        if (value === field.defaultValue) {
+            return;
+        }
+        if (field.serialize) {
+            data[name] = field.serialize(value, record);
+        } else if (field.type === Ext.data.Types.DATE && dateFormat && Ext.isDate(value)) {
+            if (dateFormat === 'time') {
+                data[name] = value.getTime().toString();
+            } else {
+                if (dateFormat === 'timestamp') {
+                    dateFormat = 'U';
+                }
+                data[name] = Ext.Date.format(value, dateFormat);
+            }
+        } else {
+            data[name] = value;
+        }
     }
 });

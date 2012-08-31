@@ -90,13 +90,15 @@ function() {
             name:       'OriginalStartDate',
             mapping:    'originalStartTime.date',
             type:       'date',
-            dateFormat: 'Y-m-d'
+            dateFormat: 'Y-m-d',
+            persist:    false
         },
         OriginalStartTimeZone: {
             // Immutable, but still gets passed back in requests when creating exceptions
             name:    'OriginalStartTimeZone',
             mapping: 'originalStartTime.timeZone',
-            type:    'string'
+            type:    'string',
+            persist:    false
         },
         
         //
@@ -107,7 +109,8 @@ function() {
         CalendarId: {
             name:    'CalendarId',
             mapping: 'colorId', // ???
-            type:    'string'
+            type:    'string',
+            persist: false
         },
         
         // TODO: Google provides a more robust reminder API than Extensible requires. I think we're going
@@ -138,7 +141,8 @@ function() {
             name:       'OriginalStartDateTime',
             mapping:    'originalStartTime.dateTime',
             type:       'date',
-            dateFormat: 'c'
+            dateFormat: 'c',
+            persist:    false
         },
 
         //
