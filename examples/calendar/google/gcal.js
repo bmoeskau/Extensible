@@ -73,7 +73,10 @@ Ext.onReady(function(){
                 eventStore.proxy.calendarId = calendarId;
                 eventStore.proxy.setAuthToken(access_token);
                 eventStore.removeAll();
-                eventStore.load();
+                // Typically the store is loaded internally to the views, which set additional
+                // params to restrict the query to the current view boundaries. Since we are
+                // loading the store directly here, pass the view params manually.
+                eventStore.load(calendarPanel.getActiveView().getStoreParams());
             }
             else {
                 authenticate();
@@ -139,7 +142,7 @@ Ext.onReady(function(){
     
     Ext.get('btn-load').on('click', loadStore);
     
-    var cp = Ext.create('Extensible.calendar.CalendarPanel', {
+    var calendarPanel = Ext.create('Extensible.calendar.CalendarPanel', {
         region: 'center',
         eventStore: eventStore,
         calendarStore: calendarStore,
