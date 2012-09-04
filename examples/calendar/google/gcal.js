@@ -160,6 +160,6 @@ Ext.onReady(function(){
             split: true,
             autoScroll: true,
             contentEl: 'sample-overview'
-        }, cp]
+        }, calendarPanel]
     });
 });
