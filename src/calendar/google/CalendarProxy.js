@@ -100,8 +100,7 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
             // Assume this is a list retrieval
             if (Extensible.calendar.google.CalendarSettings.expandRecurringEvents) {
                 // Request expansion of recurring events to separate instances on the server
-                url = Ext.String.urlAppend(url, 'singleEvents=true');
-                url = Ext.String.urlAppend(url, 'orderBy=startTime');
+                url = Ext.String.urlAppend(url, 'singleEvents=true&orderBy=startTime');
             }
         }
         
