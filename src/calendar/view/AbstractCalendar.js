@@ -263,6 +263,8 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     
     eventViewerClass: 'Extensible.calendar.form.EventViewWindow',
     
+    retrieveEventsForEditing: false,
+    
     /**
      * @property ownerCalendarPanel
      * @type Extensible.calendar.CalendarPanel
@@ -1770,7 +1772,14 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
      * @return {Extensible.calendar.view.AbstractCalendar} this
      */
     showEventEditor: function(rec, animateTarget) {
-        this.getEventEditor().show(rec, animateTarget, this);
+        if (this.retrieveEventsForEditing && rec.isModel && Ext.isFunction(this.retrieveFullEvent)) {
+            this.retrieveFullEvent(rec, function(fullRecord) {
+                this.getEventEditor().show(fullRecord, animateTarget, this);
+            }, this);
+        }
+        else {
+            this.getEventEditor().show(rec, animateTarget, this);
+        }
         return this;
     },
     
