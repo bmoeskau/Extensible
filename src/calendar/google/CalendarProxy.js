@@ -5,7 +5,6 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     requires: [
         'Extensible.calendar.google.CalendarReader',
         'Extensible.calendar.google.CalendarWriter',
-        'Extensible.calendar.google.EventMappings',
         'Extensible.calendar.google.CalendarSettings'
     ],
     
@@ -15,17 +14,15 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     
     calendarId: 'primary',
     
-    apiKey: undefined,
-    
     authToken: undefined,
     
-    authPrefix: 'Bearer ', // mandated by Google
+    url: 'https://www.googleapis.com/calendar/v3/calendars',
     
     apiMethod: 'events',
     
-    apiKeySeparator: 'key=', // mandated by Google
+    apiKeySeparator: 'key=',
     
-    url: 'https://www.googleapis.com/calendar/v3/calendars',
+    authPrefix: 'Bearer ',
     
     noCache: false,
     
@@ -39,6 +36,8 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
     
     usePatchUpdates: true,
     
+    noCache: false,
+    
     /**
      * @cfg {Boolean} includeDeletedEvents
      * True to tell Google to return deleted events (eventStatus: 'cancelled') in the response,
@@ -49,28 +48,35 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
      */
     includeDeletedEvents: false,
     
+    inheritableStatics: {
+        apiKey: undefined
+    },
+    
     constructor: function(config) {
         this.callParent(arguments);
         
         if (this.usePatchUpdates) {
             this.actionMethods.update = 'PATCH';
         }
+        if (this.authToken) {
+            this.setAuthToken();
+        }
     },
     
     setAuthToken: function(authToken) {
         var me = this;
         
-        me.authToken = authToken;
+        me.authToken = authToken || me.authToken;
         me.headers = me.headers || {};
         
         Ext.apply(me.headers, {
-            Authorization: me.authPrefix + authToken
+            Authorization: me.authPrefix + me.authToken
         });
     },
     
-    setApiKey: function(apiKey) {
-        this.apiKey = apiKey;
-    },
+    // setApiKey: function(apiKey) {
+        // this.apiKey = apiKey;
+    // },
     
     buildUrl: function(request) {
         var me        = this,
@@ -92,7 +98,15 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
         // Append the calendar id and api method, both required:
         url += me.calendarId + '/' + me.apiMethod;
         
-        if (request.action === 'update' || request.action === 'destroy') {
+        //if (request.action === 'update' || request.action === 'destroy') {
+        if (!id) {
+            // Hack around server proxy's insistence on adding id into the params. Since we have
+            // no record in the case of calling Model.load(), we need this id, but as part of the
+            // REST url, not as a request param.
+            id = request.params[me.idParam];
+            delete request.params[me.idParam];
+        }
+        if (id) {
             url += '/' + id;
         }
         
@@ -102,11 +116,10 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
                 // Request expansion of recurring events to separate instances on the server
                 url = Ext.String.urlAppend(url, 'singleEvents=true&orderBy=startTime');
             }
-        }
-        
-        // Append extra params as needed
-        if (request.action === 'read' && !this.includeDeletedEvents) {
-            url = Ext.String.urlAppend(url, 'showDeleted=false');
+            if (!me.includeDeletedEvents) {
+                // Ignore events that have been canceled and have no data
+                url = Ext.String.urlAppend(url, 'showDeleted=false');
+            }
         }
         
         // API key is optional, append if specified.
@@ -115,12 +128,16 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
         // as this will cause DELETEs to fail. Google rejects DELETE requests containing body data, but
         // Ext.data.Connection will automagically grab any configured params and use them as the request
         // body when there is no JSON data present. Normally this is OK, but it breaks Google's API in this case.
-        if (me.apiKey) {
-            url = Ext.String.urlAppend(url, me.apiKeySeparator + me.apiKey);
+        if (Extensible.calendar.google.CalendarProxy.apiKey) {
+            url = Ext.String.urlAppend(url, me.apiKeySeparator + Extensible.calendar.google.CalendarProxy.apiKey);
+        }
+        
+        if (me.noCache) {
+            url = Ext.urlAppend(url, Ext.String.format("{0}={1}", me.cacheString, Ext.Date.now()));
         }
         
         request.url = url;
         
-        return me.callParent(arguments);
+        return url;
     }
 });

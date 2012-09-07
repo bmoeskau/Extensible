@@ -9,6 +9,8 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
 
     root: 'items',
     
+    listRoot: 'items',
+    
     googleConstants: {
         Status: {
             CONFIRMED: 'confirmed',
@@ -17,7 +19,26 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
         }
     },
     
+    initRoot: function(rawData) {
+        var me = this;
+        
+        me.root = rawData[me.listRoot] ? me.listRoot : '';
+        
+        if (me.root) {
+            me.getRoot = me.createAccessor(me.root);
+        } else {
+            me.getRoot = Ext.identityFn;
+        }
+    },
+    
     readRecords: function(rawData) {
+        // Reader only understands a single root config by default. Google's API only uses a root
+        // attribute 'items' when returning a list, otherwise there is no root, only the event data.
+        // Unfortunately the reader cannot know which type of response it's getting ahead of time so
+        // we have to evaluate the raw data coming in to see what we're reading. This is critical to
+        // do first as the parent readRecords() uses this.root to do its thing.
+        this.initRoot(rawData);
+        
         var resultSet = this.callParent(arguments),
             EventMappings = Extensible.calendar.google.EventMappings,
             records = resultSet.records,
@@ -61,7 +82,8 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
             status,
             processed = [],
             len = records.length,
-            i = 0;
+            i = 0,
+            recurrence;
         
         for (i = 0; i < len; i++) {
             data = records[i].data;
@@ -82,6 +104,13 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
             else {
                 data[EventMappings.EndDate.name] = Extensible.Date.add(data[EventMappings.EndDate.name], { days: -1 });
                 data[EventMappings.IsAllDay.name] = true;
+            }
+            
+            recurrence = data[EventMappings.Recurrence.name];
+            
+            if (recurrence && recurrence.length > 0) {
+                data[EventMappings.RRule.name] = recurrence[0];
+                delete data[EventMappings.Recurrence.name];
             }
             
             processed.push(records[i]);

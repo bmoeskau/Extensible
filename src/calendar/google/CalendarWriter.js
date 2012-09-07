@@ -60,6 +60,7 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
         
         if (EventMappings.RRule && record.get(EventMappings.RRule.name).length > 0) {
             data[EventMappings.Recurrence.mapping] = [record.get(EventMappings.RRule.name)];
+            delete data[EventMappings.RRule.name];
             
             // Google requires the timezone to be explicitly set when inserting recurring events
             data[EventMappings.StartTimeZone.mapping] = timeZone;

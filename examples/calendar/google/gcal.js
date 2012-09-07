@@ -10,6 +10,7 @@ Ext.require([
     'Ext.Viewport',
     'Ext.layout.container.Border',
     'Extensible.calendar.data.MemoryCalendarStore',
+    'Extensible.calendar.google.EventModel',
     'Extensible.calendar.google.EventMappings',
     'Extensible.calendar.google.CalendarProxy',
     'Extensible.calendar.data.EventStore',
@@ -17,6 +18,10 @@ Ext.require([
 ]);
 
 Ext.onReady(function(){
+    
+    // Read-only test API key provided by Google. This is a static property so
+    // that all instances will use it, including those implicitly created by Ext.
+    Extensible.calendar.google.CalendarProxy.apiKey = 'AIzaSyB3JoleKFzjEQricJrXimhoHwkhLnbdSlg';
     
     var calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
         autoLoad: true,
@@ -32,14 +37,15 @@ Ext.onReady(function(){
         }
     });
     
-    var access_token = '';
+    var authToken = '';
     
     var eventStore = Ext.create('Extensible.calendar.data.EventStore', {
         //autoLoad: true,
         
+        model: 'Extensible.calendar.google.EventModel',
+        
         proxy: {
-            type: 'extensible.googlecalendar',
-            apiKey: 'AIzaSyB3JoleKFzjEQricJrXimhoHwkhLnbdSlg' // Read-only test API key provided by Google
+            type: 'extensible.googlecalendar'
         },
 
         // It's easy to provide generic CRUD messaging without having to handle events on every individual view.
@@ -69,9 +75,15 @@ Ext.onReady(function(){
         var calendarId = Ext.getDom('calendarId').value;
         
         if (calendarId) {
-            if (access_token) {
+            if (authToken) {
+                Extensible.calendar.google.EventModel.setProxy({
+                    type: 'extensible.googlecalendar',
+                    calendarId: calendarId,
+                    authToken: authToken
+                });
                 eventStore.proxy.calendarId = calendarId;
-                eventStore.proxy.setAuthToken(access_token);
+                eventStore.proxy.setAuthToken(authToken);
+                
                 eventStore.removeAll();
                 // Typically the store is loaded internally to the views, which set additional
                 // params to restrict the query to the current view boundaries. Since we are
@@ -108,7 +120,7 @@ Ext.onReady(function(){
                     }
                     
                     win.close();
-                    access_token = params['access_token'];
+                    authToken = params['access_token'];
                     validateToken();
                 }
             }
@@ -117,11 +129,11 @@ Ext.onReady(function(){
     }
     
     var validateToken = function() {
-        if (access_token !== '') {
+        if (authToken !== '') {
             Ext.Ajax.request({
                 url: 'https://www.googleapis.com/oauth2/v1/tokeninfo',
                 params : { 
-                    access_token: access_token
+                    access_token: authToken
                 },
                 method: 'POST',
                 success: function (result, request) {
@@ -141,6 +153,24 @@ Ext.onReady(function(){
     }
     
     Ext.get('btn-load').on('click', loadStore);
+    
+    Extensible.calendar.view.AbstractCalendar.override({
+        
+        retrieveEventsForEditing: true,
+        
+        retrieveFullEvent: function(rec, callback, scope) {
+            if (rec.data && rec.data.OriginalEventId && rec.data.OriginalEventId.length > 0) {
+                Extensible.calendar.google.EventModel.load(rec.data.OriginalEventId, {
+                    success: function(rec, operation) {
+                        Ext.callback(callback, scope, [rec]);
+                    },
+                    failure: function(rec, operation) {
+                        Ext.Msg.alert('Error', 'Could not retrieve full event '+rec.data.OriginalEventId);
+                    }
+                });
+            }
+        }
+    });
     
     var calendarPanel = Ext.create('Extensible.calendar.CalendarPanel', {
         region: 'center',
