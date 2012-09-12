@@ -76,6 +76,19 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
     },
     
     extractData: function(root) {
+        if (root.status === 204 || root.kind === 'calendar#events') {
+            // Google will return a 204 (success with no body content) after certain requests,
+            // such as a successful DELETE. Since there is no data to read, just ignore. Technically
+            // Ext should handle this case directly, but since it insists on attempting to read records
+            // this is the simplest way to handle it and still follow the default processing path.
+            //
+            // If the raw response contains at least one event, the root will have been set to the 'items'
+            // array and passed here as an array. If root is still the list root (kind = 'calendar#events'),
+            // it means that the request did not match any events and so did not return an 'items' node.
+            // There is no valid event data to extract so just return an empty list.
+            return [];
+        }
+        
         var records = this.callParent(arguments),
             EventMappings = Extensible.calendar.google.EventMappings,
             data,
