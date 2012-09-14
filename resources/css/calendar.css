@@ -351,6 +351,11 @@
 .ext-cal-dtitle {
     cursor: pointer;
 }
+
+.ext-cal-diag .ext-cal-ev {
+    outline: 1px solid red;
+}
+
 .ext-cal-readonly .ext-cal-day,
 .ext-cal-readonly .ext-cal-dtitle {
     cursor: default;
