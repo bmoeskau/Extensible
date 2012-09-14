@@ -10,7 +10,9 @@ Ext.define('Extensible.util.Diagnostic', {
         },
         calendar: {
             eventLayoutDataMatrix: true,
-            eventLayoutVisualOutlines: true
+            eventLayoutVisualOutlines: true,
+            editorRecordOnLoad: true,
+            editorRecordOnUpdate: true
         }
     },  
     
@@ -112,6 +114,68 @@ Ext.define('Extensible.util.Diagnostic', {
                         });
                     }
                 })
+            }
+            
+            if (Extensible.calendar.form.EventWindow) {
+                if (me.options.calendar.editorRecordOnLoad) {
+                    Extensible.calendar.form.EventWindow.override({
+                        show: function() {
+                            var result = this.callParent(arguments);
+                            me.log({
+                                msg: 'Event window loaded record:',
+                                dump: this.activeRecord
+                            });
+                            return result;
+                        }
+                    });
+                }
+                if (me.options.calendar.editorRecordOnUpdate) {
+                    Extensible.calendar.form.EventWindow.override({
+                        updateRecord: function() {
+                            var result = this.callParent(arguments);
+                            me.log({
+                                msg: 'Event window updated record:',
+                                dump: this.activeRecord
+                            });
+                            me.log({
+                                msg: 'Event window modified data:',
+                                dump: this.activeRecord.modified
+                            });
+                            return result;
+                        }
+                    });
+                }
+            }
+            
+            if (Extensible.calendar.form.EventDetails) {
+                if (me.options.calendar.editorRecordOnLoad) {
+                    Extensible.calendar.form.EventDetails.override({
+                        loadRecord: function() {
+                            var result = this.callParent(arguments);
+                            me.log({
+                                msg: 'Event details loaded record:',
+                                dump: this.activeRecord
+                            });
+                            return result;
+                        }
+                    });
+                }
+                if (me.options.calendar.editorRecordOnUpdate) {
+                    Extensible.calendar.form.EventDetails.override({
+                        updateRecord: function() {
+                            var result = this.callParent(arguments);
+                            me.log({
+                                msg: 'Event details updated record:',
+                                dump: this.activeRecord
+                            });
+                            me.log({
+                                msg: 'Event details modified data:',
+                                dump: this.activeRecord.modified
+                            });
+                            return result;
+                        }
+                    });
+                }
             }
         }
     }
