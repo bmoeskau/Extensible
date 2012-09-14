@@ -84,7 +84,7 @@ Ext.define('Extensible.calendar.google.CalendarProxy', {
             records   = operation.records || [],
             record    = records[0],
             url       = me.getUrl(request),
-            id        = record ? record.getId() : null;
+            id        = record ? record.getId() : operation.id;
         
         // Google's version 3 calendar url format (eventId is optional):
         // https://www.googleapis.com/calendar/v3/calendars/{calendarId}/{apiMethod}[/{eventId}]?key={apiKey}
