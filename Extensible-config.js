@@ -33,7 +33,16 @@ Extensible.Config = {
          */
         mode: 'debug',
         
-        includeDiagnostics: null, // defaults to false for release mode, else true
+        /**
+         * When true, the {@link Extensible.util.Diagnostic} singleton will be automatically included
+         * in the current page. This class adds console logging with diagnostic information custom
+         * tailored to Extensible that can aid in debugging. This can be helpful in working through issues
+         * sending/receiving data through the Ext data package or debugging suspected layout and data
+         * handling bugs in Extensible or application code. Defaults to false.
+         * 
+         * @config {Boolean} includeDiagnostics
+         */
+        includeDiagnostics: false,
         
         /**
          * The root path to the Ext JS framework (defaults to loading 4.1.0 from the Sencha CDN via
@@ -111,6 +120,7 @@ Extensible.Config = {
         me.extJsRoot = config.extJsRoot || me.defaults.extJsRoot;
         me.extensibleRoot = config.extensibleRoot || me.defaults.extensibleRoot || me.getSdkPath();
         me.cacheExtensible = config.cacheExtensible || me.defaults.cacheExtensible;
+        me.includeDiagnostics = config.includeDiagnostics || me.defaults.includeDiagnostics;
         
         me.adjustPaths();
         me.writeIncludes();
@@ -146,8 +156,7 @@ Extensible.Config = {
         var me = this,
             cacheBuster = '?_dc=' + (me.cacheExtensible ? Extensible.version : (+new Date)),
             suffix = '',
-            bootstrap = '',
-            includeDiagnostics = me.includeDiagnostics;
+            bootstrap = '';
         
         switch (me.mode) {
             case 'debug':
@@ -159,8 +168,6 @@ Extensible.Config = {
                 // For release we want to refresh the cache on first load, but allow caching
                 // after that, so use the version number instead of a unique string
                 cacheBuster = '?_dc=' + Extensible.version;
-                // Default includeDiagnostics to false if not already set
-                includeDiagnostics = includeDiagnostics || false;
                 break;
             
             default:
@@ -183,7 +190,7 @@ Extensible.Config = {
         me.includeScript(me.extensibleRoot + 'lib/extensible' + suffix + bootstrap + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'examples/examples.js?_dc=' + Extensible.version);
         
-        if (includeDiagnostics !== false) {
+        if (me.includeDiagnostics) {
             me.includeScript(me.extensibleRoot + 'src/util/Diagnostic.js' + cacheBuster);
         }
     }
