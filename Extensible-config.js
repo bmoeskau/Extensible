@@ -33,6 +33,8 @@ Extensible.Config = {
          */
         mode: 'debug',
         
+        includeDiagnostics: null, // defaults to false for release mode, else true
+        
         /**
          * The root path to the Ext JS framework (defaults to loading 4.1.0 from the Sencha CDN via
          * 'http://cdn.sencha.io/ext-4.1.0-gpl/'). Path should be absolute and should end with a '/'.
@@ -144,7 +146,8 @@ Extensible.Config = {
         var me = this,
             cacheBuster = '?_dc=' + (me.cacheExtensible ? Extensible.version : (+new Date)),
             suffix = '',
-            bootstrap = '';
+            bootstrap = '',
+            includeDiagnostics = me.includeDiagnostics;
         
         switch (me.mode) {
             case 'debug':
@@ -156,6 +159,8 @@ Extensible.Config = {
                 // For release we want to refresh the cache on first load, but allow caching
                 // after that, so use the version number instead of a unique string
                 cacheBuster = '?_dc=' + Extensible.version;
+                // Default includeDiagnostics to false if not already set
+                includeDiagnostics = includeDiagnostics || false;
                 break;
             
             default:
@@ -177,6 +182,10 @@ Extensible.Config = {
         me.includeScript(me.extJsRoot + 'ext' + suffix + '.js');
         me.includeScript(me.extensibleRoot + 'lib/extensible' + suffix + bootstrap + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'examples/examples.js?_dc=' + Extensible.version);
+        
+        if (includeDiagnostics !== false) {
+            me.includeScript(me.extensibleRoot + 'src/util/Diagnostic.js' + cacheBuster);
+        }
     }
 };
 
