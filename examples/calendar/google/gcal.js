@@ -161,13 +161,19 @@ Ext.onReady(function(){
         retrieveFullEvent: function(rec, callback, scope) {
             if (rec.data && rec.data.OriginalEventId && rec.data.OriginalEventId.length > 0) {
                 Extensible.calendar.google.EventModel.load(rec.data.OriginalEventId, {
-                    success: function(rec, operation) {
+                    success: function(fullRec, operation) {
+                        var rruleName = Extensible.calendar.google.EventMappings.RRule.name;
+                        rec.set(rruleName, fullRec.get(rruleName));
                         Ext.callback(callback, scope, [rec]);
                     },
-                    failure: function(rec, operation) {
+                    failure: function(fullRec, operation) {
                         Ext.Msg.alert('Error', 'Could not retrieve full event '+rec.data.OriginalEventId);
                     }
                 });
+            }
+            else {
+                // Not a recurring event, so no need to load additional details
+                Ext.callback(callback, scope, [rec]);
             }
         }
     });
