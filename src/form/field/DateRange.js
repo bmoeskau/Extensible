@@ -46,6 +46,8 @@ Ext.define('Extensible.form.field.DateRange', {
      */
     dateFormat: 'n/j/Y',
     
+    adjustAllDayEndDates: true,
+    
     // private
     fieldLayout: {
         type: 'hbox',
@@ -410,11 +412,15 @@ Ext.define('Extensible.form.field.DateRange', {
      * @return {Array} The array of return values
      */
     getValue: function(){
-        return [
-            this.getDT('start'), 
-            this.getDT('end'),
-            this.allDay.getValue()
-        ];
+        var start = this.getDT('start'), 
+            end = this.getDT('end'),
+            allDay = this.allDay.getValue();
+        
+        if (allDay && this.adjustAllDayEndDates && Ext.isDate(end)) {
+            end = Extensible.Date.add(end, { days: 1 });
+        }
+        
+        return [start, end, allDay];
     },
     
     // private getValue helper
@@ -454,12 +460,19 @@ Ext.define('Extensible.form.field.DateRange', {
         }
         var me = this,
             eventMappings = Extensible.calendar.data.EventMappings,
-            startDateName = eventMappings.StartDate.name;
+            startDateName = eventMappings.StartDate.name,
+            endDateValue,
+            allDayValue,
+            
+            adjustEndDate = function(end, allDay) {
+                return allDay && me.adjustAllDayEndDates ? Extensible.Date.add(end, { days: -1 }) : end;
+            };
             
         if(Ext.isArray(v)){
             me.setDT(v[0], 'start');
-            me.setDT(v[1], 'end');
-            me.allDay.setValue(!!v[2]);
+            allDayValue = !!v[2];
+            me.setDT(adjustEndDate(v[1], allDayValue), 'end');
+            me.allDay.setValue(allDayValue);
         }
         else if(Ext.isDate(v)){
             me.setDT(v, 'start');
@@ -468,10 +481,10 @@ Ext.define('Extensible.form.field.DateRange', {
         }
         else if(v[startDateName]){ //object
             me.setDT(v[startDateName], 'start');
-            if(!me.setDT(v[eventMappings.EndDate.name], 'end')){
-                me.setDT(v[startDateName], 'end');
-            }
-            me.allDay.setValue(!!v[eventMappings.IsAllDay.name]);
+            allDayValue = !!v[eventMappings.IsAllDay.name];
+            endDateValue = adjustEndDate(v[eventMappings.EndDate.name] || v[startDateName], allDayValue);
+            me.setDT(endDateValue, 'end');
+            me.allDay.setValue(allDayValue);
         }
     },
     

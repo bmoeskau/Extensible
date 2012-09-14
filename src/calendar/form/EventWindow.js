@@ -307,8 +307,10 @@ Ext.define('Extensible.calendar.form.EventEditWindow', {
             rec.data[EventMappings.StartDate.name] = start;
             rec.data[EventMappings.EndDate.name] = end;
             
+            // rec.data[EventMappings.IsAllDay.name] = !!o[EventMappings.IsAllDay.name] ||
+                // (start.getDate() !== Extensible.Date.add(end, {millis: 1}).getDate());
             rec.data[EventMappings.IsAllDay.name] = !!o[EventMappings.IsAllDay.name] ||
-                (start.getDate() !== Extensible.Date.add(end, {millis: 1}).getDate());
+                Extensible.Date.diffDays(start, end) > 0;
             
             rec.data[EventMappings.CalendarId.name] = me.calendarStore ?
                     me.calendarStore.getAt(0).data[Extensible.calendar.data.CalendarMappings.CalendarId.name] : '';
@@ -385,21 +387,27 @@ Ext.define('Extensible.calendar.form.EventEditWindow', {
             // Clear times for all day events so that they are stored consistently
             startDate = allday ? Extensible.Date.clearTime(dates[0]) : dates[0],
             endDate = allday ? Extensible.Date.clearTime(dates[1]) : dates[1],
-            singleDayDurationConfig = { days: 1 };
+            singleDayDurationConfig = { days: 1 },
+            rrule = record.get(EventMappings.RRule.name);
         
         // The full length of a day based on the minimum event time resolution:
-        singleDayDurationConfig[Extensible.calendar.data.EventModel.resolution] = -1;
+        // singleDayDurationConfig[Extensible.calendar.data.EventModel.resolution] = -1;
         
         obj[EventMappings.StartDate.name] = startDate;
+        obj[EventMappings.EndDate.name] = endDate;
         
         // If the event is all day, calculate the end date as midnight of the day after the end
         // date minus 1 unit based on the EventModel resolution, e.g. 23:59:00 on the end date
-        obj[EventMappings.EndDate.name] = allday ?
-            Extensible.Date.add(endDate, singleDayDurationConfig) : endDate;
+        // obj[EventMappings.EndDate.name] = allday ?
+            // Extensible.Date.add(endDate, singleDayDurationConfig) : endDate;
         
         if (EventMappings.Duration) {
             obj[EventMappings.Duration.name] = Extensible.Date.diff(startDate, obj[EventMappings.EndDate.name],
                 Extensible.calendar.data.EventModel.resolution);
+        }
+        
+        if (rrule) {
+            obj[EventMappings.RRule.name] = rrule;
         }
 
         record.beginEdit();

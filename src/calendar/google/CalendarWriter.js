@@ -30,18 +30,29 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
     },
     
     getRecordData: function(record, operation) {
+        // The parent logic will simply return the default set of modified field names/values.
+        // Non-modified values will already have been excluded by writeValue() below which
+        // skips any value matching the field's default value.
+        var data = this.callParent(arguments);
+        
+        // Add in our custom logic to tailor the data for Google's API
+        this.processDates(record, data);
+        this.processRecurrence(record, data);
+        
+        return data;
+    },
+    
+    processDates: function(record, data) {
         var EventMappings = Extensible.calendar.google.EventMappings,
-            data = this.callParent(arguments),
             startDateTimeMapping = EventMappings.StartDateTime.mapping,
-            endDateTimeMapping = EventMappings.EndDateTime.mapping,
-            timeZone = Extensible.calendar.google.CalendarSettings.userTimeZoneName;
+            endDateTimeMapping = EventMappings.EndDateTime.mapping;
         
         if (record.get(EventMappings.IsAllDay.name)) {
             delete data[startDateTimeMapping];
             delete data[endDateTimeMapping];
             
-            var adjustedEndDate = Extensible.Date.add(record.get(EventMappings.EndDate.name), { days: 1 });
-            data[EventMappings.EndDate.mapping] = Ext.Date.format(adjustedEndDate, 'Y-m-d');
+            //var adjustedEndDate = Extensible.Date.add(record.get(EventMappings.EndDate.name), { days: 1 });
+            //data[EventMappings.EndDate.mapping] = Ext.Date.format(adjustedEndDate, 'Y-m-d');
         }
         else {
             data[startDateTimeMapping] = Ext.Date.format(record.get(EventMappings.StartDate.name), 'c');
@@ -50,23 +61,27 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
             delete data[EventMappings.EndDate.mapping];
         }
         delete data[EventMappings.IsAllDay.mapping];
+        return data;
+    },
+    
+    processRecurrence: function(record, data) {
+        var EventMappings = Extensible.calendar.google.EventMappings,
+            timeZone = Extensible.calendar.google.CalendarSettings.userTimeZoneName;
         
-        // if (!this.usePatchUpdates) {
-            // // Google's API requires start and end dates to always be included in UPDATE requests,
-            // // even if they have not been modified. If using the PATCH method, these can be ommitted.
-            // record.modified[startDate] = data[startDate];
-            // record.modified[endDate] = data[endDate];
-        // }
-        
-        if (EventMappings.RRule && record.get(EventMappings.RRule.name).length > 0) {
-            data[EventMappings.Recurrence.mapping] = [record.get(EventMappings.RRule.name)];
-            delete data[EventMappings.RRule.name];
+        // Only set the RRULE if it has been added or edited (i.e. exists in data already)
+        if (EventMappings.RRule && data[EventMappings.RRule.mapping]) {
+            // The RRULE exists, but we must format it to Google's liking.
+            
+            //if (data[EventMappings.REditMode.mapping] !== 'single')
+            
+            // Google's API expects an array of rrule strings:
+            data[EventMappings.Recurrence.mapping] = [data[EventMappings.RRule.mapping]];
+            delete data[EventMappings.RRule.mapping];
             
             // Google requires the timezone to be explicitly set when inserting recurring events
             data[EventMappings.StartTimeZone.mapping] = timeZone;
             data[EventMappings.EndTimeZone.mapping] = timeZone;
         }
-        
         return data;
     },
     

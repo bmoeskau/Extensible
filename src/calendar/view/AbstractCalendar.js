@@ -774,7 +774,7 @@ viewConfig: {
             if (Extensible.Date.diffDays(evt.data[M.StartDate.name], evt.data[M.EndDate.name]) > 0) {
                 var daysInView = Extensible.Date.diffDays(
                     Extensible.Date.max(me.viewStart, evt.data[M.StartDate.name]),
-                    Extensible.Date.min(me.viewEnd, evt.data[M.EndDate.name])) + 1;
+                    Extensible.Date.min(me.viewEnd, evt.data[M.EndDate.name]));// + 1;
 
                 me.prepareEventGridSpans(evt, me.eventGrid, w, d, daysInView);
                 me.prepareEventGridSpans(evt, me.allDayGrid, w, d, daysInView, true);
@@ -1774,6 +1774,8 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
     showEventEditor: function(rec, animateTarget) {
         if (this.retrieveEventsForEditing && rec.isModel && Ext.isFunction(this.retrieveFullEvent)) {
             this.retrieveFullEvent(rec, function(fullRecord) {
+                //this.store.remove(rec);
+                //this.store.add(fullRecord);
                 this.getEventEditor().show(fullRecord, animateTarget, this);
             }, this);
         }

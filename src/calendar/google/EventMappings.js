@@ -77,11 +77,25 @@ function() {
         //
         RRule: {
             // Required by Extensible. Will not be sent to the Google API, but will be used internally
-            // and mapped into the Recurrence field programmatically.
+            // and mapped into the Recurrence field programmatically. Important: this field must be set as
+            // persistable by default so that it can be processed by the CalendarWriter class, which will
+            // ultimately replace it with the attributes expected by Google.
             name:    'RRule',
             mapping: 'rrule',
-            type:    'string',
-            persist: false
+            type:    'string'
+        },
+        REditMode: {
+            // Required by Extensible to determine how to set up recurrence requests to the Google API.
+            // Keep as persistable so that CalendarWriter can process recurrence correctly.
+            name:    'REditMode',
+            mapping: 'redit',
+            type:    'string'
+        },
+        Duration: {
+            name:         'Duration',
+            mapping:      'duration',
+            defaultValue: -1, // the standard int default of 0 is actually a valid duration
+            type:         'int'
         },
         Recurrence: {
             name:    'Recurrence',

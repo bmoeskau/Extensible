@@ -21,8 +21,16 @@ Ext.define('Extensible.calendar.google.EventModel', {
     },
     
     getId: function() {
-        var recurringId = this.get(Extensible.calendar.google.EventMappings.OriginalEventId.name);
-        return recurringId ? recurringId : this.callParent(arguments);
+        var recurringId = this.get(Extensible.calendar.google.EventMappings.OriginalEventId.name),
+            recurringEditMode = this.get(Extensible.calendar.google.EventMappings.REditMode.name);
+        
+        if (recurringId && recurringEditMode === 'all') {
+            // If updating all recurring instances, use the master event's id in the
+            // url, otherwise use the current event instance id. REditMode should only
+            // be set after an edit has occurred when the record is getting persisted.
+            return recurringId;
+        }
+        return this.callParent(arguments);
     }
 },
 function() {

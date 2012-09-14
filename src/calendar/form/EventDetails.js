@@ -314,14 +314,15 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             singleDayDurationConfig = { days: 1 };
         
         // The full length of a day based on the minimum event time resolution:
-        singleDayDurationConfig[Extensible.calendar.data.EventModel.resolution] = -1;
+        // singleDayDurationConfig[Extensible.calendar.data.EventModel.resolution] = -1;
         
         obj[EventMappings.StartDate.name] = startDate;
+        obj[EventMappings.EndDate.name] = endDate;
         
         // If the event is all day, calculate the end date as midnight of the day after the end
         // date minus 1 unit based on the EventModel resolution, e.g. 23:59:00 on the end date
-        obj[EventMappings.EndDate.name] = allday ?
-            Extensible.Date.add(endDate, singleDayDurationConfig) : endDate;
+        // obj[EventMappings.EndDate.name] = allday ?
+            // Extensible.Date.add(endDate, singleDayDurationConfig) : endDate;
         
         if (EventMappings.Duration) {
             obj[EventMappings.Duration.name] = Extensible.Date.diff(startDate, obj[EventMappings.EndDate.name],

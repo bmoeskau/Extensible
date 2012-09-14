@@ -39,10 +39,11 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
             var eventMappings = Extensible.calendar.data.EventMappings,
                 eventData = event.data || event.event.data,
                 startOfWeek = Ext.Date.clone(currentDate),
-                endOfWeek = Extensible.Date.add(startOfWeek, {days: dayCount - dayIndex, millis: -1}),
+                //endOfWeek = Extensible.Date.add(startOfWeek, {days: dayCount - dayIndex, millis: -1}),
+                endOfWeek = Extensible.Date.add(startOfWeek, {days: dayCount - dayIndex}),
                 eventRow = this.getEventRow(renderConfig.viewId, weekIndex, eventIndex),
                 eventEndDate = (event.event || event).getEndDate(),
-                daysToEventEnd = Extensible.Date.diffDays(currentDate, eventEndDate) + 1,
+                daysToEventEnd = Extensible.Date.diffDays(currentDate, eventEndDate),// + 1,
                 // Restrict the max span to the current week only since this is for the cuurent week's markup
                 colspan = Math.min(daysToEventEnd, dayCount - dayIndex);
             
