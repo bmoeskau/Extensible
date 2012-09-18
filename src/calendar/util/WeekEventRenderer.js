@@ -37,7 +37,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
          */
         renderEvent: function(event, weekIndex, dayIndex, eventIndex, dayCount, currentDate, renderConfig) {
             var eventMappings = Extensible.calendar.data.EventMappings,
-                eventData = event.data || event.event.data,
+                data = event.data || event.event.data,
                 startOfWeek = Ext.Date.clone(currentDate),
                 //endOfWeek = Extensible.Date.add(startOfWeek, {days: dayCount - dayIndex, millis: -1}),
                 endOfWeek = Extensible.Date.add(startOfWeek, {days: dayCount - dayIndex}),
@@ -49,18 +49,20 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
             
             // The view passes a template function to use when rendering the events.
             // These are special data values that get passed back to the template.
-            eventData._weekIndex = weekIndex;
-            eventData._renderAsAllDay = eventData[eventMappings.IsAllDay.name] || event.isSpanStart;
-            eventData.spanLeft = eventData[eventMappings.StartDate.name].getTime() < startOfWeek.getTime();
-            eventData.spanRight = eventEndDate.getTime() > endOfWeek.getTime();
-            eventData.spanCls = (eventData.spanLeft ? (eventData.spanRight ?
-                'ext-cal-ev-spanboth' : 'ext-cal-ev-spanleft') : (eventData.spanRight ? 'ext-cal-ev-spanright' : ''));
+            data._weekIndex = weekIndex;
+            data._renderAsAllDay = data[eventMappings.IsAllDay.name] || event.isSpanStart;
+            data.spanLeft = data[eventMappings.StartDate.name].getTime() < startOfWeek.getTime();
+            data.spanRight = eventEndDate.getTime() > endOfWeek.getTime();
+            data.spanCls = (data.spanLeft ? (data.spanRight ?
+                'ext-cal-ev-spanboth' : 'ext-cal-ev-spanleft') : (data.spanRight ? 'ext-cal-ev-spanright' : ''));
+            
+            var templateData = renderConfig.templateDataFn(event);
             
             var cellConfig = {
                 tag: 'td',
                 cls: 'ext-cal-ev',
                 // This is where the passed template gets processed and the markup returned
-                cn: renderConfig.tpl.apply(renderConfig.templateDataFn(eventData))
+                cn: renderConfig.tpl.apply(templateData)
             };
             
             if (colspan > 1) {

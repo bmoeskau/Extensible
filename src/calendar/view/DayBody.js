@@ -338,42 +338,46 @@ Ext.define('Extensible.calendar.view.DayBody', {
     // private
     getTemplateEventData : function(evt){
         var M = Extensible.calendar.data.EventMappings,
-            extraClasses = [this.getEventSelectorCls(evt[M.EventId.name])],
-            data = {},
+            data = evt.data || evt.event.data,
+            extraClasses = [this.getEventSelectorCls(data[M.EventId.name])],
+            templateData = {},
             colorCls = 'x-cal-default',
-            title = evt[M.Title.name],
+            title = data[M.Title.name],
             fmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
-            recurring = evt[M.RRule.name] !== '',
+            recurring = data[M.RRule.name] !== '',
             rec;
 
-        this.getTemplateEventBox(evt);
+        evt = evt.event || evt;
+        
+        this.getTemplateEventBox(data);
 
-        if(this.calendarStore && evt[M.CalendarId.name]){
+        if(this.calendarStore && data[M.CalendarId.name]){
             rec = this.calendarStore.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name,
-                evt[M.CalendarId.name]);
+                data[M.CalendarId.name]);
 
             if (rec) {
                 colorCls = 'x-cal-' + rec.data[Extensible.calendar.data.CalendarMappings.ColorId.name];
             }
         }
-        colorCls += (evt._renderAsAllDay ? '-ad' : '') + (Ext.isIE || Ext.isOpera ? '-x' : '');
+        colorCls += (data._renderAsAllDay ? '-ad' : '') + (Ext.isIE || Ext.isOpera ? '-x' : '');
         extraClasses.push(colorCls);
 
         extraClasses.push('ext-evt-block');
 
         if(this.getEventClass){
-            rec = this.getEventRecord(evt[M.EventId.name]);
-            var cls = this.getEventClass(rec, !!evt._renderAsAllDay, data, this.store);
+            rec = this.getEventRecord(data[M.EventId.name]);
+            var cls = this.getEventClass(rec, !!data._renderAsAllDay, templateData, this.store);
             extraClasses.push(cls);
         }
 
-        data._extraCls = extraClasses.join(' ');
-        data._isRecurring = evt[M.RRule.name] && evt[M.RRule.name] !== '';
-        data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] !== '';
-        data.Title = (evt[M.IsAllDay.name] ? '' : Ext.Date.format(evt[M.StartDate.name], fmt)) +
+        templateData._extraCls = extraClasses.join(' ');
+        // templateData._isRecurring = data[M.RRule.name] && data[M.RRule.name] !== '';
+        templateData._isRecurring = evt.isRecurring();
+        templateData._isReminder = data[M.Reminder.name] && data[M.Reminder.name] !== '';
+        templateData.Title = (data[M.IsAllDay.name] ? '' : Ext.Date.format(data[M.StartDate.name], fmt)) +
                 (!title || title.length === 0 ? this.defaultEventTitleText : title);
 
-        return Ext.applyIf(data, evt);
+        return Ext.applyIf(templateData, data);
     },
 
     // private
@@ -444,7 +448,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
                     _positioned: true
                 });
                 evts.push({
-                    data: this.getTemplateEventData(item),
+                    data: this.getTemplateEventData(evt),
                     date: Extensible.Date.add(this.viewStart, {days: day})
                 });
             }

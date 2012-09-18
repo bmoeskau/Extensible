@@ -11,6 +11,16 @@ Ext.define('Extensible.calendar.google.EventModel', {
     
     mappingClass: 'Extensible.calendar.google.EventMappings',
     
+    isRecurring: function() {
+        var originalEventId = Extensible.calendar.data.EventMappings.OriginalEventId;
+        
+        if (originalEventId) {
+            originalEventId = this.get(originalEventId.name);
+            return (originalEventId !== undefined && originalEventId !== '');
+        }
+        return false;
+    },
+    
     isEditable: function() {
         switch (this.data[Extensible.calendar.google.EventMappings.AccessRole.name]) {
             case 'owner':
