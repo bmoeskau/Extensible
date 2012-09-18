@@ -394,7 +394,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         var me = this;
         
         if (editMode) {
-            me.activeRecord.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+            me.activeRecord.set(Extensible.calendar.data.EventMappings.REditMode.name, editMode);
             me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
         }
     },
