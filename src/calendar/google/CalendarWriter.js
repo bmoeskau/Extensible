@@ -60,7 +60,9 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
             delete data[EventMappings.StartDate.mapping];
             delete data[EventMappings.EndDate.mapping];
         }
+        
         delete data[EventMappings.IsAllDay.mapping];
+        
         return data;
     },
     
@@ -72,16 +74,20 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
         if (EventMappings.RRule && data[EventMappings.RRule.mapping]) {
             // The RRULE exists, but we must format it to Google's liking.
             
-            //if (data[EventMappings.REditMode.mapping] !== 'single')
-            
-            // Google's API expects an array of rrule strings:
-            data[EventMappings.Recurrence.mapping] = [data[EventMappings.RRule.mapping]];
+            if (data[EventMappings.REditMode.mapping] !== 'single') {
+                // Google's API expects an array of rrule strings, except when editing a single
+                // instance (it will throw an error in that case):
+                data[EventMappings.Recurrence.mapping] = [data[EventMappings.RRule.mapping]];
+                // Google requires the timezone to be explicitly set when inserting recurring events
+                data[EventMappings.StartTimeZone.mapping] = timeZone;
+                data[EventMappings.EndTimeZone.mapping] = timeZone;
+            }
             delete data[EventMappings.RRule.mapping];
-            
-            // Google requires the timezone to be explicitly set when inserting recurring events
-            data[EventMappings.StartTimeZone.mapping] = timeZone;
-            data[EventMappings.EndTimeZone.mapping] = timeZone;
         }
+        
+        delete data[EventMappings.Duration.mapping];
+        delete data[EventMappings.REditMode.mapping];
+        
         return data;
     },
     
