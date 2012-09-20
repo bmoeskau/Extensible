@@ -12,6 +12,14 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
     optionAllButtonText: 'All Events',
     optionAllDescription: 'Apply to every event in this series.',
     
+    optionButtonConfig: {
+        iconAlign: 'top',
+        scale: 'large',
+        width: 80,
+        toggleGroup: 'recur-toggle',
+        allowDepress: false
+    },
+    
     editModes: {
         SINGLE: 'single',
         FUTURE: 'future',
@@ -72,36 +80,35 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
     
     getOptionButtonConfigs: function() {
         var me = this,
-            defaultConfig = {
+            defaultConfig = Ext.applyIf({
                 xtype: 'button',
-                iconAlign: 'top',
                 enableToggle: true,
-                scale: 'large',
-                width: 80,
-                toggleGroup: 'recur-toggle',
                 toggleHandler: me.onToggle,
                 scope: me
-        },
-        items = [Ext.apply({
-            itemId: me.id + '-single',
-            text: me.optionSingleButtonText,
-            iconCls: 'recur-edit-single',
-            pressed: me.editMode === me.editModes.SINGLE
-        }, defaultConfig),
-        Ext.apply({
-            itemId: me.id + '-future',
-            text: me.optionFutureButtonText,
-            iconCls: 'recur-edit-future',
-            pressed: me.editMode === me.editModes.FUTURE
-        }, defaultConfig),
-        Ext.apply({
-            itemId: me.id + '-all',
-            text: me.optionAllButtonText,
-            iconCls: 'recur-edit-all',
-            pressed: me.editMode === me.editModes.ALL
-        }, defaultConfig)];
+            }, me.optionButtonConfig);
         
-        return items;
+        return [
+            Ext.apply({
+                itemId: me.id + '-single',
+                text: me.optionSingleButtonText,
+                iconCls: 'recur-edit-single',
+                pressed: me.editMode === me.editModes.SINGLE
+            }, defaultConfig),
+            
+            Ext.apply({
+                itemId: me.id + '-future',
+                text: me.optionFutureButtonText,
+                iconCls: 'recur-edit-future',
+                pressed: me.editMode === me.editModes.FUTURE
+            }, defaultConfig),
+            
+            Ext.apply({
+                itemId: me.id + '-all',
+                text: me.optionAllButtonText,
+                iconCls: 'recur-edit-all',
+                pressed: me.editMode === me.editModes.ALL
+            }, defaultConfig)
+        ];
     },
     
     getEditMode: function() {
