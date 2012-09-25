@@ -99,7 +99,11 @@ function() {
         },
         Recurrence: {
             name:    'Recurrence',
-            mapping: 'recurrence'
+            mapping: 'recurrence',
+            convert: function(v) {
+                // HACK: Ext <4.1.1 requires this when there is no type attribute
+                return v;
+            }
         },
         OriginalEventId: {
             // Immutable, but still gets passed back in requests when creating exceptions
@@ -139,7 +143,11 @@ function() {
         // to have to process this in the reader...
         Reminder: {
             name:    'Reminder',
-            mapping: 'reminders'
+            mapping: 'reminders',
+            convert: function(v) {
+                // HACK: Ext <4.1.1 requires this when there is no type attribute
+                return v;
+            }
         },
         
         // The Google API provides both start.date and start.dateTime, and only one will ever be
