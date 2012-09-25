@@ -413,7 +413,6 @@ class Event extends Model {
         
         $parts = explode(';', $rec->attributes[Event::$rrule]);
         $newRrule = array();
-        $untilFound = false;
         
         foreach ($parts as $part) {
             if (strrpos($part, 'UNTIL=') === false) {
