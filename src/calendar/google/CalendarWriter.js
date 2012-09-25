@@ -87,7 +87,9 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
         }
         
         delete data[EventMappings.Duration.mapping];
-        delete data[EventMappings.REditMode.mapping];
+        
+        // Pass the edit mode since the "edit following" case must currently be evaluated on the server
+        //delete data[EventMappings.REditMode.mapping];
         
         return data;
     },
