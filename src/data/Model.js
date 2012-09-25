@@ -80,5 +80,16 @@ Ext.define('Extensible.data.Model', {
             delete copy[dataProp][this.idProperty];
         }
         return copy;
+    },
+    
+    // Overridden simply to add the field null check, which is helpful in debugging data definition issues.
+    // Docs are inherited without modification.
+    get: function(field) {
+        if (field) {
+            return this.callParent(arguments);
+        }
+        Ext.Error.raise({
+            msg: 'Cannot get value for field: "' + field + '"'
+        });
     }
 });
