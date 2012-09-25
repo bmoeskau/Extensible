@@ -164,6 +164,7 @@ Ext.onReady(function(){
                     success: function(fullRec, operation) {
                         var rruleName = Extensible.calendar.google.EventMappings.RRule.name;
                         rec.set(rruleName, fullRec.get(rruleName));
+                        rec.masterEvent = fullRec;
                         Ext.callback(callback, scope, [rec]);
                     },
                     failure: function(fullRec, operation) {
