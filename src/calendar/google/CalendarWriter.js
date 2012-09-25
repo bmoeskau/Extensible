@@ -38,6 +38,7 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
         // Add in our custom logic to tailor the data for Google's API
         this.processDates(record, data);
         this.processRecurrence(record, data);
+        this.processReminders(record, data);
         
         return data;
     },
@@ -88,6 +89,25 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
         delete data[EventMappings.Duration.mapping];
         delete data[EventMappings.REditMode.mapping];
         
+        return data;
+    },
+    
+    processReminders: function(record, data) {
+        var EventMappings = Extensible.calendar.google.EventMappings,
+            value;
+        
+        if (EventMappings.Reminder && data[EventMappings.Reminder.mapping]) {
+            value = data[EventMappings.Reminder.mapping];
+            
+            data[EventMappings.Reminder.mapping] = {
+                useDefault: false,
+                overrides: [{
+                    // Have to hard-code the method since there's nothing in the Extensible UI for that
+                    method: 'popup',
+                    minutes: value
+                }]
+            };
+        }
         return data;
     },
     

@@ -96,7 +96,8 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
             processed = [],
             len = records.length,
             i = 0,
-            recurrence;
+            recurrence,
+            reminders;
         
         for (i = 0; i < len; i++) {
             data = records[i].data;
@@ -124,6 +125,16 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
             if (recurrence && recurrence.length > 0) {
                 data[EventMappings.RRule.name] = recurrence[0];
                 delete data[EventMappings.Recurrence.name];
+            }
+            
+            reminders = data[EventMappings.Reminder.name];
+            
+            if (reminders && reminders.overrides && reminders.overrides.length > 0) {
+                // This is ugly, but basically assumes the reminder was created in Extensible (which only
+                // supports a single value and assigns no meaning to the reminder behavior). Any reminders
+                // created in Google that do not match one of the Extensible reminder combo values will be
+                // ignored, along with any additional reminders beyond the first one.
+                data[EventMappings.Reminder.name] = reminders.overrides[0].minutes + '';
             }
             
             processed.push(records[i]);
