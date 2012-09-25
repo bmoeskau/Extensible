@@ -21,6 +21,9 @@
         "file": "pkgs/calendar.js",
         "isDebug": true,
         "fileIncludes": [{
+            "text": "EventAttendeeMappings.js",
+            "path": "../src/calendar/data/"
+        },{
             "text": "EventMappings.js",
             "path": "../src/calendar/data/"
         },{
@@ -56,6 +59,9 @@
         },{
             "text": "DayDropZone.js",
             "path": "../src/calendar/dd/"
+        },{
+            "text": "EventAttendeeModel.js",
+            "path": "../src/calendar/data/"
         },{
             "text": "EventModel.js",
             "path": "../src/calendar/data/"
@@ -171,6 +177,29 @@
             "path": "../src/form/recurrence/"
        }]
     },{
+       "name": "Google Calendar",
+        "file": "pkgs/google-calendar.js",
+        "isDebug": true,
+        "fileIncludes": [{
+            "text": "EventMappings.js",
+            "path": "../src/calendar/google/"
+        },{
+            "text": "CalendarSettings.js",
+            "path": "../src/calendar/google/"
+        },{
+            "text": "CalendarReader.js",
+            "path": "../src/calendar/google/"
+        },{
+            "text": "CalendarWriter.js",
+            "path": "../src/calendar/google/"
+        },{
+            "text": "CalendarProxy.js",
+            "path": "../src/calendar/google/"
+        },{
+            "text": "EventModel.js",
+            "path": "../src/calendar/google/"
+        }]
+    },{
        "name": "Extensible All CSS",
        "file": "resources/css/extensible-all.css",
        "fileIncludes": [{
@@ -191,7 +220,8 @@
         "pkgDeps": [
             "pkgs/extensible-core.js",
             "pkgs/recurrence.js",
-            "pkgs/calendar.js"
+            "pkgs/calendar.js",
+            "pkgs/google-calendar.js"
         ],
         "fileIncludes": []
     }],
