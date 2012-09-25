@@ -119,6 +119,14 @@ Ext.define('Extensible.calendar.data.EventModel', {
         return me;
     },
     
+    merge: function(rec) {
+        var newData = rec.isModel ? rec[rec.persistenceProperty] : rec;
+        
+        this.set(newData);
+        
+        return this;
+    },
+    
     isEditable: function() {
         return true;
     }
