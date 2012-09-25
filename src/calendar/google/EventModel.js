@@ -22,12 +22,17 @@ Ext.define('Extensible.calendar.google.EventModel', {
     },
     
     isEditable: function() {
-        switch (this.data[Extensible.calendar.google.EventMappings.AccessRole.name]) {
-            case 'owner':
-            case 'writer':
-                return true;
+        var accessRole = this.get(Extensible.calendar.google.EventMappings.AccessRole.name);
+        
+        switch (accessRole) {
+            case 'none': // should not even be able to see the calendar
+            case 'reader':
+            case 'freeBusyReader':
+            // other options are 'writer' and 'owner'
+                return false;
         }
-        return false;
+        // If accessRole is not provided default to editable
+        return true;
     },
     
     getId: function() {
