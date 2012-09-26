@@ -12,13 +12,16 @@ Ext.define('Extensible.calendar.google.EventModel', {
     mappingClass: 'Extensible.calendar.google.EventMappings',
     
     isRecurring: function() {
-        var originalEventId = Extensible.calendar.data.EventMappings.OriginalEventId;
+        var originalEventId = Extensible.calendar.data.EventMappings.OriginalEventId,
+            rrule = Extensible.calendar.data.EventMappings.RRule;
         
         if (originalEventId) {
             originalEventId = this.get(originalEventId.name);
-            return (originalEventId !== undefined && originalEventId !== '');
         }
-        return false;
+        if (rrule) {
+            rrule = this.get(rrule.name);
+        }
+        return !!(originalEventId || rrule);
     },
     
     isEditable: function() {
