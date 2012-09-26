@@ -373,7 +373,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         templateData._extraCls = extraClasses.join(' ');
         // templateData._isRecurring = data[M.RRule.name] && data[M.RRule.name] !== '';
         templateData._isRecurring = evt.isRecurring();
-        templateData._isReminder = data[M.Reminder.name] && data[M.Reminder.name] !== '';
+        templateData._isReminder = evt.hasReminder();
         templateData.Title = (data[M.IsAllDay.name] ? '' : Ext.Date.format(data[M.StartDate.name], fmt)) +
                 (!title || title.length === 0 ? this.defaultEventTitleText : title);
 

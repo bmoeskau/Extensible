@@ -136,6 +136,12 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
                 // ignored, along with any additional reminders beyond the first one.
                 data[EventMappings.Reminder.name] = reminders.overrides[0].minutes + '';
             }
+            else {
+                // Google passes a default object of {useDefault:true} which is not useful for Extensible.
+                // We only care when a reminder has been explicitly set in the overrides, as above.
+                // Remove it so that it doesn't get mapped back incorrectly later.
+                delete data[EventMappings.Reminder.name];
+            }
             
             processed.push(records[i]);
         }

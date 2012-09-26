@@ -86,9 +86,18 @@ Ext.define('Extensible.calendar.data.EventModel', {
         
         if (RRule) {
             var ruleString = this.get(RRule.name);
-            return (ruleString !== undefined && ruleString !== '');
+            return !!ruleString;
         }
         return false;
+    },
+    
+    hasReminder: function() {
+        var Reminder = Extensible.calendar.data.EventMappings.Reminder;
+        
+        if (Reminder) {
+            var reminderString = this.get(Reminder.name);
+            return !!reminderString;
+        }
     },
     
     getStartDate: function() {
