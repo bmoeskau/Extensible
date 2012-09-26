@@ -49,14 +49,16 @@ Ext.define('Extensible.calendar.google.CalendarReader', {
             timeZone = rawData.timeZone,
             accessRole = rawData.accessRole;
         
+        if (timeZone) {
+            Extensible.calendar.google.CalendarSettings.userTimeZoneName = timeZone;
+        }
+        
         for (i = 0; i < len; i++) {
             data = records[i].data;
             
             // If the event list header specifies a time zone, default that value into
             // any records that do not have an explicit time zone on the start or end dates:
             if (timeZone) {
-                Extensible.calendar.google.CalendarSettings.userTimeZoneName = timeZone;
-                
                 if (!data[EventMappings.StartTimeZone.name]) {
                     data[EventMappings.StartTimeZone.name] = timeZone;
                 }
