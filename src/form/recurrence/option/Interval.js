@@ -10,6 +10,8 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
     
     maxValue: 999,
     
+    defaultValue: 1,
+    
     cls: 'extensible-recur-interval',
     
     getItemConfigs: function() {
@@ -65,17 +67,20 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
             return me;
         }
         var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),
-            parts;
+            parts,
+            interval = me.defaultValue;
 
         Ext.each(options, function(option) {
             parts = option.split('=');
             
             if (parts[0] === 'INTERVAL') {
-                me.intervalField.setValue(parts[1]);
-                me.updateLabel();
+                interval = parts[1];
                 return;
             }
         }, me);
+        
+        me.intervalField.setValue(interval);
+        me.updateLabel();
         
         return me;
     },
