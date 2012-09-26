@@ -46,18 +46,29 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
     processDates: function(record, data) {
         var EventMappings = Extensible.calendar.google.EventMappings,
             startDateTimeMapping = EventMappings.StartDateTime.mapping,
-            endDateTimeMapping = EventMappings.EndDateTime.mapping;
+            endDateTimeMapping = EventMappings.EndDateTime.mapping,
+            startDate = record.get(EventMappings.StartDate.name),
+            endDate = record.get(EventMappings.EndDate.name),
+            editMode = record.get(EventMappings.REditMode.name);
         
+        if (record.isRecurring() && editMode === 'all') {
+            var duration = record.get(EventMappings.Duration.name) || 0;
+            
+            // If updating the entire recurrence series, we have to use the master event
+            // start date plus the duration, not the current instance dates
+            startDate = record.masterEvent.get(EventMappings.StartDate.name);
+            endDate = Extensible.Date.add(startDate, {minutes: duration});
+        }
+            
         if (record.get(EventMappings.IsAllDay.name)) {
+            data[EventMappings.StartDate.mapping] = Ext.Date.format(startDate, 'Y-m-d');
+            data[EventMappings.EndDate.mapping] = Ext.Date.format(endDate, 'Y-m-d');
             delete data[startDateTimeMapping];
             delete data[endDateTimeMapping];
-            
-            //var adjustedEndDate = Extensible.Date.add(record.get(EventMappings.EndDate.name), { days: 1 });
-            //data[EventMappings.EndDate.mapping] = Ext.Date.format(adjustedEndDate, 'Y-m-d');
         }
         else {
-            data[startDateTimeMapping] = Ext.Date.format(record.get(EventMappings.StartDate.name), 'c');
-            data[endDateTimeMapping] = Ext.Date.format(record.get(EventMappings.EndDate.name), 'c');
+            data[startDateTimeMapping] = Ext.Date.format(startDate, 'c');
+            data[endDateTimeMapping] = Ext.Date.format(endDate, 'c');
             delete data[EventMappings.StartDate.mapping];
             delete data[EventMappings.EndDate.mapping];
         }
@@ -109,6 +120,10 @@ Ext.define('Extensible.calendar.google.CalendarWriter', {
                     minutes: value
                 }]
             };
+        }
+        else {
+            // In case it is there, but null
+            delete data[EventMappings.Reminder.mapping];
         }
         return data;
     },
