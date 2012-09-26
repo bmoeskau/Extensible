@@ -254,6 +254,16 @@ Ext.define('Extensible.calendar.view.Day', {
         return this.header.getViewBounds();
     },
     
+    // private
+    getStoreParams: function() {
+        return this.header.getStoreParams();
+    },
+    
+    // private
+    getStoreDateParams: function() {
+        return this.header.getStoreDateParams();
+    },
+    
     /**
      * Returns the start date of the view, as set by {@link #setStartDate}. Note that this may not 
      * be the first date displayed in the rendered calendar -- to get the start and end dates displayed
