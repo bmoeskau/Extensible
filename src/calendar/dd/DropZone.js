@@ -30,7 +30,7 @@ Ext.define('Extensible.calendar.dd.DropZone', {
         var D = Extensible.Date,
             eventDragText = (e.ctrlKey || e.altKey) ? this.copyText : this.moveText,
             start = data.type == 'eventdrag' ? n.date : D.min(data.start, n.date),
-            end = data.type == 'eventdrag' ? D.add(n.date, {days: D.diffDays(data.eventStart, data.eventEnd)}) :
+            end = data.type == 'eventdrag' ? D.add(n.date, {days: Math.max(D.diffDays(data.eventStart, data.eventEnd)-1, 0)}) :
                 D.max(data.start, n.date);
         
         if (!this.dragStartDate || !this.dragEndDate || (D.diffDays(start, this.dragStartDate) !== 0) || (D.diffDays(end, this.dragEndDate) !== 0)) {
