@@ -33,9 +33,9 @@ Ext.define('Extensible.calendar.dd.DropZone', {
             end = data.type == 'eventdrag' ? D.add(n.date, {days: D.diffDays(data.eventStart, data.eventEnd)}) :
                 D.max(data.start, n.date);
         
-        if(!this.dragStartDate || !this.dragEndDate || (D.diffDays(start, this.dragStartDate) != 0) || (D.diffDays(end, this.dragEndDate) != 0)){
+        if (!this.dragStartDate || !this.dragEndDate || (D.diffDays(start, this.dragStartDate) !== 0) || (D.diffDays(end, this.dragEndDate) !== 0)) {
             this.dragStartDate = start;
-            this.dragEndDate = D.add(end, {days: 1, millis: -1, clearTime: true});
+            this.dragEndDate = end;
             this.shim(start, end);
             
             var range = Ext.Date.format(start, this.dateFormat);
@@ -164,10 +164,9 @@ Ext.define('Extensible.calendar.dd.DropZone', {
             if(data.type == 'caldrag'){
                 if (!this.dragEndDate) {
                     // this can occur on a long click where drag starts but onNodeOver is never executed
-                    this.dragStartDate = Ext.Date.clearTime(data.start);
-                    this.dragEndDate = Extensible.Date.add(this.dragStartDate, {days: 1, millis: -1, clearTime: true});
+                    this.dragStartDate = this.dragEndDate = Ext.Date.clearTime(data.start);
                 }
-                this.view.onCalendarEndDrag(this.dragStartDate, this.dragEndDate, 
+                this.view.onCalendarEndDrag(this.dragStartDate, Extensible.Date.add(this.dragEndDate, {days: 1}),
                     Ext.bind(this.onCalendarDragComplete, this));
                 //shims are NOT cleared here -- they stay visible until the handling
                 //code calls the onCalendarDragComplete callback which hides them.
