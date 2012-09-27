@@ -155,16 +155,17 @@ Extensible.Config = {
     writeIncludes: function() {
         var me = this,
             cacheBuster = '?_dc=' + (me.cacheExtensible ? Extensible.version : (+new Date)),
-            suffix = '',
+            extSuffix = '',
+            extensibleSuffix = '',
             bootstrap = '';
         
         switch (me.mode) {
             case 'debug':
-                suffix = '-all-debug';
+                extSuffix = extensibleSuffix = '-all-debug';
                 break;
             
             case 'release':
-                suffix = '-all';
+                extSuffix = extensibleSuffix = '-all';
                 // For release we want to refresh the cache on first load, but allow caching
                 // after that, so use the version number instead of a unique string
                 cacheBuster = '?_dc=' + Extensible.version;
@@ -175,9 +176,10 @@ Extensible.Config = {
                 // based on how it (mis)handles loading of scripts when mixing includes
                 // and in-page scripts. Make sure IE always uses the regular debug versions.
                 if (me.isIE) {
-                    suffix = '-all-debug';
+                    extSuffix = extensibleSuffix = '-all-debug';
                 }
                 else {
+                    extSuffix = '-debug';
                     bootstrap = '-bootstrap';
                 }
         }
@@ -186,8 +188,8 @@ Extensible.Config = {
         me.includeStylesheet(me.extensibleRoot + 'resources/css/extensible-all.css' + cacheBuster);
         me.includeStylesheet(me.extensibleRoot + 'examples/examples.css?_dc=' + Extensible.version);
         
-        me.includeScript(me.extJsRoot + 'ext' + suffix + '.js');
-        me.includeScript(me.extensibleRoot + 'lib/extensible' + suffix + bootstrap + '.js' + cacheBuster);
+        me.includeScript(me.extJsRoot + 'ext' + extSuffix + '.js');
+        me.includeScript(me.extensibleRoot + 'lib/extensible' + extensibleSuffix + bootstrap + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'examples/examples.js?_dc=' + Extensible.version);
         
         if (me.includeDiagnostics) {
