@@ -43,9 +43,10 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                 endOfWeek = Extensible.Date.add(startOfWeek, {days: dayCount - dayIndex}),
                 eventRow = this.getEventRow(renderConfig.viewId, weekIndex, eventIndex),
                 eventEndDate = (event.event || event).getEndDate(),
-                daysToEventEnd = Extensible.Date.diffDays(currentDate, eventEndDate),// + 1,
+                daysToEventEnd = Extensible.Date.diffDays(currentDate, eventEndDate),
+                endDateAdjustment = Extensible.Date.isMidnight(eventEndDate) ? 0 : 1,
                 // Restrict the max span to the current week only since this is for the cuurent week's markup
-                colspan = Math.min(daysToEventEnd, dayCount - dayIndex);
+                colspan = Math.min(daysToEventEnd + endDateAdjustment, dayCount - dayIndex);
             
             // The view passes a template function to use when rendering the events.
             // These are special data values that get passed back to the template.

@@ -772,10 +772,13 @@ viewConfig: {
             var M = Extensible.calendar.data.EventMappings;
 
             if (Extensible.Date.diffDays(evt.data[M.StartDate.name], evt.data[M.EndDate.name]) > 0) {
-                var daysInView = Extensible.Date.diffDays(
-                    Extensible.Date.max(me.viewStart, evt.data[M.StartDate.name]),
-                    Extensible.Date.min(me.viewEnd, evt.data[M.EndDate.name]));// + 1;
+                var start = Extensible.Date.max(me.viewStart, evt.data[M.StartDate.name]),
+                    end = Extensible.Date.min(me.viewEnd, evt.data[M.EndDate.name]),
+                    daysInView = Extensible.Date.diffDays(start, end);
 
+                if (!Extensible.Date.isMidnight(end)) {
+                    daysInView += 1;
+                }
                 me.prepareEventGridSpans(evt, me.eventGrid, w, d, daysInView);
                 me.prepareEventGridSpans(evt, me.allDayGrid, w, d, daysInView, true);
             }
