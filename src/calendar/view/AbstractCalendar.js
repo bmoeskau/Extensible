@@ -2050,9 +2050,18 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
     // private
     onRecurrenceDeleteModeSelected: function(editMode, rec, el) {
         if (editMode) {
-            rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
-            rec.data[Extensible.calendar.data.EventMappings.RInstanceStartDate.name] = rec.getStartDate();
-            this.doDeleteEvent(rec, el);
+            if (this.retrieveEventsForEditing && rec.isModel && Ext.isFunction(this.retrieveFullEvent)) {
+                this.retrieveFullEvent(rec, function(fullRecord) {
+                    fullRecord.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+                    fullRecord.data[Extensible.calendar.data.EventMappings.RInstanceStartDate.name] = fullRecord.getStartDate();
+                    this.doDeleteEvent(fullRecord, el);
+                }, this);
+            }
+            else {
+                rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
+                rec.data[Extensible.calendar.data.EventMappings.RInstanceStartDate.name] = rec.getStartDate();
+                this.doDeleteEvent(rec, el);
+            }
         }
         // else user canceled
     },
