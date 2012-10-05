@@ -109,9 +109,10 @@ Ext.define('Extensible', {
         },
         
         /**
-         * Calculates the number of calendar days between two dates, ignoring time values.
+         * Calculates the number of calendar days between two dates, ignoring time values. If both dates
+         * are the same the difference is 0.
          * A time span that starts at 11pm (23:00) on Monday and ends at 1am (01:00) on Wednesday is
-         * only 26 total hours, but it spans 3 calendar days, so this function would return 3. For the
+         * only 26 total hours, but it spans 3 calendar days, so this function would return 2. For the
          * exact time difference, use {@link Ext.ensible.Date.diff diff} instead.
          * @param {Date} start The start date
          * @param {Date} end The end date
