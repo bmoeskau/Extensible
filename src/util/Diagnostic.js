@@ -16,8 +16,19 @@ Ext.define('Extensible.util.Diagnostic', {
         }
     },  
     
-    log: function() {
-        Ext.log.apply(this, arguments);
+    log: function(o) {
+        if (window.console) {
+            o = o || {};
+            if (Ext.isString(o)) {
+                o.msg = o;
+            };
+            if (o.msg) {
+                console.log(o.msg);
+            }
+            if (o.dump) {
+                console.dir(o.dump);
+            }
+        }
     },
     
     init: function() {
