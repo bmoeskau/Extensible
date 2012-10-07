@@ -467,68 +467,97 @@ Ext.define('Extensible.calendar.view.DayBody', {
             dataItems,
             data,
             endTimes = [],
+            currentMaxEndTime = -1,
             layout = {};
         
         // debugger;
         for (day in items) {
             if (items.hasOwnProperty(day)) {
+                var layoutGroup = -1;
+                
                 dataItems = items[day];
                 layout[day] = [];
                 
                 for (var i = 0, len = dataItems.length; i < len; i++) {
-                    data = dataItems[i];
-                    
                     var layoutColumn = 0,
                         endTimesLength = endTimes.length;
+                    
+                    data = dataItems[i];
+                    data._layoutSpan = 1;
                     
                     for (; layoutColumn <= endTimesLength; layoutColumn++) {
                         endTimes[layoutColumn] = endTimes[layoutColumn] || -1;
                         
                         if (data[M.StartDate.name] >= endTimes[layoutColumn]) {
+                            if (data[M.StartDate.name] >= currentMaxEndTime) {
+                                // No collisions, starting a new layout group
+                                layoutGroup++;
+                                currentMaxEndTime = -1;
+                            }
                             break;
                         }
                     }
-                    layout[day][layoutColumn] = layout[day][layoutColumn] || [];
-                    layout[day][layoutColumn].push(data);
+                    
+                    layout[day][layoutGroup] = layout[day][layoutGroup] || [];
+                    layout[day][layoutGroup][layoutColumn] = layout[day][layoutGroup][layoutColumn] || [];
+                    layout[day][layoutGroup][layoutColumn].push(data);
                     endTimes[layoutColumn] = data[M.EndDate.name];
                     
-                    // if (layoutColumn === endTimesLength && layoutColumn > 0) {
-                        // for (var item in layout[day][layoutColumn - 1]) {
-                            // if (item[M.EndDate.name] < data[M.StartDate.name]) {
-                                // item._layoutSpan = item._layoutSpan ? item._layoutSpan + 1 : 2;
-                            // }
-                        // }
-                    // }
+                    if (layoutColumn > 0 && currentMaxEndTime > -1 && layoutColumn === endTimesLength) {
+                        var currentCol = layoutColumn;
+                        
+                        // Added a new column, recalculate preceding spans
+                        while(currentCol >= 0) {
+                            var col = layout[day][layoutGroup][--currentCol];
+                            for (var itemKey in col) {
+                                if (col.hasOwnProperty(itemKey)) {
+                                    var item = col[itemKey];
+                                    if (item[M.EndDate.name] <= data[M.StartDate.name] ||
+                                        item[M.StartDate.name] >= data[M.EndDate.name]) {
+                                        item._layoutSpan++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    currentMaxEndTime = Math.max(currentMaxEndTime, data[M.EndDate.name]);
                 }
             }
-            return layout;
         }
+        return layout;
     },
     
     renderItemLayout: function(layout) {
         var EventMappings = Extensible.calendar.data.EventMappings,
             dt;
         
-        //debugger;
-        for (var key in layout) {
-            if (layout.hasOwnProperty(key)) {
-                var day = layout[key];
+        // debugger;
+        for (var dayKey in layout) {
+            if (layout.hasOwnProperty(dayKey)) {
+                var day = layout[dayKey];
                 
-                for (var i = 0, len = day.length; i < len; i++) {
-                    var itemGroup = day[i];
-                    
-                    for (var j = 0, len2 = itemGroup.length; j < len2; j++) {
-                        var data = itemGroup[j],
-                            colWidth = 100 / len,
-                            evtWidth = colWidth; //100 - (colWidth * evt._overlap);
+                for (var groupKey in day) {
+                    if (day.hasOwnProperty(groupKey)) {
+                        var group = day[groupKey];
                         
-                        data._width = colWidth;
-                        data._left = i * evtWidth;
-                        
-                        var markup = this.getEventTemplate().apply(data),
-                            target = this.id + '-day-col-' + key;
-                        
-                        Ext.core.DomHelper.append(target, markup);
+                        for (var i = 0, len = group.length; i < len; i++) {
+                            var items = group[i];
+                            
+                            for (var j = 0, len2 = items.length; j < len2; j++) {
+                                var data = items[j],
+                                    colWidth = 100 / len;
+                                    //evtWidth = colWidth; //100 - (colWidth * evt._overlap);
+                                
+                                data._width = colWidth * data._layoutSpan;
+                                data._left = i * colWidth;
+                                
+                                var markup = this.getEventTemplate().apply(data),
+                                    target = this.id + '-day-col-' + dayKey;
+                                
+                                Ext.core.DomHelper.append(target, markup);
+                            }
+                        }
                     }
                 }
             }
