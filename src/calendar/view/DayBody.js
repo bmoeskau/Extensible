@@ -412,7 +412,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     renderItems: function() {
-        var items = this.getBodyRenderItems();
+        var items = this.getBodyRenderItems(),
             layout = this.calculateRenderLayout(items);
         
         this.renderItemLayout(layout);
@@ -470,7 +470,6 @@ Ext.define('Extensible.calendar.view.DayBody', {
             currentMaxEndTime = -1,
             layout = {};
         
-        // debugger;
         for (day in items) {
             if (items.hasOwnProperty(day)) {
                 var layoutGroup = -1;
@@ -503,23 +502,23 @@ Ext.define('Extensible.calendar.view.DayBody', {
                     layout[day][layoutGroup][layoutColumn].push(data);
                     endTimes[layoutColumn] = data[M.EndDate.name];
                     
-                    if (layoutColumn > 0 && currentMaxEndTime > -1 && layoutColumn === endTimesLength) {
-                        var currentCol = layoutColumn;
-                        
-                        // Added a new column, recalculate preceding spans
-                        while(currentCol >= 0) {
-                            var col = layout[day][layoutGroup][--currentCol];
-                            for (var itemKey in col) {
-                                if (col.hasOwnProperty(itemKey)) {
-                                    var item = col[itemKey];
-                                    if (item[M.EndDate.name] <= data[M.StartDate.name] ||
-                                        item[M.StartDate.name] >= data[M.EndDate.name]) {
-                                        item._layoutSpan++;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    // if (layoutColumn > 0 && currentMaxEndTime > -1 && layoutColumn === endTimesLength) {
+                        // var currentCol = layoutColumn;
+//                         
+                        // // Added a new column, recalculate preceding spans
+                        // while (currentCol >= 0) {
+                            // var col = layout[day][layoutGroup][--currentCol];
+                            // for (var itemKey in col) {
+                                // if (col.hasOwnProperty(itemKey)) {
+                                    // var item = col[itemKey];
+                                    // if (item[M.EndDate.name] <= data[M.StartDate.name] ||
+                                        // item[M.StartDate.name] >= data[M.EndDate.name]) {
+                                        // item._layoutSpan++;
+                                    // }
+                                // }
+                            // }
+                        // }
+                    // }
                     
                     currentMaxEndTime = Math.max(currentMaxEndTime, data[M.EndDate.name]);
                 }
@@ -532,31 +531,29 @@ Ext.define('Extensible.calendar.view.DayBody', {
         var EventMappings = Extensible.calendar.data.EventMappings,
             dt;
         
-        // debugger;
         for (var dayKey in layout) {
             if (layout.hasOwnProperty(dayKey)) {
                 var day = layout[dayKey];
                 
-                for (var groupKey in day) {
-                    if (day.hasOwnProperty(groupKey)) {
-                        var group = day[groupKey];
+                for (var groupIdx = 0, numGroups = day.length; groupIdx < numGroups; groupIdx++) {
+                    var group = day[groupIdx],
+                        numCols = group.length,
+                        colWidth = 100 / numCols;
+                    
+                    for (var colIdx = 0; colIdx < numCols; colIdx++) {
+                        var columns = group[colIdx],
+                            colLeft = colWidth * colIdx;
                         
-                        for (var i = 0, len = group.length; i < len; i++) {
-                            var items = group[i];
+                        for (var itemIdx = 0, numItems = columns.length; itemIdx < numItems; itemIdx++) {
+                            var data = columns[itemIdx];
                             
-                            for (var j = 0, len2 = items.length; j < len2; j++) {
-                                var data = items[j],
-                                    colWidth = 100 / len;
-                                    //evtWidth = colWidth; //100 - (colWidth * evt._overlap);
-                                
-                                data._width = colWidth * data._layoutSpan;
-                                data._left = i * colWidth;
-                                
-                                var markup = this.getEventTemplate().apply(data),
-                                    target = this.id + '-day-col-' + dayKey;
-                                
-                                Ext.core.DomHelper.append(target, markup);
-                            }
+                            data._width = colWidth * data._layoutSpan;
+                            data._left = colLeft;
+                            
+                            var markup = this.getEventTemplate().apply(data),
+                                target = this.id + '-day-col-' + dayKey;
+                            
+                            Ext.core.DomHelper.append(target, markup);
                         }
                     }
                 }
@@ -567,96 +564,96 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
     
     // private
-    xrenderItems: function(){
-        var day = 0,
-            evt,
-            evts = [];
-        
-        for(; day < this.dayCount; day++){
-            var ev = 0,
-                emptyCells = 0,
-                skipped = 0,
-                d = this.eventGrid[0][day],
-                ct = d ? d.length : 0;
-
-            for(; ev < ct; ev++){
-                evt = d[ev];
-                if(!evt){
-                    continue;
-                }
-                var item = evt.data || evt.event.data,
-                    M = Extensible.calendar.data.EventMappings,
-                    ad = item[M.IsAllDay.name] === true,
-                    span = this.isEventSpanning(evt.event || evt),
-                    renderAsAllDay = ad || span;
-
-                if(renderAsAllDay){
-                    // this event is already rendered in the header view
-                    continue;
-                }
-                Ext.apply(item, {
-                    cls: 'ext-cal-ev',
-                    _positioned: true
-                });
-                evts.push({
-                    data: this.getTemplateEventData(item),
-                    date: Extensible.Date.add(this.viewStart, {days: day})
-                });
-            }
-        }
-
-        // overlapping event pre-processing loop
-        var i = 0,
-            j = 0,
-            overlapCols = [],
-            l = evts.length,
-            prevDt,
-            evt2,
-            dt;
-        
-        for(; i<l; i++){
-            evt = evts[i].data;
-            evt2 = null;
-            dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
-
-            for (j = 0; j < l; j++) {
-                if (i === j) {
-                    continue;
-                }
-                evt2 = evts[j].data;
-                if(this.isOverlapping(evt, evt2)){
-                    evt._overlap = evt._overlap === undefined ? 1 : evt._overlap+1;
-                    if(i<j){
-                        if (evt._overcol === undefined) {
-                            evt._overcol = 0;
-                        }
-                        evt2._overcol = evt._overcol+1;
-                        overlapCols[dt] = overlapCols[dt] ? Math.max(overlapCols[dt], evt2._overcol) : evt2._overcol;
-                    }
-                }
-            }
-        }
-
-        // rendering loop
-        for (i = 0; i < l; i++) {
-            evt = evts[i].data;
-            dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
-
-            if(evt._overlap !== undefined){
-                var colWidth = 100 / (overlapCols[dt]+1),
-                    evtWidth = 100 - (colWidth * evt._overlap);
-
-                evt._width = colWidth;
-                evt._left = colWidth * evt._overcol;
-            }
-            var markup = this.getEventTemplate().apply(evt),
-                target = this.id + '-day-col-' + Ext.Date.format(evts[i].date, 'Ymd');
-
-            Ext.core.DomHelper.append(target, markup);
-        }
-
-        this.fireEvent('eventsrendered', this);
-    },
+    // renderItems: function(){
+        // var day = 0,
+            // evt,
+            // evts = [];
+//         
+        // for(; day < this.dayCount; day++){
+            // var ev = 0,
+                // emptyCells = 0,
+                // skipped = 0,
+                // d = this.eventGrid[0][day],
+                // ct = d ? d.length : 0;
+// 
+            // for(; ev < ct; ev++){
+                // evt = d[ev];
+                // if(!evt){
+                    // continue;
+                // }
+                // var item = evt.data || evt.event.data,
+                    // M = Extensible.calendar.data.EventMappings,
+                    // ad = item[M.IsAllDay.name] === true,
+                    // span = this.isEventSpanning(evt.event || evt),
+                    // renderAsAllDay = ad || span;
+// 
+                // if(renderAsAllDay){
+                    // // this event is already rendered in the header view
+                    // continue;
+                // }
+                // Ext.apply(item, {
+                    // cls: 'ext-cal-ev',
+                    // _positioned: true
+                // });
+                // evts.push({
+                    // data: this.getTemplateEventData(item),
+                    // date: Extensible.Date.add(this.viewStart, {days: day})
+                // });
+            // }
+        // }
+// 
+        // // overlapping event pre-processing loop
+        // var i = 0,
+            // j = 0,
+            // overlapCols = [],
+            // l = evts.length,
+            // prevDt,
+            // evt2,
+            // dt;
+//         
+        // for(; i<l; i++){
+            // evt = evts[i].data;
+            // evt2 = null;
+            // dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
+// 
+            // for (j = 0; j < l; j++) {
+                // if (i === j) {
+                    // continue;
+                // }
+                // evt2 = evts[j].data;
+                // if(this.isOverlapping(evt, evt2)){
+                    // evt._overlap = evt._overlap === undefined ? 1 : evt._overlap+1;
+                    // if(i<j){
+                        // if (evt._overcol === undefined) {
+                            // evt._overcol = 0;
+                        // }
+                        // evt2._overcol = evt._overcol+1;
+                        // overlapCols[dt] = overlapCols[dt] ? Math.max(overlapCols[dt], evt2._overcol) : evt2._overcol;
+                    // }
+                // }
+            // }
+        // }
+// 
+        // // rendering loop
+        // for (i = 0; i < l; i++) {
+            // evt = evts[i].data;
+            // dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
+// 
+            // if(evt._overlap !== undefined){
+                // var colWidth = 100 / (overlapCols[dt]+1),
+                    // evtWidth = 100 - (colWidth * evt._overlap);
+// 
+                // evt._width = colWidth;
+                // evt._left = colWidth * evt._overcol;
+            // }
+            // var markup = this.getEventTemplate().apply(evt),
+                // target = this.id + '-day-col-' + Ext.Date.format(evts[i].date, 'Ymd');
+// 
+            // Ext.core.DomHelper.append(target, markup);
+        // }
+// 
+        // this.fireEvent('eventsrendered', this);
+    // },
 
     // private
     getDayEl : function(dt){
