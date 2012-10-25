@@ -522,8 +522,9 @@ Extensible.applyOverrides = function() {
     
     // Prior to 4.1.2 there was a serious bug in JsonReader that threw a runtime error in the case
     // of nested field mappings (e.g. mapping: 'some.nested.property') when some levels in the mapping
-    // could potentially be null. This was fixed in 4.1.2.
-    if (extVersion.isLessThan('4.1.2') && Ext.data && Ext.data.reader && Ext.data.reader.Json) {
+    // could potentially be null.
+    // Not yet merged as of 4.1.2...
+    if (/*extVersion.isLessThan('4.1.2') &&*/ Ext.data && Ext.data.reader && Ext.data.reader.Json) {
         Ext.data.reader.Json.override({
             createFieldAccessExpression: (function() {
                 var re = /[\[\.]/;
@@ -574,7 +575,8 @@ Extensible.applyOverrides = function() {
     
     // Added support for writeRecordId in 4.1.2, and also fixed a bug where the non-mapped record id
     // was always included in the output in addition to the mapped id when a mapping was used.
-    if (extVersion.isLessThan('4.1.2') && Ext.data && Ext.data.writer && Ext.data.writer.Writer) {
+    // Not yet merged as of 4.1.2...
+    if (/*extVersion.isLessThan('4.1.2') &&*/ Ext.data && Ext.data.writer && Ext.data.writer.Writer) {
         Ext.data.writer.Writer.override({
             writeRecordId: true,
             getRecordData: function(record, operation) {
@@ -629,8 +631,8 @@ Extensible.applyOverrides = function() {
         });
     }
     
-    // Added support for expandData in 4.1.2
-    if (extVersion.isLessThan('4.1.2') && Ext.data && Ext.data.writer && Ext.data.writer.Json) {
+    // This has not yet been merged in Ext
+    if (/*extVersion.isLessThan('4.1.2') &&*/ Ext.data && Ext.data.writer && Ext.data.writer.Json) {
         Ext.data.writer.Json.override({
             expandData: false,
             getExpandedData: function(data) {
@@ -673,9 +675,11 @@ Extensible.applyOverrides = function() {
                                 // object like `{ nested: { property: 'foo' }}`. Now add the root name
                                 // (e.g. 'my') to the record data if needed (do not overwrite existing):
                                 item[nameParts[0]] = item[nameParts[0]] || {};
+                                
                                 // Since there could be duplicate names at any level of the nesting be sure
                                 // to merge rather than assign when setting the object as the value:
                                 Ext.Object.merge(item[nameParts[0]], tempObj);
+                                
                                 // Finally delete the original mapped property from the record
                                 delete item[prop];
                             }
@@ -684,6 +688,7 @@ Extensible.applyOverrides = function() {
                 }
                 return data;
             },
+            
             writeRecords: function(request, data) {
                 var root = this.root;
                 
