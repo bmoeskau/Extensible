@@ -148,6 +148,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             fieldLabel: this.datesLabelText,
             singleLine: false,
             anchor: '70%',
+            startDay: this.startDay,
             listeners: {
                 'change': Ext.bind(this.onDateChange, this)
             }
@@ -187,6 +188,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
                 recurrenceOptions: this.recurrence,
                 name: Extensible.calendar.data.EventMappings.RRule.name,
                 fieldLabel: this.repeatsLabelText,
+                startDay: this.startDay,
                 anchor: '70%'
             });
             leftFields.splice(2, 0, this.recurrenceField);
