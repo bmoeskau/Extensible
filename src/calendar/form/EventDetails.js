@@ -71,7 +71,12 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     border: false,
     buttonAlign: 'center',
     autoScroll: true,
-    
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+
     /**
      * @cfg {Boolean} recurrence
      * @since 1.6.0
@@ -148,6 +153,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             fieldLabel: this.datesLabelText,
             singleLine: false,
             anchor: '70%',
+            startDay: this.startDay,
             listeners: {
                 'change': Ext.bind(this.onDateChange, this)
             }
@@ -187,6 +193,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
                 recurrenceOptions: this.recurrence,
                 name: Extensible.calendar.data.EventMappings.RRule.name,
                 fieldLabel: this.repeatsLabelText,
+                startDay: this.startDay,
                 anchor: '70%'
             });
             leftFields.splice(2, 0, this.recurrenceField);

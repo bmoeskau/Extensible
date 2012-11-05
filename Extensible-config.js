@@ -31,7 +31,7 @@ Extensible.Config = {
          * 
          * @config {String} mode
          */
-        mode: 'debug',
+        mode: 'dynamic',
         
         /**
          * The root path to the Ext JS framework (defaults to loading 4.1.0 from the Sencha CDN via

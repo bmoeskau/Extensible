@@ -20,20 +20,27 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         'Extensible.form.recurrence.option.Yearly',
         'Extensible.form.recurrence.option.Duration'
     ],
-    
+
     /**
      * @cfg {Extensible.form.recurrence.Rule} rrule
      * The {@link Extensible.form.recurrence.Rule recurrence Rule} instance underlying this component and
      * shared by all child recurrence option widgets. If not supplied a default instance will be created.
      */
     rrule: undefined,
+
     /**
      * @cfg {Date} startDate
      * The start date of the underlying recurrence series. This is not always required, depending on the specific
      * recurrence rules in effect, and will default to the current date if required and not supplied.
      */
     startDate: undefined,
-    
+
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+
     //TODO: implement code to use this config.
     // Maybe use xtypes instead for dynamic loading of custom options?
     // Include secondly/minutely/hourly, plugins for M-W-F, T-Th, weekends
@@ -99,7 +106,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 itemId: this.id + '-interval'
             },{
                 xtype: 'extensible.recurrence-weekly',
-                itemId: this.id + '-weekly'
+                itemId: this.id + '-weekly',
+                startDay: this.startDay
             },{
                 xtype: 'extensible.recurrence-monthly',
                 itemId: this.id + '-monthly'
@@ -108,7 +116,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 itemId: this.id + '-yearly'
             },{
                 xtype: 'extensible.recurrence-duration',
-                itemId: this.id + '-duration'
+                itemId: this.id + '-duration',
+                startDay: this.startDay
             }]
         }];
         
