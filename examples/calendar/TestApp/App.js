@@ -21,7 +21,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
     ],
     
     constructor : function() {
-        var startDay = 6; // The 0-based index for the day on which the calendar week begins (0=Sunday)
+        var startDay = 0; // The 0-based index for the day on which the calendar week begins (0=Sunday)
 
         // This is an example calendar store that enables event color-coding
         this.calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
