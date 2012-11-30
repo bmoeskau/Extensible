@@ -196,11 +196,13 @@ Ext.define('Extensible.calendar.view.DayBody', {
                 todayCol = this.getDayEl(Extensible.Date.today()).parent();
             
             this.timePointer = Ext.DomHelper.append(gutter, {
-                cls: 'ext-cal-time-pointer'
+                cls: 'ext-cal-time-pointer',
+                html: '&#160;'
             }, true);
             
             this.timeLine = Ext.DomHelper.append(todayCol, {
-                cls: 'ext-cal-time-line'
+                cls: 'ext-cal-time-line',
+                html: '&#160;'
             }, true);
             
             this.refreshTimeMarkers();
