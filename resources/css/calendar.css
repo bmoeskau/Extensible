@@ -528,6 +528,13 @@ td.ext-cal-dtitle-today div {
     height: 0;
 }
 
+.ext-cal-day-over {
+    border: 2px solid black;
+}
+.ext-cal-day-selected {
+    border: 2px solid red !important;
+}
+
 /* Event spanning -- overrides rounded corners */
 .ext-cal-ev-spanboth,
 .ext-cal-ev-spanleft,

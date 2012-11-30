@@ -566,12 +566,34 @@ Ext.define('Extensible.calendar.view.Month', {
         if(el = e.getTarget('td', 3)){
             if(el.id && el.id.indexOf(this.dayElIdDelimiter) > -1){
                 var parts = el.id.split(this.dayElIdDelimiter),
-                    dt = parts[parts.length-1];
+                    dt = parts[parts.length-1],
+                    dayEl = Ext.get(this.getDayId(dt));
                     
                 //this.fireEvent('dayclick', this, Ext.Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
-                this.onDayClick(Ext.Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
-                return;
+                this.onDayClick(Ext.Date.parseDate(dt, 'Ymd'), false, dayEl);
+                
+                Ext.select(this.daySelector).removeCls(this.daySelectedClass);
+                dayEl.addCls(this.daySelectedClass);
             }
+        }
+    },
+    
+    onDblClick: function(e, target) {
+        this.onClick(e, target);
+        
+        var el = e.getTarget('td', 5);
+        
+        if(el && el.id && el.id.indexOf(this.dayElIdDelimiter) > -1){
+            var M = Extensible.calendar.data.EventMappings,
+                parts = el.id.split(this.dayElIdDelimiter),
+                dt = parts[parts.length-1],
+                dayEl = Ext.get(this.getDayId(dt)),
+                data = {};
+
+            data[M.StartDate.name] = Ext.Date.parseDate(dt, 'Ymd');
+            data[M.IsAllDay.name] = false;
+            
+            this.showEventEditor(data, el);
         }
     },
     
@@ -583,6 +605,29 @@ Ext.define('Extensible.calendar.view.Month', {
             return;
         }
         this.callParent(arguments);
+    },
+    
+    handleMouseMove: function(e, target) {
+        if (this.isHeaderView) {
+            return;
+        }
+        var day = this.getDayAt(e.getX(), e.getY());
+        
+        if (!day.el) {
+            // We're still over the view but not within a day element
+            if (this._overDay) {
+                this._overDay.el.removeCls(this.dayOverClass);
+                delete this._overDay;
+            }
+        }
+        else if (day.el.id !== this._overDay) {
+            // We've moused over a new day
+            if (this._overDay) {
+                this._overDay.el.removeCls(this.dayOverClass);
+            }
+            this._overDay = day;
+            day.el.addCls(this.dayOverClass);
+        }
     },
     
     // private

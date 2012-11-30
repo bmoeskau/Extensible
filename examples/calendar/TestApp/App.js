@@ -101,7 +101,9 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                         //viewStartHour: 6,
                         //viewEndHour: 18,
                         //minEventDisplayMinutes: 15
-                        showTime: false
+                        showTime: false,
+                        dayOverClass: 'ext-cal-day-over',
+                        daySelectedClass: 'ext-cal-day-selected'
                     },
                     
                     // View options specific to a certain view (if the same options exist in viewConfig

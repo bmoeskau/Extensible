@@ -571,9 +571,11 @@ viewConfig: {
         this.on('resize', this.onResize, this);
 
         this.el.on({
+            'mousemove': this.onMouseMove,
             'mouseover': this.onMouseOver,
             'mouseout': this.onMouseOut,
             'click': this.onClick,
+            'dblclick': this.onDblClick,
             //'resize': this.onResize,
             scope: this
         });
@@ -1834,8 +1836,12 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
             data[M.StartDate.name] = dt;
             data[M.IsAllDay.name] = ad;
 
-            this.showEventEditor(data, el);
+            this.handleDayClick(data, el);
         }
+    },
+    
+    handleDayClick: function(data, el) {
+        // this.showEventEditor(data, el);
     },
 
     // private
@@ -2061,6 +2067,14 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
             return true;
         }
     },
+    
+    onDblClick: Ext.emptyFn,
+    
+    onMouseMove: function(e, t) {
+        if (this.trackMouseOver !== false && (this.dragZone === undefined || !this.dragZone.dragging)) {
+            this.handleMouseMove(e, t);
+        }
+    },
 
     // private
     onMouseOver: function(e, t) {
@@ -2129,13 +2143,15 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
                     var el = this.getDayEl(dt);
                     
                     if (el && this.dayOverClass !== '') {
-                        el[type === 'over' ? 'addCls' : 'removeCls'](this.dayOverClass);
+                        //el[type === 'over' ? 'addCls' : 'removeCls'](this.dayOverClass);
                     }
                     this.fireEvent('day' + type, this, Ext.Date.parseDate(dt, "Ymd"), el);
                 }
             }
         }
     },
+    
+    handleMouseMove: Ext.emptyFn,
 
     // private, MUST be implemented by subclasses
     renderItems: function() {
