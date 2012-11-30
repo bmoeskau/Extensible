@@ -15,6 +15,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
 
     requires: [
         'Ext.XTemplate',
+        'Ext.TaskManager',
         'Extensible.calendar.template.DayBody',
         'Extensible.calendar.data.EventMappings',
         'Extensible.calendar.dd.DayDragZone',
@@ -174,6 +175,89 @@ Ext.define('Extensible.calendar.view.DayBody', {
         if(scrollStart > 0){
             this.scrollTo(scrollStart * this.hourHeight);
         }
+    },
+    
+    /**
+     * @private
+     */
+    renderTemplate: function() {
+        this.callParent(arguments);
+        // Do this here rather than after render because the template can get regenerated
+        // at any time, which will remove any existing time markers rendered inside the calendar
+        this.initTimeMarkers();
+    },
+    
+    /**
+     * @private
+     */
+    initTimeMarkers: function() {
+        if (this.showTimeMarkers && this.isToday()) {
+            var gutter = this.el.down('.ext-cal-day-times'),
+                todayCol = this.getDayEl(Extensible.Date.today()).parent();
+            
+            this.timePointer = Ext.DomHelper.append(gutter, {
+                cls: 'ext-cal-time-pointer'
+            }, true);
+            
+            this.timeLine = Ext.DomHelper.append(todayCol, {
+                cls: 'ext-cal-time-line'
+            }, true);
+            
+            this.refreshTimeMarkers();
+            this.initTimeMarkerTask();
+        }
+    },
+    
+    /**
+     * @private
+     */
+    refreshTimeMarkers: function() {
+        var now = new Date(),
+            minuteHeight = this.hourHeight / 60,
+            currentMinute = (now.getHours() * 60) + now.getMinutes(),
+            viewStartOffset = this.viewStartHour * 60 * minuteHeight,
+            top = (currentMinute * minuteHeight) - viewStartOffset;
+        
+        if (top > this.timeMarkerOffset) {
+            // Only offset the marker when doing so won't push it off the top edge of the view
+            top -= this.timeMarkerOffset;
+        }
+        if (now.getMinutes() === 0) {
+            // It's midnight, so make sure we're in the correct day column in case the days changed
+            var todayCol = this.getDayEl(Extensible.Date.today()).parent();
+            this.timeLine.appendTo(todayCol);
+        }
+        this.timePointer.setTop(top);
+        this.timeLine.setTop(top);
+    },
+    
+    /**
+     * @private
+     */
+    initTimeMarkerTask: function() {
+        // Wait for :00 to begin so that we'll update exactly on minute changes
+        var waitMillis = (60 - (new Date()).getSeconds()) * 1000;
+        
+        if (this.timeMarkerTaskWaiting) {
+            // This can get called multiple times before the first task kicks off
+            return;
+        }
+        if (this.timeMarkerTask) {
+            Ext.TaskManager.stop(this.timeMarkerTask);
+        }
+        Ext.defer(function() {
+            this.timeMarkerTask = Ext.TaskManager.start({
+                run: function(){
+                    this.timeMarkerTaskWaiting = false;
+                    this.refreshTimeMarkers();
+                },
+                scope: this,
+                // Since we waited for :00 we only have to refresh every 60 secs
+                interval: 60000
+            });
+        }, waitMillis, this);
+        
+        this.timeMarkerTaskWaiting = waitMillis > 0;
     },
 
     // private

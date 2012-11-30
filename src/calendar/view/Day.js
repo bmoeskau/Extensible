@@ -132,6 +132,20 @@ Ext.define('Extensible.calendar.view.Day', {
      * overall Day view container vertically scrollable.
      */
     minBodyHeight: 150,
+    /**
+     * @cfg {Boolean} showTimeMarkers
+     * True to display visual markers showing the current time (default). This also creates a timer task that keeps
+     * the markers positioned correctly in real time, updating them once per minute.
+     */
+    showTimeMarkers: true,
+    /**
+     * @cfg {Number} timeMarkerOffset
+     * The time marker is a visual line that has a height in pixels set by CSS.  The marker is positioned based on its
+     * top edge, but since it moves from top to bottom in the view, the marker's bottom edge should be synchronized
+     * to the current time. This offset should typically be set the the same value as the marker's height (defaults
+     * to 2) in order to achieve the proper visual effect.
+     */
+    timeMarkerOffset: 2,
     
     // private
     isDayView: true,
@@ -178,6 +192,8 @@ Ext.define('Extensible.calendar.view.Day', {
             viewEndHour: this.viewEndHour,
             scrollStartHour: this.scrollStartHour,
             hourHeight: this.hourHeight,
+            showTimeMarkers: this.showTimeMarkers,
+            timeMarkerOffset: this.timeMarkerOffset,
             id: this.id+'-bd',
             ownerCalendarPanel: this.ownerCalendarPanel
         }, cfg);
