@@ -2,6 +2,13 @@ var Harness = Siesta.Harness.Browser.ExtJS;
 
 Harness.configure({
     title: 'Extensible Test Suite',
+    
+    // important to avoid issues with Ext's TaskManager, used by the calendar:
+    overrideSetTimeout: false,
+    
+    autoCheckGlobals: true,
+    expectedGlobals: ['Ext', 'Extensible'],
+    
     preload: [
         '../../../../ext-current/resources/css/ext-all.css',
         '../../../resources/css/extensible-all.css',
@@ -18,10 +25,10 @@ Harness.start({
         'core/_sanity.js'
     ]
 },{
-    group: 'Visual',
+    group: 'Calendar',
     items: [
-        'visual/calendar-basic.js',
-        'visual/calendar-read-only.js',
-        'visual/calendar-list.js'
+        'calendar/basic.js',
+        'calendar/read-only.js',
+        'calendar/list.js'
     ]
 });
