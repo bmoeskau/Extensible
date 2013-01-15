@@ -176,7 +176,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
         if(this.dayCount == 1){
             return Ext.Date.format(new Date(), this.singleDayDateFormat) + separator + todayText + timeText;
         }
-        fmt = this.weekCount == 1 ? this.firstWeekDateFormat : this.otherWeeksDateFormat;
+        var fmt = this.weekCount == 1 ? this.firstWeekDateFormat : this.otherWeeksDateFormat;
         return todayText.length > 0 ? todayText + timeText : Ext.Date.format(new Date(), fmt) + timeText;
     }
 }, 

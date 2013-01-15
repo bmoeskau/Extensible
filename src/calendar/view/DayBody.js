@@ -336,44 +336,44 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     // private
-    getTemplateEventData : function(evt){
+    getTemplateEventData : function(evtData){
         var M = Extensible.calendar.data.EventMappings,
-            extraClasses = [this.getEventSelectorCls(evt[M.EventId.name])],
+            extraClasses = [this.getEventSelectorCls(evtData[M.EventId.name])],
             data = {},
             colorCls = 'x-cal-default',
-            title = evt[M.Title.name],
+            title = evtData[M.Title.name],
             fmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
-            recurring = evt[M.RRule.name] !== '',
+            recurring = evtData[M.RRule.name] !== '',
             rec;
 
-        this.getTemplateEventBox(evt);
+        this.getTemplateEventBox(evtData);
 
-        if(this.calendarStore && evt[M.CalendarId.name]){
+        if(this.calendarStore && evtData[M.CalendarId.name]){
             rec = this.calendarStore.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name,
-                evt[M.CalendarId.name]);
+                evtData[M.CalendarId.name]);
 
             if (rec) {
                 colorCls = 'x-cal-' + rec.data[Extensible.calendar.data.CalendarMappings.ColorId.name];
             }
         }
-        colorCls += (evt._renderAsAllDay ? '-ad' : '') + (Ext.isIE || Ext.isOpera ? '-x' : '');
+        colorCls += (evtData._renderAsAllDay ? '-ad' : '') + (Ext.isIE || Ext.isOpera ? '-x' : '');
         extraClasses.push(colorCls);
 
         extraClasses.push('ext-evt-block');
 
         if(this.getEventClass){
-            rec = this.getEventRecord(evt[M.EventId.name]);
-            var cls = this.getEventClass(rec, !!evt._renderAsAllDay, data, this.store);
+            rec = this.getEventRecord(evtData[M.EventId.name]);
+            var cls = this.getEventClass(rec, !!evtData._renderAsAllDay, data, this.store);
             extraClasses.push(cls);
         }
 
         data._extraCls = extraClasses.join(' ');
-        data._isRecurring = evt[M.RRule.name] && evt[M.RRule.name] !== '';
-        data._isReminder = evt[M.Reminder.name] && evt[M.Reminder.name] !== '';
-        data.Title = (evt[M.IsAllDay.name] ? '' : Ext.Date.format(evt[M.StartDate.name], fmt)) +
+        data._isRecurring = evtData[M.RRule.name] && evtData[M.RRule.name] !== '';
+        data._isReminder = evtData[M.Reminder.name] && evtData[M.Reminder.name] !== '';
+        data.Title = (evtData[M.IsAllDay.name] ? '' : Ext.Date.format(evtData[M.StartDate.name], fmt)) +
                 (!title || title.length === 0 ? this.defaultEventTitleText : title);
 
-        return Ext.applyIf(data, evt);
+        return Ext.applyIf(data, evtData);
     },
 
     // private
@@ -385,10 +385,10 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     // private
-    getTemplateEventBox : function(evt){
+    getTemplateEventBox : function(evtData){
         var heightFactor = this.hourHeight / this.hourIncrement,
-            start = evt[Extensible.calendar.data.EventMappings.StartDate.name],
-            end = evt[Extensible.calendar.data.EventMappings.EndDate.name],
+            start = evtData[Extensible.calendar.data.EventMappings.StartDate.name],
+            end = evtData[Extensible.calendar.data.EventMappings.EndDate.name],
             startOffset = Math.max(start.getHours() - this.viewStartHour, 0),
             endOffset = Math.min(end.getHours() - this.viewStartHour, this.viewEndHour - this.viewStartHour),
             startMins = startOffset * this.hourIncrement,
@@ -405,10 +405,10 @@ Ext.define('Extensible.calendar.view.DayBody', {
             endMins += end.getMinutes();
         }
 
-        evt._left = 0;
-        evt._width = 100;
-        evt._top = startMins * heightFactor + evtOffsets.top;
-        evt._height = Math.max(((endMins - startMins) * heightFactor), this.minEventHeight) + evtOffsets.height;
+        evtData._left = 0;
+        evtData._width = 100;
+        evtData._top = startMins * heightFactor + evtOffsets.top;
+        evtData._height = Math.max(((endMins - startMins) * heightFactor), this.minEventHeight) + evtOffsets.height;
     },
 
     // private

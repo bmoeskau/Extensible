@@ -105,8 +105,8 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
 		this.fireEvent('eventsrendered', this, this.date, evts.getCount());
     },
 	
-	getTemplateEventData : function(evt){
-		var data = this.view.getTemplateEventData(evt);
+	getTemplateEventData : function(evtData){
+		var data = this.view.getTemplateEventData(evtData);
 		data._elId = 'dtl-'+data._elId;
 		return data;
 	}

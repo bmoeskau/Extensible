@@ -87,8 +87,10 @@ Ext.define('Extensible.calendar.view.DayHeader', {
     
     // private
     onClick : function(e, t){
-        if(el = e.getTarget('td', 3)){
-            if(el.id && el.id.indexOf(this.dayElIdDelimiter) > -1){
+        var el = e.getTarget('td', 3);
+        
+        if (el) {
+            if (el.id && el.id.indexOf(this.dayElIdDelimiter) > -1) {
                 var parts = el.id.split(this.dayElIdDelimiter),
                     dt = parts[parts.length-1];
                     

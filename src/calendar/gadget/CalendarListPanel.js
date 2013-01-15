@@ -215,12 +215,17 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     
     // private
     onClick : function(e, t){
-        var el;
-        if(el = e.getTarget(this.menuSelector, 3, true)){
+        var el = e.getTarget(this.menuSelector, 3, true);
+        
+        if (el) {
             this.showEventMenu(el, e.getXY());
         }
-        else if(el = e.getTarget('li', 3, true)){
-            this.toggleCalendar(this.getCalendarId(el));
+        else {
+            el = e.getTarget('li', 3, true);
+            
+            if (el) {
+                this.toggleCalendar(this.getCalendarId(el));
+            }
         } 
     },
     
