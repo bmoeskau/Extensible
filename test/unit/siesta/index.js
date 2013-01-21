@@ -29,6 +29,7 @@ Harness.start({
     items: [
         'calendar/basic.js',
         'calendar/read-only.js',
-        'calendar/list.js'
+        'calendar/list.js',
+        'calendar/recurrence-basic.js'
     ]
 });
