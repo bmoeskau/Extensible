@@ -26,8 +26,9 @@ Ext.onReady(function () {
         // This is passed as an additional parameter on each request:
         //XDEBUG_SESSION_START: 1,
         // Slight hack just so that we can reuse the existing remote PHP code,
-        // but load a recurrence-friendly default data set the first time:
-        app_id: 'recurrence_example'
+        // but load a recurrence-friendly default data set the first time. This
+        // will reset the session at midnight local time:
+        app_id: 'recurrence_' + Ext.Date.format(new Date(), 'Ymd')
     };
 
     var calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {

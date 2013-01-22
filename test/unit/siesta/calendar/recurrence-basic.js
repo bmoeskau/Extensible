@@ -9,8 +9,9 @@ StartTest(function(t) {
     });
     
     Ext.Ajax.extraParams = {
-        // Required for the sample PHP to use recurring sample data
-        app_id: 'recurrence_example'
+        // Required for the sample PHP to use recurring sample data. Use a random
+        // key so that every individual test run gets a fresh session!
+        app_id: 'recurrence_' + Math.floor((Math.random()*1000)+1)
     };
     
     t.diag('Loading Calendar with Recurrence');

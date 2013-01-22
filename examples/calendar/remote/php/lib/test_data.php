@@ -29,7 +29,7 @@ class TestData {
      * set of data from the default as shown below.
      */
     public static function getEvents() {
-        if ($GLOBALS['app_id'] == 'recurrence_example') {
+        if (isset($GLOBALS['app_id']) && substr($GLOBALS['app_id'], 0, 11) === 'recurrence_') {
             return self::getRecurringEvents();
         }
         return self::getStandardEvents();
