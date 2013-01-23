@@ -476,11 +476,12 @@ Ext.define('Extensible.form.recurrence.Rule', {
             // E.g. Every 2 weeks
             desc.push(strings.every, ' ', me.interval, ' ', strings.weeks);
         }
-        desc.push(' ', strings.on, ' ');
 
         // Have specific weekdays been specified? E.g. Weekly on Tuesday, Wednesday and Thursday
         if (me.byDayWeekdays) {
             var len = me.byDayWeekdays.length;
+            
+            desc.push(' ', strings.on, ' ');
             
             for (var i=0; i<len; i++) {
                 if (i>0 && i<len-1) {
@@ -500,7 +501,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
         }
         else if (startDate){
             // No weekdays are specified. Use weekday of parameter startDate as the weekday. E.g. Weekly on Monday
-            desc.push(strings.dayNamesLong[me.dayFromDayNo[startDate.getDay()]]);
+            desc.push(' ', strings.on, ' ', strings.dayNamesLong[me.dayFromDayNo[startDate.getDay()]]);
         }
     },
     
