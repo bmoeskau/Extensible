@@ -8,8 +8,9 @@ describe("Extensible.form.recurrence.Rule", function() {
     });
     
     var rrule = Ext.create('Extensible.form.recurrence.Rule'),
-        startDate = new Date(2012, 10, 27, 19, 18, 00); // Tue Nov 27, 2012 19:18
-
+        startDateString = 'Nov 27, 2012 19:18:00',
+        startDate = new Date(startDateString);
+    
     
     describe('Can create a new Rule instance via config with', function() {
         
@@ -437,6 +438,41 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
             expect(rrule.getDescription(startDate)).toEqual('Annually on November 27, until Dec 31, 2012');
+        });
+    });
+    
+    
+    describe('Can call getDescription() without passing start date', function() {
+        
+        it('Weekly, byDay = FR, no start date set', function() {
+            rrule = Ext.create('Extensible.form.recurrence.Rule', {
+                frequency: 'WEEKLY',
+                byDay: 'FR'
+            });
+            expect(rrule.getDescription()).toEqual('Weekly on Friday');
+        });
+        
+        it('Weekly, no day set, no start date set', function() {
+            rrule = Ext.create('Extensible.form.recurrence.Rule', {
+                frequency: 'WEEKLY'
+            });
+            expect(rrule.getDescription()).toEqual('Weekly');
+        });
+        
+        it('Weekly, no day set, start date (object) set via config', function() {
+            rrule = Ext.create('Extensible.form.recurrence.Rule', {
+                frequency: 'WEEKLY',
+                startDate: startDate
+            });
+            expect(rrule.getDescription()).toEqual('Weekly on Tuesday');
+        });
+        
+        it('Weekly, no day set, start date (string) set via config', function() {
+            rrule = Ext.create('Extensible.form.recurrence.Rule', {
+                frequency: 'WEEKLY',
+                startDate: startDateString
+            });
+            expect(rrule.getDescription()).toEqual('Weekly on Tuesday');
         });
     });
     
