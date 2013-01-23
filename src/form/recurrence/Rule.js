@@ -32,10 +32,11 @@ Ext.define('Extensible.form.recurrence.Rule', {
          */
         rule: null,
         /**
-         * @cfg {Date} startDate
+         * @cfg {Date/String} startDate
          * Optional start date for the recurrence rule. Not required just to parse the RRULE values, but it
          * is required in conjunction with the RRULE to calculate specific recurrence dates from the RRULE,
          * or to provide accurate textual descriptions for certain rules when calling {@link #getDescription}.
+         * May be provided as a Date object, or as a string that can be parsed as a valid date.
          */
         startDate: null,
         /**
@@ -174,6 +175,13 @@ Ext.define('Extensible.form.recurrence.Rule', {
         me.byMonth = null;
     },
 
+    /**
+     * @private
+     */
+    applyStartDate: function(dt) {
+        this.startDate = new Date(dt);
+    },
+    
     /**
      * @private
      */
