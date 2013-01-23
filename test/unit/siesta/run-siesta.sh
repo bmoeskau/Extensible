@@ -9,6 +9,8 @@
 # it's of interest to anyone else to see how we're testing things.
 #
 
+echo "*** Executing Siesta suite via PhantomJS ***"
+
 # Default:
 ~/Dropbox/Projects/Lib/Bryntum/Siesta/1.1.8/bin/phantomjs http://projects.local/Extensible/test/unit/siesta/
 
