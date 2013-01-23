@@ -6,6 +6,10 @@
 Ext.define('Extensible.form.recurrence.AbstractOption', {
     extend: 'Ext.form.FieldContainer',
     
+    requires: [
+        'Extensible.form.recurrence.Parser'
+    ],
+    
     mixins: {
         field: 'Ext.form.field.Field'
     },
@@ -18,14 +22,7 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     
     key: undefined,
     
-    /**
-     * @cfg {String} dateValueFormat
-     * The date string format to return in the RRULE. This is the standard ISO-style iCal
-     * date format, e.g. January 31, 2012, 14:00 would be formatted as: "20120131T140000Z".
-     */
-    dateValueFormat: 'Ymd\\THis\\Z',
-    
-    optionDelimiter: ';',
+    optionDelimiter: ';', //TODO: remove
     
     initComponent: function() {
         var me = this;
@@ -49,15 +46,19 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
         me.initField();
     },
     
+    getDateValueFormat: function() {
+        return Extensible.form.recurrence.Parser.dateValueFormat;
+    },
+    
     formatDate: function(date) {
-        return Ext.Date.format(date, this.dateValueFormat);
+        return Ext.Date.format(date, this.getDateValueFormat());
     },
     
     parseDate: function(dateString, options) {
         options = options || {};
         
         try {
-            var date = Ext.Date.parse(dateString, options.format || this.dateValueFormat, options.strict);
+            var date = Ext.Date.parse(dateString, options.format || this.getDateValueFormat(), options.strict);
             if (date) {
                 return date;
             }
