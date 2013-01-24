@@ -31,6 +31,24 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getDescription(startDate)).toEqual('Daily');
         });
         
+        it("{ frequency: 'DAILY', count: 1 }", function() {
+            rrule = Ext.create('Extensible.form.recurrence.Rule', {
+                frequency: 'DAILY',
+                count: 1
+            });
+            expect(rrule.getRule()).toEqual('FREQ=DAILY;COUNT=1;');
+            expect(rrule.getFrequency()).toEqual('DAILY');
+            expect(rrule.getCount()).toEqual(1);
+            expect(rrule.getUntil()).toBeFalsy();
+            expect(rrule.getInterval()).toEqual(1);
+            expect(rrule.getByDay()).toBeFalsy();
+            expect(rrule.getByDayWeekdays()).toBeFalsy();
+            expect(rrule.getByDayNthWeekday()).toBeFalsy();
+            expect(rrule.getByMonthDay()).toBeFalsy();
+            expect(rrule.getByMonth()).toBeFalsy();
+            expect(rrule.getDescription(startDate)).toEqual('Daily, 1 time');
+        });
+        
         it("{ frequency: 'DAILY', interval: 2 }", function() {
             rrule = Ext.create('Extensible.form.recurrence.Rule', {
                 frequency: 'DAILY',
@@ -511,6 +529,22 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByMonth()).toBeFalsy();
             expect(rrule.getDescription(startDate)).toEqual('Daily');
         });
+        
+        it('FREQ=DAILY;COUNT=1;', function() {
+            rrule.setFrequency('DAILY');
+            rrule.setCount(1);
+            expect(rrule.getRule()).toEqual('FREQ=DAILY;COUNT=1;');
+            expect(rrule.getFrequency()).toEqual('DAILY');
+            expect(rrule.getCount()).toEqual(1);
+            expect(rrule.getUntil()).toBeFalsy();
+            expect(rrule.getInterval()).toEqual(1);
+            expect(rrule.getByDay()).toBeFalsy();
+            expect(rrule.getByDayWeekdays()).toBeFalsy();
+            expect(rrule.getByDayNthWeekday()).toBeFalsy();
+            expect(rrule.getByMonthDay()).toBeFalsy();
+            expect(rrule.getByMonth()).toBeFalsy();
+            expect(rrule.getDescription(startDate)).toEqual('Daily, 1 time');
+        });
 
         it('FREQ=DAILY;INTERVAL=2;', function() {
             rrule.setFrequency('DAILY');
@@ -985,6 +1019,21 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth()).toBeFalsy();
             expect(rrule.getDescription(startDate)).toEqual('Daily');
+        });
+        
+        it('FREQ=DAILY;COUNT=1;', function() {
+            rrule.setRule('FREQ=DAILY;COUNT=1;');
+            expect(rrule.getRule()).toEqual('FREQ=DAILY;COUNT=1;');
+            expect(rrule.getFrequency()).toEqual('DAILY');
+            expect(rrule.getCount()).toEqual(1);
+            expect(rrule.getUntil()).toBeFalsy();
+            expect(rrule.getInterval()).toEqual(1);
+            expect(rrule.getByDay()).toBeFalsy();
+            expect(rrule.getByDayWeekdays()).toBeFalsy();
+            expect(rrule.getByDayNthWeekday()).toBeFalsy();
+            expect(rrule.getByMonthDay()).toBeFalsy();
+            expect(rrule.getByMonth()).toBeFalsy();
+            expect(rrule.getDescription(startDate)).toEqual('Daily, 1 time');
         });
     
         it('FREQ=DAILY;INTERVAL=2;', function() {

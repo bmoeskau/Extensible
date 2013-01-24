@@ -139,6 +139,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             weekdays: 'weekdays',
             months: 'months',
             years: 'years',
+            time: 'time',        // e.g. Daily, 1 time
             times: 'times',      // e.g. Daily, 5 times
             until: 'until',      // e.g. Daily, until Dec, 31 2012
             untilFormat: 'M j, Y', // e.g. Dec 10, 2012
@@ -632,7 +633,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
     getDescriptionCount: function(desc, startDate) {
         if (this.count) {
             // E.g. Daily, 5 times
-            desc.push(', ', this.count, ' ', this.strings.times);
+            desc.push(', ', this.count, ' ', (this.count === 1 ? this.strings.time : this.strings.times));
         }
     },
     
