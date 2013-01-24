@@ -124,13 +124,19 @@ Ext.define('Extensible.form.recurrence.Rule', {
             
             ordinals: ['', 'first', 'second', 'third', 'fourth', 'fifth'],
             
-            daily: 'Daily',
-            weekly: 'Weekly',
-            monthly: 'Monthly',
-            yearly: 'Annually',
+            frequency: {
+                none: 'Does not repeat',
+                daily: 'Daily',
+                weekly: 'Weekly',
+                weekdays: 'Every weekday (Mon-Fri)',
+                monthly: 'Monthly',
+                yearly: 'Yearly'
+            },
+            
             every: 'Every',       // e.g. Every 2 days
             days: 'days',
             weeks: 'weeks',
+            weekdays: 'weekdays',
             months: 'months',
             years: 'years',
             times: 'times',      // e.g. Daily, 5 times
@@ -326,6 +332,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             me = this;
 
         rule.push('FREQ=' + me.frequency);
+        
         if (me.interval != 1) {
             rule.push('INTERVAL=' + me.interval);
         }
@@ -387,7 +394,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
                 case 'COUNT':
                     me.setCount(parseInt(v));
                     break;
-                case "UNTIL":
+                case 'UNTIL':
                     me.setUntil(v);
                     break;
                 case 'BYDAY':
@@ -406,34 +413,21 @@ Ext.define('Extensible.form.recurrence.Rule', {
     /**
      * Return a textual description of the iCalendar recurrence rule. E.g. the rule "FREQ=DAILY;INTERVAL=2;COUNT=5"
      * is returned as the text "Every 2 days, 5 times".
-     * @param {Date} startDate Start date of the event series, required for certain rule types (e.g., any rule that
-     * is specified as date-relative like "BYDAY=-1FR" can only be represented relative to a specific date).
+     * @param {Date} [startDate] Optional start date of the event series, only required for certain rule types
+     * (e.g., any rule that is specified as date-relative like "BYDAY=-1FR" can only be represented relative
+     * to a specific start date).
      * @return String
      */
     getDescription: function(startDate) {
         var me = this,
-            desc = [];
+            desc = [],
+            freq = me.frequency ? Ext.String.capitalize(me.frequency.toLowerCase()) : '';
 
         startDate = startDate || this.startDate;
         
-        switch (me.frequency) {
-            case 'DAILY':
-                me.getDescriptionDaily(desc, startDate);
-                break;
-        
-            case 'WEEKLY':
-                me.getDescriptionWeekly(desc, startDate);
-                break;
-
-            case 'MONTHLY':
-                me.getDescriptionMonthly(desc, startDate);
-                break;
-            
-            case 'YEARLY':
-                me.getDescriptionYearly(desc, startDate);
-                break;
+        if (freq && me['getDescription' + freq]) {
+            me['getDescription' + freq](desc, startDate);
         }
-        
         me.getDescriptionCount(desc, startDate);
         me.getDescriptionUntil(desc, startDate);
 
@@ -447,7 +441,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @param {Array[String]} desc An array of strings representing the rule description parts collected
      * so far. This array is passed around, and each method should typically append any needed strings to
      * it. After all logic is complete, the array will be joined and the final description returned.
-     * @param {Date} startDate The start date of the recurring series.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
      */
     getDescriptionDaily: function(desc, startDate) {
         var me = this,
@@ -455,7 +449,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
         
         if (me.interval == 1) {
             // E.g. Daily
-            desc.push(strings.daily);
+            desc.push(strings.frequency.daily);
         }
         else {
             // E.g. Every 2 days
@@ -470,7 +464,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @param {Array[String]} desc An array of strings representing the rule description parts collected
      * so far. This array is passed around, and each method should typically append any needed strings to
      * it. After all logic is complete, the array will be joined and the final description returned.
-     * @param {Date} startDate The start date of the recurring series.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
      */
     getDescriptionWeekly: function(desc, startDate) {
         var me = this,
@@ -478,7 +472,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
         
         if (me.interval == 1) {
             // E.g. Weekly
-            desc.push(strings.weekly);
+            desc.push(strings.frequency.weekly);
         }
         else {
             // E.g. Every 2 weeks
@@ -491,11 +485,11 @@ Ext.define('Extensible.form.recurrence.Rule', {
             
             desc.push(' ', strings.on, ' ');
             
-            for (var i=0; i<len; i++) {
-                if (i>0 && i<len-1) {
+            for (var i=0; i < len; i++) {
+                if (i > 0 && i < len-1) {
                     desc.push(', ');
                 }
-                else if (len > 1 && i==len-1) {
+                else if (len > 1 && i === len-1) {
                     desc.push(' ', strings.and, ' ');
                 }
                 // If more than 2 weekdays have been specified, use short day names, otherwise long day names.
@@ -515,20 +509,41 @@ Ext.define('Extensible.form.recurrence.Rule', {
     
     /**
      * @protected
+     * Returns the description if the rule is of type "FREQ=WEEKDAYS". Note that WEEKDAYS is not
+     * part of the iCal standard -- it is a special frequency value supported by Extensible as a shorthand
+     * that is commonly used in applications. May be overridden to customize the output strings, especially
+     * for localization.
+     * @param {Array[String]} desc An array of strings representing the rule description parts collected
+     * so far. This array is passed around, and each method should typically append any needed strings to
+     * it. After all logic is complete, the array will be joined and the final description returned.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
+     */
+    getDescriptionWeekdays: function(desc, startDate) {
+        if (this.interval === 1) {
+            desc.push(this.strings.frequency.weekdays);
+        }
+        else {
+            // E.g. Every two weekdays
+            desc.push(this.strings.every, ' ', this.interval, ' ', this.strings.weekdays);
+        }
+    },
+    
+    /**
+     * @protected
      * Returns the description if the rule is of type "FREQ=MONTHLY".
      * May be overridden to customize the output strings, especially for localization.
      * @param {Array[String]} desc An array of strings representing the rule description parts collected
      * so far. This array is passed around, and each method should typically append any needed strings to
      * it. After all logic is complete, the array will be joined and the final description returned.
-     * @param {Date} startDate The start date of the recurring series.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
      */
     getDescriptionMonthly: function(desc, startDate) {
         var me = this,
             strings = me.strings;
         
-        if (me.interval == 1) {
+        if (me.interval === 1) {
             // E.g. Monthly
-            desc.push(strings.monthly);
+            desc.push(strings.frequency.monthly);
         }
         else {
             // E.g. Every 2 months
@@ -539,7 +554,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             // A specific month day has been selected, e.g. Monthly on day 23.
             desc.push(' ' + strings.onDay + ' ' + me.byMonthDay + strings.onDayPostfix);
         }
-        else if (me.byMonthDay == -1) {
+        else if (me.byMonthDay === -1) {
             // The last day of the month has been selected, e.g. Monthly on the last day.
             desc.push(' ' + strings.onTheLastDay);
         }
@@ -562,15 +577,15 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @param {Array[String]} desc An array of strings representing the rule description parts collected
      * so far. This array is passed around, and each method should typically append any needed strings to
      * it. After all logic is complete, the array will be joined and the final description returned.
-     * @param {Date} startDate The start date of the recurring series.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
      */
     getDescriptionYearly: function(desc, startDate) {
         var me = this,
             strings = me.strings;
         
-        if (me.interval == 1) {
-            // E.g. Annually
-            desc.push(strings.yearly);
+        if (me.interval === 1) {
+            // E.g. Yearly
+            desc.push(strings.frequency.yearly);
         }
         else {
             // E.g. Every two years
@@ -582,7 +597,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             return;
         }
         
-        if (me.byMonthDay == -1) {
+        if (me.byMonthDay === -1) {
             // The last day of the month, e.g. Annually on the last day of November.
             desc.push(' ', strings.onTheLastDay, ' ', strings.of, ' ', Ext.Date.format(startDate, strings.monthFormat));
         }
@@ -612,7 +627,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @param {Array[String]} desc An array of strings representing the rule description parts collected
      * so far. This array is passed around, and each method should typically append any needed strings to
      * it. After all logic is complete, the array will be joined and the final description returned.
-     * @param {Date} startDate The start date of the recurring series.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
      */
     getDescriptionCount: function(desc, startDate) {
         if (this.count) {
@@ -628,7 +643,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @param {Array[String]} desc An array of strings representing the rule description parts collected
      * so far. This array is passed around, and each method should typically append any needed strings to
      * it. After all logic is complete, the array will be joined and the final description returned.
-     * @param {Date} startDate The start date of the recurring series.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
      */
     getDescriptionUntil: function(desc, startDate) {
         if (this.until) {
