@@ -31,6 +31,14 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
      */
     minDateOffset: 1,
     
+    strings: {
+        andContinuing: 'and continuing',
+        occurrences: 'occurrences',
+        forever: 'forever',
+        'for': 'for',
+        until: 'until'
+    },
+    
     maxEndDate: new Date('12/31/9999'),
     
     endDateWidth: 120,
@@ -40,25 +48,53 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     //endDateFormat: null, // inherit by default
     
     getItemConfigs: function() {
-        var me = this,
-            startDate = me.getStartDate();
+        var me = this;
         
-        return [{
+        return [
+            me.getContinuingLabelConfig(),
+            me.getDurationComboConfig(),
+            me.getDurationDateFieldConfig(),
+            me.getDurationNumberFieldConfig(),
+            me.getOccurrencesLabelConfig()
+        ];
+    },
+    
+    getContinuingLabelConfig: function() {
+        return {
             xtype: 'label',
-            text: 'and continuing'
-        },{
+            text: this.strings.andContinuing
+        };
+    },
+    
+    getDurationComboConfig: function() {
+        var me = this;
+        
+        return {
             xtype: 'combo',
             itemId: me.id + '-duration-combo',
             mode: 'local',
             width: 85,
             triggerAction: 'all',
             forceSelection: true,
-            value: 'forever',
-            store: ['forever', 'for', 'until'],
+            value: me.strings.forever,
+            
+            store: [
+                me.strings.forever,
+                me.strings['for'],
+                me.strings.until
+            ],
+            
             listeners: {
                 'change': Ext.bind(me.onComboChange, me)
             }
-        },{
+        };
+    },
+    
+    getDurationDateFieldConfig: function() {
+        var me = this,
+            startDate = me.getStartDate();
+        
+        return {
             xtype: 'datefield',
             itemId: me.id + '-duration-date',
             showToday: false,
@@ -69,10 +105,17 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             hidden: true,
             minValue: Ext.Date.add(startDate, Ext.Date.DAY, me.minDateOffset),
             value: me.getDefaultEndDate(startDate),
+            
             listeners: {
                 'change': Ext.bind(me.onEndDateChange, me)
             }
-        },{
+        };
+    },
+    
+    getDurationNumberFieldConfig: function() {
+        var me = this;
+        
+        return {
             xtype: 'numberfield',
             itemId: me.id + '-duration-num',
             value: 5,
@@ -81,15 +124,20 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             maxValue: me.maxOccurrences,
             allowBlank: false,
             hidden: true,
+            
             listeners: {
                 'change': Ext.bind(me.onOccurrenceCountChange, me)
             }
-        },{
+        };
+    },
+    
+    getOccurrencesLabelConfig: function() {
+        return {
             xtype: 'label',
-            itemId: me.id + '-duration-num-label',
-            text: 'occurrences',
+            itemId: this.id + '-duration-num-label',
+            text: this.strings.occurrences,
             hidden: true
-        }];
+        };
     },
     
     initRefs: function() {
