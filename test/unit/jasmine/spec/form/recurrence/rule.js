@@ -326,7 +326,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday()).toBeFalsy();
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on November 27');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on November 27');
         });
         
         it("{ frequency: 'YEARLY', byMonth: 11, interval: 2 }", function() {
@@ -383,7 +383,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday().weekday).toEqual('FR', 'Test getByDayNthWeekday().weekday');
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on the last Friday of November');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on the last Friday of November');
         });
         
         it("{ frequency: 'YEARLY', byMonth: 11, byMonthDay: -1 }", function() {
@@ -401,7 +401,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday()).toBeFalsy();
             expect(rrule.getByMonthDay(), -1);
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on the last day of November');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on the last day of November');
         });
         
         it("{ frequency: 'YEARLY', byMonth: 11, count: 5 }", function() {
@@ -419,7 +419,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday()).toBeFalsy();
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on November 27, 5 times');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on November 27, 5 times');
         });
         
         it("{ frequency: 'YEARLY', byMonth: 11, until: '20121231T235959Z' }", function() {
@@ -437,7 +437,25 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday()).toBeFalsy();
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on November 27, until Dec 31, 2012');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on November 27, until Dec 31, 2012');
+        });
+        
+        it("{ frequency: 'WEEKDAYS', interval: 2, until: '20121231T235959Z' }", function() {
+            rrule = Ext.create('Extensible.form.recurrence.Rule', {
+                frequency: 'WEEKDAYS',
+                interval: 2,
+                until: '20121231T235959Z'
+            });
+            expect(rrule.getFrequency()).toEqual('WEEKDAYS');
+            expect(rrule.getCount()).toBeFalsy();
+            expect(rrule.getUntil()).toEqual(new Date(2012, 11, 31, 23, 59, 59));
+            expect(rrule.getInterval(), 2);
+            expect(rrule.getByDay()).toBeFalsy();
+            expect(rrule.getByDayWeekdays()).toBeFalsy();
+            expect(rrule.getByDayNthWeekday()).toBeFalsy();
+            expect(rrule.getByMonthDay()).toBeFalsy();
+            expect(rrule.getByMonth()).toBeFalsy;
+            expect(rrule.getDescription(startDate)).toEqual('Every 2 weekdays, until Dec 31, 2012');
         });
     });
     
@@ -842,7 +860,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday()).toBeFalsy();
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on November 27');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on November 27');
         });
         
         it('FREQ=YEARLY;INTERVAL=2;BYMONTH=11;', function() {
@@ -896,7 +914,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday().weekday).toEqual('FR', 'Test getByDayNthWeekday().weekday');
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on the last Friday of November');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on the last Friday of November');
         });
         
         it('FREQ=YEARLY;BYMONTHDAY=-1;BYMONTH=11;', function() {
@@ -913,7 +931,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday()).toBeFalsy();
             expect(rrule.getByMonthDay(), -1);
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on the last day of November');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on the last day of November');
         });
         
         it('FREQ=YEARLY;BYMONTH=11;COUNT=5;', function() {
@@ -930,7 +948,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday()).toBeFalsy();
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on November 27, 5 times');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on November 27, 5 times');
         });
         
         it('FREQ=YEARLY;BYMONTH=11;UNTIL=20121231T235959Z;', function() {
@@ -947,7 +965,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday()).toBeFalsy();
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on November 27, until Dec 31, 2012');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on November 27, until Dec 31, 2012');
         });
     });
     
@@ -1199,7 +1217,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday()).toBeFalsy();
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on November 27');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on November 27');
         });
         
         it('FREQ=YEARLY;INTERVAL=2;BYMONTH=11;', function() {
@@ -1243,7 +1261,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday().weekday).toEqual('FR', 'Test getByDayNthWeekday().weekday');
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on the last Friday of November');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on the last Friday of November');
         });
         
         it('FREQ=YEARLY;BYMONTH=11;BYMONTHDAY=-1;', function() {
@@ -1257,7 +1275,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday()).toBeFalsy();
             expect(rrule.getByMonthDay(), -1);
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on the last day of November');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on the last day of November');
         });
         
         it('FREQ=YEARLY;BYMONTH=11;COUNT=5;', function() {
@@ -1271,7 +1289,7 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday()).toBeFalsy();
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on November 27, 5 times');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on November 27, 5 times');
         });
         
         it('FREQ=YEARLY;BYMONTH=11;UNTIL=20121231T235959Z;', function() {
@@ -1285,7 +1303,21 @@ describe("Extensible.form.recurrence.Rule", function() {
             expect(rrule.getByDayNthWeekday()).toBeFalsy();
             expect(rrule.getByMonthDay()).toBeFalsy();
             expect(rrule.getByMonth(), 11);
-            expect(rrule.getDescription(startDate)).toEqual('Annually on November 27, until Dec 31, 2012');
+            expect(rrule.getDescription(startDate)).toEqual('Yearly on November 27, until Dec 31, 2012');
+        });
+        
+        it('FREQ=WEEKDAYS;COUNT=10;', function() {
+            rrule.setRule('FREQ=WEEKDAYS;COUNT=10;');
+            expect(rrule.getFrequency()).toEqual('WEEKDAYS');
+            expect(rrule.getCount()).toEqual(10);
+            expect(rrule.getUntil()).toBeFalsy();
+            expect(rrule.getInterval(), 1);
+            expect(rrule.getByDay()).toBeFalsy();
+            expect(rrule.getByDayWeekdays()).toBeFalsy();
+            expect(rrule.getByDayNthWeekday()).toBeFalsy();
+            expect(rrule.getByMonthDay()).toBeFalsy();
+            expect(rrule.getByMonth()).toBeFalsy();
+            expect(rrule.getDescription(startDate)).toEqual('Every weekday (Mon-Fri), 10 times');
         });
     });
     
