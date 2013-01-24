@@ -10,15 +10,31 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
     
     maxValue: 999,
     
+    strings: {
+        repeatEvery: 'Repeat every'
+    },
+    
     cls: 'extensible-recur-interval',
     
     getItemConfigs: function() {
+        return [
+            this.getRepeatEveryLabelConfig(),
+            this.getIntervalComboConfig(),
+            this.getBeginDateLabelConfig()
+        ];
+    },
+    
+    getRepeatEveryLabelConfig: function() {
+        return {
+            xtype: 'label',
+            text: this.strings.repeatEvery
+        };
+    },
+    
+    getIntervalComboConfig: function() {
         var me = this;
         
-        return [{
-            xtype: 'label',
-            text: 'Repeat every'
-        },{
+        return {
             xtype: 'numberfield',
             itemId: me.id + '-interval',
             value: 1,
@@ -30,10 +46,14 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
             listeners: {
                 'change': Ext.bind(me.onIntervalChange, me)
             }
-        },{
+        };
+    },
+    
+    getBeginDateLabelConfig: function() {
+        return {
             xtype: 'label',
-            itemId: me.id + '-date-label'
-        }];
+            itemId: this.id + '-date-label'
+        };
     },
     
     initRefs: function() {

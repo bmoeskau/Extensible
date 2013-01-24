@@ -11,19 +11,36 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
     
     nthComboWidth: 150,
     
-    unit: 'month',
+    strings: {
+        // E.g. "on the 15th day of each month/year"
+        onThe: 'on the',
+        ofEach: 'of each',
+        month: 'month',
+        year: 'year'
+    },
     
     afterRender: function() {
         this.callParent(arguments);
-        this.isYearly = (this.unit === 'year');
         this.initNthCombo();
     },
     
     getItemConfigs: function() {
-        return [{
+        return [
+            this.getOnTheLabelConfig(),
+            this.getNthComboConfig(),
+            this.getOfEachLabelConfig()
+        ];
+    },
+    
+    getOnTheLabelConfig: function() {
+        return {
             xtype: 'label',
-            text: 'on the'
-        },{
+            text: this.strings.onThe
+        };
+    },
+    
+    getNthComboConfig: function() {
+        return {
             xtype: 'combobox',
             itemId: this.id + '-nth-combo',
             queryMode: 'local',
@@ -40,10 +57,19 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             listeners: {
                 'change': Ext.bind(this.onComboChange, this)
             }
-        },{
+        };
+    },
+    
+    getPeriodString: function() {
+        // Overridden in the Yearly option class
+        return this.strings.month;
+    },
+    
+    getOfEachLabelConfig: function() {
+        return {
             xtype: 'label',
-            text: 'of each ' + this.unit
-        }];
+            text: this.strings.ofEach + ' ' + this.getPeriodString()
+        };
     },
     
     initRefs: function() {
@@ -70,6 +96,8 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             combo = me.nthCombo,
             store = combo.store,
             dt = me.getStartDate(),
+            
+            //TODO: Still need to refactor this block for easier locale support
             
             // e.g. 30 (for June):
             lastDayOfMonth = Ext.Date.getLastDateOfMonth(dt).getDate(),
