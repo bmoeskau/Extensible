@@ -7,7 +7,7 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     extend: 'Ext.form.FieldContainer',
     
     requires: [
-        'Extensible.form.recurrence.Parser'
+        'Extensible.form.recurrence.Rule'
     ],
     
     mixins: {
@@ -19,6 +19,21 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     defaults: {
         margins: '0 5 0 0'
     },
+    
+    /**
+     * @cfg {Extensible.form.recurrence.Rule} rrule
+     * The {@link Extensible.form.recurrence.Rule recurrence Rule} instance underlying this recurrence
+     * option widget. This is typically set by the parent {@link Extensible.form.recurrence.Fieldset fieldset}
+     * so that the same instance is shared across option widgets.
+     */
+    rrule: undefined,
+    /**
+     * @cfg {Date} startDate
+     * The start date of the underlying recurrence series. This is not always required, depending on the specific
+     * recurrence rules in effect, and will default to the current date if required and not supplied. Like the
+     * {@link #rrule} config, this is typically set by the parent {@link Extensible.form.recurrence.Fieldset fieldset}.
+     */
+    startDate: undefined,
     
     key: undefined,
     
@@ -37,7 +52,8 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
              */
             'change'
         );
-        me.startDate = me.startDate || new Date();
+        
+        me.initRRule();
         me.items = me.getItemConfigs();
         
         me.callParent(arguments);
