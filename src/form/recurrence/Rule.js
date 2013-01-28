@@ -238,6 +238,24 @@ Ext.define('Extensible.form.recurrence.Rule', {
             this.until = new Date(y, m, d, h, min, s);
         }
     },
+    
+    parseDate: function(dateString, options) {
+        options = options || {};
+        
+        try {
+            var date = Ext.Date.parse(dateString, options.format || this.dateValueFormat, options.strict);
+            if (date) {
+                return date;
+            }
+        }
+        catch(ex) {}
+        
+        return options.defaultValue || new Date();
+    },
+    
+    formatDate: function(date) {
+        return Ext.Date.format(date, this.dateValueFormat);
+    },
 
     /**
      * @private

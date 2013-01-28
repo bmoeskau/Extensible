@@ -255,7 +255,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
                 return 'COUNT=' + me.untilNumberField.getValue();
             }
             else if (me.untilDateField.isVisible()) {
-                return 'UNTIL=' + me.formatDate(this.adjustUntilDateValue(me.untilDateField.getValue()));
+                return 'UNTIL=' + me.rrule.formatDate(this.adjustUntilDateValue(me.untilDateField.getValue()));
             }
         }
         return '';
@@ -295,7 +295,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
                 return;
             }
             else if (parts[0] === 'UNTIL') {
-                me.untilDateField.setValue(me.parseDate(parts[1]));
+                me.untilDateField.setValue(me.rrule.parseDate(parts[1]));
                 // If the min date is updated before this new value gets set it can sometimes
                 // lead to a false validation error showing even though the value is valid. This
                 // is a simple hack to essentially refresh the min value validation now:

@@ -62,26 +62,15 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
         me.initField();
     },
     
-    getDateValueFormat: function() {
-        return Extensible.form.recurrence.Parser.dateValueFormat;
-    },
-    
-    formatDate: function(date) {
-        return Ext.Date.format(date, this.getDateValueFormat());
-    },
-    
-    parseDate: function(dateString, options) {
-        options = options || {};
+    initRRule: function() {
+        var me = this;
         
-        try {
-            var date = Ext.Date.parse(dateString, options.format || this.getDateValueFormat(), options.strict);
-            if (date) {
-                return date;
-            }
+        me.rrule = me.rrule || Ext.create('Extensible.form.recurrence.Rule');
+        me.startDate = me.startDate || me.rrule.startDate || Extensible.Date.today();
+        
+        if (!me.rrule.startDate) {
+            me.rrule.setStartDate(me.startDate);
         }
-        catch(ex) {}
-        
-        return options.defaultValue || new Date();
     },
     
     afterRender: function(){

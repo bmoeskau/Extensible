@@ -12,6 +12,22 @@ describe("Extensible.form.recurrence.Rule", function() {
         startDate = new Date(startDateString);
     
     
+    describe('General iCal format handling', function() {
+        
+        it ("can parse an iCal date string into the matching Date object", function() {
+            rrule = Ext.create('Extensible.form.recurrence.Rule');
+            var date = rrule.parseDate('20121127T191800Z');
+            expect(date).toEqual(startDate);
+        });
+        
+        it ("can format a Date object into the matching iCal date string", function() {
+            rrule = Ext.create('Extensible.form.recurrence.Rule');
+            var dateString = rrule.formatDate(startDate);
+            expect(dateString).toEqual('20121127T191800Z');
+        });
+    });
+    
+    
     describe('Can create a new Rule instance via config with', function() {
         
         it ("{ frequency: 'DAILY' }", function() {
