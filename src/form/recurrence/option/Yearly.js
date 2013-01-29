@@ -6,6 +6,9 @@ Ext.define('Extensible.form.recurrence.option.Yearly', {
     
     nthComboWidth: 200,
     
-    unit: 'year'
+    isYearly: true,
     
+    getPeriodString: function() {
+        return this.strings.year;
+    }
 });

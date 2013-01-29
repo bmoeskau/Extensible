@@ -30,6 +30,20 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
      * (defaults to 1).
      */
     minDateOffset: 1,
+
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+
+    strings: {
+        andContinuing: 'and continuing',
+        occurrences: 'occurrences',
+        forever: 'forever',
+        'for': 'for',
+        until: 'until'
+    },
     
     maxEndDate: new Date('12/31/9999'),
     
@@ -40,39 +54,75 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
     //endDateFormat: null, // inherit by default
     
     getItemConfigs: function() {
-        var me = this,
-            startDate = me.getStartDate();
+        var me = this;
         
-        return [{
+        return [
+            me.getContinuingLabelConfig(),
+            me.getDurationComboConfig(),
+            me.getDurationDateFieldConfig(),
+            me.getDurationNumberFieldConfig(),
+            me.getOccurrencesLabelConfig()
+        ];
+    },
+    
+    getContinuingLabelConfig: function() {
+        return {
             xtype: 'label',
-            text: 'and continuing'
-        },{
+            text: this.strings.andContinuing
+        };
+    },
+    
+    getDurationComboConfig: function() {
+        var me = this;
+        
+        return {
             xtype: 'combo',
             itemId: me.id + '-duration-combo',
             mode: 'local',
             width: 85,
             triggerAction: 'all',
             forceSelection: true,
-            value: 'forever',
-            store: ['forever', 'for', 'until'],
+            value: me.strings.forever,
+            
+            store: [
+                me.strings.forever,
+                me.strings['for'],
+                me.strings.until
+            ],
+            
             listeners: {
                 'change': Ext.bind(me.onComboChange, me)
             }
-        },{
+        };
+    },
+    
+    getDurationDateFieldConfig: function() {
+        var me = this,
+            startDate = me.getStartDate();
+        
+        return {
             xtype: 'datefield',
             itemId: me.id + '-duration-date',
             showToday: false,
             width: me.endDateWidth,
             format: me.endDateFormat || Ext.form.field.Date.prototype.format,
+            startDay: this.startDay,
             maxValue: me.maxEndDate,
             allowBlank: false,
             hidden: true,
             minValue: Ext.Date.add(startDate, Ext.Date.DAY, me.minDateOffset),
             value: me.getDefaultEndDate(startDate),
+            
             listeners: {
                 'change': Ext.bind(me.onEndDateChange, me)
             }
-        },{
+        };
+    },
+    
+    getDurationNumberFieldConfig: function() {
+        var me = this;
+        
+        return {
             xtype: 'numberfield',
             itemId: me.id + '-duration-num',
             value: 5,
@@ -81,15 +131,20 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             maxValue: me.maxOccurrences,
             allowBlank: false,
             hidden: true,
+            
             listeners: {
                 'change': Ext.bind(me.onOccurrenceCountChange, me)
             }
-        },{
+        };
+    },
+    
+    getOccurrencesLabelConfig: function() {
+        return {
             xtype: 'label',
-            itemId: me.id + '-duration-num-label',
-            text: 'occurrences',
+            itemId: this.id + '-duration-num-label',
+            text: this.strings.occurrences,
             hidden: true
-        }];
+        };
     },
     
     initRefs: function() {
@@ -110,7 +165,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         
         me.untilCombo.setValue(toShow);
         
-        if (toShow === 'until') {
+        if (toShow === me.strings.until) {
             if (!me.untilDateField.getValue()) {
                 me.initUntilDate();
             }
@@ -121,7 +176,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             me.untilDateIsSet = false;
         }
         
-        if (toShow === 'for') {
+        if (toShow === me.strings.for) {
             me.untilNumberField.show();
             me.untilNumberLabel.show();
         }
@@ -207,7 +262,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
                 return 'COUNT=' + me.untilNumberField.getValue();
             }
             else if (me.untilDateField.isVisible()) {
-                return 'UNTIL=' + me.formatDate(this.adjustUntilDateValue(me.untilDateField.getValue()));
+                return 'UNTIL=' + me.rrule.formatDate(this.adjustUntilDateValue(me.untilDateField.getValue()));
             }
         }
         return '';
@@ -230,7 +285,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             return me;
         }
         if (!v) {
-            me.toggleFields('forever');
+            me.toggleFields(me.strings.forever);
             return me;
         }
         var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),
@@ -242,24 +297,24 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             
             if (parts[0] === 'COUNT') {
                 me.untilNumberField.setValue(parts[1]);
-                me.toggleFields('for');
+                me.toggleFields(me.strings.for);
                 didSetValue = true;
                 return;
             }
             else if (parts[0] === 'UNTIL') {
-                me.untilDateField.setValue(me.parseDate(parts[1]));
+                me.untilDateField.setValue(me.rrule.parseDate(parts[1]));
                 // If the min date is updated before this new value gets set it can sometimes
                 // lead to a false validation error showing even though the value is valid. This
                 // is a simple hack to essentially refresh the min value validation now:
                 me.untilDateField.validate();
-                me.toggleFields('until');
+                me.toggleFields(me.strings.until);
                 didSetValue = true;
                 return;
             }
         }, me);
         
         if (!didSetValue) {
-            me.toggleFields('forever');
+            me.toggleFields(me.strings.forever);
         }
         
         return me;
