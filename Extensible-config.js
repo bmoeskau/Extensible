@@ -31,7 +31,7 @@ Extensible.Config = {
          * 
          * @config {String} mode
          */
-        mode: 'debug',
+        mode: 'dynamic',
         
         /**
          * The root path to the Ext JS framework (defaults to loading 4.1.0 from the Sencha CDN via
@@ -93,7 +93,18 @@ Extensible.Config = {
          * 
          * @config {Boolean} cacheExtensible
          */
-        cacheExtensible: true
+        cacheExtensible: true,
+
+        /**
+         * Language files to load for the Ext JS and Extensible frameworks. Valid values are ISO language codes of
+         * supported languages. See directory src/locale for a list of supported languages. Examples are:
+         * - 'en'
+         * - 'en_GB'
+         * - 'de'
+         * - 'fr'
+         * and many more.
+         */
+        language: 'de'
     },
     
     /**
@@ -109,7 +120,8 @@ Extensible.Config = {
         me.extJsRoot = config.extJsRoot || me.defaults.extJsRoot;
         me.extensibleRoot = config.extensibleRoot || me.defaults.extensibleRoot || me.getSdkPath();
         me.cacheExtensible = config.cacheExtensible || me.defaults.cacheExtensible;
-        
+        me.language = config.language || me.defaults.language;
+
         me.adjustPaths();
         me.writeIncludes();
     },
@@ -175,7 +187,9 @@ Extensible.Config = {
         me.includeStylesheet(me.extensibleRoot + 'examples/examples.css?_dc=' + Extensible.version);
         
         me.includeScript(me.extJsRoot + 'ext' + suffix + '.js');
+        me.includeScript(me.extJsRoot + 'locale/ext-lang-' + me.language + '.js');
         me.includeScript(me.extensibleRoot + 'lib/extensible' + suffix + bootstrap + '.js' + cacheBuster);
+        me.includeScript(me.extensibleRoot + 'src/locale/extensible-lang-' + me.language + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'examples/examples.js?_dc=' + Extensible.version);
     }
 };
