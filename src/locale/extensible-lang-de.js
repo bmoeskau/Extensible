@@ -345,18 +345,12 @@ Ext.onReady(function() {
                 day: 'Tag',
                 month: 'Monats',
                 year: 'Jahres',
-
                 last: 'letzten',
                 lastDay: 'letzten Tag',
                 monthDayDateFormat: 'j.',
                 nthWeekdayDateFormat: '.' // displays the ordinal postfix, e.g. . for 5.
 
             }
-            /*
-             monthUnitText: 'Monats',
-             unit: 'Monats',
-             yearUnitText: 'Jahres'
-             */
         });
     }
 

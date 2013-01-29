@@ -351,18 +351,12 @@ Ext.onReady(function() {
                 day: 'day',
                 month: 'month',
                 year: 'year',
-
                 last: 'last',
                 lastDay: 'last day',
                 monthDayDateFormat: 'jS',
                 nthWeekdayDateFormat: 'S' // displays the ordinal postfix, e.g. th for 5th.
 
             }
-            /*
-            monthUnitText: 'month',
-            unit: 'month',
-            yearUnitText: 'year'
-            */
         });
     }
 
