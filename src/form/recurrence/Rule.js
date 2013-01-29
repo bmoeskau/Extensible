@@ -240,20 +240,13 @@ Ext.define('Extensible.form.recurrence.Rule', {
      */
     applyUntil: function(until) {
         // Only one of UNTIL and COUNT are allowed. Therefore, clear COUNT attribute.
-        this.count = null;
+        this.count = this.until = null;
 
         if (Ext.isDate(until)) {
             this.until = until;
         }
         else if (typeof until === 'string') {
-            // Value is a date in format YYYYMMDDTHHMMSSZ
-            var y = until.substr(0, 4);
-            var m = until.substr(4, 2) - 1; // js Date month -> 0 to 11
-            var d = until.substr(6, 2);
-            var h = until.substr(9, 2);
-            var min = until.substr(11, 2);
-            var s = until.substr(13, 2);
-            this.until = new Date(y, m, d, h, min, s);
+            this.until = this.parseDate(until);
         }
     },
     
