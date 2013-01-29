@@ -117,7 +117,17 @@ Ext.define('Extensible.form.recurrence.Rule', {
                 FR: 'Fri',
                 SA: 'Sat'
             },
-            
+
+            dayNamesShortByIndex: [
+                'Sun',
+                'Mon',
+                'Tue',
+                'Wed',
+                'Thu',
+                'Fri',
+                'Sat'
+            ],
+
             dayNamesLong: {
                 SU: 'Sunday',
                 MO: 'Monday',
@@ -167,7 +177,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             onTheLastDay: 'on the last day', // e.g. Monthly on the last day
             of: 'of',            // e.g. Annually on the last day of November
             monthFormat: 'F',    // e.g. November
-            monthDayFormat: 'F j', // e.g. November 10
+            monthDayFormat: 'F j' // e.g. November 10
         }
     },
     
