@@ -23,7 +23,8 @@ Ext.define('Extensible.form.recurrence.Rule', {
          * @cfg {String} dateValueFormat
          * The date string format to return in the RRULE (defaults to 'Ymd\\THis\\Z'). This is the standard
          * ISO-style iCalendar date format (e.g. January 31, 2012, 14:00 would be formatted as: "20120131T140000Z")
-         * and should not typically be changed.
+         * and should not typically be changed. Note that per the iCal specification, date values should always be
+         * specified in UTC time format, which is why the format string ends with 'Z'.
          */
         dateValueFormat: 'Ymd\\THis\\Z',
         /**
@@ -56,6 +57,8 @@ Ext.define('Extensible.form.recurrence.Rule', {
          * @cfg {Date} until
          * The value of the UNTIL attribute of the recurrence rule as a Date object, or null if the recurrence
          * rule has no UNTIL attribute or if no recurrence rule has been set (default is null).
+         * Note that per the iCal specification, this date should always be specified in UTC time format (which
+         * is why the {@link #dateValueFormat} always ends with 'Z').
          */
         until: null,
         /**
