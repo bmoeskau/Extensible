@@ -341,19 +341,21 @@ Ext.onReady(function() {
                 // E.g. "on the 15th day of each month/year"
                 onThe: 'am',
                 ofEach: 'jedes',
+                in: 'im',
+                day: 'Tag',
                 month: 'Monats',
-                year: 'Jahres'
+                year: 'Jahres',
+
+                last: 'letzten',
+                lastDay: 'letzten Tag',
+                monthDayDateFormat: 'j.',
+                nthWeekdayDateFormat: '.' // displays the ordinal postfix, e.g. . for 5.
+
             }
             /*
-             dayText: 'day',
-             monthDayDateFormat: 'jS',
-             nthWeekdayDateFormat: 'S',
-             inMonthText: 'in',
-             lastWeekdayText: 'last',
-             lastDayText: 'last day',
-             monthUnitText: 'month',
-             unit: 'month',
-             yearUnitText: 'year'
+             monthUnitText: 'Monats',
+             unit: 'Monats',
+             yearUnitText: 'Jahres'
              */
         });
     }

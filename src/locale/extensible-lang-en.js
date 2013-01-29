@@ -347,16 +347,18 @@ Ext.onReady(function() {
                 // E.g. "on the 15th day of each month/year"
                 onThe: 'on the',
                 ofEach: 'of each',
+                in: 'in',
+                day: 'day',
                 month: 'month',
-                year: 'year'
+                year: 'year',
+
+                last: 'last',
+                lastDay: 'last day',
+                monthDayDateFormat: 'jS',
+                nthWeekdayDateFormat: 'S' // displays the ordinal postfix, e.g. th for 5th.
+
             }
             /*
-            dayText: 'day',
-            monthDayDateFormat: 'jS',
-            nthWeekdayDateFormat: 'S',
-            inMonthText: 'in',
-            lastWeekdayText: 'last',
-            lastDayText: 'last day',
             monthUnitText: 'month',
             unit: 'month',
             yearUnitText: 'year'
