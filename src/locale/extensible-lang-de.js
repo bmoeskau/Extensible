@@ -193,4 +193,167 @@ Ext.onReady(function() {
             dayHeaderTitleFormat: 'l, F j, Y'
         });
     }
+
+    if (exists('Extensible.form.recurrence.Rule')) {
+        Ext.apply(Extensible.form.recurrence.Rule.prototype, {
+            strings: {
+                dayNamesShort: {
+                    SU: 'So',
+                    MO: 'Mo',
+                    TU: 'Di',
+                    WE: 'Mi',
+                    TH: 'Do',
+                    FR: 'Fr',
+                    SA: 'Sa'
+                },
+
+                dayNamesShortByIndex: [
+                    'So',
+                    'Mo',
+                    'Di',
+                    'Mi',
+                    'Do',
+                    'Fr',
+                    'Sa'
+                ],
+
+                dayNamesLong: {
+                    SU: 'Sonntag',
+                    MO: 'Montag',
+                    TU: 'Dienstag',
+                    WE: 'Mittwoch',
+                    TH: 'Donnerstag',
+                    FR: 'Freitag',
+                    SA: 'Samstag'
+                },
+
+                ordinals: {
+                    1: 'ersten',
+                    2: 'zweiten',
+                    3: 'dritten',
+                    4: 'vierten',
+                    5: 'fünften',
+                    6: 'sechsten'
+                },
+
+                frequency: {
+                    none: 'Nicht wiederholen',
+                    daily: 'Täglich',
+                    weekly: 'Wöchentlich',
+                    weekdays: 'Jeden Werktag (Mo-Fr)',
+                    monthly: 'Monatlich',
+                    yearly: 'Jährlich'
+                },
+
+                every: 'Alle',       // e.g. Every 2 days
+                days: 'Tage',
+                weeks: 'Wochen',
+                weekdays: 'Werktage',
+                months: 'Monate',
+                years: 'Jahre',
+                time: 'Mal',        // e.g. Daily, 1 time
+                times: 'Mal',      // e.g. Daily, 5 times
+                until: 'bis',      // e.g. Daily, until Dec, 31 2012
+                untilFormat: 'j. M. Y', // e.g. Dec 10, 2012
+                and: 'und',          // e.g. Weekly on Tuesday and Friday
+                on: 'am',            // e.g. Weekly on Thursday
+                onDay: 'am',     // e.g. Monthly on day 23
+                onDayPostfix: '.',    // In some languages a postfix is need for the onDay term,
+                // for example in German: 'Monatlich am 23.'
+                // Here the postfix would be '.'
+                onThe: 'am',     // e.g. Monthly on the first Thursday
+                onTheLast: 'am letzten', // e.g. Monthly on the last Friday
+                onTheLastDay: 'am letzten Tag', // e.g. Monthly on the last day
+                of: 'des',            // e.g. Annually on the last day of November
+                monthFormat: 'F',    // e.g. November
+                monthDayFormat: 'j. F' // e.g. November 10
+            }
+        });
+    }
+
+    if (Extensible.form.recurrence.FrequencyCombo) {
+        Ext.apply(Extensible.form.recurrence.FrequencyCombo.prototype, {
+            fieldLabel: 'Wiederholen'
+        });
+    }
+
+    if (Extensible.form.recurrence.RangeEditWindow) {
+        Ext.apply(Extensible.form.recurrence.RangeEditWindow.prototype, {
+            title: 'Wiederkehrender Termin',
+            saveButtonText: 'Speichern',
+            cancelButtonText: 'Abbrechen'
+        });
+    }
+
+    if (Extensible.form.recurrence.RangeEditPanel) {
+        Ext.apply(Extensible.form.recurrence.RangeEditPanel.prototype, {
+            headerText: 'Auf welche Termine dieser Termin-Serie möchten Sie Ihre Änderungen anwenden?',
+            optionSingleButtonText: 'Nur diesen',
+            optionSingleDescription: 'Änderungen nur auf diesen Termin anwenden. Andere Termine dieser Serie werden nicht geändert.',
+            optionFutureButtonText: 'Folgende',
+            optionFutureDescription: 'Änderungen nur auf diesen und folgende Termine anwenden. Frühere Termine werden nicht geändert.',
+            optionAllButtonText: 'Alle',
+            optionAllDescription: 'Änderungen auf alle Termine dieser Serie anwenden.'
+        });
+    }
+
+    if (Extensible.form.recurrence.option.Interval) {
+        Ext.apply(Extensible.form.recurrence.option.Interval.prototype, {
+            dateLabelFormat: 'l, j. F',
+            strings: {
+                repeatEvery: 'Wiederholen alle',
+                beginning: 'ab',
+                day: 'Tag',
+                days: 'Tage',
+                week: 'Woche',
+                weeks: 'Wochen',
+                month: 'Monat',
+                months: 'Monate',
+                year: 'Jahr',
+                years: 'Jahre'
+            }
+        });
+    }
+
+    if (Extensible.form.recurrence.option.Duration) {
+        Ext.apply(Extensible.form.recurrence.option.Duration.prototype, {
+            strings: {
+                andContinuing: 'und endet',
+                occurrences: 'Wiederholungen',
+                forever: 'nie',
+                'for': 'nach',
+                until: 'am'
+            }
+        });
+    }
+
+    if (Extensible.form.recurrence.option.Weekly) {
+        Ext.apply(Extensible.form.recurrence.option.Weekly.prototype, {
+            strings: {
+                on: 'am'
+            }
+        });
+    }
+
+    if (Extensible.form.recurrence.option.Monthly) {
+        Ext.apply(Extensible.form.recurrence.option.Monthly.prototype, {
+            strings: {
+                // E.g. "on the 15th day of each month/year"
+                onThe: 'am',
+                ofEach: 'jedes',
+                in: 'im',
+                day: 'Tag',
+                month: 'Monats',
+                year: 'Jahres',
+                last: 'letzten',
+                lastDay: 'letzten Tag',
+                monthDayDateFormat: 'j.',
+                nthWeekdayDateFormat: '.' // displays the ordinal postfix, e.g. . for 5.
+
+            }
+        });
+    }
+
+
+
 });

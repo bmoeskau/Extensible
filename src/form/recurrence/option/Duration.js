@@ -30,7 +30,13 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
      * (defaults to 1).
      */
     minDateOffset: 1,
-    
+
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+
     strings: {
         andContinuing: 'and continuing',
         occurrences: 'occurrences',
@@ -100,6 +106,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             showToday: false,
             width: me.endDateWidth,
             format: me.endDateFormat || Ext.form.field.Date.prototype.format,
+            startDay: this.startDay,
             maxValue: me.maxEndDate,
             allowBlank: false,
             hidden: true,
@@ -158,7 +165,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         
         me.untilCombo.setValue(toShow);
         
-        if (toShow === 'until') {
+        if (toShow === me.strings.until) {
             if (!me.untilDateField.getValue()) {
                 me.initUntilDate();
             }
@@ -169,7 +176,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             me.untilDateIsSet = false;
         }
         
-        if (toShow === 'for') {
+        if (toShow === me.strings.for) {
             me.untilNumberField.show();
             me.untilNumberLabel.show();
         }
@@ -278,7 +285,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             return me;
         }
         if (!v) {
-            me.toggleFields('forever');
+            me.toggleFields(me.strings.forever);
             return me;
         }
         var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),
@@ -290,7 +297,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             
             if (parts[0] === 'COUNT') {
                 me.untilNumberField.setValue(parts[1]);
-                me.toggleFields('for');
+                me.toggleFields(me.strings.for);
                 didSetValue = true;
                 return;
             }
@@ -300,14 +307,14 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
                 // lead to a false validation error showing even though the value is valid. This
                 // is a simple hack to essentially refresh the min value validation now:
                 me.untilDateField.validate();
-                me.toggleFields('until');
+                me.toggleFields(me.strings.until);
                 didSetValue = true;
                 return;
             }
         }, me);
         
         if (!didSetValue) {
-            me.toggleFields('forever');
+            me.toggleFields(me.strings.forever);
         }
         
         return me;
