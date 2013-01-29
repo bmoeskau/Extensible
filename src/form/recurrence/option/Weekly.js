@@ -4,35 +4,61 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
     
     requires: [
         'Ext.form.field.Checkbox', // should be required by CheckboxGroup but isn't
-        'Ext.form.CheckboxGroup'
+        'Ext.form.CheckboxGroup',
+        'Extensible.form.recurrence.Parser'
     ],
-    
+
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+
     dayValueDelimiter: ',',
     
     cls: 'extensible-recur-weekly',
-    
+
+    strings: {
+        on: 'on'
+    },
+
+    /**
+     * Creates the item configuration for the checkbox group. Takes into account the week start day.
+     * For example:
+     * [{ boxLabel: 'Sun', name: 'SU', id: this.id + '-SU' },
+     *  { boxLabel: 'Mon', name: 'MO', id: this.id + '-MO' },
+     *  { boxLabel: 'Tue', name: 'TU', id: this.id + '-TU' },
+     *  { boxLabel: 'Wed', name: 'WE', id: this.id + '-WE' },
+     *  { boxLabel: 'Thu', name: 'TH', id: this.id + '-TH' },
+     *  { boxLabel: 'Fri', name: 'FR', id: this.id + '-FR' },
+     *  { boxLabel: 'Sat', name: 'SA', id: this.id + '-SA' }];
+     * @return {Array}
+     */
+    getCheckboxGroupItems: function() {
+        var weekdaysId = Extensible.form.recurrence.Parser.byDayNames,
+            weekdaysText = Extensible.form.recurrence.Parser.strings.dayNamesShortByIndex,
+            checkboxArray = [],
+            i = this.startDay;
+
+        for (var n=0; n<7; n++) {
+            checkboxArray[n] = {boxLabel: weekdaysText[i], name: weekdaysId[i], id: this.id + '-' + weekdaysId[i]};
+            i = i === 6 ? 0 : i+1;
+        }
+        return checkboxArray;
+    },
+
+
     getItemConfigs: function() {
         var id = this.id;
-        
+
         return [{
             xtype: 'label',
-            text: 'on:'
+            text: this.strings.on + ':'
         },{
             xtype: 'checkboxgroup',
             itemId: id + '-days',
             flex: 1,
-            items: [
-                //**************************************************
-                // TODO: Support week start day !== Sunday
-                //**************************************************
-                { boxLabel: 'Sun', name: 'SU', id: id + '-SU' },
-                { boxLabel: 'Mon', name: 'MO', id: id + '-MO' },
-                { boxLabel: 'Tue', name: 'TU', id: id + '-TU' },
-                { boxLabel: 'Wed', name: 'WE', id: id + '-WE' },
-                { boxLabel: 'Thu', name: 'TH', id: id + '-TH' },
-                { boxLabel: 'Fri', name: 'FR', id: id + '-FR' },
-                { boxLabel: 'Sat', name: 'SA', id: id + '-SA' }
-            ],
+            items: this.getCheckboxGroupItems(),
             listeners: {
                 'change': Ext.bind(this.onSelectionChange, this)
             }
