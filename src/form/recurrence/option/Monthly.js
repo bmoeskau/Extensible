@@ -19,20 +19,10 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
         day: 'day',
         month: 'month',
         year: 'year',
-
         last: 'last',
         lastDay: 'last day',
         monthDayDateFormat: 'jS',
         nthWeekdayDateFormat: 'S' // displays the ordinal postfix, e.g. th for 5th.
-
-        /*
-         inMonthText: 'in',
-         monthUnitText: 'month',
-         unit: 'month',
-         yearUnitText: 'year'
-         */
-
-
     },
     
     afterRender: function() {
@@ -116,18 +106,15 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             // e.g. 30 (for June):
             lastDayOfMonth = Ext.Date.getLastDateOfMonth(dt).getDate(),
             // e.g. "28th day":
-            monthDayText = Ext.Date.format(dt, 'jS') + ' day',
             monthDayText = Ext.Date.format(dt, me.strings.monthDayDateFormat) + ' ' + me.strings.day,
             // e.g. 28:
             dayNum = dt.getDate(),
             // index in the month, e.g. 4 for the 4th Tuesday
             dayIndex = Math.ceil(dayNum / 7),
             // e.g. "TU":
-            //dayNameAbbreviated = Ext.Date.format(dt, 'D').substring(0,2).toUpperCase(),
             dayNameAbbreviated = Extensible.form.recurrence.Parser.byDayNames[dt.getDay()],
 
             // e.g. "4th Tuesday":
-            dayOfWeekText = dayIndex + Extensible.Number.getOrdinalSuffix(dayIndex) + Ext.Date.format(dt, ' l'),
             tempDate = new Date(2000, 0, dayIndex),
             dayOfWeekText = dayIndex + Ext.Date.format(tempDate, me.strings.nthWeekdayDateFormat) + Ext.Date.format(dt, ' l'),
 
