@@ -23,6 +23,11 @@ Ext.define('Extensible.calendar.menu.Event', {
      */
     ignoreParentClicks: true,
     /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+    /**
      * @cfg {String} editDetailsText
      * The text to display for the 'Edit Details' option in the menu.
      */
@@ -134,10 +139,12 @@ Ext.define('Extensible.calendar.menu.Event', {
         }
         me.dateMenu = Ext.create('Ext.menu.DatePicker', {
             scope: me,
+            startDay: me.startDay,
             handler: me.onEventMoveSelected
         });
         me.copyMenu = Ext.create('Ext.menu.DatePicker', {
             scope: me,
+            startDay: me.startDay,
             handler: me.onEventCopySelected
         });
         
