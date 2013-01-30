@@ -45,7 +45,12 @@ Ext.define('Extensible.form.field.DateRange', {
      * The date display format used by the date fields (defaults to 'n/j/Y') 
      */
     dateFormat: 'n/j/Y',
-    
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+
     // private
     fieldLayout: {
         type: 'hbox',
@@ -130,6 +135,7 @@ Ext.define('Extensible.form.field.DateRange', {
             id: this.id + '-start-date',
             format: this.dateFormat,
             width: 100,
+            startDay: this.startDay,
             listeners: {
                 'change': {
                     fn: function(){
@@ -168,6 +174,7 @@ Ext.define('Extensible.form.field.DateRange', {
             format: this.dateFormat,
             hideLabel: true,
             width: 100,
+            startDay: this.startDay,
             listeners: {
                 'change': {
                     fn: function(){

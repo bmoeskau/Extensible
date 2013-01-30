@@ -1680,6 +1680,7 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
                 calendarStore: this.calendarStore,
                 modal: this.editModal,
                 enableEditDetails: this.enableEditDetails,
+                startDay: this.startDay,
 
                 listeners: {
                     'eventadd': {
@@ -1844,6 +1845,7 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
 
         if (!me.eventMenu) {
             me.eventMenu = Ext.create('Extensible.calendar.menu.Event', {
+                startDay: me.startDay,
                 listeners: {
                     'editdetails': Ext.bind(me.onEditDetails, me),
                     'eventdelete': Ext.bind(me.onDeleteEvent, me),

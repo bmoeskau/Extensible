@@ -30,7 +30,13 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
      * (defaults to 1).
      */
     minDateOffset: 1,
-    
+
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+
     maxEndDate: new Date('12/31/9999'),
     
     endDateWidth: 120,
@@ -64,6 +70,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             showToday: false,
             width: me.endDateWidth,
             format: me.endDateFormat || Ext.form.field.Date.prototype.format,
+            startDay: this.startDay,
             maxValue: me.maxEndDate,
             allowBlank: false,
             hidden: true,

@@ -19,7 +19,13 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         'Extensible.form.recurrence.option.Yearly',
         'Extensible.form.recurrence.option.Duration'
     ],
-    
+
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+
     //TODO: implement code to use this config.
     // Maybe use xtypes instead for dynamic loading of custom options?
     // Include secondly/minutely/hourly, plugins for M-W-F, T-Th, weekends
@@ -91,7 +97,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 itemId: this.id + '-yearly'
             },{
                 xtype: 'extensible.recurrence-duration',
-                itemId: this.id + '-duration'
+                itemId: this.id + '-duration',
+                startDay: this.startDay
             }]
         }];
         

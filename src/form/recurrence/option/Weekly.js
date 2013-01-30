@@ -6,7 +6,13 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
         'Ext.form.field.Checkbox', // should be required by CheckboxGroup but isn't
         'Ext.form.CheckboxGroup'
     ],
-    
+
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+
     dayValueDelimiter: ',',
     
     cls: 'extensible-recur-weekly',

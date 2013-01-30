@@ -166,7 +166,12 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * default), false to remove the link and disable detailed event editing.
      */
     enableEditDetails: true,
-    
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+
     /**
      * @cfg {Ext.data.Store} eventStore
      * The {@link Ext.data.Store store} which is bound to this calendar and contains
@@ -559,6 +564,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             calendarStore: this.calendarStore,
             editModal: this.editModal,
             enableEditDetails: this.enableEditDetails,
+            startDay: this.startDay,
             ownerCalendarPanel: this
         };
         
@@ -631,6 +637,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             id: this.id+'-edit',
             calendarStore: this.calendarStore,
             recurrence: this.recurrence,
+            startDay: this.startDay,
             listeners: {
                 'eventadd':    { scope: this, fn: this.onEventAdd },
                 'eventupdate': { scope: this, fn: this.onEventUpdate },
