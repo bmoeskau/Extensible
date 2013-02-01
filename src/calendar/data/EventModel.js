@@ -1,7 +1,7 @@
 /**
  * @class Extensible.calendar.data.EventModel
  * @extends Extensible.data.Model
- * <p>This is the {@link Ext.data.Record Record} specification for calendar event data used by the
+ * <p>This is the {@link Ext.data.Model Model} specification for calendar event data used by the
  * {@link Extensible.calendar.CalendarPanel CalendarPanel}'s underlying store. It can be overridden as
  * necessary to customize the fields supported by events, although the existing field definition names
  * should not be altered. If your model fields are named differently you should update the <b>mapping</b>
