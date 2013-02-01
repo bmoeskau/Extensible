@@ -1,7 +1,7 @@
 /**
  * @class Extensible.calendar.data.CalendarModel
  * @extends Extensible.data.Model
- * <p>This is the {@link Ext.data.Record Record} specification for calendar items used by the
+ * <p>This is the {@link Ext.data.Model Model} specification for calendar items used by the
  * {@link Extensible.calendar.CalendarPanel CalendarPanel}'s calendar store. If your model fields
  * are named differently you should update the <b>mapping</b> configs accordingly.</p>
  * <p>The only required fields when creating a new calendar record instance are CalendarId and
