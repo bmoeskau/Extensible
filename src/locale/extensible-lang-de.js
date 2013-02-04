@@ -1,9 +1,11 @@
 /*
  * German (DE) locale
- * Contributors: 
- * - Tobias Uhlig, http://extthemes.com/
+ *
+ * Contributors:
+ * - Tobias Uhlig
  * - Gunnar Beushausen
  * - Joern Heid
+ * - Gabriel Sidler, http://teamup.com
  */
 
 Ext.onReady(function() {
@@ -194,6 +196,9 @@ Ext.onReady(function() {
         });
     }
 
+    /*
+     * Recurrence strings added in v.1.6.0
+     */
     if (exists('Extensible.form.recurrence.Rule')) {
         Ext.apply(Extensible.form.recurrence.Rule.prototype, {
             strings: {

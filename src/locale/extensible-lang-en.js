@@ -1,8 +1,10 @@
 /*
  * Default English (US) locale
  * By Extensible, LLC
- */
-/*
+ *
+ * Contributors:
+ * - Gabriel Sidler, http://teamup.com
+ *
  * A general note regarding pluralization... Some locales require conditional logic
  * to properly pluralize certain terms. When this might be required there is an additional
  * "get*" method in addition to the standard config. By default these simply return the
@@ -200,6 +202,9 @@ Ext.onReady(function() {
         });
     }
 
+    /*
+     * Recurrence strings added in v.1.6.0
+     */
     if (exists('Extensible.form.recurrence.Rule')) {
         Ext.apply(Extensible.form.recurrence.Rule.prototype, {
             strings: {
