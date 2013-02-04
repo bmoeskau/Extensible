@@ -12,6 +12,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     
     requires: [
         'Ext.form.Label',
+        'Extensible.form.recurrence.Rule',
         'Extensible.form.recurrence.FrequencyCombo',
         'Extensible.form.recurrence.option.Interval',
         'Extensible.form.recurrence.option.Weekly',
@@ -19,7 +20,27 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         'Extensible.form.recurrence.option.Yearly',
         'Extensible.form.recurrence.option.Duration'
     ],
-    
+
+    /**
+     * @cfg {Extensible.form.recurrence.Rule} rrule
+     * The {@link Extensible.form.recurrence.Rule recurrence Rule} instance underlying this component and
+     * shared by all child recurrence option widgets. If not supplied a default instance will be created.
+     */
+    rrule: undefined,
+
+    /**
+     * @cfg {Date} startDate
+     * The start date of the underlying recurrence series. This is not always required, depending on the specific
+     * recurrence rules in effect, and will default to the current date if required and not supplied.
+     */
+    startDate: undefined,
+
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+
     //TODO: implement code to use this config.
     // Maybe use xtypes instead for dynamic loading of custom options?
     // Include secondly/minutely/hourly, plugins for M-W-F, T-Th, weekends
@@ -32,7 +53,6 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     
     fieldLabel: 'Repeats',
     fieldContainerWidth: 400,
-    startDate: Ext.Date.clearTime(new Date()),
     
     //enableFx: true,
     monitorChanges: true,
@@ -52,6 +72,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             delete me.height;
             me.autoHeight = true;
         }
+        
+        me.initRRule();
         
         me.items = [{
             xtype: 'extensible.recurrence-frequency',
@@ -74,15 +96,18 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             hideMode: 'offsets',
             hidden: true,
             width: this.fieldContainerWidth,
+            
             defaults: {
-                hidden: true
+                hidden: true,
+                rrule: me.rrule
             },
             items: [{
                 xtype: 'extensible.recurrence-interval',
                 itemId: this.id + '-interval'
             },{
                 xtype: 'extensible.recurrence-weekly',
-                itemId: this.id + '-weekly'
+                itemId: this.id + '-weekly',
+                startDay: this.startDay
             },{
                 xtype: 'extensible.recurrence-monthly',
                 itemId: this.id + '-monthly'
@@ -91,13 +116,25 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 itemId: this.id + '-yearly'
             },{
                 xtype: 'extensible.recurrence-duration',
-                itemId: this.id + '-duration'
+                itemId: this.id + '-duration',
+                startDay: this.startDay
             }]
         }];
         
         me.callParent(arguments);
         
         me.initField();
+    },
+    
+    initRRule: function() {
+        var me = this;
+        
+        me.rrule = me.rrule || Ext.create('Extensible.form.recurrence.Rule');
+        me.startDate = me.startDate || me.rrule.startDate || Extensible.Date.today();
+        
+        if (!me.rrule.startDate) {
+            me.rrule.setStartDate(me.startDate);
+        }
     },
     
     afterRender: function() {
@@ -253,14 +290,8 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     },
     
     getDescription: function() {
-        var value = this.getValue(),
-            text = '';
-        
-        // switch(value) {
-            // default:
-                // text = 'No recurrence';
-        // }
-        return 'Friendly text : ' + text;
+        // TODO: Should not have to set value here
+        return this.rrule.setRule(this.getValue()).getDescription();
     },
     
     setValue: function(value){

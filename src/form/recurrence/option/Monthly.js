@@ -11,19 +11,42 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
     
     nthComboWidth: 150,
     
-    unit: 'month',
+    strings: {
+        // E.g. "on the 15th day of each month/year"
+        onThe: 'on the',
+        ofEach: 'of each',
+        in: 'in',
+        day: 'day',
+        month: 'month',
+        year: 'year',
+        last: 'last',
+        lastDay: 'last day',
+        monthDayDateFormat: 'jS',
+        nthWeekdayDateFormat: 'S' // displays the ordinal postfix, e.g. th for 5th.
+    },
     
     afterRender: function() {
         this.callParent(arguments);
-        this.isYearly = (this.unit === 'year');
         this.initNthCombo();
     },
     
     getItemConfigs: function() {
-        return [{
+        return [
+            this.getOnTheLabelConfig(),
+            this.getNthComboConfig(),
+            this.getOfEachLabelConfig()
+        ];
+    },
+    
+    getOnTheLabelConfig: function() {
+        return {
             xtype: 'label',
-            text: 'on the'
-        },{
+            text: this.strings.onThe
+        };
+    },
+    
+    getNthComboConfig: function() {
+        return {
             xtype: 'combobox',
             itemId: this.id + '-nth-combo',
             queryMode: 'local',
@@ -40,10 +63,19 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             listeners: {
                 'change': Ext.bind(this.onComboChange, this)
             }
-        },{
+        };
+    },
+    
+    getPeriodString: function() {
+        // Overridden in the Yearly option class
+        return this.strings.month;
+    },
+    
+    getOfEachLabelConfig: function() {
+        return {
             xtype: 'label',
-            text: 'of each ' + this.unit
-        }];
+            text: this.strings.ofEach + ' ' + this.getPeriodString()
+        };
     },
     
     initRefs: function() {
@@ -74,20 +106,22 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             // e.g. 30 (for June):
             lastDayOfMonth = Ext.Date.getLastDateOfMonth(dt).getDate(),
             // e.g. "28th day":
-            monthDayText = Ext.Date.format(dt, 'jS') + ' day',
+            monthDayText = Ext.Date.format(dt, me.strings.monthDayDateFormat) + ' ' + me.strings.day,
             // e.g. 28:
             dayNum = dt.getDate(),
             // index in the month, e.g. 4 for the 4th Tuesday
             dayIndex = Math.ceil(dayNum / 7),
             // e.g. "TU":
-            dayNameAbbreviated = Ext.Date.format(dt, 'D').substring(0,2).toUpperCase(),
+            dayNameAbbreviated = Extensible.form.recurrence.Parser.byDayNames[dt.getDay()],
+
             // e.g. "4th Tuesday":
-            dayOfWeekText = dayIndex + Extensible.Number.getOrdinalSuffix(dayIndex) + Ext.Date.format(dt, ' l'),
-            
+            tempDate = new Date(2000, 0, dayIndex),
+            dayOfWeekText = dayIndex + Ext.Date.format(tempDate, me.strings.nthWeekdayDateFormat) + Ext.Date.format(dt, ' l'),
+
             // year-specific additions to the resulting value string, used if we are currently
             // executing from within the Yearly option subclass.
             // e.g. "in 2012":
-            yearlyText = me.isYearly ? ' in ' + Ext.Date.format(dt, 'F') : '',
+            yearlyText = me.isYearly ? ' ' + me.strings.in +' ' + Ext.Date.format(dt, 'F') : '',
             // e.g. "BYMONTH=2;":
             byMonthValue = me.isYearly ? 'BYMONTH=' + Ext.Date.format(dt, 'n') : '',
             // only use this if yearly:
@@ -102,15 +136,15 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             
             // the currently selected index, which we will try to restore after refreshing the combo:
             idx = store.find('value', combo.getValue());
-        
+
         if (lastDayOfMonth - dayNum < 7) {
             // the start date is the last of a particular day (e.g. last Tuesday) for the month
-            data.push(['last ' + Ext.Date.format(dt, 'l') + yearlyText,
+            data.push([me.strings.last + ' ' + Ext.Date.format(dt, 'l') + yearlyText,
                 byMonthValue + delimiter + 'BYDAY=-1' + dayNameAbbreviated]);
         }
         if (lastDayOfMonth === dayNum) {
             // the start date is the last day of the month
-            data.push(['last day' + yearlyText, byMonthValue + delimiter + 'BYMONTHDAY=-1']);
+            data.push([me.strings.lastDay + yearlyText, byMonthValue + delimiter + 'BYMONTHDAY=-1']);
         }
         
         store.removeAll();

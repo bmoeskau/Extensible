@@ -11,8 +11,6 @@
 
 echo "*** Executing Siesta suite via PhantomJS ***"
 
-# Default:
-~/Dropbox/Projects/Lib/Bryntum/Siesta/1.1.8/bin/phantomjs http://projects.local/Extensible/test/unit/siesta/
-
-# In case of errors:
-#~/Dropbox/Projects/Lib/Bryntum/Siesta/1.1.8/bin/phantomjs http://projects.local/Extensible/test/unit/siesta/ --verbose
+# Pass through any command line args, e.g. --verbose
+# Currently only handles up to 9 args, because I am lazy.
+~/Dropbox/Projects/Lib/Bryntum/Siesta/1.1.8/bin/phantomjs http://projects.local/Extensible/test/unit/siesta/ "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"

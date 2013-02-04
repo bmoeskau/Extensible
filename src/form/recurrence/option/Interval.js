@@ -10,15 +10,40 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
     
     maxValue: 999,
     
+    strings: {
+        repeatEvery: 'Repeat every',
+        beginning: 'beginning',
+        day: 'day',
+        days: 'days',
+        week: 'week',
+        weeks: 'weeks',
+        month: 'month',
+        months: 'months',
+        year: 'year',
+        years: 'years'
+    },
+    
     cls: 'extensible-recur-interval',
     
     getItemConfigs: function() {
+        return [
+            this.getRepeatEveryLabelConfig(),
+            this.getIntervalComboConfig(),
+            this.getBeginDateLabelConfig()
+        ];
+    },
+    
+    getRepeatEveryLabelConfig: function() {
+        return {
+            xtype: 'label',
+            text: this.strings.repeatEvery
+        };
+    },
+    
+    getIntervalComboConfig: function() {
         var me = this;
         
-        return [{
-            xtype: 'label',
-            text: 'Repeat every'
-        },{
+        return {
             xtype: 'numberfield',
             itemId: me.id + '-interval',
             value: 1,
@@ -30,10 +55,14 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
             listeners: {
                 'change': Ext.bind(me.onIntervalChange, me)
             }
-        },{
+        };
+    },
+    
+    getBeginDateLabelConfig: function() {
+        return {
             xtype: 'label',
-            itemId: me.id + '-date-label'
-        }];
+            itemId: this.id + '-date-label'
+        };
     },
     
     initRefs: function() {
@@ -96,12 +125,11 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         var me = this;
         
         if (me.intervalField) {
-            //TODO: Refactor for localization
             var s = me.intervalField.getValue() === 1 ? '' : 's';
             me.unit = unit ? unit.toLowerCase() : me.unit || 'day';
             
             if (me.dateLabel) {
-                me.dateLabel.update(me.unit + s + ' beginning ' +
+                me.dateLabel.update(me.strings[me.unit + s] + ' ' + me.strings.beginning + ' ' +
                     Ext.Date.format(me.getStartDate(), me.dateLabelFormat));
             }
         }

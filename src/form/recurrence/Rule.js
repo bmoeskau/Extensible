@@ -21,86 +21,95 @@ Ext.define('Extensible.form.recurrence.Rule', {
     config: {
         /**
          * @cfg {String} dateValueFormat
-         * The date string format to return in the RRULE. This is the standard ISO-style iCalendar
-         * date format, e.g. January 31, 2012, 14:00 would be formatted as: "20120131T140000Z".
+         * The date string format to return in the RRULE (defaults to 'Ymd\\THis\\Z'). This is the standard
+         * ISO-style iCalendar date format (e.g. January 31, 2012, 14:00 would be formatted as: "20120131T140000Z")
+         * and should not typically be changed. Note that per the iCal specification, date values should always be
+         * specified in UTC time format, which is why the format string ends with 'Z'.
          */
         dateValueFormat: 'Ymd\\THis\\Z',
         /**
          * @cfg {String} rule
          * A recurrence rule string conforming to the standard iCalendar RRULE/EXRULE format, e.g.
-         * "FREQ=WEEKLY;INTERVAL=2;COUNT=10;"
+         * "FREQ=WEEKLY;INTERVAL=2;COUNT=10;" (default is null).
          */
         rule: null,
         /**
          * @cfg {Date/String} startDate
-         * Optional start date for the recurrence rule. Not required just to parse the RRULE values, but it
-         * is required in conjunction with the RRULE to calculate specific recurrence dates from the RRULE,
+         * Optional start date for the recurrence rule (default is null). Not required just to parse the RRULE
+         * values, but it is required in conjunction with the RRULE to calculate specific recurring date instances,
          * or to provide accurate textual descriptions for certain rules when calling {@link #getDescription}.
          * May be provided as a Date object, or as a string that can be parsed as a valid date.
          */
         startDate: null,
         /**
          * @cfg {Number} frequency
-         * The value of the FREQ attribute of the recurrence rule, or null if no recurrence rule has been set.
-         * Supported string values are "DAILY", "WEEKLY", "MONTHLY" and "YEARLY".
+         * The value of the FREQ attribute of the recurrence rule, or null if no recurrence rule has been set
+         * (default is null). Supported string values are "DAILY", "WEEKLY", "MONTHLY" and "YEARLY".
          */
         frequency: null,
         /**
-         * @cfg {Number} 
+         * @cfg {Number} count
          * The value of the COUNT attribute of the recurrence rule, or null if the recurrence rule has no COUNT
-         * attribute or if no recurrence rule has been set. Supported values are any integer >= 1.
+         * attribute or if no recurrence rule has been set (default is null). Supported values are any integer >= 1.
          */
         count: null,
         /**
-         * @cfg {Date} 
+         * @cfg {Date} until
          * The value of the UNTIL attribute of the recurrence rule as a Date object, or null if the recurrence
-         * rule has no UNTIL attribute or if no recurrence rule has been set.
+         * rule has no UNTIL attribute or if no recurrence rule has been set (default is null).
+         * Note that per the iCal specification, this date should always be specified in UTC time format (which
+         * is why the {@link #dateValueFormat} always ends with 'Z').
          */
         until: null,
         /**
-         * @cfg {Number} 
+         * @cfg {Number} interval
          * The value of the INTERVAL attribute of the recurrence rule, defaults to 1. Supported values are
          * any integer >= 1.
          */
         interval: 1,
         /**
-         * @cfg {String} 
+         * @cfg {String} byDay
          * <p>The value of the BYDAY attribute of the recurrence rule, or null if the recurrence rule has no
-         * BYDAY attribute or if no recurrence rule has been set.</p>
-         * <p>The BYDAY attribute can contain 3 different types of values:
+         * BYDAY attribute or if no recurrence rule has been set (default is null).</p>
+         * 
+         * <p>The BYDAY attribute can contain 3 different types of values:</p>
+         * 
          * - A comma-delimited string of 2-character weekday abbreviations, e.g. 'MO,TU,FR,SU'
          * - A numbered weekday abbreviation that can be positive or negative, e.g. '4TH' or '-1FR'
          * - An integer day offset from the start or end of the period, e.g. 3, 20 or -10.
-         * See also functions {@link #getByDayWeekdays} and {@link #getByDayNumberedWeekday} for more
-         * specific information about how these values are used.</p>
+         * 
+         * <p>See also {@link #byDayWeekdays} and {@link #byDayNumberedWeekday} for more
+         * information about how these values are used.</p>
          */
         byDay: null,
-        /*
-         * @cfg {String} 
-         * 
+        /**
+         * @cfg {String} byDayWeekdays
+         * A comma separated list of abbreviated weekday names representing the days of the week on which
+         * the recurrence pattern should repeat (e.g. ['TU', 'TH', 'FR']), or null if not applicable (default).
          */
         byDayWeekdays: null,
-        /*
-         * @cfg {String} 
-         * 
-         */
-        byDayNthWeekday: null,
-        /*
-         * @cfg {String} 
-         * 
+        /**
+         * @cfg {Number} byMonthDay
+         * The value of the BYMONTHDAY attribute of the recurrence rule or null if the recurrence rule has no
+         * BYMONTHDAY attribute, or if no recurrence rule has been set (default is null). This value is an integer
+         * relative offset from the start or end of the month (e.g. 10 means "the 10th day of the month", or -5
+         * means "the 5th to last day of the month"). Supported values are between 1 and 31, or between -31 and -1.
          */
         byMonthDay: null,
-        /*
-         * @cfg {String} 
-         * 
+        /**
+         * @cfg {Number} byMonth
+         * The value of the BYMONTH attribute of the recurrence rule or null if the recurrence rule has no
+         * BYMONTH attribute, or if no recurrence rule has been set (default is null). Supported values are
+         * integers between 1 and 12 corresponding to the months of the year from January to December.
          */
         byMonth: null,
-        
-        // Map day names to day numbers and vice versa
-        dayFromDayNo: [ "SU", "MO", "TU", "WE", "TH", "FR", "SA" ],
-        dayNoFromDay: { SU: 0, MO: 1, TU: 2, WE: 3, TH: 4, FR: 5, SA: 6 },
-        
-        // Strings used to generate textual descriptions of the recurrence pattern. Need to be translated.
+        /**
+         * @cfg {Object} strings
+         * Strings used to generate plain text descriptions of the recurrence rule. There are a lot of strings and
+         * they are not individually documented since typically they will be defined in locale files, and not
+         * overridden as typical configs (though you could also do that). For complete details see the source code
+         * or look at the locale files.
+         */
         strings: {
             dayNamesShort: {
                 SU: 'Sun',
@@ -111,7 +120,17 @@ Ext.define('Extensible.form.recurrence.Rule', {
                 FR: 'Fri',
                 SA: 'Sat'
             },
-            
+
+            dayNamesShortByIndex: {
+                0: 'Sun',
+                1: 'Mon',
+                2: 'Tue',
+                3: 'Wed',
+                4: 'Thu',
+                5: 'Fri',
+                6: 'Sat'
+            },
+
             dayNamesLong: {
                 SU: 'Sunday',
                 MO: 'Monday',
@@ -122,17 +141,31 @@ Ext.define('Extensible.form.recurrence.Rule', {
                 SA: 'Saturday'
             },
             
-            ordinals: ['', 'first', 'second', 'third', 'fourth', 'fifth'],
+            ordinals: {
+                1: 'first',
+                2: 'second',
+                3: 'third',
+                4: 'fourth',
+                5: 'fifth',
+                6: 'sixth'
+            },
             
-            daily: 'Daily',
-            weekly: 'Weekly',
-            monthly: 'Monthly',
-            yearly: 'Annually',
+            frequency: {
+                none: 'Does not repeat',
+                daily: 'Daily',
+                weekly: 'Weekly',
+                weekdays: 'Every weekday (Mon-Fri)',
+                monthly: 'Monthly',
+                yearly: 'Yearly'
+            },
+            
             every: 'Every',       // e.g. Every 2 days
             days: 'days',
             weeks: 'weeks',
+            weekdays: 'weekdays',
             months: 'months',
             years: 'years',
+            time: 'time',        // e.g. Daily, 1 time
             times: 'times',      // e.g. Daily, 5 times
             until: 'until',      // e.g. Daily, until Dec, 31 2012
             untilFormat: 'M j, Y', // e.g. Dec 10, 2012
@@ -147,10 +180,22 @@ Ext.define('Extensible.form.recurrence.Rule', {
             onTheLastDay: 'on the last day', // e.g. Monthly on the last day
             of: 'of',            // e.g. Annually on the last day of November
             monthFormat: 'F',    // e.g. November
-            monthDayFormat: 'F j', // e.g. November 10
+            monthDayFormat: 'F j' // e.g. November 10
         }
     },
-
+    
+    /**
+     * @private
+     * @property byDayNames
+     * @type Array[String]
+     * The abbreviated day names used in "by*Day" recurrence rules. These values are used when creating
+     * the RRULE strings and should not be modified (they are not used for localization purposes).
+     */
+    byDayNames: [ "SU", "MO", "TU", "WE", "TH", "FR", "SA" ],
+    
+    /**
+     * @private
+     */
     constructor: function(config) {
         // Have to do this manually since we are not extending Ext.Component, otherwise
         // the configs will never get initialized:
@@ -208,21 +253,53 @@ Ext.define('Extensible.form.recurrence.Rule', {
      */
     applyUntil: function(until) {
         // Only one of UNTIL and COUNT are allowed. Therefore, clear COUNT attribute.
-        this.count = null;
+        this.count = this.until = null;
 
         if (Ext.isDate(until)) {
             this.until = until;
         }
         else if (typeof until === 'string') {
-            // Value is a date in format YYYYMMDDTHHMMSSZ
-            var y = until.substr(0, 4);
-            var m = until.substr(4, 2) - 1; // js Date month -> 0 to 11
-            var d = until.substr(6, 2);
-            var h = until.substr(9, 2);
-            var min = until.substr(11, 2);
-            var s = until.substr(13, 2);
-            this.until = new Date(y, m, d, h, min, s);
+            this.until = this.parseDate(until);
         }
+    },
+    
+    /**
+     * Parses a date string in {@link #dateValueFormat iCal format} and returns a Date object if possible. This
+     * method is the inverse of {@link #formatDate}.
+     * @param {String} dateString A date string in {@link #dateValueFormat iCal format}
+     * @param {Object} options An optional options object. This can contain:
+     * 
+     * - A String <tt>format</tt> property to override the default {@link #dateValueFormat} used when parsing
+     * the string (not recommended)
+     * - A Boolean <tt>strict</tt> property that gets passed to the {@link Ext.Date.parse} method to determine
+     * whether or not strict date parsing should be used (defaults to false)
+     * - A Date <tt>defaultValue</tt> property to be used in case the string cannot be parsed as a valid date
+     * (defaults to the current date)
+     * 
+     * @returns {Date} The corresponding Date object
+     */
+    parseDate: function(dateString, options) {
+        options = options || {};
+        
+        try {
+            var date = Ext.Date.parse(dateString, options.format || this.dateValueFormat, options.strict);
+            if (date) {
+                return date;
+            }
+        }
+        catch(ex) {}
+        
+        return options.defaultValue || new Date();
+    },
+    
+    /**
+     * Formats a Date object into a date string in {@link #dateValueFormat iCal format}. This method is the
+     * inverse of {@link #parseDate}.
+     * @param {Date} date The Date object to format
+     * @returns {String} The corresponding date string
+     */
+    formatDate: function(date) {
+        return Ext.Date.format(date, this.dateValueFormat);
     },
 
     /**
@@ -275,34 +352,17 @@ Ext.define('Extensible.form.recurrence.Rule', {
         }
     },
 
-    /*
-     * If attribute BYDAY of the recurrence rule holds a comma separated list of weekdays, then this function
-     * returns an Array of strings where each array element holds a weekday identifier, e.g. ['TU', 'TH', 'FR'].
-     * Otherwise it returns false. Use function {@link #setByDay setBy Day}
-     * to set BYDAY attributes.
+    /**
+     * If attribute BYDAY of the recurrence rule holds a numbered weekday following iCal relative syntax
+     * (e.g. '4TU' meaning "the fourth Tuesday of the month") then this function returns an Object with two
+     * attributes <i>number</i> and <i>weekday</i> (e.g. {number: 4, weekday: 'TU'}), otherwise this method
+     * returns null. This object is provided as a convenience when accessing the individual parts of the value.
+     * For iCal RRULE representation the {@link #getByDay BYDAY} string should always be used instead.
+     * Use function {@link #setByDay} to set the underlying values.
      */
-    // getByDayWeekdays: function() {
-        // return this.byDayWeekdays;
-    // },
-
-    /*
-     * If attribute BYDAY of the recurrence rule holds a numbered weekday, e.g. '4TH', then this function returns
-     * an Object with two attributes <i>number</i> and <i>weekday</i>, e.g. {number: 4, weekday: 'TH'}. Otherwise
-     * this property is false. Use function {@link #setByDay setBy Day}
-     * to set BYDAY attributes.
-     */
-    // getByDayNthWeekday: function() {
-        // return this.byDayNthWeekday;
-    // },
-
-    /*
-     * Returns the value of the BYMONTHDAY attribute of the recurrence rule or false if the recurrence rule has no
-     * BYMONTHDAY attribute or if no recurrence rule has been set. Supported integer values are -1 and 1 to 31.
-     * @returns {int}
-     */
-    // getByMonthDay: function() {
-        // return this.byMonthDay;
-    // },
+    getByDayNthWeekday: function() {
+        return this.byDayNthWeekday;
+    },
 
     /**
      * @private
@@ -318,14 +378,17 @@ Ext.define('Extensible.form.recurrence.Rule', {
     },
     
     /**
-     * Returns a text representation of the underlying iCalendar rule, e.g. "FREQ=WEEKLY;INTERVAL=2;".
-     * @returns {string}
+     * Returns a textual representation of the underlying rules in <a
+     * href="http://www.kanzaki.com/docs/ical/rrule.html">iCal RRULE format</a>, e.g. "FREQ=WEEKLY;INTERVAL=2;".
+     * This is the standard format that is typically used to store and transmit recurrence rules between systems.
+     * @returns {String} The iCal-formatted RRULE string
      */
     getRule: function() {
         var rule = [],
             me = this;
 
         rule.push('FREQ=' + me.frequency);
+        
         if (me.interval != 1) {
             rule.push('INTERVAL=' + me.interval);
         }
@@ -354,9 +417,8 @@ Ext.define('Extensible.form.recurrence.Rule', {
      *
      * <p>This function can be used to set a new rule or update an existing rule. If rule attribute FREQ is present
      * in the passed recurrence rule string, then the rule is initialized first before rule properties are set. If
-     * rule attribute FREQ is not present, then the rule properties are updated without first initializing the rule.
-     * </p>
-     *
+     * rule attribute FREQ is not present, then the rule properties are updated without first initializing the rule.</p>
+     * 
      * @param {String} rRule iCalendar recurrence rule as a text string. E.g. "FREQ=WEEKLY;INTERVAL=2;"
      */
     applyRule: function(rRule) {
@@ -387,7 +449,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
                 case 'COUNT':
                     me.setCount(parseInt(v));
                     break;
-                case "UNTIL":
+                case 'UNTIL':
                     me.setUntil(v);
                     break;
                 case 'BYDAY':
@@ -406,34 +468,21 @@ Ext.define('Extensible.form.recurrence.Rule', {
     /**
      * Return a textual description of the iCalendar recurrence rule. E.g. the rule "FREQ=DAILY;INTERVAL=2;COUNT=5"
      * is returned as the text "Every 2 days, 5 times".
-     * @param {Date} startDate Start date of the event series, required for certain rule types (e.g., any rule that
-     * is specified as date-relative like "BYDAY=-1FR" can only be represented relative to a specific date).
-     * @return String
+     * @param {Date} [startDate] Optional start date of the event series, only required for certain rule types
+     * (e.g., any rule that is specified as date-relative like "BYDAY=-1FR" can only be represented relative
+     * to a specific start date).
+     * @return {String} The textual description
      */
     getDescription: function(startDate) {
         var me = this,
-            desc = [];
+            desc = [],
+            freq = me.frequency ? Ext.String.capitalize(me.frequency.toLowerCase()) : '';
 
         startDate = startDate || this.startDate;
         
-        switch (me.frequency) {
-            case 'DAILY':
-                me.getDescriptionDaily(desc, startDate);
-                break;
-        
-            case 'WEEKLY':
-                me.getDescriptionWeekly(desc, startDate);
-                break;
-
-            case 'MONTHLY':
-                me.getDescriptionMonthly(desc, startDate);
-                break;
-            
-            case 'YEARLY':
-                me.getDescriptionYearly(desc, startDate);
-                break;
+        if (freq && me['getDescription' + freq]) {
+            me['getDescription' + freq](desc, startDate);
         }
-        
         me.getDescriptionCount(desc, startDate);
         me.getDescriptionUntil(desc, startDate);
 
@@ -447,7 +496,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @param {Array[String]} desc An array of strings representing the rule description parts collected
      * so far. This array is passed around, and each method should typically append any needed strings to
      * it. After all logic is complete, the array will be joined and the final description returned.
-     * @param {Date} startDate The start date of the recurring series.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
      */
     getDescriptionDaily: function(desc, startDate) {
         var me = this,
@@ -455,7 +504,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
         
         if (me.interval == 1) {
             // E.g. Daily
-            desc.push(strings.daily);
+            desc.push(strings.frequency.daily);
         }
         else {
             // E.g. Every 2 days
@@ -470,7 +519,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @param {Array[String]} desc An array of strings representing the rule description parts collected
      * so far. This array is passed around, and each method should typically append any needed strings to
      * it. After all logic is complete, the array will be joined and the final description returned.
-     * @param {Date} startDate The start date of the recurring series.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
      */
     getDescriptionWeekly: function(desc, startDate) {
         var me = this,
@@ -478,7 +527,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
         
         if (me.interval == 1) {
             // E.g. Weekly
-            desc.push(strings.weekly);
+            desc.push(strings.frequency.weekly);
         }
         else {
             // E.g. Every 2 weeks
@@ -491,11 +540,11 @@ Ext.define('Extensible.form.recurrence.Rule', {
             
             desc.push(' ', strings.on, ' ');
             
-            for (var i=0; i<len; i++) {
-                if (i>0 && i<len-1) {
+            for (var i=0; i < len; i++) {
+                if (i > 0 && i < len-1) {
                     desc.push(', ');
                 }
-                else if (len > 1 && i==len-1) {
+                else if (len > 1 && i === len-1) {
                     desc.push(' ', strings.and, ' ');
                 }
                 // If more than 2 weekdays have been specified, use short day names, otherwise long day names.
@@ -509,7 +558,28 @@ Ext.define('Extensible.form.recurrence.Rule', {
         }
         else if (startDate){
             // No weekdays are specified. Use weekday of parameter startDate as the weekday. E.g. Weekly on Monday
-            desc.push(' ', strings.on, ' ', strings.dayNamesLong[me.dayFromDayNo[startDate.getDay()]]);
+            desc.push(' ', strings.on, ' ', strings.dayNamesLong[me.byDayNames[startDate.getDay()]]);
+        }
+    },
+    
+    /**
+     * @protected
+     * Returns the description if the rule is of type "FREQ=WEEKDAYS". Note that WEEKDAYS is not
+     * part of the iCal standard -- it is a special frequency value supported by Extensible as a shorthand
+     * that is commonly used in applications. May be overridden to customize the output strings, especially
+     * for localization.
+     * @param {Array[String]} desc An array of strings representing the rule description parts collected
+     * so far. This array is passed around, and each method should typically append any needed strings to
+     * it. After all logic is complete, the array will be joined and the final description returned.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
+     */
+    getDescriptionWeekdays: function(desc, startDate) {
+        if (this.interval === 1) {
+            desc.push(this.strings.frequency.weekdays);
+        }
+        else {
+            // E.g. Every two weekdays
+            desc.push(this.strings.every, ' ', this.interval, ' ', this.strings.weekdays);
         }
     },
     
@@ -520,15 +590,15 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @param {Array[String]} desc An array of strings representing the rule description parts collected
      * so far. This array is passed around, and each method should typically append any needed strings to
      * it. After all logic is complete, the array will be joined and the final description returned.
-     * @param {Date} startDate The start date of the recurring series.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
      */
     getDescriptionMonthly: function(desc, startDate) {
         var me = this,
             strings = me.strings;
         
-        if (me.interval == 1) {
+        if (me.interval === 1) {
             // E.g. Monthly
-            desc.push(strings.monthly);
+            desc.push(strings.frequency.monthly);
         }
         else {
             // E.g. Every 2 months
@@ -539,14 +609,15 @@ Ext.define('Extensible.form.recurrence.Rule', {
             // A specific month day has been selected, e.g. Monthly on day 23.
             desc.push(' ' + strings.onDay + ' ' + me.byMonthDay + strings.onDayPostfix);
         }
-        else if (me.byMonthDay == -1) {
+        else if (me.byMonthDay === -1) {
             // The last day of the month has been selected, e.g. Monthly on the last day.
             desc.push(' ' + strings.onTheLastDay);
         }
         else if (me.byDayNthWeekday) {
             // A numbered weekday of the month has been selected, e.g. Monthly on the first Monday
             if (me.byDayNthWeekday.number > 0) {
-                desc.push(' ', strings.onThe, ' ', strings.ordinals[me.byDayNthWeekday.number], ' ', strings.dayNamesLong[me.byDayNthWeekday.weekday]);
+                desc.push(' ', strings.onThe, ' ', strings.ordinals[me.byDayNthWeekday.number], ' ',
+                    strings.dayNamesLong[me.byDayNthWeekday.weekday]);
             }
             else {
                 // Last weekday of the month has been selected, e.g. Monthly on the last Sunday
@@ -562,15 +633,15 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @param {Array[String]} desc An array of strings representing the rule description parts collected
      * so far. This array is passed around, and each method should typically append any needed strings to
      * it. After all logic is complete, the array will be joined and the final description returned.
-     * @param {Date} startDate The start date of the recurring series.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
      */
     getDescriptionYearly: function(desc, startDate) {
         var me = this,
             strings = me.strings;
         
-        if (me.interval == 1) {
-            // E.g. Annually
-            desc.push(strings.yearly);
+        if (me.interval === 1) {
+            // E.g. Yearly
+            desc.push(strings.frequency.yearly);
         }
         else {
             // E.g. Every two years
@@ -582,7 +653,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             return;
         }
         
-        if (me.byMonthDay == -1) {
+        if (me.byMonthDay === -1) {
             // The last day of the month, e.g. Annually on the last day of November.
             desc.push(' ', strings.onTheLastDay, ' ', strings.of, ' ', Ext.Date.format(startDate, strings.monthFormat));
         }
@@ -591,7 +662,8 @@ Ext.define('Extensible.form.recurrence.Rule', {
             if (me.byDayNthWeekday.number > 0) {
                 // A numbered weekday of the month, e.g. Annually on the second Wednesday of November.
                 desc.push(' ', strings.onThe, ' ', strings.ordinals[me.byDayNthWeekday.number], ' ',
-                    strings.dayNamesLong[me.byDayNthWeekday.weekday], ' ', strings.of, ' ', Ext.Date.format(startDate, strings.monthFormat));
+                    strings.dayNamesLong[me.byDayNthWeekday.weekday], ' ', strings.of, ' ',
+                    Ext.Date.format(startDate, strings.monthFormat));
             }
             else {
                 // Last weekday of the month, e.g. Annually on the last Sunday of November
@@ -612,12 +684,12 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @param {Array[String]} desc An array of strings representing the rule description parts collected
      * so far. This array is passed around, and each method should typically append any needed strings to
      * it. After all logic is complete, the array will be joined and the final description returned.
-     * @param {Date} startDate The start date of the recurring series.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
      */
     getDescriptionCount: function(desc, startDate) {
         if (this.count) {
             // E.g. Daily, 5 times
-            desc.push(', ', this.count, ' ', this.strings.times);
+            desc.push(', ', this.count, ' ', (this.count === 1 ? this.strings.time : this.strings.times));
         }
     },
     
@@ -628,7 +700,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @param {Array[String]} desc An array of strings representing the rule description parts collected
      * so far. This array is passed around, and each method should typically append any needed strings to
      * it. After all logic is complete, the array will be joined and the final description returned.
-     * @param {Date} startDate The start date of the recurring series.
+     * @param {Date} [startDate] The start date of the recurring series (optional).
      */
     getDescriptionUntil: function(desc, startDate) {
         if (this.until) {

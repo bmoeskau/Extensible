@@ -59,7 +59,12 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     titleLabelText: 'Title',
     datesLabelText: 'When',
     calendarLabelText: 'Calendar',
-    
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     */
+    startDay : 0,
+
     // General configs
     closeAction: 'hide',
     modal: false,
@@ -207,6 +212,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             name: 'dates',
             anchor: '95%',
             singleLine: true,
+            startDay: this.startDay,
             fieldLabel: this.datesLabelText
         }];
         

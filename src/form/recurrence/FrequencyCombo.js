@@ -5,7 +5,10 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
     extend: 'Ext.form.ComboBox',
     alias: 'widget.extensible.recurrence-frequency',
     
-    requires: ['Ext.data.ArrayStore'],
+    requires: [
+        'Ext.data.ArrayStore',
+        'Extensible.form.recurrence.Parser'
+    ],
     
     fieldLabel: 'Repeats',
     queryMode: 'local',
@@ -14,15 +17,6 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
     displayField: 'pattern',
     valueField: 'id',
     cls: 'extensible-recur-frequency',
-    
-    frequencyText: {
-        none     : 'Does not repeat',
-        daily    : 'Daily',
-        weekdays : 'Every weekday (Mon-Fri)',
-        weekly   : 'Weekly',
-        monthly  : 'Monthly',
-        yearly   : 'Yearly'
-    },
     
     initComponent: function() {
         var me = this;
@@ -36,28 +30,32 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
          */
         me.addEvents('frequencychange');
         
+        var freq = Extensible.form.recurrence.Parser.strings.frequency;
+        
         /**
          * @cfg {Array} frequencyOptions
          * An array of arrays, each containing the name/value pair that defines a recurring
          * frequency option supported by the frequency combo. This array is bound to the underlying
-         * {@link Ext.data.ArrayStore store} to provide the combo list items. Defaults to:
+         * {@link Ext.data.ArrayStore store} to provide the combo list items. The string descriptions
+         * are defined in the {@link Extensible.form.recurrence.Parser#strings} config.
+         * Defaults to:
          *
          *    [
-         *        ['NONE', this.frequencyText.none],
-         *        ['DAILY', this.frequencyText.daily],
-         *        ['WEEKDAYS', this.frequencyText.weekdays],
-         *        ['WEEKLY', this.frequencyText.weekly],
-         *        ['MONTHLY', this.frequencyText.monthly],
-         *        ['YEARLY', this.frequencyText.yearly]
+         *        ['NONE', 'Does not repeat'],
+         *        ['DAILY', 'Daily'],
+         *        ['WEEKDAYS', 'Every weekday (Mon-Fri)'],
+         *        ['WEEKLY', 'Weekly'],
+         *        ['MONTHLY', 'Monthly'],
+         *        ['YEARLY', 'Yearly']
          *    ]
          */
         me.frequencyOptions = me.frequencyOptions || [
-            ['NONE', me.frequencyText.none],
-            ['DAILY', me.frequencyText.daily],
-            ['WEEKDAYS', me.frequencyText.weekdays],
-            ['WEEKLY', me.frequencyText.weekly],
-            ['MONTHLY', me.frequencyText.monthly],
-            ['YEARLY', me.frequencyText.yearly]
+            ['NONE',     freq.none],
+            ['DAILY',    freq.daily],
+            ['WEEKDAYS', freq.weekdays],
+            ['WEEKLY',   freq.weekly],
+            ['MONTHLY',  freq.monthly],
+            ['YEARLY',   freq.yearly]
         ];
         
         me.store = me.store || Ext.create('Ext.data.ArrayStore', {
