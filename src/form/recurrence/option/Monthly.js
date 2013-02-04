@@ -15,7 +15,7 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
         // E.g. "on the 15th day of each month/year"
         onThe: 'on the',
         ofEach: 'of each',
-        in: 'in',
+        inText: 'in',
         day: 'day',
         month: 'month',
         year: 'year',
@@ -121,7 +121,7 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             // year-specific additions to the resulting value string, used if we are currently
             // executing from within the Yearly option subclass.
             // e.g. "in 2012":
-            yearlyText = me.isYearly ? ' ' + me.strings.in +' ' + Ext.Date.format(dt, 'F') : '',
+            yearlyText = me.isYearly ? ' ' + me.strings.inText +' ' + Ext.Date.format(dt, 'F') : '',
             // e.g. "BYMONTH=2;":
             byMonthValue = me.isYearly ? 'BYMONTH=' + Ext.Date.format(dt, 'n') : '',
             // only use this if yearly:

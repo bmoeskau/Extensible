@@ -321,7 +321,7 @@ Ext.onReady(function() {
                 andContinuing: 'und endet',
                 occurrences: 'Wiederholungen',
                 forever: 'nie',
-                'for': 'nach',
+                forText: 'nach',
                 until: 'am'
             }
         });
@@ -341,7 +341,7 @@ Ext.onReady(function() {
                 // E.g. "on the 15th day of each month/year"
                 onThe: 'am',
                 ofEach: 'jedes',
-                in: 'im',
+                inText: 'im',
                 day: 'Tag',
                 month: 'Monats',
                 year: 'Jahres',
