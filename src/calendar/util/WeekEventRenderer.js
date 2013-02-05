@@ -118,7 +118,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                         // Loop through each event in the current day grid. Note that this grid can
                         // also contain placeholders representing segments of spanning events, though
                         // for simplicity's sake these will all be referred to as "events" in comments.
-                        for(; eventIndex < eventCount; eventIndex++){
+                        for (; eventIndex < eventCount; eventIndex++) {
                             if (!dayGrid[eventIndex]) {
                                 // There is no event at the current index
                                 if (eventIndex >= maxEventsPerDay) {

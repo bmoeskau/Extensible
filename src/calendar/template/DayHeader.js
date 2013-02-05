@@ -18,7 +18,7 @@ Ext.define('Extensible.calendar.template.DayHeader', {
     requires: ['Extensible.calendar.template.BoxLayout'],
     
     // private
-    constructor: function(config){
+    constructor: function(config) {
         
         Ext.apply(this, config);
     
@@ -41,7 +41,7 @@ Ext.define('Extensible.calendar.template.DayHeader', {
     },
     
     // private
-    applyTemplate : function(o){
+    applyTemplate: function(o) {
         var templateConfig = {
             allDayTpl: this.allDayTpl.apply(o)
         };

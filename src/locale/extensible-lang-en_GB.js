@@ -28,7 +28,7 @@ Ext.onReady(function() {
     if (exists('Extensible.calendar.view.Month')) {
         Ext.apply(Extensible.calendar.view.Month.prototype, {
             moreText: '+{0} more...', // deprecated
-            getMoreText: function(numEvents){
+            getMoreText: function(numEvents) {
                 return '+{0} more...';
             },
             detailsTitleDateFormat: 'j F'
@@ -45,10 +45,10 @@ Ext.onReady(function() {
             goText: 'Go',
             multiDayText: '{0} Days', // deprecated
             multiWeekText: '{0} Weeks', // deprecated
-            getMultiDayText: function(numDays){
+            getMultiDayText: function(numDays) {
                 return '{0} Days';
             },
-            getMultiWeekText: function(numWeeks){
+            getMultiWeekText: function(numWeeks) {
                 return '{0} Weeks';
             }
         });
@@ -136,16 +136,16 @@ Ext.onReady(function() {
             fieldLabel: 'Reminder',
             noneText: 'None',
             atStartTimeText: 'At start time',
-            getMinutesText: function(numMinutes){
+            getMinutesText: function(numMinutes) {
                 return numMinutes === 1 ? 'minute' : 'minutes';
             },
-            getHoursText: function(numHours){
+            getHoursText: function(numHours) {
                 return numHours === 1 ? 'hour' : 'hours';
             },
-            getDaysText: function(numDays){
+            getDaysText: function(numDays) {
                 return numDays === 1 ? 'day' : 'days';
             },
-            getWeeksText: function(numWeeks){
+            getWeeksText: function(numWeeks) {
                 return numWeeks === 1 ? 'week' : 'weeks';
             },
             reminderValueFormat: '{0} {1} before start' // e.g. "2 hours before start"

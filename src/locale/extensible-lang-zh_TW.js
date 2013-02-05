@@ -23,7 +23,7 @@ Ext.onReady(function() {
     if (exists('Extensible.calendar.view.Month')) {
         Ext.apply(Extensible.calendar.view.Month.prototype, {
             moreText: '+{0}更多……',
-            getMoreText: function(numEvents){
+            getMoreText: function(numEvents) {
                 return '+{0}更多……';
             },
             detailsTitleDateFormat: 'F j'
@@ -40,10 +40,10 @@ Ext.onReady(function() {
             goText: '到 ',
             multiDayText: '{0}天',
             multiWeekText: '{0}星期',
-            getMultiDayText: function(numDays){
+            getMultiDayText: function(numDays) {
                 return '{0}天';
             },
-            getMultiWeekText: function(numWeeks){
+            getMultiWeekText: function(numWeeks) {
                 return '{0}星期';
             }
         });
@@ -131,16 +131,16 @@ Ext.onReady(function() {
             fieldLabel: '提醒器',
             noneText: '沒有',
             atStartTimeText: '于啟動時間',
-            getMinutesText: function(numMinutes){
+            getMinutesText: function(numMinutes) {
                 return '分鐘';
             },
-            getHoursText: function(numHours){
+            getHoursText: function(numHours) {
                 return '小時';
             },
-            getDaysText: function(numDays){
+            getDaysText: function(numDays) {
                 return '天';
             },
-            getWeeksText: function(numWeeks){
+            getWeeksText: function(numWeeks) {
                 return '星期';
             },
             reminderValueFormat: '離開始還有{0} {1}' // e.g. "2 hours before start"

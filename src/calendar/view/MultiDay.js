@@ -49,12 +49,12 @@ Ext.define('Extensible.calendar.view.MultiDay', {
     startDayIsStatic: false,
     
     // inherited docs
-    moveNext : function(/*private*/reload){
+    moveNext: function(/*private*/reload) {
         return this.moveDays(this.startDayIsStatic ? 7 : this.dayCount, reload);
     },
 
     // inherited docs
-    movePrev : function(/*private*/reload){
+    movePrev: function(/*private*/reload) {
         return this.moveDays(this.startDayIsStatic ? -7 : -this.dayCount, reload);
     }
 });

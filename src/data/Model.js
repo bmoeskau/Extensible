@@ -42,7 +42,7 @@ Ext.define('Extensible.data.Model', {
             proto.idProperty = idProperty || proto.idProperty || 'id';
             
             for (prop in mappings) {
-                if(mappings.hasOwnProperty(prop)){
+                if(mappings.hasOwnProperty(prop)) {
                     fields.push(mappings[prop]);
                 }
             }

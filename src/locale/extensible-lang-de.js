@@ -27,7 +27,7 @@ Ext.onReady(function() {
     if (exists('Extensible.calendar.view.Month')) {
         Ext.apply(Extensible.calendar.view.Month.prototype, {
             moreText: '+{0} weitere...',
-            getMoreText: function(numEvents){
+            getMoreText: function(numEvents) {
                 return '+{0} weitere...';
             },
             detailsTitleDateFormat: 'F j'
@@ -44,10 +44,10 @@ Ext.onReady(function() {
             goText: 'Los',
             multiDayText: '{0} Tage',
             multiWeekText: '{0} Wochen',
-            getMultiDayText: function(numDays){
+            getMultiDayText: function(numDays) {
                 return '{0} Tage';
             },
-            getMultiWeekText: function(numWeeks){
+            getMultiWeekText: function(numWeeks) {
                 return '{0} Wochen';
             }
         });
@@ -135,16 +135,16 @@ Ext.onReady(function() {
             fieldLabel: 'Erinnerung',
             noneText: 'keine',
             atStartTimeText: 'zur Startzeit',
-            getMinutesText: function(numMinutes){
+            getMinutesText: function(numMinutes) {
                 return numMinutes === 1 ? 'Minute' : 'Minuten';
             },
-            getHoursText: function(numHours){
+            getHoursText: function(numHours) {
                 return numHours === 1 ? 'Stunde' : 'Stunden';
             },
-            getDaysText: function(numDays){
+            getDaysText: function(numDays) {
                 return numDays === 1 ? 'Tag' : 'Tage';
             },
-            getWeeksText: function(numWeeks){
+            getWeeksText: function(numWeeks) {
                 return numWeeks === 1 ? 'Woche' : 'Wochen';
             },
             reminderValueFormat: '{0} {1} vor Terminbeginn' // e.g. "2 hours before start"

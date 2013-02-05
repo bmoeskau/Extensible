@@ -137,7 +137,7 @@ Ext.define('Extensible.calendar.view.Day', {
     isDayView: true,
     
     // private
-    initComponent : function(){
+    initComponent: function() {
         /**
          * @cfg {String} ddCreateEventText
          * The text to display inside the drag proxy while dragging over the calendar to create a new event (defaults to
@@ -189,7 +189,7 @@ Ext.define('Extensible.calendar.view.Day', {
     },
     
     // private
-    afterRender : function(){
+    afterRender: function() {
         this.callParent(arguments);
         
         this.header = Ext.getCmp(this.id+'-hd');
@@ -200,7 +200,7 @@ Ext.define('Extensible.calendar.view.Day', {
     },
     
     // private
-    refresh : function(reloadData) {
+    refresh: function(reloadData) {
         Extensible.log('refresh (DayView)');
         if (reloadData === undefined) {
             reloadData = false;
@@ -235,7 +235,7 @@ Ext.define('Extensible.calendar.view.Day', {
     },
     
     // private
-    onResize : function(){
+    onResize: function() {
         this.forceSize();
         Ext.defer(this.refresh, Ext.isIE ? 1 : 0, this); //IE needs the defer
     },
@@ -244,13 +244,13 @@ Ext.define('Extensible.calendar.view.Day', {
      * We have to "relay" this Component method so that the hidden
      * state will be properly reflected when the views' active state changes
      */
-    doHide: function(){
+    doHide: function() {
         this.header.doHide.apply(this, arguments);
         this.body.doHide.apply(this, arguments);
     },
     
     // private
-    getViewBounds : function(){
+    getViewBounds: function() {
         return this.header.getViewBounds();
     },
     
@@ -260,7 +260,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * to the user use {@link #getViewBounds}.
      * @return {Date} The start date
      */
-    getStartDate : function(){
+    getStartDate: function() {
         return this.header.getStartDate();
     },
 
@@ -269,13 +269,13 @@ Ext.define('Extensible.calendar.view.Day', {
      * earliest and latest dates that match the view requirements and contain the date passed to this function.
      * @param {Date} dt The date used to calculate the new view boundaries
      */
-    setStartDate: function(dt){
+    setStartDate: function(dt) {
         this.header.setStartDate(dt, false);
         this.body.setStartDate(dt, true);
     },
 
     // private
-    renderItems: function(){
+    renderItems: function() {
         this.header.renderItems();
         this.body.renderItems();
     },
@@ -359,7 +359,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * supply a custom editor this parameter can be ignored if it does not apply.
      * @return {Extensible.calendar.view.Day} this
      */
-    showEventEditor : function(rec, animateTarget){
+    showEventEditor: function(rec, animateTarget) {
         return Extensible.calendar.view.AbstractCalendar.prototype.showEventEditor.apply(this, arguments);
     },
     
@@ -370,7 +370,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * (defaults to 'hide' which will be called on the default editor window)
      * @return {Extensible.calendar.view.Day} this
      */
-    dismissEventEditor : function(dismissMethod){
+    dismissEventEditor: function(dismissMethod) {
         return Extensible.calendar.view.AbstractCalendar.prototype.dismissEventEditor.apply(this, arguments);
     }
 });

@@ -27,7 +27,7 @@ Ext.define('Extensible.calendar.template.Month', {
     dayHeaderTitleFormat: 'l, F j, Y',
     
     // private
-    constructor: function(config){
+    constructor: function(config) {
         
         Ext.apply(this, config);
     
@@ -56,14 +56,14 @@ Ext.define('Extensible.calendar.template.Month', {
     },
     
     // private
-    applyTemplate : function(o){
+    applyTemplate: function(o) {
         var days = [],
             weeks = this.weekTpl.apply(o),
             dt = o.viewStart,
             D = Extensible.Date,
             templateConfig;
         
-        for(var i = 0; i < 7; i++){
+        for (var i = 0; i < 7; i++) {
             var d = D.add(dt, {days: i});
             days.push({
                 name: Ext.Date.format(d, this.dayHeaderFormat),
@@ -72,7 +72,7 @@ Ext.define('Extensible.calendar.template.Month', {
         }
         
         var extraClasses = this.showHeader === true ? '' : 'ext-cal-noheader';
-        if(this.showWeekLinks){
+        if(this.showWeekLinks) {
             extraClasses += ' ext-cal-week-links';
         }
         

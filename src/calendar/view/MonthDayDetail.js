@@ -13,7 +13,7 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
         'Extensible.calendar.view.AbstractCalendar'
     ],
     
-    initComponent : function(){
+    initComponent: function() {
         this.callParent(arguments);
         
         this.addEvents({
@@ -21,7 +21,7 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
         });
     },
     
-    afterRender : function(){
+    afterRender: function() {
         this.tpl = this.getTemplate();
         
         this.callParent(arguments);
@@ -34,8 +34,8 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
         });
     },
     
-    getTemplate : function(){
-        if(!this.tpl){
+    getTemplate: function() {
+        if(!this.tpl) {
             this.tpl = Ext.create('Ext.XTemplate',
                 '<div class="ext-cal-mdv x-unselectable">',
                     '<table class="ext-cal-mvd-tbl" cellpadding="0" cellspacing="0">',
@@ -52,20 +52,20 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
         return this.tpl;
     },
     
-    update : function(dt){
+    update: function(dt) {
         this.date = dt;
         this.refresh();
     },
     
-    refresh : function(){
-        if(!this.rendered){
+    refresh: function() {
+        if(!this.rendered) {
             return;
         }
         var eventTpl = this.view.getEventTemplate(),
         
             templateData = [];
             
-            var evts = this.store.queryBy(function(rec){
+            var evts = this.store.queryBy(function(rec) {
                 var thisDt = Ext.Date.clearTime(this.date, true).getTime(),
                     M = Extensible.calendar.data.EventMappings,
                     recStart = Ext.Date.clearTime(rec.data[M.StartDate.name], true).getTime(),
@@ -74,12 +74,12 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
                     calId = rec.data[M.CalendarId.name],
                     calRec = this.calendarStore ? this.calendarStore.getById(calId) : null;
                     
-                if(calRec && calRec.data[Extensible.calendar.data.CalendarMappings.IsHidden.name] === true){
+                if(calRec && calRec.data[Extensible.calendar.data.CalendarMappings.IsHidden.name] === true) {
                     // if the event is on a hidden calendar then no need to test the date boundaries
                     return false;
                 }
                 
-                if(!startsOnDate){
+                if(!startsOnDate) {
                     var recEnd = Ext.Date.clearTime(rec.data[M.EndDate.name], true).getTime();
                     spansDate = recStart < thisDt && recEnd >= thisDt;
                 }
@@ -88,7 +88,7 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
         
         Extensible.calendar.view.AbstractCalendar.prototype.sortEventRecordsForDay.call(this, evts);
         
-        evts.each(function(evt){
+        evts.each(function(evt) {
             var item = evt.data,
                 M = Extensible.calendar.data.EventMappings;
                 
@@ -105,7 +105,7 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
         this.fireEvent('eventsrendered', this, this.date, evts.getCount());
     },
     
-    getTemplateEventData : function(evtData){
+    getTemplateEventData: function(evtData) {
         var data = this.view.getTemplateEventData(evtData);
         data._elId = 'dtl-'+data._elId;
         return data;

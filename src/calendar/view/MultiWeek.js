@@ -17,12 +17,12 @@ Ext.define('Extensible.calendar.view.MultiWeek', {
     weekCount: 2,
     
     // inherited docs
-    moveNext : function(){
+    moveNext: function() {
         return this.moveWeeks(this.weekCount, true);
     },
     
     // inherited docs
-    movePrev : function(){
+    movePrev: function() {
         return this.moveWeeks(-this.weekCount, true);
     }
 });

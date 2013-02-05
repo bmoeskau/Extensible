@@ -9,7 +9,7 @@ Ext.onReady(function() {
 	Extensible.Date.use24HourTime = true;
 
 	//default dutch translations for ext are really non-standard... :-(
-	if(exists('Ext.form.field.Date')){
+	if(exists('Ext.form.field.Date')) {
 		Ext.apply(Ext.form.field.Date.prototype, {
 			format: 'd-m-Y'
 		});
@@ -29,7 +29,7 @@ Ext.onReady(function() {
 	if (exists('Extensible.calendar.view.Month')) {
 		Ext.apply(Extensible.calendar.view.Month.prototype, {
 			moreText: '+{0} meer...', // deprecated
-			getMoreText: function(numEvents){
+			getMoreText: function(numEvents) {
 				return '+{0} meer...';
 			},
 			detailsTitleDateFormat: 'j F'
@@ -46,10 +46,10 @@ Ext.onReady(function() {
 			goText: 'Gaan',
 			multiDayText: '{0} Dagen', // deprecated
 			multiWeekText: '{0} Weken', // deprecated
-			getMultiDayText: function(numDays){
+			getMultiDayText: function(numDays) {
 				return '{0} Dagen';
 			},
-			getMultiWeekText: function(numWeeks){
+			getMultiWeekText: function(numWeeks) {
 				return '{0} Weken';
 			}
 		});
@@ -137,16 +137,16 @@ Ext.onReady(function() {
 			fieldLabel: 'Herinnering',
 			noneText: 'Geen',
 			atStartTimeText: 'Op het moment van aanvang',
-			getMinutesText: function(numMinutes){
+			getMinutesText: function(numMinutes) {
 				return numMinutes === 1 ? 'minuut' : 'minuten';
 			},
-			getHoursText: function(numHours){
+			getHoursText: function(numHours) {
 				return numHours === 1 ? 'uur' : 'uren';
 			},
-			getDaysText: function(numDays){
+			getDaysText: function(numDays) {
 				return numDays === 1 ? 'dag' : 'dagen';
 			},
-			getWeeksText: function(numWeeks){
+			getWeeksText: function(numWeeks) {
 				return numWeeks === 1 ? 'week' : 'weken';
 			},
 			reminderValueFormat: '{0} {1} voor aanvang' // e.g. "2 hours before start"

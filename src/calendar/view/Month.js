@@ -81,15 +81,15 @@ Ext.define('Extensible.calendar.view.Month', {
     
     //private properties -- do not override:
     daySelector: '.ext-cal-day',
-    moreSelector : '.ext-cal-ev-more',
-    weekLinkSelector : '.ext-cal-week-link',
+    moreSelector: '.ext-cal-ev-more',
+    weekLinkSelector: '.ext-cal-week-link',
     weekCount: -1, // defaults to auto by month
     dayCount: 7,
     moreElIdDelimiter: '-more-',
     weekLinkIdDelimiter: 'ext-cal-week-',
     
     // private
-    initComponent : function(){
+    initComponent: function() {
         this.callParent(arguments);
         
         this.addEvents({
@@ -120,13 +120,13 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    initDD : function(){
+    initDD: function() {
         var cfg = {
             view: this,
             createText: this.ddCreateEventText,
             copyText: this.ddCopyEventText,
             moveText: this.ddMoveEventText,
-            ddGroup : this.ddGroup || this.id+'-MonthViewDD'
+            ddGroup: this.ddGroup || this.id+'-MonthViewDD'
         };
         
         this.dragZone = Ext.create('Extensible.calendar.dd.DragZone', this.el, cfg);
@@ -134,7 +134,7 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    onDestroy : function(){
+    onDestroy: function() {
         Ext.destroy(this.ddSelector);
         Ext.destroy(this.dragZone);
         Ext.destroy(this.dropZone);
@@ -143,8 +143,8 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    afterRender : function(){
-        if(!this.tpl){
+    afterRender: function() {
+        if(!this.tpl) {
             this.tpl = Ext.create('Extensible.calendar.template.Month', {
                 id: this.id,
                 showTodayText: this.showTodayText,
@@ -163,7 +163,7 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    onResize : function(){
+    onResize: function() {
         if (this.monitorResize) {
             this.maxEventsPerDay = this.getMaxEventsPerDay();
             this.refresh(false);
@@ -171,9 +171,9 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    forceSize: function(){
+    forceSize: function() {
         // Compensate for the week link gutter width if visible
-        if(this.showWeekLinks && this.el){
+        if(this.showWeekLinks && this.el) {
             var hd = this.el.down('.ext-cal-hd-days-tbl'),
                 bgTbl = this.el.select('.ext-cal-bg-tbl'),
                 evTbl = this.el.select('.ext-cal-evt-tbl'),
@@ -188,19 +188,19 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     //private
-    initClock : function(){
-        if(Ext.fly(this.id+'-clock') !== null){
+    initClock: function() {
+        if(Ext.fly(this.id+'-clock') !== null) {
             this.prevClockDay = new Date().getDay();
-            if(this.clockTask){
+            if(this.clockTask) {
                 Ext.TaskManager.stop(this.clockTask);
             }
             this.clockTask = Ext.TaskManager.start({
-                run: function(){
+                run: function() {
                     var el = Ext.fly(this.id+'-clock'),
                         t = new Date();
                         
-                    if(t.getDay() === this.prevClockDay){
-                        if(el){
+                    if(t.getDay() === this.prevClockDay) {
+                        if(el) {
                             el.update(Ext.Date.format(t, Extensible.Date.use24HourTime ? 'G:i' : 'g:ia'));
                         }
                     }
@@ -222,13 +222,13 @@ Ext.define('Extensible.calendar.view.Month', {
      * @param {Integer} numEvents The number of events currently hidden from view
      * @return {String} The text to display for the "more" link
      */
-    getMoreText: function(numEvents){
+    getMoreText: function(numEvents) {
         return this.moreText;
     },
 
     // inherited docs
-    getEventBodyMarkup : function(){
-        if(!this.eventBodyMarkup){
+    getEventBodyMarkup: function() {
+        if(!this.eventBodyMarkup) {
             this.eventBodyMarkup = ['{Title}',
                 '<tpl if="_isReminder">',
                     '<i class="ext-cal-ic ext-cal-ic-rem">&#160;</i>',
@@ -248,8 +248,8 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // inherited docs
-    getEventTemplate : function(){
-        if(!this.eventTpl){
+    getEventTemplate: function() {
+        if(!this.eventTpl) {
             var tpl, body = this.getEventBodyMarkup();
             
             tpl = !(Ext.isIE || Ext.isOpera) ?
@@ -293,7 +293,7 @@ Ext.define('Extensible.calendar.view.Month', {
         
         if (this.calendarStore && evtData[M.CalendarId.name]) {
             rec = this.calendarStore.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, evtData[M.CalendarId.name]);
-            if(rec){
+            if(rec) {
                 colorCls = 'x-cal-' + rec.get(Extensible.calendar.data.CalendarMappings.ColorId.name);
             }
         }
@@ -320,20 +320,20 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    refresh : function(reloadData){
+    refresh: function(reloadData) {
         Extensible.log('refresh (MonthView)');
-        if(this.detailPanel){
+        if(this.detailPanel) {
             this.detailPanel.hide();
         }
         this.callParent(arguments);
         
-        if(this.showTime !== false){
+        if(this.showTime !== false) {
             this.initClock();
         }
     },
     
     // private
-    renderItems : function(){
+    renderItems: function() {
         Extensible.calendar.util.WeekEventRenderer.render({
             eventGrid: this.allDayOnly ? this.allDayGrid : this.eventGrid,
             viewStart: this.viewStart,
@@ -350,32 +350,32 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    getDayEl : function(dt){
+    getDayEl: function(dt) {
         return Ext.get(this.getDayId(dt));
     },
     
     // private
-    getDayId : function(dt){
-        if(Ext.isDate(dt)){
+    getDayId: function(dt) {
+        if(Ext.isDate(dt)) {
             dt = Ext.Date.format(dt, 'Ymd');
         }
         return this.id + this.dayElIdDelimiter + dt;
     },
     
     // private
-    getWeekIndex : function(dt){
+    getWeekIndex: function(dt) {
         var el = this.getDayEl(dt).up('.ext-cal-wk-ct');
         return parseInt(el.id.split('-wk-')[1], 10);
     },
     
     // private
-    getDaySize : function(contentOnly){
+    getDaySize: function(contentOnly) {
         var box = this.el.getBox(),
             padding = this.getViewPadding(),
             w = (box.width - padding.width) / this.dayCount,
             h = (box.height - padding.height) / this.getWeekCount();
             
-        if(contentOnly){
+        if(contentOnly) {
             // measure last row instead of first in case text wraps in first row
             var hd = this.el.select('.ext-cal-dtitle').last().parent('tr');
             h = hd ? h-hd.getHeight(true) : h;
@@ -384,10 +384,10 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    getEventHeight : function() {
+    getEventHeight: function() {
         if (!this.eventHeight) {
             var evt = this.el.select('.ext-cal-evt').first();
-            if(evt){
+            if(evt) {
                 this.eventHeight = evt.parent('td').getHeight();
             }
             else {
@@ -398,7 +398,7 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    getMaxEventsPerDay : function(){
+    getMaxEventsPerDay: function() {
         var dayHeight = this.getDaySize(true).height,
             eventHeight = this.getEventHeight(),
             max = Math.max(Math.floor((dayHeight - eventHeight) / eventHeight), 0);
@@ -435,7 +435,7 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    getDayAt : function(x, y){
+    getDayAt: function(x, y) {
         var box = this.el.getBox(),
             padding = this.getViewPadding('tl'), // top/left only since we only want the xy offsets
             daySize = this.getDaySize(),
@@ -451,28 +451,28 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // inherited docs
-    moveNext : function(){
+    moveNext: function() {
         return this.moveMonths(1, true);
     },
     
     // inherited docs
-    movePrev : function(){
+    movePrev: function() {
         return this.moveMonths(-1, true);
     },
     
     // private
-    onInitDrag : function(){
+    onInitDrag: function() {
         this.callParent(arguments);
         
         Ext.select(this.daySelector).removeCls(this.dayOverClass);
-        if(this.detailPanel){
+        if(this.detailPanel) {
             this.detailPanel.hide();
         }
     },
     
     // private
-    onMoreClick : function(dt){
-        if(!this.detailPanel){
+    onMoreClick: function(dt) {
+        if(!this.detailPanel) {
             this.detailPanel = Ext.create('Ext.Panel', {
                 id: this.id+'-details-panel',
                 title: Ext.Date.format(dt, this.detailsTitleDateFormat),
@@ -482,7 +482,7 @@ Ext.define('Extensible.calendar.view.Month', {
                 hideMode: 'offsets',
                 tools: [{
                     type: 'close',
-                    handler: function(e, t, p){
+                    handler: function(e, t, p) {
                         p.ownerCt.hide();
                     }
                 }],
@@ -499,7 +499,7 @@ Ext.define('Extensible.calendar.view.Month', {
                 }
             });
             
-            if(this.enableContextMenus && this.readOnly !== true){
+            if(this.enableContextMenus && this.readOnly !== true) {
                 this.detailPanel.body.on('contextmenu', this.onContextMenu, this);
             }
         }
@@ -510,7 +510,7 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    onDetailViewUpdated : function(view, dt, numEvents){
+    onDetailViewUpdated: function(view, dt, numEvents) {
         var p = this.detailPanel,
             dayEl = this.getDayEl(dt),
             box = dayEl.getBox(),
@@ -539,17 +539,17 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    onHide : function(){
+    onHide: function() {
         this.callParent(arguments);
         
-        if(this.detailPanel){
+        if(this.detailPanel) {
             this.detailPanel.hide();
         }
     },
     
     // private
-    onClick : function(e, t){
-        if(this.detailPanel){
+    onClick: function(e, t) {
+        if(this.detailPanel) {
             this.detailPanel.hide();
         }
         
@@ -590,9 +590,9 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    handleDayMouseEvent : function(e, t, type){
+    handleDayMouseEvent: function(e, t, type) {
         var el = e.getTarget(this.weekLinkSelector, 3, true);
-        if(el){
+        if(el) {
             el[type === 'over' ? 'addCls' : 'removeCls'](this.weekLinkOverClass);
             return;
         }
@@ -600,10 +600,10 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     // private
-    destroy: function(){
+    destroy: function() {
         this.callParent(arguments);
         
-        if(this.detailsPanel){
+        if(this.detailsPanel) {
             this.detailPanel.body.un('contextmenu', this.onContextMenu, this);
         }
     }

@@ -94,7 +94,7 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
         return this;
     },
     
-    initNthCombo: function(){
+    initNthCombo: function() {
         if (!this.rendered) {
             return;
         }

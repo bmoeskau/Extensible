@@ -37,8 +37,8 @@ Ext.define('Extensible.calendar.view.DayHeader', {
      */
     
     // private
-    afterRender : function(){
-        if(!this.tpl){
+    afterRender: function() {
+        if(!this.tpl) {
             this.tpl = Ext.create('Extensible.calendar.template.DayHeader', {
                 id: this.id,
                 showTodayText: this.showTodayText,
@@ -56,14 +56,14 @@ Ext.define('Extensible.calendar.view.DayHeader', {
     forceSize: Ext.emptyFn,
     
     // private
-    refresh : function(reloadData){
+    refresh: function(reloadData) {
         Extensible.log('refresh (DayHeaderView)');
         this.callParent(arguments);
         this.recalcHeaderBox();
     },
     
     // private
-    recalcHeaderBox : function(){
+    recalcHeaderBox: function() {
         var tbl = this.el.down('.ext-cal-evt-tbl'),
             h = tbl.getHeight();
         
@@ -76,17 +76,17 @@ Ext.define('Extensible.calendar.view.DayHeader', {
     },
     
     // private
-    moveNext : function() {
+    moveNext: function() {
         return this.moveDays(this.dayCount, false);
     },
 
     // private
-    movePrev : function() {
+    movePrev: function() {
         return this.moveDays(-this.dayCount, false);
     },
     
     // private
-    onClick : function(e, t){
+    onClick: function(e, t) {
         var el = e.getTarget('td', 3);
         
         if (el) {

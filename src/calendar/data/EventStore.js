@@ -19,19 +19,19 @@ Ext.define('Extensible.calendar.data.EventStore', {
         this.callParent(arguments);
     },
     
-    load : function(o) {
+    load: function(o) {
         Extensible.log('store load');
         o = o || {};
         
         // if params are passed delete the one-time defaults
-        if(o.params){
+        if(o.params) {
             delete this.initialParams;
         }
         // this.initialParams will only be set if the store is being loaded manually
         // for the first time (autoLoad = false) so the owning calendar view set
         // the initial start and end date params to use. Every load after that will
         // have these params set automatically during normal UI navigation.
-        if(this.initialParams){
+        if(this.initialParams) {
             o.params = o.params || {};
             Ext.apply(o.params, this.initialParams);
             delete this.initialParams;

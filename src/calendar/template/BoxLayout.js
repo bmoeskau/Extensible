@@ -46,7 +46,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
     multiDayMonthStartFormat: 'M j',
     
     // private
-    constructor: function(config){
+    constructor: function(config) {
         
         Ext.apply(this, config);
     
@@ -76,10 +76,10 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
                     '</table>',
                 '</div>',
             '</tpl>', {
-                getRowTop: function(i, ln){
+                getRowTop: function(i, ln) {
                     return ((i-1)*(100/ln));
                 },
-                getRowHeight: function(ln){
+                getRowHeight: function(ln) {
                     return 100/ln;
                 }
             }
@@ -87,7 +87,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
     },
     
     // private
-    applyTemplate : function(o){
+    applyTemplate: function(o) {
         
         Ext.apply(this, o);
         
@@ -108,28 +108,28 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
             dt = Ext.Date.clone(this.viewStart),
             thisMonth = this.startDate.getMonth();
         
-        for(; w < this.weekCount || this.weekCount === -1; w++){
-            if(dt > this.viewEnd){
+        for (; w < this.weekCount || this.weekCount === -1; w++) {
+            if(dt > this.viewEnd) {
                 break;
             }
             weeks[w] = [];
             
-            for(var d = 0; d < this.dayCount; d++){
+            for (var d = 0; d < this.dayCount; d++) {
                 isToday = dt.getTime() === today.getTime();
                 showMonth = first || (dt.getDate() === 1);
                 prevMonth = (dt.getMonth() < thisMonth) && this.weekCount === -1;
                 nextMonth = (dt.getMonth() > thisMonth) && this.weekCount === -1;
                 isWeekend = dt.getDay() % 6 === 0;
                 
-                if(dt.getDay() === 1){
+                if(dt.getDay() === 1) {
                     // The ISO week format 'W' is relative to a Monday week start. If we
                     // make this check on Sunday the week number will be off.
                     weeks[w].weekNum = this.showWeekNumbers ? Ext.Date.format(dt, 'W') : '&#160;';
                     weeks[w].weekLinkId = 'ext-cal-week-'+Ext.Date.format(dt, 'Ymd');
                 }
                 
-                if(showMonth){
-                    if(isToday){
+                if(showMonth) {
+                    if(isToday) {
                         title = this.getTodayText();
                     }
                     else{
@@ -176,7 +176,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
     },
     
     // private
-    getTodayText : function(){
+    getTodayText: function() {
         var timeFmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
             todayText = this.showTodayText !== false ? this.todayText : '',
             timeText = this.showTime !== false ? ' <span id="' + this.id +
@@ -184,7 +184,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
                 Ext.Date.format(new Date(), timeFmt) + '</span>' : '',
             separator = todayText.length > 0 || timeText.length > 0 ? ' &#8212; ' : ''; // &#8212; == &mdash;
         
-        if(this.dayCount === 1){
+        if(this.dayCount === 1) {
             return Ext.Date.format(new Date(), this.singleDayDateFormat) + separator + todayText + timeText;
         }
         var fmt = this.weekCount === 1 ? this.firstWeekDateFormat : this.otherWeeksDateFormat;

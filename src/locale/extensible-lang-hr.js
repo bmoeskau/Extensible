@@ -22,7 +22,7 @@ Ext.onReady(function() {
     if (exists('Extensible.calendar.view.Month')) {
         Ext.apply(Extensible.calendar.view.Month.prototype, {
             moreText: '+{0} više...',
-            getMoreText: function(numEvents){
+            getMoreText: function(numEvents) {
                 return '+{0} više...';
             },
             detailsTitleDateFormat: 'F d'
@@ -39,10 +39,10 @@ Ext.onReady(function() {
             goText: 'Pokaži',
             multiDayText: '{0} dana',
             multiWeekText: '{0} tjedana',
-            getMultiDayText: function(numDays){
+            getMultiDayText: function(numDays) {
                 return '{0} dana';
             },
-            getMultiWeekText: function(numWeeks){
+            getMultiWeekText: function(numWeeks) {
                 return '{0} tjedana';
             }
         });
@@ -130,16 +130,16 @@ Ext.onReady(function() {
             fieldLabel: 'Podsjetnik',
             noneText: 'Nema',
             atStartTimeText: 'Na početku',
-            getMinutesText: function(numMinutes){
+            getMinutesText: function(numMinutes) {
                 return 'minuta';
             },
-            getHoursText: function(numHours){
+            getHoursText: function(numHours) {
                 return numHours === 1 ? 'sat' : 'sati';
             },
-            getDaysText: function(numDays){
+            getDaysText: function(numDays) {
                 return numDays === 1 ? 'dan' : 'dana';
             },
-            getWeeksText: function(numWeeks){
+            getWeeksText: function(numWeeks) {
                 return numWeeks === 1 ? 'tjedan' : 'tjedana';
             },
             reminderValueFormat: '{0} {1} prije početka' // e.g. "2 hours before start"

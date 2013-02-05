@@ -63,7 +63,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */
-    startDay : 0,
+    startDay: 0,
 
     // General configs
     closeAction: 'hide',
@@ -96,7 +96,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     allowDefaultAdd: true,
     
     // private
-    initComponent: function(){
+    initComponent: function() {
         this.addEvents({
             /**
              * @event eventadd
@@ -175,7 +175,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
                 scope: this
             }];
         
-        if(this.enableEditDetails !== false){
+        if(this.enableEditDetails !== false) {
             cfg.unshift({
                 xtype: 'tbtext',
                 itemId: this.id + '-details-btn',
@@ -186,7 +186,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
     
     // private
-    onRender : function(ct, position){
+    onRender: function(ct, position) {
         this.formPanel = Ext.create('Ext.FormPanel', Ext.applyIf({
             fieldDefaults: {
                 labelWidth: this.labelWidth
@@ -216,7 +216,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             fieldLabel: this.datesLabelText
         }];
         
-        if(this.calendarStore){
+        if(this.calendarStore) {
             items.push({
                 xtype: 'extensible.calendarcombo',
                 itemId: this.id + '-calendar',
@@ -231,10 +231,10 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
 
     // private
-    afterRender: function(){
+    afterRender: function() {
         this.callParent(arguments);
-		
-		this.el.addCls('ext-cal-event-win');
+        
+        this.el.addCls('ext-cal-event-win');
         
         this.initRefs();
         
@@ -263,13 +263,13 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
     
     // private
-    onEditDetailsClick: function(e){
+    onEditDetailsClick: function(e) {
         e.stopEvent();
         this.updateRecord(this.activeRecord, true);
         this.fireEvent('editdetails', this, this.activeRecord, this.animateTarget);
     },
-	
-	/**
+    
+    /**
      * Shows the window, rendering it first if necessary, or activates it and brings it to front if hidden.
      * @param {Ext.data.Record/Object} o Either a {@link Ext.data.Record} if showing the form
      * for an existing event in edit mode, or a plain object containing a StartDate property (and
@@ -278,15 +278,15 @@ Ext.define('Extensible.calendar.form.EventWindow', {
      * animate while opening (defaults to null with no animation)
      * @return {Ext.Window} this
      */
-    show: function(o, animateTarget){
+    show: function(o, animateTarget) {
         var me = this,
             EventMappings = Extensible.calendar.data.EventMappings,
             form, rec;
         
-		// Work around the CSS day cell height hack needed for initial render in IE8/strict:
-		me.animateTarget = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget;
+        // Work around the CSS day cell height hack needed for initial render in IE8/strict:
+        me.animateTarget = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget;
 
-        me.callParent([me.animateTarget, function(){
+        me.callParent([me.animateTarget, function() {
             me.titleField.focus(false, 100);
         }, me]);
         
@@ -298,7 +298,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         
         if (o.data) {
             rec = o;
-			me.setTitle(rec.phantom ? me.titleTextAdd : me.titleTextEdit);
+            me.setTitle(rec.phantom ? me.titleTextAdd : me.titleTextEdit);
             form.loadRecord(rec);
         }
         else {
@@ -340,32 +340,32 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             item.resetOriginalValue();
         });
         
-		return me;
+        return me;
     },
     
     // private
-    roundTime: function(dt, incr){
+    roundTime: function(dt, incr) {
         incr = incr || 15;
         var m = parseInt(dt.getMinutes(), 10);
         return dt.add('mi', incr - (m % incr));
     },
     
     // private
-    onCancel: function(){
+    onCancel: function() {
         this.cleanup(true);
-		this.fireEvent('eventcancel', this, this.activeRecord, this.animateTarget);
+        this.fireEvent('eventcancel', this, this.activeRecord, this.animateTarget);
     },
 
     // private
-    cleanup: function(hide){
+    cleanup: function(hide) {
         if (this.activeRecord) {
             this.activeRecord.reject();
         }
         delete this.activeRecord;
-		
+        
         if (hide===true) {
-			// Work around the CSS day cell height hack needed for initial render in IE8/strict:
-			//var anim = afterDelete || (Ext.isIE8 && Ext.isStrict) ? null : this.animateTarget;
+            // Work around the CSS day cell height hack needed for initial render in IE8/strict:
+            //var anim = afterDelete || (Ext.isIE8 && Ext.isStrict) ? null : this.animateTarget;
             this.hide();
         }
     },
@@ -418,7 +418,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
     
     // private
-    onSave: function(){
+    onSave: function() {
         var me = this,
             form = me.formPanel.form,
             originalHasRecurrence = me.activeRecord.isRecurring();
@@ -471,6 +471,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     
     // private
     onDelete: function() {
-		this.fireEvent('eventdelete', this, this.activeRecord, this.animateTarget);
+        this.fireEvent('eventdelete', this, this.activeRecord, this.animateTarget);
     }
 });

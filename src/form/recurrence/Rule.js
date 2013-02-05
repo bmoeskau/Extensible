@@ -557,7 +557,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
                 }
             }
         }
-        else if (startDate){
+        else if (startDate) {
             // No weekdays are specified. Use weekday of parameter startDate as the weekday. E.g. Weekly on Monday
             desc.push(' ', strings.on, ' ', strings.dayNamesLong[me.byDayNames[startDate.getDay()]]);
         }

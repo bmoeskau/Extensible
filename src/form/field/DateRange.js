@@ -49,7 +49,7 @@ Ext.define('Extensible.form.field.DateRange', {
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */
-    startDay : 0,
+    startDay: 0,
 
     // private
     fieldLayout: {
@@ -138,7 +138,7 @@ Ext.define('Extensible.form.field.DateRange', {
             startDay: this.startDay,
             listeners: {
                 'change': {
-                    fn: function(){
+                    fn: function() {
                         this.onFieldChange('date', 'start');
                     },
                     scope: this
@@ -158,7 +158,7 @@ Ext.define('Extensible.form.field.DateRange', {
             format: this.timeFormat,
             listeners: {
                 'select': {
-                    fn: function(){
+                    fn: function() {
                         this.onFieldChange('time', 'start');
                     },
                     scope: this
@@ -177,7 +177,7 @@ Ext.define('Extensible.form.field.DateRange', {
             startDay: this.startDay,
             listeners: {
                 'change': {
-                    fn: function(){
+                    fn: function() {
                         this.onFieldChange('date', 'end');
                     },
                     scope: this
@@ -197,7 +197,7 @@ Ext.define('Extensible.form.field.DateRange', {
             format: this.timeFormat,
             listeners: {
                 'select': {
-                    fn: function(){
+                    fn: function() {
                         this.onFieldChange('time', 'end');
                     },
                     scope: this
@@ -236,18 +236,18 @@ Ext.define('Extensible.form.field.DateRange', {
         var me = this;
         
         if (me.calculatedSingleLine === undefined) {
-            if(me.singleLine === 'auto'){
+            if(me.singleLine === 'auto') {
                 var ownerCtEl = me.ownerCt.getEl(),
                     w = me.ownerCt.getWidth() - ownerCtEl.getPadding('lr'),
                     el = ownerCtEl.down('.x-panel-body');
                     
-                if(el){
+                if(el) {
                     w -= el.getPadding('lr');
                 }
                 
                 el = ownerCtEl.down('.x-form-item-label');
                 
-                if(el){
+                if(el) {
                     w -= el.getWidth() - el.getPadding('lr');
                 }
                 me.calculatedSingleLine = w <= me.singleLineMinWidth ? false : true;
@@ -260,13 +260,13 @@ Ext.define('Extensible.form.field.DateRange', {
     },
     
     // private
-    onFieldChange: function(type, startend){
+    onFieldChange: function(type, startend) {
         this.checkDates(type, startend);
         this.fireEvent('change', this, this.getValue());
     },
         
     // private
-    checkDates: function(type, startend){
+    checkDates: function(type, startend) {
         var me = this,
             typeCap = type === 'date' ? 'Date' : 'Time',
             startField = this['start' + typeCap],
@@ -274,15 +274,15 @@ Ext.define('Extensible.form.field.DateRange', {
             startValue = me.getDT('start'),
             endValue = me.getDT('end');
 
-        if(startValue > endValue){
-            if(startend === 'start'){
+        if(startValue > endValue) {
+            if(startend === 'start') {
                 endField.setValue(startValue);
             }else{
                 startField.setValue(endValue);
                 me.checkDates(type, 'start');
             }
         }
-        if(type === 'date'){
+        if(type === 'date') {
             me.checkDates('time', startend);
         }
     },
@@ -295,7 +295,7 @@ Ext.define('Extensible.form.field.DateRange', {
      * if the time values should be used</div></li><ul></div>
      * @return {Array} The array of return values
      */
-    getValue: function(){
+    getValue: function() {
         return [
             this.getDT('start'),
             this.getDT('end'),
@@ -304,18 +304,18 @@ Ext.define('Extensible.form.field.DateRange', {
     },
     
     // private getValue helper
-    getDT: function(startend){
+    getDT: function(startend) {
         var time = this[startend+'Time'].getValue(),
             dt = this[startend+'Date'].getValue();
             
-        if(Ext.isDate(dt)){
+        if(Ext.isDate(dt)) {
             dt = Ext.Date.format(dt, this[startend + 'Date'].format);
         }
         else{
             return null;
         }
         
-        if(time && time !== ''){
+        if(time && time !== '') {
             time = Ext.Date.format(time, this[startend+'Time'].format);
             var val = Ext.Date.parseDate(dt + ' ' + time, this[startend+'Date'].format + ' ' + this[startend+'Time'].format);
             return val;
@@ -335,7 +335,7 @@ Ext.define('Extensible.form.field.DateRange', {
      * <li><b><code>Object</code></b> : <div class="sub-desc">An object containing properties for StartDate, EndDate and IsAllDay
      * as defined in {@link Extensible.calendar.data.EventMappings}.</div></li><ul></div>
      */
-    setValue: function(v){
+    setValue: function(v) {
         if(!v) {
             return;
         }
@@ -343,19 +343,19 @@ Ext.define('Extensible.form.field.DateRange', {
             eventMappings = Extensible.calendar.data.EventMappings,
             startDateName = eventMappings.StartDate.name;
             
-        if(Ext.isArray(v)){
+        if(Ext.isArray(v)) {
             me.setDT(v[0], 'start');
             me.setDT(v[1], 'end');
             me.allDay.setValue(!!v[2]);
         }
-        else if(Ext.isDate(v)){
+        else if(Ext.isDate(v)) {
             me.setDT(v, 'start');
             me.setDT(v, 'end');
             me.allDay.setValue(false);
         }
-        else if(v[startDateName]){ //object
+        else if(v[startDateName]) { //object
             me.setDT(v[startDateName], 'start');
-            if(!me.setDT(v[eventMappings.EndDate.name], 'end')){
+            if(!me.setDT(v[eventMappings.EndDate.name], 'end')) {
                 me.setDT(v[startDateName], 'end');
             }
             me.allDay.setValue(!!v[eventMappings.IsAllDay.name]);
@@ -363,8 +363,8 @@ Ext.define('Extensible.form.field.DateRange', {
     },
     
     // private setValue helper
-    setDT: function(dt, startend){
-        if(dt && Ext.isDate(dt)){
+    setDT: function(dt, startend) {
+        if(dt && Ext.isDate(dt)) {
             this[startend + 'Date'].setValue(dt);
             this[startend + 'Time'].setValue(Ext.Date.format(dt, this[startend + 'Time'].format));
             return true;
@@ -372,10 +372,10 @@ Ext.define('Extensible.form.field.DateRange', {
     },
     
     // inherited docs
-    isDirty: function(){
+    isDirty: function() {
         var dirty = false;
         if(this.rendered && !this.disabled) {
-            this.items.each(function(item){
+            this.items.each(function(item) {
                 if (item.isDirty()) {
                     dirty = true;
                     return false;
@@ -386,13 +386,13 @@ Ext.define('Extensible.form.field.DateRange', {
     },
     
     // inherited docs
-    reset : function(){
+    reset: function() {
         this.delegateFn('reset');
     },
     
     // private
-    delegateFn : function(fn){
-        this.items.each(function(item){
+    delegateFn: function(fn) {
+        this.items.each(function(item) {
             if (item[fn]) {
                 item[fn]();
             }
@@ -400,7 +400,7 @@ Ext.define('Extensible.form.field.DateRange', {
     },
     
     // private
-    beforeDestroy: function(){
+    beforeDestroy: function() {
         Ext.destroy(this.fieldCt);
         this.callParent(arguments);
     },
@@ -409,10 +409,10 @@ Ext.define('Extensible.form.field.DateRange', {
      * @method getRawValue
      * @hide
      */
-    getRawValue : Ext.emptyFn,
+    getRawValue: Ext.emptyFn,
     /**
      * @method setRawValue
      * @hide
      */
-    setRawValue : Ext.emptyFn
+    setRawValue: Ext.emptyFn
 });

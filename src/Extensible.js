@@ -33,7 +33,7 @@ Ext.define('Extensible', {
     hasBorderRadius: Ext.supports.CSS3BorderRadius,
     
     // private
-    log: function(s){
+    log: function(s) {
         //console.log(s);
     },
     
@@ -494,10 +494,10 @@ Extensible.applyOverrides = function() {
     // and is not really needed, so we'll replace any 4.0.x version with the new fixed version.
     if (extVersion.isLessThan('4.1') && Ext.form && Ext.form.CheckboxGroup) {
         Ext.form.CheckboxGroup.override({
-            resetOriginalValue: function(){
+            resetOriginalValue: function() {
                 var me = this;
                 
-                me.eachBox(function(box){
+                me.eachBox(function(box) {
                     box.resetOriginalValue();
                 });
                 me.originalValue = me.getValue();

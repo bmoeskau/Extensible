@@ -13,12 +13,12 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
      * @cfg {String} moveEventCls
      * The CSS class to apply to the status element when an event is being dragged (defaults to 'ext-cal-dd-move').
      */
-    moveEventCls : 'ext-cal-dd-move',
+    moveEventCls: 'ext-cal-dd-move',
     /**
      * @cfg {String} addEventCls
      * The CSS class to apply to the status element when drop is not allowed (defaults to 'ext-cal-dd-add').
      */
-    addEventCls : 'ext-cal-dd-add',
+    addEventCls: 'ext-cal-dd-add',
 
     // Overridden to add a separate message element inside the ghost area.
     // Applies only to Ext 4.1 and above, see notes in constructor
@@ -82,12 +82,12 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
     },
     
     // inherit docs
-    update : function(html){
+    update: function(html) {
         this.callParent(arguments);
         
         // If available, set the ghosted event el to autoHeight for visual consistency
         var el = this.ghost.dom.firstChild;
-        if(el){
+        if(el) {
             Ext.fly(el).setHeight('auto');
         }
     },
@@ -96,7 +96,7 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
      * Update the calendar-specific drag status message without altering the ghost element.
      * @param {String} msg The new status message
      */
-    updateMsg : function(msg){
+    updateMsg: function(msg) {
         this.message.update(msg);
     }
 });

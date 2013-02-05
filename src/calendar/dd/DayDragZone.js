@@ -7,7 +7,7 @@ Ext.define('Extensible.calendar.dd.DayDragZone', {
     ddGroup: 'DayViewDD',
     resizeSelector: '.ext-evt-rsz',
     
-    getDragData: function(e){
+    getDragData: function(e) {
         var target = e.getTarget(this.resizeSelector, 2, true),
             rec,
             parent;

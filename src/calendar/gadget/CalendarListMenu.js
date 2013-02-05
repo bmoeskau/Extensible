@@ -16,7 +16,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
      * @cfg {Boolean} hideOnClick
      * False to continue showing the menu after a color is selected, defaults to true.
      */
-    hideOnClick : true,
+    hideOnClick: true,
     /**
      * @cfg {Boolean} ignoreParentClicks
      * True to ignore clicks on any item in this menu that is a parent item (displays a submenu)
@@ -39,7 +39,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
      * @cfg {Boolean} enableScrolling
      * @hide
      */
-    enableScrolling : false,
+    enableScrolling: false,
     /**
      * @cfg {Number} maxHeight
      * @hide
@@ -64,7 +64,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
      */
     
     // private
-    initComponent : function(){
+    initComponent: function() {
         this.addEvents(
             'showcalendar',
             'hidecalendar',
@@ -89,23 +89,23 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
     },
     
     // private
-    afterRender: function(){
+    afterRender: function() {
         this.callParent(arguments);
         
         this.palette = this.down('#' + this.id + '-calendar-color-picker');
         
-        if(this.colorId){
+        if(this.colorId) {
             this.palette.select(this.colorId, true);
         }
     },
     
     // private
-    handleRadioCalendarClick: function(e, t){
+    handleRadioCalendarClick: function(e, t) {
         this.fireEvent('radiocalendar', this, this.calendarId);
     },
     
     // private
-    handleColorSelect: function(cp, selColorId){
+    handleColorSelect: function(cp, selColorId) {
         this.fireEvent('colorchange', this, this.calendarId, selColorId, this.colorId);
         this.colorId = selColorId;
         this.menuHide();
@@ -118,19 +118,19 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
      * @param {Number} colorId The id of the color to be pre-selected in the color palette
      * @return {Extensible.calendar.gadget.CalendarListMenu} this
      */
-    setCalendar: function(id, cid){
+    setCalendar: function(id, cid) {
         this.calendarId = id;
         this.colorId = cid;
         
-        if(this.rendered){
+        if(this.rendered) {
             this.palette.select(cid, true);
         }
         return this;
     },
 
     // private
-    menuHide : function(){
-        if(this.hideOnClick){
+    menuHide: function() {
+        if(this.hideOnClick) {
             this.hide();
         }
     }
