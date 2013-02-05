@@ -1,11 +1,13 @@
 /**
  * @class Extensible.calendar.template.DayBody
  * @extends Ext.XTemplate
- * <p>This is the template used to render the scrolling body container used in {@link Extensible.calendar.view.Day DayView} and 
- * {@link Extensible.calendar.view.Week WeekView}. This template is automatically bound to the underlying event store by the 
- * calendar components and expects records of type {@link Extensible.calendar.data.EventModel}.</p>
- * <p>Note that this template would not normally be used directly. Instead you would use the {@link Extensible.calendar.view.DayTemplate}
- * that internally creates an instance of this template along with a {@link Extensible.calendar.DayHeaderTemplate}.</p>
+ * <p>This is the template used to render the scrolling body container used in
+ * {@link Extensible.calendar.view.Day DayView} and {@link Extensible.calendar.view.Week WeekView}. This template
+ * is automatically bound to the underlying event store by the calendar components and expects records of type
+ * {@link Extensible.calendar.data.EventModel}.</p>
+ * <p>Note that this template would not normally be used directly. Instead you would use the
+ * {@link Extensible.calendar.view.DayTemplate} that internally creates an instance of this template along
+ * with a {@link Extensible.calendar.DayHeaderTemplate}.</p>
  * @constructor
  * @param {Object} config The config object
  */
@@ -100,7 +102,7 @@ Ext.define('Extensible.calendar.template.DayBody', {
             return this.applyOut(templateConfig, []).join('');
         }
     }
-}, 
+},
 function() {
     this.createAlias('apply', 'applyTemplate');
 });

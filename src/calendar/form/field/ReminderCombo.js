@@ -15,7 +15,7 @@ noneText: 'None',
 atStartTimeText: 'At start time',
 reminderValueFormat: '{0} {1} before start'
 </code></pre>
- * <p>To customize the descriptions in the dropdown list override the following methods: 
+ * <p>To customize the descriptions in the dropdown list override the following methods:
  * {@link #getMinutesText}, {@link #getHoursText}, {@link #getDaysText} and {@link #getWeeksText}.</p>
  * @constructor
  * @param {Object} config The config object
@@ -61,7 +61,7 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
      * Returns the list of reminder values used as the contents of the combo list. This method is provided so that
      * the value list can be easily overridden as needed.
      * @return {Array} A 2-dimensional array of type [{String}, {String}] which contains the value and description
-     * respectively of each item in the combo list. By default the value is the number of minutes for the selected 
+     * respectively of each item in the combo list. By default the value is the number of minutes for the selected
      * time value (e.g., value 120 == '2 hours') with empty string for no value, but these can be set to anything.
      */
     getValueList: function(){
@@ -88,7 +88,7 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
             ['7200', stringFormat(fmt, '5', me.getDaysText(5))],
             ['10080', stringFormat(fmt, '1', me.getWeeksText(1))],
             ['20160', stringFormat(fmt, '2', me.getWeeksText(2))]
-        ]
+        ];
     },
     
     /**

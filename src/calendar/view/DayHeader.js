@@ -26,12 +26,12 @@ Ext.define('Extensible.calendar.view.DayHeader', {
     // The event is declared in MonthView but we're just overriding the docs:
     /**
      * @event dayclick
-     * Fires after the user clicks within the view container and not on an event element. This is a cancelable event, so 
-     * returning false from a handler will cancel the click without displaying the event editor view. This could be useful 
+     * Fires after the user clicks within the view container and not on an event element. This is a cancelable event, so
+     * returning false from a handler will cancel the click without displaying the event editor view. This could be useful
      * for validating that a user can only create events on certain days.
      * @param {Extensible.calendar.view.DayHeader} this
      * @param {Date} dt The date/time that was clicked on
-     * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks within the 
+     * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks within the
      * DayHeaderView always return true for this param.
      * @param {Ext.Element} el The Element that was clicked on
      */

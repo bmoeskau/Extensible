@@ -18,7 +18,7 @@ Ext.define('Extensible.form.field.DateRangeLayout', {
         me.owner.suspendLayout = true;
         
         if (singleLine) {
-            shadowCt.getComponent('row1').add(owner.startDate, owner.startTime, owner.toLabel, 
+            shadowCt.getComponent('row1').add(owner.startDate, owner.startTime, owner.toLabel,
                 owner.endTime, owner.endDate, owner.allDay);
         }
         else {

@@ -46,8 +46,8 @@ Ext.define('Extensible.calendar.view.Day', {
     dayCount: 1,
     /**
      * @cfg {Boolean} enableEventResize
-     * True to allow events in the view's scrolling body area to be updated by a resize handle at the 
-     * bottom of the event, false to disallow it (defaults to true). If {@link #readOnly} is true event 
+     * True to allow events in the view's scrolling body area to be updated by a resize handle at the
+     * bottom of the event, false to disallow it (defaults to true). If {@link #readOnly} is true event
      * resizing will be disabled automatically.
      */
     enableEventResize: true,
@@ -58,7 +58,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * not have to match with the time boundaries displayed in the view. E.g., the view could be displayed in 30 minute
      * increments (the default) but you could configure ddIncrement to 10, which would snap a dragged object to the
      * view at 10 minute increments.</p>
-     * <p>This config currently applies while dragging to move an event, resizing an event by its handle or dragging 
+     * <p>This config currently applies while dragging to move an event, resizing an event by its handle or dragging
      * on the view to create a new event.</p>
      */
     ddIncrement: 30,
@@ -74,7 +74,7 @@ Ext.define('Extensible.calendar.view.Day', {
     minEventDisplayMinutes: 30,
     /**
      * @cfg {Boolean} showHourSeparator
-     * True to display a dotted line that separates each hour block in the scrolling body area at the half-hour mark 
+     * True to display a dotted line that separates each hour block in the scrolling body area at the half-hour mark
      * (the default), false to hide it.
      */
     showHourSeparator: true,
@@ -87,7 +87,7 @@ Ext.define('Extensible.calendar.view.Day', {
     /**
      * @cfg {Integer} viewEndHour
      * The hour of the day at which to end the scrolling body area's times (defaults to 24, which equals late 12am / 00:00).
-     * Valid values are integers from 0 to 24, but should be greater than the value of {@link viewStartHour}. 
+     * Valid values are integers from 0 to 24, but should be greater than the value of {@link viewStartHour}.
      */
     viewEndHour: 24,
     /**
@@ -99,16 +99,16 @@ Ext.define('Extensible.calendar.view.Day', {
     scrollStartHour: 7,
     /**
      * @cfg {Integer} hourHeight
-     * <p>The height, in pixels, of each hour block displayed in the scrolling body area of the view (defaults to 42).</p> 
-     * <br><p><b>Important note:</b> While this config can be set to any reasonable integer value, note that it is also used to 
+     * <p>The height, in pixels, of each hour block displayed in the scrolling body area of the view (defaults to 42).</p>
+     * <br><p><b>Important note:</b> While this config can be set to any reasonable integer value, note that it is also used to
      * calculate the ratio used when assigning event heights. By default, an hour is 60 minutes and 42 pixels high, so the
-     * pixel-to-minute ratio is 42 / 60, or 0.7. This same ratio is then used when rendering events. When rendering a 
+     * pixel-to-minute ratio is 42 / 60, or 0.7. This same ratio is then used when rendering events. When rendering a
      * 30 minute event, the rendered height would be 30 minutes * 0.7 = 21 pixels (as expected).</p>
      * <p>This is important to understand when changing this value because some browsers may handle pixel rounding in
      * different ways which could lead to inconsistent visual results in some cases. If you have any problems with pixel
      * precision in how events are laid out, you might try to stick with hourHeight values that will generate discreet ratios.
-     * This is easily done by simply multiplying 60 minutes by different discreet ratios (.6, .8, 1.1, etc.) to get the 
-     * corresponding hourHeight pixel values (36, 48, 66, etc.) that will map back to those ratios. By contrast, if you 
+     * This is easily done by simply multiplying 60 minutes by different discreet ratios (.6, .8, 1.1, etc.) to get the
+     * corresponding hourHeight pixel values (36, 48, 66, etc.) that will map back to those ratios. By contrast, if you
      * chose an hourHeight of 50 for example, the resulting height ratio would be 50 / 60 = .833333... This will work just
      * fine, just be aware that browsers may sometimes round the resulting height values inconsistently.
      */
@@ -140,13 +140,13 @@ Ext.define('Extensible.calendar.view.Day', {
     initComponent : function(){
         /**
          * @cfg {String} ddCreateEventText
-         * The text to display inside the drag proxy while dragging over the calendar to create a new event (defaults to 
+         * The text to display inside the drag proxy while dragging over the calendar to create a new event (defaults to
          * 'Create event for {0}' where {0} is a date range supplied by the view)
          */
         this.ddCreateEventText = this.ddCreateEventText || Extensible.calendar.view.AbstractCalendar.prototype.ddCreateEventText;
         /**
          * @cfg {String} ddMoveEventText
-         * The text to display inside the drag proxy while dragging an event to reposition it (defaults to 
+         * The text to display inside the drag proxy while dragging an event to reposition it (defaults to
          * 'Move event to {0}' where {0} is the updated event start date/time supplied by the view)
          */
         this.ddMoveEventText = this.ddMoveEventText || Extensible.calendar.view.AbstractCalendar.prototype.ddMoveEventText;
@@ -255,7 +255,7 @@ Ext.define('Extensible.calendar.view.Day', {
     },
     
     /**
-     * Returns the start date of the view, as set by {@link #setStartDate}. Note that this may not 
+     * Returns the start date of the view, as set by {@link #setStartDate}. Note that this may not
      * be the first date displayed in the rendered calendar -- to get the start and end dates displayed
      * to the user use {@link #getViewBounds}.
      * @return {Date} The start date
@@ -265,7 +265,7 @@ Ext.define('Extensible.calendar.view.Day', {
     },
 
     /**
-     * Sets the start date used to calculate the view boundaries to display. The displayed view will be the 
+     * Sets the start date used to calculate the view boundaries to display. The displayed view will be the
      * earliest and latest dates that match the view requirements and contain the date passed to this function.
      * @param {Date} dt The date used to calculate the new view boundaries
      */
@@ -294,7 +294,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * @return {Date} The new view start date
      */
     moveTo: function(dt) {
-        var dt = this.header.moveTo(dt, false);
+        dt = this.header.moveTo(dt, false);
         this.body.moveTo(dt, true);
         this.forceSize();
         
@@ -351,7 +351,7 @@ Ext.define('Extensible.calendar.view.Day', {
     },
     
     /**
-     * Show the currently configured event editor view (by default the shared instance of 
+     * Show the currently configured event editor view (by default the shared instance of
      * {@link Extensible.calendar.form.EventWindow EventEditWindow}).
      * @param {Extensible.calendar.data.EventModel} rec The event record
      * @param {Ext.Element/HTMLNode} animateTarget The reference element that is being edited. By default this is
@@ -364,9 +364,9 @@ Ext.define('Extensible.calendar.view.Day', {
     },
     
     /**
-     * Dismiss the currently configured event editor view (by default the shared instance of 
+     * Dismiss the currently configured event editor view (by default the shared instance of
      * {@link Extensible.calendar.form.EventWindow EventEditWindow}, which will be hidden).
-     * @param {String} dismissMethod (optional) The method name to call on the editor that will dismiss it 
+     * @param {String} dismissMethod (optional) The method name to call on the editor that will dismiss it
      * (defaults to 'hide' which will be called on the default editor window)
      * @return {Extensible.calendar.view.Day} this
      */

@@ -2,7 +2,7 @@
  * @private
  * @class Extensible.calendar.gadget.CalendarListMenu
  * @extends Ext.menu.Menu
- * <p>A menu containing a {@link Extensible.calendar.util.ColorPicker color picker} for choosing calendar colors, 
+ * <p>A menu containing a {@link Extensible.calendar.util.ColorPicker color picker} for choosing calendar colors,
  * as well as other calendar-specific options.</p>
  * @xtype extensible.calendarlistmenu
  */
@@ -19,7 +19,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
     hideOnClick : true,
     /**
      * @cfg {Boolean} ignoreParentClicks
-     * True to ignore clicks on any item in this menu that is a parent item (displays a submenu) 
+     * True to ignore clicks on any item in this menu that is a parent item (displays a submenu)
      * so that the submenu is not dismissed when clicking the parent item (defaults to true).
      */
     ignoreParentClicks: true,
@@ -35,18 +35,18 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
      * id can also be changed at any time after creation by calling {@link setCalendar}.
      */
     
-    /** 
+    /**
      * @cfg {Boolean} enableScrolling
-     * @hide 
+     * @hide
      */
     enableScrolling : false,
-    /** 
+    /**
      * @cfg {Number} maxHeight
-     * @hide 
+     * @hide
      */
-    /** 
+    /**
      * @cfg {Number} scrollIncrement
-     * @hide 
+     * @hide
      */
     /**
      * @event click

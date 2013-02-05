@@ -9,10 +9,14 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
     dateFormat : 'n/j',
     
     onNodeOver : function(n, dd, e, data){
-        var dt, text = this.createText,
+        var dt,
+            box,
+            diff,
+            curr,
+            text = this.createText,
             timeFormat = Extensible.Date.use24HourTime ? 'G:i' : 'g:ia';
             
-        if(data.type == 'caldrag'){
+        if(data.type === 'caldrag'){
             if(!this.dragStartMarker){
                 // Since the container can scroll, this gets a little tricky.
                 // There is no el in the DOM that we can measure by default since
@@ -29,7 +33,8 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
                 this.dragStartMarker.setBox(data.dayInfo.timeBox);
                 this.dragCreateDt = data.dayInfo.date;
             }
-            var endDt, box = this.dragStartMarker.getBox();
+            var endDt;
+            box = this.dragStartMarker.getBox();
             box.height = Math.ceil(Math.abs(e.getY() - box.y) / n.timeBox.height) * n.timeBox.height;
             
             if(e.getY() < box.y){
@@ -42,8 +47,8 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
             }
             this.shim(this.dragCreateDt, box);
             
-            var diff = Extensible.Date.diff(this.dragCreateDt, n.date),
-                curr = Extensible.Date.add(this.dragCreateDt, {millis: diff});
+            diff = Extensible.Date.diff(this.dragCreateDt, n.date);
+            curr = Extensible.Date.add(this.dragCreateDt, {millis: diff});
                 
             this.dragStartDate = Extensible.Date.min(this.dragCreateDt, curr);
             this.dragEndDate = endDt || Extensible.Date.max(this.dragCreateDt, curr);
@@ -54,15 +59,15 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
         }
         else{
             var evtEl = Ext.get(data.ddel),
-                dayCol = evtEl.parent().parent(),
-                box = evtEl.getBox();
+                dayCol = evtEl.parent().parent();
             
+            box = evtEl.getBox();
             box.width = dayCol.getWidth();
             
-            if(data.type == 'eventdrag'){
+            if(data.type === 'eventdrag'){
                 if(this.dragOffset === undefined){
                     // on fast drags there is a lag between the original drag start xy position and
-                    // that first detected within the drop zone's getTargetFromEvent method (which is 
+                    // that first detected within the drop zone's getTargetFromEvent method (which is
                     // where n.timeBox comes from). to avoid a bad offset we calculate the
                     // timeBox based on the initial drag xy, not the current target xy.
                     var initialTimeBox = this.view.getDayAt(data.xy[0], data.xy[1]).timeBox;
@@ -77,7 +82,7 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
                 this.shim(n.date, box);
                 text = (e.ctrlKey || e.altKey) ? this.copyText : this.moveText;
             }
-            if(data.type == 'eventresize'){
+            if(data.type === 'eventresize'){
                 if(!this.resizeDt){
                     this.resizeDt = n.date;
                 }
@@ -91,18 +96,19 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
                 }
                 this.shim(this.resizeDt, box);
                 
-                var diff = Extensible.Date.diff(this.resizeDt, n.date),
-                    curr = Extensible.Date.add(this.resizeDt, {millis: diff}),
-                    start = Extensible.Date.min(data.eventStart, curr),
+                diff = Extensible.Date.diff(this.resizeDt, n.date);
+                curr = Extensible.Date.add(this.resizeDt, {millis: diff});
+                
+                var start = Extensible.Date.min(data.eventStart, curr),
                     end = Extensible.Date.max(data.eventStart, curr);
                     
                 data.resizeDates = {
                     StartDate: start,
                     EndDate: end
-                }
+                };
                 
-                dt = Ext.String.format(this.dateRangeFormat, 
-                    Ext.Date.format(start, timeFormat), 
+                dt = Ext.String.format(this.dateRangeFormat,
+                    Ext.Date.format(start, timeFormat),
                     Ext.Date.format(end, timeFormat));
                     
                 text = this.resizeText;
@@ -134,25 +140,27 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
     
     onNodeDrop : function(n, dd, e, data){
         if(n && data){
-            if(data.type == 'eventdrag'){
-                var rec = this.view.getEventRecordFromEl(data.ddel);
+            var rec;
+            
+            if(data.type === 'eventdrag'){
+                rec = this.view.getEventRecordFromEl(data.ddel);
                 this.view.onEventDrop(rec, n.date, (e.ctrlKey || e.altKey) ? 'copy' : 'move');
                 this.onCalendarDragComplete();
                 delete this.dragOffset;
                 return true;
             }
-            if(data.type == 'eventresize'){
-                var rec = this.view.getEventRecordFromEl(data.ddel);
+            if(data.type === 'eventresize'){
+                rec = this.view.getEventRecordFromEl(data.ddel);
                 this.view.onEventResize(rec, data.resizeDates);
                 this.onCalendarDragComplete();
                 delete this.resizeDt;
                 return true;
             }
-            if(data.type == 'caldrag'){
+            if(data.type === 'caldrag'){
                 Ext.destroy(this.dragStartMarker);
                 delete this.dragStartMarker;
                 delete this.dragCreateDt;
-                this.view.onCalendarEndDrag(this.dragStartDate, this.dragEndDate, 
+                this.view.onCalendarEndDrag(this.dragStartDate, this.dragEndDate,
                     Ext.bind(this.onCalendarDragComplete, this));
                 //shims are NOT cleared here -- they stay visible until the handling
                 //code calls the onCalendarDragComplete callback which hides them.

@@ -10,7 +10,7 @@ Ext.define('Extensible.calendar.data.EventStore', {
         // constructor, before the owning calendar view has a chance to set up
         // the initial date params to use during loading.  We replace autoLoad
         // with a deferLoad property that the view can check for and use to set
-        // up default params as needed, then call the load itself. 
+        // up default params as needed, then call the load itself.
         this.deferLoad = config.autoLoad;
         config.autoLoad = false;
         
@@ -39,23 +39,4 @@ Ext.define('Extensible.calendar.data.EventStore', {
         
         this.callParent(arguments);
     }
-    
-//    execute : function(action, rs, options, /* private */ batch) {
-//        if(action=='read'){
-//            var i = 0, 
-//                dc = this._dateCache, 
-//                len = dc.length,
-//                range,
-//                p = options.params,
-//                start = p.start,
-//                end = p.end;
-//                
-//            //options.add = true;
-//            for(i; i<len; i++){
-//                range = dc[i];
-//                
-//            }
-//        }
-//        this.callParent(arguments);
-//    }
 });

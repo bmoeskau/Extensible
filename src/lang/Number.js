@@ -22,4 +22,4 @@ Ext.define('Extensible.lang.Number', {
     }
 }, function() {
     Extensible.Number = Extensible.lang.Number;
-})
+});

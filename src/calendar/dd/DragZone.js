@@ -28,8 +28,8 @@ Ext.define('Extensible.calendar.dd.DragZone', {
         if(t){
             var rec = this.view.getEventRecordFromEl(t);
             if(!rec){
-                // if rec is null here it usually means there was a timing issue between drag 
-                // start and the browser reporting it properly. Simply ignore and it will 
+                // if rec is null here it usually means there was a timing issue between drag
+                // start and the browser reporting it properly. Simply ignore and it will
                 // resolve correctly once the browser catches up.
                 return;
             }
@@ -42,8 +42,7 @@ Ext.define('Extensible.calendar.dd.DragZone', {
             };
         }
         
-        // If not dragging an event then we are dragging on 
-        // the calendar to add a new event
+        // If not dragging an event then we are dragging on the calendar to add a new event
         t = this.view.getDayAt(e.getX(), e.getY());
         if(t.el){
             return {
@@ -96,5 +95,5 @@ Ext.define('Extensible.calendar.dd.DragZone', {
     destroy : function(){
         this.callParent(arguments);
         delete Extensible.calendar._statusProxyInstance;
-    }    
+    }
 });

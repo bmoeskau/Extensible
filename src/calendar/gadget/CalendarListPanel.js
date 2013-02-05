@@ -52,8 +52,8 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     // private
     getListTemplate : function(){
         if(!this.tpl){
-            this.tpl = !(Ext.isIE || Ext.isOpera) ? 
-                Ext.create('Ext.XTemplate', 
+            this.tpl = !(Ext.isIE || Ext.isOpera) ?
+                Ext.create('Ext.XTemplate',
                     '<ul class="x-unselectable"><tpl for=".">',
                         '<li id="{cmpId}" class="ext-cal-evr {colorCls} {hiddenCls}">{title}<em>&#160;</em></li>',
                     '</tpl></ul>'
@@ -73,7 +73,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     },
     
     /**
-     * Sets the store used to display the available calendars. It should contain 
+     * Sets the store used to display the available calendars. It should contain
      * records of type {@link Extensible.calendar.data.CalendarModel CalendarRecord}.
      * @param {Ext.data.Store} store
      */
@@ -98,7 +98,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     // private
     onUpdate : function(ds, rec, operation){
         // ignore EDIT notifications, only refresh after a commit
-        if(operation == Ext.data.Record.COMMIT){
+        if(operation === Ext.data.Record.COMMIT){
             this.refresh();
         }
     },
@@ -139,9 +139,9 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     
     // private
     toggleCalendar: function(id, commit){
-        var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id);
+        var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id),
             CM = Extensible.calendar.data.CalendarMappings,
-            isHidden = rec.data[CM.IsHidden.name]; 
+            isHidden = rec.data[CM.IsHidden.name];
         
         rec.set(CM.IsHidden.name, !isHidden);
         
@@ -176,7 +176,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
         for(; i < len; i++){
             recId = recs[i].data[calendarId];
             // make a truthy check so that either numeric or string ids can match
-            if(recId == id){
+            if(recId === id){
                 this.showCalendar(recId, false);
             }
             else{
@@ -226,7 +226,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
             if (el) {
                 this.toggleCalendar(this.getCalendarId(el));
             }
-        } 
+        }
     },
     
     // private
@@ -244,7 +244,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     // private
     showEventMenu : function(el, xy){
         var id = this.getCalendarId(el.parent('li')),
-            rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id);
+            rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id),
             colorId = rec.data[Extensible.calendar.data.CalendarMappings.ColorId.name];
             
         if(!this.menu){

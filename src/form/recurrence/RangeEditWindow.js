@@ -42,7 +42,7 @@ Ext.define('Extensible.form.recurrence.RangeEditWindow', {
     
     /**
      * Configure the window and show it
-     * @param {Object} options Valid properties: editModes[], callback, scope 
+     * @param {Object} options Valid properties: editModes[], callback, scope
      */
     prompt: function(o) {
         this.callbackFunction = Ext.bind(o.callback, o.scope || this);

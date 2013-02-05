@@ -42,7 +42,7 @@ Ext.define('Extensible.form.field.DateRange', {
     //singleLineMinWidth: 490,
     /**
      * @cfg {String} dateFormat
-     * The date display format used by the date fields (defaults to 'n/j/Y') 
+     * The date display format used by the date fields (defaults to 'n/j/Y')
      */
     dateFormat: 'n/j/Y',
     /**
@@ -63,7 +63,7 @@ Ext.define('Extensible.form.field.DateRange', {
         /**
          * @cfg {String} timeFormat
          * The time display format used by the time fields. By default the DateRange uses the
-         * {@link Extensible.Date.use24HourTime} setting and sets the format to 'g:i A' for 12-hour time (e.g., 1:30 PM) 
+         * {@link Extensible.Date.use24HourTime} setting and sets the format to 'g:i A' for 12-hour time (e.g., 1:30 PM)
          * or 'G:i' for 24-hour time (e.g., 13:30). This can also be overridden by a static format string if desired.
          */
         me.timeFormat = me.timeFormat || (Extensible.Date.use24HourTime ? 'G:i' : 'g:i A');
@@ -236,7 +236,7 @@ Ext.define('Extensible.form.field.DateRange', {
         var me = this;
         
         if (me.calculatedSingleLine === undefined) {
-            if(me.singleLine == 'auto'){
+            if(me.singleLine === 'auto'){
                 var ownerCtEl = me.ownerCt.getEl(),
                     w = me.ownerCt.getWidth() - ownerCtEl.getPadding('lr'),
                     el = ownerCtEl.down('.x-panel-body');
@@ -245,11 +245,12 @@ Ext.define('Extensible.form.field.DateRange', {
                     w -= el.getPadding('lr');
                 }
                 
-                el = ownerCtEl.down('.x-form-item-label')
+                el = ownerCtEl.down('.x-form-item-label');
+                
                 if(el){
                     w -= el.getWidth() - el.getPadding('lr');
                 }
-                singleLine = w <= me.singleLineMinWidth ? false : true;
+                me.calculatedSingleLine = w <= me.singleLineMinWidth ? false : true;
             }
             else {
                 me.calculatedSingleLine = me.singleLine !== undefined ? me.singleLine : true;
@@ -258,128 +259,6 @@ Ext.define('Extensible.form.field.DateRange', {
         return me.calculatedSingleLine;
     },
     
-    // private
-//    onRender: function(ct, position){
-//        if(!this.el){
-//            this.startDate = Ext.create('Ext.form.DateField', {
-//                id: this.id+'-start-date',
-//                format: this.dateFormat,
-//                width:100,
-//                listeners: {
-//                    'change': {
-//                        fn: function(){
-//                            this.onFieldChange('date', 'start');
-//                        },
-//                        scope: this
-//                    }
-//                }
-//            });
-//            this.startTime = Ext.create('Ext.form.TimeField', {
-//                id: this.id+'-start-time',
-//                hidden: this.showTimes === false,
-//                labelWidth: 0,
-//                hideLabel:true,
-//                width:90,
-//                listeners: {
-//                    'select': {
-//                        fn: function(){
-//                            this.onFieldChange('time', 'start');
-//                        },
-//                        scope: this
-//                    }
-//                }
-//            });
-//            this.endTime = Ext.create('Ext.form.TimeField', {
-//                id: this.id+'-end-time',
-//                hidden: this.showTimes === false,
-//                labelWidth: 0,
-//                hideLabel:true,
-//                width:90,
-//                listeners: {
-//                    'select': {
-//                        fn: function(){
-//                            this.onFieldChange('time', 'end');
-//                        },
-//                        scope: this
-//                    }
-//                }
-//            })
-//            this.endDate = Ext.create('Ext.form.DateField', {
-//                id: this.id+'-end-date',
-//                format: this.dateFormat,
-//                hideLabel:true,
-//                width:100,
-//                listeners: {
-//                    'change': {
-//                        fn: function(){
-//                            this.onFieldChange('date', 'end');
-//                        },
-//                        scope: this
-//                    }
-//                }
-//            });
-//            this.allDay = Ext.create('Ext.form.Checkbox', {
-//                id: this.id+'-allday',
-//                hidden: this.showTimes === false || this.showAllDay === false,
-//                boxLabel: this.allDayText,
-//                handler: function(chk, checked){
-//                    this.startTime.setVisible(!checked);
-//                    this.endTime.setVisible(!checked);
-//                },
-//                scope: this
-//            });
-//            this.toLabel = Ext.create('Ext.form.Label', {
-//                xtype: 'label',
-//                id: this.id+'-to-label',
-//                text: this.toText
-//            });
-            
-//            var singleLine = this.singleLine;
-//            if(singleLine == 'auto'){
-//                var el, w = this.ownerCt.getWidth() - this.ownerCt.getEl().getPadding('lr');
-//                if(el = this.ownerCt.getEl().child('.x-panel-body')){
-//                    w -= el.getPadding('lr');
-//                }
-//                if(el = this.ownerCt.getEl().child('.x-form-item-label')){
-//                    w -= el.getWidth() - el.getPadding('lr');
-//                }
-//                singleLine = w <= this.singleLineMinWidth ? false : true;
-//            }
-//            
-//            this.fieldCt = Ext.create('Ext.Container', {
-//                autoEl: {id:this.id}, //make sure the container el has the field's id
-//                cls: 'ext-dt-range',
-//                renderTo: ct,
-//                layout: 'table',
-//                layoutConfig: {
-//                    columns: singleLine ? 6 : 3
-//                },
-//                defaults: {
-//                    hideParent: true
-//                },
-//                items:[
-//                    this.startDate,
-//                    this.startTime,
-//                    this.toLabel,
-//                    singleLine ? this.endTime : this.endDate,
-//                    singleLine ? this.endDate : this.endTime,
-//                    this.allDay
-//                ]
-//            });
-//            
-//            this.fieldCt.ownerCt = this;
-//            this.el = this.fieldCt.getEl();
-//            this.items = Ext.create('Ext.util.MixedCollection');
-//            this.items.addAll([this.startDate, this.endDate, this.toLabel, this.startTime, this.endTime, this.allDay]);
-//        }
-//        
-//        this.callParent(arguments);
-//        
-//        if(!singleLine){
-//            this.el.child('tr').addCls('ext-dt-range-row1');
-//        }
-//    },
-
     // private
     onFieldChange: function(type, startend){
         this.checkDates(type, startend);
@@ -396,14 +275,14 @@ Ext.define('Extensible.form.field.DateRange', {
             endValue = me.getDT('end');
 
         if(startValue > endValue){
-            if(startend=='start'){
+            if(startend === 'start'){
                 endField.setValue(startValue);
             }else{
                 startField.setValue(endValue);
                 me.checkDates(type, 'start');
             }
         }
-        if(type=='date'){
+        if(type === 'date'){
             me.checkDates('time', startend);
         }
     },
@@ -412,13 +291,13 @@ Ext.define('Extensible.form.field.DateRange', {
      * Returns an array containing the following values in order:<div class="mdetail-params"><ul>
      * <li><b><code>DateTime</code></b> : <div class="sub-desc">The start date/time</div></li>
      * <li><b><code>DateTime</code></b> : <div class="sub-desc">The end date/time</div></li>
-     * <li><b><code>Boolean</code></b> : <div class="sub-desc">True if the dates are all-day, false 
+     * <li><b><code>Boolean</code></b> : <div class="sub-desc">True if the dates are all-day, false
      * if the time values should be used</div></li><ul></div>
      * @return {Array} The array of return values
      */
     getValue: function(){
         return [
-            this.getDT('start'), 
+            this.getDT('start'),
             this.getDT('end'),
             this.allDay.getValue()
         ];
@@ -434,8 +313,9 @@ Ext.define('Extensible.form.field.DateRange', {
         }
         else{
             return null;
-        };
-        if(time && time != ''){
+        }
+        
+        if(time && time !== ''){
             time = Ext.Date.format(time, this[startend+'Time'].format);
             var val = Ext.Date.parseDate(dt + ' ' + time, this[startend+'Date'].format + ' ' + this[startend+'Time'].format);
             return val;

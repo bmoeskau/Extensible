@@ -1,6 +1,6 @@
 /* @private
  * This is an internal helper class for the calendar views and should not be overridden.
- * It is responsible for the base event rendering logic underlying all views based on a 
+ * It is responsible for the base event rendering logic underlying all views based on a
  * box-oriented layout that supports day spanning (MonthView, MultiWeekView, DayHeaderView).
  */
 Ext.define('Extensible.calendar.util.WeekEventRenderer', {
@@ -71,7 +71,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
         /**
          * Events are collected into a big multi-dimensional array in the view, then passed here
          * for rendering. The event grid consists of an array of weeks (1-n), each of which contains an
-         * array of days (1-7), each of which contains an array of events and span placeholders (0-n). 
+         * array of days (1-7), each of which contains an array of events and span placeholders (0-n).
          * @param {Object} o An object containing all of the supported config options (see
          * Extensible.calendar.view.Month.renderItems() to see what gets passed).
          * @private
@@ -85,9 +85,9 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                 currentDate = Ext.Date.clone(config.viewStart),
                 currentDateString = '',
                 eventTpl = config.tpl,
-                maxEventsPerDay = config.maxEventsPerDay != undefined ? config.maxEventsPerDay : 999,
+                maxEventsPerDay = config.maxEventsPerDay !== undefined ? config.maxEventsPerDay : 999,
                 weekCount = config.weekCount < 1 ? 6 : config.weekCount,
-                dayCount = config.weekCount == 1 ? config.dayCount : 7,
+                dayCount = config.weekCount === 1 ? config.dayCount : 7,
                 eventRow,
                 dayIndex,
                 weekGrid,

@@ -24,8 +24,8 @@ Ext.define('Extensible.calendar.view.MultiDay', {
      * it will always begin with Thursday, regardless of the value of {@link #startDay}.</p>
      * <p>If you set <tt>startDayIsStatic</tt> to <tt>true</tt>, then the view will <em>always</em> begin on
      * {@link #startDay}. For any {@link #dayCount} less than 7, days outside the startDay + dayCount range
-     * will not be viewable. If a date that is not in the viewable range is set into the view it will 
-     * automatically advance to the first viewable date for the current range.  This could be useful for 
+     * will not be viewable. If a date that is not in the viewable range is set into the view it will
+     * automatically advance to the first viewable date for the current range.  This could be useful for
      * creating custom views like a weekday-only or weekend-only view.</p>
      * <p>Some example {@link Extensible.calendar.CalendarPanel CalendarPanel} configs:</p>
      * <pre><code>

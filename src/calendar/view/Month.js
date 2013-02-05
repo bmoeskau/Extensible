@@ -22,14 +22,14 @@ Ext.define('Extensible.calendar.view.Month', {
      * @cfg {String} moreText
      * <p><b>Deprecated.</b> Please override {@link #getMoreText} instead.</p>
      * <p>The text to display in a day box when there are more events than can be displayed and a link is provided to
-     * show a popup window with all events for that day (defaults to '+{0} more...', where {0} will be 
+     * show a popup window with all events for that day (defaults to '+{0} more...', where {0} will be
      * replaced by the number of additional events that are not currently displayed for the day).</p>
      * @deprecated
      */
     moreText: '+{0} more...',
     /**
      * @cfg {String} detailsTitleDateFormat
-     * The date format for the title of the details panel that shows when there are hidden events and the "more" link 
+     * The date format for the title of the details panel that shows when there are hidden events and the "more" link
      * is clicked (defaults to 'F j').
      */
     detailsTitleDateFormat: 'F j',
@@ -40,32 +40,33 @@ Ext.define('Extensible.calendar.view.Month', {
     showTime: true,
     /**
      * @cfg {Boolean} showTodayText
-     * True to display the {@link #todayText} string in today's box in the calendar, false to not display it (defaults to true)
+     * True to display the {@link #todayText} string in today's box in the calendar, false to not display it
+     * (defaults to true)
      */
     showTodayText: true,
     /**
      * @cfg {Boolean} showHeader
-     * True to display a header beneath the navigation bar containing the week names above each week's column, false not to 
-     * show it and instead display the week names in the first row of days in the calendar (defaults to false).
+     * True to display a header beneath the navigation bar containing the week names above each week's column, false
+     * not to show it and instead display the week names in the first row of days in the calendar (defaults to false).
      */
     showHeader: false,
     /**
      * @cfg {Boolean} showWeekLinks
-     * True to display an extra column before the first day in the calendar that links to the {@link Extensible.calendar.view.Week view}
-     * for each individual week, false to not show it (defaults to false). If true, the week links can also contain the week 
-     * number depending on the value of {@link #showWeekNumbers}.
+     * True to display an extra column before the first day in the calendar that links to the
+     * {@link Extensible.calendar.view.Week view} for each individual week, false to not show it (defaults to false).
+     * If true, the week links can also contain the week number depending on the value of {@link #showWeekNumbers}.
      */
     showWeekLinks: false,
     /**
      * @cfg {Boolean} showWeekNumbers
-     * True to show the week number for each week in the calendar in the week link column, false to show nothing (defaults to false).
-     * Note that if {@link #showWeekLinks} is false this config will have no affect even if true.
+     * True to show the week number for each week in the calendar in the week link column, false to show nothing
+     * (defaults to false). Note that if {@link #showWeekLinks} is false this config will have no affect even if true.
      */
     showWeekNumbers: false,
     /**
      * @cfg {String} weekLinkOverClass
-     * The CSS class name applied when the mouse moves over a week link element (only applies when {@link #showWeekLinks} is true,
-     * defaults to 'ext-week-link-over').
+     * The CSS class name applied when the mouse moves over a week link element (only applies when
+     * {@link #showWeekLinks} is true, defaults to 'ext-week-link-over').
      */
     weekLinkOverClass: 'ext-week-link-over',
     /**
@@ -94,13 +95,13 @@ Ext.define('Extensible.calendar.view.Month', {
         this.addEvents({
             /**
              * @event dayclick
-             * Fires after the user clicks within the view container and not on an event element. This is a cancelable event, so 
-             * returning false from a handler will cancel the click without displaying the event editor view. This could be useful 
-             * for validating that a user can only create events on certain days.
+             * Fires after the user clicks within the view container and not on an event element. This is a
+             * cancelable event, so returning false from a handler will cancel the click without displaying the event
+             * editor view. This could be useful for validating that a user can only create events on certain days.
              * @param {Extensible.calendar.view.Month} this
              * @param {Date} dt The date/time that was clicked on
-             * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks within the 
-             * MonthView always return true for this param.
+             * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks
+             * within the MonthView always return true for this param.
              * @param {Ext.Element} el The Element that was clicked on
              */
             dayclick: true,
@@ -194,11 +195,11 @@ Ext.define('Extensible.calendar.view.Month', {
                 Ext.TaskManager.stop(this.clockTask);
             }
             this.clockTask = Ext.TaskManager.start({
-                run: function(){ 
+                run: function(){
                     var el = Ext.fly(this.id+'-clock'),
                         t = new Date();
                         
-                    if(t.getDay() == this.prevClockDay){
+                    if(t.getDay() === this.prevClockDay){
                         if(el){
                             el.update(Ext.Date.format(t, Extensible.Date.use24HourTime ? 'G:i' : 'g:ia'));
                         }
@@ -215,11 +216,11 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     /**
-     * <p>Returns the text to display in a day box when there are more events than can be displayed and a link is 
-     * provided to show a popup window with all events for that day (defaults to '+{0} more...', where {0} will be 
+     * <p>Returns the text to display in a day box when there are more events than can be displayed and a link is
+     * provided to show a popup window with all events for that day (defaults to '+{0} more...', where {0} will be
      * replaced by the number of additional events that are not currently displayed for the day).</p>
      * @param {Integer} numEvents The number of events currently hidden from view
-     * @return {String} The text to display for the "more" link 
+     * @return {String} The text to display for the "more" link
      */
     getMoreText: function(numEvents){
         return this.moreText;
@@ -251,12 +252,12 @@ Ext.define('Extensible.calendar.view.Month', {
         if(!this.eventTpl){
             var tpl, body = this.getEventBodyMarkup();
             
-            tpl = !(Ext.isIE || Ext.isOpera) ? 
+            tpl = !(Ext.isIE || Ext.isOpera) ?
                 Ext.create('Ext.XTemplate',
                     '<div class="{_extraCls} {spanCls} ext-cal-evt ext-cal-evr">',
                         body,
                     '</div>'
-                ) 
+                )
                 : Ext.create('Ext.XTemplate',
                     '<tpl if="_renderAsAllDay">',
                         '<div class="{_extraCls} {spanCls} ext-cal-evt ext-cal-evo">',
@@ -284,13 +285,14 @@ Ext.define('Extensible.calendar.view.Month', {
         var M = Extensible.calendar.data.EventMappings,
             extraClasses = [this.getEventSelectorCls(evtData[M.EventId.name])],
             templateData = {},
-            recurring = evtData[M.RRule.name] != '',
+            recurring = evtData[M.RRule.name] !== '',
             colorCls = 'x-cal-default',
             title = evtData[M.Title.name],
-            fmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ';
+            fmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
+            rec;
         
         if (this.calendarStore && evtData[M.CalendarId.name]) {
-            var rec = this.calendarStore.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, evtData[M.CalendarId.name]);
+            rec = this.calendarStore.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, evtData[M.CalendarId.name]);
             if(rec){
                 colorCls = 'x-cal-' + rec.get(Extensible.calendar.data.CalendarMappings.ColorId.name);
             }
@@ -303,16 +305,16 @@ Ext.define('Extensible.calendar.view.Month', {
         }
         
         if (this.getEventClass) {
-            var rec = this.getEventRecord(evtData[M.EventId.name]),
-                cls = this.getEventClass(rec, !!evtData._renderAsAllDay, templateData, this.store);
+            rec = this.getEventRecord(evtData[M.EventId.name]);
+            var cls = this.getEventClass(rec, !!evtData._renderAsAllDay, templateData, this.store);
             extraClasses.push(cls);
         }
         
         templateData._extraCls = extraClasses.join(' ');
-        templateData._isRecurring = evtData[M.RRule.name] && evtData[M.RRule.name] != '';
-        templateData._isReminder = evtData[M.Reminder.name] && evtData[M.Reminder.name] != '';
-        templateData.Title = (evtData[M.IsAllDay.name] ? '' : Ext.Date.format(evtData[M.StartDate.name], fmt)) + 
-                (!title || title.length == 0 ? this.defaultEventTitleText : title);
+        templateData._isRecurring = evtData[M.RRule.name] && evtData[M.RRule.name] !== '';
+        templateData._isReminder = evtData[M.Reminder.name] && evtData[M.Reminder.name] !== '';
+        templateData.Title = (evtData[M.IsAllDay.name] ? '' : Ext.Date.format(evtData[M.StartDate.name], fmt)) +
+                (!title || title.length === 0 ? this.defaultEventTitleText : title);
         
         return Ext.applyIf(templateData, evtData);
     },
@@ -363,7 +365,7 @@ Ext.define('Extensible.calendar.view.Month', {
     // private
     getWeekIndex : function(dt){
         var el = this.getDayEl(dt).up('.ext-cal-wk-ct');
-        return parseInt(el.id.split('-wk-')[1]);
+        return parseInt(el.id.split('-wk-')[1], 10);
     },
     
     // private
@@ -406,8 +408,9 @@ Ext.define('Extensible.calendar.view.Month', {
     
     // private
     getViewPadding: function(sides) {
-        var sides = sides || 'tlbr',
-            top = sides.indexOf('t') > -1,
+        sides = sides || 'tlbr';
+        
+        var top = sides.indexOf('t') > -1,
             left = sides.indexOf('l') > -1,
             right = sides.indexOf('r') > -1,
             height = this.showHeader && top ? this.el.select('.ext-cal-hd-days-tbl').first().getHeight() : 0,
@@ -428,7 +431,7 @@ Ext.define('Extensible.calendar.view.Month', {
         return {
             height: height,
             width: width
-        }
+        };
     },
     
     // private
@@ -444,7 +447,7 @@ Ext.define('Extensible.calendar.view.Month', {
         return {
             date: dt,
             el: this.getDayEl(dt)
-        }
+        };
     },
     
     // inherited docs
@@ -550,10 +553,11 @@ Ext.define('Extensible.calendar.view.Month', {
             this.detailPanel.hide();
         }
         
-        var el = e.getTarget(this.moreSelector, 3);
+        var el = e.getTarget(this.moreSelector, 3),
+            dt;
         
         if (el) {
-            var dt = el.id.split(this.moreElIdDelimiter)[1];
+            dt = el.id.split(this.moreElIdDelimiter)[1];
             this.onMoreClick(Ext.Date.parseDate(dt, 'Ymd'));
             return;
         }
@@ -561,7 +565,7 @@ Ext.define('Extensible.calendar.view.Month', {
         el = e.getTarget(this.weekLinkSelector, 3);
         
         if (el) {
-            var dt = el.id.split(this.weekLinkIdDelimiter)[1];
+            dt = el.id.split(this.weekLinkIdDelimiter)[1];
             this.fireEvent('weekclick', this, Ext.Date.parseDate(dt, 'Ymd'));
             return;
         }
@@ -571,12 +575,12 @@ Ext.define('Extensible.calendar.view.Month', {
             return;
         }
         
-        el = e.getTarget('td', 3)
+        el = e.getTarget('td', 3);
         
         if (el) {
             if (el.id && el.id.indexOf(this.dayElIdDelimiter) > -1) {
-                var parts = el.id.split(this.dayElIdDelimiter),
-                    dt = parts[parts.length-1];
+                var parts = el.id.split(this.dayElIdDelimiter);
+                dt = parts[parts.length-1];
                     
                 //this.fireEvent('dayclick', this, Ext.Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
                 this.onDayClick(Ext.Date.parseDate(dt, 'Ymd'), false, Ext.get(this.getDayId(dt)));
@@ -589,7 +593,7 @@ Ext.define('Extensible.calendar.view.Month', {
     handleDayMouseEvent : function(e, t, type){
         var el = e.getTarget(this.weekLinkSelector, 3, true);
         if(el){
-            el[type == 'over' ? 'addCls' : 'removeCls'](this.weekLinkOverClass);
+            el[type === 'over' ? 'addCls' : 'removeCls'](this.weekLinkOverClass);
             return;
         }
         this.callParent(arguments);
