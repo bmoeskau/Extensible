@@ -100,12 +100,14 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
                 curr = Extensible.Date.add(this.resizeDt, {millis: diff});
                 
                 var start = Extensible.Date.min(data.eventStart, curr),
-                    end = Extensible.Date.max(data.eventStart, curr);
+                    end = Extensible.Date.max(data.eventStart, curr),
+                    startDateName = Extensible.calendar.data.EventMappings.StartDate.name,
+                    endDateName = Extensible.calendar.data.EventMappings.EndDate.name;
                     
-                data.resizeDates = {
-                    StartDate: start,
-                    EndDate: end
-                };
+                data.resizeDates = {};
+                data.resizeDates[startDateName] = start;
+                data.resizeDates[endDateName] = end;
+                
                 
                 dt = Ext.String.format(this.dateRangeFormat,
                     Ext.Date.format(start, timeFormat),
