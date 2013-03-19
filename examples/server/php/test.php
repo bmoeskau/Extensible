@@ -13,30 +13,35 @@
     
     require(dirname(__FILE__).'/config.php');
     require(dirname(__FILE__).'/db.php');
+    require(dirname(__FILE__).'/pretty-json.php');
     
     $db = new Database();
+    
+    function out($data) {
+        echo pretty(json_encode($data));
+    };
     
     // READ
     //------------------------------------------------
     // Select all:
     //------------------------------------------------
-    // echo json_encode($db->select('events'));
-    // echo json_encode($db->select('calendars'));
+    out($db->select('events'));
+    // out($db->select('calendars'));
     
     // Select by id:
-    // echo json_encode($db->select('events', 45));
-    // echo json_encode($db->select('calendars', 3));
+    // out($db->select('events', 45));
+    // out($db->select('calendars', 3));
     
     //------------------------------------------------
     // Query by other cols:
     //------------------------------------------------
     // Single column:
-    // echo json_encode($db->query('events', array(
+    // out($db->query('events', array(
         // calendar_id => 2
     // )));
     
     // Single column, custom comparator:
-    // echo json_encode($db->query('events', array(
+    // out($db->query('events', array(
         // calendar_id => array(
             // value => 2,
             // comparator => '>='
@@ -44,7 +49,7 @@
     // )));
     
     // Multi-column, mixed styles:
-    // echo json_encode($db->query('events', array(
+    // out($db->query('events', array(
         // calendar_id => 2,
         // start => array(
             // value => '2013-02-01',
@@ -53,7 +58,7 @@
     // )));
     
     // Multi-column with custom comparator (defaults to =) and conjunction (defaults to AND):
-    // echo json_encode($db->query('events', array(
+    // out($db->query('events', array(
         // title => array(
             // value => 'lunch',
             // comparator => 'LIKE'
@@ -65,7 +70,7 @@
     // )));
     
     // Multiple clauses for the same column:
-    // echo json_encode($db->query('events', array(
+    // out($db->query('events', array(
         // array(
             // column => 'start', // must use the 'column' key
             // value => '2013-01-01',
@@ -73,19 +78,19 @@
         // ),
         // array(
             // column => 'start', // must use the 'column' key
-            // value => '2013-01-31',
+            // value => '2013-03-31',
             // comparator => '<='
         // )
     // )));
     
     // CREATE
     //------------------------------------------------
-    // echo json_encode($db->insert('events', array(
+    // out($db->insert('events', array(
         // title => 'Test event',
         // start => '2013-02-15 12:00:00',
         // end => '2013-02-15 13:00:00'
     // )));
-    // echo json_encode($db->insert('calendars', array(
+    // out($db->insert('calendars', array(
         // id => 5,
         // title => 'Test calendar',
         // color => 10
@@ -93,13 +98,13 @@
     
     // UPDATE
     //------------------------------------------------
-    // echo json_encode($db->update('events', array(
+    // out($db->update('events', array(
         // id => 45,
         // title => 'Test event',
         // start => '2013-02-15 12:00:00',
         // end => '2013-02-15 13:00:00'
-    // // )));
-    // echo json_encode($db->update('calendars', array(
+    // )));
+    // out($db->update('calendars', array(
         // id => 1,
         // title => 'Test calendar',
         // color => 10
@@ -107,6 +112,6 @@
     
     // DELETE
     //------------------------------------------------
-    // echo json_encode($db->delete('events', 45));
-    // echo json_encode($db->delete('calendars', 1));
+    // out($db->delete('events', 45));
+    // out($db->delete('calendars', 1));
 ?>
