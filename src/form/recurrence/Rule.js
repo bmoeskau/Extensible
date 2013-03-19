@@ -16,8 +16,6 @@
  * @author Gabriel Sidler, http://teamup.com
  */
 Ext.define('Extensible.form.recurrence.Rule', {
-    extend: 'Ext.Base',
-    
     config: {
         /**
          * @cfg {String} dateValueFormat
