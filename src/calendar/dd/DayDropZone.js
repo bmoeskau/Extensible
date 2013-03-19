@@ -120,6 +120,8 @@ Ext.define('Extensible.calendar.dd.DayDropZone', {
     },
     
     shim: function(dt, box) {
+        this.DDMInstance.notifyOccluded = true;
+        
         Ext.each(this.shims, function(shim) {
             if(shim) {
                 shim.isActive = false;

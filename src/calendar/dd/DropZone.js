@@ -55,7 +55,9 @@ Ext.define('Extensible.calendar.dd.DropZone', {
     },
     
     shim: function(start, end) {
+        this.DDMInstance.notifyOccluded = true;
         this.currWeek = -1;
+        
         var dt = Ext.Date.clone(start),
             i = 0,
             shim,
@@ -113,6 +115,7 @@ Ext.define('Extensible.calendar.dd.DropZone', {
     
     createShim: function() {
         var owner = this.view.ownerCalendarPanel ? this.view.ownerCalendarPanel: this.view;
+        
         if (!this.shimCt) {
             this.shimCt = Ext.get('ext-dd-shim-ct-'+owner.id);
             if (!this.shimCt) {
@@ -138,6 +141,7 @@ Ext.define('Extensible.calendar.dd.DropZone', {
                 shim.hide();
             }
         });
+        this.DDMInstance.notifyOccluded = false;
     },
     
     onContainerOver: function(dd, e, data) {
