@@ -22,7 +22,7 @@ Ext.onReady(function() {
     if (exists('Extensible.calendar.view.Month')) {
         Ext.apply(Extensible.calendar.view.Month.prototype, {
             moreText: '+ încă {0}...',
-            getMoreText: function(numEvents){
+            getMoreText: function(numEvents) {
                 return '+ încă {0}...';
             },
             detailsTitleDateFormat: 'F j'
@@ -39,10 +39,10 @@ Ext.onReady(function() {
             goText: 'Vezi',
             multiDayText: '{0} Zile',
             multiWeekText: '{0} Săptămâni',
-            getMultiDayText: function(numDays){
+            getMultiDayText: function(numDays) {
                 return '{0} Zile';
             },
-            getMultiWeekText: function(numWeeks){
+            getMultiWeekText: function(numWeeks) {
                 return '{0} Săptămâni';
             }
         });
@@ -130,16 +130,16 @@ Ext.onReady(function() {
             fieldLabel: 'Anunță-mă',
             noneText: 'Niciodată',
             atStartTimeText: 'La începutul evenimentului',
-            getMinutesText: function(numMinutes){
+            getMinutesText: function(numMinutes) {
                 return numMinutes === 1 ? 'minut' : 'minute';
             },
-            getHoursText: function(numHours){
+            getHoursText: function(numHours) {
                 return numHours === 1 ? 'ora' : 'ore';
             },
-            getDaysText: function(numDays){
+            getDaysText: function(numDays) {
                 return numDays === 1 ? 'zi' : 'zile';
             },
-            getWeeksText: function(numWeeks){
+            getWeeksText: function(numWeeks) {
                 return numWeeks === 1 ? 'săptămână' : 'săptămâni';
             },
             reminderValueFormat: '{0} {1} înainte de început' // e.g. "2 hours before start"

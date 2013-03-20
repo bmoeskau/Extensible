@@ -26,7 +26,7 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
     },
     
     // private
-    initComponent: function(){
+    initComponent: function() {
         var me = this;
         
         me.editMode = me.editMode || me.editModes.ALL;

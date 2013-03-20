@@ -75,7 +75,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */
-    startDay : 0,
+    startDay: 0,
 
     /**
      * @cfg {Boolean} recurrence
@@ -107,7 +107,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     layout: 'column',
     
     // private
-    initComponent: function(){
+    initComponent: function() {
         
         this.addEvents({
             /**
@@ -188,7 +188,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             leftFields  = [this.titleField, this.dateRangeField, this.reminderField,
                            this.notesField, this.locationField, this.urlField];
             
-        if(this.recurrence){
+        if(this.recurrence) {
             this.recurrenceField = Ext.create('Extensible.form.recurrence.Fieldset', {
                 recurrenceOptions: this.recurrence,
                 name: Extensible.calendar.data.EventMappings.RRule.name,
@@ -199,7 +199,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             leftFields.splice(2, 0, this.recurrenceField);
         }
         
-        if(this.calendarStore){
+        if(this.calendarStore) {
             this.calendarField = Ext.create('Extensible.calendar.form.field.CalendarCombo', {
                 store: this.calendarStore,
                 fieldLabel: this.calendarLabelText,
@@ -251,8 +251,8 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     },
     
     // private
-    onDateChange: function(dateRangeField, val){
-        if(this.recurrenceField){
+    onDateChange: function(dateRangeField, val) {
+        if(this.recurrenceField) {
             this.recurrenceField.setStartDate(val[0]);
         }
     },
@@ -341,13 +341,13 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     },
     
     // private
-    onCancel: function(){
+    onCancel: function() {
         this.cleanup(true);
         this.fireEvent('eventcancel', this, this.activeRecord);
     },
     
     // private
-    cleanup: function(hide){
+    cleanup: function(hide) {
         if (this.activeRecord) {
             this.activeRecord.reject();
         }
@@ -359,7 +359,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     },
     
     // private
-    onSave: function(){
+    onSave: function() {
         var me = this,
             originalHasRecurrence = me.activeRecord.isRecurring();
         
@@ -376,9 +376,10 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             me.fireEvent('eventadd', me, me.activeRecord);
         }
         else {
-            if (originalHasRecurrence) {
-                // We only need to prompt when editing an existing recurring event. If a normal
-                // event is edited to make it recurring just do a standard update.
+            if (originalHasRecurrence && me.activeRecord.isRecurring()) {
+                // We only need to prompt when editing an event that was recurring before being edited and is
+                // still recurring after being edited. If a normal event is edited to make it recurring or a
+                // recurring event is edited to make it normal just do a standard update.
                 me.onRecurrenceUpdate();
             }
             else {
@@ -406,7 +407,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     },
 
     // private
-    onDelete: function(){
+    onDelete: function() {
         this.fireEvent('eventdelete', this, this.activeRecord);
     }
 });

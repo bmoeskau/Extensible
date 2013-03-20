@@ -121,7 +121,7 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
         return this;
     },
     
-    updateLabel: function(unit){
+    updateLabel: function(unit) {
         var me = this;
         
         if (me.intervalField) {

@@ -39,7 +39,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */
-    startDay : 0,
+    startDay: 0,
 
     //TODO: implement code to use this config.
     // Maybe use xtypes instead for dynamic loading of custom options?
@@ -65,7 +65,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         anchor: '100%'
     },
     
-    initComponent : function() {
+    initComponent: function() {
         var me = this;
         
         if (!me.height || me.displayStyle === 'field') {
@@ -177,7 +177,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     },
     
     // private
-    initValue: function(){
+    initValue: function() {
         var me = this;
 
         me.originalValue = me.lastValue = me.value;
@@ -262,7 +262,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         }
         
         this.innerContainer.items.each(function(item) {
-            if(item.isVisible() && item.getValue){
+            if(item.isVisible() && item.getValue) {
                 itemValue = item.getValue();
                 if (this.includeItemValue(itemValue)) {
                     values.push(itemValue);
@@ -294,7 +294,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         return this.rrule.setRule(this.getValue()).getDescription();
     },
     
-    setValue: function(value){
+    setValue: function(value) {
         var me = this;
         
         me.value = (!value || value === 'NONE' ? '' : value);
@@ -373,7 +373,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             me.innerContainer.show();
         }
         
-        switch(freq){
+        switch(freq) {
             case 'DAILY':
             case 'WEEKDAYS':
                 me.weeklyField.hide();

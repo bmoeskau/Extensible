@@ -26,10 +26,10 @@ Ext.define('Extensible.calendar.view.DayBody', {
     hourIncrement: 60,
 
     //private
-    initComponent : function(){
+    initComponent: function() {
         this.callParent(arguments);
 
-        if(this.readOnly === true){
+        if(this.readOnly === true) {
             this.enableEventResize = false;
         }
         this.incrementsPerHour = this.hourIncrement / this.ddIncrement;
@@ -74,7 +74,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     //private
-    initDD : function(){
+    initDD: function() {
         var cfg = {
             view: this,
             createText: this.ddCreateEventText,
@@ -104,7 +104,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     //private
-    refresh : function(reloadData){
+    refresh: function(reloadData) {
         Extensible.log('refresh (DayBodyView)');
         var top = this.el.getScroll().top;
 
@@ -113,7 +113,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         // skip this if the initial render scroll position has not yet been set.
         // necessary since IE/Opera must be deferred, so the first refresh will
         // override the initial position by default and always set it to 0.
-        if(this.scrollReady){
+        if(this.scrollReady) {
             this.scrollTo(top);
         }
     },
@@ -131,10 +131,10 @@ Ext.define('Extensible.calendar.view.DayBody', {
      * <p>Note that this method should not generally need to be called directly as scroll position is
      * managed internally.</p>
      */
-    scrollTo : function(y, defer){
+    scrollTo: function(y, defer) {
         defer = defer || (Ext.isIE || Ext.isOpera);
-        if(defer){
-            Ext.defer(function(){
+        if(defer) {
+            Ext.defer(function() {
                 this.el.scrollTo('top', y);
                 this.scrollReady = true;
             }, 10, this);
@@ -146,8 +146,8 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     // private
-    afterRender : function(){
-        if(!this.tpl){
+    afterRender: function() {
+        if(!this.tpl) {
             this.tpl = Ext.create('Extensible.calendar.template.DayBody', {
                 id: this.id,
                 dayCount: this.dayCount,
@@ -171,7 +171,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         var startHour = Math.max(this.scrollStartHour, this.viewStartHour),
             scrollStart = Math.max(0, startHour - this.viewStartHour);
 
-        if(scrollStart > 0){
+        if(scrollStart > 0) {
             this.scrollTo(scrollStart * this.hourHeight);
         }
     },
@@ -180,7 +180,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     forceSize: Ext.emptyFn,
 
     // private -- called from DayViewDropZone
-    onEventResize : function(rec, data){
+    onEventResize: function(rec, data) {
         var me = this,
             EventMappings = Extensible.calendar.data.EventMappings,
             compareFn = Extensible.Date.compare;
@@ -221,7 +221,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         // else user canceled
     },
 
-    doEventResize : function(rec, data){
+    doEventResize: function(rec, data) {
         var EventMappings = Extensible.calendar.data.EventMappings,
             startDateName = EventMappings.StartDate.name,
             endDateName = EventMappings.EndDate.name,
@@ -244,8 +244,8 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     // inherited docs
-    getEventBodyMarkup : function(){
-        if(!this.eventBodyMarkup){
+    getEventBodyMarkup: function() {
+        if(!this.eventBodyMarkup) {
             this.eventBodyMarkup = ['{Title}',
                 '<tpl if="_isReminder">',
                     '<i class="ext-cal-ic ext-cal-ic-rem">&#160;</i>',
@@ -265,8 +265,8 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     // inherited docs
-    getEventTemplate : function(){
-        if(!this.eventTpl){
+    getEventTemplate: function() {
+        if(!this.eventTpl) {
             this.eventTpl = !(Ext.isIE || Ext.isOpera) ?
                 Ext.create('Ext.XTemplate',
                     '<div id="{_elId}" class="{_extraCls} ext-cal-evt ext-cal-evr" ',
@@ -306,8 +306,8 @@ Ext.define('Extensible.calendar.view.DayBody', {
      * overridden version also does the same.</p>
      * @return {Ext.XTemplate} The event XTemplate
      */
-    getEventAllDayTemplate : function(){
-        if(!this.eventAllDayTpl){
+    getEventAllDayTemplate: function() {
+        if(!this.eventAllDayTpl) {
             var tpl, body = this.getEventBodyMarkup();
 
             tpl = !(Ext.isIE || Ext.isOpera) ?
@@ -336,7 +336,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     // private
-    getTemplateEventData : function(evtData){
+    getTemplateEventData: function(evtData) {
         var M = Extensible.calendar.data.EventMappings,
             extraClasses = [this.getEventSelectorCls(evtData[M.EventId.name])],
             data = {},
@@ -348,7 +348,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
 
         this.getTemplateEventBox(evtData);
 
-        if(this.calendarStore && evtData[M.CalendarId.name]){
+        if(this.calendarStore && evtData[M.CalendarId.name]) {
             rec = this.calendarStore.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name,
                 evtData[M.CalendarId.name]);
 
@@ -361,7 +361,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
 
         extraClasses.push('ext-evt-block');
 
-        if(this.getEventClass){
+        if(this.getEventClass) {
             rec = this.getEventRecord(evtData[M.EventId.name]);
             var cls = this.getEventClass(rec, !!evtData._renderAsAllDay, data, this.store);
             extraClasses.push(cls);
@@ -377,7 +377,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     // private
-    getEventPositionOffsets: function(){
+    getEventPositionOffsets: function() {
         return {
             top: 0,
             height: -1
@@ -385,7 +385,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     // private
-    getTemplateEventBox : function(evtData){
+    getTemplateEventBox: function(evtData) {
         var heightFactor = this.hourHeight / this.hourIncrement,
             start = evtData[Extensible.calendar.data.EventMappings.StartDate.name],
             end = evtData[Extensible.calendar.data.EventMappings.EndDate.name],
@@ -396,11 +396,11 @@ Ext.define('Extensible.calendar.view.DayBody', {
             viewEndDt = Extensible.Date.add(Ext.Date.clone(end), {hours: this.viewEndHour, clearTime: true}),
             evtOffsets = this.getEventPositionOffsets();
 
-        if(start.getHours() >= this.viewStartHour){
+        if(start.getHours() >= this.viewStartHour) {
             // only add the minutes if the start is visible, otherwise it offsets the event incorrectly
             startMins += start.getMinutes();
         }
-        if(end <= viewEndDt){
+        if(end <= viewEndDt) {
             // only add the minutes if the end is visible, otherwise it offsets the event incorrectly
             endMins += end.getMinutes();
         }
@@ -412,21 +412,21 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     // private
-    renderItems: function(){
+    renderItems: function() {
         var day = 0,
             evt,
             evts = [];
         
-        for(; day < this.dayCount; day++){
+        for (; day < this.dayCount; day++) {
             var ev = 0,
                 emptyCells = 0,
                 skipped = 0,
                 d = this.eventGrid[0][day],
                 ct = d ? d.length : 0;
 
-            for(; ev < ct; ev++){
+            for (; ev < ct; ev++) {
                 evt = d[ev];
-                if(!evt){
+                if(!evt) {
                     continue;
                 }
                 var item = evt.data || evt.event.data,
@@ -435,7 +435,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
                     span = this.isEventSpanning(evt.event || evt),
                     renderAsAllDay = ad || span;
 
-                if(renderAsAllDay){
+                if(renderAsAllDay) {
                     // this event is already rendered in the header view
                     continue;
                 }
@@ -459,7 +459,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             evt2,
             dt;
         
-        for(; i<l; i++){
+        for (; i<l; i++) {
             evt = evts[i].data;
             evt2 = null;
             dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
@@ -469,9 +469,9 @@ Ext.define('Extensible.calendar.view.DayBody', {
                     continue;
                 }
                 evt2 = evts[j].data;
-                if(this.isOverlapping(evt, evt2)){
+                if(this.isOverlapping(evt, evt2)) {
                     evt._overlap = evt._overlap === undefined ? 1 : evt._overlap+1;
-                    if(i<j){
+                    if(i<j) {
                         if (evt._overcol === undefined) {
                             evt._overcol = 0;
                         }
@@ -487,7 +487,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             evt = evts[i].data;
             dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
 
-            if(evt._overlap !== undefined){
+            if(evt._overlap !== undefined) {
                 var colWidth = 100 / (overlapCols[dt]+1),
                     evtWidth = 100 - (colWidth * evt._overlap);
 
@@ -504,26 +504,26 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     // private
-    getDayEl : function(dt){
+    getDayEl: function(dt) {
         return Ext.get(this.getDayId(dt));
     },
 
     // private
-    getDayId : function(dt){
-        if(Ext.isDate(dt)){
+    getDayId: function(dt) {
+        if(Ext.isDate(dt)) {
             dt = Ext.Date.format(dt, 'Ymd');
         }
         return this.id + this.dayColumnElIdDelimiter + dt;
     },
 
     // private
-    getDaySize : function(){
+    getDaySize: function() {
         var box = this.el.down('.ext-cal-day-col-inner').getBox();
         return {height: box.height, width: box.width};
     },
 
     // private
-    getDayAt : function(x, y){
+    getDayAt: function(x, y) {
         var sel = '.ext-cal-body-ct',
             xoffset = this.el.down('.ext-cal-day-times').getWidth(),
             viewBox = this.el.getBox(),
@@ -540,7 +540,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             el = this.getDayEl(dt),
             timeX = x;
 
-        if(el){
+        if(el) {
             timeX = el.getLeft();
         }
 
@@ -558,25 +558,25 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     // private
-    onClick : function(e, t){
-        if(this.dragPending || Extensible.calendar.view.DayBody.superclass.onClick.apply(this, arguments)){
+    onClick: function(e, t) {
+        if(this.dragPending || Extensible.calendar.view.DayBody.superclass.onClick.apply(this, arguments)) {
             // The superclass handled the click already so exit
             return;
         }
-        if(e.getTarget('.ext-cal-day-times', 3) !== null){
+        if(e.getTarget('.ext-cal-day-times', 3) !== null) {
             // ignore clicks on the times-of-day gutter
             return;
         }
         var el = e.getTarget('td', 3);
-        if(el){
-            if(el.id && el.id.indexOf(this.dayElIdDelimiter) > -1){
+        if(el) {
+            if(el.id && el.id.indexOf(this.dayElIdDelimiter) > -1) {
                 var dt = this.getDateFromId(el.id, this.dayElIdDelimiter);
                 this.onDayClick(Ext.Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt)));
                 return;
             }
         }
         var day = this.getDayAt(e.getX(), e.getY());
-        if(day && day.date){
+        if(day && day.date) {
             this.onDayClick(day.date, false, null);
         }
     },

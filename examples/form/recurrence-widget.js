@@ -20,7 +20,7 @@ Ext.onReady(function(){
         listeners: {
             'change': function(field, value) {
                 Ext.get('recur-value').update(field.getValue() || '(Empty string)');
-                //Ext.get('recur-desc').update(field.getDescription() || '(Empty string)');
+                Ext.get('recur-desc').update(field.getDescription() || '(Empty string)');
             }
         },
         

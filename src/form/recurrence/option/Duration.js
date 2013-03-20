@@ -35,13 +35,13 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */
-    startDay : 0,
+    startDay: 0,
 
     strings: {
         andContinuing: 'and continuing',
         occurrences: 'occurrences',
         forever: 'forever',
-        'for': 'for',
+        forText: 'for',
         until: 'until'
     },
     
@@ -86,7 +86,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             
             store: [
                 me.strings.forever,
-                me.strings['for'],
+                me.strings.forText,
                 me.strings.until
             ],
             
@@ -176,7 +176,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             me.untilDateIsSet = false;
         }
         
-        if (toShow === me.strings.for) {
+        if (toShow === me.strings.forText) {
             me.untilNumberField.show();
             me.untilNumberLabel.show();
         }
@@ -261,7 +261,7 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             if (me.untilNumberField.isVisible()) {
                 return 'COUNT=' + me.untilNumberField.getValue();
             }
-            else if (me.untilDateField.isVisible()) {
+            if (me.untilDateField.isVisible()) {
                 return 'UNTIL=' + me.rrule.formatDate(this.adjustUntilDateValue(me.untilDateField.getValue()));
             }
         }
@@ -297,11 +297,11 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
             
             if (parts[0] === 'COUNT') {
                 me.untilNumberField.setValue(parts[1]);
-                me.toggleFields(me.strings.for);
+                me.toggleFields(me.strings.forText);
                 didSetValue = true;
                 return;
             }
-            else if (parts[0] === 'UNTIL') {
+            if (parts[0] === 'UNTIL') {
                 me.untilDateField.setValue(me.rrule.parseDate(parts[1]));
                 // If the min date is updated before this new value gets set it can sometimes
                 // lead to a false validation error showing even though the value is valid. This

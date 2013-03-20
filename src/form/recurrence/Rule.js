@@ -1,6 +1,6 @@
 /**
  * @class Extensible.form.recurrence.Rule
- * 
+ *
  * <p>Class Rule represents a iCalendar recurrence rule and offers functionality to parse a recurrence rule string,
  * to generate a recurrence rule string and to compile a textual description of a recurrence rule for display in the
  * user interface.</p>
@@ -71,13 +71,13 @@ Ext.define('Extensible.form.recurrence.Rule', {
          * @cfg {String} byDay
          * <p>The value of the BYDAY attribute of the recurrence rule, or null if the recurrence rule has no
          * BYDAY attribute or if no recurrence rule has been set (default is null).</p>
-         * 
+         *
          * <p>The BYDAY attribute can contain 3 different types of values:</p>
-         * 
+         *
          * - A comma-delimited string of 2-character weekday abbreviations, e.g. 'MO,TU,FR,SU'
          * - A numbered weekday abbreviation that can be positive or negative, e.g. '4TH' or '-1FR'
          * - An integer day offset from the start or end of the period, e.g. 3, 20 or -10.
-         * 
+         *
          * <p>See also {@link #byDayWeekdays} and {@link #byDayNumberedWeekday} for more
          * information about how these values are used.</p>
          */
@@ -268,14 +268,14 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * method is the inverse of {@link #formatDate}.
      * @param {String} dateString A date string in {@link #dateValueFormat iCal format}
      * @param {Object} options An optional options object. This can contain:
-     * 
+     *
      * - A String <tt>format</tt> property to override the default {@link #dateValueFormat} used when parsing
      * the string (not recommended)
      * - A Boolean <tt>strict</tt> property that gets passed to the {@link Ext.Date.parse} method to determine
      * whether or not strict date parsing should be used (defaults to false)
      * - A Date <tt>defaultValue</tt> property to be used in case the string cannot be parsed as a valid date
      * (defaults to the current date)
-     * 
+     *
      * @returns {Date} The corresponding Date object
      */
     parseDate: function(dateString, options) {
@@ -323,16 +323,16 @@ Ext.define('Extensible.form.recurrence.Rule', {
             me.byDay = byDay;
 
             // There are three cases to consider.
-            var n = parseInt(byDay);
+            var n = parseInt(byDay, 10);
             
             if (Ext.isNumber(n)) {
-                if (n == -1 ) {
+                if (n === -1 ) {
                     // The last weekday of period was specified, e.g. -1SU, -1MO, ... -1SA.
-                    me.byDayNthWeekday = {number: n, weekday: byDay.substr(2, 2)}
+                    me.byDayNthWeekday = {number: n, weekday: byDay.substr(2, 2)};
                 }
                 else {
                     // A numbered weekday was specified, e.g. 1SU, 2SU, ... 5SA
-                    me.byDayNthWeekday = {number: n, weekday: byDay.substr(1, 2)}
+                    me.byDayNthWeekday = {number: n, weekday: byDay.substr(1, 2)};
                 }
             }
             else {
@@ -389,7 +389,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
 
         rule.push('FREQ=' + me.frequency);
         
-        if (me.interval != 1) {
+        if (me.interval !== 1) {
             rule.push('INTERVAL=' + me.interval);
         }
         if (me.byDay) {
@@ -418,36 +418,37 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * <p>This function can be used to set a new rule or update an existing rule. If rule attribute FREQ is present
      * in the passed recurrence rule string, then the rule is initialized first before rule properties are set. If
      * rule attribute FREQ is not present, then the rule properties are updated without first initializing the rule.</p>
-     * 
+     *
      * @param {String} rRule iCalendar recurrence rule as a text string. E.g. "FREQ=WEEKLY;INTERVAL=2;"
      */
     applyRule: function(rRule) {
         var rrParams, nbParams, p, v,
+            i = 0,
             me = this;
 
         rrParams = rRule.split(";");
         nbParams = rrParams.length;
 
         // Process the FREQ attribute first because this initializes the rule.
-        for (var i = 0; i < nbParams; i++) {
+        for (; i < nbParams; i++) {
             p = rrParams[i].split("=");
-            if (p[0] == "FREQ") {
+            if (p[0] === "FREQ") {
                 me.setFrequency(p[1]); // This will initialize the rule.
                 break;
             }
         }
 
         // Now process all attributes except the FREQ attribute.
-        for (var i = 0; i < nbParams; i++) {
+        for (i = 0; i < nbParams; i++) {
             p = rrParams[i].split("=");
             v = p[1];
             
             switch (p[0]) {
                 case 'INTERVAL':
-                    me.setInterval(parseInt(v));
+                    me.setInterval(parseInt(v, 10));
                     break;
                 case 'COUNT':
-                    me.setCount(parseInt(v));
+                    me.setCount(parseInt(v, 10));
                     break;
                 case 'UNTIL':
                     me.setUntil(v);
@@ -456,10 +457,10 @@ Ext.define('Extensible.form.recurrence.Rule', {
                     me.setByDay(v);
                     break;
                 case 'BYMONTHDAY':
-                    me.setByMonthDay(parseInt(v));
+                    me.setByMonthDay(parseInt(v, 10));
                     break;
                 case 'BYMONTH':
-                    me.setByMonth(parseInt(v));
+                    me.setByMonth(parseInt(v, 10));
                     break;
             }
         }
@@ -502,7 +503,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
         var me = this,
             strings = me.strings;
         
-        if (me.interval == 1) {
+        if (me.interval === 1) {
             // E.g. Daily
             desc.push(strings.frequency.daily);
         }
@@ -525,7 +526,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
         var me = this,
             strings = me.strings;
         
-        if (me.interval == 1) {
+        if (me.interval === 1) {
             // E.g. Weekly
             desc.push(strings.frequency.weekly);
         }
@@ -556,7 +557,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
                 }
             }
         }
-        else if (startDate){
+        else if (startDate) {
             // No weekdays are specified. Use weekday of parameter startDate as the weekday. E.g. Weekly on Monday
             desc.push(' ', strings.on, ' ', strings.dayNamesLong[me.byDayNames[startDate.getDay()]]);
         }

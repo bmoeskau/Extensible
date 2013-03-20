@@ -29,6 +29,7 @@ Ext.onReady(function() {
             ['hr', 'Croatian'],
             ['cs', 'Czech'],
             ['da', 'Danish'],
+            ['nl', 'Dutch'],
             ['en', 'English (US)'],
             ['fr', 'French (France)'],
             ['de', 'German'],

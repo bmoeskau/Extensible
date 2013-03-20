@@ -15,7 +15,7 @@ noneText: 'None',
 atStartTimeText: 'At start time',
 reminderValueFormat: '{0} {1} before start'
 </code></pre>
- * <p>To customize the descriptions in the dropdown list override the following methods: 
+ * <p>To customize the descriptions in the dropdown list override the following methods:
  * {@link #getMinutesText}, {@link #getHoursText}, {@link #getDaysText} and {@link #getWeeksText}.</p>
  * @constructor
  * @param {Object} config The config object
@@ -61,10 +61,10 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
      * Returns the list of reminder values used as the contents of the combo list. This method is provided so that
      * the value list can be easily overridden as needed.
      * @return {Array} A 2-dimensional array of type [{String}, {String}] which contains the value and description
-     * respectively of each item in the combo list. By default the value is the number of minutes for the selected 
+     * respectively of each item in the combo list. By default the value is the number of minutes for the selected
      * time value (e.g., value 120 == '2 hours') with empty string for no value, but these can be set to anything.
      */
-    getValueList: function(){
+    getValueList: function() {
         var me = this,
             fmt = me.reminderValueFormat,
             stringFormat = Ext.String.format;
@@ -88,7 +88,7 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
             ['7200', stringFormat(fmt, '5', me.getDaysText(5))],
             ['10080', stringFormat(fmt, '1', me.getWeeksText(1))],
             ['20160', stringFormat(fmt, '2', me.getWeeksText(2))]
-        ]
+        ];
     },
     
     /**
@@ -97,7 +97,7 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
      * @param {Number} numMinutes The number of minutes prior to the due time
      * @return {String} The unit text
      */
-    getMinutesText: function(numMinutes){
+    getMinutesText: function(numMinutes) {
         return numMinutes === 1 ? this.minuteText : this.minutesText;
     },
     /**
@@ -106,7 +106,7 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
      * @param {Number} numHours The number of hours prior to the due time
      * @return {String} The unit text
      */
-    getHoursText: function(numHours){
+    getHoursText: function(numHours) {
         return numHours === 1 ? this.hourText : this.hoursText;
     },
     /**
@@ -115,7 +115,7 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
      * @param {Number} numDays The number of days prior to the due time
      * @return {String} The unit text
      */
-    getDaysText: function(numDays){
+    getDaysText: function(numDays) {
         return numDays === 1 ? this.dayText : this.daysText;
     },
     /**
@@ -124,13 +124,13 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
      * @param {Number} numWeeks The number of weeks prior to the due time
      * @return {String} The unit text
      */
-    getWeeksText: function(numWeeks){
+    getWeeksText: function(numWeeks) {
         return numWeeks === 1 ? this.weekText : this.weeksText;
     },
     
     // inherited docs
-    initValue : function(){
-        if(this.value !== undefined){
+    initValue: function() {
+        if(this.value !== undefined) {
             this.setValue(this.value);
         }
         else{

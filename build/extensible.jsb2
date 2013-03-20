@@ -140,6 +140,12 @@
         "file": "pkgs/recurrence.js",
         "isDebug": true,
         "fileIncludes": [{
+            "text": "Rule.js",
+            "path": "../src/form/recurrence/"
+        },{
+            "text": "Parser.js",
+            "path": "../src/form/recurrence/"
+        },{
             "text": "AbstractOption.js",
             "path": "../src/form/recurrence/"
         },{

@@ -97,7 +97,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
     // If the store started with preloaded inline data, we have to make sure the records are set up
     // properly as valid "saved" records otherwise they may get "added" on initial edit.
     initRecs: function() {
-        this.each(function(rec){
+        this.each(function(rec) {
             rec.store = this;
             rec.phantom = false;
         }, this);

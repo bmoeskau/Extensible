@@ -14,22 +14,22 @@ Ext.define('Extensible.calendar.dd.DragZone', {
     eventSelector: '.ext-cal-evt',
     eventSelectorDepth: 10,
     
-    constructor : function(el, config){
-        if(!Extensible.calendar._statusProxyInstance){
+    constructor: function(el, config) {
+        if(!Extensible.calendar._statusProxyInstance) {
             Extensible.calendar._statusProxyInstance = Ext.create('Extensible.calendar.dd.StatusProxy');
         }
         this.proxy = Extensible.calendar._statusProxyInstance;
         this.callParent(arguments);
     },
     
-    getDragData : function(e){
+    getDragData: function(e) {
         // Check whether we are dragging on an event first
         var t = e.getTarget(this.eventSelector, this.eventSelectorDepth);
-        if(t){
+        if(t) {
             var rec = this.view.getEventRecordFromEl(t);
-            if(!rec){
-                // if rec is null here it usually means there was a timing issue between drag 
-                // start and the browser reporting it properly. Simply ignore and it will 
+            if(!rec) {
+                // if rec is null here it usually means there was a timing issue between drag
+                // start and the browser reporting it properly. Simply ignore and it will
                 // resolve correctly once the browser catches up.
                 return;
             }
@@ -42,10 +42,9 @@ Ext.define('Extensible.calendar.dd.DragZone', {
             };
         }
         
-        // If not dragging an event then we are dragging on 
-        // the calendar to add a new event
+        // If not dragging an event then we are dragging on the calendar to add a new event
         t = this.view.getDayAt(e.getX(), e.getY());
-        if(t.el){
+        if(t.el) {
             return {
                 type: 'caldrag',
                 start: t.date,
@@ -55,46 +54,46 @@ Ext.define('Extensible.calendar.dd.DragZone', {
         return null;
     },
     
-    onInitDrag : function(x, y){
-        if(this.dragData.ddel){
+    onInitDrag: function(x, y) {
+        if(this.dragData.ddel) {
             var ghost = this.dragData.ddel.cloneNode(true),
                 child = Ext.fly(ghost).down('dl');
             
             Ext.fly(ghost).setWidth('auto');
             
-            if(child){
+            if(child) {
                 // for IE/Opera
                 child.setHeight('auto');
             }
             this.proxy.update(ghost);
             this.onStartDrag(x, y);
         }
-        else if(this.dragData.start){
+        else if(this.dragData.start) {
             this.onStartDrag(x, y);
         }
         this.view.onInitDrag();
         return true;
     },
     
-    afterRepair : function(){
-        if(Ext.enableFx && this.dragData.ddel){
+    afterRepair: function() {
+        if(Ext.enableFx && this.dragData.ddel) {
             Ext.fly(this.dragData.ddel).highlight(this.hlColor || 'c3daf9');
         }
         this.dragging = false;
     },
     
-    getRepairXY : function(e){
-        if(this.dragData.ddel){
+    getRepairXY: function(e) {
+        if(this.dragData.ddel) {
             return Ext.fly(this.dragData.ddel).getXY();
         }
     },
     
-    afterInvalidDrop : function(e, id){
+    afterInvalidDrop: function(e, id) {
         Ext.select('.ext-dd-shim').hide();
     },
     
-    destroy : function(){
+    destroy: function() {
         this.callParent(arguments);
         delete Extensible.calendar._statusProxyInstance;
-    }    
+    }
 });

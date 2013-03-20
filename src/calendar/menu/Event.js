@@ -15,7 +15,7 @@ Ext.define('Extensible.calendar.menu.Event', {
      * @cfg {Boolean} hideOnClick
      * False to continue showing the menu after a color is selected, defaults to true.
      */
-    hideOnClick : true,
+    hideOnClick: true,
     /**
      * @cfg {Boolean} ignoreParentClicks
      * True to ignore clicks on any item in this menu that is a parent item (displays a submenu)
@@ -26,7 +26,7 @@ Ext.define('Extensible.calendar.menu.Event', {
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */
-    startDay : 0,
+    startDay: 0,
     /**
      * @cfg {String} editDetailsText
      * The text to display for the 'Edit Details' option in the menu.
@@ -51,7 +51,7 @@ Ext.define('Extensible.calendar.menu.Event', {
      * @cfg {Boolean} enableScrolling
      * @hide
      */
-    enableScrolling : false,
+    enableScrolling: false,
     /**
      * @cfg {Number} maxHeight
      * @hide
@@ -70,7 +70,7 @@ Ext.define('Extensible.calendar.menu.Event', {
      */
     
     // private
-    initComponent : function(){
+    initComponent: function() {
         this.addEvents(
             /**
              * @event editdetails
@@ -134,7 +134,7 @@ Ext.define('Extensible.calendar.menu.Event', {
     buildMenu: function() {
         var me = this;
         
-        if(me.rendered){
+        if(me.rendered) {
             return;
         }
         me.dateMenu = Ext.create('Ext.menu.DatePicker', {
@@ -153,14 +153,14 @@ Ext.define('Extensible.calendar.menu.Event', {
                 text: me.editDetailsText,
                 iconCls: 'extensible-cal-icon-evt-edit',
                 scope: me,
-                handler: function(){
+                handler: function() {
                     me.fireEvent('editdetails', me, me.rec, me.ctxEl);
                 }
             },{
                 text: me.deleteText,
                 iconCls: 'extensible-cal-icon-evt-del',
                 scope: me,
-                handler: function(){
+                handler: function() {
                     me.fireEvent('eventdelete', me, me.rec, me.ctxEl);
                 }
             },'-',{
@@ -175,7 +175,7 @@ Ext.define('Extensible.calendar.menu.Event', {
         });
     },
     
-    onEventMoveSelected: function(datePicker, selectedDate){
+    onEventMoveSelected: function(datePicker, selectedDate) {
         this.doCopyOrMove(selectedDate, 'move');
     },
     
@@ -210,7 +210,7 @@ Ext.define('Extensible.calendar.menu.Event', {
     },
     
     // private
-    onHide: function(){
+    onHide: function() {
         this.callParent(arguments);
         delete this.ctxEl;
     }

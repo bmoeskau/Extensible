@@ -26,19 +26,19 @@ Ext.define('Extensible.calendar.view.DayHeader', {
     // The event is declared in MonthView but we're just overriding the docs:
     /**
      * @event dayclick
-     * Fires after the user clicks within the view container and not on an event element. This is a cancelable event, so 
-     * returning false from a handler will cancel the click without displaying the event editor view. This could be useful 
+     * Fires after the user clicks within the view container and not on an event element. This is a cancelable event, so
+     * returning false from a handler will cancel the click without displaying the event editor view. This could be useful
      * for validating that a user can only create events on certain days.
      * @param {Extensible.calendar.view.DayHeader} this
      * @param {Date} dt The date/time that was clicked on
-     * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks within the 
+     * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks within the
      * DayHeaderView always return true for this param.
      * @param {Ext.Element} el The Element that was clicked on
      */
     
     // private
-    afterRender : function(){
-        if(!this.tpl){
+    afterRender: function() {
+        if(!this.tpl) {
             this.tpl = Ext.create('Extensible.calendar.template.DayHeader', {
                 id: this.id,
                 showTodayText: this.showTodayText,
@@ -56,14 +56,14 @@ Ext.define('Extensible.calendar.view.DayHeader', {
     forceSize: Ext.emptyFn,
     
     // private
-    refresh : function(reloadData){
+    refresh: function(reloadData) {
         Extensible.log('refresh (DayHeaderView)');
         this.callParent(arguments);
         this.recalcHeaderBox();
     },
     
     // private
-    recalcHeaderBox : function(){
+    recalcHeaderBox: function() {
         var tbl = this.el.down('.ext-cal-evt-tbl'),
             h = tbl.getHeight();
         
@@ -76,17 +76,17 @@ Ext.define('Extensible.calendar.view.DayHeader', {
     },
     
     // private
-    moveNext : function() {
+    moveNext: function() {
         return this.moveDays(this.dayCount, false);
     },
 
     // private
-    movePrev : function() {
+    movePrev: function() {
         return this.moveDays(-this.dayCount, false);
     },
     
     // private
-    onClick : function(e, t){
+    onClick: function(e, t) {
         var el = e.getTarget('td', 3);
         
         if (el) {
