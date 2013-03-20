@@ -912,6 +912,10 @@ td.ext-cal-dtitle-today div {
 .x-calendar-list .x-panel-header-text {
     color: #555;
 }
+.x-calendar-list ul {
+    margin: 0;
+    padding: 0;
+}
 .x-calendar-list li {
     position: relative;
     margin-bottom: 2px;
