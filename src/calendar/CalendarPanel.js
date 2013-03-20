@@ -170,7 +170,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */
-    startDay : 0,
+    startDay: 0,
     /**
      * @cfg {Ext.data.Store} eventStore
      * The {@link Ext.data.Store store} which is bound to this calendar and contains
@@ -239,7 +239,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     startDate: new Date(),
     
     // private
-    initComponent : function(){
+    initComponent: function() {
         this.tbar = {
             cls: 'ext-cal-toolbar',
             border: true,
@@ -255,16 +255,16 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         //
         // TODO: Pull the configs for the toolbar/buttons out to the prototype for overrideability
         //
-        if(this.showNavToday){
+        if(this.showNavToday) {
             this.tbar.items.push({
                 id: this.id+'-tb-today', text: this.todayText, handler: this.onTodayClick, scope: this
             });
         }
-        if(this.showNavNextPrev){
+        if(this.showNavNextPrev) {
             this.tbar.items.push({id: this.id+'-tb-prev', handler: this.onPrevClick, scope: this, iconCls: 'x-tbar-page-prev'});
             this.tbar.items.push({id: this.id+'-tb-next', handler: this.onNextClick, scope: this, iconCls: 'x-tbar-page-next'});
         }
-        if(this.showNavJump){
+        if(this.showNavJump) {
             this.tbar.items.push(this.jumpToText);
             this.tbar.items.push({id: this.id+'-tb-jump-dt', xtype: 'datefield', width: 120, showToday: false, startDay: this.startDay});
             this.tbar.items.push({id: this.id+'-tb-jump', text: this.goText, handler: this.onJumpClick, scope: this});
@@ -272,33 +272,33 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         
         this.tbar.items.push('->');
         
-        if(this.showDayView){
+        if(this.showDayView) {
             this.tbar.items.push({
                 id: this.id+'-tb-day', text: this.dayText, handler: this.onDayNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
-        if(this.showMultiDayView){
+        if(this.showMultiDayView) {
             text = Ext.String.format(this.getMultiDayText(multiDayViewCount), multiDayViewCount);
             this.tbar.items.push({
                 id: this.id+'-tb-multiday', text: text, handler: this.onMultiDayNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
-        if(this.showWeekView){
+        if(this.showWeekView) {
             this.tbar.items.push({
                 id: this.id+'-tb-week', text: this.weekText, handler: this.onWeekNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
-        if(this.showMultiWeekView){
+        if(this.showMultiWeekView) {
             text = Ext.String.format(this.getMultiWeekText(multiWeekViewCount), multiWeekViewCount);
             this.tbar.items.push({
                 id: this.id+'-tb-multiweek', text: text, handler: this.onMultiWeekNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
             this.viewCount++;
         }
-        if(this.showMonthView || this.viewCount === 0){
+        if(this.showMonthView || this.viewCount === 0) {
             this.tbar.items.push({
                 id: this.id+'-tb-month', text: this.monthText, handler: this.onMonthNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
@@ -309,7 +309,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         var idx = this.viewCount-1;
         this.activeItem = (this.activeItem === undefined ? idx : (this.activeItem > idx ? idx : this.activeItem));
         
-        if(this.showNavBar === false){
+        if(this.showNavBar === false) {
             delete this.tbar;
             this.addCls('x-calendar-nonav');
         }
@@ -546,7 +546,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         
         this.addCls('x-cal-panel');
         
-        if(this.eventStore){
+        if(this.eventStore) {
             this.store = this.eventStore;
             delete this.eventStore;
         }
@@ -567,7 +567,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             ownerCalendarPanel: this
         };
         
-        if(this.showDayView){
+        if(this.showDayView) {
             var day = Ext.apply({
                 xtype: 'extensible.dayview',
                 title: this.dayText
@@ -578,7 +578,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             this.initEventRelay(day);
             this.add(day);
         }
-        if(this.showMultiDayView){
+        if(this.showMultiDayView) {
             var mday = Ext.apply({
                 xtype: 'extensible.multidayview',
                 title: this.getMultiDayText(multiDayViewCount)
@@ -589,7 +589,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             this.initEventRelay(mday);
             this.add(mday);
         }
-        if(this.showWeekView){
+        if(this.showWeekView) {
             var wk = Ext.applyIf({
                 xtype: 'extensible.weekview',
                 title: this.weekText
@@ -600,7 +600,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             this.initEventRelay(wk);
             this.add(wk);
         }
-        if(this.showMultiWeekView){
+        if(this.showMultiWeekView) {
             var mwk = Ext.applyIf({
                 xtype: 'extensible.multiweekview',
                 title: this.getMultiWeekText(multiWeekViewCount)
@@ -611,13 +611,13 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             this.initEventRelay(mwk);
             this.add(mwk);
         }
-        if(this.showMonthView){
+        if(this.showMonthView) {
             var month = Ext.applyIf({
                 xtype: 'extensible.monthview',
                 title: this.monthText,
                 listeners: {
                     'weekclick': {
-                        fn: function(vw, dt){
+                        fn: function(vw, dt) {
                             this.showWeek(dt);
                         },
                         scope: this
@@ -647,10 +647,10 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     },
     
     // private
-    initEventRelay: function(cfg){
+    initEventRelay: function(cfg) {
         cfg.listeners = cfg.listeners || {};
         cfg.listeners.afterrender = {
-            fn: function(c){
+            fn: function(c) {
                 // Relay view events so that app code only has to handle them in one place.
                 // These events require no special handling by the calendar panel.
                 this.relayEvents(c, ['eventsrendered', 'eventclick', 'dayclick', 'eventover', 'eventout',
@@ -667,7 +667,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     },
     
     // private
-    afterRender: function(){
+    afterRender: function() {
         this.callParent(arguments);
         
         this.body.addCls('x-cal-body');
@@ -679,7 +679,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * Returns the text to use for the 'X Days' nav bar button (defaults to "{0} Days" where {0} is automatically replaced by the
      * value of the {@link #multDayViewCfg}'s dayCount value if available, otherwise it uses the view default of 3).
      */
-    getMultiDayText: function(numDays){
+    getMultiDayText: function(numDays) {
         return this.multiDayText;
     },
     
@@ -687,7 +687,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * Returns the text to use for the 'X Weeks' nav bar button (defaults to "{0} Weeks" where {0} is automatically replaced by the
      * value of the {@link #multiWeekViewCfg}'s weekCount value if available, otherwise it uses the view default of 2).
      */
-    getMultiWeekText: function(numWeeks){
+    getMultiWeekText: function(numWeeks) {
         return this.multiWeekText;
     },
     
@@ -695,40 +695,40 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * Sets the event store used by the calendar to display {@link Extensible.calendar.data.EventModel events}.
      * @param {Ext.data.Store} store
      */
-    setStore : function(store, initial){
+    setStore: function(store, initial) {
         var currStore = this.store;
         
-        if(!initial && currStore){
+        if(!initial && currStore) {
             currStore.un("write", this.onWrite, this);
         }
-        if(store){
+        if(store) {
             store.on("write", this.onWrite, this);
         }
         this.store = store;
     },
     
     // private
-    onStoreAdd : function(ds, recs, index){
+    onStoreAdd: function(ds, recs, index) {
         this.hideEditForm();
     },
     
     // private
-    onStoreUpdate : function(ds, rec, operation){
-        if(operation === Ext.data.Record.COMMIT){
+    onStoreUpdate: function(ds, rec, operation) {
+        if(operation === Ext.data.Record.COMMIT) {
             this.hideEditForm();
         }
     },
 
     // private
-    onStoreRemove : function(ds, rec){
+    onStoreRemove: function(ds, rec) {
         this.hideEditForm();
     },
     
     // private
-    onWrite: function(store, operation){
+    onWrite: function(store, operation) {
         var rec = operation.records[0];
         
-        switch(operation.action){
+        switch(operation.action) {
             case 'create':
                 this.onStoreAdd(store, rec);
                 break;
@@ -742,26 +742,26 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     },
     
     // private
-    onEditDetails: function(vw, rec, el){
-        if(this.fireEvent('editdetails', this, vw, rec, el) !== false){
+    onEditDetails: function(vw, rec, el) {
+        if(this.fireEvent('editdetails', this, vw, rec, el) !== false) {
             this.showEditForm(rec);
         }
     },
     
     // private
-    save: function(){
+    save: function() {
         // If the store is configured as autoSync:true the record's endEdit
         // method will have already internally caused a save to execute on
         // the store. We only need to save manually when autoSync is false,
         // otherwise we'll create duplicate transactions.
-        if(!this.store.autoSync){
+        if(!this.store.autoSync) {
             this.store.sync();
         }
     },
         
     // private
-    onEventAdd: function(form, rec){
-        if(!rec.store){
+    onEventAdd: function(form, rec) {
+        if(!rec.store) {
             this.store.add(rec);
             this.save();
         }
@@ -769,20 +769,20 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     },
     
     // private
-    onEventUpdate: function(form, rec){
+    onEventUpdate: function(form, rec) {
         this.save();
         this.fireEvent('eventupdate', this, rec);
     },
     
     // private
-    onEventDelete: function(form, rec){
+    onEventDelete: function(form, rec) {
         this.store.remove(rec);
         this.save();
         this.fireEvent('eventdelete', this, rec);
     },
     
     // private
-    onEventCancel: function(form, rec){
+    onEventCancel: function(form, rec) {
         this.hideEditForm();
         this.fireEvent('eventcancel', this, rec);
     },
@@ -793,7 +793,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * @param {Extensible.calendar.data.EventModel} record The event record to edit
      * @return {Extensible.calendar.CalendarPanel} this
      */
-    showEditForm: function(rec){
+    showEditForm: function(rec) {
         this.preEditView = this.layout.getActiveItem().id;
         this.setActiveView(this.id+'-edit');
         this.layout.getActiveItem().loadRecord(rec);
@@ -805,8 +805,8 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * not currently visible this method has no effect.
      * @return {Extensible.calendar.CalendarPanel} this
      */
-    hideEditForm: function(){
-        if(this.preEditView){
+    hideEditForm: function() {
+        if(this.preEditView) {
             this.setActiveView(this.preEditView);
             delete this.preEditView;
         }
@@ -819,7 +819,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      *        the CalendarPanel's internal card layout).
      * @param {Date} startDate (optional) The new view start date (defaults to the current start date)
      */
-    setActiveView: function(id, startDate){
+    setActiveView: function(id, startDate) {
         var me = this,
             layout = me.layout,
             editViewId = me.id + '-edit',
@@ -877,7 +877,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
                         activeDate: cloneDt(view.getStartDate())
                     };
                 }
-                if (view.dismissEventEditor){
+                if (view.dismissEventEditor) {
                     view.dismissEventEditor();
                 }
                 this.fireEvent('viewchange', this, view, info);
@@ -886,7 +886,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     },
     
     // private
-    updateNavState: function(){
+    updateNavState: function() {
         var me = this,
             activeItem = me.layout.activeItem;
         
@@ -906,7 +906,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * @param {Date} dt The new start date
      * @return {Extensible.calendar.CalendarPanel} this
      */
-    setStartDate: function(dt){
+    setStartDate: function(dt) {
         Extensible.log('setStartDate (CalendarPanel');
         this.startDate = dt;
         this.layout.activeItem.setStartDate(dt, true);
@@ -916,21 +916,21 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     },
         
     // private
-    showWeek: function(dt){
+    showWeek: function(dt) {
         this.setActiveView(this.id+'-week', dt);
     },
     
     // private
-    onTodayClick: function(){
+    onTodayClick: function() {
         this.startDate = this.layout.activeItem.moveToday(true);
         this.updateNavState();
         this.fireViewChange();
     },
     
     // private
-    onJumpClick: function(){
+    onJumpClick: function() {
         var dt = Ext.getCmp(this.id+'-tb-jump-dt').getValue();
-        if(dt !== ''){
+        if(dt !== '') {
             this.startDate = this.layout.activeItem.moveTo(dt, true);
             this.updateNavState();
             // TODO: check that view actually changed:
@@ -939,41 +939,41 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     },
     
     // private
-    onPrevClick: function(){
+    onPrevClick: function() {
         this.startDate = this.layout.activeItem.movePrev(true);
         this.updateNavState();
         this.fireViewChange();
     },
     
     // private
-    onNextClick: function(){
+    onNextClick: function() {
         this.startDate = this.layout.activeItem.moveNext(true);
         this.updateNavState();
         this.fireViewChange();
     },
     
     // private
-    onDayNavClick: function(){
+    onDayNavClick: function() {
         this.setActiveView(this.id+'-day');
     },
     
     // private
-    onMultiDayNavClick: function(){
+    onMultiDayNavClick: function() {
         this.setActiveView(this.id+'-multiday');
     },
     
     // private
-    onWeekNavClick: function(){
+    onWeekNavClick: function() {
         this.setActiveView(this.id+'-week');
     },
     
     // private
-    onMultiWeekNavClick: function(){
+    onMultiWeekNavClick: function() {
         this.setActiveView(this.id+'-multiweek');
     },
     
     // private
-    onMonthNavClick: function(){
+    onMonthNavClick: function() {
         this.setActiveView(this.id+'-month');
     },
     
@@ -982,7 +982,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * {@link Extensible.calendar.view.AbstractCalendar AbstractCalendar}.
      * @return {Extensible.calendar.view.AbstractCalendar} The active view
      */
-    getActiveView: function(){
+    getActiveView: function() {
         return this.layout.activeItem;
     }
 });

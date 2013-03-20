@@ -12,7 +12,7 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */
-    startDay : 0,
+    startDay: 0,
 
     dayValueDelimiter: ',',
     
@@ -123,8 +123,9 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
         if (!me.preSetValue(v, me.daysCheckboxGroup)) {
             return me;
         }
+        // Clear all checkboxes
+        me.daysCheckboxGroup.setValue(null);
         if (!v) {
-            me.daysCheckboxGroup.setValue(null);
             return me;
         }
         var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),

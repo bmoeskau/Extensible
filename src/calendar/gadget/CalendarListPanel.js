@@ -30,16 +30,16 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
      */
     
     // private
-    initComponent: function(){
+    initComponent: function() {
         this.addCls('x-calendar-list');
         this.callParent(arguments);
     },
     
     // private
-    afterRender : function(ct, position){
+    afterRender: function(ct, position) {
         this.callParent(arguments);
         
-        if(this.store){
+        if(this.store) {
             this.setStore(this.store, true);
         }
         this.refresh();
@@ -50,10 +50,10 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     },
     
     // private
-    getListTemplate : function(){
-        if(!this.tpl){
-            this.tpl = !(Ext.isIE || Ext.isOpera) ? 
-                Ext.create('Ext.XTemplate', 
+    getListTemplate: function() {
+        if(!this.tpl) {
+            this.tpl = !(Ext.isIE || Ext.isOpera) ?
+                Ext.create('Ext.XTemplate',
                     '<ul class="x-unselectable"><tpl for=".">',
                         '<li id="{cmpId}" class="ext-cal-evr {colorCls} {hiddenCls}">{title}<em>&#160;</em></li>',
                     '</tpl></ul>'
@@ -73,19 +73,19 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     },
     
     /**
-     * Sets the store used to display the available calendars. It should contain 
+     * Sets the store used to display the available calendars. It should contain
      * records of type {@link Extensible.calendar.data.CalendarModel CalendarRecord}.
      * @param {Ext.data.Store} store
      */
-    setStore : function(store, initial){
-        if(!initial && this.store){
+    setStore: function(store, initial) {
+        if(!initial && this.store) {
             this.store.un("load", this.refresh, this);
             this.store.un("add", this.refresh, this);
             this.store.un("remove", this.refresh, this);
             this.store.un("update", this.onUpdate, this);
             this.store.un("clear", this.refresh, this);
         }
-        if(store){
+        if(store) {
             store.on("load", this.refresh, this);
             store.on("add", this.refresh, this);
             store.on("remove", this.refresh, this);
@@ -96,9 +96,9 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     },
     
     // private
-    onUpdate : function(ds, rec, operation){
+    onUpdate: function(ds, rec, operation) {
         // ignore EDIT notifications, only refresh after a commit
-        if(operation == Ext.data.Record.COMMIT){
+        if(operation === Ext.data.Record.COMMIT) {
             this.refresh();
         }
     },
@@ -109,8 +109,8 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
      * as the control is automatically bound to the store's events, but it is available in the
      * event that a manual refresh is ever needed.
      */
-    refresh: function(){
-        if(this.skipRefresh){
+    refresh: function() {
+        if(this.skipRefresh) {
             return;
         }
         var data = [], i = 0, o = null,
@@ -118,13 +118,13 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
             recs = this.store.getRange(),
             len = recs.length;
             
-        for(; i < len; i++){
+        for (; i < len; i++) {
             o = {
                 cmpId: this.id + '__' + recs[i].data[CM.CalendarId.name],
                 title: recs[i].data[CM.Title.name],
                 colorCls: this.getColorCls(recs[i].data[CM.ColorId.name])
             };
-            if(recs[i].data[CM.IsHidden.name] === true){
+            if(recs[i].data[CM.IsHidden.name] === true) {
                 o.hiddenCls = 'ext-cal-hidden';
             }
             data[data.length] = o;
@@ -133,50 +133,50 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     },
     
     // private
-    getColorCls: function(colorId){
+    getColorCls: function(colorId) {
         return 'x-cal-'+colorId+'-ad';
     },
     
     // private
-    toggleCalendar: function(id, commit){
-        var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id);
+    toggleCalendar: function(id, commit) {
+        var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id),
             CM = Extensible.calendar.data.CalendarMappings,
-            isHidden = rec.data[CM.IsHidden.name]; 
+            isHidden = rec.data[CM.IsHidden.name];
         
         rec.set(CM.IsHidden.name, !isHidden);
         
-        if(commit !== false){
+        if(commit !== false) {
             rec.commit();
         }
     },
     
     // private
-    showCalendar: function(id, commit){
+    showCalendar: function(id, commit) {
         var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id);
-        if(rec.data[Extensible.calendar.data.CalendarMappings.IsHidden.name] === true){
+        if(rec.data[Extensible.calendar.data.CalendarMappings.IsHidden.name] === true) {
             this.toggleCalendar(id, commit);
         }
     },
     
     // private
-    hideCalendar: function(id, commit){
+    hideCalendar: function(id, commit) {
         var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id);
-        if(rec.data[Extensible.calendar.data.CalendarMappings.IsHidden.name] !== true){
+        if(rec.data[Extensible.calendar.data.CalendarMappings.IsHidden.name] !== true) {
             this.toggleCalendar(id, commit);
         }
     },
     
     // private
-    radioCalendar: function(id){
+    radioCalendar: function(id) {
         var i = 0, recId,
             calendarId = Extensible.calendar.data.CalendarMappings.CalendarId.name,
             recs = this.store.getRange(),
             len = recs.length;
             
-        for(; i < len; i++){
+        for (; i < len; i++) {
             recId = recs[i].data[calendarId];
             // make a truthy check so that either numeric or string ids can match
-            if(recId == id){
+            if(recId === id) {
                 this.showCalendar(recId, false);
             }
             else{
@@ -194,27 +194,27 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     },
     
     // private
-    onMouseOver: function(e, t){
+    onMouseOver: function(e, t) {
         Ext.fly(t).addCls('hover');
     },
     
     // private
-    onMouseOut: function(e, t){
+    onMouseOut: function(e, t) {
         Ext.fly(t).removeCls('hover');
     },
     
     // private
-    getCalendarId: function(el){
+    getCalendarId: function(el) {
         return el.id.split('__')[1];
     },
     
     // private
-    getCalendarItemEl: function(calendarId){
+    getCalendarItemEl: function(calendarId) {
         return Ext.get(this.id+'__'+calendarId);
     },
     
     // private
-    onClick : function(e, t){
+    onClick: function(e, t) {
         var el = e.getTarget(this.menuSelector, 3, true);
         
         if (el) {
@@ -226,28 +226,28 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
             if (el) {
                 this.toggleCalendar(this.getCalendarId(el));
             }
-        } 
+        }
     },
     
     // private
-    handleColorChange: function(menu, id, colorId, origColorId){
+    handleColorChange: function(menu, id, colorId, origColorId) {
         var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id);
         rec.data[Extensible.calendar.data.CalendarMappings.ColorId.name] = colorId;
         rec.commit();
     },
     
     // private
-    handleRadioCalendar: function(menu, id){
+    handleRadioCalendar: function(menu, id) {
         this.radioCalendar(id);
     },
     
     // private
-    showEventMenu : function(el, xy){
+    showEventMenu: function(el, xy) {
         var id = this.getCalendarId(el.parent('li')),
-            rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id);
+            rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id),
             colorId = rec.data[Extensible.calendar.data.CalendarMappings.ColorId.name];
             
-        if(!this.menu){
+        if(!this.menu) {
             this.menu = Ext.create('Extensible.calendar.gadget.CalendarListMenu');
             this.menu.on('colorchange', this.handleColorChange, this);
             this.menu.on('radiocalendar', this.handleRadioCalendar, this);

@@ -64,7 +64,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */
-    startDay : 0,
+    startDay: 0,
     /**
      * @cfg {Boolean} spansHavePriority
      * Allows switching between two different modes of rendering events that span multiple days. When true,
@@ -281,7 +281,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * any data tokens accessible to the containing event template can be referenced in this string.
      * @return {String} The body template string
      */
-    getEventBodyMarkup : Ext.emptyFn, // must be implemented by a subclass
+    getEventBodyMarkup: Ext.emptyFn, // must be implemented by a subclass
 
     /**
      * <p>Returns the XTemplate that is bound to the calendar's event store (it expects records of type
@@ -294,7 +294,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * overridden version also does the same.</p>
      * @return {Ext.XTemplate} The event XTemplate
      */
-    getEventTemplate : Ext.emptyFn, // must be implemented by a subclass
+    getEventTemplate: Ext.emptyFn, // must be implemented by a subclass
 
     /**
      * This is undefined by default, but can be implemented to allow custom CSS classes and template data to be
@@ -730,7 +730,7 @@ viewConfig: {
             return startsOnDate || spansFromPrevView;
         };
 
-        for(; w < weeks; w++) {
+        for (; w < weeks; w++) {
             this.evtMaxCount[w] = this.evtMaxCount[w] || 0;
             
             if (this.weekCount === -1 && currentDt > lastInMonth) {
@@ -740,7 +740,7 @@ viewConfig: {
             this.eventGrid[w] = this.eventGrid[w] || [];
             this.allDayGrid[w] = this.allDayGrid[w] || [];
 
-            for(d = 0; d < this.dayCount; d++) {
+            for (d = 0; d < this.dayCount; d++) {
                 if (evtsInView.getCount() > 0) {
                     var evts = evtsInView.filterBy(filterFn, this);
 

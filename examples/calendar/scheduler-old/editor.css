@@ -1,0 +1,127 @@
+.icon-delete
+{
+    background: transparent url(images/cross.png) no-repeat left center !important;
+}
+
+.icon-task
+{
+    background: transparent url(images/LeftNavTaskIcon.gif) no-repeat left center;
+}
+
+.icon-clock
+{
+    padding-left:20px;
+    background: url(images/clock.png) no-repeat left center !important;
+    display:block;
+}
+
+.icon-earth
+{
+    padding-left:20px;
+    background: url(images/earth.png) no-repeat left center !important;
+    display:block;
+}
+
+.image-ct
+{
+    text-align:center;
+}
+
+.editorpanel .profile-image
+{
+    margin:12px 15px 0 19px;
+    padding:2px;
+    border:1px solid lightblue;
+    height:80px;
+}
+
+.icon-cleardatabase
+{
+    background: transparent url(images/database_delete.png) no-repeat center center !important;
+}
+
+.delete
+{
+    height:16px;
+    width:16px;
+    position:relative;
+    top:7px;
+    background: transparent url(images/cross.png) no-repeat center center !important;
+}
+
+.x-grid3-cell-last .x-grid3-cell-inner
+{
+    overflow:visible;
+}
+
+.sch-event 
+{
+    color: #FFF;
+    text-shadow: rgba(0,0,0,.2) 0 -1px 0;
+    -moz-border-radius:5px;
+    -webkit-border-radius: 5px;
+    background-color:Coral;
+    font-weight:bold;
+    -webkit-box-shadow: 1px 1px 1px rgba(200, 200, 200, 0.1);
+    -moz-box-shadow: 1px 1px 1px rgba(100, 100, 100, 0.1); 
+    box-shadow: 1px 1px 1px rgba(200, 200, 200, 0.1); 
+}
+
+.sch-event .sch-event-inner
+{
+    line-height: 1em;
+    white-space:nowrap;
+}
+
+.Sales
+{
+    background-color:#9ED5FF;
+} 
+
+.sch-event-header
+{
+	overflow:hidden;
+    font-size:0.9em;
+}
+
+.sch-event-hover 
+{
+    -webkit-box-shadow: 1px 1px 1px rgba(100, 100, 100, 0.5);
+    -moz-box-shadow: 1px 1px 1px rgba(100, 100, 100, 0.5); 
+    border-color:#666;
+}
+
+.sch-fake-loading .sch-event-header
+{
+    background: url(images/loading2.gif) no-repeat center center;
+}
+
+/*  -----------------------------------
+    Styling of the event tooltip 
+    ----------------------------------- */
+
+.eventTip
+{
+    padding:5px;
+}
+
+.eventTip dd
+{
+    margin-bottom:17px;
+    padding-left:28px;
+}
+
+.eventTip dd:last-child
+{
+    margin-bottom:0px !important;
+}
+
+.eventTip dt
+{
+    padding-left:26px;
+    font-weight:bold;
+    padding-bottom:7px;
+}
+
+
+
