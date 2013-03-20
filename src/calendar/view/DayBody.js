@@ -197,7 +197,11 @@ Ext.define('Extensible.calendar.view.DayBody', {
                     me.onRecurrenceResizeModeSelected('single', rec, data);
                 }
                 else {
-                    Extensible.form.recurrence.RangeEditWindow.prompt({
+                    this.rangeEditWin = this.rangeEditWin || Ext.WindowMgr.get('ext-cal-rangeeditwin');
+                    if (!this.rangeEditWin) {
+                        this.rangeEditWin = new Extensible.form.recurrence.RangeEditWindow();
+                    }
+                    this.rangeEditWin.prompt({
                         callback: Ext.bind(me.onRecurrenceResizeModeSelected, me, [rec, data], true),
                         scope: me
                     });
