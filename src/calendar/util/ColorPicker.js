@@ -30,7 +30,7 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
      */
     
     constructor: function() {
-        this.renderTpl = Ext.create('Ext.XTemplate', 
+        this.renderTpl = Ext.create('Ext.XTemplate',
             '<tpl for="colors"><a href="#" class="x-cal-{.}" hidefocus="on">' +
             '<em><span unselectable="on">&#160;</span></em></a></tpl>');
         
@@ -38,25 +38,25 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
     },
     
     // private
-    initComponent: function(){
+    initComponent: function() {
         this.callParent(arguments);
         
         this.addCls('x-calendar-palette');
             
-        if(this.handler){
+        if(this.handler) {
             this.on('select', this.handler, this.scope || this, {
                 delegate: 'a'
             });
         }
         
         this.colors = [];
-        for(var i=1; i<=this.colorCount; i++){
+        for (var i=1; i<=this.colorCount; i++) {
             this.colors.push(i);
         }
     },
     
     // private
-    handleClick : function(e, t){
+    handleClick: function(e, t) {
         e.preventDefault();
         
         var colorId = t.className.split('x-cal-')[1];
@@ -68,7 +68,7 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
      * @param {Number} colorId The id that identifies the selected color and relates it to a calendar
      * @param {Boolean} suppressEvent (optional) True to stop the select event from firing. Defaults to <tt>false</tt>.
      */
-    select : function(colorId, suppressEvent){
+    select: function(colorId, suppressEvent) {
         var me = this,
             selectedCls = me.selectedCls,
             value = me.value;
@@ -78,7 +78,7 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
             return;
         }
         
-        if (colorId != value || me.allowReselect) {
+        if (colorId !== value || me.allowReselect) {
             var el = me.el;
 
             if (me.value) {

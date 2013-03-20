@@ -22,7 +22,7 @@ Ext.onReady(function() {
     if (exists('Extensible.calendar.view.Month')) {
         Ext.apply(Extensible.calendar.view.Month.prototype, {
             moreText: '+{0} autres ...',
-            getMoreText: function(numEvents){
+            getMoreText: function(numEvents) {
                 return numEvents > 1 ? '+{0} autres ...' : '+{0} autre ...';
             },
             detailsTitleDateFormat: 'd F'
@@ -39,10 +39,10 @@ Ext.onReady(function() {
             goText: 'Ok',
             multiDayText: '{0} jours',
             multiWeekText: '{0} semaines',
-            getMultiDayText: function(numDays){
+            getMultiDayText: function(numDays) {
                 return '{0} jours';
             },
-            getMultiWeekText: function(numWeeks){
+            getMultiWeekText: function(numWeeks) {
                 return '{0} semaines';
             }
         });
@@ -130,16 +130,16 @@ Ext.onReady(function() {
             fieldLabel: 'Rappel',
             noneText: 'Aucun',
             atStartTimeText: 'au début',
-            getMinutesText: function(numMinutes){
+            getMinutesText: function(numMinutes) {
                 return numMinutes === 1 ? 'minute' : 'minutes';
             },
-            getHoursText: function(numHours){
+            getHoursText: function(numHours) {
                 return numHours === 1 ? 'heure' : 'heures';
             },
-            getDaysText: function(numDays){
+            getDaysText: function(numDays) {
                 return numDays === 1 ? 'jour' : 'jours';
             },
-            getWeeksText: function(numWeeks){
+            getWeeksText: function(numWeeks) {
                 return numWeeks === 1 ? 'semaine' : 'semaines';
             },
             reminderValueFormat: '{0} {1} avant le début' // e.g. "2 hours before start"

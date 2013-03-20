@@ -31,7 +31,7 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
     hiddenCalendarCls: 'ext-cal-hidden',
     
     // private
-    initComponent: function(){
+    initComponent: function() {
         this.valueField = Extensible.calendar.data.CalendarMappings.CalendarId.name;
         this.displayField = Extensible.calendar.data.CalendarMappings.Title.name;
     
@@ -50,7 +50,7 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
     },
     
     // private
-    afterRender: function(){
+    afterRender: function() {
         this.callParent(arguments);
         
         this.wrap = this.el.down('.x-form-item-body');

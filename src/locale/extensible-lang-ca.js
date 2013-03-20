@@ -22,7 +22,7 @@ Ext.onReady(function() {
     if (exists('Extensible.calendar.view.Month')) {
         Ext.apply(Extensible.calendar.view.Month.prototype, {
             moreText: '+{0} m&eacute;s...',
-            getMoreText: function(numEvents){
+            getMoreText: function(numEvents) {
                 return '+{0} m&eacute;s...';
             },
             detailsTitleDateFormat: 'j \\de F'
@@ -39,10 +39,10 @@ Ext.onReady(function() {
             goText: 'Anar',
             multiDayText: '{0} dies',
             multiWeekText: '{0} setmanes',
-            getMultiDayText: function(numDays){
+            getMultiDayText: function(numDays) {
                 return '{0} dies';
             },
-            getMultiWeekText: function(numWeeks){
+            getMultiWeekText: function(numWeeks) {
                 return '{0} setmanes';
             }
         });
@@ -130,16 +130,16 @@ Ext.onReady(function() {
             fieldLabel: 'Recordatori',
             noneText: 'Cap',
             atStartTimeText: 'Al començament',
-            getMinutesText: function(numMinutes){
+            getMinutesText: function(numMinutes) {
                 return numMinutes === 1 ? 'minut' : 'minuts';
             },
-            getHoursText: function(numHours){
+            getHoursText: function(numHours) {
                 return numHours === 1 ? 'hora' : 'hores';
             },
-            getDaysText: function(numDays){
+            getDaysText: function(numDays) {
                 return numDays === 1 ? 'dia' : 'dies';
             },
-            getWeeksText: function(numWeeks){
+            getWeeksText: function(numWeeks) {
                 return numWeeks === 1 ? 'setmana' : 'setmanes';
             },
             reminderValueFormat: '{0} {1} abans de començar' // e.g. "2 hours before start"

@@ -1,8 +1,10 @@
 /*
  * Default English (US) locale
  * By Extensible, LLC
- */
-/*
+ *
+ * Contributors:
+ * - Gabriel Sidler, http://teamup.com
+ *
  * A general note regarding pluralization... Some locales require conditional logic
  * to properly pluralize certain terms. When this might be required there is an additional
  * "get*" method in addition to the standard config. By default these simply return the
@@ -31,7 +33,7 @@ Ext.onReady(function() {
     if (exists('Extensible.calendar.view.Month')) {
         Ext.apply(Extensible.calendar.view.Month.prototype, {
             moreText: '+{0} more...', // deprecated
-            getMoreText: function(numEvents){
+            getMoreText: function(numEvents) {
                 return '+{0} more...';
             },
             detailsTitleDateFormat: 'F j'
@@ -48,10 +50,10 @@ Ext.onReady(function() {
             goText: 'Go',
             multiDayText: '{0} Days', // deprecated
             multiWeekText: '{0} Weeks', // deprecated
-            getMultiDayText: function(numDays){
+            getMultiDayText: function(numDays) {
                 return '{0} Days';
             },
-            getMultiWeekText: function(numWeeks){
+            getMultiWeekText: function(numWeeks) {
                 return '{0} Weeks';
             }
         });
@@ -139,16 +141,16 @@ Ext.onReady(function() {
             fieldLabel: 'Reminder',
             noneText: 'None',
             atStartTimeText: 'At start time',
-            getMinutesText: function(numMinutes){
+            getMinutesText: function(numMinutes) {
                 return numMinutes === 1 ? 'minute' : 'minutes';
             },
-            getHoursText: function(numHours){
+            getHoursText: function(numHours) {
                 return numHours === 1 ? 'hour' : 'hours';
             },
-            getDaysText: function(numDays){
+            getDaysText: function(numDays) {
                 return numDays === 1 ? 'day' : 'days';
             },
-            getWeeksText: function(numWeeks){
+            getWeeksText: function(numWeeks) {
                 return numWeeks === 1 ? 'week' : 'weeks';
             },
             reminderValueFormat: '{0} {1} before start' // e.g. "2 hours before start"
@@ -200,6 +202,9 @@ Ext.onReady(function() {
         });
     }
 
+    /*
+     * Recurrence strings added in v.1.6.0
+     */
     if (exists('Extensible.form.recurrence.Rule')) {
         Ext.apply(Extensible.form.recurrence.Rule.prototype, {
             strings: {
@@ -327,7 +332,7 @@ Ext.onReady(function() {
                 andContinuing: 'and continuing',
                 occurrences: 'occurrences',
                 forever: 'forever',
-                'for': 'for',
+                forText: 'for',
                 until: 'until'
             }
         });
@@ -347,7 +352,7 @@ Ext.onReady(function() {
                 // E.g. "on the 15th day of each month/year"
                 onThe: 'on the',
                 ofEach: 'of each',
-                in: 'in',
+                inText: 'in',
                 day: 'day',
                 month: 'month',
                 year: 'year',

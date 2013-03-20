@@ -73,7 +73,7 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
         }
     },
     
-    afterRender: function(){
+    afterRender: function() {
         this.callParent(arguments);
         this.updateLabel();
     },

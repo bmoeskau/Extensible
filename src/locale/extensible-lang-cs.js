@@ -22,7 +22,7 @@ Ext.onReady(function() {
     if (exists('Extensible.calendar.view.Month')) {
         Ext.apply(Extensible.calendar.view.Month.prototype, {
             detailsTitleDateFormat: 'j. F',
-            getMoreText: function(numEvents){
+            getMoreText: function(numEvents) {
                 return numEvents < 5 ? '+{0} další...' : '+{0} dalších...';
             }
         });
@@ -36,10 +36,10 @@ Ext.onReady(function() {
             monthText: 'Měsíc',
             jumpToText: 'Přejít na:',
             goText: 'Přejít',
-            getMultiDayText: function(numDays){
+            getMultiDayText: function(numDays) {
                 return numDays < 5 ? '{0} Dny' : '{0} Dní';
             },
-            getMultiWeekText: function(numWeeks){
+            getMultiWeekText: function(numWeeks) {
                 return numWeeks < 5 ? '{0} Týdny' : '{0} Týdnů';
             }
         });
@@ -127,26 +127,26 @@ Ext.onReady(function() {
             fieldLabel: 'Připomínka',
             noneText: 'Žádná',
             atStartTimeText: 'Na začátku',
-            getMinutesText: function(numMinutes){
-                if(numMinutes === 1){
+            getMinutesText: function(numMinutes) {
+                if(numMinutes === 1) {
                     return 'minuta';
                 }
                 return numMinutes < 5 ? 'minuty' : 'minut';
             },
-            getHoursText: function(numHours){
-                if(numHours === 1){
+            getHoursText: function(numHours) {
+                if(numHours === 1) {
                     return 'hodina';
                 }
                 return numHours < 5 ? 'hodiny' : 'hodin';
             },
-            getDaysText: function(numDays){
-                if(numDays === 1){
+            getDaysText: function(numDays) {
+                if(numDays === 1) {
                     return 'den';
                 }
                 return numDays < 5 ? 'dny' : 'dní';
             },
-            getWeeksText: function(numWeeks){
-                if(numWeeks === 1){
+            getWeeksText: function(numWeeks) {
+                if(numWeeks === 1) {
                     return 'týden';
                 }
                 return numWeeks < 5 ? 'týdny' : 'týdnů';
@@ -200,7 +200,7 @@ Ext.onReady(function() {
         });
     }
     
-    if(Ext.form.TimeField){
+    if(Ext.form.TimeField) {
         Ext.apply(Ext.form.TimeField.prototype, {
             minText : "Čas v tomto poli musí být stejný nebo pozdější než {0}",
             maxText : "Čas v tomto poli musí být stejný nebo dřívější než {0}",

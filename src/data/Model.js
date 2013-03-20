@@ -42,7 +42,7 @@ Ext.define('Extensible.data.Model', {
             proto.idProperty = idProperty || proto.idProperty || 'id';
             
             for (prop in mappings) {
-                if(mappings.hasOwnProperty(prop)){
+                if(mappings.hasOwnProperty(prop)) {
                     fields.push(mappings[prop]);
                 }
             }
@@ -61,11 +61,11 @@ Ext.define('Extensible.data.Model', {
      * Returns a new instance of this Model with the `data` property deep-copied from the
      * original record. By default the {@link #idProperty} value will be deleted to avoid returning
      * the cloned record with a duplicate id, but you can optionally preserve the id by passing `true`.
-     * 
+     *
      * The behavior is different than the default {@link Ext.data.Model#copy} (which preserves the
      * existing id by default and performs a shallow copy of the data) and is better-suited
      * to the typical default desired behavior when duplicating a record.
-     * 
+     *
      * @param {Boolean} (optional) preserveId True to preserve the record's data {@link idProperty id},
      * false to delete it in the returned clone (defaults to false)
      * @return {Extensible.data.Model} The cloned record

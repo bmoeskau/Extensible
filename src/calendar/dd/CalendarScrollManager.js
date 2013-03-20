@@ -35,7 +35,7 @@ Ext.define('Ext.dd.ScrollManager', {
         this.proc = {};
     },
 
-    onStop: function(e){
+    onStop: function(e) {
 //        var sm = Ext.dd.ScrollManager;
 //        sm.dragEl = null;
 //        sm.clearProc();
@@ -81,11 +81,10 @@ Ext.define('Ext.dd.ScrollManager', {
         this.proc.el = el;
         this.proc.dir = dir;
         var group = el.ddScrollConfig ? el.ddScrollConfig.ddGroup : undefined,
-            freq  = (el.ddScrollConfig && el.ddScrollConfig.frequency)
-                  ? el.ddScrollConfig.frequency
-                  : this.frequency;
+            freq  = (el.ddScrollConfig && el.ddScrollConfig.frequency) ?
+                el.ddScrollConfig.frequency : this.frequency;
 
-        if (group === undefined || this.ddmInstance.dragCurrent.ddGroup == group) {
+        if (group === undefined || this.ddmInstance.dragCurrent.ddGroup === group) {
             this.proc.id = setInterval(this.doScroll, freq);
         }
     },
@@ -94,7 +93,7 @@ Ext.define('Ext.dd.ScrollManager', {
         if (isDrop || !this.ddmInstance.dragCurrent) {
             return;
         }
-        if (!this.dragEl || this.dragEl != this.ddmInstance.dragCurrent) {
+        if (!this.dragEl || this.dragEl !== this.ddmInstance.dragCurrent) {
             this.dragEl = this.ddmInstance.dragCurrent;
             // refresh regions on drag start
             this.refreshCache();
@@ -110,22 +109,22 @@ Ext.define('Ext.dd.ScrollManager', {
             var c = el.ddScrollConfig ? el.ddScrollConfig : this;
             if (r && r.contains(pt) && el.isScrollable()) {
                 if (r.bottom - pt.y <= c.vthresh) {
-                    if(proc.el != el){
+                    if(proc.el !== el) {
                         this.startProc(el, "down");
                     }
                     return;
                 }else if (r.right - pt.x <= c.hthresh) {
-                    if (proc.el != el) {
+                    if (proc.el !== el) {
                         this.startProc(el, "left");
                     }
                     return;
                 } else if(pt.y - r.top <= c.vthresh) {
-                    if (proc.el != el) {
+                    if (proc.el !== el) {
                         this.startProc(el, "up");
                     }
                     return;
                 } else if(pt.x - r.left <= c.hthresh) {
-                    if (proc.el != el) {
+                    if (proc.el !== el) {
                         this.startProc(el, "right");
                     }
                     return;
@@ -139,9 +138,9 @@ Ext.define('Ext.dd.ScrollManager', {
      * Registers new overflow element(s) to auto scroll
      * @param {Mixed/Array} el The id of or the element to be scrolled or an array of either
      */
-    register : function(el){
+    register: function(el) {
         if (Ext.isArray(el)) {
-            for(var i = 0, len = el.length; i < len; i++) {
+            for (var i = 0, len = el.length; i < len; i++) {
                     this.register(el[i]);
             }
         } else {
@@ -154,8 +153,8 @@ Ext.define('Ext.dd.ScrollManager', {
      * Unregisters overflow element(s) so they are no longer scrolled
      * @param {Mixed/Array} el The id of or the element to be removed or an array of either
      */
-    unregister : function(el){
-        if(Ext.isArray(el)){
+    unregister: function(el) {
+        if(Ext.isArray(el)) {
             for (var i = 0, len = el.length; i < len; i++) {
                 this.unregister(el[i]);
             }
@@ -170,25 +169,25 @@ Ext.define('Ext.dd.ScrollManager', {
      * trigger scrolling (defaults to 25)
      * @type Number
      */
-    vthresh : 25,
+    vthresh: 25,
     /**
      * The number of pixels from the right or left edge of a container the pointer needs to be to
      * trigger scrolling (defaults to 25)
      * @type Number
      */
-    hthresh : 25,
+    hthresh: 25,
 
     /**
      * The number of pixels to scroll in each scroll increment (defaults to 100)
      * @type Number
      */
-    increment : 100,
+    increment: 100,
 
     /**
      * The frequency of scrolls in milliseconds (defaults to 500)
      * @type Number
      */
-    frequency : 500,
+    frequency: 500,
 
     /**
      * True to animate the scroll (defaults to true)
@@ -213,11 +212,11 @@ Ext.define('Ext.dd.ScrollManager', {
     /**
      * Manually trigger a cache refresh.
      */
-    refreshCache : function(){
+    refreshCache: function() {
         var els = this.els,
             id;
         for (id in els) {
-            if(typeof els[id] == 'object'){ // for people extending the object prototype
+            if(typeof els[id] === 'object') { // for people extending the object prototype
                 els[id]._region = els[id].getRegion();
             }
         }
