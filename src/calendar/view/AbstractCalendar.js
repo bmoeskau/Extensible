@@ -969,17 +969,23 @@ viewConfig: {
     },
 
     /**
-     * Refresh the view. Determine whether a store reload is required after a given CRUD operation. A store reload
-     * is required if the changed event is recurring.
+     * Refresh the view. Determine if a store reload is required after a given CRUD operation.
      * @param {String} action One of 'create', 'update' or 'delete'
      * @param {Ext.data.Operation} operation The affected operation
      */
     refreshAfterEventChange: function(action, operation) {
-        var reload = operation.records[0].isRecurring() && !operation.wasStoreReloadTriggered;
+        // Determine if a store reload is needed. A store reload is needed if the event is recurring after being
+        // edited or was recurring before being edited AND a event store reload has not been triggered already for
+        // this operation.
+        // The term operation.records[0].get(Extensible.calendar.data.EventMappings.RInstanceStartDate.name)) is
+        // used to determine of an event was recurring before being edited.
+        var reload = (operation.records[0].isRecurring() ||
+            operation.records[0].get(Extensible.calendar.data.EventMappings.RInstanceStartDate.name)) &&
+            !operation.wasStoreReloadTriggered;
 
-        // For calendar views with a body and a header component (e.g. weekly view, day view), this function is
-        // called twice. Ensure that a store reload happens only once for the same operation.
         if (reload) {
+            // For calendar views with a body and a header component (e.g. weekly view, day view), this function is
+            // called twice. Ensure that a store reload is triggered only once for the same operation.
             operation.wasStoreReloadTriggered = true;
         }
         this.refresh(reload);
