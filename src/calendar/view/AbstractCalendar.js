@@ -976,7 +976,9 @@ viewConfig: {
      */
     storeReloadRequired: function(action, operation) {
         // This is the default logic for all actions
-        return operation.records[0].isRecurring();
+        // Refresh if the event is recurring or was recurring before being edited.
+        return operation.records[0].isRecurring() ||
+            operation.records[0].get(Extensible.calendar.data.EventMappings.RInstanceStartDate.name) ? true : false;
     },
 
     // private
