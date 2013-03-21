@@ -10,9 +10,9 @@
 
 Ext.onReady(function() {
     var exists = Ext.Function.bind(Ext.ClassManager.get, Ext.ClassManager);
-    
+
     Extensible.Date.use24HourTime = true;
-    
+
     if (exists('Extensible.calendar.view.AbstractCalendar')) {
         Ext.apply(Extensible.calendar.view.AbstractCalendar.prototype, {
             startDay: 0,
@@ -23,17 +23,17 @@ Ext.onReady(function() {
             ddResizeEventText: 'Termin updaten nach {0}'
         });
     }
-    
+
     if (exists('Extensible.calendar.view.Month')) {
         Ext.apply(Extensible.calendar.view.Month.prototype, {
             moreText: '+{0} weitere...',
             getMoreText: function(numEvents) {
                 return '+{0} weitere...';
             },
-            detailsTitleDateFormat: 'F j'
+            detailsTitleDateFormat: 'j. F'
         });
     }
-    
+
     if (exists('Extensible.calendar.CalendarPanel')) {
         Ext.apply(Extensible.calendar.CalendarPanel.prototype, {
             todayText: 'Heute',
@@ -52,7 +52,7 @@ Ext.onReady(function() {
             }
         });
     }
-    
+
     if (exists('Extensible.calendar.form.EventWindow')) {
         Ext.apply(Extensible.calendar.form.EventWindow.prototype, {
             width: 640,
@@ -70,7 +70,7 @@ Ext.onReady(function() {
             calendarLabelText: 'Kalender'
         });
     }
-    
+
     if (exists('Extensible.calendar.form.EventDetails')) {
         Ext.apply(Extensible.calendar.form.EventDetails.prototype, {
             labelWidth: 65,
@@ -91,32 +91,32 @@ Ext.onReady(function() {
             repeatsLabelText: 'Wiederholungen'
         });
     }
-    
+
     if (exists('Extensible.form.field.DateRange')) {
         Ext.apply(Extensible.form.field.DateRange.prototype, {
             toText: 'bis',
             allDayText: 'ganzer Tag'
         });
     }
-    
+
     if (exists('Extensible.calendar.form.field.CalendarCombo')) {
         Ext.apply(Extensible.calendar.form.field.CalendarCombo.prototype, {
             fieldLabel: 'Kalender'
         });
     }
-    
+
     if (exists('Extensible.calendar.gadget.CalendarListPanel')) {
         Ext.apply(Extensible.calendar.gadget.CalendarListPanel.prototype, {
             title: 'Kalender'
         });
     }
-    
+
     if (exists('Extensible.calendar.gadget.CalendarListMenu')) {
         Ext.apply(Extensible.calendar.gadget.CalendarListMenu.prototype, {
             displayOnlyThisCalendarText: 'Nur diesen Kalender anzeigen'
         });
     }
-    
+
     if (exists('Extensible.form.recurrence.Combo')) {
         Ext.apply(Extensible.form.recurrence.Combo.prototype, {
             fieldLabel: 'Wiederholungen',
@@ -129,7 +129,7 @@ Ext.onReady(function() {
             }
         });
     }
-    
+
     if (exists('Extensible.calendar.form.field.ReminderCombo')) {
         Ext.apply(Extensible.calendar.form.field.ReminderCombo.prototype, {
             fieldLabel: 'Erinnerung',
@@ -150,13 +150,13 @@ Ext.onReady(function() {
             reminderValueFormat: '{0} {1} vor Terminbeginn' // e.g. "2 hours before start"
         });
     }
-    
+
     if (exists('Extensible.form.field.DateRange')) {
         Ext.apply(Extensible.form.field.DateRange.prototype, {
             dateFormat: 'j.n.Y'
         });
     }
-    
+
     if (exists('Extensible.calendar.menu.Event')) {
         Ext.apply(Extensible.calendar.menu.Event.prototype, {
             editDetailsText: 'Einzelheiten bearbeiten',
@@ -164,35 +164,35 @@ Ext.onReady(function() {
             moveToText: 'Verschieben nach...'
         });
     }
-    
+
     if (exists('Extensible.calendar.dd.DropZone')) {
         Ext.apply(Extensible.calendar.dd.DropZone.prototype, {
             dateRangeFormat: '{0}-{1}',
-            dateFormat: 'j.n'
+            dateFormat: 'j.n.'
         });
     }
-    
+
     if (exists('Extensible.calendar.dd.DayDropZone')) {
         Ext.apply(Extensible.calendar.dd.DayDropZone.prototype, {
             dateRangeFormat: '{0}-{1}',
-            dateFormat : 'j.n'
+            dateFormat : 'j.n.'
         });
     }
-    
+
     if (exists('Extensible.calendar.template.BoxLayout')) {
         Ext.apply(Extensible.calendar.template.BoxLayout.prototype, {
             firstWeekDateFormat: 'D j',
             otherWeeksDateFormat: 'j',
-            singleDayDateFormat: 'l, F j, Y',
-            multiDayFirstDayFormat: 'M j, Y',
+            singleDayDateFormat: 'l, j. F Y',
+            multiDayFirstDayFormat: 'j. M. Y',
             multiDayMonthStartFormat: 'M j'
         });
     }
-    
+
     if (exists('Extensible.calendar.template.Month')) {
         Ext.apply(Extensible.calendar.template.Month.prototype, {
             dayHeaderFormat: 'D',
-            dayHeaderTitleFormat: 'l, F j, Y'
+            dayHeaderTitleFormat: 'l, j. F Y'
         });
     }
 
