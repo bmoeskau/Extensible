@@ -17,7 +17,14 @@ StartTest(function(t) {
         app_start_dt: '2013-01-01'
     };
     
-    var frame = t.beginAsync();
+    var frame = t.beginAsync(),
+        counter = {},
+        trim = Ext.String.trim;
+    
+    var count = function(title) {
+        title = trim(title);
+        counter[title] = counter[title] === undefined ? 1 : ++counter[title];
+    }
     
     t.diag('Loading Calendar with Recurrence');
     
@@ -43,16 +50,12 @@ StartTest(function(t) {
                 }, next, this, 15000, 500);
             },
             function(next) {
-                var events = Ext.select('.ext-cal-evt'),
-                    counter = {},
-                    title,
-                    trim = Ext.String.trim;
+                var events = Ext.select('.ext-cal-evt');
                 
                 t.is(events.getCount(), 59, '59 recurring instances rendered');
                 
                 events.each(function(evt) {
-                    title = trim(evt.dom.innerText);
-                    counter[title] = counter[title] === undefined ? 1 : ++counter[title];
+                    count(evt.dom.innerText);
                 });
                 
                 t.is(counter['1:00pm Recur weekdays'], 25, '1:00pm Recur weekdays');
