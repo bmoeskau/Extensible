@@ -8,8 +8,9 @@ class TestData {
      * Helper method to generate dates relative to the current date
      */
     private static function getDt($format) {
-        // Today (date only with no time component so everything starts consistently)
-        $today = date('Y-m-d');
+        // Today (date only with no time component so everything starts consistently).
+        // Use the passed start date if provided (for consistent unit test results).
+        $today = isset($_REQUEST['app_start_dt']) ? $_REQUEST['app_start_dt'] : date('Y-m-d');
         // Add/subtract from today based on the format passed in, e.g. "+5 days"
         $newDate = strtotime($today.$format);
         // Convert the new timestamp back to a properly-formatted date to return

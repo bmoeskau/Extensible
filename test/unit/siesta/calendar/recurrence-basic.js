@@ -11,7 +11,10 @@ StartTest(function(t) {
     Ext.Ajax.extraParams = {
         // Required for the sample PHP to use recurring sample data. Use a random
         // key so that every individual test run gets a fresh session!
-        app_id: 'recurrence_' + Math.floor((Math.random()*1000)+1)
+        app_id: 'recurrence_' + Math.floor((Math.random()*1000)+1),
+        // Test events are generated relative to a given date, so we have to make
+        // sure the events generated are consistent or counts will vary:
+        app_start_dt: '2013-01-01'
     };
     
     var frame = t.beginAsync();
@@ -21,30 +24,50 @@ StartTest(function(t) {
     // We are loading events remotely via PHP, so the actual testing is done
     // in this callback function after the store is loaded below.
     var onEventsLoaded = function() {
-        var events = Ext.select('.ext-cal-evt'),
-            counter = {},
-            title,
-            trim = Ext.String.trim;
+        var jumpToText = Ext.get('test-cal-tb-jump-dt-inputEl'),
+            dateTrigger = Ext.get('test-cal-tb-jump-btnEl');
         
         t.diag('Verifying Recurring Instances');
-        t.is(events.getCount(), 54, '54 recurring instances rendered');
         
-        events.each(function(evt) {
-            title = trim(evt.dom.innerText);
-            counter[title] = counter[title] === undefined ? 1 : ++counter[title];
-        });
-        
-        t.is(counter['1:00pm Recur weekdays'], 24, '1:00pm Recur weekdays');
-        t.is(counter['8:00am Recur daily 10 times'], 10, '8:00am Recur daily 10 times');
-        t.is(counter['Multi-day, recur every Tuesday'], 5, 'Multi-day, recur every Tuesday');
-        t.is(counter['Recur every third Wednesday'], 1, 'Recur every third Wednesday');
-        t.is(counter['Recur first day of each month'], 2, 'Recur first day of each month');
-        t.is(counter['Recur last Friday of month'], 1, 'Recur last Friday of month');
-        t.is(counter['Recur weekend days'], 9, 'Recur weekend days');
-        t.is(counter['Recur weekly 8 times'], 2, 'Recur weekly 8 times');
-        
-        t.done();
-        t.endAsync(frame);
+        t.chain(
+            function(next) {
+                // Navigate to a known past date to ensure consistent test runs
+                t.type(jumpToText, '01/01/2013', next);
+            },
+            function(next) {
+                t.click(dateTrigger, next);
+            },
+            function(next) {
+                t.waitFor(function() {
+                    return Ext.get('test-cal-month-ev-day-20130202');
+                }, next, this, 15000, 500);
+            },
+            function(next) {
+                var events = Ext.select('.ext-cal-evt'),
+                    counter = {},
+                    title,
+                    trim = Ext.String.trim;
+                
+                t.is(events.getCount(), 59, '59 recurring instances rendered');
+                
+                events.each(function(evt) {
+                    title = trim(evt.dom.innerText);
+                    counter[title] = counter[title] === undefined ? 1 : ++counter[title];
+                });
+                
+                t.is(counter['1:00pm Recur weekdays'], 25, '1:00pm Recur weekdays');
+                t.is(counter['8:00am Recur daily 10 times'], 10, '8:00am Recur daily 10 times');
+                t.is(counter['Multi-day, recur every Tuesday'], 5, 'Multi-day, recur every Tuesday');
+                t.is(counter['Recur every third Wednesday'], 1, 'Recur every third Wednesday');
+                t.is(counter['Recur first day of each month'], 2, 'Recur first day of each month');
+                t.is(counter['Recur last Friday of month'], 1, 'Recur last Friday of month');
+                t.is(counter['Recur weekend days'], 10, 'Recur weekend days');
+                t.is(counter['Recur weekly 8 times'], 5, 'Recur weekly 8 times');
+                
+                t.done();
+                t.endAsync(frame);
+            }
+        );
     };
     
     var calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
