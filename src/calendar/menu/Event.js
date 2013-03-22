@@ -10,6 +10,7 @@ Ext.define('Extensible.calendar.menu.Event', {
     alias: 'widget.extensible.eventcontextmenu',
     
     requires: ['Ext.menu.DatePicker'],
+   
     
     /**
      * @cfg {Boolean} hideOnClick
@@ -68,6 +69,13 @@ Ext.define('Extensible.calendar.menu.Event', {
      * @event itemclick
      * @hide
      */
+    /**
+     * @cfg ownerCalendarPanel
+     * @type Extensible.calendar.CalendarPanel
+     * If this view is hosted inside a {@link Extensible.calendar.CalendarPanel CalendarPanel} this property will reference
+     * it. If the view was created directly outside of a CalendarPanel this property will be null. Read-only.
+     */
+    ownerCalendarPanel: {},
     
     // private
     initComponent: function() {
