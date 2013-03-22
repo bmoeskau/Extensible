@@ -1,36 +1,53 @@
 <?php
     require(dirname(__FILE__).'/../init.php');
+    require(dirname(__FILE__).'/../pretty-json.php');
     
     $table = 'events';
     
     $action = isset($_REQUEST['action']) ? strtolower($_REQUEST['action']) : 'load';
     $id = isset($_REQUEST['id']) ? strtolower($_REQUEST['id']) : null;
+    $start_dt = isset($_REQUEST['startDate']) ? strtolower($_REQUEST['startDate']) : null;
+    $end_dt = isset($_REQUEST['endDate']) ? strtolower($_REQUEST['endDate']) : null;
     
-    $processResult = function($result, $msg = null) {
+    function out($result, $msg = null) {
         global $table;
         
         if (isset($result) && $result !== 0) {
             echo json_encode(array(
                 'success' => true,
-                'message' => is_null($msg) ? 'Success' : $msg,
+                'message' => isset($msg) ? $msg : 'Success',
                 'data'    => $result
             ));
         }
         else {
             echo json_encode(array(
-                'success'   => false,
-                'message' => is_null($msg) ? 'No matching '.$table.' found' : $msg
+                'success' => false,
+                'message' => isset($msg) ? $msg : 'No matching '.$table.' found'
             ));
         }
     };
     
     switch ($action) {
         case 'load':
-            if (!is_null($id)) {
+            if (isset($id)) {
                 // Load single row by id
-                $result = $db->select($table, $id);
+                out($db->select($table, $id));
             }
-            $processResult($result);
+            else if (isset($start_dt) && isset($end_dt)) {
+                // Query by date range
+                out($db->query($table, array(
+                    array(
+                        'column' => 'start',
+                        'value' => $start_dt,
+                        'comparator' => '>='
+                    ),
+                    array(
+                        'column' => 'end',
+                        'value' => $end_dt,
+                        'comparator' => '<='
+                    )
+                )));
+            }
             break;
 
         case 'save':
@@ -40,13 +57,13 @@
             break;
         
         case 'delete':
-            if (!is_null($id)) {
+            if (isset($id)) {
                 $result = $db->delete($table, $id);
             }
             if ($result === 1) {
                 // Return the deleted id instead of row count
                 $result = $id;
             }
-            $processResult($result);
+            out($result);
             break;
     }

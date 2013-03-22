@@ -17,8 +17,9 @@
     
     $db = new Database();
     
-    function out($data) {
-        echo pretty(json_encode($data));
+    function out($data, $pretty = true) {
+        $json = json_encode($data);
+        echo $pretty ? pretty($json) : $json;
     };
     
     // READ
@@ -37,77 +38,77 @@
     //------------------------------------------------
     // Single column:
     // out($db->query('events', array(
-        // calendar_id => 2
+        // 'calendar_id' => 2
     // )));
     
     // Single column, custom comparator:
     // out($db->query('events', array(
-        // calendar_id => array(
-            // value => 2,
-            // comparator => '>='
+        // 'calendar_id' => array(
+            // 'value' => 2,
+            // 'comparator' => '>='
         // )
     // )));
     
     // Multi-column, mixed styles:
     // out($db->query('events', array(
-        // calendar_id => 2,
-        // start => array(
-            // value => '2013-02-01',
-            // comparator => '>'
+        // 'calendar_id' => 2,
+        // 'start' => array(
+            // 'value' => '2013-02-01',
+            // 'comparator' => '>'
         // )
     // )));
     
     // Multi-column with custom comparator (defaults to =) and conjunction (defaults to AND):
     // out($db->query('events', array(
-        // title => array(
-            // value => 'lunch',
-            // comparator => 'LIKE'
+        // 'title' => array(
+            // 'value' => 'lunch',
+            // 'comparator' => 'LIKE'
         // ),
-        // calendar_id => array(
-            // value => 3,
-            // conjunction => 'OR'
+        // 'calendar_id' => array(
+            // 'value' => 3,
+            // 'conjunction' => 'OR'
         // )
     // )));
     
     // Multiple clauses for the same column:
     // out($db->query('events', array(
         // array(
-            // column => 'start', // must use the 'column' key
-            // value => '2013-01-01',
-            // comparator => '>='
+            // 'column' => 'start', // must use the 'column' key
+            // 'value' => '2013-01-01',
+            // 'comparator' => '>='
         // ),
         // array(
-            // column => 'start', // must use the 'column' key
-            // value => '2013-03-31',
-            // comparator => '<='
+            // 'column' => 'start', // must use the 'column' key
+            // 'value' => '2013-03-31',
+            // 'comparator' => '<='
         // )
     // )));
     
     // CREATE
     //------------------------------------------------
     // out($db->insert('events', array(
-        // title => 'Test event',
-        // start => '2013-02-15 12:00:00',
-        // end => '2013-02-15 13:00:00'
+        // 'title' => 'Test event',
+        // 'start' => '2013-02-15 12:00:00',
+        // 'end' => '2013-02-15 13:00:00'
     // )));
     // out($db->insert('calendars', array(
-        // id => 5,
-        // title => 'Test calendar',
-        // color => 10
+        // 'id' => 5,
+        // 'title' => 'Test calendar',
+        // 'color' => 10
     // )));
     
     // UPDATE
     //------------------------------------------------
     // out($db->update('events', array(
-        // id => 45,
-        // title => 'Test event',
-        // start => '2013-02-15 12:00:00',
-        // end => '2013-02-15 13:00:00'
+        // 'id' => 45,
+        // 'title' => 'Test event',
+        // 'start' => '2013-02-15 12:00:00',
+        // 'end' => '2013-02-15 13:00:00'
     // )));
     // out($db->update('calendars', array(
-        // id => 1,
-        // title => 'Test calendar',
-        // color => 10
+        // 'id' => 1,
+        // 'title' => 'Test calendar',
+        // 'color' => 10
     // )));
     
     // DELETE

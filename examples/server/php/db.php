@@ -9,11 +9,11 @@
         private $fetch_type = PDO::FETCH_OBJ;
         
         public function __construct($config = null) {
-            $this->config = is_null($config) ? new Config() : $config;
+            $this->config = isset($config) ? $config : new Config();
         }
         
         public function connect() {
-            if (is_null($db)) {
+            if (!isset($db)) {
                 $cfg = $this->config;
                 try {
                     $this->db = new PDO('mysql:host='.$cfg->host.';dbname='.$cfg->dbname, $cfg->username, $cfg->password);
@@ -28,18 +28,18 @@
         
         public function select($table, $id = null, $id_col = null) {
             $sql = 'SELECT * FROM '.$table;
-            $id_col = is_null($id_col) ? 'id' : $id_col;
+            $id_col = isset($id_col) ? $id_col : 'id';
             
             try {
                 $this->connect();
                 
-                if (is_null($id)) {
-                    $query = $this->db->prepare($sql);
+                if (isset($id)) {
+                    $query = $this->db->prepare($sql.' WHERE '.$id_col.' = :id');
+                    $query->bindParam(':id', $id);
                     $query->execute();
                 }
                 else {
-                    $query = $this->db->prepare($sql.' WHERE '.$id_col.' = :id');
-                    $query->bindParam(':id', $id);
+                    $query = $this->db->prepare($sql);
                     $query->execute();
                 }
                 $result = $query->fetchAll($this->fetch_type);
@@ -63,10 +63,10 @@
                 $param = ':'.$count++;
                 
                 if (is_array($value)) {
-                    $col = is_null($value['column']) ? $col : $value['column'];
+                    $col = isset($value['column']) ? $value['column'] : $col;
                     $param_mappings[$param] = $value['value'];
-                    $comparator = is_null($value['comparator']) ? '=' : $value['comparator'];
-                    $conjunction = is_null($value['conjunction']) ? 'AND' : $value['conjunction'];
+                    $comparator = isset($value['comparator']) ? $value['comparator'] : '=';
+                    $conjunction = isset($value['conjunction']) ? $value['conjunction'] : 'AND';
                 }
                 else {
                     $param_mappings[$param] = $value;
@@ -147,7 +147,7 @@
         }
         
         public function delete($table, $id, $id_col = null) {
-            $id_col = is_null($id_col) ? 'id' : $id_col;
+            $id_col = isset($id_col) ? $id_col : 'id';
             $sql = 'DELETE FROM '.$table.' WHERE '.$id_col.' = :id';
             
             try {
