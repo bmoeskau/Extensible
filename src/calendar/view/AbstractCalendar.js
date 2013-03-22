@@ -1090,12 +1090,12 @@ viewConfig: {
             this.doRemoveFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
                 remove: true,
                 scope: this,
-                callback: Ext.bind(this.refreshAfterEventChange, this, ['create', operation])
+                callback: Ext.bind(this.refreshAfterEventChange, this, ['delete', operation])
             });
         }
         else {
             this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]).remove();
-            this.refreshAfterEventChange();
+            this.refreshAfterEventChange('delete', operation);
         }
     },
 
