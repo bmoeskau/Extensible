@@ -1219,20 +1219,21 @@ viewConfig: {
 
     // private
     isEventVisible: function(evt) {
-        var M = Extensible.calendar.data.EventMappings,
+        var eventMappings = Extensible.calendar.data.EventMappings,
+            calendarMappings = Extensible.calendar.data.CalendarMappings,
             data = evt.data || evt,
-            calRec = this.calendarStore ?
-                this.calendarStore.findRecord(M.CalendarId.name, evt[M.CalendarId.name]) : null;
+            calRec = this.calendarStore ? this.calendarStore.findRecord(calendarMappings.CalendarId.name,
+                evt[eventMappings.CalendarId.name]) : null;
 
-        if (calRec && calRec.data[Extensible.calendar.data.CalendarMappings.IsHidden.name] === true) {
+        if (calRec && calRec.data[calendarMappings.IsHidden.name] === true) {
             // if the event is on a hidden calendar then no need to test the date boundaries
             return false;
         }
 
         var start = this.viewStart.getTime(),
             end = this.viewEnd.getTime(),
-            evStart = data[M.StartDate.name].getTime(),
-            evEnd = data[M.EndDate.name].getTime();
+            evStart = data[eventMappings.StartDate.name].getTime(),
+            evEnd = data[eventMappings.EndDate.name].getTime();
 
         return Extensible.Date.rangesOverlap(start, end, evStart, evEnd);
     },
