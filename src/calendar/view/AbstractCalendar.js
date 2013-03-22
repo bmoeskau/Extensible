@@ -1095,7 +1095,7 @@ viewConfig: {
         }
         else {
             this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]).remove();
-            this.refresh(reloadRequired);
+            this.refreshAfterEventChange();
         }
     },
 
