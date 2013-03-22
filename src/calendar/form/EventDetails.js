@@ -376,9 +376,10 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             me.fireEvent('eventadd', me, me.activeRecord);
         }
         else {
-            if (originalHasRecurrence) {
-                // We only need to prompt when editing an existing recurring event. If a normal
-                // event is edited to make it recurring just do a standard update.
+            if (originalHasRecurrence && me.activeRecord.isRecurring()) {
+                // We only need to prompt when editing an event that was recurring before being edited and is
+                // still recurring after being edited. If a normal event is edited to make it recurring or a
+                // recurring event is edited to make it normal just do a standard update.
                 me.onRecurrenceUpdate();
             }
             else {
