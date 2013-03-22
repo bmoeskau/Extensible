@@ -1991,7 +1991,11 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
 
         if (me.fireEvent('beforeeventdelete', me, rec, el) !== false) {
             if (rec.isRecurring()) {
-                Extensible.form.recurrence.RangeEditWindow.prompt({
+                this.rangeEditWin = this.rangeEditWin || Ext.WindowMgr.get('ext-cal-rangeeditwin');
+                if (!this.rangeEditWin) {
+                    this.rangeEditWin = new Extensible.form.recurrence.RangeEditWindow();
+                }
+                this.rangeEditWin.prompt({
                     callback: Ext.bind(me.onRecurrenceDeleteModeSelected, me, [rec, el], true),
                     scope: me
                 });

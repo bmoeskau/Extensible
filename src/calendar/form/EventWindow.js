@@ -453,7 +453,11 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     
     // private
     onRecurrenceUpdate: function() {
-        Extensible.form.recurrence.RangeEditWindow.prompt({
+        this.rangeEditWin = this.rangeEditWin || Ext.WindowMgr.get('ext-cal-rangeeditwin');
+        if (!this.rangeEditWin) {
+            this.rangeEditWin = new Extensible.form.recurrence.RangeEditWindow();
+        }
+        this.rangeEditWin.prompt({
             callback: this.onRecurrenceEditModeSelected,
             scope: this
         });
