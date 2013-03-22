@@ -80,126 +80,127 @@ var reader = new Ext.data.JsonReader({
 </code></pre>
  */
 Ext.ns('Extensible.calendar.data');
+Ext.define('Extensible.calendar.data.EventMappings', {
+    statics: {
+        EventId: {
+            name:    'EventId',
+            mapping: 'id',
+            type:    'string'
+        },
+        CalendarId: {
+            name:    'CalendarId',
+            mapping: 'cid',
+            type:    'string'
+        },
+        Title: {
+            name:    'Title',
+            mapping: 'title',
+            type:    'string'
+        },
+        StartDate: {
+            name:       'StartDate',
+            mapping:    'start',
+            type:       'date',
+            dateFormat: 'c'
+        },
+        EndDate: {
+            name:       'EndDate',
+            mapping:    'end',
+            type:       'date',
+            dateFormat: 'c'
+        },
+        Location: {
+            name:    'Location',
+            mapping: 'loc',
+            type:    'string'
+        },
+        Notes: {
+            name:    'Notes',
+            mapping: 'notes',
+            type:    'string'
+        },
+        Url: {
+            name:    'Url',
+            mapping: 'url',
+            type:    'string'
+        },
+        IsAllDay: {
+            name:    'IsAllDay',
+            mapping: 'ad',
+            type:    'boolean'
+        },
+        Reminder: {
+            name:    'Reminder',
+            mapping: 'rem',
+            type:    'string'
+        },
 
-Extensible.calendar.data.EventMappings = {
-    EventId: {
-        name:    'EventId',
-        mapping: 'id',
-        type:    'string'
-    },
-    CalendarId: {
-        name:    'CalendarId',
-        mapping: 'cid',
-        type:    'string'
-    },
-    Title: {
-        name:    'Title',
-        mapping: 'title',
-        type:    'string'
-    },
-    StartDate: {
-        name:       'StartDate',
-        mapping:    'start',
-        type:       'date',
-        dateFormat: 'c'
-    },
-    EndDate: {
-        name:       'EndDate',
-        mapping:    'end',
-        type:       'date',
-        dateFormat: 'c'
-    },
-    Location: {
-        name:    'Location',
-        mapping: 'loc',
-        type:    'string'
-    },
-    Notes: {
-        name:    'Notes',
-        mapping: 'notes',
-        type:    'string'
-    },
-    Url: {
-        name:    'Url',
-        mapping: 'url',
-        type:    'string'
-    },
-    IsAllDay: {
-        name:    'IsAllDay',
-        mapping: 'ad',
-        type:    'boolean'
-    },
-    Reminder: {
-        name:    'Reminder',
-        mapping: 'rem',
-        type:    'string'
-    },
-    
-// ----- Recurrence properties -----
+    // ----- Recurrence properties -----
 
-    // NOTE: Only RRule and Duration need to be persisted. The other properties
-    // do need to be mapped as they are used on the back end, but typically they
-    // are transient properties only used during processing of requests and do
-    // not need to be stored in a DB.
-    
-    // The iCal-formatted RRULE (recurrence rule) pattern.
-    // (See: http://www.kanzaki.com/docs/ical/rrule.html)
-    // While technically recurrence could be implemented in other custom
-    // ways, the iCal format is the de facto industry standard, offers
-    // interoperability with other calendar apps (e.g. Google Calendar,
-    // Apple iCal, etc.) and provides a compact storage format. You could
-    // choose to provide a custom implementation, but out of the box only
-    // the iCal RRULE format is handled by the components.
-    RRule: {
-        name:    'RRule',
-        mapping: 'rrule',
-        type:    'string'
-    },
-    
-    // When using recurrence, the standard EndDate value will be the end date
-    // of the _recurrence series_, not the end date of the "event". In fact,
-    // with recurrence there is no single "event", only a pattern that generates
-    // event instances, each of which has a separate start and end date.
-    // Because of this we also store the duration of the event when using
-    // recurrence so that the end date of each event instance can be
-    // properly calculated.
-    Duration: {
-        name:         'Duration',
-        mapping:      'duration',
-        defaultValue: -1, // the standard int default of 0 is actually a valid duration
-        type:         'int'
-    },
-    
-    // This is used to associate recurring event instances back to their
-    // original master events when sending edit requests to the server. This
-    // is required since each individual event instance will have a unique id
-    // (required by Ext stores) which is not guaranteed to be a real PK since
-    // typically these will be generated from the RRULE pattern, not real events
-    // that exist in the DB.
-    OriginalEventId: {
-        name:    'OriginalEventId',
-        mapping: 'origid',
-        type:    'string'
-    },
-    
-    // In cases where editing an event would require an exception date to be stored,
-    // the event instance's original start date must be used. Since the start date
-    // could be edited (and would not match as an exception in that case) the original
-    // start date is preserved prior to editing and sent with each request.
-    RInstanceStartDate: {
-        name:       'RInstanceStartDate',
-        mapping:    'ristart',
-        type:       'date',
-        dateFormat: 'c'
-    },
-    
-    // Recurrence edit mode ('single', 'future' or 'all'). This is transient data
-    // and would typically not be persisted (it's ignored by the calendar for
-    // display purposes), but it's kept on the record for ease of transmission to
-    // the server, and because multiple batched events could have different edit modes.
-    REditMode: {
-        name:    'REditMode',
-        mapping: 'redit',
-        type:    'string'
+        // NOTE: Only RRule and Duration need to be persisted. The other properties
+        // do need to be mapped as they are used on the back end, but typically they
+        // are transient properties only used during processing of requests and do
+        // not need to be stored in a DB.
+
+        // The iCal-formatted RRULE (recurrence rule) pattern.
+        // (See: http://www.kanzaki.com/docs/ical/rrule.html)
+        // While technically recurrence could be implemented in other custom
+        // ways, the iCal format is the de facto industry standard, offers
+        // interoperability with other calendar apps (e.g. Google Calendar,
+        // Apple iCal, etc.) and provides a compact storage format. You could
+        // choose to provide a custom implementation, but out of the box only
+        // the iCal RRULE format is handled by the components.
+        RRule: {
+            name:    'RRule',
+            mapping: 'rrule',
+            type:    'string'
+        },
+
+        // When using recurrence, the standard EndDate value will be the end date
+        // of the _recurrence series_, not the end date of the "event". In fact,
+        // with recurrence there is no single "event", only a pattern that generates
+        // event instances, each of which has a separate start and end date.
+        // Because of this we also store the duration of the event when using
+        // recurrence so that the end date of each event instance can be
+        // properly calculated.
+        Duration: {
+            name:         'Duration',
+            mapping:      'duration',
+            defaultValue: -1, // the standard int default of 0 is actually a valid duration
+            type:         'int'
+        },
+
+        // This is used to associate recurring event instances back to their
+        // original master events when sending edit requests to the server. This
+        // is required since each individual event instance will have a unique id
+        // (required by Ext stores) which is not guaranteed to be a real PK since
+        // typically these will be generated from the RRULE pattern, not real events
+        // that exist in the DB.
+        OriginalEventId: {
+            name:    'OriginalEventId',
+            mapping: 'origid',
+            type:    'string'
+        },
+
+        // In cases where editing an event would require an exception date to be stored,
+        // the event instance's original start date must be used. Since the start date
+        // could be edited (and would not match as an exception in that case) the original
+        // start date is preserved prior to editing and sent with each request.
+        RInstanceStartDate: {
+            name:       'RInstanceStartDate',
+            mapping:    'ristart',
+            type:       'date',
+            dateFormat: 'c'
+        },
+
+        // Recurrence edit mode ('single', 'future' or 'all'). This is transient data
+        // and would typically not be persisted (it's ignored by the calendar for
+        // display purposes), but it's kept on the record for ease of transmission to
+        // the server, and because multiple batched events could have different edit modes.
+        REditMode: {
+            name:    'REditMode',
+            mapping: 'redit',
+            type:    'string'
+        }
     }
-};
+});

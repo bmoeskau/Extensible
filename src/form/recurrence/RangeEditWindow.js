@@ -1,8 +1,8 @@
 Ext.define('Extensible.form.recurrence.RangeEditWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.extensible.recurrence-rangeeditwindow',
-    singleton: true,
-    
+    id: 'ext-cal-rangeeditwin',
+
     requires: [
         'Extensible.form.recurrence.RangeEditPanel'
     ],
