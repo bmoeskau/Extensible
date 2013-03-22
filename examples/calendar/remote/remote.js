@@ -87,7 +87,26 @@ Ext.onReady(function(){
         region: 'center',
         eventStore: eventStore,
         calendarStore: calendarStore,
-        title: 'Remote Calendar'
+        title: 'Remote Calendar',
+        showAgendaView: true,
+        showListView: true,
+        activeItem: 3, // month view
+
+        // Any generic view options that should be applied to all sub views:
+        viewConfig: {
+            startDay: 0
+        },
+
+        agendaViewCfg: {
+            linkDatesToDayView: true,
+            dateRangeDefault: '3months'
+        },
+
+        listViewCfg: {
+            linkDatesToDayView: true,
+            dateRangeDefault: '3months',
+            groupBy: 'month'
+        }
     });
     
     Ext.create('Ext.Viewport', {
@@ -101,6 +120,8 @@ Ext.onReady(function(){
             autoScroll: true,
             contentEl: 'sample-overview'
         }, cp]
+
+
     });
     
     // You can optionally call load() here if you prefer instead of using the

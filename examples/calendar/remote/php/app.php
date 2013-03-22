@@ -1,4 +1,8 @@
 <?php
+
+    // Set default time zone: UTC. This is requried in PHP 5.3+
+    date_default_timezone_set('UTC');
+
     require('init.php');
 
     // Get Request

@@ -32,7 +32,7 @@ Extensible.Config = {
          * @config {String} mode
          */
         mode: 'debug',
-        
+
         /**
          * The root path to the Ext JS framework (defaults to loading 4.1.0 from the Sencha CDN via
          * 'http://cdn.sencha.io/ext-4.1.0-gpl/'). Path should be absolute and should end with a '/'.

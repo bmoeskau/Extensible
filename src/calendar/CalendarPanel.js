@@ -18,7 +18,8 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         'Extensible.calendar.view.Week',
         'Extensible.calendar.view.Month',
         'Extensible.calendar.view.MultiDay',
-        'Extensible.calendar.view.MultiWeek'
+        'Extensible.calendar.view.MultiWeek',
+        'Extensible.calendar.view.Agenda'
     ],
     
     /**
@@ -62,6 +63,18 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * If all other views are hidden, the month view will show by default even if this config is false.
      */
     showMonthView: true,
+    /**
+     * @cfg {Boolean} showAgendaView
+     * True to include the agenda view (and toolbar button), false to hide them (defaults to false).
+     */
+    showAgendaView: false,
+    /**
+     * @cfg {Boolean} showListView
+     * True to include the list view (and toolbar button), false to hide them (defaults to false). The list view
+     * is an instance of {@link Extensible.calendar.view.Agenda agenda view} that is preconfigured to show a simple list
+     * of events rather than an agenda style list of events.
+     */
+    showListView: false,
     /**
      * @cfg {Boolean} showNavBar
      * True to display the calendar navigation toolbar, false to hide it (defaults to true). Note that
@@ -154,6 +167,16 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      */
     monthText: 'Month',
     /**
+     * @cfg {String} agendaText
+     * Text to use for the 'Agenda' nav bar button.
+     */
+    agendaText: 'Agenda',
+    /**
+     * @cfg {String} listText
+     * Text to use for the 'List' nav bar button.
+     */
+    listText: 'List',
+    /**
      * @cfg {Boolean} editModal
      * True to show the default event editor window modally over the entire page, false to allow user
      * interaction with the page while showing the window (the default). Note that if you replace the
@@ -216,6 +239,17 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * @cfg {Object} monthViewCfg
      * A config object that will be applied only to the {@link Extensible.calendar.view.Month MonthView}
      * managed by this CalendarPanel.
+     */
+    /**
+     * @cfg {Object} agendaViewCfg
+     * A config object that will be applied only to the {@link Extensible.calendar.view.Agenda agenda view} managed
+     * by this CalendarPanel.
+     */
+    /**
+     * @cfg {Object} listViewCfg
+     * A config object that will be applied only to the {@link Extensible.calendar.view.Agenda list view} managed
+     * by this CalendarPanel. List view is an instance of {@link Extensible.calendar.view.Agenda agenda view} that is
+     * preconfigured to show a simple list of events rather than a agenda style list of events.
      */
     /**
      * @cfg {Object} editViewCfg
@@ -305,7 +339,19 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             this.viewCount++;
             this.showMonthView = true;
         }
-        
+        if(this.showAgendaView){
+            this.tbar.items.push({
+                id: this.id+'-tb-agenda', text: this.agendaText, handler: this.onAgendaNavClick, scope: this, toggleGroup: this.id+'-tb-views'
+            });
+            this.viewCount++;
+        }
+        if(this.showListView){
+            this.tbar.items.push({
+                id: this.id+'-tb-list', text: this.listText, handler: this.onListNavClick, scope: this, toggleGroup: this.id+'-tb-views'
+            });
+            this.viewCount++;
+        }
+
         var idx = this.viewCount-1;
         this.activeItem = (this.activeItem === undefined ? idx : (this.activeItem > idx ? idx : this.activeItem));
         
@@ -630,7 +676,62 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             this.initEventRelay(month);
             this.add(month);
         }
+        if(this.showAgendaView){
+            var agenda = Ext.applyIf({
+                xtype: 'extensible.agendaview',
+                title: this.agendaText,
+                listeners: {
+                    'dayclick': {
+                        fn: function(vw, dt){
+                            this.showDay(dt);
+                        },
+                        scope: this
+                    },
+                    'datechange': {
+                        fn: function(){
+                            // AgendaView allows the changing of start and end dates from within in the view. Update
+                            // the nav state this happens.
+                            this.updateNavState();
+                        },
+                        scope: this
+                    }
+                }
+            }, sharedViewCfg);
 
+            agenda = Ext.apply(Ext.apply(agenda, this.viewConfig), this.agendaViewCfg);
+            agenda.id = this.id+'-agenda';
+            this.initEventRelay(agenda);
+            this.add(agenda);
+        }
+        if(this.showListView){
+            var list = Ext.applyIf({
+                xtype: 'extensible.agendaview',
+                title: this.listText,
+                simpleList: true,
+                groupBy: 'month',
+                listeners: {
+                    'dayclick': {
+                        fn: function(vw, dt){
+                            this.showDay(dt);
+                        },
+                        scope: this
+                    },
+                    'datechange': {
+                        fn: function(){
+                            // AgendaView allows the changing of start and end dates from within in the view. Update
+                            // the nav state this happens.
+                            this.updateNavState();
+                        },
+                        scope: this
+                    }
+                }
+            }, sharedViewCfg);
+
+            list = Ext.apply(Ext.apply(list, this.viewConfig), this.listViewCfg);
+            list.id = this.id+'-list';
+            this.initEventRelay(list);
+            this.add(list);
+        }
         this.add(Ext.applyIf({
             xtype: 'extensible.eventeditform',
             id: this.id+'-edit',
@@ -916,6 +1017,11 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     },
         
     // private
+    showDay: function(dt) {
+        this.setActiveView(this.id+'-day', dt);
+    },
+
+    // private
     showWeek: function(dt) {
         this.setActiveView(this.id+'-week', dt);
     },
@@ -976,7 +1082,17 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     onMonthNavClick: function() {
         this.setActiveView(this.id+'-month');
     },
-    
+
+    // private
+    onAgendaNavClick: function(){
+        this.setActiveView(this.id+'-agenda');
+    },
+
+    // private
+    onListNavClick: function(){
+        this.setActiveView(this.id+'-list');
+    },
+
     /**
      * Return the calendar view that is currently active, which will be a subclass of
      * {@link Extensible.calendar.view.AbstractCalendar AbstractCalendar}.
