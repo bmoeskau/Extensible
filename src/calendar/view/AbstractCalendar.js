@@ -969,26 +969,41 @@ viewConfig: {
     },
 
     /**
-     * Determine whether a store reload is required after a given CRUD operation.
+     * Refresh the view. Determine if a store reload is required after a given CRUD operation.
      * @param {String} action One of 'create', 'update' or 'delete'
      * @param {Ext.data.Operation} operation The affected operation
-     * @return {Boolean} true if a reload is required, else false
      */
-    storeReloadRequired: function(action, operation) {
-        // This is the default logic for all actions
-        return operation.records[0].isRecurring();
+    refreshAfterEventChange: function(action, operation) {
+        // Determine if a store reload is needed. A store reload is needed if the event is recurring after being
+        // edited or was recurring before being edited AND a event store reload has not been triggered already for
+        // this operation.
+        // The term operation.records[0].get(Extensible.calendar.data.EventMappings.RInstanceStartDate.name)) is
+        // used to determine of an event was recurring before being edited.
+        var reload = (operation.records[0].isRecurring() ||
+            operation.records[0].get(Extensible.calendar.data.EventMappings.RInstanceStartDate.name)) &&
+            !operation.wasStoreReloadTriggered;
+
+        if (reload) {
+            // For calendar views with a body and a header component (e.g. weekly view, day view), this function is
+            // called twice. Ensure that a store reload is triggered only once for the same operation.
+            operation.wasStoreReloadTriggered = true;
+        }
+        this.refresh(reload);
     },
 
     // private
     onUpdate: function(store, operation, updateType) {
-        if (this.hidden === true || this.monitorStoreEvents === false) {
+        if (this.hidden === true || this.ownerCt.hidden === true || this.monitorStoreEvents === false) {
+            // Hidden calendar view don't need to be refreshed. For views composed of header and body (for example
+            // Extensible.calendar.view.Day or Extensible.calendar.view.Week) we need to check the ownerCt to find out
+            // if a view is hidden.
             return;
         }
         if (updateType === Ext.data.Record.COMMIT) {
             Extensible.log('onUpdate');
             this.dismissEventEditor();
 
-            this.refresh(this.storeReloadRequired('update', operation));
+            this.refreshAfterEventChange('update', operation);
 
             var rec = operation.records[0];
 
@@ -1018,7 +1033,10 @@ viewConfig: {
     onAdd: function(store, operation) {
         var rec = operation.records[0];
 
-        if (this.hidden === true || this.monitorStoreEvents === false) {
+        if (this.hidden === true || this.ownerCt.hidden === true || this.monitorStoreEvents === false) {
+            // Hidden calendar view don't need to be refreshed. For views composed of header and body (for example
+            // Extensible.calendar.view.Day or Extensible.calendar.view.Week) we need to check the ownerCt to find out
+            // if a view is hidden.
             return;
         }
         // if (rec._deleting) {
@@ -1031,7 +1049,7 @@ viewConfig: {
         this.dismissEventEditor();
         //this.tempEventId = rec.id;
 
-        this.refresh(this.storeReloadRequired('create', operation));
+        this.refreshAfterEventChange('create', operation);
 
         // if (this.enableFx && this.enableAddFx) {
             // this.doAddFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
@@ -1056,21 +1074,23 @@ viewConfig: {
 
     // private
     onRemove: function(store, operation) {
-        if (this.hidden === true || this.monitorStoreEvents === false) {
+        if (this.hidden === true || this.ownerCt.hidden === true || this.monitorStoreEvents === false) {
+            // Hidden calendar view don't need to be refreshed. For views composed of header and body (for example
+            // Extensible.calendar.view.Day or Extensible.calendar.view.Week) we need to check the ownerCt to find out
+            // if a view is hidden.
             return;
         }
 
         Extensible.log('onRemove');
         this.dismissEventEditor();
 
-        var reloadRequired = this.storeReloadRequired('delete', operation),
-            rec = operation.records[0];
+        var rec = operation.records[0];
 
         if (this.enableFx && this.enableRemoveFx) {
             this.doRemoveFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
                 remove: true,
                 scope: this,
-                callback: Ext.bind(this.refresh, this, [reloadRequired])
+                callback: Ext.bind(this.refreshAfterEventChange, this, ['create', operation])
             });
         }
         else {
