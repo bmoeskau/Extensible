@@ -114,8 +114,11 @@ class Event extends Model {
         $rec->save();
         
         if (isset($rec->attributes[Event::$rrule]) && $rec->attributes[Event::$rrule] != '') {
-            $recs = self::generateInstances($rec->attributes, $_SESSION[$GLOBALS['app_id']]['startDate'],
-                $_SESSION[$GLOBALS['app_id']]['endDate']);
+            $startDate = $_SESSION[$GLOBALS['app_id']]['startDate'];
+            $endDate = new DateTime($_SESSION[$GLOBALS['app_id']]['endDate']);
+            $endDate->modify('+1 day');
+            $endDate = $endDate->format('c');
+            $recs = self::generateInstances($rec->attributes, $startDate, $endDate);
         }
         else {
             $recs = array($rec->attributes);
@@ -256,7 +259,11 @@ class Event extends Model {
         }
         
         if ($rec->attributes[Event::$rrule]) {
-            $recs = self::generateInstances($rec->attributes, $_SESSION[$GLOBALS['app_id']]['startDate'], $_SESSION[$GLOBALS['app_id']]['endDate']);
+            $startDate = $_SESSION[$GLOBALS['app_id']]['startDate'];
+            $endDate = new DateTime($_SESSION[$GLOBALS['app_id']]['endDate']);
+            $endDate->modify('+1 day');
+            $endDate = $endDate->format('c');
+            $recs = self::generateInstances($rec->attributes, $startDate, $endDate);
         }
         else {
             $recs = array($rec->attributes);
