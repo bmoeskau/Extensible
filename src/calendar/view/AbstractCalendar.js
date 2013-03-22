@@ -2154,7 +2154,7 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
                 if (!rel || dt !== relDate) {
                     var el = this.getDayEl(dt);
                     
-                    if (el && this.dayOverClass !== '') {
+                    if (el && !Ext.isEmpty(this.dayOverClass)) {
                         el[type === 'over' ? 'addCls' : 'removeCls'](this.dayOverClass);
                     }
                     this.fireEvent('day' + type, this, Ext.Date.parseDate(dt, "Ymd"), el);
