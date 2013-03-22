@@ -123,8 +123,9 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
         if (!me.preSetValue(v, me.daysCheckboxGroup)) {
             return me;
         }
+        // Clear all checkboxes
+        me.daysCheckboxGroup.setValue(null);
         if (!v) {
-            me.daysCheckboxGroup.setValue(null);
             return me;
         }
         var options = Ext.isArray(v) ? v : v.split(me.optionDelimiter),
