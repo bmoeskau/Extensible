@@ -72,8 +72,8 @@ Ext.define('Extensible.calendar.menu.Event', {
     /**
      * @cfg ownerCalendarPanel
      * @type Extensible.calendar.CalendarPanel
-     * If this view is hosted inside a {@link Extensible.calendar.CalendarPanel CalendarPanel} this property will reference
-     * it. If the view was created directly outside of a CalendarPanel this property will be null. Read-only.
+     * If this menu is hosted inside a {@link Extensible.calendar.CalendarPanel CalendarPanel} this property will reference
+     * it. If the menu was created directly outside of a CalendarPanel this property will be null. Read-only.
      */
     ownerCalendarPanel: {},
     
