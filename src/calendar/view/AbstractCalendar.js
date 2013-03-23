@@ -2072,11 +2072,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         if (me.dropZone) {
             me.dropZone.clearShims();
         }
-        if (me.menuActive === true) {
-            // ignore the first click if a context menu is active (let it close)
-            me.menuActive = false;
-            return true;
-        }
         if (el) {
             var id = me.getEventIdFromEl(el),
                 rec = me.getEventRecord(id);
