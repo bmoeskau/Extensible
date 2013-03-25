@@ -23,8 +23,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         'Extensible.calendar.dd.DropZone',
         'Extensible.form.recurrence.RangeEditWindow'
     ],
-    
-    
     /**
      * @cfg {Ext.data.Store} eventStore
      * The {@link Ext.data.Store store} which is bound to this calendar and contains {@link Extensible.calendar.data.EventModel EventRecords}.
@@ -1880,10 +1878,8 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
                 }
             });
         }
-
         me.eventMenu.showForEvent(me.getEventRecordFromEl(el), el, xy);
-        me.menuActive = true;        
-        
+        me.menuActive = true;
     },
 
     // private
@@ -2081,8 +2077,7 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
             // ignore the first click if a context menu is active (let it close)
             me.menuActive = false;
             return true;
-        	}
-
+        }
         if (el) {
             var id = me.getEventIdFromEl(el),
                 rec = me.getEventRecord(id);
