@@ -52,14 +52,14 @@ Ext.onReady(function(){
         listeners: {
             // A simple example showing how to handle a custom calendar event to
             // override default behavior. See the docs for all available events.
-            'eventclick': {
+            'eventdblclick': {
                 fn: function(panel, rec, el){
                     // override the default edit handling
-                    //Ext.Msg.alert('App Click', 'Editing: ' + rec.data.Title);
+                    Ext.Msg.alert('App dblClick', 'Editing: ' + rec.data.Title);
                     
                     // return false to tell the CalendarPanel that we've handled the click and it 
                     // should ignore it (e.g., do not show the default edit window)
-                    //return false;
+                    return false;
                 },
                 scope: this
             }
