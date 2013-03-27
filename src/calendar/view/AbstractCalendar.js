@@ -15,6 +15,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
     requires: [
         'Ext.CompositeElement',
+        'Ext.EventObject',
         'Extensible.calendar.form.EventDetails',
         'Extensible.calendar.form.EventWindow',
         'Extensible.calendar.menu.Event',
@@ -22,6 +23,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         'Extensible.calendar.dd.DropZone',
         'Extensible.form.recurrence.RangeEditWindow'
     ],
+
 
     /**
      * @cfg {Ext.data.Store} eventStore
@@ -372,6 +374,16 @@ viewConfig: {
              * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that the cursor is over
              * @param {HTMLNode} el The DOM node that is being moused over
              */
+            eventdblclick: true,
+            /**
+             * @event eventdblclick
+             * Fires after the user double clicks on an event element.  This could be useful for
+             * the user to provide a different functionality for double click. 
+             * This event is a passthrough and doesn't provide any functionality.
+             * @param {Extensible.calendar.view.AbstractCalendar} this
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was clicked on
+             * @param {HTMLNode} el The DOM node that was clicked on
+             */
             eventover: true,
             /**
              * @event eventout
@@ -570,10 +582,14 @@ viewConfig: {
 
         this.on('resize', this.onResize, this);
 
+        Ext.getBody().on('keyup', this.onKeyUp, this);
+        Ext.getBody().on('dblclick', this.onDblClick, this);
+        
         this.el.on({
             'mouseover': this.onMouseOver,
             'mouseout': this.onMouseOut,
             'click': this.onClick,
+//          'dblclick': this.onDblClick,
             //'resize': this.onResize,
             scope: this
         });
@@ -1879,6 +1895,7 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
 
         me.eventMenu.showForEvent(me.getEventRecordFromEl(el), el, xy);
         me.menuActive = true;
+
     },
 
     // private
@@ -2077,6 +2094,7 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
             me.menuActive = false;
             return true;
         }
+
         if (el) {
             var id = me.getEventIdFromEl(el),
                 rec = me.getEventRecord(id);
@@ -2090,6 +2108,23 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         }
     },
 
+    /*
+     * Double click handling.  
+     */
+    onDblClick: function(e, t) {
+        var me = this,
+            el = e.getTarget(me.eventSelector, 5);
+        
+        if (el) {
+            var id = me.getEventIdFromEl(el),
+                rec = me.getEventRecord(id);
+                
+            	me.fireEvent('eventdblclick', me, rec, el);
+        }
+        
+        return true;   
+    },
+    
     // private
     onMouseOver: function(e, t) {
         if (this.trackMouseOver !== false && (this.dragZone === undefined || !this.dragZone.dragging)) {
@@ -2108,6 +2143,13 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         }
     },
 
+    // private
+    onKeyUp: function(e, t) {
+    	if (e.getCharCode( ) === Ext.EventObject.ESC) {
+    		this.menuActive = false;
+    	}       
+    },
+    
     // private
     handleEventMouseEvent: function(e, t, type) {
         var el = e.getTarget(this.eventSelector, this.eventSelectorDepth, true);
