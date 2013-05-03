@@ -73,6 +73,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
         );
         
         Ext.apply(this, {
+            plain: true,
             items: [{
                 text: this.displayOnlyThisCalendarText,
                 iconCls: 'extensible-cal-icon-cal-show',
