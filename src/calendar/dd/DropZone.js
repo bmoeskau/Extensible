@@ -56,6 +56,8 @@ Ext.define('Extensible.calendar.dd.DropZone', {
             D = Extensible.Date,
             cnt = D.diffDays(dt, end) + 1;
         
+        this.DDMInstance.notifyOccluded = true;
+        
         Ext.each(this.shims, function(shim){
             if(shim){
                 shim.isActive = false;
@@ -130,6 +132,7 @@ Ext.define('Extensible.calendar.dd.DropZone', {
                 shim.hide();
             }
         });
+        this.DDMInstance.notifyOccluded = false;
     },
     
     onContainerOver : function(dd, e, data){
