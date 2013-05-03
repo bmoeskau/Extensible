@@ -883,6 +883,10 @@ td.ext-cal-dtitle-today div {
 .x-calendar-list {
     border-bottom: 1px solid #99BBE8;
 }
+.x-calendar-list ul {
+    margin: 0;
+    padding: 0;
+}
 .x-calendar-list .x-panel-body {
     padding: 4px 2px 2px;
     background: #fff !important;
