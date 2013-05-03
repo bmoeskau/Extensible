@@ -1067,7 +1067,7 @@ viewConfig: {
 	 */
 	getEventEls : function(eventId){
 		var els = this.el.select(this.getEventSelectorCls(this.getEventId(eventId), true), false);
-		return Ext.create('Ext.dom.CompositeElement', els);
+		return Ext.create('Ext.CompositeElement', els);
 	},
     
     /**
