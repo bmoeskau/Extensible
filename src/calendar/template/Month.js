@@ -2,7 +2,7 @@
  * @class Extensible.calendar.template.Month
  * @extends Ext.XTemplate
  * <p>This is the template used to render the {@link Extensible.calendar.view.Month MonthView}. Internally this class defers to an
- * instance of {@link Ext.calerndar.BoxLayoutTemplate} to handle the inner layout rendering and adds containing elements around
+ * instance of {@link Extensible.calendar.template.BoxLayout} to handle the inner layout rendering and adds containing elements around
  * that to form the month view.</p> 
  * <p>This template is automatically bound to the underlying event store by the 
  * calendar components and expects records of type {@link Extensible.calendar.data.EventModel}.</p>

@@ -13,6 +13,7 @@ Ext.define('Extensible.calendar.view.Month', {
     
     requires: [
         'Ext.XTemplate',
+        'Ext.util.TaskManager',
         'Extensible.calendar.template.Month',
         'Extensible.calendar.util.WeekEventRenderer',
         'Extensible.calendar.view.MonthDayDetail'
@@ -181,9 +182,9 @@ Ext.define('Extensible.calendar.view.Month', {
         if(Ext.fly(this.id+'-clock') !== null){
             this.prevClockDay = new Date().getDay();
             if(this.clockTask){
-                Ext.TaskManager.stop(this.clockTask);
+                Ext.util.TaskManager.stop(this.clockTask);
             }
-            this.clockTask = Ext.TaskManager.start({
+            this.clockTask = Ext.util.TaskManager.start({
                 run: function(){ 
                     var el = Ext.fly(this.id+'-clock'),
                         t = new Date();

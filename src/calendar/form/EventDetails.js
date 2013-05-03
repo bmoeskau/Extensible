@@ -1,6 +1,6 @@
 /**
  * @class Extensible.calendar.form.EventDetails
- * @extends Ext.form.FormPanel
+ * @extends Ext.form.Panel
  * <p>A custom form used for detailed editing of events.</p>
  * <p>This is pretty much a standard form that is simply pre-configured for the options needed by the
  * calendar components. It is also configured to automatically bind records of type {@link Extensible.calendar.data.EventModel}
@@ -116,7 +116,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             eventcancel: true
         });
                 
-        this.titleField = Ext.create('Ext.form.TextField', {
+        this.titleField = Ext.create('Ext.form.field.Text', {
             fieldLabel: this.titleLabelText,
             name: Extensible.calendar.data.EventMappings.Title.name,
             anchor: '90%'
@@ -134,19 +134,19 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             fieldLabel: this.reminderLabelText,
             anchor: '70%'
         });
-        this.notesField = Ext.create('Ext.form.TextArea', {
+        this.notesField = Ext.create('Ext.form.field.TextArea', {
             fieldLabel: this.notesLabelText,
             name: Extensible.calendar.data.EventMappings.Notes.name,
             grow: true,
             growMax: 150,
             anchor: '100%'
         });
-        this.locationField = Ext.create('Ext.form.TextField', {
+        this.locationField = Ext.create('Ext.form.field.Text', {
             fieldLabel: this.locationLabelText,
             name: Extensible.calendar.data.EventMappings.Location.name,
             anchor: '100%'
         });
-        this.urlField = Ext.create('Ext.form.TextField', {
+        this.urlField = Ext.create('Ext.form.field.Text', {
             fieldLabel: this.webLinkLabelText,
             name: Extensible.calendar.data.EventMappings.Url.name,
             anchor: '100%'

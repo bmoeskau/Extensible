@@ -5,7 +5,7 @@
  */
 Ext.define('Extensible.calendar.util.WeekEventRenderer', {
     
-    requires: ['Ext.core.DomHelper'],
+    requires: ['Ext.DomHelper'],
     
     statics: {
         /**
@@ -25,7 +25,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                 eventRow = weekTable.tBodies[0].childNodes[rowIndex + indexOffset];
                 
                 if (!eventRow) {
-                    eventRow = Ext.core.DomHelper.append(weekTable.tBodies[0], '<tr></tr>');
+                    eventRow = Ext.DomHelper.append(weekTable.tBodies[0], '<tr></tr>');
                 }
             }
             return Ext.get(eventRow);
@@ -64,7 +64,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
             if (colspan > 1) {
                 cellConfig.colspan = colspan;
             }
-            Ext.core.DomHelper.append(eventRow, cellConfig);
+            Ext.DomHelper.append(eventRow, cellConfig);
         },
         
         /**
@@ -127,7 +127,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                                 }
                                 // Insert an empty TD since there is no event at this index
                                 eventRow = me.getEventRow(config.viewId, weekIndex, eventIndex);
-                                Ext.core.DomHelper.append(eventRow, {
+                                Ext.DomHelper.append(eventRow, {
                                     tag: 'td',
                                     cls: 'ext-cal-ev',
                                     html: spaceChar,
@@ -163,7 +163,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                             // We hit one or more events in the grid that could not be displayed since the max
                             // events per day count was exceeded, so add the "more events" link.
                             eventRow = me.getEventRow(config.viewId, weekIndex, maxEventsPerDay);
-                            Ext.core.DomHelper.append(eventRow, {
+                            Ext.DomHelper.append(eventRow, {
                                 tag: 'td',
                                 cls: 'ext-cal-ev-more',
                                 //style: 'outline: 1px solid blue;', // helpful for debugging
@@ -193,7 +193,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                                 if (rowspan > 1) {
                                     cellConfig.rowspan = rowspan;
                                 }
-                                Ext.core.DomHelper.append(eventRow, cellConfig);
+                                Ext.DomHelper.append(eventRow, cellConfig);
                             }
                         }
                         // Else the event count for the current day equals the max event count, so the current
@@ -215,7 +215,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                             if (config.evtMaxCount[weekIndex] > 1) {
                                 cellConfig.rowspan = config.evtMaxCount[weekIndex];
                             }
-                            Ext.core.DomHelper.append(eventRow, cellConfig);
+                            Ext.DomHelper.append(eventRow, cellConfig);
                         }
                     }
                     

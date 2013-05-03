@@ -78,7 +78,7 @@ Ext.define('Extensible', {
         
         /**
          * Returns the time duration between two dates in the specified units. For finding the number of
-         * calendar days (ignoring time) between two dates use {@link Ext.ensible.Date.diffDays diffDays} instead.
+         * calendar days (ignoring time) between two dates use {@link Extensible.Date.diffDays diffDays} instead.
          * @param {Date} start The start date
          * @param {Date} end The end date
          * @param {String} unit (optional) The time unit to return. Valid values are 'ms' (milliseconds,
@@ -105,7 +105,7 @@ Ext.define('Extensible', {
          * Calculates the number of calendar days between two dates, ignoring time values. 
          * A time span that starts at 11pm (23:00) on Monday and ends at 1am (01:00) on Wednesday is 
          * only 26 total hours, but it spans 3 calendar days, so this function would return 3. For the
-         * exact time difference, use {@link Ext.ensible.Date.diff diff} instead.
+         * exact time difference, use {@link Extensible.Date.diff diff} instead.
          * @param {Date} start The start date
          * @param {Date} end The end date
          * @return {Number} The number of calendar days difference between the dates
@@ -336,13 +336,11 @@ var futureDate = Extensible.Date.add(now, {
 Ext.require([
     'Ext.picker.Color',
     'Ext.form.Basic',
-    'Ext.data.MemoryProxy'
+    'Ext.data.proxy.Memory'
 ]);
 
 Extensible.applyOverrides = function() {
 
-    Ext.DomHelper = Ext.core.DomHelper;
-    
     var extVersion = Ext.getVersion();
     
     // This was fixed in Ext 4.0.5:
@@ -451,8 +449,8 @@ Extensible.applyOverrides = function() {
     // to simulate CRUD transactions we have to at the very least allow them to be
     // marked as completed and successful, otherwise they will never filter back to the
     // UI components correctly.
-    if (Ext.data && Ext.data.MemoryProxy) {
-        Ext.data.MemoryProxy.override({
+    if (Ext.data && Ext.data.proxy && Ext.data.proxy.Memory) {
+        Ext.data.proxy.Memory.override({
             updateOperation: function(operation, callback, scope) {
                 Ext.each(operation.records, function(rec) {
                     rec.commit();

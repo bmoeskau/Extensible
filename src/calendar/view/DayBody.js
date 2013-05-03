@@ -436,7 +436,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             var markup = this.getEventTemplate().apply(evt),
                 target = this.id + '-day-col-' + Ext.Date.format(evts[i].date, 'Ymd');
                 
-            Ext.core.DomHelper.append(target, markup);
+            Ext.DomHelper.append(target, markup);
         }
         
         this.fireEvent('eventsrendered', this);

@@ -7,7 +7,10 @@ Ext.Loader.setConfig({
     }
 });
 Ext.require([
-    'Ext.*',
+    'Ext.Ajax',
+    'Ext.data.ArrayStore',
+    'Ext.form.field.ComboBox',
+    'Ext.window.MessageBox',
     'Extensible.calendar.data.MemoryEventStore',
     'Extensible.calendar.CalendarPanel',
     'Extensible.example.calendar.data.Events',

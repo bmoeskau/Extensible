@@ -1,6 +1,6 @@
 /**
  * @class Extensible.calendar.form.field.ReminderCombo
- * @extends Ext.form.ComboBox
+ * @extends Ext.form.field.ComboBox
  * <p>A custom combo used for choosing a reminder setting for an event.</p>
  * <p>This is pretty much a standard combo that is simply pre-configured for the options needed by the
  * calendar components. The default configs are as follows:<pre><code>
@@ -21,7 +21,7 @@ reminderValueFormat: '{0} {1} before start'
  * @param {Object} config The config object
  */
 Ext.define('Extensible.calendar.form.field.ReminderCombo', {
-    extend: 'Ext.form.ComboBox',
+    extend: 'Ext.form.field.ComboBox',
     alias: 'widget.extensible.remindercombo',
     
     requires: ['Ext.data.ArrayStore'],

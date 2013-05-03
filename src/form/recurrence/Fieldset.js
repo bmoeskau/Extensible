@@ -3,7 +3,7 @@
  * Rrule info: http://www.kanzaki.com/docs/ical/rrule.html
  */
 Ext.define('Extensible.form.recurrence.Fieldset', {
-    extend: 'Ext.form.Field',
+    extend: 'Ext.form.field.Field',
     alias: 'widget.extensible.recurrencefield',
     
     requires: ['Extensible.form.recurrence.Combo'],
