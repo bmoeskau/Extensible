@@ -1,5 +1,5 @@
 Extensible = {
-    version: '1.5.1'
+    version: '1.5.2'
 };
 /**
  * This is intended as a development mode only convenience so that you can configure all include
@@ -31,7 +31,7 @@ Extensible.Config = {
          * 
          * @config {String} mode
          */
-        mode: 'dynamic',
+        mode: 'debug',
         
         /**
          * The root path to the Ext JS framework (defaults to loading 4.0.7 from the Sencha CDN via

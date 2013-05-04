@@ -7,7 +7,7 @@
 
 # Configuration
 # The current version string, substituted into the build path below
-VER=extensible-1.5.1
+VER=extensible-1.5.2
 
 # Default the root to the parent of the current \build folder
 EXTENSIBLE_ROOT="`dirname "$0"`/.."

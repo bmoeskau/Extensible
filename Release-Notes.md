@@ -2,6 +2,21 @@
 
 These notes apply to the Ext 4.x branch of Extensible.
 
+## 1.5.2
+
+_May 4, 2013_
+
+**NOTE:** This maintenance release is only for Ext 4.2+ compatibility in the Extensible 1.5.x branch. All new development and other bug fixes since 1.5.1 was originally released are in the Extensible 1.6+ branch.
+
+**Bugs Fixed**
+
+* Something in 4.2 broke all dependencies that relied on classname aliases, so updated all class dependencies to use the fully-qualified names
+* Sencha changed the implementation of Model.getId() in 4.2 and it no longer works correctly for records that use a mapping for the id. Switched back to the 4.1 implementation.
+* Sencha added a new "notifyOccluded" drag drop property, and unfortunately defaulted it break compatibility, which broke drag and drop behavior in the calendar. Added explicitly handling of this flag to fix it.
+* Sencha removed the default reset CSS styles in 4.2, which broke the layout of the CalendarListPanel component. Re-added CSS to fix that.
+* Fixed typo bug that broke the ability to toggle calendar visibility via the CalendarListPanel in the App example
+* Sencha revised the internal markup and CSS of the ColorPicker component, which broke the ColorPicker subclass used by the CalendarListPanel. Revised the component to fix this.
+
 ## 1.5.1
 
 _February 6, 2012_
