@@ -8,14 +8,13 @@ Ext.Loader.setConfig({
 });
 Ext.require([
     'Ext.form.Panel',
-    'Ext.Button',
+    'Ext.button.Button',
     'Ext.form.field.Date',
     'Extensible.form.recurrence.Fieldset'
 ]);
 
 Ext.onReady(function(){
     var recurField = Ext.createWidget('extensible.recurrencefield', {
-        xtype: 'extensible.recurrencefield',
         anchor: '90%',
         listeners: {
             'change': function(field, value) {
