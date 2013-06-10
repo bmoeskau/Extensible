@@ -73,7 +73,7 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
  
         me.el = me.proxy.el;
         me.el.show();
-        me.el.setVisibilityMode(Ext.dom.Element.VISIBILITY);
+        me.el.setVisibilityMode(Ext.Element.VISIBILITY);
         me.el.hide();
  
         me.ghost = Ext.get(me.el.dom.childNodes[1].childNodes[0]);

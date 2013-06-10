@@ -13,7 +13,7 @@ Ext.define('Extensible.calendar.view.Month', {
     
     requires: [
         'Ext.XTemplate',
-        'Ext.util.TaskManager',
+        Ext.getVersion().isLessThan('4.2.0') ? 'Ext.TaskManager' : 'Ext.util.TaskManager',
         'Extensible.calendar.template.Month',
         'Extensible.calendar.util.WeekEventRenderer',
         'Extensible.calendar.view.MonthDayDetail'
