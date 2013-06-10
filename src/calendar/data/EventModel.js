@@ -111,6 +111,13 @@ Ext.define('Extensible.calendar.data.EventModel', {
         delete me.data[EventMappings.REditMode.name];
         
         return me;
+    },
+    
+    // Sencha broke getId() for mapped ids in 4.2. Mappings are required by Extensible and this method
+    // began returning undefined for the record ids in 4.2. This override is here simply
+    // to reinstate the 4.1.x version that still works as expected:
+    getId: function() {
+        return this.get(this.idProperty);
     }
 },
 function() {
