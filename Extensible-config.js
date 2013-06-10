@@ -186,7 +186,7 @@ Extensible.Config = {
         me.includeStylesheet(me.extensibleRoot + 'resources/css/extensible-all.css' + cacheBuster);
         me.includeStylesheet(me.extensibleRoot + 'examples/examples.css?_dc=' + Extensible.version);
         
-        me.includeScript(me.extJsRoot + 'ext' + suffix + '.js');
+        me.includeScript(me.extJsRoot + 'ext-debug' + suffix + '.js');
         me.includeScript(me.extJsRoot + 'locale/ext-lang-' + me.language + '.js');
         me.includeScript(me.extensibleRoot + 'lib/extensible' + suffix + bootstrap + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'src/locale/extensible-lang-' + me.language + '.js' + cacheBuster);
