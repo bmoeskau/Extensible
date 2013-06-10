@@ -1,6 +1,6 @@
 /**
  * @class Extensible.calendar.view.AbstractCalendar
- * @extends Ext.BoxComponent
+ * @extends Ext.Component
  * <p>This is an abstract class that serves as the base for other calendar views. This class is not
  * intended to be directly instantiated.</p>
  * <p>When extending this class to create a custom calendar view, you must provide an implementation
@@ -12,9 +12,9 @@
  */
 Ext.define('Extensible.calendar.view.AbstractCalendar', {
     extend: 'Ext.Component',
-
+    
     requires: [
-        'Ext.CompositeElement',
+        'Ext.dom.CompositeElement',
         'Extensible.calendar.form.EventDetails',
         'Extensible.calendar.form.EventWindow',
         'Extensible.calendar.menu.Event',
@@ -1219,13 +1219,13 @@ viewConfig: {
     /**
      *
      * @param {String} eventId
-     * @return {Ext.CompositeElement} The matching CompositeElement of nodes
+     * @return {Ext.dom.CompositeElement} The matching CompositeElement of nodes
      * that comprise the rendered event.  Any event that spans across a view
      * boundary will contain more than one internal Element.
      */
     getEventEls: function(eventId) {
         var els = this.el.select(this.getEventSelectorCls(this.getEventId(eventId), true), false);
-        return Ext.create('Ext.CompositeElement', els);
+        return Ext.create('Ext.dom.CompositeElement', els);
     },
 
     /**

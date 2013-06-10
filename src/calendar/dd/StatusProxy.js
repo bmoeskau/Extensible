@@ -1,7 +1,7 @@
 /**
  * @class Extensible.calendar.dd.StatusProxy
- * A specialized drag proxy that supports a drop status icon, {@link Ext.Layer} styles and auto-repair. It also
- * contains a calendar-specific drag status message containing details about the dragged event's target drop date range.
+ * A specialized drag proxy that supports a drop status icon, {@link Ext.dom.Layer} styles and auto-repair. It also
+ * contains a calendar-specific drag status message containing details about the dragged event's target drop date range.  
  * This is the default drag proxy used by all calendar views.
  * @constructor
  * @param {Object} config
@@ -73,7 +73,7 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
  
         me.el = me.proxy.el;
         me.el.show();
-        me.el.setVisibilityMode(Ext.core.Element.VISIBILITY);
+        me.el.setVisibilityMode(Ext.dom.Element.VISIBILITY);
         me.el.hide();
  
         me.ghost = Ext.get(me.el.dom.childNodes[1].childNodes[0]);

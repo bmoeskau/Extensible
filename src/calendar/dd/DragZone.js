@@ -6,6 +6,7 @@ Ext.define('Extensible.calendar.dd.DragZone', {
     extend: 'Ext.dd.DragZone',
     
     requires: [
+        'Ext.util.Point',
         'Extensible.calendar.dd.StatusProxy',
         'Extensible.calendar.data.EventMappings'
     ],

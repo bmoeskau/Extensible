@@ -7,7 +7,7 @@ Ext.Loader.setConfig({
     }
 });
 Ext.require([
-    'Ext.Viewport',
+    'Ext.container.Viewport',
     'Ext.layout.container.Border',
     'Ext.data.proxy.Rest',
     'Extensible.calendar.data.MemoryCalendarStore',
@@ -105,7 +105,7 @@ Ext.onReady(function () {
         recurrence: true
     });
     
-    Ext.create('Ext.Viewport', {
+    Ext.create('Ext.container.Viewport', {
         layout: 'border',
         items: [{
             title: 'Example Overview',

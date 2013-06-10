@@ -1,6 +1,6 @@
 /**
  * @class Extensible.calendar.form.EventWindow
- * @extends Ext.Window
+ * @extends Ext.window.Window
  * <p>A custom window containing a basic edit form used for quick editing of events.</p>
  * <p>This window also provides custom events specific to the calendar so that other calendar components can be easily
  * notified when an event has been edited via this component.</p>
@@ -186,8 +186,8 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
     
     // private
-    onRender: function(ct, position) {
-        this.formPanel = Ext.create('Ext.FormPanel', Ext.applyIf({
+    onRender : function(ct, position){        
+        this.formPanel = Ext.create('Ext.form.Panel', Ext.applyIf({
             fieldDefaults: {
                 labelWidth: this.labelWidth
             },

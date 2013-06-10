@@ -1,8 +1,8 @@
 /**
  * @class Extensible.calendar.view.Day
- * @extends Ext.Container
+ * @extends Ext.container.Container
  * <p>Unlike other calendar views, is not actually a subclass of {@link Extensible.calendar.view.AbstractCalendar CalendarView}.
- * Instead it is a {@link Ext.Container Container} subclass that internally creates and manages the layouts of
+ * Instead it is a {@link Ext.container.Container Container} subclass that internally creates and manages the layouts of
  * a {@link Extensible.calendar.view.DayHeader DayHeaderView} and a {@link Extensible.calendar.view.DayBody DayBodyView}. As such
  * DayView accepts any config values that are valid for DayHeaderView and DayBodyView and passes those through
  * to the contained views. It also supports the interface required of any calendar view and in turn calls methods
@@ -11,7 +11,7 @@
  * @param {Object} config The config object
  */
 Ext.define('Extensible.calendar.view.Day', {
-    extend: 'Ext.Container',
+    extend: 'Ext.container.Container',
     alias: 'widget.extensible.dayview',
     
     requires: [

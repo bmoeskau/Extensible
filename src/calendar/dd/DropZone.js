@@ -6,7 +6,7 @@ Ext.define('Extensible.calendar.dd.DropZone', {
     extend: 'Ext.dd.DropZone',
     
     requires: [
-        'Ext.Layer',
+        'Ext.dom.Layer',
         'Extensible.calendar.data.EventMappings'
     ],
     
@@ -128,9 +128,9 @@ Ext.define('Extensible.calendar.dd.DropZone', {
         el.className = 'ext-dd-shim';
         this.shimCt.appendChild(el);
         
-        return Ext.create('Ext.Layer', {
-            shadow: false,
-            useDisplay: true,
+        return Ext.create('Ext.dom.Layer', {
+            shadow: false, 
+            useDisplay: true, 
             constrain: false
         }, el);
     },

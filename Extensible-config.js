@@ -31,7 +31,7 @@ Extensible.Config = {
          * 
          * @config {String} mode
          */
-        mode: 'debug',
+        mode: 'dynamic',
         
         /**
          * The root path to the Ext JS framework (defaults to loading 4.1.0 from the Sencha CDN via
@@ -56,7 +56,7 @@ Extensible.Config = {
          * 
          * @config {String} extJsRoot
          */
-        extJsRoot: 'http://cdn.sencha.io/ext-4.1.0-gpl/',
+        extJsRoot: 'http://cdn.sencha.io/ext-4.2.0-gpl/',
         
         /**
          * The root path to the Extensible framework (defaults to the current url of this script file,

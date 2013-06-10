@@ -10,7 +10,7 @@ Ext.Loader.setConfig({
 Ext.define('Extensible.example.calendar.TestApp.App', {
     
     requires: [
-        'Ext.Viewport',
+        'Ext.container.Viewport',
         'Ext.layout.container.Border',
         'Extensible.calendar.CalendarPanel',
         'Extensible.calendar.gadget.CalendarListPanel',

@@ -2,7 +2,7 @@
  * Currently not used
  */
 Ext.define('Extensible.form.recurrence.FrequencyCombo', {
-    extend: 'Ext.form.ComboBox',
+    extend: 'Ext.form.field.ComboBox',
     alias: 'widget.extensible.recurrence-frequency',
     
     requires: [

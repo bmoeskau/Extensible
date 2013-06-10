@@ -7,7 +7,7 @@ Ext.Loader.setConfig({
     }
 });
 Ext.require([
-    'Ext.TabPanel',
+    'Ext.tab.Panel',
     'Extensible.calendar.data.MemoryEventStore',
     'Extensible.calendar.CalendarPanel',
     'Extensible.example.calendar.data.Events'
@@ -41,7 +41,7 @@ Ext.onReady(function(){
     //
     // Create the TabPanel and add the calendar config as the second tab
     //    
-    Ext.create('Ext.TabPanel', {
+    Ext.create('Ext.tab.Panel', {
         renderTo: 'tabpanel',
         width: 700,
         height: 500,

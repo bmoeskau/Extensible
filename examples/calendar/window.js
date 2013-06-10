@@ -7,7 +7,7 @@ Ext.Loader.setConfig({
     }
 });
 Ext.require([
-    'Ext.Window',
+    'Ext.window.Window',
     'Extensible.calendar.data.MemoryEventStore',
     'Extensible.calendar.CalendarPanel',
     'Extensible.example.calendar.data.Events'
@@ -16,7 +16,7 @@ Ext.require([
 Ext.onReady(function(){
     var showWindow = function(){
         if(!this.calendarWin){
-            this.calendarWin = Ext.create('Ext.Window', {
+            this.calendarWin = Ext.create('Ext.window.Window', {
                 layout: 'fit',
                 title: 'Calendar Window',
                 width: 600,
