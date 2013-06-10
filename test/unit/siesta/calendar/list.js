@@ -49,10 +49,10 @@ StartTest(function(t) {
             setTimeout(function() {
                 t.click(editWindow.getEl().down('button').first());
                 eventEl = Ext.select('.x-cal-7-ad').first();
-                t.ok(Ext.String.trim(eventEl.dom.innerText) === 'A long one...', 'Updated event class name');
+                t.ok(Ext.String.trim(eventEl.dom.innerText) === 'A long one...', 'Updated event calendar');
                 
                 t.endAsync(frame);
-            }, 100);
+            }, 500);
         }, 500);
     });
 });
