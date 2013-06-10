@@ -30,9 +30,13 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
      */
     
     constructor: function() {
-        this.renderTpl = Ext.create('Ext.XTemplate',
-            '<tpl for="colors"><a href="#" class="x-cal-{.}" hidefocus="on">' +
-            '<em><span unselectable="on">&#160;</span></em></a></tpl>');
+        this.renderTpl = [
+            '<tpl for="colors">',
+                '<a href="#" class="x-cal-{.}" hidefocus="on">',
+                    '<em><span unselectable="on">&#160;</span></em>',
+                '</a>',
+            '</tpl>'
+        ];
         
         this.callParent(arguments);
     },
