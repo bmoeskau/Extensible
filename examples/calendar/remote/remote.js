@@ -182,7 +182,7 @@ Ext.onReady(function() {
         listViewCfg: {
             linkDatesToDayView: true,
             dateRangeDefault: '3months',
-            groupBy: 'week'
+            groupBy: 'month'
         }
     });
     
