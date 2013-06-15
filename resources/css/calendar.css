@@ -774,6 +774,10 @@ td.ext-cal-dtitle-today div {
     background-image: none !important;
 }
 
+.ext-cal-icon-evt-add {
+    background-image: url(../images/default/ext/add.gif) !important;
+}
+
 .ext-cal-agenda-bd .ext-cal-evt-agenda td {
     padding: 2px 10px;
     font-size: 12px;
