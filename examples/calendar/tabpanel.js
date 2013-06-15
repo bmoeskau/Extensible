@@ -33,6 +33,7 @@ Ext.onReady(function(){
         width: 700,
         height: 500,
         activeItem: 1,
+        showListView: true,
         // this is a good idea since we are in a TabPanel and we don't want
         // the user switching tabs on us while we are editing an event:
         editModal: true
