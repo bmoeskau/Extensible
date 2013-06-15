@@ -121,7 +121,8 @@ Ext.onReady(function() {
         region: 'center', // it will be used in a border layout below
         eventStore: eventStore,
         calendarStore: calendarStore,
-        title: 'Remote Calendar'
+        title: 'Remote Calendar',
+        showAgendaView: true
     });
     
     Ext.create('Ext.container.Viewport', {
