@@ -109,6 +109,11 @@ Ext.onReady(function() {
                 dayCount: 5
             },
             showAgendaView: true,
+            showListView: true,
+            listViewCfg: {
+                dateRangeDefault: '3months',
+                groupBy: 'month'
+            },
             activeItem: 4, // default to month view
             eventStore: Ext.create('Extensible.calendar.data.MemoryEventStore', {
                 // defined in ../data/Events.js
