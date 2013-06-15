@@ -364,6 +364,8 @@ Ext.onReady(function() {
                 nthWeekdayDateFormat: 'S' // displays the ordinal postfix, e.g. th for 5th.
 
             }
+        });
+    }
 
     /*
      * Strings for agenda view. Added in x.x.x
