@@ -58,6 +58,9 @@ Ext.define('Extensible.calendar.view.Agenda', {
     },
 
     // private
+    isAgendaView: true,
+
+    // private
     initComponent : function(){
 
         // Pass on initial configuration to sub-components
