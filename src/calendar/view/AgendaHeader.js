@@ -39,6 +39,13 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
      */
 
     /**
+     * @cfg {Boolean} simpleList
+     * <p>If true, a simple list of events is displayed, else, an agenda-style list is displayed.
+     * Defaults to false.</p>
+     */
+    simpleList: false,
+
+    /**
      * @cfg {Boolean} readOnly
      * True to prevent the view from providing CRUD capabilities, false to enable CRUD (the default).
      */
@@ -80,6 +87,30 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
     dateRangeText: 'Date range',
 
     /**
+     * @cfg {String} groupByMonths
+     * The text used for group by option <i>Month</i>.
+     */
+    groupByMonths: 'Month',
+
+    /**
+     * @cfg {String} groupByWeek
+     * The text used for group by option <i>Week</i>.
+     */
+    groupByWeek: 'Week',
+
+    /**
+     * @cfg {String} groupByNone
+     * The text used for group by option <i>None</i>.
+     */
+    groupByNone: 'None',
+
+    /**
+     * @cfg {String} groupByText
+     * The label text used for the group by field.
+     */
+    groupByText: 'Group by',
+
+    /**
      * @cfg {String} showDetailsText
      * The label text used for the details field.
      */
@@ -105,6 +136,13 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
     dateRangeDefault: 'month',
 
     /**
+     * @cfg {String} groupBy
+     * Defines the default value for the groupby input field. Defaults to <tt>none</tt>. See
+     * {@link #getGroupByOptions} for a list of supported default values.
+     */
+    groupBy: 'none',
+
+    /**
      * @cfg {Boolean} showDetailsDefault
      * Defines the default value for the checkbox to show details. Defaults to <tt>false</tt>.
      */
@@ -124,6 +162,7 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
         var tbItems = this.getToolbarConfig();
 
         this.dateRangeOptions = this.getDateRangeOptions();
+        this.groupByOptions = this.getGroupByOptions();
 
         this.items = this.getFormConfig();
         if (this.items.length == 0) {
@@ -180,31 +219,71 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
      * @return {Array} An array of Object
     */
     getFormConfig: function() {
-        return [{
-           xtype:          'combo',
-           id:             this.id+'-daterange',
-           mode:           'local',
-           value:          this.dateRangeDefault,
-           triggerAction:  'all',
-           forceSelection: true,
-           editable:       false,
-           width:          220,
-           fieldLabel:     this.dateRangeText,
-           name:           'period',
-           displayField:   'name',
-           valueField:     'value',
-           queryMode:      'local',
-           store:          Ext.create('Ext.data.Store', {
-               fields : ['name', 'value'],
-               data   : this.dateRangeOptions
-           }),
-           // This fixes a bug that a blank item is not properly supported. See Sencha forum and source of Ext.view.BoundList.
-           // http://www.sencha.com/forum/showthread.php?41431-Empty-string-as-ComboBox-entry-text&p=195882
-           tpl: '<ul><tpl for="."><li role="option" class="x-boundlist-item">{name}&nbsp;</li></tpl></ul>',
-           listeners: {
-               change: {fn: this.onFormChange, scope: this}
-           }
-        },{
+        var formItems = {
+            xtype: 'fieldcontainer',
+            labelWidth: 100,
+            height: 45,
+            fieldDefaults: {
+                // padding: 20,
+                labelAlign: 'top',
+                width: 150,
+                margins: '0 20 0 0'
+            },
+            layout: 'hbox',
+            items: [{
+                xtype:          'combo',
+                id:             this.id+'-daterange',
+                mode:           'local',
+                value:          this.dateRangeDefault,
+                triggerAction:  'all',
+                forceSelection: true,
+                editable:       false,
+                fieldLabel:     this.dateRangeText,
+                name:           'period',
+                displayField:   'name',
+                valueField:     'value',
+                queryMode:      'local',
+                store:          Ext.create('Ext.data.Store', {
+                    fields : ['name', 'value'],
+                    data   : this.dateRangeOptions
+                }),
+                // This fixes a bug that a blank item is not properly supported. See Sencha forum and source of Ext.view.BoundList.
+                // http://www.sencha.com/forum/showthread.php?41431-Empty-string-as-ComboBox-entry-text&p=195882
+                tpl: '<ul><tpl for="."><li role="option" class="x-boundlist-item">{name}&nbsp;</li></tpl></ul>',
+                listeners: {
+                    change: {fn: this.onFormChange, scope: this}
+                }
+            }]
+        };
+
+        if (this.simpleList) {
+            formItems.items.push({
+                xtype:          'combo',
+                id:             this.id+'-groupby',
+                mode:           'local',
+                value:          this.groupBy,
+                triggerAction:  'all',
+                forceSelection: true,
+                editable:       false,
+                fieldLabel:     this.groupByText,
+                name:           'groupby',
+                displayField:   'name',
+                valueField:     'value',
+                queryMode:      'local',
+                store:          Ext.create('Ext.data.Store', {
+                    fields : ['name', 'value'],
+                    data   : this.groupByOptions
+                }),
+                // This fixes a bug that a blank item is not properly supported. See Sencha forum and source of Ext.view.BoundList.
+                // http://www.sencha.com/forum/showthread.php?41431-Empty-string-as-ComboBox-entry-text&p=195882
+                tpl: '<ul><tpl for="."><li role="option" class="x-boundlist-item">{name}&nbsp;</li></tpl></ul>',
+                listeners: {
+                    change: {fn: this.onFormChange, scope: this}
+                }
+            });
+        }
+
+        formItems.items.push({
             xtype:          'checkboxfield',
             id:             this.id+'-showdetails',
             value:          this.showDetailsDefault,
@@ -214,7 +293,9 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
             listeners: {
                 change: {fn: this.onFormChange, scope: this}
             }
-        }];
+        });
+
+        return [formItems];
     },
 
     /**
@@ -270,6 +351,28 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
             {name : this.dateRangeOneMonth,  value: 'month'},
             {name : this.dateRangeThreeMonths,  value: '3months'},
             {name : this.dateRangeOneYear, value: 'year'}
+        ];
+    },
+
+    /**
+     * <p>Returns the options available in the group by combo box. Override this function to change the available
+     * options for the group by select list.</p>
+     * <p>Returns an array of objects where each object has two attributes <tt>name</tt> and <tt>value</tt>. The
+     * attribute <tt>name</tt> is the display string, the attribute <tt>value</tt> is the value returned as the
+     * field value of the combo box. The default configuration is: <pre><code>
+     [
+     {name : 'None',   value: 'none'},
+     {name : 'Month',  value: 'month'},
+     {name : 'Week',  value: 'week'}
+     ]
+     </code></pre></p>
+     * @return {Object}
+     */
+    getGroupByOptions: function() {
+        return [
+            {name : this.groupByNone,  value: 'none'},
+            {name : this.groupByMonths, value: 'month'},
+            {name : this.groupByWeek,  value: 'week'}
         ];
     },
 

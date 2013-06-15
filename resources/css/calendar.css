@@ -795,6 +795,20 @@ td.ext-cal-dtitle-today div {
     border:0;
 }
 
+/* new styles, adjust for white skin */
+.ext-cal-agenda-bd td.ext-cal-agenda-group-header {
+    color: #A7C6DF;
+    font-size: 16px;
+    line-height: 14px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+
+.ext-cal-agenda-bd .ext-cal-evt-agenda td.ext-cal-evt-hours {
+    padding: 2px 2px;
+}
+
 
 /*******************************************
  * 

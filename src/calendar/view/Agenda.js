@@ -4,9 +4,21 @@
  *
  * <p><b>This class is currently beta code and the API is still subject to change before the next release.</b></p>
  *
- * <p>Agenda view display events as a sorted list, similar to the agenda view in Google calendar. It supports CRUD
- * operations on events, filtering of events based on calendar and a selectable date range. The view can be
- * switched between a summary view and a details view.</p>
+ * <p>Agenda view display events as a chronologically sorted list. It supports two types of list:</p>
+ *
+ * <p><b>1) Agenda lists</b>: An agenda list is a list where for each day of the view period all events that are taking place
+ * on that day are listed. For example, an event that lasts seven days is listed seven times, once for each day.
+ * This view is very similar to the agenda view in Google calendar.</p>
+ *
+ * <p><b>2) Simple lists</b>: A simple list is a list where each event is listed once, independent of the duration of the
+ * event. This is suited for event calendars or to present the results of a search for events. Simple list mode is
+ * activated by setting property {@link #simpleList} to <tt>true</tt>.<br />
+ * Additionally, simple lists support grouping of events by month and week. Grouping is enabled with property
+ * {@link #groupBy}. If grouping is enabled, each group of events starts with a group header displaying the
+ * month or week.</p>
+ *
+ * <p>Agenda view supports CRUD operations on events, filtering of events based on calendar and a selectable date
+ * range. The view can be switched between a summary view and a details view.</p>
  *
  * <p>The view is divided into two main sections: the {@link Extensible.calendar.view.AgendaHeader header} and the
  * {@link Extensible.calendar.view.AgendaBody event list}. The header hosts a form and a toolbar that can be
@@ -45,6 +57,21 @@ Ext.define('Extensible.calendar.view.Agenda', {
     hideMode: 'offsets',
 
     /**
+     * @cfg {Boolean} simpleList
+     * <p>If true, a simple list of events is displayed, else, an agenda-style list is displayed. See the introduction
+     * of this class for more details. Defaults to false.</p>
+     */
+    simpleList: false,
+
+    /**
+     * @cfg {String} groupBy
+     * <p>Defines the grouping to be applied to the list of events. This property only has an effect if property
+     * {@link #simpleList} is true. Supported values are <tt>month</tt>, <tt>week</tt> and <tt>none</tt>. Any other
+     * values will disable grouping. Default value is <tt>none</tt>.</p>
+     */
+    groupBy: 'none',
+
+    /**
      * @property ownerCalendarPanel
      * @type Extensible.calendar.CalendarPanel
      * If this view is hosted inside a {@link Extensible.calendar.CalendarPanel} this property will reference
@@ -79,6 +106,8 @@ Ext.define('Extensible.calendar.view.Agenda', {
         var body = Ext.applyIf({
             xtype: 'extensible.agendabodyview',
             id: this.id+'-bd',
+            simpleList: this.simpleList,
+            groupBy: this.groupBy,
             ownerCalendarPanel: this.ownerCalendarPanel,
             ownerCalendarView: this
         }, cfg);
