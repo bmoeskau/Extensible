@@ -1,6 +1,6 @@
 /**
  * @class Extensible.calendar.view.ListHeader
- * @extends Ext.panel.Panel
+ * @extends Ext.form.Panel
  *
  * <p><b>This class is currently beta code and the API is still subject to change before the next release.</b></p>
  *
