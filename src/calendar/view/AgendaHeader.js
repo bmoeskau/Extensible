@@ -307,7 +307,8 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
         var result = [];
         if (this.readOnly !== true) {
             result.push({
-                text   : this.addBtnText,
+                text: this.addBtnText,
+                iconCls: 'ext-cal-icon-evt-add',
                 listeners: {
                     click: {
                         fn: this.onAddEvent,
