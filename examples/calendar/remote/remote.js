@@ -133,6 +133,7 @@ Ext.onReady(function() {
             collapsible: true,
             split: true,
             autoScroll: true,
+            showListView: true,
             contentEl: 'sample-overview' // from remote.html
         },
             calendarPanel
