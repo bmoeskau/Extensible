@@ -122,7 +122,8 @@ Ext.onReady(function() {
         eventStore: eventStore,
         calendarStore: calendarStore,
         title: 'Remote Calendar',
-        showAgendaView: true
+        showAgendaView: true,
+        activeItem: 3 // month view
     });
     
     Ext.create('Ext.container.Viewport', {
