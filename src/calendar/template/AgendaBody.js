@@ -1,10 +1,10 @@
 /**
- * @class Extensible.calendar.template.ListBody
+ * @class Extensible.calendar.template.AgendaBody
  * @extends Ext.XTemplate
  *
  * <p><b>This class is currently beta code and the API is still subject to change before the next release.</b></p>
  *
- * <p>This is the template used to render the {@link Extensible.calendar.view.ListBody ListBody}.</p>
+ * <p>This is the template used to render the {@link Extensible.calendar.view.AgendaBody AgendaBody}.</p>
  *
  * <p>This template is automatically bound to the underlying event store by the
  * calendar components and expects records of type {@link Extensible.calendar.data.EventModel}.</p>
@@ -13,7 +13,7 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.define('Extensible.calendar.template.ListBody', {
+Ext.define('Extensible.calendar.template.AgendaBody', {
     extend: 'Ext.XTemplate',
 
     requires: [],
@@ -92,12 +92,12 @@ Ext.define('Extensible.calendar.template.ListBody', {
      * @cfg {String} prevLinkSelector
      * The class name applied to the <i>previous link</i>.
      */
-    prevLinkSelector: 'ext-cal-list-bd-prev-link',
+    prevLinkSelector: 'ext-cal-agenda-bd-prev-link',
     /**
      * @cfg {String} nextLinkSelector
      * The class name applied to the <i>previous link</i>.
      */
-    nextLinkSelector: 'ext-cal-list-bd-next-link',
+    nextLinkSelector: 'ext-cal-agenda-bd-next-link',
 
 
     // private
@@ -105,8 +105,8 @@ Ext.define('Extensible.calendar.template.ListBody', {
 
         Ext.apply(this, config);
 
-        Extensible.calendar.template.ListBody.superclass.constructor.call(this,
-            '<table class="ext-cal-evt-list" cellpadding="2" cellspacing="0" width="100%" border="0">',
+        Extensible.calendar.template.AgendaBody.superclass.constructor.call(this,
+            '<table class="ext-cal-evt-agenda" cellpadding="2" cellspacing="0" width="100%" border="0">',
                 '<tbody>',
                     '<tpl for="days">',
                         '<tr>',
@@ -133,7 +133,7 @@ Ext.define('Extensible.calendar.template.ListBody', {
                                                 '{[this.getTitleMarkup(values)]}',
                                                 '{[this.getReminderFlagMarkup(values)]}',
                                                 '{[this.getRecurrenceFlagMarkup(values)]}',
-                                                '<table class="ext-cal-evt-list-details" cellspacing="0" cellpadding="0" width="100%" border="0">',
+                                                '<table class="ext-cal-evt-agenda-details" cellspacing="0" cellpadding="0" width="100%" border="0">',
                                                     '<tpl if="this.eventHasLocation(values)">',
                                                         '<tr>',
                                                             '<td nowrap>', this.locationText, ':</td>',
@@ -191,7 +191,7 @@ Ext.define('Extensible.calendar.template.ListBody', {
     // private
     applyTemplate : function(o){
         if (Ext.getVersion().isLessThan('4.1')) {
-            return Extensible.calendar.template.ListBody.superclass.applyTemplate.call(this, o);
+            return Extensible.calendar.template.AgendaBody.superclass.applyTemplate.call(this, o);
         }
         else {
             return this.applyOut(o, []).join('');

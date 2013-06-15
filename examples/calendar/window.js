@@ -27,7 +27,7 @@ Ext.onReady(function(){
                     // xtype is supported:
                     xtype: 'extensible.calendarpanel',
                     activeItem: 3, // default to month view
-                    showListView: true,
+                    showAgendaView: true,
                     eventStore: Ext.create('Extensible.calendar.data.MemoryEventStore', {
                         // defined in ../data/Events.js
                         data: Ext.create('Extensible.example.calendar.data.Events')
