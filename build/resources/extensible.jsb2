@@ -39,7 +39,7 @@
             "text": "Month.js",
             "path": "../../src/calendar/template/"
         },{
-            "text": "ListBody.js",
+            "text": "AgendaBody.js",
             "path": "../src/calendar/template/"
         },{
             "text": "CalendarScrollManager.js",
@@ -132,13 +132,13 @@
             "text": "MultiWeek.js",
             "path": "../../src/calendar/view/"
         },{
-            "text": "ListHeader.js",
+            "text": "AgendaHeader.js",
             "path": "../src/calendar/view/"
         },{
-            "text": "ListBody.js",
+            "text": "AgendaBody.js",
             "path": "../src/calendar/view/"
         },{
-            "text": "List.js",
+            "text": "Agenda.js",
             "path": "../src/calendar/view/"
         },{
             "text": "CalendarPanel.js",
