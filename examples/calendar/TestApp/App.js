@@ -105,6 +105,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                         //viewStartHour: 6,
                         //viewEndHour: 18,
                         //minEventDisplayMinutes: 15
+                        startDay: 0,
                         showTime: false
                     },
                     
@@ -125,6 +126,13 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                         dateRangeDefault: '3months'
                     },
 
+                    listViewCfg: {
+                        linkDatesToDayView: true,
+                        dateRangeDefault: '3months',
+                        simpleList: true,
+                        groupBy: 'month'
+                    },
+
                     // Some optional CalendarPanel configs to experiment with:
                     //readOnly: true,
                     //showDayView: false,
@@ -133,6 +141,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                     //showMultiWeekView: false,
                     //showMonthView: false,
                     showAgendaView: true,
+                    showListView: true,
                     //showNavBar: false,
                     //showTodayText: false,
                     //showTime: false,
