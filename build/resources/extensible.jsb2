@@ -39,6 +39,9 @@
             "text": "Month.js",
             "path": "../../src/calendar/template/"
         },{
+            "text": "ListBody.js",
+            "path": "../src/calendar/template/"
+        },{
             "text": "CalendarScrollManager.js",
             "path": "../../src/calendar/dd/"
         },{
@@ -128,6 +131,15 @@
         },{
             "text": "MultiWeek.js",
             "path": "../../src/calendar/view/"
+        },{
+            "text": "ListHeader.js",
+            "path": "../src/calendar/view/"
+        },{
+            "text": "ListBody.js",
+            "path": "../src/calendar/view/"
+        },{
+            "text": "List.js",
+            "path": "../src/calendar/view/"
         },{
             "text": "CalendarPanel.js",
             "path": "../../src/calendar/"
