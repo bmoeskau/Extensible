@@ -239,7 +239,7 @@ Ext.define('Extensible', {
          * @return {Boolean} True if the date is a week day, else false
          */
         isWeekday: function(dt) {
-            return dt.getDay() % 6 !== 0;
+            return !this.isWeekend(dt);
         },
         
         /**
@@ -340,6 +340,14 @@ var futureDate = Extensible.Date.add(now, {
         
         clearTime: function(dt, clone) {
             return Ext.Date.clearTime(dt, clone);
+        },
+        
+        getMonth: function(dt) {
+            return dt.getMonth();
+        },
+        
+        getDate: function(dt) {
+            return dt.getDate();
         }
     }
 });

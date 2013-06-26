@@ -116,6 +116,11 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      */
     jumpToText: 'Jump to:',
     /**
+     * @cfg {String} jumpToDateFormat
+     * Date format to use for the 'Jump to:' navigation date field.
+     */
+    jumpToDateFormat: 'y/n/j',
+    /**
      * @cfg {String} goText
      * Text to use for the 'Go' navigation button.
      */
