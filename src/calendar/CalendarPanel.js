@@ -328,7 +328,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             });
             this.viewCount++;
         }
-        if(this.showMonthView || this.viewCount === 0) {
+        if(this.showMonthView) {
             this.tbar.items.push({
                 id: this.id+'-tb-month', text: this.monthText, handler: this.onMonthNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
@@ -341,7 +341,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             });
             this.viewCount++;
         }
-        if(this.showListView){
+        if(this.showListView || this.viewCount === 0){
             this.tbar.items.push({
                 id: this.id+'-tb-list', text: this.listText, handler: this.onListNavClick, scope: this, toggleGroup: this.id+'-tb-views'
             });
