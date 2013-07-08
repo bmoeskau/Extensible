@@ -326,6 +326,9 @@ Ext.define('Extensible.calendar.view.Month', {
         if(this.detailPanel) {
             this.detailPanel.hide();
         }
+        if (!this.isHeaderView) {
+            this.maxEventsPerDay = this.getMaxEventsPerDay();
+        }
         this.callParent(arguments);
         
         if(this.showTime !== false) {
