@@ -51,8 +51,9 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     
     labelWidth: 65,
     labelWidthRightCol: 65,
-    colWidthLeft: '.9',
-    colWidthRight: '.1',
+    colWidthLeft: '.95',
+    colWidthRight: '.05',
+    fieldAnchor: '100%',
     title: 'Event Form',
     titleTextAdd: 'Add Event',
     titleTextEdit: 'Edit Event',
@@ -147,12 +148,12 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         this.titleField = Ext.create('Ext.form.field.Text', {
             fieldLabel: this.titleLabelText,
             name: Extensible.calendar.data.EventMappings.Title.name,
-            anchor: '70%'
+            anchor: this.fieldAnchor
         });
         this.dateRangeField = Ext.create('Extensible.form.field.DateRange', {
             fieldLabel: this.datesLabelText,
             singleLine: false,
-            anchor: '70%',
+            anchor: this.fieldAnchor,
             startDay: this.startDay,
             listeners: {
                 'change': Ext.bind(this.onDateChange, this)
@@ -161,24 +162,24 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         this.reminderField = Ext.create('Extensible.calendar.form.field.ReminderCombo', {
             name: Extensible.calendar.data.EventMappings.Reminder.name,
             fieldLabel: this.reminderLabelText,
-            anchor: '70%'
+            anchor: this.fieldAnchor
         });
         this.notesField = Ext.create('Ext.form.field.TextArea', {
             fieldLabel: this.notesLabelText,
             name: Extensible.calendar.data.EventMappings.Notes.name,
             grow: true,
             growMax: 150,
-            anchor: '70%'
+            anchor: this.fieldAnchor
         });
         this.locationField = Ext.create('Ext.form.field.Text', {
             fieldLabel: this.locationLabelText,
             name: Extensible.calendar.data.EventMappings.Location.name,
-            anchor: '70%'
+            anchor: this.fieldAnchor
         });
         this.urlField = Ext.create('Ext.form.field.Text', {
             fieldLabel: this.webLinkLabelText,
             name: Extensible.calendar.data.EventMappings.Url.name,
-            anchor: '70%'
+            anchor: this.fieldAnchor
         });
         
         // var leftFields = [this.titleField, this.dateRangeField, this.reminderField],
@@ -194,7 +195,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
                 name: Extensible.calendar.data.EventMappings.RRule.name,
                 fieldLabel: this.repeatsLabelText,
                 startDay: this.startDay,
-                anchor: '70%'
+                anchor: this.fieldAnchor
             });
             leftFields.splice(2, 0, this.recurrenceField);
         }
@@ -204,7 +205,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
                 store: this.calendarStore,
                 fieldLabel: this.calendarLabelText,
                 name: Extensible.calendar.data.EventMappings.CalendarId.name,
-                anchor: '70%'
+                anchor: this.fieldAnchor
             });
             leftFields.splice(2, 0, this.calendarField);
         }
