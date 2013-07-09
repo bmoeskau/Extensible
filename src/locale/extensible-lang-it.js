@@ -21,9 +21,9 @@ Ext.onReady(function() {
     
     if (exists('Extensible.calendar.view.Month')) {
         Ext.apply(Extensible.calendar.view.Month.prototype, {
-            moreText: '+{0} di più...',
+            moreText: '+{0} di pi\u00F9...',
             getMoreText: function(numEvents) {
-                return '+{0} di più...';
+                return '+{0} di pi\u00F9...';
             },
             detailsTitleDateFormat: 'j F'
         });
@@ -80,7 +80,7 @@ Ext.onReady(function() {
             datesLabelText: 'Quando',
             reminderLabelText: 'Ricorda',
             notesLabelText: 'Note',
-            locationLabelText: 'Località',
+            locationLabelText: 'Localit\u00E0',
             webLinkLabelText: 'Web Link',
             calendarLabelText: 'Calendario',
             repeatsLabelText: 'Ripetizioni'
