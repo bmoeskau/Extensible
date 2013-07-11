@@ -1489,6 +1489,41 @@ describe("Extensible.form.recurrence.Rule", function() {
         });
     });
     
+    describe('RRULE should be set to default values', function() {
+        
+        var expectDefaults = function(rrule) {
+            expect(rrule.getFrequency()).toBeNull();
+            expect(rrule.getCount()).toBeNull();
+            expect(rrule.getUntil()).toBeNull();
+            expect(rrule.getInterval()).toEqual(1);
+            expect(rrule.getByDay()).toBeNull();
+            expect(rrule.getByDayWeekdays()).toBeNull();
+            expect(rrule.getByDayNthWeekday()).toBeNull();
+            expect(rrule.getByDayNthWeekday()).toBeNull();
+            expect(rrule.getByMonthDay()).toBeNull();
+            expect(rrule.getByMonth()).toBeNull();
+            expect(rrule.getDescription(startDate)).toEqual('');
+            expect(rrule.getRule()).toEqual('');
+        };
+        
+        it ('when passing empty string to setRule()', function() {
+            rrule.setRule('FREQ=YEARLY;INTERVAL=2;BYMONTH=11;');
+            rrule.setRule('');
+            expectDefaults(rrule);
+        });
+        
+        it ('when passing null to setRule()', function() {
+            rrule.setRule('FREQ=YEARLY;INTERVAL=2;BYMONTH=11;');
+            rrule.setRule(null);
+            expectDefaults(rrule);
+        });
+        
+        it ('when passing undefined to setRule()', function() {
+            rrule.setRule('FREQ=YEARLY;INTERVAL=2;BYMONTH=11;');
+            rrule.setRule(undefined);
+            expectDefaults(rrule);
+        });
+    });
     
     //TODO: Error handling
     
