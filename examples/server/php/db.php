@@ -90,10 +90,14 @@
             //echo $sql.'<br>';
             //print_r($param_mappings);
             
+            return $this->querySql($sql, $param_mappings);
+        }
+        
+        public function querySql($sql, array $params) {
             try {
                 $this->connect();
                 $query = $this->db->prepare($sql);
-                $query->execute($param_mappings);
+                $query->execute($params);
                 $result = $query->fetchAll($this->fetch_type);
                 
                 return $result;

@@ -34,18 +34,14 @@
                 out($db->select($table, $id));
             }
             else if (isset($start_dt) && isset($end_dt)) {
-                // Query by date range
-                out($db->query($table, array(
-                    array(
-                        'column' => 'start',
-                        'value' => $start_dt,
-                        'comparator' => '>='
-                    ),
-                    array(
-                        'column' => 'end',
-                        'value' => $end_dt,
-                        'comparator' => '<='
-                    )
+                $sql = 'SELECT * FROM events'.
+                        ' WHERE (start >= :start AND start <= :end)'. // starts in range
+                        ' OR (end >= :start AND end <= :end)'.        // ends in range
+                        ' OR (start <= :start AND end >= :end)';      // spans range
+                
+                out($db->querySql($sql, array(
+                    ':start' => $start_dt,
+                    ':end'   => $end_dt
                 )));
             }
             break;
