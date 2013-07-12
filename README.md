@@ -31,7 +31,7 @@ The default [master branch](https://github.com/bmoeskau/Extensible) is now only 
 
 ## Getting Started
 
-The easiest way to get started with Extensible is to download one of the [released packages](http://github.com/bmoeskau/Extensible/downloads), which already contain the fully-built distribution files and documentation, and unzip it into your local web root (required for Ajax requests to work). By default, all examples use a relative reference to the pre-built debug version of Extensible (`[Extensible]/lib/extensible-all-debug.js`) and a url to a recent version of Ext hosted on the Sencha CDN (e.g., `http://cdn.sencha.io/ext-4.0.7-gpl/`). As long as you have an internet connection, the examples should work out of the box.
+The easiest way to get started with Extensible is to download one of the [released packages](http://ext.ensible.com/products/calendar/download/), which already contain the fully-built distribution files and documentation, and unzip it into your local web root (required for Ajax requests to work). By default, all examples use a relative reference to the pre-built debug version of Extensible (`[Extensible]/lib/extensible-all-debug.js`) and a url to a recent version of Ext hosted on the Sencha CDN (e.g., `http://cdn.sencha.io/ext-4.0.7-gpl/`). As long as you have an internet connection, the examples should work out of the box.
 
 ## Configuration
 
