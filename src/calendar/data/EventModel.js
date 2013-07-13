@@ -79,8 +79,7 @@ Ext.define('Extensible.calendar.data.EventModel', {
         var RRule = Extensible.calendar.data.EventMappings.RRule;
         
         if (RRule) {
-            var ruleString = this.get(RRule.name);
-            return (ruleString !== undefined && ruleString !== '');
+            return !!this.get(RRule.name);
         }
         return false;
     },
