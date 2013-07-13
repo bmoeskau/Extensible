@@ -40,7 +40,12 @@ Ext.onReady(function(){
         IsAllDay:    {name: 'IsAllDay', mapping: 'all_day', type: 'boolean'},
         Reminder:    {name: 'Reminder', mapping: 'reminder'},
         RRule:       {name: 'RRule', mapping: 'rrule'},
-        Duration:    {name: 'Duration', mapping: 'duration', type: 'int'}
+        // When duration is returned from the server, it is essential to make sure that any null
+        // value returned is not coerced to 0, which is a valid duration value, but not what you want
+        // as the default. The useNull and defaultValue mappings fix that. Typically duration is only
+        // required when using recurrence, but this example shares the same DB as the recurring examples
+        // so we'll go ahead and handle duration properly, even though it's not used in this demo.
+        Duration:    {name: 'Duration', mapping: 'duration', type: 'int', useNull: true, defaultValue: -1}
     });
     Extensible.calendar.data.EventModel.reconfigure();
     
