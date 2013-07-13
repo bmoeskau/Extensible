@@ -63,18 +63,24 @@ Ext.onReady(function(){
         }
     });
     
+    var apiBase = '../../server/php/api/events.php?action=';
+    
     var eventStore = Ext.create('Extensible.calendar.data.EventStore', {
         autoLoad: true,
         proxy: {
-            type: 'rest',
-            url: 'php/app.php/events',
+            type: 'ajax',
             noCache: false,
             
+            api: {
+                read:    apiBase + 'load',
+                create:  apiBase + 'save',
+                update:  apiBase + 'save',
+                destroy: apiBase + 'delete'
+            },
             reader: {
                 type: 'json',
                 root: 'data'
             },
-            
             writer: {
                 type: 'json',
                 nameProperty: 'mapping'
