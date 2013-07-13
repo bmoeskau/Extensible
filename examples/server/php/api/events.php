@@ -5,10 +5,13 @@
     $table = 'events';
     
     $action = isset($_REQUEST['action']) ? strtolower($_REQUEST['action']) : 'load';
-    $id = isset($_REQUEST['id']) ? strtolower($_REQUEST['id']) : null;
+    // $id = isset($_REQUEST['id']) ? strtolower($_REQUEST['id']) : null;
     $start_dt = isset($_REQUEST['startDate']) ? strtolower($_REQUEST['startDate']) : null;
     $end_dt = isset($_REQUEST['endDate']) ? strtolower($_REQUEST['endDate']) : null;
     
+    $json = file_get_contents('php://input');
+    $event = json_decode($json, TRUE);
+
     function out($result, $msg = null) {
         global $table;
         
@@ -29,9 +32,9 @@
     
     switch ($action) {
         case 'load':
-            if (isset($id)) {
+            if (isset($event) && isset($event['id'])) {
                 // Load single row by id
-                out($db->select($table, $id));
+                out($db->select($table, $event['id']));
             }
             else if (isset($start_dt) && isset($end_dt)) {
                 $sql = 'SELECT * FROM events'.
@@ -53,12 +56,12 @@
             break;
         
         case 'delete':
-            if (isset($id)) {
-                $result = $db->delete($table, $id);
+            if (isset($event)) {
+                $result = $db->delete($table, $event['id']);
             }
             if ($result === 1) {
                 // Return the deleted id instead of row count
-                $result = $id;
+                $result = $event['id'];
             }
             out($result);
             break;
