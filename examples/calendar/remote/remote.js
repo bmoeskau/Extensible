@@ -26,7 +26,24 @@ Ext.onReady(function(){
         // This is passed as an additional parameter on each request:
         //XDEBUG_SESSION_START: 1
     };
-
+    
+    // Set up mappings to match the DB column names
+    Ext.apply(Extensible.calendar.data.EventMappings, {
+        EventId:     {name: 'EventID', mapping:'id', type:'string'},
+        CalendarId:  {name: 'CalendarID', mapping: 'calendar_id', type: 'string'},
+        Title:       {name: 'Title', mapping: 'title'},
+        StartDate:   {name: 'Start', mapping: 'start', type: 'date', dateFormat: 'c'},
+        EndDate:     {name: 'End', mapping: 'end', type: 'date', dateFormat: 'c'},
+        Location:    {name: 'Location', mapping: 'location'},
+        Notes:       {name: 'Notes', mapping: 'notes'},
+        Url:         {name: 'Url', mapping: 'url'},
+        IsAllDay:    {name: 'IsAllDay', mapping: 'all_day', type: 'boolean'},
+        Reminder:    {name: 'Reminder', mapping: 'reminder'},
+        RRule:       {name: 'RRule', mapping: 'rrule'},
+        Duration:    {name: 'Duration', mapping: 'duration', type: 'int'}
+    });
+    Extensible.calendar.data.EventModel.reconfigure();
+    
     var calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
         autoLoad: true,
         proxy: {
