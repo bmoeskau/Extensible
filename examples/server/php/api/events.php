@@ -5,12 +5,15 @@
     $table = 'events';
     
     $action = isset($_REQUEST['action']) ? strtolower($_REQUEST['action']) : 'load';
-    // $id = isset($_REQUEST['id']) ? strtolower($_REQUEST['id']) : null;
     $start_dt = isset($_REQUEST['startDate']) ? strtolower($_REQUEST['startDate']) : null;
     $end_dt = isset($_REQUEST['endDate']) ? strtolower($_REQUEST['endDate']) : null;
     
     $json = file_get_contents('php://input');
     $event = json_decode($json, TRUE);
+    
+    // Set the app_id to allow each example to reuse this API with its own data.
+    // In a real application this would not be needed.
+    $event['app_id'] = isset($_REQUEST['app_id']) ? strtolower($_REQUEST['app_id']) : null;
 
     function out($result, $msg = null) {
         global $table;

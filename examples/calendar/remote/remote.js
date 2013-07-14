@@ -25,6 +25,11 @@ Ext.onReady(function(){
         // Tell PHP to start a debugging session for an IDE to connect to.
         // This is passed as an additional parameter on each request:
         //XDEBUG_SESSION_START: 1
+        
+        // Slight hack just so that we can reuse the same demo server code
+        // with persistence across multiple examples so that each example gets
+        // its own unique data set:
+        app_id: 'remote'
     };
     
     // Set up mappings to match the DB column names

@@ -25,10 +25,11 @@ Ext.onReady(function () {
         // Tell PHP to start a debugging session for an IDE to connect to.
         // This is passed as an additional parameter on each request:
         //XDEBUG_SESSION_START: 1,
-        // Slight hack just so that we can reuse the existing remote PHP code,
-        // but load a recurrence-friendly default data set the first time. This
-        // will reset the session at midnight local time:
-        app_id: 'recurrence_' + Ext.Date.format(new Date(), 'Ymd')
+        
+        // Slight hack just so that we can reuse the same demo server code
+        // with persistence across multiple examples so that each example gets
+        // its own unique data set:
+        app_id: 'recurrence'
     };
 
     var calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {

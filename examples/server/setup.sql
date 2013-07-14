@@ -44,7 +44,7 @@ CREATE  TABLE `events` (
    * App id is only used by the examples to allow for different examples to maintain
    * different sets of DB data at once (e.g. recurring and non-recurring examples).
    */
-  `app_id` INT NULL ,
+  `app_id` VARCHAR(20) NOT NULL ,
   
   /**
    * These fields are optional, and included only for the examples.
@@ -90,11 +90,11 @@ SET @dt:=CURRENT_DATE();
 
 INSERT INTO `events` (`calendar_id`,`app_id`,`title`,`start`,`end`,`location`,`notes`,`url`,`all_day`,`reminder`)
 VALUES
-    (1, 1, 'Vacation', DATE_ADD(@dt, INTERVAL -20 DAY), DATE_ADD(@dt, INTERVAL -10 DAY), '', 'Have fun', '', 0, ''),
-    (2, 1, 'Lunch with Matt', DATE_ADD(@dt, INTERVAL '11:30' HOUR_MINUTE), DATE_ADD(@dt, INTERVAL 13 HOUR), 'Chuy\'s', 'Order the queso', 'http://chuys.com', 0, '15'),
-    (3, 1, 'Project due', DATE_ADD(@dt, INTERVAL 15 MINUTE), DATE_ADD(@dt, INTERVAL 15 MINUTE), '', '', '', 0, ''),
-    (1, 1, 'Sarah\'s birthday', @dt, @dt, '', 'Need to get a gift', '', 1, ''),
-    (2, 1, 'A long one...', DATE_ADD(@dt, INTERVAL -12 DAY), DATE_ADD(@dt, INTERVAL 10 DAY), '', '', '', 1, '')
+    (1, 'remote', 'Vacation', DATE_ADD(@dt, INTERVAL -20 DAY), DATE_ADD(@dt, INTERVAL -10 DAY), '', 'Have fun', '', 0, ''),
+    (2, 'remote', 'Lunch with Matt', DATE_ADD(@dt, INTERVAL '11:30' HOUR_MINUTE), DATE_ADD(@dt, INTERVAL 13 HOUR), 'Chuy\'s', 'Order the queso', 'http://chuys.com', 0, '15'),
+    (3, 'remote', 'Project due', DATE_ADD(@dt, INTERVAL 15 MINUTE), DATE_ADD(@dt, INTERVAL 15 MINUTE), '', '', '', 0, ''),
+    (1, 'remote', 'Sarah\'s birthday', @dt, @dt, '', 'Need to get a gift', '', 1, ''),
+    (2, 'remote', 'A long one...', DATE_ADD(@dt, INTERVAL -12 DAY), DATE_ADD(@dt, INTERVAL 10 DAY), '', '', '', 1, '')
     
 
 
