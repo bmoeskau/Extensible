@@ -28,7 +28,7 @@ Ext.onReady(function(){
     };
     
     // Set up mappings to match the DB column names
-    Ext.apply(Extensible.calendar.data.EventMappings, {
+    Extensible.calendar.data.EventMappings = {
         EventId:     {name: 'EventId', mapping:'id', type:'string'},
         CalendarId:  {name: 'CalendarId', mapping: 'calendar_id', type: 'string'},
         Title:       {name: 'Title', mapping: 'title'},
@@ -38,15 +38,8 @@ Ext.onReady(function(){
         Notes:       {name: 'Notes', mapping: 'notes'},
         Url:         {name: 'Url', mapping: 'url'},
         IsAllDay:    {name: 'IsAllDay', mapping: 'all_day', type: 'boolean'},
-        Reminder:    {name: 'Reminder', mapping: 'reminder'},
-        RRule:       {name: 'RRule', mapping: 'rrule', useNull: true},
-        // When duration is returned from the server, it is essential to make sure that any null
-        // value returned is not coerced to 0, which is a valid duration value, but not what you want
-        // as the default. The useNull and defaultValue mappings fix that. Typically duration is only
-        // required when using recurrence, but this example shares the same DB as the recurring examples
-        // so we'll go ahead and handle duration properly, even though it's not used in this demo.
-        Duration:    {name: 'Duration', mapping: 'duration', type: 'int', useNull: true, defaultValue: -1}
-    });
+        Reminder:    {name: 'Reminder', mapping: 'reminder'}
+    };
     Extensible.calendar.data.EventModel.reconfigure();
     
     var calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
