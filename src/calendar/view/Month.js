@@ -286,7 +286,6 @@ Ext.define('Extensible.calendar.view.Month', {
         var M = Extensible.calendar.data.EventMappings,
             extraClasses = [this.getEventSelectorCls(evtData[M.EventId.name])],
             templateData = {},
-            recurring = evtData[M.RRule.name] !== '',
             colorCls = 'x-cal-default',
             title = evtData[M.Title.name],
             fmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
@@ -312,7 +311,7 @@ Ext.define('Extensible.calendar.view.Month', {
         }
         
         templateData._extraCls = extraClasses.join(' ');
-        templateData._isRecurring = evtData[M.RRule.name] && evtData[M.RRule.name] !== '';
+        templateData._isRecurring = M.RRule && !!evtData[M.RRule.name];
         templateData._isReminder = evtData[M.Reminder.name] && evtData[M.Reminder.name] !== '';
         templateData.Title = (evtData[M.IsAllDay.name] ? '' : Ext.Date.format(evtData[M.StartDate.name], fmt)) +
                 (!title || title.length === 0 ? this.defaultEventTitleText : title);

@@ -975,13 +975,12 @@ viewConfig: {
      */
     refreshAfterEventChange: function(action, operation) {
         // Determine if a store reload is needed. A store reload is needed if the event is recurring after being
-        // edited or was recurring before being edited AND a event store reload has not been triggered already for
-        // this operation.
-        // The term operation.records[0].get(Extensible.calendar.data.EventMappings.RInstanceStartDate.name)) is
-        // used to determine of an event was recurring before being edited.
-        var reload = (operation.records[0].isRecurring() ||
-            operation.records[0].get(Extensible.calendar.data.EventMappings.RInstanceStartDate.name)) &&
-            !operation.wasStoreReloadTriggered;
+        // edited or was recurring before being edited AND an event store reload has not been triggered already for
+        // this operation. If an event is not currently recurring (isRecurring = false) but still has an instance
+        // start date set, then it must have been recurring and edited to no longer recur.
+        var RInstanceStartDate = Extensible.calendar.data.EventMappings.RInstanceStartDate,
+            isInstance = RInstanceStartDate && !!operation.records[0].get(RInstanceStartDate.name),
+            reload = (operation.records[0].isRecurring() || isInstance) && !operation.wasStoreReloadTriggered;
 
         if (reload) {
             // For calendar views with a body and a header component (e.g. weekly view, day view), this function is
