@@ -56,8 +56,8 @@ CREATE  TABLE `events` (
   `reminder` VARCHAR(255) NULL ,
   
   /**
-   * The following are for required recurrence support only. If your application
-   * back end does not support recurrence these can be omitted.
+   * The following are used for recurrence support only. If your application
+   * business logic does not support recurrence these can be omitted.
    */
   `rrule` VARCHAR(999) NULL,
   `duration` INT NULL,
