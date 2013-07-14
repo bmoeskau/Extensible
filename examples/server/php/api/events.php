@@ -49,10 +49,18 @@
             }
             break;
 
-        case 'save':
-            
-            // TODO
-            
+        case 'add':
+            if (isset($event)) {
+                $result = $db->insert($table, $event);
+            }
+            out($result);
+            break;
+        
+        case 'update':
+            if (isset($event)) {
+                $result = $db->update($table, $event);
+            }
+            out($result);
             break;
         
         case 'delete':

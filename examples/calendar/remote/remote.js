@@ -70,11 +70,14 @@ Ext.onReady(function(){
         proxy: {
             type: 'ajax',
             noCache: false,
+            pageParam: null,
+            startParam: null,
+            limitParam: null,
             
             api: {
                 read:    apiBase + 'load',
-                create:  apiBase + 'save',
-                update:  apiBase + 'save',
+                create:  apiBase + 'add',
+                update:  apiBase + 'update',
                 destroy: apiBase + 'delete'
             },
             reader: {
@@ -83,6 +86,7 @@ Ext.onReady(function(){
             },
             writer: {
                 type: 'json',
+                writeAllFields: false,
                 nameProperty: 'mapping'
             }
         },
