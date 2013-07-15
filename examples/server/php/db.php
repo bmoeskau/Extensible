@@ -126,14 +126,16 @@
             }
             else {
                 $cols = implode(',', $col_mappings);
-                $sql = 'UPDATE '.$table.' SET '.$cols.' WHERE id = '.$values['id'];
+                $id = $values['id'];
+                $sql = 'UPDATE '.$table.' SET '.$cols.' WHERE id = '.$id;
             }
             
             try {
                 $this->connect();
                 $query = $this->db->prepare($sql);
                 $query->execute($param_mappings);
-                $result = $query->rowCount();
+                $id = $action == 'INSERT' ? $this->db->lastInsertId() : $id;
+                $result = $this->select($table, $id);
                 
                 return $result;
             }

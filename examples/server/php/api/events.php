@@ -40,6 +40,7 @@
                 out($db->select($table, $event['id']));
             }
             else if (isset($start_dt) && isset($end_dt)) {
+                // Query by date range for displaying a calendar view
                 $sql = 'SELECT * FROM events'.
                         ' WHERE (start >= :start AND start <= :end)'. // starts in range
                         ' OR (end >= :start AND end <= :end)'.        // ends in range
