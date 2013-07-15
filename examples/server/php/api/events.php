@@ -13,7 +13,7 @@
     
     // Set the app_id to allow each example to reuse this API with its own data.
     // In a real application this would not be needed.
-    $event['app_id'] = isset($_REQUEST['app_id']) ? strtolower($_REQUEST['app_id']) : null;
+    $app_id = $event['app_id'] = isset($_REQUEST['app_id']) ? strtolower($_REQUEST['app_id']) : null;
     
     // The demos support simulating server failure for testing purposes
     $fail = isset($_REQUEST['fail']) ? TRUE : FALSE;
@@ -55,14 +55,15 @@
             }
             else if (isset($start_dt) && isset($end_dt)) {
                 // Query by date range for displaying a calendar view
-                $sql = 'SELECT * FROM events'.
-                        ' WHERE (start >= :start AND start <= :end)'. // starts in range
+                $sql = 'SELECT * FROM events WHERE app_id = :app_id'.
+                        ' AND ((start >= :start AND start <= :end)'. // starts in range
                         ' OR (end >= :start AND end <= :end)'.        // ends in range
-                        ' OR (start <= :start AND end >= :end)';      // spans range
+                        ' OR (start <= :start AND end >= :end))';      // spans range
                 
                 out($db->querySql($sql, array(
-                    ':start' => $start_dt,
-                    ':end'   => $end_dt
+                    ':app_id' => $app_id,
+                    ':start'  => $start_dt,
+                    ':end'    => $end_dt
                 )));
             }
             break;
