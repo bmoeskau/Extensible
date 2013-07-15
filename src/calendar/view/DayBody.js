@@ -347,7 +347,6 @@ Ext.define('Extensible.calendar.view.DayBody', {
             colorCls = 'x-cal-default',
             title = evtData[M.Title.name],
             fmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
-            recurring = evtData[M.RRule.name] !== '',
             rec;
 
         this.getTemplateEventBox(evtData);
@@ -372,7 +371,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         }
 
         data._extraCls = extraClasses.join(' ');
-        data._isRecurring = evtData[M.RRule.name] && evtData[M.RRule.name] !== '';
+        data._isRecurring = M.RRule && evtData[M.RRule.name] && evtData[M.RRule.name] !== '';
         data._isReminder = evtData[M.Reminder.name] && evtData[M.Reminder.name] !== '';
         data.Title = (evtData[M.IsAllDay.name] ? '' : Ext.Date.format(evtData[M.StartDate.name], fmt)) +
                 (!title || title.length === 0 ? this.defaultEventTitleText : title);
