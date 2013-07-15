@@ -65,7 +65,7 @@ Ext.onReady(function() {
     // Events are loaded remotely via Ajax. For simplicity in this demo we use simple param-based
     // actions, although you could easily use REST instead, swapping out the proxy type below.
     // The event data will still be passed as JSON in the request body.
-    var apiBase = '../../server/php/api/events.php?action=';
+    var apiBase = '../../server/php/api/events-basic.php?action=';
     
     var eventStore = Ext.create('Extensible.calendar.data.EventStore', {
         autoLoad: true,
