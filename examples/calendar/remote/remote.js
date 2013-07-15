@@ -15,7 +15,7 @@ Ext.require([
     'Extensible.calendar.CalendarPanel'
 ]);
 
-Ext.onReady(function(){
+Ext.onReady(function() {
 
     // Settings for debugging PHP on the server:
     // Increase the timeout to allow enough time to debug and return a valid
