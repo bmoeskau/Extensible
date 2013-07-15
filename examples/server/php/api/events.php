@@ -44,6 +44,15 @@
         die();
     }
     
+    // Helper to remove attributes that are passed for recurrence but do not map to
+    // DB columns. If these are passed to the DB query it will cause an error.
+    function cleanEvent($event) {
+        unset($event['origid']);
+        unset($event['ristart']);
+        unset($event['redit']);
+        return $event;
+    }
+    
     switch ($action) {
         case 'load':
             $start_dt = isset($_REQUEST['startDate']) ? strtolower($_REQUEST['startDate']) : null;
@@ -70,14 +79,14 @@
 
         case 'add':
             if (isset($event)) {
-                $result = $db->insert($table, $event);
+                $result = $db->insert($table, cleanEvent($event));
             }
             out($result);
             break;
         
         case 'update':
             if (isset($event)) {
-                $result = $db->update($table, $event);
+                $result = $db->update($table, cleanEvent($event));
             }
             out($result);
             break;
