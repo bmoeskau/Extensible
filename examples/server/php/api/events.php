@@ -4,16 +4,19 @@
     
     $table = 'events';
     
+    // Which CRUD action are we doing?
     $action = isset($_REQUEST['action']) ? strtolower($_REQUEST['action']) : 'load';
-    $start_dt = isset($_REQUEST['startDate']) ? strtolower($_REQUEST['startDate']) : null;
-    $end_dt = isset($_REQUEST['endDate']) ? strtolower($_REQUEST['endDate']) : null;
     
+    // Any CUD action will include an event as JSON in the body
     $json = file_get_contents('php://input');
     $event = json_decode($json, TRUE);
     
     // Set the app_id to allow each example to reuse this API with its own data.
     // In a real application this would not be needed.
     $event['app_id'] = isset($_REQUEST['app_id']) ? strtolower($_REQUEST['app_id']) : null;
+    
+    // The demos support simulating server failure for testing purposes
+    $fail = isset($_REQUEST['fail']) ? TRUE : FALSE;
 
     function out($result, $msg = null) {
         global $table;
@@ -33,8 +36,19 @@
         }
     };
     
+    if ($fail) {
+        echo json_encode(array(
+            'success' => false,
+            'message' => 'The server could not process the request'
+        ));
+        die();
+    }
+    
     switch ($action) {
         case 'load':
+            $start_dt = isset($_REQUEST['startDate']) ? strtolower($_REQUEST['startDate']) : null;
+            $end_dt = isset($_REQUEST['endDate']) ? strtolower($_REQUEST['endDate']) : null;
+            
             if (isset($event) && isset($event['id'])) {
                 // Load single row by id
                 out($db->select($table, $event['id']));
