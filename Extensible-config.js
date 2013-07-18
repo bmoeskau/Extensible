@@ -31,7 +31,7 @@ Extensible.Config = {
          * 
          * @config {String} mode
          */
-        mode: 'dynamic',
+        mode: 'debug',
         
         /**
          * The root path to the Ext JS framework (defaults to loading 4.1.0 from the Sencha CDN via
@@ -155,16 +155,18 @@ Extensible.Config = {
     writeIncludes: function() {
         var me = this,
             cacheBuster = '?_dc=' + (me.cacheExtensible ? Extensible.version : (+new Date)),
-            suffix = '',
-            bootstrap = '';
+            suffixExt = '',
+            suffixExtensible = '';
         
         switch (me.mode) {
             case 'debug':
-                suffix = '-all-debug';
+                suffixExt = '-all-debug';
+                suffixExtensible = '-all-debug';
                 break;
             
             case 'release':
-                suffix = '-all';
+                suffixExt = '-all';
+                suffixExtensible = '-all'
                 // For release we want to refresh the cache on first load, but allow caching
                 // after that, so use the version number instead of a unique string
                 cacheBuster = '?_dc=' + Extensible.version;
@@ -175,10 +177,12 @@ Extensible.Config = {
                 // based on how it (mis)handles loading of scripts when mixing includes
                 // and in-page scripts. Make sure IE always uses the regular debug versions.
                 if (me.isIE) {
-                    suffix = '-all-debug';
+                    suffixExt = '-all-debug';
+                    suffixExtensible = '-all-debug';
                 }
                 else {
-                    bootstrap = '-bootstrap';
+                    suffixExt = '-debug';
+                    suffixExtensible = '-bootstrap';
                 }
         }
         
@@ -186,9 +190,9 @@ Extensible.Config = {
         me.includeStylesheet(me.extensibleRoot + 'resources/css/extensible-all.css' + cacheBuster);
         me.includeStylesheet(me.extensibleRoot + 'examples/examples.css?_dc=' + Extensible.version);
         
-        me.includeScript(me.extJsRoot + 'ext-debug' + suffix + '.js');
+        me.includeScript(me.extJsRoot + 'ext' + suffixExt + '.js');
         me.includeScript(me.extJsRoot + 'locale/ext-lang-' + me.language + '.js');
-        me.includeScript(me.extensibleRoot + 'lib/extensible' + suffix + bootstrap + '.js' + cacheBuster);
+        me.includeScript(me.extensibleRoot + 'lib/extensible' + suffixExtensible + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'src/locale/extensible-lang-' + me.language + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'examples/examples.js?_dc=' + Extensible.version);
     }
