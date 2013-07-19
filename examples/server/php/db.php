@@ -107,6 +107,17 @@
             }
         }
         
+        public function execSql($sql, array $params) {
+            try {
+                $this->connect();
+                $query = $this->db->prepare($sql);
+                return $query->execute($params);
+            }
+            catch (PDOException $e) {
+                echo 'ERROR: ' . $e->getMessage();
+            }
+        }
+        
         private function save($action, $table, array $values) {
             $param_names = array();
             $param_mappings = array();

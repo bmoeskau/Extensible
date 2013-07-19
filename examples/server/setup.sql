@@ -73,6 +73,35 @@ CREATE  TABLE `events` (
 
 
 /*
+ * Create recurrence exceptions table, only applicable for recurrence support
+ */
+DROP TABLE IF EXISTS `exceptions`;
+CREATE  TABLE `exceptions` (
+  /**
+   * The exception id, auto-generated
+   */
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  /**
+   * The event id from the events table
+   */
+  `event_id` INT NOT NULL ,
+  /**
+   * The exception date
+   */
+  `exdate` DATETIME NOT NULL ,
+  
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) ,
+  INDEX `event_id_idx` (`event_id` ASC) ,
+  CONSTRAINT `event_id`
+    FOREIGN KEY (`event_id` )
+    REFERENCES `extensible_demo`.`events` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+
+
+/*
  * Populate calendar test data
  */
 INSERT INTO `calendars` (`id`, `title`, `color`, `hidden`)

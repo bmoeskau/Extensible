@@ -24,6 +24,8 @@
     
     $date_format = 'Y-m-d\TH:i:s';
     
+    $exception_format = 'Y-m-d\TH:i:s';
+    
     //=================================================================================================
     //
     // Event property mappings. The default values match the property names as used in the example
@@ -46,15 +48,61 @@
         orig_event_id        => 'origid',
         // recur_instance_id    => 'rid',
         recur_edit_mode      => 'redit',
-        recur_instance_start => 'ristart'
+        recur_instance_start => 'ristart',
+        
+        // Recurrence exceptions
+        exdate => 'exdate'
     );
     
+    /**
+     * Add a recurrence exception date for the given event id
+     */
+    function addExceptionDate($event_id, $exception_date) {
+        global $exception_format, $db;
+        
+        $exdate = new DateTime($exception_date);
+        $exdate = $exdate->format($exception_format);
+        
+        // Insert only if the event id + exdate doesn't already exist
+        $sql = 'INSERT INTO exceptions (event_id, exdate) '.
+               'SELECT * FROM (SELECT :event_id, :exdate) AS tmp '.
+               'WHERE NOT EXISTS ('.
+               '  SELECT * FROM exceptions WHERE event_id = :event_id AND exdate = :exdate'.
+               ') LIMIT 1;';
+        
+        $result = $db->execSql($sql, array(
+            ':event_id' => $event_id,
+            ':exdate'   => $exdate
+        ));
+        
+        return $result;
+    }
+    
+    function getExceptionDates($event_id) {
+        global $db;
+        
+        $exdates = $db->query('exceptions', array(
+            'event_id' => $event_id
+        ));
+        
+        return $exdates;
+    }
+    
+    function removeExceptionDates($event_id) {
+        // TODO
+    }
+    
     function generateInstances($event, $viewStartDate, $viewEndDate) {
-        global $mappings, $date_format, $max_event_instances;
+        global $mappings, $date_format, $exception_format, $max_event_instances;
         
         $rrule = $event[$mappings['rrule']];
         $instances = array();
         $counter = 0;
+        
+        // Get any exceptions for this event. Ideally you would join exceptions
+        // to events at the event query level and not have to do a separate select
+        // per event like this, but for the demos this is good enough.
+        $exceptions = getExceptionDates($event[$mappings['event_id']]);
         
         if (!isset($rrule) || $rrule === '') {
             array_push($instances, $event);
@@ -113,10 +161,18 @@
                     break;
                 }
                 
-                // if (self::exceptionMatch($event[$mappings['event_id']], $rdate)) {
-                    // // The current instance falls on an exception date so skip it
-                    // continue;
-                // }
+                // Check to see if the current instance date is an exception date
+                $exmatch = false;
+                foreach ($exceptions as $exception) {
+                    if ($exception[$mappings['exdate']] == $rdate->format('Y-m-d H:i:s')) {
+                        $exmatch = true;
+                        break;
+                    }
+                };
+                if ($exmatch) {
+                    // The current instance falls on an exception date so skip it
+                    continue;
+                }
                 
                 // Make a copy of the original event and add the needed recurrence-specific stuff:
                 $copy = $event;
@@ -217,7 +273,11 @@
         }
         return $end;
     }
-
+    
+    /**
+     * Remove any extra attributes that are not mapped to db columns for persistence
+     * otherwise MySQL will throw an error
+     */
     function cleanEvent($event) {
         global $mappings;
         
@@ -248,14 +308,6 @@
         }
         
         return $db->insert('events', cleanEvent($event));
-    }
-    
-    function addExceptionDate($event_id, $exception_date) {
-        // TODO
-    }
-    
-    function removeExceptionDates($event_id) {
-        // TODO
     }
     
     /**
@@ -351,9 +403,9 @@
             if (isset($start_dt) && isset($end_dt)) {
                 // Query by date range for displaying a calendar view
                 $sql = 'SELECT * FROM events WHERE app_id = :app_id'.
-                        ' AND ((start >= :start AND start <= :end)'. // starts in range
+                        ' AND ((start >= :start AND start <= :end)'.  // starts in range
                         ' OR (end >= :start AND end <= :end)'.        // ends in range
-                        ' OR (start <= :start AND end >= :end))';      // spans range
+                        ' OR (start <= :start AND end >= :end));';    // spans range
                 
                 $events = $db->querySql($sql, array(
                     ':app_id' => $app_id,
