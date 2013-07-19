@@ -250,6 +250,92 @@
         return $db->insert('events', cleanEvent($event));
     }
     
+    function addExceptionDate($event_id, $exception_date) {
+        // TODO
+    }
+    
+    function removeExceptionDates($event_id) {
+        // TODO
+    }
+    
+    /**
+     * Helper method that updates the UNTIL portion of a recurring event's RRULE
+     * such that the passed end date becomes the new UNTIL value. It handles updating
+     * an existing UNTIL value or adding it if needed so that there is only one
+     * unqiue UNTIL value when this method returns.
+     */
+    function endDateRecurringSeries($event, $endDate) {
+        global $date_format, $mappings;
+        
+        $event[$mappings['end_date']] = $endDate->format('c');
+        
+        $parts = explode(';', $event[$mappings['rrule']]);
+        $newRrule = array();
+        $untilFound = false;
+        
+        foreach ($parts as $part) {
+            if (strrpos($part, 'UNTIL=') === false) {
+                array_push($newRrule, $part);
+            }
+        }
+        array_push($newRrule, 'UNTIL='.$endDate->format($date_format).'Z');
+        $event[$mappings['rrule']] = implode(';', $newRrule);
+        
+        return $event;
+    }
+    
+    /**
+     * Destroy the event, or possibly add an exception for a recurring instance
+     */
+    function deleteEvent($event) {
+        global $db, $mappings;
+        
+        $editMode = $event[$mappings['recur_edit_mode']];
+        
+        if ($editMode) {
+            // This is a recurring event, so determine how to handle it.
+            // First, load the original master event for this instance:
+            $master_event = $db->select('events', $event[$mappings['orig_event_id']]);
+            // Select by id returns an array of one item, so grab it
+            $master_event = $master_event[0];
+            $event_id = $master_event[$mappings['event_id']];
+            
+            switch ($editMode) {
+                case 'single':
+                    // Not actually deleting, just adding an exception so that this
+                    // date instance will no longer be returned in queries:
+                    addExceptionDate($event_id, $event[$mappings['recur_instance_start']]);
+                    break;
+                    
+                case 'future':
+                    // Not actually deleting, just updating the series end date so that
+                    // any future dates beyond the edited date will no longer be returned.
+                    // Use this instance's start date as the new end date of the master event:
+                    $endDate = new DateTime($event[$mappings['start_date']]);
+                    $endDate->modify('-1 second');
+                    
+                    // Now update the RRULE with this new end date also:
+                    $master_event = endDateRecurringSeries($master_event, $endDate);
+                    
+                    $db->update('events', cleanEvent($master_event));
+                    break;
+                    
+                case 'all':
+                    // Actually destroy the master event and remove any existing exceptions
+                    $db->delete('events', $event_id);
+                    removeExceptionDates($event_id);
+                    break;
+            }
+        }
+        else {
+            // This is a plain old non-recurring event, nuke it
+            $event_id = $event[$mappings['event_id']];
+            $db->delete('events', $event_id);
+        }
+        
+        return $event_id;
+    }
+    
     
     //********************************************************************************
     //
@@ -303,7 +389,7 @@
         
         case 'delete':
             if (isset($event)) {
-                $result = $db->delete('events', $event['id']);
+                $result = deleteEvent($event);
             }
             if ($result === 1) {
                 // Return the deleted id instead of row count
