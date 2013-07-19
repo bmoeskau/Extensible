@@ -920,6 +920,7 @@ td.ext-cal-dtitle-today div {
     position: relative;
     margin-bottom: 2px;
     cursor: pointer;
+    list-style-type: none;
 }
 .x-calendar-list li em {
     background-image: url(../images/default/calendar-sprites.gif);
