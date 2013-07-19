@@ -865,7 +865,7 @@ viewConfig: {
             len = day.length;
 
         for (; i < len; i++) {
-            if (day[i] === null) {
+            if (!day[i]) {
                 return i;
             }
         }
