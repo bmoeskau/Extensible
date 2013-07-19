@@ -56,7 +56,10 @@
         $instances = array();
         $counter = 0;
         
-        if ($rrule) {
+        if (!isset($rrule) || $rrule === '') {
+            array_push($instances, $event);
+        }
+        else {
             $duration = $event[$mappings['duration']];
             
             if (!isset($duration)) {
@@ -145,7 +148,7 @@
             }
         }
         return $instances;
-    };
+    }
     
     /**
      * Returns the duration of the event in minutes
