@@ -2,8 +2,6 @@
     require(dirname(__FILE__).'/../init.php');
     require(dirname(__FILE__).'/../pretty-json.php');
     
-    $table = 'events';
-    
     // Which CRUD action are we doing?
     $action = isset($_REQUEST['action']) ? strtolower($_REQUEST['action']) : 'load';
     
@@ -32,7 +30,7 @@
         else {
             echo json_encode(array(
                 'success' => false,
-                'message' => isset($msg) ? $msg : 'No matching '.$table.' found'
+                'message' => isset($msg) ? $msg : 'No matching events found'
             ));
         }
     };

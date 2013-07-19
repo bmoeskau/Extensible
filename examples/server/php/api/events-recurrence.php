@@ -44,7 +44,7 @@
         // Recurrence-specific properties needed for processing recurring events:
         rrule                => 'rrule',
         orig_event_id        => 'origid',
-        recur_instance_id    => 'rid',
+        // recur_instance_id    => 'rid',
         recur_edit_mode      => 'redit',
         recur_instance_start => 'ristart'
     );
@@ -52,12 +52,12 @@
     function generateInstances($event, $viewStartDate, $viewEndDate) {
         global $mappings, $date_format, $max_event_instances;
         
-        $rrule = $event->$mappings['rrule'];
+        $rrule = $event[$mappings['rrule']];
         $instances = array();
         $counter = 0;
         
         if ($rrule) {
-            $duration = $event->$mappings['duration'];
+            $duration = $event[$mappings['duration']];
             
             if (!isset($duration)) {
                 // Duration is required to calculate the end date of each instance. You could raise
@@ -67,12 +67,12 @@
             }
             
             // Start parsing at the later of event start or current view start:
-            $rangeStart = max($viewStartDate, $event->$mappings['start_date']);
+            $rangeStart = max($viewStartDate, $event[$mappings['start_date']]);
             //$rangeStart = self::adjustRecurrenceRangeStart($rangeStart, $event);
             $rangeStartTime = strtotime($rangeStart);
             
             // Stop parsing at the earlier of event end or current view end:
-            $rangeEnd = min($viewEndDate, $event->$mappings['end_date']);
+            $rangeEnd = min($viewEndDate, $event[$mappings['end_date']]);
             $rangeEndTime = strtotime($rangeEnd);
             
             // Third-party recurrence parser -- see recur.php
@@ -87,7 +87,7 @@
             // recurrence pattern. For now we'll sacrifice performance to ensure validity, but this
             // may need to be revisited in the future.
             //$rdates = $recurrence->recur($rangeStart)->rrule($rrule);
-            $rdates = $recurrence->recur($event->$mappings['start_date'])->rrule($rrule);
+            $rdates = $recurrence->recur($event[$mappings['start_date']])->rrule($rrule);
             
             // Counter used for generating simple unique instance ids below
             $idx = 1;
@@ -110,29 +110,29 @@
                     break;
                 }
                 
-                // if (self::exceptionMatch($event->$mappings['event_id'], $rdate)) {
+                // if (self::exceptionMatch($event[$mappings['event_id']], $rdate)) {
                     // // The current instance falls on an exception date so skip it
                     // continue;
                 // }
                 
                 // Make a copy of the original event and add the needed recurrence-specific stuff:
-                $copy = clone $event;
+                $copy = $event;
                 
                 // On the client side, Ext stores will require a unique id for all returned events.
                 // The specific id format doesn't really matter ($mappings['orig_event_id will be used
                 // to tie them together) but all ids must be unique:
-                $copy->$mappings['event_id'] = $event->$mappings['event_id'].'-rid-'.$idx++;
+                $copy[$mappings['event_id']] = $event[$mappings['event_id']].'-rid-'.$idx++;
                 
                 // Associate the instance to its master event for later editing:
-                $copy->$mappings['orig_event_id'] = $event->$mappings['event_id'];
+                $copy[$mappings['orig_event_id']] = $event[$mappings['event_id']];
                 // Save the duration in case it wasn't already set:
-                $copy->$mappings['duration'] = $duration;
+                $copy[$mappings['duration']] = $duration;
                 // Replace the series start date with the current instance start date:
-                $copy->$mappings['start_date'] = $rdate->format($date_format);
+                $copy[$mappings['start_date']] = $rdate->format($date_format);
                 // By default the master event's end date will be the end date of the entire series.
                 // For each instance, we actually want to calculate a proper instance end date from
                 // the duration value so that the view can simply treat them as standard events:
-                $copy->$mappings['end_date'] = $rdate->add(new DateInterval('PT'.$duration.'M'))->format($date_format);
+                $copy[$mappings['end_date']] = $rdate->add(new DateInterval('PT'.$duration.'M'))->format($date_format);
                 
                 // Add the instance to the set to be returned:
                 array_push($instances, $copy);
@@ -146,6 +146,106 @@
         }
         return $instances;
     };
+    
+    /**
+     * Returns the duration of the event in minutes
+     */
+    function calculateDuration($event) {
+        global $mappings;
+        
+        $start = new DateTime($event[$mappings['start_date']]);
+        $end = new DateTime($event[$mappings['end_date']]);
+        $interval = $start->diff($end);
+        
+        $minutes = ($interval->days * 24 * 60) +
+                   ($interval->h * 60) +
+                   ($interval->i);
+        
+        return $minutes;
+    }
+    
+    /**
+     * If the event is recurring, returns the maximum end date
+     * supported by PHP so that the event will fall within future
+     * query ranges as possibly having matching instances. Note
+     * that in a real implementation it would be better to calculate
+     * the actual recurrence pattern end date if possible. The current
+     * recurrence class used in this example does not make it convenient
+     * to do that, so for demo purposes we'll just use the PHP max date.
+     * The generateInstances() method will still limit results based on
+     * any end date specified, so it will work as expected -- it simply
+     * means that in a real-world implementation querying might be slightly
+     * less efficient (which does not apply in this example).
+     */
+    function calculateEndDate($event) {
+        global $date_format, $mappings;
+        
+        $end = $event[$mappings['end_date']];
+        $rrule = $event[$mappings['rrule']];
+        $isRecurring = isset($rrule) && $rrule !== '';
+        
+        if ($isRecurring) {
+            $max_date = new DateTime('9999-12-31');
+            $recurrence = new When();
+            $recurrence->rrule($rrule);
+            
+            if (isset($recurrence->end_date) && $recurrence->end_date < $max_date) {
+                $end = $recurrence->end_date->format($date_format).'Z';
+            }
+            else if (isset($recurrence->count) && $recurrence->count > 0) {
+                $count = 0;
+                $newEnd;
+                $rdates = $recurrence->recur($event[$mappings['start_date']])->rrule($rrule);
+                
+                while ($rdate = $rdates->next()) {
+                    $newEnd = $rdate;
+                    if (++$count > $recurrence->count) {
+                        break;
+                    }
+                }
+                // The 'minutes' portion should match Extensible.calendar.data.EventModel.resolution:
+                $newEnd->modify('+'.$event[$mappings['duration']].' minutes');
+                $end = $newEnd->format($date_format).'Z';
+            }
+            else {
+                // default to max date if nothing else
+                $end = date($date_format, PHP_INT_MAX).'Z';
+            }
+        }
+        return $end;
+    }
+
+    function cleanEvent($event) {
+        global $mappings;
+        
+        unset($event[$mappings['orig_event_id']]);
+        unset($event[$mappings['recur_edit_mode']]);
+        unset($event[$mappings['recur_instance_start']]);
+        
+        return $event;
+    }
+    
+    function addEvent($event) {
+        global $db, $mappings;
+        
+        $rrule = $event[$mappings['rrule']];
+        $isRecurring = isset($rrule) && $rrule !== '';
+        
+        if ($isRecurring) {
+            // If this is a recurring event, first calculate the duration between
+            // the start and end datetimes so that each recurring instance can
+            // be properly calculated.
+            $event[$mappings['duration']] = calculateDuration($event);
+            
+            // Now that duration is set, we have to update the event end date to
+            // match the recurrence pattern end date (or max date if the recurring
+            // pattern does not end) so that the stored record will be returned for
+            // any query within the range of recurrence.
+            $event[$mappings['end_date']] = calculateEndDate($event);
+        }
+        
+        return $db->insert('events', cleanEvent($event));
+    }
     
     
     //********************************************************************************
@@ -186,21 +286,21 @@
 
         case 'add':
             if (isset($event)) {
-                $result = $db->insert($table, $event);
+                $result = addEvent($event);
             }
             out($result);
             break;
         
         case 'update':
             if (isset($event)) {
-                $result = $db->update($table, $event);
+                $result = $db->update('events', $event);
             }
             out($result);
             break;
         
         case 'delete':
             if (isset($event)) {
-                $result = $db->delete($table, $event['id']);
+                $result = $db->delete('events', $event['id']);
             }
             if ($result === 1) {
                 // Return the deleted id instead of row count

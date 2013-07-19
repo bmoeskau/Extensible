@@ -6,7 +6,7 @@
         private $config;
         
         private $error_mode = PDO::ERRMODE_EXCEPTION;
-        private $fetch_type = PDO::FETCH_OBJ;
+        private $fetch_type = PDO::FETCH_ASSOC;
         
         public function __construct($config = null) {
             $this->config = isset($config) ? $config : new Config();
