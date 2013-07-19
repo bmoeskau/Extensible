@@ -66,7 +66,7 @@ CREATE  TABLE `events` (
   INDEX `calendar_id_idx` (`calendar_id` ASC) ,
   CONSTRAINT `calendar_id`
     FOREIGN KEY (`calendar_id` )
-    REFERENCES `extensible_demo`.`calendars` (`id` )
+    REFERENCES `calendars` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
@@ -95,7 +95,7 @@ CREATE  TABLE `exceptions` (
   INDEX `event_id_idx` (`event_id` ASC) ,
   CONSTRAINT `event_id`
     FOREIGN KEY (`event_id` )
-    REFERENCES `extensible_demo`.`events` (`id` )
+    REFERENCES `events` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 ) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
