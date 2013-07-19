@@ -296,6 +296,20 @@
         return $event;
     }
     
+    /**
+     * Return a single, non-recurring copy of an event with no id
+     */
+    function createSingleCopy($event) {
+        global $mappings;
+        
+        $copy = $event;
+        
+        unset($copy[$mappings['event_id']]);
+        unset($copy[$mappings['rrule']]);
+        
+        return addEvent($copy);
+    }
+    
     function addEvent($event) {
         global $db, $mappings;
         
@@ -397,6 +411,117 @@
         return $event_id;
     }
     
+    /**
+     * Update an event or recurring series
+     */
+    function updateEvent($event) {
+        global $db, $mappings;
+        
+        $editMode = $event[$mappings['recur_edit_mode']];
+        
+        if ($editMode) {
+            // This is a recurring event, so determine how to handle it.
+            // First, load the original master event for this instance:
+            $master_event = $db->select('events', $event[$mappings['orig_event_id']]);
+            // Select by id returns an array of one item, so grab it
+            $master_event = $master_event[0];
+            $event_id = $master_event[$mappings['event_id']];
+            
+            switch ($editMode) {
+                // NOTE: Both the "single" and "future" cases currently create new
+                // events in order to represent edited versions of recurrence instances.
+                // This could more flexibly be handled within a single master
+                // event by supporting multiple RRULE and EXRULE definitions per
+                // event. This would be a bit more complex to implement and would
+                // also require more processing code to arrive at the final event
+                // series to return when querying. For this example (which is already
+                // complex enough) we're sticking to the simpler edit implementations
+                // which can simply go through the existing default event logic, but
+                // you are free to implement these however you'd like in real projects.
+                
+                case 'single':
+                    // Create a new event based on the data passed in (the
+                    // original event does not need to be updated in this case):
+                    createSingleCopy($event);
+                    // Add an exception for the original occurrence start date
+                    // so that the original instance will not be displayed:
+                    addExceptionDate($event_id, $event[$mappings['recur_instance_start']]);
+                    break;
+                    
+                case 'future':
+                    // In this sample code we're going to split the original event
+                    // into two: the original up to the edit date and a new event
+                    // from the edit date to the series end date. Because of this we
+                    // only end-date the original event, don't update it otherwise.
+                    // This could be done all within a single event as explained in
+                    // the comments above, but for this example we're keeping it simple.
+                    
+                    // First create the new event for the updated future series.
+                    // Update the recurrence start dates to the edited date:
+                    $event[$mappings['recur_instance_start']] = $event[$mappings['start_date']];
+                    // Don't reuse the existing instance id since we're creating a new event:
+                    unset($event[$mappings['event_id']]);
+                    // Overwrite the instance end date with the master (series) end date:
+                    $event[$mappings['end_date']] = $master_event[$mappings['end_date']];
+                    // Create the new event (which also persists it). Note that we are NOT calling
+                    // addEvent() here, which recalculates the end date for recurring events. In this
+                    // case we always want to keep the existing master event end date.
+                    $event = $db->insert('events', cleanEvent($event));
+                    
+                    // Now we can update the original event to end at the instance start
+                    $endDate = new DateTime($event[$mappings['recur_instance_start']]);
+                    // End-date for the original event:
+                    $endDate->modify('-1 second');
+                    // End-date the RRULE for the master event to the instance start:
+                    $master_event = endDateRecurringSeries($master_event, $endDate);
+                    // Persist changes:
+                    $db->update('events', $master_event);
+                    break;
+                    
+                case 'all':
+                    // This is the simplest case to handle since there is no need to
+                    // split the event or deal with exceptions -- we're just updating
+                    // the original master event. Make sure the id is the original id,
+                    // not the recurrence instance id:
+                    $event[$mappings['event_id']] = $event_id;
+                    // Base duration off of the current instance start / end since the end
+                    // date for the series will be some future date:
+                    $event[$mappings['duration']] = calculateDuration($event);
+                    // In case the start date was edited by the user, we need to recalculate
+                    // the updated start date based on the time difference between the original
+                    // and current values:
+                    $instanceStart = new DateTime($event[$mappings['recur_instance_start']]);
+                    $newStart = new DateTime($event[$mappings['start_date']]);
+                    $diff = $instanceStart->diff($newStart);
+                    // Now apply the diff timespan to the original start date:
+                    $origStart = new DateTime($master_event[$mappings['start_date']]);
+                    $event[$mappings['start_date']] = $origStart->add($diff)->format('c');
+                    // Finally update the end date to the original series end date. This is
+                    // important in the case where the series may have been split previously
+                    // (e.g. by a "future" edit) so we want to preserve that:
+                    //$attr[Event::$end_date] = $rec->attributes[Event::$end_date];
+                    $event[$mappings['end_date']] = calculateEndDate($event);
+                    // Persist our changes:
+                    $event = $db->update('events', cleanEvent($event));
+                    break;
+            }
+        }
+        else {
+            // No recurrence, so just do a simple update 
+            if ($event[$mappings['rrule']]) {
+                // There was no recurrence edit mode, but there is an rrule, so this was
+                // an existing non-recurring event that had recurrence added to it. Need
+                // to calculate the duration and end date for the series.
+                $event[$mappings['duration']] = calculateDuration($event);
+                $event[$mappings['end_date']] = calculateEndDate($event);
+            }
+            
+            $event = $db->update('events', cleanEvent($event));
+        }
+        
+        return $event;
+    }
+    
     
     //********************************************************************************
     //
@@ -443,7 +568,7 @@
         
         case 'update':
             if (isset($event)) {
-                $result = $db->update('events', $event);
+                $result = updateEvent($event);
             }
             out($result);
             break;
