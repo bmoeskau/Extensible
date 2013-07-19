@@ -89,7 +89,15 @@
     }
     
     function removeExceptionDates($event_id) {
-        // TODO
+        global $db;
+        
+        $sql = 'DELETE FROM exceptions WHERE event_id = :event_id;';
+        
+        $result = $db->execSql($sql, array(
+            ':event_id' => $event_id
+        ));
+        
+        return $result;
     }
     
     function generateInstances($event, $viewStartDate, $viewEndDate) {
@@ -383,6 +391,7 @@
             // This is a plain old non-recurring event, nuke it
             $event_id = $event[$mappings['event_id']];
             $db->delete('events', $event_id);
+            removeExceptionDates($event_id);
         }
         
         return $event_id;
