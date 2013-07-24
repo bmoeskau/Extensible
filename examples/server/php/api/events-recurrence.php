@@ -41,12 +41,11 @@
         event_id   => 'id',
         start_date => 'start',
         end_date   => 'end',
-        duration   => 'duration',
         
         // Recurrence-specific properties needed for processing recurring events:
         rrule                => 'rrule',
+        duration             => 'duration',
         orig_event_id        => 'origid',
-        // recur_instance_id    => 'rid',
         recur_edit_mode      => 'redit',
         recur_instance_start => 'ristart',
         
