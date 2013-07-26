@@ -26,6 +26,8 @@
     
     $exception_format = 'Y-m-d H:i:s';
     
+    $rrule_date_format = 'Ymd\\THis\\Z';
+    
     //=================================================================================================
     //
     // Event property mappings. The default values match the property names as used in the example
@@ -343,7 +345,7 @@
      * unqiue UNTIL value when this method returns.
      */
     function endDateRecurringSeries($event, $endDate) {
-        global $date_format, $mappings;
+        global $date_format, $rrule_date_format, $mappings;
         
         $event[$mappings['end_date']] = $endDate->format('c');
         
@@ -356,7 +358,7 @@
                 array_push($newRrule, $part);
             }
         }
-        array_push($newRrule, 'UNTIL='.$endDate->format($date_format).'Z');
+        array_push($newRrule, 'UNTIL='.$endDate->format($rrule_date_format));
         $event[$mappings['rrule']] = implode(';', $newRrule);
         
         return $event;
@@ -390,7 +392,9 @@
                     // any future dates beyond the edited date will no longer be returned.
                     // Use this instance's start date as the new end date of the master event:
                     $endDate = new DateTime($event[$mappings['start_date']]);
-                    $endDate->modify('-1 second');
+                    // We're at the day level of precision, so roll the end date back to the
+                    // end of the previous day so it will display correctly in the UI.
+                    $endDate->setTime(0, 0, 0)->modify('-1 second');
                     
                     // Now update the RRULE with this new end date also:
                     $master_event = endDateRecurringSeries($master_event, $endDate);
@@ -462,7 +466,9 @@
                     
                     // First update the original event to end at the instance start:
                     $endDate = new DateTime($event[$mappings['recur_instance_start']]);
-                    $endDate->modify('-1 second');
+                    // We're at the day level of precision, so roll the end date back to the
+                    // end of the previous day so it will display correctly in the UI.
+                    $endDate->setTime(0, 0, 0)->modify('-1 second');
                     // Save the original end date before changing it so that we can
                     // apply it below to the newly-created series:
                     $originalEndDate = $master_event[$mappings['end_date']];
