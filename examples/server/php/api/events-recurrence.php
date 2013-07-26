@@ -539,7 +539,6 @@
             }
         }
         else {
-            // No recurrence, so just do a simple update 
             if ($event[$mappings['rrule']]) {
                 // There was no recurrence edit mode, but there is an rrule, so this was
                 // an existing non-recurring event that had recurrence added to it. Need
@@ -547,6 +546,14 @@
                 $event[$mappings['duration']] = calculateDuration(
                     $event[$mappings['start_date']], $event[$mappings['end_date']]);
                 $event[$mappings['end_date']] = calculateEndDate($event);
+            }
+            else if ($event[$mappings['orig_event_id']]){
+                // In case the original event was recurring and was made non-recurring
+                // we need to reset the original id and clean it up
+                $event[$mappings['event_id']] = $event[$mappings['orig_event_id']];
+                // Null out the recurrence-specific fields that are left over
+                unset($event[$mappings['rrule']]);
+                unset($event[$mappings['duration']]);
             }
             
             $event = $db->update('events', cleanEvent($event));
