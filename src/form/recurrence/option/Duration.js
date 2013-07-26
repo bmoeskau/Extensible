@@ -9,10 +9,14 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         'Ext.form.field.Date'
     ],
     
+    /**
+     * Minimum number of recurring instances to allow when the "for" option is selected (defaults to 1).
+     */
     minOccurrences: 1,
-    
+    /**
+     * Maximum number of recurring instances to allow when the "for" option is selected (defaults to 999).
+     */
     maxOccurrences: 999,
-    
     /**
      * @cfg {Number} defaultEndDateOffset
      * The unit of time after the start date to set the end date field when no end date is specified in the
@@ -23,20 +27,17 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
      * frequency is monthly, then the date would be 5 months after the start date.
      */
     defaultEndDateOffset: 5,
-    
     /**
      * @cfg {Number} minDateOffset
      * The number of days after the start date to set as the minimum allowable end date
      * (defaults to 1).
      */
     minDateOffset: 1,
-
     /**
-     * @cfg {Number} startDay
-     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
+     * Width in pixels of the duration end date field (defaults to 120)
      */
-    startDay: 0,
-
+    endDateWidth: 120,
+    
     strings: {
         andContinuing: 'and continuing',
         occurrences: 'occurrences',
@@ -44,10 +45,6 @@ Ext.define('Extensible.form.recurrence.option.Duration', {
         forText: 'for',
         until: 'until'
     },
-    
-    maxEndDate: new Date('12/31/9999'),
-    
-    endDateWidth: 120,
     
     cls: 'extensible-recur-duration',
     

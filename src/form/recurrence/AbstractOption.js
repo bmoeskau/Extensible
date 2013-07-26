@@ -34,6 +34,16 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
      * {@link #rrule} config, this is typically set by the parent {@link Extensible.form.recurrence.Fieldset fieldset}.
      */
     startDate: undefined,
+    /**
+     * @cfg {Number} startDay
+     * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default).
+     * Used anytime a calendar or date picker is displayed within the recurrence options.
+     */
+    startDay: 0,
+    /**
+     * Maximum end date allowed when choosing dates from date fields (defaults to 12/31/9999).
+     */
+    maxEndDate: new Date('12/31/9999'),
     
     key: undefined,
     

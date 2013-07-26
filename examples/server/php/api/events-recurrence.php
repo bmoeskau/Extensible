@@ -22,9 +22,9 @@
     // have to increase this value accordingly.
     $max_event_instances = 99;
     
-    $date_format = 'Y-m-d\TH:i:s';
+    $date_format = 'Y-m-d H:i:s';
     
-    $exception_format = 'Y-m-d\TH:i:s';
+    $exception_format = 'Y-m-d H:i:s';
     
     //=================================================================================================
     //
@@ -48,6 +48,7 @@
         orig_event_id        => 'origid',
         recur_edit_mode      => 'redit',
         recur_instance_start => 'ristart',
+        recur_series_start   => 'rsstart',
         
         // Recurrence exceptions
         exdate => 'exdate'
@@ -171,7 +172,7 @@
                 // Check to see if the current instance date is an exception date
                 $exmatch = false;
                 foreach ($exceptions as $exception) {
-                    if ($exception[$mappings['exdate']] == $rdate->format('Y-m-d H:i:s')) {
+                    if ($exception[$mappings['exdate']] == $rdate->format($date_format)) {
                         $exmatch = true;
                         break;
                     }
@@ -183,6 +184,10 @@
                 
                 // Make a copy of the original event and add the needed recurrence-specific stuff:
                 $copy = $event;
+                
+                // First off, set the series start date on each instance for editing purposes
+                $eventStart = new DateTime($event[$mappings['start_date']]);
+                $copy[$mappings['recur_series_start']] = $eventStart->format($date_format);
                 
                 // On the client side, Ext stores will require a unique id for all returned events.
                 // The specific id format doesn't really matter ($mappings['orig_event_id will be used
@@ -216,32 +221,28 @@
     /**
      * Returns the duration of the event in minutes
      */
-    function calculateDuration($event) {
+    function calculateDuration($startDate, $endDate) {
         global $mappings;
         
-        $start = new DateTime($event[$mappings['start_date']]);
-        $end = new DateTime($event[$mappings['end_date']]);
+        $start = new DateTime($startDate);
+        $end = new DateTime($endDate);
         $interval = $start->diff($end);
+        $negative = $interval->invert === 1;
         
         $minutes = ($interval->days * 24 * 60) +
                    ($interval->h * 60) +
                    ($interval->i);
         
-        return $minutes;
+        return $negative ? -$minutes : $minutes;
     }
     
     /**
-     * If the event is recurring, returns the maximum end date
-     * supported by PHP so that the event will fall within future
-     * query ranges as possibly having matching instances. Note
-     * that in a real implementation it would be better to calculate
-     * the actual recurrence pattern end date if possible. The current
-     * recurrence class used in this example does not make it convenient
-     * to do that, so for demo purposes we'll just use the PHP max date.
-     * The generateInstances() method will still limit results based on
-     * any end date specified, so it will work as expected -- it simply
-     * means that in a real-world implementation querying might be slightly
-     * less efficient (which does not apply in this example).
+     * If the event is recurring, this function calculates the best
+     * possible end date to use for the series. It will attempt to calculate
+     * an end date from the RRULE if possible, and will fall back to the PHP
+     * max date otherwise. The generateInstances function will still limit
+     * the results regardless. For non-recurring events, it simply returns
+     * the existing end date value as-is.
      */
     function calculateEndDate($event) {
         global $date_format, $mappings;
@@ -256,9 +257,11 @@
             $recurrence->rrule($rrule);
             
             if (isset($recurrence->end_date) && $recurrence->end_date < $max_date) {
+                // The RRULE includes an explicit end date, so use that
                 $end = $recurrence->end_date->format($date_format).'Z';
             }
             else if (isset($recurrence->count) && $recurrence->count > 0) {
+                // The RRULE has a limit, so calculate the end date based on the instance count
                 $count = 0;
                 $newEnd;
                 $rdates = $recurrence->recur($event[$mappings['start_date']])->rrule($rrule);
@@ -274,7 +277,7 @@
                 $end = $newEnd->format($date_format).'Z';
             }
             else {
-                // default to max date if nothing else
+                // The RRULE does not specify an end date or count, so default to max date
                 $end = date($date_format, PHP_INT_MAX).'Z';
             }
         }
@@ -291,6 +294,7 @@
         unset($event[$mappings['orig_event_id']]);
         unset($event[$mappings['recur_edit_mode']]);
         unset($event[$mappings['recur_instance_start']]);
+        unset($event[$mappings['recur_series_start']]);
         
         return $event;
     }
@@ -319,7 +323,8 @@
             // If this is a recurring event, first calculate the duration between
             // the start and end datetimes so that each recurring instance can
             // be properly calculated.
-            $event[$mappings['duration']] = calculateDuration($event);
+            $event[$mappings['duration']] = calculateDuration(
+                $event[$mappings['start_date']], $event[$mappings['end_date']]);
             
             // Now that duration is set, we have to update the event end date to
             // match the recurrence pattern end date (or max date if the recurring
@@ -414,7 +419,7 @@
      * Update an event or recurring series
      */
     function updateEvent($event) {
-        global $db, $mappings;
+        global $db, $mappings, $date_format;
         
         $editMode = $event[$mappings['recur_edit_mode']];
         
@@ -455,52 +460,80 @@
                     // This could be done all within a single event as explained in
                     // the comments above, but for this example we're keeping it simple.
                     
-                    // First create the new event for the updated future series.
-                    // Update the recurrence start dates to the edited date:
+                    // First update the original event to end at the instance start:
+                    $endDate = new DateTime($event[$mappings['recur_instance_start']]);
+                    $endDate->modify('-1 second');
+                    // Save the original end date before changing it so that we can
+                    // apply it below to the newly-created series:
+                    $originalEndDate = $master_event[$mappings['end_date']];
+                    // End-date the master event (including the RRULE) to the instance start:
+                    $master_event = endDateRecurringSeries($master_event, $endDate);
+                    // Persist changes:
+                    $db->update('events', $master_event);
+                    
+                    // Now create the new event for the updated future series.
+                    // Update the recurrence instance start date to the edited date:
                     $event[$mappings['recur_instance_start']] = $event[$mappings['start_date']];
                     // Don't reuse the existing instance id since we're creating a new event:
                     unset($event[$mappings['event_id']]);
                     // Overwrite the instance end date with the master (series) end date:
-                    $event[$mappings['end_date']] = $master_event[$mappings['end_date']];
+                    $event[$mappings['end_date']] = $originalEndDate;
                     // Create the new event (which also persists it). Note that we are NOT calling
                     // addEvent() here, which recalculates the end date for recurring events. In this
                     // case we always want to keep the existing master event end date.
                     $event = $db->insert('events', cleanEvent($event));
-                    
-                    // Now we can update the original event to end at the instance start
-                    $endDate = new DateTime($event[$mappings['recur_instance_start']]);
-                    // End-date for the original event:
-                    $endDate->modify('-1 second');
-                    // End-date the RRULE for the master event to the instance start:
-                    $master_event = endDateRecurringSeries($master_event, $endDate);
-                    // Persist changes:
-                    $db->update('events', $master_event);
                     break;
                     
                 case 'all':
-                    // This is the simplest case to handle since there is no need to
-                    // split the event or deal with exceptions -- we're just updating
-                    // the original master event. Make sure the id is the original id,
-                    // not the recurrence instance id:
+                    // Make sure the id is the original id, not the instance id:
                     $event[$mappings['event_id']] = $event_id;
                     // Base duration off of the current instance start / end since the end
                     // date for the series will be some future date:
-                    $event[$mappings['duration']] = calculateDuration($event);
-                    // In case the start date was edited by the user, we need to recalculate
-                    // the updated start date based on the time difference between the original
-                    // and current values:
+                    $event[$mappings['duration']] = calculateDuration(
+                        $event[$mappings['start_date']], $event[$mappings['end_date']]);
+                    // In case the start date was edited by the user, we need to update the
+                    // original event to use the new start date
                     $instanceStart = new DateTime($event[$mappings['recur_instance_start']]);
-                    $newStart = new DateTime($event[$mappings['start_date']]);
-                    $diff = $instanceStart->diff($newStart);
-                    // Now apply the diff timespan to the original start date:
-                    $origStart = new DateTime($master_event[$mappings['start_date']]);
-                    $event[$mappings['start_date']] = $origStart->add($diff)->format('c');
-                    // Finally update the end date to the original series end date. This is
-                    // important in the case where the series may have been split previously
-                    // (e.g. by a "future" edit) so we want to preserve that:
-                    //$attr[Event::$end_date] = $rec->attributes[Event::$end_date];
+                    $editedStart = new DateTime($event[$mappings['start_date']]);
+                    $startDiff = $instanceStart->diff($editedStart);
+                    
+                    // If start date has changed we're going to use the edited start date as the new
+                    // series start date, so there's nothing else to do. However if start date is
+                    // unchanged, we'll need to reset the instance start to the original series start
+                    // so that we don't shift the recurring series on every edit. We'll also have to
+                    // check whether the start time has changed, and if so, apply the edited offset
+                    // to the original series start date. Fun!
+                    if ($startDiff->days === 0) {
+                        // Capture any edited time diff before we overwrite the start date
+                        $startTimeDiff = calculateDuration($event[$mappings['recur_instance_start']],
+                            $event[$mappings['start_date']]);
+                            
+                        // The start date has not changed, so revert to the
+                        // original series start since we are updating the master event
+                        $event[$mappings['start_date']] = $master_event[$mappings['start_date']];
+                            
+                        if ($startTimeDiff !== 0) {
+                            // The start time has changed, so even though the day is the same we
+                            // still have to update the master event with the new start time
+                            $seriesStart = new DateTime($event[$mappings['start_date']]);
+                            if ($startTimeDiff > 0) {
+                                $interval = new DateInterval('PT'.$startTimeDiff.'M');
+                            }
+                            else {
+                                // Goofy logic required to handle negative diffs correctly for PHP
+                                $interval = new DateInterval('PT'.(-1 * $startTimeDiff).'M');
+                                $interval->invert = 1; // Good old PHP
+                            }
+                            // Apply the time offset to the original start date
+                            $event[$mappings['start_date']] = $seriesStart->add($interval)->format($date_format);
+                        }
+                    }
+                    // Finally, update the end date to the original series end date. This is
+                    // especially important in the case where this series may have been split
+                    // previously (e.g. by a "future" edit) so we want to preserve the current
+                    // end date, and not assume that it should be the default max date.
                     $event[$mappings['end_date']] = calculateEndDate($event);
-                    // Persist our changes:
+                    // Persist changes:
                     $event = $db->update('events', cleanEvent($event));
                     break;
             }
@@ -511,7 +544,8 @@
                 // There was no recurrence edit mode, but there is an rrule, so this was
                 // an existing non-recurring event that had recurrence added to it. Need
                 // to calculate the duration and end date for the series.
-                $event[$mappings['duration']] = calculateDuration($event);
+                $event[$mappings['duration']] = calculateDuration(
+                    $event[$mappings['start_date']], $event[$mappings['end_date']]);
                 $event[$mappings['end_date']] = calculateEndDate($event);
             }
             

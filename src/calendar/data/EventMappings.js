@@ -185,10 +185,21 @@ Extensible.calendar.data.EventMappings = {
         useNull: true
     },
     
-    // In cases where editing an event would require an exception date to be stored,
-    // the event instance's original start date must be used. Since the start date
-    // could be edited (and would not match as an exception in that case) the original
-    // start date is preserved prior to editing and sent with each request.
+    // The start date for the recurring series.
+    RSeriesStartDate: {
+        name:       'RSeriesStartDate',
+        mapping:    'rsstart',
+        type:       'date',
+        dateFormat: 'c',
+        useNull:    true
+    },
+    
+    // If the start date of a recurring event instance is changed and then saved
+    // using the "single" instance case (or if you drag an event instance and drop
+    // it on a different date) the server has to create an exception for that instance
+    // in the series. Since the instance being sent to the server by default only has
+    // the updated start date, you need a way to pass the original unedited start date
+    // to be used as the exception date, which is what this instance start date is for.
     RInstanceStartDate: {
         name:       'RInstanceStartDate',
         mapping:    'ristart',

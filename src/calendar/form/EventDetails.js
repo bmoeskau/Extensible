@@ -195,7 +195,10 @@ Ext.define('Extensible.calendar.form.EventDetails', {
                 name: Extensible.calendar.data.EventMappings.RRule.name,
                 fieldLabel: this.repeatsLabelText,
                 startDay: this.startDay,
-                anchor: this.fieldAnchor
+                anchor: this.fieldAnchor,
+                listeners: {
+                    'startchange': Ext.bind(this.onRecurrenceStartChange, this)
+                }
             });
             leftFields.splice(2, 0, this.recurrenceField);
         }
@@ -253,9 +256,14 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     
     // private
     onDateChange: function(dateRangeField, val) {
-        if(this.recurrenceField) {
+        if (this.recurrenceField) {
             this.recurrenceField.setStartDate(val[0]);
         }
+    },
+    
+    // private
+    onRecurrenceStartChange: function(recurrenceFieldset, startDate, oldDate) {
+        this.dateRangeField.setValue(startDate);
     },
     
     // inherited docs
@@ -268,8 +276,14 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         me.dateRangeField.setValue(rec.data);
         
         if (me.recurrenceField) {
-            me.recurrenceField.setStartDate(rec.data[EventMappings.StartDate.name]);
-            me.recurrenceField.setValue(rec.data[EventMappings.RRule.name]);
+            var recurrenceStart = rec.get(EventMappings.RSeriesStartDate.name) ||
+                rec.get(EventMappings.StartDate.name);
+            
+            // Prevent a loop since the two start date fields sync on change
+            me.recurrenceField.suspendEvents();
+            me.recurrenceField.setStartDate(recurrenceStart);
+            me.recurrenceField.setValue(rec.get(EventMappings.RRule.name));
+            me.recurrenceField.resumeEvents();
             
             if (!rec.data[EventMappings.RInstanceStartDate.name]) {
                 // If the record is new we have to set the instance start date explicitly to match the

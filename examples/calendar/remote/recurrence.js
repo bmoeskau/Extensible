@@ -57,6 +57,7 @@ Ext.onReady(function() {
         // to whatever the server expects, but typically aren't persisted in the DB. For additional
         // details see the comments in src/calendar/data/EventMappings.
         OriginalEventId:    {name: 'OriginalEventId', mapping: 'origid', type: 'string', useNull: true},
+        RSeriesStartDate:   {name: 'RSeriesStartDate', mapping: 'rsstart', type: 'date', dateFormat: 'c', useNull: true},
         RInstanceStartDate: {name: 'RInstanceStartDate', mapping: 'ristart', type: 'date', dateFormat: 'c', useNull: true},
         REditMode:          {name: 'REditMode', mapping: 'redit', type: 'string', useNull: true}
     };

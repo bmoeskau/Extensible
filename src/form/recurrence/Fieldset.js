@@ -73,6 +73,17 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             me.autoHeight = true;
         }
         
+        this.addEvents(
+            /**
+             * @event startchange
+             * Fires when the start date of the recurrence series is changed
+             * @param {Extensible.form.recurrence.option.Interval} this
+             * @param {Date} newDate The new start date
+             * @param {Date} oldDate The previous start date
+             */
+            'startchange'
+        );
+        
         me.initRRule();
         
         me.items = [{
@@ -160,11 +171,17 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     initChangeEvents: function() {
         var me = this;
         
+        me.intervalField.on('startchange', me.onStartDateChange, me);
+        
         me.intervalField.on('change', me.onChange, me);
         me.weeklyField.on('change', me.onChange, me);
         me.monthlyField.on('change', me.onChange, me);
         me.yearlyField.on('change', me.onChange, me);
         me.durationField.on('change', me.onChange, me);
+    },
+    
+    onStartDateChange: function(interval, newDate, oldDate) {
+        this.fireEvent('startchange', this, newDate, oldDate);
     },
     
     onChange: function() {
