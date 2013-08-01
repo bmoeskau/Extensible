@@ -60,11 +60,21 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
     },
     
     // private
-    handleClick: function(e, t) {
+    handleClick: function(e, target) {
         e.preventDefault();
         
-        var colorId = t.className.split('x-cal-')[1];
-        this.select(colorId);
+        var classNames = target.className.split(' '),
+            colorId;
+        
+        Ext.each(classNames, function(className) {
+            if (className.indexOf('x-cal-') > -1) {
+                colorId = className.split('x-cal-')[1];
+                return false;
+            }
+        });
+        if (colorId) {
+            this.select(colorId);
+        }
     },
     
     /**
