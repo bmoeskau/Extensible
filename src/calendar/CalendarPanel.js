@@ -809,19 +809,21 @@ Ext.ensible.cal.CalendarPanel = Ext.extend(Ext.Panel, {
     fireViewChange: function(){
         var info = null, 
             view = this.layout.activeItem;
-            
-        if(view.getViewBounds){
-            var vb = view.getViewBounds(),
-            info = {
-                activeDate: view.getStartDate(),
-                viewStart: vb.start,
-                viewEnd: vb.end
+        
+        if (view) {
+            if (view.getViewBounds) {
+                var bounds = view.getViewBounds(),
+                info = {
+                    activeDate: view.getStartDate().clone(),
+                    viewStart: bounds.start.clone(),
+                    viewEnd: bounds.end.clone()
+                }
             }
+            if (view.dismissEventEditor) {
+                view.dismissEventEditor();
+            }
+            this.fireEvent('viewchange', this, view, info);
         }
-        if(view.dismissEventEditor){
-            view.dismissEventEditor();
-        }
-        this.fireEvent('viewchange', this, view, info);
     },
     
     // private

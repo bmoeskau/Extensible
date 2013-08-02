@@ -1131,13 +1131,20 @@ viewConfig: {
      */
     setStartDate : function(start, /*private*/reload){
         Ext.ensible.log('setStartDate (base) '+start.format('Y-m-d'));
-        if(this.fireEvent('beforedatechange', this, this.startDate, start, this.viewStart, this.viewEnd) !== false){
+        
+        var cloneStartDate = this.startDate ? this.startDate.clone() : null,
+            cloneStart = start.clone(),
+            cloneViewStart = this.viewStart ? this.viewStart.clone() : null,
+            cloneViewEnd = this.viewEnd ? this.viewEnd.clone() : null;
+        
+        if (this.fireEvent('beforedatechange', this, cloneStartDate, cloneStart, cloneViewStart, cloneViewEnd) !== false) {
             this.startDate = start.clearTime();
             this.setViewBounds(start);
-            if(this.rendered){
+            
+            if (this.rendered) {
                 this.refresh(reload);
             }
-            this.fireEvent('datechange', this, this.startDate, this.viewStart, this.viewEnd);
+            this.fireEvent('datechange', this, this.startDate.clone(), this.viewStart.clone(), this.viewEnd.clone());
         }
     },
     
@@ -1543,7 +1550,7 @@ alert('End: '+bounds.end);
         if(this.readOnly === true){
             return;
         }
-        if(this.fireEvent('dayclick', this, dt, ad, el) !== false){
+        if(this.fireEvent('dayclick', this, dt.clone(), ad, el) !== false){
             var M = Ext.ensible.cal.EventMappings,
                 data = {};
                 
@@ -1591,7 +1598,7 @@ alert('End: '+bounds.end);
             // no changes
             return;
         }
-        if(this.fireEvent('beforeeventmove', this, rec, dt) !== false){
+        if(this.fireEvent('beforeeventmove', this, rec, dt.clone()) !== false){
             var diff = dt.getTime() - rec.data[Ext.ensible.cal.EventMappings.StartDate.name].getTime();
             rec.beginEdit();
             rec.set(Ext.ensible.cal.EventMappings.StartDate.name, dt);
