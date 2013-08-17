@@ -129,6 +129,14 @@ describe("Extensible.Date", function() {
         var tzOffsetStandard = '-0600',
             tzOffsetDst = '-0500';
         
+        it ('for the same dates', function() {
+            var start = new Date('2013-01-15T01:00:00' + tzOffsetStandard),
+                end   = new Date('2013-01-15T22:00:00' + tzOffsetStandard),
+                diff  = ExteDate.diffDays(start, end);
+            
+            expect(diff).toEqual(0);
+        });
+        
         it ('across 2 calendar days', function() {
             var start = new Date('2013-01-15T01:00:00' + tzOffsetStandard),
                 end   = new Date('2013-01-16T02:15:00' + tzOffsetStandard),
@@ -159,6 +167,14 @@ describe("Extensible.Date", function() {
                 diff  = ExteDate.diffDays(start, end);
             
             expect(diff).toEqual(2);
+        });
+        
+        it ('spanning spring DST boundary (US) for a few hours only', function() {
+            var start = new Date('2013-03-10T00:00:00' + tzOffsetStandard),
+                end   = new Date('2013-03-10T03:00:00' + tzOffsetDst),
+                diff  = ExteDate.diffDays(start, end);
+            
+            expect(diff).toEqual(0);
         });
         
         it ('spanning fall DST boundary (US)', function() {
