@@ -2,9 +2,17 @@ Extensible = {
     version: '1.6.0-b1'
 };
 /**
+ * =================================================================================================
+ * 
+ *   THIS FILE IS FOR *DEV* MODE ONLY, NOT FOR PRODUCTION USE!
+ * 
+ * =================================================================================================
+ * 
  * This is intended as a development mode only convenience so that you can configure all include
  * paths for all Extensible examples in one place. For production deployment you should configure
- * your application with the proper paths directly.
+ * your application with your own custom includes and/or Ext.Loader configuration directly.
+ * 
+ * =================================================================================================
  */
 Extensible.Config = {
     /**
