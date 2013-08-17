@@ -46,7 +46,7 @@ Ext.define('Extensible.calendar.template.DayHeader', {
             allDayTpl: this.allDayTpl.apply(o)
         };
          
-        if (Ext.getVersion().isLessThan('4.1')) {
+        if (Ext.getVersion('extjs').isLessThan('4.1')) {
             return Extensible.calendar.template.DayHeader.superclass.applyTemplate.call(this, templateConfig);
         }
         else {

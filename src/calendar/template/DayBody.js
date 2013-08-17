@@ -95,7 +95,7 @@ Ext.define('Extensible.calendar.template.DayBody', {
             hourSeparatorHeight: (this.hourHeight / 2)
         };
          
-        if (Ext.getVersion().isLessThan('4.1')) {
+        if (Ext.getVersion('extjs').isLessThan('4.1')) {
             return Extensible.calendar.template.DayBody.superclass.applyTemplate.call(this, templateConfig);
         }
         else {

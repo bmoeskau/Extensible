@@ -82,7 +82,7 @@ Ext.define('Extensible.calendar.template.Month', {
             extraClasses: extraClasses
         };
          
-        if (Ext.getVersion().isLessThan('4.1')) {
+        if (Ext.getVersion('extjs').isLessThan('4.1')) {
             return Extensible.calendar.template.Month.superclass.applyTemplate.call(this, templateConfig);
         }
         else {

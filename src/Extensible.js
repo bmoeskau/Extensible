@@ -59,7 +59,7 @@ Ext.define('Extensible', {
                 // There are a few Extensible-specific CSS fixes required only on Windows
                 Ext.getBody().addCls('x-win');
             }
-            if (Ext.getVersion().isLessThan('4.1')) {
+            if (Ext.getVersion('extjs').isLessThan('4.1')) {
                 // Unfortunately some styling changed in 4.1 that requires version-specific
                 // CSS differences to handle properly across versions. Ugh.
                 Ext.getBody().addCls('x-4-0');
@@ -368,7 +368,7 @@ Ext.require([
 
 Extensible.applyOverrides = function() {
 
-    var extVersion = Ext.getVersion();
+    var extVersion = Ext.getVersion('extjs');
     
     // This was fixed in Ext 4.0.5:
     if (Ext.layout.container.AbstractCard) {

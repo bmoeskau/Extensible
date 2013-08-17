@@ -163,7 +163,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
             }
         }
         
-        if (Ext.getVersion().isLessThan('4.1')) {
+        if (Ext.getVersion('extjs').isLessThan('4.1')) {
             return Extensible.calendar.template.BoxLayout.superclass.applyTemplate.call(this, {
                 weeks: weeks
             });

@@ -47,7 +47,7 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
         // In 4.1 StatusProxy was switched to inherit from Component, so the renderTpl and
         // renderSelectors configs will kick in and generate the proper elements and refs
         // automagically, and will be ignored by 4.0.x.
-        if (Ext.getVersion().isLessThan('4.1')) {
+        if (Ext.getVersion('extjs').isLessThan('4.1')) {
             this.preComponentConstructor(config);
         }
         else {
