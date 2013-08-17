@@ -343,7 +343,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             me.byDay = byDay.join(',');
             me.byDayWeekdays = byDay;
         }
-        else if (typeof byDay === 'object') {
+        else if (Ext.isObject(byDay)) {
             // byDay is an object with two properties number and weekday, e.g. {number: 4, weekday: 'TH'}
             me.byDay = byDay.number + byDay.weekday;
             me.byDayNthWeekday = byDay;
