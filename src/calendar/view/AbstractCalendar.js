@@ -14,7 +14,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     extend: 'Ext.Component',
     
     requires: [
-        'Ext.dom.CompositeElement',
+        'Ext.CompositeElement',
         'Extensible.calendar.form.EventDetails',
         'Extensible.calendar.form.EventWindow',
         'Extensible.calendar.menu.Event',
