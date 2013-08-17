@@ -98,13 +98,23 @@ Extensible.Config = {
         /**
          * Language files to load for the Ext JS and Extensible frameworks. Valid values are ISO language codes of
          * supported languages. See directory src/locale for a list of supported languages. Examples are:
+         * 
          * - 'en'
          * - 'en_GB'
          * - 'de'
          * - 'fr'
-         * and many more.
+         * - etc...
+         * 
+         * NOTE: This setting will NOT work for Ext versions < 4.1 due to how the locale files were written
+         * in 4.0.x. Because the 4.0.x locale files check for existence of classes by reference rather than
+         * by name, they do not play nicely when loaded asynchronously (Ext may load later, causing runtime
+         * errors when the locale files hit undefined classes). Extensible locales do not have this issue
+         * and work correctly for all versions. For Ext >= 4.1 this should work fine (Sencha updated all of
+         * the locales with string-based class checking), but for now this option is disabled by default to
+         * work consistently with all Ext 4.x versions (just uses the Ext default English strings). As long
+         * as you are using 4.1+ feel free to enable this by setting the value to any supported locale code.
          */
-        language: 'en'
+        language: null
     },
     
     /**
@@ -191,10 +201,13 @@ Extensible.Config = {
         me.includeStylesheet(me.extensibleRoot + 'examples/examples.css?_dc=' + Extensible.version);
         
         me.includeScript(me.extJsRoot + 'ext' + suffixExt + '.js');
-        me.includeScript(me.extJsRoot + 'locale/ext-lang-' + me.language + '.js');
         me.includeScript(me.extensibleRoot + 'lib/extensible' + suffixExtensible + '.js' + cacheBuster);
-        me.includeScript(me.extensibleRoot + 'src/locale/extensible-lang-' + me.language + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'examples/examples.js?_dc=' + Extensible.version);
+        
+        if (me.language) {
+            me.includeScript(me.extJsRoot + 'locale/ext-lang-' + me.language + '.js');
+            me.includeScript(me.extensibleRoot + 'src/locale/extensible-lang-' + me.language + '.js' + cacheBuster);
+        }
     }
 };
 
