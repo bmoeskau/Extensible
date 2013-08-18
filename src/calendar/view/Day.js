@@ -64,7 +64,7 @@ Ext.define('Extensible.calendar.view.Day', {
     ddIncrement: 30,
     /**
      * @cfg {Integer} minEventDisplayMinutes
-     * This is the minimum <b>display</b> height, in minutes, for events shown in the view (defaults to 30). This setting
+     * This is the minimum <strong>display</strong> height, in minutes, for events shown in the view (defaults to 30). This setting
      * ensures that events with short duration are still readable (e.g., by default any event where the start and end
      * times were the same would have 0 height). It also applies when calculating whether multiple events should be
      * displayed as overlapping. In datetime terms, an event that starts and ends at 9:00 and another event that starts
@@ -100,26 +100,28 @@ Ext.define('Extensible.calendar.view.Day', {
     /**
      * @cfg {Integer} hourHeight
      * <p>The height, in pixels, of each hour block displayed in the scrolling body area of the view (defaults to 42).</p>
-     * <br><p><b>Important note:</b> While this config can be set to any reasonable integer value, note that it is also used to
-     * calculate the ratio used when assigning event heights. By default, an hour is 60 minutes and 42 pixels high, so the
-     * pixel-to-minute ratio is 42 / 60, or 0.7. This same ratio is then used when rendering events. When rendering a
-     * 30 minute event, the rendered height would be 30 minutes * 0.7 = 21 pixels (as expected).</p>
-     * <p>This is important to understand when changing this value because some browsers may handle pixel rounding in
-     * different ways which could lead to inconsistent visual results in some cases. If you have any problems with pixel
-     * precision in how events are laid out, you might try to stick with hourHeight values that will generate discreet ratios.
-     * This is easily done by simply multiplying 60 minutes by different discreet ratios (.6, .8, 1.1, etc.) to get the
-     * corresponding hourHeight pixel values (36, 48, 66, etc.) that will map back to those ratios. By contrast, if you
-     * chose an hourHeight of 50 for example, the resulting height ratio would be 50 / 60 = .833333... This will work just
-     * fine, just be aware that browsers may sometimes round the resulting height values inconsistently.
+     * <strong>Important note:</strong> 
+     * While this config can be set to any reasonable integer value, note that it is also used to calculate the ratio used 
+     * when assigning event heights. By default, an hour is 60 minutes and 42 pixels high, so the pixel-to-minute ratio is 
+     * 42 / 60, or 0.7. This same ratio is then used when rendering events. When rendering a 30 minute event, the rendered 
+     * height would be 30 minutes * 0.7 = 21 pixels (as expected).
+     * 
+     * This is important to understand when changing this value because some browsers may handle pixel rounding in different 
+     * ways which could lead to inconsistent visual results in some cases. If you have any problems with pixel precision in 
+     * how events are laid out, you might try to stick with hourHeight values that will generate discreet ratios. This is 
+     * easily done by simply multiplying 60 minutes by different discreet ratios (.6, .8, 1.1, etc.) to get the corresponding 
+     * hourHeight pixel values (36, 48, 66, etc.) that will map back to those ratios. By contrast, if you chose an hourHeight 
+     * of 50 for example, the resulting height ratio would be 50 / 60 = .833333... This will work just fine, just be aware 
+     * that browsers may sometimes round the resulting height values inconsistently.
      */
     hourHeight: 42,
     /**
      * @cfg {String} hideMode
-     * <p>How this component should be hidden. Supported values are <tt>'visibility'</tt>
-     * (css visibility), <tt>'offsets'</tt> (negative offset position) and <tt>'display'</tt>
-     * (css display).</p>
-     * <br><p><b>Note</b>: For calendar views the default is 'offsets' rather than the Ext JS default of
-     * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.</p>
+     * How this component should be hidden. Supported values are <tt>'visibility'</tt>
+     * (css visibility), <tt>'offsets'</tt> (negative offset position) and <tt>'display'</tt> (css display).
+     * 
+     * <strong>Note</strong>: For calendar views the default is 'offsets' rather than the Ext JS default of
+     * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.
      */
     hideMode: 'offsets',
     /**
