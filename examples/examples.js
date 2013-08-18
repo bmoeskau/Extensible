@@ -40,8 +40,20 @@ Ext.define('Extensible.example', {
     }
 });
 
-
 Ext.onReady(function() {
-    //Extensible.example.insertExamplesMenuLink();
-    //Extensible.example.insertViewSourceLink();
+    // Basic sanity check that Extensible is loaded properly
+    if (!Extensible.log) {
+        var msg = 'The Extensible class is not available. This means that you ' +
+                  'either need to build the project first (see the included README ' +
+                  'file) or you should download the pre-built files from the <a ' +
+                  'href="http://ext.ensible.com/products/" target="_blank">Extensible website</a>.';
+        
+        Ext.Msg.show({
+            title: 'Extensible Not Ready',
+            msg: msg,
+            buttons: Ext.Msg.OK,
+            icon: Ext.Msg.ERROR,
+            maxWidth: 400
+        });
+    }
 });
