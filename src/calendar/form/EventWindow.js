@@ -309,6 +309,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
                 
             rec = Ext.create('Extensible.calendar.data.EventModel');
             
+            rec.data[EventMappings.Title.name] = o[EventMappings.Title.name]; // in case it's set
             rec.data[EventMappings.StartDate.name] = start;
             rec.data[EventMappings.EndDate.name] = end;
             
