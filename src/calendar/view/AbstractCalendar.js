@@ -419,7 +419,7 @@ viewConfig: {
             rangeselect: true,
             /**
              * @event beforeeventcopy
-             * Fires before an existing event is duplicated by the user view the "copy" command. This is a
+             * Fires before an existing event is duplicated by the user via the "copy" command. This is a
              * cancelable event, so returning false from a handler will cancel the copy operation.
              * @param {Extensible.calendar.view.AbstractCalendar} this
              * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
@@ -440,21 +440,25 @@ viewConfig: {
             eventcopy: true,
             /**
              * @event beforeeventmove
-             * Fires before an event element is dragged by the user and dropped in a new position. This is a cancelable event, so
-             * returning false from a handler will cancel the move operation. This could be useful for validating that a user can
-             * only move events within a certain date range.
+             * Fires after an event element has been dragged by the user and dropped in a new position, but before
+             * the event record is updated with the new dates, providing a hook for canceling the update.
+             * To cancel the move, return false from a handling function. This could be useful for validating
+             * that a user can only move events within a certain date range, for example.
              * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that will be moved
-             * @param {Date} dt The new start date to be set (the end date will be automaticaly adjusted to match the event duration)
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+             * for the event that will be moved. Start and end dates will be the original values before the move started.
+             * @param {Date} dt The new start date to be set (the end date will be automaticaly calculated to match
+             * based on the event duration)
              */
             beforeeventmove: true,
             /**
              * @event eventmove
-             * Fires after an event element has been dragged by the user and dropped in a new position. If you need to cancel the
-             * move operation you should handle the {@link #beforeeventmove} event and return false from your handler function.
+             * Fires after an event element has been moved to a new position and its data updated. If you need to
+             * cancel the move operation you should handle the {@link #beforeeventmove} event and return false
+             * from your handler function.
              * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was moved with
-             * updated start and end dates
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+             * for the event that was moved with updated start and end dates
              */
             eventmove: true,
             /**
