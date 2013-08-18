@@ -19,10 +19,10 @@ rec = new Extensible.calendar.data.CalendarModel({
 var M = Extensible.calendar.data.CalendarMappings;
 
 rec = new Extensible.calendar.data.CalendarModel();
-rec.data[M.CalendarId.name] = 5;
-rec.data[M.Title.name] = 'My Holidays';
-rec.data[M.Description.name] = 'My personal holiday schedule';
-rec.data[M.ColorId.name] = 3;
+	rec.data[M.CalendarId.name] = 5;
+	rec.data[M.Title.name] = 'My Holidays';
+	rec.data[M.Description.name] = 'My personal holiday schedule';
+	rec.data[M.ColorId.name] = 3;
 </code></pre>
  * @constructor
  * @param {Object} data (Optional) An object, the properties of which provide values for the new Record's

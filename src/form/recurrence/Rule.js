@@ -376,9 +376,10 @@ Ext.define('Extensible.form.recurrence.Rule', {
     },
     
     /**
-     * Returns a textual representation of the underlying rules in <a
-     * href="http://www.kanzaki.com/docs/ical/rrule.html">iCal RRULE format</a>, e.g. "FREQ=WEEKLY;INTERVAL=2;".
-     * This is the standard format that is typically used to store and transmit recurrence rules between systems.
+     * Returns a textual representation of the underlying rules in 
+     * <a href="http://www.kanzaki.com/docs/ical/rrule.html">iCal RRULE format</a>, 
+     * e.g. "FREQ=WEEKLY;INTERVAL=2;". This is the standard format that is typically 
+     * used to store and transmit recurrence rules between systems.
      * @returns {String} The iCal-formatted RRULE string, or empty string if a valid RRULE cannot be returned
      */
     getRule: function() {
