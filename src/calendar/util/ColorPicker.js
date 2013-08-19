@@ -5,7 +5,6 @@
  * of the default Ext color picker that is based on calendar ids rather than hex color codes so that the colors
  * can be easily modified via CSS and automatically applied to calendars. The specific colors used by default are
  * also chosen to provide good color contrast when displayed in calendars.
-</code></pre>
  * @constructor
  * Create a new color picker
  * @param {Object} config The config object
@@ -23,10 +22,12 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
     /**
      * @cfg {Function} handler
      * Optional. A function that will handle the select event of this color picker.
-     * The handler is passed the following parameters:<div class="mdetail-params"><ul>
-     * <li><code>picker</code> : ColorPicker<div class="sub-desc">The picker instance.</div></li>
-     * <li><code>colorId</code> : String<div class="sub-desc">The id that identifies the selected color and relates it to a calendar.</div></li>
-     * </ul></div>
+     * The handler is passed the following parameters:
+     * 
+     *	* picker : *ColorPicker* 
+     *		* The picker instance.
+     *	* colorId : *String* 
+     *		* The id that identifies the selected color and relates it to a calendar.
      */
     
     constructor: function() {

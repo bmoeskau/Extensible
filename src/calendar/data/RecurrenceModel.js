@@ -1,3 +1,7 @@
+/*
+ * 
+ */
+
 Ext.define('Extensible.calendar.data.RecurrenceModel', {
     extend: 'Extensible.data.Model',
 

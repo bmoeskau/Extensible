@@ -1,10 +1,10 @@
 /**
  * @class Extensible.calendar.view.DayHeader
  * @extends Extensible.calendar.view.Month
- * <p>This is the header area container within the day and week views where all-day events are displayed.
+ * This is the header area container within the day and week views where all-day events are displayed.
  * Normally you should not need to use this class directly -- instead you should use {@link Extensible.calendar.view.Day DayView}
  * which aggregates this class and the {@link Extensible.calendar.view.DayBody DayBodyView} into the single unified view
- * presented by {@link Extensible.calendar.CalendarPanel CalendarPanel}.</p>
+ * presented by {@link Extensible.calendar.CalendarPanel CalendarPanel}
  * @constructor
  * @param {Object} config The config object
  */

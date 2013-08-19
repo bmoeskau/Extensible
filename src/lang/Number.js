@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 Ext.define('Extensible.lang.Number', {
     statics: {
         getOrdinalSuffix: function(num) {

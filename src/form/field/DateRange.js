@@ -1,7 +1,7 @@
 /**
  * @class Extensible.form.field.DateRange
  * @extends Ext.form.Field
- * <p>A combination field that includes start and end dates and times, as well as an optional all-day checkbox.</p>
+ * A combination field that includes start and end dates and times, as well as an optional all-day checkbox.
  * @constructor
  * @param {Object} config The config object
  */
@@ -28,9 +28,9 @@ Ext.define('Extensible.form.field.DateRange', {
     allDayText: 'All day',
     /**
      * @cfg {String/Boolean} singleLine
-     * <code>true</code> to render the fields all on one line, <code>false</code> to break the start
+     * <tt>true</tt> to render the fields all on one line, <tt>false</tt> to break the start
      * date/time and end date/time into two stacked rows of fields to preserve horizontal space
-     * (defaults to <code>true</code>).
+     * (defaults to <tt>true</tt>).
      */
     singleLine: true,
     /*
@@ -288,11 +288,14 @@ Ext.define('Extensible.form.field.DateRange', {
     },
     
     /**
-     * Returns an array containing the following values in order:<div class="mdetail-params"><ul>
-     * <li><b><code>DateTime</code></b> : <div class="sub-desc">The start date/time</div></li>
-     * <li><b><code>DateTime</code></b> : <div class="sub-desc">The end date/time</div></li>
-     * <li><b><code>Boolean</code></b> : <div class="sub-desc">True if the dates are all-day, false
-     * if the time values should be used</div></li><ul></div>
+     * Returns an array containing the following values in order:
+     * 
+     *	* **<tt>DateTime</tt>**
+     *		* The start date/time
+     *	* **<tt>DateTime</tt>**
+     *		* The end date/time
+     *	* **<tt>Boolean</tt>**
+     *		* True if the dates are all-day, false if the time values should be used
      * @return {Array} The array of return values
      */
     getValue: function() {
@@ -327,13 +330,14 @@ Ext.define('Extensible.form.field.DateRange', {
     
     /**
      * Sets the values to use in the date range.
-     * @param {Array/Date/Object} v The value(s) to set into the field. Valid types are as follows:<div class="mdetail-params"><ul>
-     * <li><b><code>Array</code></b> : <div class="sub-desc">An array containing, in order, a start date, end date and all-day flag.
-     * This array should exactly match the return type as specified by {@link #getValue}.</div></li>
-     * <li><b><code>DateTime</code></b> : <div class="sub-desc">A single Date object, which will be used for both the start and
-     * end dates in the range.  The all-day flag will be defaulted to false.</div></li>
-     * <li><b><code>Object</code></b> : <div class="sub-desc">An object containing properties for StartDate, EndDate and IsAllDay
-     * as defined in {@link Extensible.calendar.data.EventMappings}.</div></li><ul></div>
+     * @param {Array/Date/Object} v The value(s) to set into the field. Valid types are as follows:
+     * 
+     *	* **<tt>Array</tt>**
+     *		* An array containing, in order, a start date, end date, and all-day flag. This array should exactly match the return type as specified by {@link #getValue}.
+     *	* **<tt>DateTime</tt>**
+     *		* A single Date object, which will be used for both the start and end dates in the range. The all-day flag will be defaulted to false.
+     *	* **<tt>Object</tt>**
+     *		* An object containing properties for StartDate, EndDate and IsAllDay as defined in {@link Extensible.calendar.data.EventMappings}.
      */
     setValue: function(v) {
         if(!v) {

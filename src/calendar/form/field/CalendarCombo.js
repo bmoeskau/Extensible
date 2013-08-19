@@ -1,16 +1,16 @@
 /**
  * @class Extensible.calendar.form.field.CalendarCombo
  * @extends Ext.form.field.ComboBox
- * <p>A custom combo used for choosing from the list of available calendars to assign an event to. You must
- * pass a populated calendar store as the store config or the combo will not work.</p>
- * <p>This is pretty much a standard combo that is simply pre-configured for the options needed by the
- * calendar components. The default configs are as follows:<pre><code>
-fieldLabel: 'Calendar',
-triggerAction: 'all',
-queryMode: 'local',
-forceSelection: true,
-width: 200
-</code></pre>
+ * A custom combo used for choosing from the list of available calendars to assign an event to. You must
+ * pass a populated calendar store as the store config or the combo will not work.
+ * 
+ * This is pretty much a standard combo that is simply pre-configured for the options needed by the
+ * calendar components. The default configs are as follows:
+ *		fieldLabel: 'Calendar',
+ *		triggerAction: 'all',
+ *		queryMode: 'local',
+ *		forceSelection: true,
+ *		width: 200
  * @constructor
  * @param {Object} config The config object
  */

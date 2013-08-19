@@ -1,11 +1,11 @@
 /**
  * @class Extensible.calendar.view.DayBody
  * @extends Extensible.calendar.view.AbstractCalendar
- * <p>This is the scrolling container within the day and week views where non-all-day events are displayed.
+ * This is the scrolling container within the day and week views where non-all-day events are displayed.
  * Normally you should not need to use this class directly -- instead you should use {@link
  * Extensible.calendar.view.Day DayView} which aggregates this class and the {@link
  * Extensible.calendar.view.DayHeader DayHeaderView} into the single unified view
- * presented by {@link Extensible.calendar.CalendarPanel CalendarPanel}.</p>
+ * presented by {@link Extensible.calendar.CalendarPanel CalendarPanel}.
  * @constructor
  * @param {Object} config The config object
  */
@@ -122,14 +122,14 @@ Ext.define('Extensible.calendar.view.DayBody', {
      * Scrolls the container to the specified vertical position. If the view is large enough that
      * there is no scroll overflow then this method will have no affect.
      * @param {Number} y The new vertical scroll position in pixels
-     * @param {Boolean} defer (optional) <p>True to slightly defer the call, false to execute immediately.</p>
+     * @param {Boolean} defer (optional) <p>True to slightly defer the call, false to execute immediately.
      *
-     * <p>This method will automatically defer itself for IE and Opera (even if you pass false) otherwise
+     * This method will automatically defer itself for IE and Opera (even if you pass false) otherwise
      * the scroll position will not update in those browsers. You can optionally pass true, however, to
-     * force the defer in all browsers, or use your own custom conditions to determine whether this is needed.</p>
+     * force the defer in all browsers, or use your own custom conditions to determine whether this is needed.
      *
-     * <p>Note that this method should not generally need to be called directly as scroll position is
-     * managed internally.</p>
+     * Note that this method should not generally need to be called directly as scroll position is
+     * managed internally.
      */
     scrollTo: function(y, defer) {
         defer = defer || (Ext.isIE || Ext.isOpera);
@@ -300,14 +300,15 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     /**
-     * <p>Returns the XTemplate that is bound to the calendar's event store (it expects records of type
-     * {@link Extensible.calendar.data.EventModel}) to populate the calendar views with <strong>all-day</strong> events.
+     * Returns the XTemplate that is bound to the calendar's event store (it expects records of type
+     * {@link Extensible.calendar.data.EventModel}) to populate the calendar views with **all-day** events.
      * Internally this method by default generates different markup for browsers that support CSS border radius
-     * and those that don't. This method can be overridden as needed to customize the markup generated.</p>
-     * <p>Note that this method calls {@link #getEventBodyMarkup} to retrieve the body markup for events separately
+     * and those that don't. This method can be overridden as needed to customize the markup generated.
+     * 
+     * Note that this method calls {@link #getEventBodyMarkup} to retrieve the body markup for events separately
      * from the surrounding container markup.  This provdes the flexibility to customize what's in the body without
      * having to override the entire XTemplate. If you do override this method, you should make sure that your
-     * overridden version also does the same.</p>
+     * overridden version also does the same.
      * @return {Ext.XTemplate} The event XTemplate
      */
     getEventAllDayTemplate: function() {

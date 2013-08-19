@@ -1,9 +1,9 @@
 /**
  * @class Extensible.calendar.CalendarPanel
  * @extends Ext.panel.Panel
- * <p>This is the default container for calendar views. It supports day, week, multi-week and month views as well
+ * This is the default container for calendar views. It supports day, week, multi-week and month views as well
  * as a built-in event edit form. The only requirement for displaying a calendar is passing in a valid
- * {@link #Ext.data.Store store} config containing records of type {@link Extensible.calendar.data.EventModel EventRecord}.</p>
+ * {@link #Ext.data.Store store} config containing records of type {@link Extensible.calendar.data.EventModel EventRecord}.
  * @constructor
  * @param {Object} config The config object
  * @xtype extensible.calendarpanel
@@ -127,10 +127,11 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     dayText: 'Day',
     /**
      * @cfg {String} multiDayText
-     * <p><b>Deprecated.</b> Please override {@link #getMultiDayText} instead.</p>
-     * <p>Text to use for the 'X Days' nav bar button (defaults to "{0} Days" where {0} is automatically
+     * **Deprecated.** Please override {@link #getMultiDayText} instead.
+     * 
+     * Text to use for the 'X Days' nav bar button (defaults to "{0} Days" where {0} is automatically
      * replaced by the value of the {@link #multDayViewCfg}'s dayCount value if available, otherwise it
-     * uses the view default of 3).</p>
+     * uses the view default of 3).
      * @deprecated
      */
     multiDayText: '{0} Days',
@@ -141,10 +142,11 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     weekText: 'Week',
     /**
      * @cfg {String} multiWeekText
-     * <p><b>Deprecated.</b> Please override {@link #getMultiWeekText} instead.</p>
-     * <p>Text to use for the 'X Weeks' nav bar button (defaults to "{0} Weeks" where {0} is automatically
+     * **Deprecated.** Please override {@link #getMultiWeekText} instead.
+     * 
+     * Text to use for the 'X Weeks' nav bar button (defaults to "{0} Weeks" where {0} is automatically
      * replaced by the value of the {@link #multiWeekViewCfg}'s weekCount value if available, otherwise it
-     * uses the view default of 2).</p>
+     * uses the view default of 2).
      * @deprecated
      */
     multiWeekText: '{0} Weeks',
@@ -367,11 +369,14 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              * @param {Extensible.CalendarView} view The view being activated (any valid 
              * {@link Extensible.calendar.view.AbstractCalendar CalendarView} subclass)
              * @param {Object} info Extra information about the newly activated view. This is a plain object
-             * with following properties:<div class="mdetail-params"><ul>
-             * <li><b><code>activeDate</code></b> : <div class="sub-desc">The currently-selected date</div></li>
-             * <li><b><code>viewStart</code></b> : <div class="sub-desc">The first date in the new view range</div></li>
-             * <li><b><code>viewEnd</code></b> : <div class="sub-desc">The last date in the new view range</div></li>
-             * </ul></div>
+             * with following properties:
+             * 
+             *	* **activeDate**
+             *		* The currently selected date
+             *	* **viewStart**
+             *		* The first date in the new view range
+             *	* **viewEnd**
+             *		* The last date in the new view range
              */
             viewchange: true,
             /**
@@ -403,11 +408,12 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              */
             /**
              * @event eventclick
-             * <p>Fires after the user clicks on an event element.</p>
-             * <p><strong>NOTE:</strong> This version of <code>eventclick</code> differs from the same
+             * Fires after the user clicks on an event element.
+             * 
+             * **NOTE:** This version of <tt>eventclick</tt> differs from the same
              * event fired directly by {@link Extensible.calendar.view.AbstractCalendar CalendarView}
              * subclasses in that it provides a default implementation (showing the default edit window)
-             * and is also cancelable (if a handler returns <code>false</code> the edit window will not be
+             * and is also cancelable (if a handler returns <tt>false</tt> the edit window will not be
              * shown). This event when fired from a view class is simply a notification that an event was
              * clicked and has no default behavior.
              * @param {Extensible.calendar.CalendarPanel} this
@@ -510,7 +516,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              * @event beforeeventresize
              * Fires after the user drags the resize handle of an event to resize it, but before the
              * resize operation is carried out. This is a cancelable event, so returning false from a
-             * handler will cancel the resize operation. <strong>NOTE:</strong> This event is only fired
+             * handler will cancel the resize operation. **NOTE:** This event is only fired
              * from views that support event resizing.
              * @param {Extensible.calendar.CalendarPanel} this
              * @param {Extensible.calendar.data.EventModel} rec The 
@@ -520,7 +526,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             /**
              * @event eventresize
              * Fires after the user drags the resize handle of an event and the resize operation is
-             * complete. <strong>NOTE:</strong> This event is only fired from views that support event resizing.
+             * complete. **NOTE:** This event is only fired from views that support event resizing.
              * @param {Extensible.calendar.CalendarPanel} this
              * @param {Extensible.calendar.data.EventModel} rec The 
              * {@link Extensible.calendar.data.EventModel record} for the event that was resized
@@ -529,7 +535,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             /**
              * @event eventexception
              * Fires after an event has been processed via an Ext proxy and returned with an exception. This
-             * could be because of a server error, or because the data returned <code>success: false</code>.
+             * could be because of a server error, or because the data returned <tt>success: false</tt>.
              *
              * The view provides default handling via the overrideable
              * {@link Extensible.calendar.view.AbstractCalendar#notifyOnException notifyOnException} method. If
