@@ -1,14 +1,16 @@
 /**
  * @class Extensible.calendar.template.DayHeader
  * @extends Ext.XTemplate
- * <p>This is the template used to render the all-day event container used in
+ * This is the template used to render the all-day event container used in
  * {@link Extensible.calendar.view.Day DayView} and {@link Extensible.calendar.view.Week WeekView}. Internally
- * the majority of the layout logic is deferred to an instance of {@link Extensible.calendar.template.BoxLayout}.</p>
- * <p>This template is automatically bound to the underlying event store by the calendar components and expects
- * records of type {@link Extensible.calendar.data.EventModel}.</p>
- * <p>Note that this template would not normally be used directly. Instead you would use the
+ * the majority of the layout logic is deferred to an instance of {@link Extensible.calendar.template.BoxLayout}.
+ * 
+ * This template is automatically bound to the underlying event store by the calendar components and expects
+ * records of type {@link Extensible.calendar.data.EventModel}.
+ * 
+ * Note that this template would not normally be used directly. Instead you would use the
  * {@link Extensible.calendar.view.DayTemplate} that internally creates an instance of this template along with
- * a {@link Extensible.calendar.template.DayBody}.</p>
+ * a {@link Extensible.calendar.template.DayBody}.
  * @constructor
  * @param {Object} config The config object
  */

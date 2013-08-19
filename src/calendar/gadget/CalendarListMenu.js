@@ -2,8 +2,8 @@
  * @private
  * @class Extensible.calendar.gadget.CalendarListMenu
  * @extends Ext.menu.Menu
- * <p>A menu containing a {@link Extensible.calendar.util.ColorPicker color picker} for choosing calendar colors,
- * as well as other calendar-specific options.</p>
+ * A menu containing a {@link Extensible.calendar.util.ColorPicker color picker} for choosing calendar colors,
+ * as well as other calendar-specific options.
  * @xtype extensible.calendarlistmenu
  */
 Ext.define('Extensible.calendar.gadget.CalendarListMenu', {

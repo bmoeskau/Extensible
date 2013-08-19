@@ -1,12 +1,12 @@
 /**
  * @class Extensible.calendar.view.Day
  * @extends Ext.container.Container
- * <p>Unlike other calendar views, is not actually a subclass of {@link Extensible.calendar.view.AbstractCalendar CalendarView}.
+ * Unlike other calendar views, is not actually a subclass of {@link Extensible.calendar.view.AbstractCalendar CalendarView}.
  * Instead it is a {@link Ext.container.Container Container} subclass that internally creates and manages the layouts of
  * a {@link Extensible.calendar.view.DayHeader DayHeaderView} and a {@link Extensible.calendar.view.DayBody DayBodyView}. As such
  * DayView accepts any config values that are valid for DayHeaderView and DayBodyView and passes those through
  * to the contained views. It also supports the interface required of any calendar view and in turn calls methods
- * on the contained views as necessary.</p>
+ * on the contained views as necessary.
  * @constructor
  * @param {Object} config The config object
  */
@@ -53,18 +53,19 @@ Ext.define('Extensible.calendar.view.Day', {
     enableEventResize: true,
     /**
      * @cfg {Integer} ddIncrement
-     * <p>The number of minutes between each step during various drag/drop operations in the view (defaults to 30).
+     * The number of minutes between each step during various drag/drop operations in the view (defaults to 30).
      * This controls the number of times the dragged object will "snap" to the view during a drag operation, and does
      * not have to match with the time boundaries displayed in the view. E.g., the view could be displayed in 30 minute
      * increments (the default) but you could configure ddIncrement to 10, which would snap a dragged object to the
-     * view at 10 minute increments.</p>
-     * <p>This config currently applies while dragging to move an event, resizing an event by its handle or dragging
-     * on the view to create a new event.</p>
+     * view at 10 minute increments.
+     * 
+     * This config currently applies while dragging to move an event, resizing an event by its handle or dragging
+     * on the view to create a new event.
      */
     ddIncrement: 30,
     /**
      * @cfg {Integer} minEventDisplayMinutes
-     * This is the minimum <strong>display</strong> height, in minutes, for events shown in the view (defaults to 30). This setting
+     * This is the minimum **display** height, in minutes, for events shown in the view (defaults to 30). This setting
      * ensures that events with short duration are still readable (e.g., by default any event where the start and end
      * times were the same would have 0 height). It also applies when calculating whether multiple events should be
      * displayed as overlapping. In datetime terms, an event that starts and ends at 9:00 and another event that starts
@@ -99,8 +100,9 @@ Ext.define('Extensible.calendar.view.Day', {
     scrollStartHour: 7,
     /**
      * @cfg {Integer} hourHeight
-     * <p>The height, in pixels, of each hour block displayed in the scrolling body area of the view (defaults to 42).</p>
-     * <strong>Important note:</strong> 
+     * The height, in pixels, of each hour block displayed in the scrolling body area of the view (defaults to 42).
+     * 
+     * **Important note:** 
      * While this config can be set to any reasonable integer value, note that it is also used to calculate the ratio used 
      * when assigning event heights. By default, an hour is 60 minutes and 42 pixels high, so the pixel-to-minute ratio is 
      * 42 / 60, or 0.7. This same ratio is then used when rendering events. When rendering a 30 minute event, the rendered 
@@ -120,7 +122,7 @@ Ext.define('Extensible.calendar.view.Day', {
      * How this component should be hidden. Supported values are <tt>'visibility'</tt>
      * (css visibility), <tt>'offsets'</tt> (negative offset position) and <tt>'display'</tt> (css display).
      * 
-     * <strong>Note</strong>: For calendar views the default is 'offsets' rather than the Ext JS default of
+     * **Note:** For calendar views the default is 'offsets' rather than the Ext JS default of
      * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.
      */
     hideMode: 'offsets',

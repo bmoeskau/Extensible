@@ -1,7 +1,7 @@
 /**
  * @class Extensible.calendar.gadget.CalendarListPanel
  * @extends Ext.Panel
- * <p>This is a {@link Ext.Panel panel} subclass that renders a list of available calendars
+ * This is a {@link Ext.Panel panel} subclass that renders a list of available calendars
  * @constructor
  * @param {Object} config The config object
  * @xtype extensible.calendarlist
