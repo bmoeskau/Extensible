@@ -1,4 +1,4 @@
-/**
+/*
  * @class Ext.dd.ScrollManager
  * Provides automatic scrolling of overflow regions in the page during drag operations.
  * 

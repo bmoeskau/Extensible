@@ -1,4 +1,4 @@
-/** @private
+/* @private
  * Internal drag zone implementation for the calendar day and week views.
  */
 Ext.define('Extensible.calendar.dd.DayDragZone', {

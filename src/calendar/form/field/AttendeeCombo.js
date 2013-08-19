@@ -1,4 +1,4 @@
-/**
+/*
  * Not currently in use, may or may not be implemented...
  */
 Extensible.calendar.form.field.AttendeeCombo = Ext.extend(Ext.ux.form.SuperBoxSelect, {

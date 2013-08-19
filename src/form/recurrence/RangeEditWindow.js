@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 Ext.define('Extensible.form.recurrence.RangeEditWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.extensible.recurrence-rangeeditwindow',

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 Ext.define('Extensible.form.recurrence.option.Weekly', {
     extend: 'Extensible.form.recurrence.AbstractOption',
     alias: 'widget.extensible.recurrence-weekly',

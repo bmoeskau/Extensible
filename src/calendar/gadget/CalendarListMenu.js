@@ -1,4 +1,4 @@
-/**
+/*
  * @private
  * @class Extensible.calendar.gadget.CalendarListMenu
  * @extends Ext.menu.Menu

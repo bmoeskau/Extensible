@@ -1,8 +1,8 @@
 /**
  * @class Extensible.calendar.view.MultiWeek
  * @extends Extensible.calendar.view.Month
- * <p>Displays a calendar view by week, more than one week at a time. This class does not usually need to be used directly as you can
- * use a {@link Extensible.calendar.CalendarPanel CalendarPanel} to manage multiple calendar views at once.</p>
+ * Displays a calendar view by week, more than one week at a time. This class does not usually need to be used directly as you can
+ * use a {@link Extensible.calendar.CalendarPanel CalendarPanel} to manage multiple calendar views at once.
  * @constructor
  * @param {Object} config The config object
  */

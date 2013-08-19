@@ -1,4 +1,4 @@
-/** @private
+/* @private
  * Internal drag zone implementation for the calendar components. This provides base functionality
  * and is primarily for the month view -- DayViewDD adds day/week view-specific functionality.
  */
