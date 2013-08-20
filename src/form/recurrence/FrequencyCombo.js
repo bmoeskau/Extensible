@@ -40,14 +40,14 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
          * are defined in the {@link Extensible.form.recurrence.Parser#strings} config.
          * Defaults to:
          *
-         *    [
-         *        ['NONE', 'Does not repeat'],
-         *        ['DAILY', 'Daily'],
-         *        ['WEEKDAYS', 'Every weekday (Mon-Fri)'],
-         *        ['WEEKLY', 'Weekly'],
-         *        ['MONTHLY', 'Monthly'],
-         *        ['YEARLY', 'Yearly']
-         *    ]
+         *		[
+         *			['NONE', 'Does not repeat'],
+         *			['DAILY', 'Daily'],
+         *			['WEEKDAYS', 'Every weekday (Mon-Fri)'],
+         *			['WEEKLY', 'Weekly'],
+         *			['MONTHLY', 'Monthly'],
+         *			['YEARLY', 'Yearly']
+         *		]
          */
         me.frequencyOptions = me.frequencyOptions || [
             ['NONE',     freq.none],

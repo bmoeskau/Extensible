@@ -1,3 +1,7 @@
+/*
+ * 
+ */
+
 Ext.define('Extensible.calendar.data.RecurrenceStore', {
     extend: 'Ext.data.Store',
     model: 'Extensible.calendar.data.RecurrenceModel',

@@ -1,4 +1,6 @@
-
+/*
+ * 
+ */
 Ext.define('Extensible.data.Model', {
     extend: 'Ext.data.Model',
     

@@ -1,3 +1,7 @@
+/*
+ * 
+ */
+
 Ext.define('Extensible.form.recurrence.RangeEditPanel', {
     extend: 'Ext.form.Panel',
     alias: 'widget.extensible.recurrence-rangeeditpanel',

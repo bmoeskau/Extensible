@@ -1,3 +1,7 @@
+/*
+ * 
+ */
+
 Ext.ns('Extensible.calendar.data');
 
 Extensible.calendar.data.RecurrenceMappings = {

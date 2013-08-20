@@ -1,9 +1,9 @@
 /**
  * @class Extensible.calendar.view.Month
  * @extends Extensible.calendar.view.AbstractCalendar
- * <p>Displays a calendar view by month. This class does not usually need ot be used directly as you can
+ * Displays a calendar view by month. This class does not usually need ot be used directly as you can
  * use a {@link Extensible.calendar.CalendarPanel CalendarPanel} to manage multiple calendar views at once including
- * the month view.</p>
+ * the month view.
  * @constructor
  * @param {Object} config The config object
  */
@@ -21,10 +21,11 @@ Ext.define('Extensible.calendar.view.Month', {
     
     /**
      * @cfg {String} moreText
-     * <p><b>Deprecated.</b> Please override {@link #getMoreText} instead.</p>
-     * <p>The text to display in a day box when there are more events than can be displayed and a link is provided to
+     * **Deprecated.** Please override {@link #getMoreText} instead.
+     * 
+     * The text to display in a day box when there are more events than can be displayed and a link is provided to
      * show a popup window with all events for that day (defaults to '+{0} more...', where {0} will be
-     * replaced by the number of additional events that are not currently displayed for the day).</p>
+     * replaced by the number of additional events that are not currently displayed for the day).
      * @deprecated
      */
     moreText: '+{0} more...',
@@ -217,9 +218,9 @@ Ext.define('Extensible.calendar.view.Month', {
     },
     
     /**
-     * <p>Returns the text to display in a day box when there are more events than can be displayed and a link is
+     * Returns the text to display in a day box when there are more events than can be displayed and a link is
      * provided to show a popup window with all events for that day (defaults to '+{0} more...', where {0} will be
-     * replaced by the number of additional events that are not currently displayed for the day).</p>
+     * replaced by the number of additional events that are not currently displayed for the day).
      * @param {Integer} numEvents The number of events currently hidden from view
      * @return {String} The text to display for the "more" link
      */

@@ -1,12 +1,13 @@
 /**
  * @class Extensible.calendar.view.AbstractCalendar
  * @extends Ext.Component
- * <p>This is an abstract class that serves as the base for other calendar views. This class is not
- * intended to be directly instantiated.</p>
- * <p>When extending this class to create a custom calendar view, you must provide an implementation
- * for the <code>renderItems</code> method, as there is no default implementation for rendering events
+ * This is an abstract class that serves as the base for other calendar views. This class is not
+ * intended to be directly instantiated.
+ * 
+ * When extending this class to create a custom calendar view, you must provide an implementation
+ * for the <tt>renderItems</tt> method, as there is no default implementation for rendering events
  * The rendering logic is totally dependent on how the UI structures its data, which
- * is determined by the underlying UI template (this base class does not have a template).</p>
+ * is determined by the underlying UI template (this base class does not have a template).
  * @constructor
  * @param {Object} config The config object
  */
@@ -228,11 +229,12 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     todayCls: 'ext-cal-day-today',
     /**
      * @cfg {String} hideMode
-     * <p>How this component should be hidden. Supported values are <tt>'visibility'</tt>
+     * How this component should be hidden. Supported values are <tt>'visibility'</tt>
      * (css visibility), <tt>'offsets'</tt> (negative offset position) and <tt>'display'</tt>
-     * (css display).</p>
-     * <br><p><b>Note</b>: For calendar views the default is 'offsets' rather than the Ext JS default of
-     * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.</p>
+     * (css display).
+     * 
+     * **Note:** For calendar views the default is 'offsets' rather than the Ext JS default of
+     * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.
      */
     hideMode: 'offsets',
     /**
@@ -284,14 +286,15 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     getEventBodyMarkup: Ext.emptyFn, // must be implemented by a subclass
 
     /**
-     * <p>Returns the XTemplate that is bound to the calendar's event store (it expects records of type
+     * Returns the XTemplate that is bound to the calendar's event store (it expects records of type
      * {@link Extensible.calendar.data.EventModel}) to populate the calendar views with events. Internally this method
      * by default generates different markup for browsers that support CSS border radius and those that don't.
-     * This method can be overridden as needed to customize the markup generated.</p>
-     * <p>Note that this method calls {@link #getEventBodyMarkup} to retrieve the body markup for events separately
+     * This method can be overridden as needed to customize the markup generated.
+     * 
+     * Note that this method calls {@link #getEventBodyMarkup} to retrieve the body markup for events separately
      * from the surrounding container markup.  This provides the flexibility to customize what's in the body without
      * having to override the entire XTemplate. If you do override this method, you should make sure that your
-     * overridden version also does the same.</p>
+     * overridden version also does the same.
      * @return {Ext.XTemplate} The event XTemplate
      */
     getEventTemplate: Ext.emptyFn, // must be implemented by a subclass
@@ -302,30 +305,28 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * below and is expected to return the CSS class name (or empty string '' for none) that will be added to the
      * event element's wrapping div. To apply multiple class names, simply return them space-delimited within the
      * string (e.g., 'my-class another-class'). Example usage, applied in a CalendarPanel config:
-     * <pre><code>
-// This example assumes a custom field of 'IsHoliday' has been added to EventRecord
-viewConfig: {
-    getEventClass: function(rec, allday, templateData, store) {
-        if (rec.data.IsHoliday) {
-            templateData.iconCls = 'holiday';
-            return 'evt-holiday';
-        }
-        templateData.iconCls = 'plain';
-        return '';
-    },
-    getEventBodyMarkup: function() {
-        // This is simplified, but shows the symtax for how you could add a
-        // custom placeholder that maps back to the templateData property created
-        // in getEventClass. Note that this is standard Ext template syntax.
-        if (!this.eventBodyMarkup) {
-            this.eventBodyMarkup = '&lt;span class="{iconCls}">&lt;/span> {Title}';
-        }
-        return this.eventBodyMarkup;
-    }
-}
-</code></pre>
+     *		// This example assumes a custom field of 'IsHoliday' has been added to EventRecord
+     *		viewConfig: {
+     *			getEventClass: function(rec, allday, templateData, store) {
+     *				if (rec.data.IsHoliday) {
+     *				templateData.iconCls = 'holiday';
+     *				return 'evt-holiday';
+     *			}
+     *			templateData.iconCls = 'plain';
+     *			return '';
+     *			},
+     *			getEventBodyMarkup: function() {
+     *			// This is simplified, but shows the symtax for how you could add a
+     *			// custom placeholder that maps back to the templateData property created
+     *			// in getEventClass. Note that this is standard Ext template syntax.
+     *				if (!this.eventBodyMarkup) {
+     *					this.eventBodyMarkup = '&lt;span class="{iconCls}">&lt;/span> {Title}';
+     *				}
+     *			return this.eventBodyMarkup;
+     *			}
+     *		}
      * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} being rendered
-     * @param {Boolean} isAllDay A flag indicating whether the event will be <em>rendered</em> as an all-day event. Note that this
+     * @param {Boolean} isAllDay A flag indicating whether the event will be *rendered* as an all-day event. Note that this
      * will not necessarily correspond with the value of the <tt>EventRecord.IsAllDay</tt> field &mdash; events that span multiple
      * days will be rendered using the all-day event template regardless of the field value. If your logic for this function
      * needs to know whether or not the event will be rendered as an all-day event, this value should be used.
@@ -536,7 +537,7 @@ viewConfig: {
             /**
              * @event eventexception
              * Fires after an event has been processed via an Ext proxy and returned with an exception. This
-             * could be because of a server error, or because the data returned <code>success: false</code>.
+             * could be because of a server error, or because the data returned <tt>success: false</tt>.
              *
              * The view provides default handling via the overrideable {@link #notifyOnException} method. If
              * any function handling this event returns false, the notifyOnException method will not be called.
@@ -1110,13 +1111,11 @@ viewConfig: {
      * @param {Ext.CompositeElement} el The {@link Ext.CompositeElement} representing the removed event
      * @param {Object} options An options object to be passed through to any Element.Fx methods. By default this
      * object contains the following properties:
-     * <pre><code>
-{
-   remove: true, // required by fadeOut to actually remove the element(s)
-   scope: this,  // required for the callback
-   callback: fn  // required to refresh the view after the fx finish
-}
-     * </code></pre>
+     *		{
+     *			remove: true, // required by fadeOut to actually remove the element(s)
+     *			scope: this,  // required for the callback
+     *			callback: fn  // required to refresh the view after the fx finish
+     *		}
      * While you can modify this options object as needed if you change the effect used, please note that the
      * callback method (and scope) MUST still be passed in order for the view to refresh correctly after the removal.
      * Please see the inline code comments before overriding this method.
@@ -1412,14 +1411,15 @@ viewConfig: {
 
     /**
      * Returns the start and end boundary dates currently displayed in the view. The method
-     * returns an object literal that contains the following properties:<ul>
-     * <li><b>start</b> Date : <div class="sub-desc">The start date of the view</div></li>
-     * <li><b>end</b> Date : <div class="sub-desc">The end date of the view</div></li></ul>
-     * For example:<pre><code>
-var bounds = view.getViewBounds();
-alert('Start: '+bounds.start);
-alert('End: '+bounds.end);
-</code></pre>
+     * returns an object literal that contains the following properties:
+     *
+     *	* **start** Date: The start date of the view
+     *	* **end** Date: The end date of the view
+     * 
+     * For example:
+     *		var bounds = view.getViewBounds();
+     *		alert('Start: '+bounds.start);
+     *		alert('End: '+bounds.end);
      * @return {Object} An object literal containing the start and end values
      */
     getViewBounds: function() {
@@ -1643,11 +1643,9 @@ alert('End: '+bounds.end);
      * functions can return false to bypass this method if application-specific code might conditionally
      * handle exceptions, and still fall back to this method in other cases. To bypass this method globally
      * you can simply remove it like so (or you could do the same thing in a view subclass):
-     * <pre><code>
-Ext.override(Extensible.calendar.view.AbstractCalendar, {
-    notifyOnException: Ext.emptyFn
-});
-     * </code></pre>
+     *		Ext.override(Extensible.calendar.view.AbstractCalendar, {
+     *			notifyOnException: Ext.emptyFn
+     *		});
      * @param {Object} response The raw response object returned from the server
      * @param {Ext.data.Operation} operation The operation that was processed
      * @since 1.6.0

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 Ext.define('Extensible.form.recurrence.option.Interval', {
     extend: 'Extensible.form.recurrence.AbstractOption',
     alias: 'widget.extensible.recurrence-interval',

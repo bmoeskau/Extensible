@@ -1,37 +1,39 @@
 /**
  * @class Extensible.calendar.form.EventDetails
  * @extends Ext.form.Panel
- * <p>A custom form used for detailed editing of events.</p>
- * <p>This is pretty much a standard form that is simply pre-configured for the options needed by the
+ * A custom form used for detailed editing of events.
+ * 
+ * This is pretty much a standard form that is simply pre-configured for the options needed by the
  * calendar components. It is also configured to automatically bind records of type
- * {@link Extensible.calendar.data.EventModel EventModel} to and from the form.</p>
- * <p>This form also provides custom events specific to the calendar so that other calendar components can be easily
- * notified when an event has been edited via this component.</p>
- * <p>The default configs are as follows:</p><pre><code>
-    labelWidth: 65,
-    labelWidthRightCol: 65,
-    colWidthLeft: '.9',
-    colWidthRight: '.1',
-    title: 'Event Form',
-    titleTextAdd: 'Add Event',
-    titleTextEdit: 'Edit Event',
-    titleLabelText: 'Title',
-    datesLabelText: 'When',
-    reminderLabelText: 'Reminder',
-    notesLabelText: 'Notes',
-    locationLabelText: 'Location',
-    webLinkLabelText: 'Web Link',
-    calendarLabelText: 'Calendar',
-    repeatsLabelText: 'Repeats',
-    saveButtonText: 'Save',
-    deleteButtonText: 'Delete',
-    cancelButtonText: 'Cancel',
-    bodyStyle: 'padding:20px 20px 10px;',
-    border: false,
-    buttonAlign: 'center',
-    autoScroll: true,
-    recurrence: false
-</code></pre>
+ * {@link Extensible.calendar.data.EventModel EventModel} to and from the form.
+ * 
+ * This form also provides custom events specific to the calendar so that other calendar components can be easily
+ * notified when an event has been edited via this component.
+ * 
+ * The default configs are as follows:
+ *		labelWidth: 65,
+ *		labelWidthRightCol: 65,
+ *		colWidthLeft: '.9',
+ *		colWidthRight: '.1',
+ *		title: 'Event Form',
+ *		titleTextAdd: 'Add Event',
+ *		titleTextEdit: 'Edit Event',
+ *		titleLabelText: 'Title',
+ *		datesLabelText: 'When',
+ *		reminderLabelText: 'Reminder',
+ *		notesLabelText: 'Notes',
+ *		locationLabelText: 'Location',
+ *		webLinkLabelText: 'Web Link',
+ *		calendarLabelText: 'Calendar',
+ *		repeatsLabelText: 'Repeats',
+ *		saveButtonText: 'Save',
+ *		deleteButtonText: 'Delete',
+ *		cancelButtonText: 'Cancel',
+ *		bodyStyle: 'padding:20px 20px 10px;',
+ *		border: false,
+ *		buttonAlign: 'center',
+ *		autoScroll: true,
+ *		recurrence: false
  * @constructor
  * @param {Object} config The config object
  */

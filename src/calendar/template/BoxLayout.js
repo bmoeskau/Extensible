@@ -1,11 +1,11 @@
 /**
  * @class Extensible.calendar.template.BoxLayout
  * @extends Ext.XTemplate
- * <p>This is the template used to render calendar views based on small day boxes within a non-scrolling container
+ * This is the template used to render calendar views based on small day boxes within a non-scrolling container
  * (currently the {@link Extensible.calendar.view.Month MonthView} and the all-day headers for
  * {@link Extensible.calendar.view.Day DayView} and {@link Extensible.calendar.view.Week WeekView}. This template
  * is automatically bound to the underlying event store by the calendar components and expects records of type
- * {@link Extensible.calendar.data.EventModel}.</p>
+ * {@link Extensible.calendar.data.EventModel}.
  * @constructor
  * @param {Object} config The config object
  */
