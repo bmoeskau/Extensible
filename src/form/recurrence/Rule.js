@@ -23,7 +23,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
          * and should not typically be changed. Note that per the iCal specification, date values should always be
          * specified in UTC time format, which is why the format string ends with 'Z'.
          */
-        dateValueFormat: 'Ymd\THis\Z',
+        dateValueFormat: 'Ymd\\THis\\Z',
         /**
          * @cfg {String} rule
          * A recurrence rule string conforming to the standard iCalendar RRULE/EXRULE format, e.g.
