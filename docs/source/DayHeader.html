@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Extensible-calendar-template-DayHeader-method-constructor'><span id='Extensible-calendar-template-DayHeader'>/**
+</span></span> * @class Extensible.calendar.template.DayHeader
+ * @extends Ext.XTemplate
+ * This is the template used to render the all-day event container used in
+ * {@link Extensible.calendar.view.Day DayView} and {@link Extensible.calendar.view.Week WeekView}. Internally
+ * the majority of the layout logic is deferred to an instance of {@link Extensible.calendar.template.BoxLayout}.
+ * 
+ * This template is automatically bound to the underlying event store by the calendar components and expects
+ * records of type {@link Extensible.calendar.data.EventModel}.
+ * 
+ * Note that this template would not normally be used directly. Instead you would use the
+ * {@link Extensible.calendar.view.DayTemplate} that internally creates an instance of this template along with
+ * a {@link Extensible.calendar.template.DayBody}.
+ * @constructor
+ * @param {Object} config The config object
+ */
+Ext.define('Extensible.calendar.template.DayHeader', {
+    extend: 'Ext.XTemplate',
+    
+    requires: ['Extensible.calendar.template.BoxLayout'],
+    
+<span id='Extensible-calendar-template-DayHeader-method-constructor'>    // private
+</span>    constructor: function(config) {
+        
+        Ext.apply(this, config);
+    
+        this.allDayTpl = Ext.create('Extensible.calendar.template.BoxLayout', config);
+        this.allDayTpl.compile();
+        
+        Extensible.calendar.template.DayHeader.superclass.constructor.call(this,
+            '&lt;div class=&quot;ext-cal-hd-ct&quot;&gt;',
+                '&lt;table class=&quot;ext-cal-hd-days-tbl&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;',
+                    '&lt;tbody&gt;',
+                        '&lt;tr&gt;',
+                            '&lt;td class=&quot;ext-cal-gutter&quot;&gt;&lt;/td&gt;',
+                            '&lt;td class=&quot;ext-cal-hd-days-td&quot;&gt;&lt;div class=&quot;ext-cal-hd-ad-inner&quot;&gt;{allDayTpl}&lt;/div&gt;&lt;/td&gt;',
+                            '&lt;td class=&quot;ext-cal-gutter-rt&quot;&gt;&lt;/td&gt;',
+                        '&lt;/tr&gt;',
+                    '&lt;/tbody&gt;',
+                '&lt;/table&gt;',
+            '&lt;/div&gt;'
+        );
+    },
+    
+<span id='Extensible-calendar-template-DayHeader-method-applyTemplate'>    // private
+</span>    applyTemplate: function(o) {
+        var templateConfig = {
+            allDayTpl: this.allDayTpl.apply(o)
+        };
+         
+        if (Ext.getVersion('extjs').isLessThan('4.1')) {
+            return Extensible.calendar.template.DayHeader.superclass.applyTemplate.call(this, templateConfig);
+        }
+        else {
+            return this.applyOut(templateConfig, []).join('');
+        }
+    }
+},
+function() {
+    this.createAlias('apply', 'applyTemplate');
+});</pre>
+</body>
+</html>

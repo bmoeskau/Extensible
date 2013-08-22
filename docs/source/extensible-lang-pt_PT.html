@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+* Portuguese/Portugal (pt_PT) locale
+* Original credits to Wemerson Januario &lt;wemerson.januario@gmail.com&gt; Goiânia GO, Brazil
+* Update to PT by Rui Monteiro &lt;rmonteiro@opensoft.pt&gt; Amoreiras, Portugal
+*/
+
+Ext.onReady(function() {
+    var exists = Ext.Function.bind(Ext.ClassManager.get, Ext.ClassManager);
+    
+    Extensible.Date.use24HourTime = false;
+    
+    if (exists('Extensible.calendar.view.AbstractCalendar')) {
+        Ext.apply(Extensible.calendar.view.AbstractCalendar.prototype, {
+            startDay: 0,
+            todayText: 'Hoje',
+            defaultEventTitleText: '(Sem T&amp;iacute;tulo)',
+            ddCreateEventText: 'Criar Evento para {0}',
+            ddMoveEventText: 'Mover Evento para {0}',
+            ddResizeEventText: 'Alterar Evento para {0}'
+        });
+    }
+    
+    if (exists('Extensible.calendar.view.Month')) {
+        Ext.apply(Extensible.calendar.view.Month.prototype, {
+            moreText: '+{0} mais...',
+            getMoreText: function(numEvents) {
+                return '+{0} mais...';
+            },
+            detailsTitleDateFormat: 'F j'
+        });
+    }
+    
+    if (exists('Extensible.calendar.CalendarPanel')) {
+        Ext.apply(Extensible.calendar.CalendarPanel.prototype, {
+            todayText: 'Hoje',
+            dayText: 'Dia',
+            weekText: 'Semana',
+            monthText: 'M&amp;ecirc;s',
+            jumpToText: 'Ir para:',
+            goText: 'Prosseguir',
+            multiDayText: '{0} Dias',
+            multiWeekText: '{0} Semanas',
+            getMultiDayText: function(numDays) {
+                return '{0} Dias';
+            },
+            getMultiWeekText: function(numWeeks) {
+                return '{0} Semanas';
+            }
+        });
+    }
+    
+    if (exists('Extensible.calendar.form.EventWindow')) {
+        Ext.apply(Extensible.calendar.form.EventWindow.prototype, {
+            width: 600,
+            labelWidth: 65,
+            titleTextAdd: 'Adicionar Evento',
+            titleTextEdit: 'Alterar Evento',
+            savingMessage: 'A Guardar...',
+            deletingMessage: 'A Remover Evento...',
+            detailsLinkText: 'Alterar Detalhes...',
+            saveButtonText: 'Guardar',
+            deleteButtonText: 'Remover',
+            cancelButtonText: 'Cancelar',
+            titleLabelText: 'T&amp;iacute;tulo',
+            datesLabelText: 'Quando',
+            calendarLabelText: 'Calend&amp;aacute;rio'
+        });
+    }
+    
+    if (exists('Extensible.calendar.form.EventDetails')) {
+        Ext.apply(Extensible.calendar.form.EventDetails.prototype, {
+            labelWidth: 65,
+            labelWidthRightCol: 65,
+            title: 'Formul&amp;aacute;rio de Evento',
+            titleTextAdd: 'Adicionar Evento',
+            titleTextEdit: 'Alterar Evento',
+            saveButtonText: 'Guardar',
+            deleteButtonText: 'Remover',
+            cancelButtonText: 'Cancelar',
+            titleLabelText: 'T&amp;iacute;tulo',
+            datesLabelText: 'Quando',
+            reminderLabelText: 'Lembrete',
+            notesLabelText: 'Observa&amp;ccedil;&amp;atilde;o',
+            locationLabelText: 'Local',
+            webLinkLabelText: 'Site',
+            calendarLabelText: 'Calend&amp;aacute;rio',
+            repeatsLabelText: 'Repeti&amp;ccedil;oes'
+        });
+    }
+    
+    if (exists('Extensible.form.field.DateRange')) {
+        Ext.apply(Extensible.form.field.DateRange.prototype, {
+            toText: 'para',
+            allDayText: 'Dia todo'
+        });
+    }
+    
+    if (exists('Extensible.calendar.form.field.CalendarCombo')) {
+        Ext.apply(Extensible.calendar.form.field.CalendarCombo.prototype, {
+            fieldLabel: 'Calend&amp;aacute;rio'
+        });
+    }
+    
+    if (exists('Extensible.calendar.gadget.CalendarListPanel')) {
+        Ext.apply(Extensible.calendar.gadget.CalendarListPanel.prototype, {
+            title: 'Calend&amp;aacute;rios'
+        });
+    }
+    
+    if (exists('Extensible.calendar.gadget.CalendarListMenu')) {
+        Ext.apply(Extensible.calendar.gadget.CalendarListMenu.prototype, {
+            displayOnlyThisCalendarText: 'Mostrar apenas esse Calend&amp;aacute;rio'
+        });
+    }
+    
+    if (exists('Extensible.form.recurrence.Combo')) {
+        Ext.apply(Extensible.form.recurrence.Combo.prototype, {
+            fieldLabel: 'Repeti&amp;ccedil;oes',
+            recurrenceText: {
+                none: 'N&amp;atilde;o repetir',
+                daily: 'Diariamente',
+                weekly: 'Semanalmente',
+                monthly: 'Mensalmente',
+                yearly: 'Anualmente'
+            }
+        });
+    }
+    
+    if (exists('Extensible.calendar.form.field.ReminderCombo')) {
+        Ext.apply(Extensible.calendar.form.field.ReminderCombo.prototype, {
+            fieldLabel: 'Lembrete',
+            noneText: 'Nenhum',
+            atStartTimeText: 'Há hora de início',
+            getMinutesText: function(numMinutes) {
+                return numMinutes === 1 ? 'minuto' : 'minutos';
+            },
+            getHoursText: function(numHours) {
+                return numHours === 1 ? 'hora' : 'horas';
+            },
+            getDaysText: function(numDays) {
+                return numDays === 1 ? 'dia' : 'dias';
+            },
+            getWeeksText: function(numWeeks) {
+                return numWeeks === 1 ? 'semana' : 'semanas';
+            },
+            reminderValueFormat: '{0} {1} antes do programado'
+        });
+    }
+    
+    if (exists('Extensible.form.field.DateRange')) {
+        Ext.apply(Extensible.form.field.DateRange.prototype, {
+            dateFormat: 'j/n/Y'
+        });
+    }
+    
+    if (exists('Extensible.calendar.menu.Event')) {
+        Ext.apply(Extensible.calendar.menu.Event.prototype, {
+            editDetailsText: 'Alterar detalhes',
+            deleteText: 'Remover',
+            moveToText: 'Mover para...'
+        });
+    }
+    
+    if (exists('Extensible.calendar.dd.DropZone')) {
+        Ext.apply(Extensible.calendar.dd.DropZone.prototype, {
+            dateRangeFormat: '{0}-{1}',
+            dateFormat: 'j/n'
+        });
+    }
+    
+    if (exists('Extensible.calendar.dd.DayDropZone')) {
+        Ext.apply(Extensible.calendar.dd.DayDropZone.prototype, {
+            dateRangeFormat: '{0}-{1}',
+            dateFormat : 'j/n'
+        });
+    }
+    
+    if (exists('Extensible.calendar.template.BoxLayout')) {
+        Ext.apply(Extensible.calendar.template.BoxLayout.prototype, {
+            firstWeekDateFormat: 'D j',
+            otherWeeksDateFormat: 'j',
+            singleDayDateFormat: 'l, j F , Y',
+            multiDayFirstDayFormat: 'j M , Y',
+            multiDayMonthStartFormat: 'j M'
+        });
+    }
+    
+    if (exists('Extensible.calendar.template.Month')) {
+        Ext.apply(Extensible.calendar.template.Month.prototype, {
+            dayHeaderFormat: 'D',
+            dayHeaderTitleFormat: 'l, j F , Y'
+        });
+    }
+});</pre>
+</body>
+</html>
