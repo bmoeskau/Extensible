@@ -1614,8 +1614,13 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
     
-    // private
-    getExceptionMessage: function(response) {
+    /**
+     * Returns the message to display from {@link #notifyOnException}, generated automatically
+     * from the server response and operation objects.
+     * @protected
+     * @since 1.6.0
+     */
+    getExceptionMessage: function(response, operation) {
         var msg = '';
         
         if (response.responseText) {
@@ -1629,6 +1634,9 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
         if (response.statusText) {
             msg += '<br><b>statusText</b>: ' + response.statusText;
+        }
+        if (operation.error && operation.error.length) {
+            msg += '<br><b>processing error</b>: ' + operation.error;
         }
         
         return msg || ('<br>' + this.notifyOnExceptionDefaultMessage);
@@ -1652,7 +1660,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      */
     notifyOnException: function(response, operation) {
         Ext.Msg.alert(this.notifyOnExceptionTitle, this.notifyOnExceptionText + '<br>' +
-            this.getExceptionMessage(response));
+            this.getExceptionMessage(response, operation));
     },
 
     /**
