@@ -64,6 +64,7 @@
  */
 Ext.ns('Extensible.calendar.data');
 
+// @define Extensible.calendar.data.CalendarMappings
 Extensible.calendar.data.CalendarMappings = {
     CalendarId: {
         name:    'CalendarId',
