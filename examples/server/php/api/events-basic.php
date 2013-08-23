@@ -4,6 +4,8 @@
     // This file only supports basic, non-recurring events.
     // For recurrence support see events-recurrence.php
     
+    $table = 'events';
+    
     switch ($action) {
         case 'load':
             $start_dt = isset($_REQUEST['startDate']) ? strtolower($_REQUEST['startDate']) : null;
