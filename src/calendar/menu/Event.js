@@ -220,6 +220,5 @@ Ext.define('Extensible.calendar.menu.Event', {
     // private
     onHide: function() {
         this.callParent(arguments);
-        delete this.ctxEl;
     }
 });
