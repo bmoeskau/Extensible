@@ -5,14 +5,19 @@
  * Note that currently only a subset of the iCalendar recurrence rule attributes are supported.
  * They are `FREQ`, `INTERVAL`, `BYDAY`, `BYMONTHDAY`, `BYMONTH`, `COUNT` and `UNTIL`.
  *
- * Portions of this implementation were inspired by the recurrence rule parser of Vincent Romagnoli
- * at [https://github.com/skyporter/rrule_parser](https://github.com/skyporter/rrule_parser)
+ * Portions of this implementation were inspired by the recurrence rule parser of [Vincent Romagnoli][1].
  *
- * Reference documentation is at [http://www.ietf.org/rfc/rfc2445.txt](http://www.ietf.org/rfc/rfc2445.txt),
- * although a more practical guide can be found at
- * [http://www.kanzaki.com/docs/ical/rrule.html](http://www.kanzaki.com/docs/ical/rrule.html)
- *
- * @author Gabriel Sidler, http://teamup.com
+ * Reference documentation is at [http://www.ietf.org/rfc/rfc2445.txt][2],
+ * although a more practical guide can be found at [http://www.kanzaki.com/docs/ical/rrule.html][3].
+ * 
+ * Authored by [Gabriel Sidler][4]
+ * 
+ * [1]: https://github.com/skyporter/rrule_parser
+ * [2]: http://www.ietf.org/rfc/rfc2445.txt
+ * [3]: http://www.kanzaki.com/docs/ical/rrule.html
+ * [4]: http://teamup.com
+ * 
+ * @author Gabriel Sidler
  */
 Ext.define('Extensible.form.recurrence.Rule', {
     config: {

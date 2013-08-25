@@ -1170,16 +1170,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * Retrieve an Event object's id from its corresponding node in the DOM.
      * @param {String/Element/HTMLElement} el An {@link Ext.Element}, DOM node or id
      */
-//    getEventIdFromEl: function(el) {
-//        el = Ext.get(el);
-//        var id = el.id.split(this.eventElIdDelimiter)[1];
-//        if (id.indexOf('-w_') > -1) {
-//            //This id has the index of the week it is rendered in as part of the suffix.
-//            //This allows events that span across weeks to still have reproducibly-unique DOM ids.
-//            id = id.split('-w_')[0];
-//        }
-//        return id;
-//    },
     getEventIdFromEl: function(el) {
         el = Ext.get(el);
         var parts, id = '', cls, classes = el.dom.className.split(' ');
