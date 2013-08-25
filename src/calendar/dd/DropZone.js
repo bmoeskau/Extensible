@@ -1,6 +1,7 @@
-/* @private
+/**
  * Internal drop zone implementation for the calendar components. This provides base functionality
  * and is primarily for the month view -- DayViewDD adds day/week view-specific functionality.
+ * @private
  */
 Ext.define('Extensible.calendar.dd.DropZone', {
     extend: 'Ext.dd.DropZone',
