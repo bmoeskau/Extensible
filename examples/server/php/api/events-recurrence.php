@@ -40,20 +40,20 @@
     $mappings = array(
         // Basic event properties. This is not all properties, only those needed explicitly
         // while processing recurrence. The others are read and set generically.
-        event_id   => 'id',
-        start_date => 'start',
-        end_date   => 'end',
+        'event_id'   => 'id',
+        'start_date' => 'start',
+        'end_date'   => 'end',
         
         // Recurrence-specific properties needed for processing recurring events:
-        rrule                => 'rrule',
-        duration             => 'duration',
-        orig_event_id        => 'origid',
-        recur_edit_mode      => 'redit',
-        recur_instance_start => 'ristart',
-        recur_series_start   => 'rsstart',
+        'rrule'                => 'rrule',
+        'duration'             => 'duration',
+        'orig_event_id'        => 'origid',
+        'recur_edit_mode'      => 'redit',
+        'recur_instance_start' => 'ristart',
+        'recur_series_start'   => 'rsstart',
         
         // Recurrence exceptions
-        exdate => 'exdate'
+        'exdate' => 'exdate'
     );
     
     /**
@@ -318,9 +318,13 @@
     function addEvent($event) {
         global $db, $mappings;
         
-        $rrule = $event[$mappings['rrule']];
-        $isRecurring = isset($rrule) && $rrule !== '';
+        $isRecurring = false;
         
+        if (isset($event[$mappings['rrule']])) {
+            if ($event[$mappings['rrule']] !== '') {
+                $isRecurring = true;
+            }
+        }
         if ($isRecurring) {
             // If this is a recurring event, first calculate the duration between
             // the start and end datetimes so that each recurring instance can
