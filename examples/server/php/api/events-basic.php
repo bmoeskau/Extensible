@@ -8,9 +8,6 @@
     
     switch ($action) {
         case 'load':
-            $start_dt = isset($_REQUEST['startDate']) ? strtolower($_REQUEST['startDate']) : null;
-            $end_dt = isset($_REQUEST['endDate']) ? strtolower($_REQUEST['endDate']) : null;
-            
             if (isset($event) && isset($event['id'])) {
                 // Load single row by id
                 out($db->select($table, $event['id']));

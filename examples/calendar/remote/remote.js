@@ -20,11 +20,11 @@ Ext.onReady(function() {
     // Settings for debugging PHP on the server:
     // Increase the timeout to allow enough time to debug and return a valid
     // response without timing out (set to 10 mins from default of 30 secs):
-    //Ext.data.proxy.Ajax.prototype.timeout = 600000;
+    // Ext.data.proxy.Ajax.prototype.timeout = 600000;
     Ext.Ajax.extraParams = {
         // Tell PHP to start a debugging session for an IDE to connect to.
         // This is passed as an additional parameter on each request:
-        //XDEBUG_SESSION_START: 1
+        // XDEBUG_SESSION_START: 1,
         
         // Slight hack just so that we can reuse the same demo server code
         // with persistence across multiple examples so that each example gets

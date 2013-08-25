@@ -9,6 +9,17 @@
     $json = file_get_contents('php://input');
     $event = json_decode($json, TRUE);
     
+    // Grab the requested start and end dates if supplied
+    $start_dt = isset($_REQUEST['startDate']) ? strtolower($_REQUEST['startDate']) : null;
+    $end_dt = isset($_REQUEST['endDate']) ? strtolower($_REQUEST['endDate']) : null;
+    
+    if (isset($end_dt)) {
+        // Add a day to the end date to include event times on that day (since times are not passed)
+        $endDate = new DateTime($end_dt);
+        $endDate->modify('+1 day');
+        $end_dt = $endDate->format('Y-m-d');
+    }
+    
     // Set the app_id to allow each example to reuse this API with its own data.
     // In a real application this would not be needed.
     $app_id = $event['app_id'] = isset($_REQUEST['app_id']) ? strtolower($_REQUEST['app_id']) : null;

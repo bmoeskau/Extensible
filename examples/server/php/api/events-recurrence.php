@@ -577,9 +577,6 @@
     
     switch ($action) {
         case 'load':
-            $start_dt = isset($_REQUEST['startDate']) ? strtolower($_REQUEST['startDate']) : null;
-            $end_dt = isset($_REQUEST['endDate']) ? strtolower($_REQUEST['endDate']) : null;
-            
             if (isset($start_dt) && isset($end_dt)) {
                 // Query by date range for displaying a calendar view
                 $sql = 'SELECT * FROM events WHERE app_id = :app_id'.
