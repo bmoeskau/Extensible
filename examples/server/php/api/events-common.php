@@ -54,3 +54,20 @@
         ));
         die();
     }
+    
+    function handleException($e) {
+        $msg = $e->getMessage();
+        
+        if (preg_match('/table(.+)not found/i', $msg)) {
+            out(0, 'Your database does not appear to be properly configured. '.
+                    'Please see Extensible > examples > server > README.md. Details: '.$msg);
+        }
+        else if (preg_match('/can\'t connect/i', $msg)) {
+            out(0, 'Cannot connect to the database. Please ensure that the database is started '.
+                    'and configured per Extensible > examples > server > README.md. Details: '.$msg);
+        }
+        else {
+            out(0, $msg);
+        }
+        die();
+    }
