@@ -1,6 +1,7 @@
-/* @private
- * Currently not used
- * Rrule info: http://www.kanzaki.com/docs/ical/rrule.html
+/**
+ * The widget that represents a single recurrence rule field in the UI.
+ * In reality, it is made up of many constituent
+ * {@link #Extensible.form.recurrence.AbstractOption option widgets} internally.
  */
 Ext.define('Extensible.form.recurrence.Fieldset', {
     extend: 'Ext.form.FieldContainer',

@@ -1,16 +1,16 @@
-/*
- * @class Extensible.form.recurrence.Rule
+/**
+ * Represents an iCalendar recurrence rule and parses recurrence rule strings
+ * to generate a textual description of each recurrence rule for human readability.
  *
- * Class Rule represents a iCalendar recurrence rule and offers functionality to parse a recurrence rule string,
- * to generate a recurrence rule string and to compile a textual description of a recurrence rule for display in the
- * user interface.
+ * Note that currently only a subset of the iCalendar recurrence rule attributes are supported.
+ * They are `FREQ`, `INTERVAL`, `BYDAY`, `BYMONTHDAY`, `BYMONTH`, `COUNT` and `UNTIL`.
  *
- * Note that currently only a subset of the iCalendar recurrence rule attributes are supported. They are FREQ,
- * INTERVAL, BYDAY, BYMONTHDAY, BYMONTH, COUNT and UNTIL.
+ * Portions of this implementation were inspired by the recurrence rule parser of Vincent Romagnoli
+ * at [https://github.com/skyporter/rrule_parser](https://github.com/skyporter/rrule_parser)
  *
- * The implementation was inspired by the recurrence rule parser of Vincent Romagnoli at [https://github.com/skyporter/rrule_parser](https://github.com/skyporter/rrule_parser)
- *
- * Reference documentation is at [http://www.ietf.org/rfc/rfc2445.txt](http://www.ietf.org/rfc/rfc2445.txt)
+ * Reference documentation is at [http://www.ietf.org/rfc/rfc2445.txt](http://www.ietf.org/rfc/rfc2445.txt),
+ * although a more practical guide can be found at
+ * [http://www.kanzaki.com/docs/ical/rrule.html](http://www.kanzaki.com/docs/ical/rrule.html)
  *
  * @author Gabriel Sidler, http://teamup.com
  */

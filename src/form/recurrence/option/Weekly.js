@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * The widget that represents the weekly recurrence options of an RRULE.
  */
 Ext.define('Extensible.form.recurrence.option.Weekly', {
     extend: 'Extensible.form.recurrence.AbstractOption',

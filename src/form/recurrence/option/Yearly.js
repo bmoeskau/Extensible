@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * The widget that represents the yearly recurrence options of an RRULE.
  */
 Ext.define('Extensible.form.recurrence.option.Yearly', {
     extend: 'Extensible.form.recurrence.option.Monthly',

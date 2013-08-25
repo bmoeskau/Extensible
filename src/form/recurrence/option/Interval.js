@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * The widget that represents the interval portion of an RRULE.
  */
 Ext.define('Extensible.form.recurrence.option.Interval', {
     extend: 'Extensible.form.recurrence.AbstractOption',

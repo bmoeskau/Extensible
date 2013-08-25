@@ -1,5 +1,7 @@
-/* @private
- * Currently not used
+/**
+ * The widget used to choose the frequency of recurrence. While this could be created
+ * as a standalone widget, it is typically created automatically as part of a
+ * Extensible.form.recurrence.Fieldset and does not normally need to be configured directly.
  */
 Ext.define('Extensible.form.recurrence.FrequencyCombo', {
     extend: 'Ext.form.field.ComboBox',

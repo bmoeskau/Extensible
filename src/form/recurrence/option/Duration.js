@@ -1,7 +1,6 @@
-/*
- * 
+/**
+ * The widget that represents the duration portion of an RRULE.
  */
-
 Ext.define('Extensible.form.recurrence.option.Duration', {
     extend: 'Extensible.form.recurrence.AbstractOption',
     alias: 'widget.extensible.recurrence-duration',
