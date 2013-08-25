@@ -18,15 +18,15 @@ EXTENSIBLE_OUTPUT=$EXTENSIBLE_ROOT/deploy
 # Program start
 function usage {
     echo "usage: sh build.sh [-d | --docs]"
-	echo
-	echo "       -d | --docs: Include updated docs in the output"
-	echo
+    echo
+    echo "       -d | --docs: Include updated docs in the output"
+    echo
 }
 
 while [ "$1" != "" ]; do
     case $1 in
         -d | --docs )           shift
-								docs=1
+                                docs=1
                                 ;;
         -h | --help )           usage
                                 exit
@@ -63,8 +63,22 @@ cp $EXTENSIBLE_ROOT/*.md $EXTENSIBLE_OUTPUT/$VER
 
 # Docs
 if [ "$docs" = "1" ]; then
-	echo Generating docs...
-	java -jar $EXTENSIBLE_ROOT/build/ext-doc.jar -p $EXTENSIBLE_ROOT/build/extensible.xml -o $EXTENSIBLE_OUTPUT/$VER/docs -t $EXTENSIBLE_ROOT/build/template/ext/template.xml
+    echo Generating docs...
+    
+    # This is the old jsbuilder command, preserved for reference only:
+    # java -jar $EXTENSIBLE_ROOT/build/ext-doc.jar -p $EXTENSIBLE_ROOT/build/extensible.xml -o $EXTENSIBLE_OUTPUT/$VER/docs -t $EXTENSIBLE_ROOT/build/template/ext/template.xml
+    
+    # The docs have now been converted to JSDuck. This assumes that JSDuck is installed
+    # correctly and available in the system path.
+    # - Installation: https://github.com/senchalabs/jsduck/wiki/Installation
+    # - Configuring this command: jsduck --help
+    jsduck $EXTENSIBLE_ROOT/src --output $EXTENSIBLE_OUTPUT/$VER/docs --seo --builtin-classes \
+        --message="Note that these docs have not yet been finalized for 1.6.0" \
+        --title="Extensible Docs" \
+        --footer="<a href='http://ext.ensible.com/'>Ext.ensible.com</a>" \
+        --warnings=-all \
+        --exclude=$EXTENSIBLE_ROOT/src/calendar/dd/CalendarScrollManager.js \
+        --ignore-html=locale,debug
 fi
 
 echo All done!
