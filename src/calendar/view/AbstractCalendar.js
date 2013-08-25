@@ -1624,7 +1624,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         var msg = '';
         
         if (response.responseText) {
-            msg += '<br><b>responseText</b>: ' + Ext.decode(response.responseText).message;
+            msg += '<br><b>responseText</b>: ' + response.responseText;
         }
         if (response.message) {
             msg += '<br><b>message</b>: ' + response.message;
