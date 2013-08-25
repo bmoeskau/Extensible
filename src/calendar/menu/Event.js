@@ -1,16 +1,11 @@
 /**
- * @class Extensible.calendar.menu.Event
- * @extends Ext.menu.Menu
- * The context menu displayed for calendar events in any {@link Extensible.calendar.view.AbstractCalendar
- * CalendarView} subclass.
- * @xtype extensible.eventcontextmenu
+ * The context menu displayed for events in any Extensible.calendar.view.AbstractCalendar subclass.
  */
 Ext.define('Extensible.calendar.menu.Event', {
     extend: 'Ext.menu.Menu',
     alias: 'widget.extensible.eventcontextmenu',
     
     requires: ['Ext.menu.DatePicker'],
-   
     
     /**
      * @cfg {Boolean} hideOnClick

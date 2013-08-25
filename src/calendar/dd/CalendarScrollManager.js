@@ -1,21 +1,8 @@
-/*
- * @class Ext.dd.ScrollManager
- * Provides automatic scrolling of overflow regions in the page during drag operations.
+/**
+ * This is included only as an override to fix the original class provided by Ext.
+ * Unfortunately as a singleton there's no easier way to patch it.
  * 
- * The ScrollManager configs will be used as the defaults for any scroll container registered with it,
- * but you can also override most of the configs per scroll container by adding a
- * <tt>ddScrollConfig</tt> object to the target element that contains these properties: {@link #hthresh},
- * {@link #vthresh}, {@link #increment} and {@link #frequency}.  Example usage:
- *		var el = Ext.get('scroll-ct');
- * 			el.ddScrollConfig = {
- *				vthresh: 50,
- *				hthresh: -1,
- *				frequency: 100,
- *				increment: 200
- *		};
- *		Ext.dd.ScrollManager.register(el);
- * **Note: This class uses "Point Mode" and is untested in "Intersect Mode".**
- * @singleton
+ * @private
  */
 Ext.define('Ext.dd.ScrollManager', {
     singleton: true,

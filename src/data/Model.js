@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * The base Model class used by Extensible
  */
 Ext.define('Extensible.data.Model', {
     extend: 'Ext.data.Model',

@@ -1,10 +1,7 @@
 /**
- * @class Extensible.calendar.gadget.CalendarListPanel
- * @extends Ext.Panel
- * This is a {@link Ext.Panel panel} subclass that renders a list of available calendars
- * @constructor
- * @param {Object} config The config object
- * @xtype extensible.calendarlist
+ * This is a {@link Ext.Panel panel} subclass that renders a list of available calendars.
+ * It is not part of the Extensible.calendar.CalendarPanel component, but is instead meant
+ * to be displayed somewhere else inside of an application layout.
  */
 Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     extend: 'Ext.panel.Panel',

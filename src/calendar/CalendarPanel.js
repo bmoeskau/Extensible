@@ -1,12 +1,8 @@
 /**
- * @class Extensible.calendar.CalendarPanel
- * @extends Ext.panel.Panel
  * This is the default container for calendar views. It supports day, week, multi-week and month views as well
  * as a built-in event edit form. The only requirement for displaying a calendar is passing in a valid
- * {@link #Ext.data.Store store} config containing records of type {@link Extensible.calendar.data.EventModel EventRecord}.
- * @constructor
- * @param {Object} config The config object
- * @xtype extensible.calendarpanel
+ * {@link #Ext.data.Store store} config containing records of type
+ * {@link Extensible.calendar.data.EventModel EventRModel}.
  */
 Ext.define('Extensible.calendar.CalendarPanel', {
     extend: 'Ext.panel.Panel',
