@@ -78,9 +78,6 @@
             "text":"CalendarCombo.js",
             "path":"../src/calendar/form/field/"
         },{
-            "text": "DateRangeLayout.js",
-            "path": "../src/form/field/"
-        },{
             "text": "DateRange.js",
             "path": "../src/form/field/"
         },{
