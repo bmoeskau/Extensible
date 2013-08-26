@@ -33,6 +33,7 @@
  * mappings have all been customized. Note that the name of each field definition object
  * (e.g., 'EventId') should **NOT** be changed for the default EventMappings fields as it
  * is the key used to access the field data programmatically.
+ * 
  *		Extensible.calendar.data.EventMappings = {
  *			EventId:     {name: 'ID', mapping:'evt_id', type:'int'},
  *			CalendarId:  {name: 'CalID', mapping: 'cal_id', type: 'int'},
@@ -45,7 +46,7 @@
  *			Url:         {name: 'LinkUrl', mapping: 'link_url'},
  *			IsAllDay:    {name: 'AllDay', mapping: 'all_day', type: 'boolean'},
  *			Reminder:    {name: 'Reminder', mapping: 'reminder'},
- *		// We can also add some new fields that do not exist in the standard EventRecord:
+ *		    // We can also add some new fields that do not exist in the standard EventRecord:
  *			CreatedBy:   {name: 'CreatedBy', mapping: 'created_by'},
  *			IsPrivate:   {name: 'Private', mapping:'private', type:'boolean'}
  *		};
@@ -60,19 +61,20 @@
  * access the data correctly and will treat existing records as phantoms. Here's an easy way to make sure
  * your mapping is always valid:
  * 
- *		var reader = new Ext.data.JsonReader({
+ *		var reader = new Ext.data.reader.Json({
  *			totalProperty: 'total',
  *			successProperty: 'success',
  * 			root: 'data',
  * 			messageProperty: 'message',
- *		// read the id property generically, regardless of the mapping:
+ *		    // read the id property generically, regardless of the mapping:
  *			idProperty: Extensible.calendar.data.EventMappings.EventId.mapping  || 'id',
- *		// this is also a handy way to configure your reader's fields generically:
+ *		    // this is also a handy way to configure your reader's fields generically:
  *			fields: Extensible.calendar.EventRecord.prototype.fields.getRange()
  *		});
  */
 Ext.ns('Extensible.calendar.data');
 
+// @define Extensible.calendar.data.EventMappings
 Extensible.calendar.data.EventMappings = {
     EventId: {
         name:    'EventId',

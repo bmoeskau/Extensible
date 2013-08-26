@@ -1,11 +1,14 @@
-/*
- *
+/**
+ * The abstract base class for all of the recurrence option widgets. Intended to be subclassed.
+ * 
+ * @private
  */
-// TODO: Create Extensible.form.recurrence.Parser and factor all
-//       rrule value getting/setting out of these option classes
-//       and into the parser.
-
 Ext.define('Extensible.form.recurrence.AbstractOption', {
+    
+    // TODO: Create Extensible.form.recurrence.Parser and factor all
+    //       rrule value getting/setting out of these option classes
+    //       and into the parser.
+    
     extend: 'Ext.form.FieldContainer',
     
     requires: [

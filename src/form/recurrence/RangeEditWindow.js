@@ -1,5 +1,13 @@
-/*
+/**
+ * This window contains an instance of Extensible.form.recurrence.RangeEditPanel and,
+ * by default, is displayed to the user anytime a recurring event is edited. This window
+ * allows the user to indicate which style of edit is being performed on the recurring series.
+ * See the RangeEditPanel docs for additional information on supported edit types.
  * 
+ * This window is created automatically by Extensible and should not typically be
+ * instantiated directly.
+ * 
+ * @protected
  */
 Ext.define('Extensible.form.recurrence.RangeEditWindow', {
     extend: 'Ext.window.Window',

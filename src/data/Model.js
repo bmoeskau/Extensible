@@ -1,5 +1,5 @@
-/*
- * 
+/**
+ * The base Model class used by Extensible
  */
 Ext.define('Extensible.data.Model', {
     extend: 'Ext.data.Model',
@@ -68,8 +68,8 @@ Ext.define('Extensible.data.Model', {
      * existing id by default and performs a shallow copy of the data) and is better-suited
      * to the typical default desired behavior when duplicating a record.
      *
-     * @param {Boolean} (optional) preserveId True to preserve the record's data {@link idProperty id},
-     * false to delete it in the returned clone (defaults to false)
+     * @param {Boolean} [preserveId=false] True to preserve the record's data {@link idProperty id},
+     * false to delete it in the returned clone
      * @return {Extensible.data.Model} The cloned record
      */
     clone: function(preserveId) {

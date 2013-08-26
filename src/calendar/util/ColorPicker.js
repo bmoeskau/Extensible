@@ -1,14 +1,8 @@
 /**
- * @class Extensible.calendar.util.ColorPicker
- * @extends Ext.picker.Color
  * Simple color picker class for choosing colors specifically for calendars. This is a lightly modified version
  * of the default Ext color picker that is based on calendar ids rather than hex color codes so that the colors
  * can be easily modified via CSS and automatically applied to calendars. The specific colors used by default are
  * also chosen to provide good color contrast when displayed in calendars.
- * @constructor
- * Create a new color picker
- * @param {Object} config The config object
- * @xtype extensible.calendarcolorpicker
  */
 Ext.define('Extensible.calendar.util.ColorPicker', {
     extend: 'Ext.picker.Color',

@@ -40,20 +40,20 @@
     $mappings = array(
         // Basic event properties. This is not all properties, only those needed explicitly
         // while processing recurrence. The others are read and set generically.
-        event_id   => 'id',
-        start_date => 'start',
-        end_date   => 'end',
+        'event_id'   => 'id',
+        'start_date' => 'start',
+        'end_date'   => 'end',
         
         // Recurrence-specific properties needed for processing recurring events:
-        rrule                => 'rrule',
-        duration             => 'duration',
-        orig_event_id        => 'origid',
-        recur_edit_mode      => 'redit',
-        recur_instance_start => 'ristart',
-        recur_series_start   => 'rsstart',
+        'rrule'                => 'rrule',
+        'duration'             => 'duration',
+        'orig_event_id'        => 'origid',
+        'recur_edit_mode'      => 'redit',
+        'recur_instance_start' => 'ristart',
+        'recur_series_start'   => 'rsstart',
         
         // Recurrence exceptions
-        exdate => 'exdate'
+        'exdate' => 'exdate'
     );
     
     /**
@@ -318,9 +318,13 @@
     function addEvent($event) {
         global $db, $mappings;
         
-        $rrule = $event[$mappings['rrule']];
-        $isRecurring = isset($rrule) && $rrule !== '';
+        $isRecurring = false;
         
+        if (isset($event[$mappings['rrule']])) {
+            if ($event[$mappings['rrule']] !== '') {
+                $isRecurring = true;
+            }
+        }
         if ($isRecurring) {
             // If this is a recurring event, first calculate the duration between
             // the start and end datetimes so that each recurring instance can
@@ -575,58 +579,60 @@
     //
     //********************************************************************************
     
-    switch ($action) {
-        case 'load':
-            $start_dt = isset($_REQUEST['startDate']) ? strtolower($_REQUEST['startDate']) : null;
-            $end_dt = isset($_REQUEST['endDate']) ? strtolower($_REQUEST['endDate']) : null;
-            
-            if (isset($start_dt) && isset($end_dt)) {
-                // Query by date range for displaying a calendar view
-                $sql = 'SELECT * FROM events WHERE app_id = :app_id'.
-                        ' AND ((start >= :start AND start <= :end)'.  // starts in range
-                        ' OR (end >= :start AND end <= :end)'.        // ends in range
-                        ' OR (start <= :start AND end >= :end));';    // spans range
-                
-                $events = $db->querySql($sql, array(
-                    ':app_id' => $app_id,
-                    ':start'  => $start_dt,
-                    ':end'    => $end_dt
-                ));
-                
-                $matches = array();
-                
-                foreach ($events as $event) {
-                    $matches = array_merge($matches, generateInstances($event, $start_dt, $end_dt));
+    try {
+        switch ($action) {
+            case 'load':
+                if (isset($start_dt) && isset($end_dt)) {
+                    // Query by date range for displaying a calendar view
+                    $sql = 'SELECT * FROM events WHERE app_id = :app_id'.
+                            ' AND ((start >= :start AND start <= :end)'.  // starts in range
+                            ' OR (end >= :start AND end <= :end)'.        // ends in range
+                            ' OR (start <= :start AND end >= :end));';    // spans range
+                    
+                    $events = $db->querySql($sql, array(
+                        ':app_id' => $app_id,
+                        ':start'  => $start_dt,
+                        ':end'    => $end_dt
+                    ));
+                    
+                    $matches = array();
+                    
+                    foreach ($events as $event) {
+                        $matches = array_merge($matches, generateInstances($event, $start_dt, $end_dt));
+                    }
+                    out($matches);
                 }
-                out($matches);
-            }
-            else {
-                out(null, 'You must supply a valid start and end date');
-            }
-            break;
-
-        case 'add':
-            if (isset($event)) {
-                $result = addEvent($event);
-            }
-            out($result);
-            break;
-        
-        case 'update':
-            if (isset($event)) {
-                $result = updateEvent($event);
-            }
-            out($result);
-            break;
-        
-        case 'delete':
-            if (isset($event)) {
-                $result = deleteEvent($event);
-            }
-            if ($result === 1) {
-                // Return the deleted id instead of row count
-                $result = $event['id'];
-            }
-            out($result);
-            break;
+                else {
+                    out(null, 'You must supply a valid start and end date');
+                }
+                break;
+    
+            case 'add':
+                if (isset($event)) {
+                    $result = addEvent($event);
+                }
+                out($result);
+                break;
+            
+            case 'update':
+                if (isset($event)) {
+                    $result = updateEvent($event);
+                }
+                out($result);
+                break;
+            
+            case 'delete':
+                if (isset($event)) {
+                    $result = deleteEvent($event);
+                }
+                if ($result === 1) {
+                    // Return the deleted id instead of row count
+                    $result = $event['id'];
+                }
+                out($result);
+                break;
+        }
+    }
+    catch (Exception $e) {
+        handleException($e);
     }

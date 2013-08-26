@@ -1,18 +1,23 @@
-/*
- * @class Extensible.form.recurrence.Rule
+/**
+ * Represents an iCalendar recurrence rule and parses recurrence rule strings
+ * to generate a textual description of each recurrence rule for human readability.
  *
- * Class Rule represents a iCalendar recurrence rule and offers functionality to parse a recurrence rule string,
- * to generate a recurrence rule string and to compile a textual description of a recurrence rule for display in the
- * user interface.
+ * Note that currently only a subset of the iCalendar recurrence rule attributes are supported.
+ * They are `FREQ`, `INTERVAL`, `BYDAY`, `BYMONTHDAY`, `BYMONTH`, `COUNT` and `UNTIL`.
  *
- * Note that currently only a subset of the iCalendar recurrence rule attributes are supported. They are FREQ,
- * INTERVAL, BYDAY, BYMONTHDAY, BYMONTH, COUNT and UNTIL.
+ * Portions of this implementation were inspired by the recurrence rule parser of [Vincent Romagnoli][1].
  *
- * The implementation was inspired by the recurrence rule parser of Vincent Romagnoli at [https://github.com/skyporter/rrule_parser](https://github.com/skyporter/rrule_parser)
- *
- * Reference documentation is at [http://www.ietf.org/rfc/rfc2445.txt](http://www.ietf.org/rfc/rfc2445.txt)
- *
- * @author Gabriel Sidler, http://teamup.com
+ * Reference documentation is at [http://www.ietf.org/rfc/rfc2445.txt][2],
+ * although a more practical guide can be found at [http://www.kanzaki.com/docs/ical/rrule.html][3].
+ * 
+ * Authored by [Gabriel Sidler][4]
+ * 
+ * [1]: https://github.com/skyporter/rrule_parser
+ * [2]: http://www.ietf.org/rfc/rfc2445.txt
+ * [3]: http://www.kanzaki.com/docs/ical/rrule.html
+ * [4]: http://teamup.com
+ * 
+ * @author Gabriel Sidler
  */
 Ext.define('Extensible.form.recurrence.Rule', {
     config: {
@@ -23,7 +28,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
          * and should not typically be changed. Note that per the iCal specification, date values should always be
          * specified in UTC time format, which is why the format string ends with 'Z'.
          */
-        dateValueFormat: 'Ymd\THis\Z',
+        dateValueFormat: 'Ymd\\THis\\Z',
         /**
          * @cfg {String} rule
          * A recurrence rule string conforming to the standard iCalendar RRULE/EXRULE format, e.g.

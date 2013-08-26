@@ -420,7 +420,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             rangeselect: true,
             /**
              * @event beforeeventcopy
-             * Fires before an existing event is duplicated by the user view the "copy" command. This is a
+             * Fires before an existing event is duplicated by the user via the "copy" command. This is a
              * cancelable event, so returning false from a handler will cancel the copy operation.
              * @param {Extensible.calendar.view.AbstractCalendar} this
              * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
@@ -441,21 +441,25 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             eventcopy: true,
             /**
              * @event beforeeventmove
-             * Fires before an event element is dragged by the user and dropped in a new position. This is a cancelable event, so
-             * returning false from a handler will cancel the move operation. This could be useful for validating that a user can
-             * only move events within a certain date range.
+             * Fires after an event element has been dragged by the user and dropped in a new position, but before
+             * the event record is updated with the new dates, providing a hook for canceling the update.
+             * To cancel the move, return false from a handling function. This could be useful for validating
+             * that a user can only move events within a certain date range, for example.
              * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that will be moved
-             * @param {Date} dt The new start date to be set (the end date will be automaticaly adjusted to match the event duration)
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+             * for the event that will be moved. Start and end dates will be the original values before the move started.
+             * @param {Date} dt The new start date to be set (the end date will be automaticaly calculated to match
+             * based on the event duration)
              */
             beforeeventmove: true,
             /**
              * @event eventmove
-             * Fires after an event element has been dragged by the user and dropped in a new position. If you need to cancel the
-             * move operation you should handle the {@link #beforeeventmove} event and return false from your handler function.
+             * Fires after an event element has been moved to a new position and its data updated. If you need to
+             * cancel the move operation you should handle the {@link #beforeeventmove} event and return false
+             * from your handler function.
              * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was moved with
-             * updated start and end dates
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+             * for the event that was moved with updated start and end dates
              */
             eventmove: true,
             /**
@@ -1166,16 +1170,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * Retrieve an Event object's id from its corresponding node in the DOM.
      * @param {String/Element/HTMLElement} el An {@link Ext.Element}, DOM node or id
      */
-//    getEventIdFromEl: function(el) {
-//        el = Ext.get(el);
-//        var id = el.id.split(this.eventElIdDelimiter)[1];
-//        if (id.indexOf('-w_') > -1) {
-//            //This id has the index of the week it is rendered in as part of the suffix.
-//            //This allows events that span across weeks to still have reproducibly-unique DOM ids.
-//            id = id.split('-w_')[0];
-//        }
-//        return id;
-//    },
     getEventIdFromEl: function(el) {
         el = Ext.get(el);
         var parts, id = '', cls, classes = el.dom.className.split(' ');
@@ -1610,12 +1604,17 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
     
-    // private
-    getExceptionMessage: function(response) {
+    /**
+     * Returns the message to display from {@link #notifyOnException}, generated automatically
+     * from the server response and operation objects.
+     * @protected
+     * @since 1.6.0
+     */
+    getExceptionMessage: function(response, operation) {
         var msg = '';
         
         if (response.responseText) {
-            msg += '<br><b>responseText</b>: ' + Ext.decode(response.responseText).message;
+            msg += '<br><b>responseText</b>: ' + response.responseText;
         }
         if (response.message) {
             msg += '<br><b>message</b>: ' + response.message;
@@ -1625,6 +1624,9 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
         if (response.statusText) {
             msg += '<br><b>statusText</b>: ' + response.statusText;
+        }
+        if (operation.error && operation.error.length) {
+            msg += '<br><b>processing error</b>: ' + operation.error;
         }
         
         return msg || ('<br>' + this.notifyOnExceptionDefaultMessage);
@@ -1648,7 +1650,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      */
     notifyOnException: function(response, operation) {
         Ext.Msg.alert(this.notifyOnExceptionTitle, this.notifyOnExceptionText + '<br>' +
-            this.getExceptionMessage(response));
+            this.getExceptionMessage(response, operation));
     },
 
     /**

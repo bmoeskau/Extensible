@@ -4,7 +4,7 @@ These notes apply to the Ext 4.x branch of Extensible.
 
 ## 1.6.0-rc.1
 
-_August 17, 2013_
+_August 26, 2013_
 
 Recurrence support was introduced in the 1.6 beta, and this release candidate is mostly about finalizing it. Some of the behavior has changed slightly as noted below, but with this release the recurrence API should be considered frozen unless any unexpected major issues show up in this RC.
 
@@ -18,11 +18,14 @@ The final major outstanding issue is lacking documentation for the recurrence fe
 * New locale files: British English (en_GB) and Dutch (nl)
 * Updated `Extensible_config.js` to enable custom locales in examples
 * Added `fieldAnchor` config to the `EventDetail` class so that the event form's field widths are configurable rather than hard-coded to 70% (they now default to 100%)
+* Converted documentation to [JSDuck](https://github.com/senchalabs/jsduck) format
 
 **Bugs Fixed**
 
 Generally-speaking, there were many bugs related to recurrence -- too many to list -- that were fixed as a result of rewriting the back end demo code. However, the major bugs and anything that changed the recurrence behavior will be listed below.
 
+* Provisional support for Sencha Cmd v3
+	- Not yet perfect, but with some manual tweaks it can work. For details see [this forum post](http://ext.ensible.com/forum/viewtopic.php?f=2&t=763&p=3129#p3129).
 * Notable recurrence-specific fixes:
 	- Refactored recurrence components for locale string support
 	- Fixed multiple store refreshes / view updates after a recurrence edit
