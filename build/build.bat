@@ -50,7 +50,7 @@ xcopy /y /q "%EXTENSIBLE_ROOT%\*.md" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
 :: - Configuring this command: jsduck --help
 IF "%1" == "-d" (
     echo Generating docs...
-	if exist "%EXTENSIBLE_OUTPUT%\%VER%\docs" rmdir /s /q "%EXTENSIBLE_OUTPUT%\%VER%\docs"
+    if exist "%EXTENSIBLE_OUTPUT%\%VER%\docs" rmdir /s /q "%EXTENSIBLE_OUTPUT%\%VER%\docs"
     jsduck "%EXTENSIBLE_ROOT%\src" --output "%EXTENSIBLE_OUTPUT%\%VER%\docs" --seo --builtin-classes ^
         --message="Note that these docs have not yet been finalized for 1.6.0" ^
         --title="Extensible Docs" ^
