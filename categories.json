@@ -1,0 +1,85 @@
+[
+    {
+        "name": "Calendar",
+        "groups": [
+            {
+                "name": "Base",
+                "classes": [
+                    "Extensible.calendar.CalendarPanel"
+                ]
+            },
+            {
+                "name": "Data",
+                "classes": [
+                    "Extensible.calendar.data.*"
+                ]
+            },
+            {
+                "name": "Form",
+                "classes": [
+                    "Extensible.calendar.form.*"
+                ]
+            },
+            {
+                "name": "Gadget",
+                "classes": [
+                    "Extensible.calendar.gadget.*"
+                ]
+            },
+            {
+                "name": "Menu",
+                "classes": [
+                    "Extensible.calendar.menu.*"
+                ]
+            },
+            {
+                "name": "Template",
+                "classes": [
+                    "Extensible.calendar.template.*"
+                ]
+            },
+            {
+                "name": "Util",
+                "classes": [
+                    "Extensible.calendar.util.*"
+                ]
+            },
+            {
+                "name": "View",
+                "classes": [
+                    "Extensible.calendar.view.*"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Form",
+        "groups": [
+            {
+                "name": "DateRange",
+                "classes": [
+                    "Extensible.form.field.DateRange"
+                ]
+            },
+            {
+                "name": "Recurrence",
+                "classes": [
+                    "Extensible.form.recurrence.*"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Other",
+        "groups": [
+            {
+                "name": "Others",
+                "classes": [
+                    "Extensible",
+                    "Extensible.Date",
+                    "Extensible.data.Model"
+                ]
+            }
+        ]
+    }
+]
