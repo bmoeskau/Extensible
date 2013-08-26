@@ -1,6 +1,4 @@
 /**
- * @class Extensible.calendar.form.EventDetails
- * @extends Ext.form.Panel
  * A custom form used for detailed editing of events.
  * 
  * This is pretty much a standard form that is simply pre-configured for the options needed by the
@@ -105,11 +103,10 @@ Ext.define('Extensible.calendar.form.EventDetails', {
      * defaultEventTitleText} when displaying it. Any custom fields might require similar custom handling.
      */
     allowDefaultAdd: true,
-    
-    // private properties:
+
+	//private properties    
     layout: 'column',
     
-    // private
     initComponent: function() {
         
         this.addEvents({
@@ -256,19 +253,19 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         this.callParent(arguments);
     },
     
-    // private
     onDateChange: function(dateRangeField, val) {
         if (this.recurrenceField) {
             this.recurrenceField.setStartDate(val[0]);
         }
     },
     
-    // private
     onRecurrenceStartChange: function(recurrenceFieldset, startDate, oldDate) {
         this.dateRangeField.setValue(startDate);
     },
     
-    // inherited docs
+    /**
+     * @protected 
+     */
     loadRecord: function(rec) {
         var me = this,
             EventMappings = Extensible.calendar.data.EventMappings;
@@ -357,13 +354,11 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         return record.dirty || (record.phantom && this.allowDefaultAdd);
     },
     
-    // private
     onCancel: function() {
         this.cleanup(true);
         this.fireEvent('eventcancel', this, this.activeRecord);
     },
     
-    // private
     cleanup: function(hide) {
         if (this.activeRecord) {
             this.activeRecord.reject();
@@ -375,7 +370,6 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         }
     },
     
-    // private
     onSave: function() {
         var me = this,
             originalHasRecurrence = me.activeRecord.isRecurring();
@@ -405,7 +399,6 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         }
     },
     
-    // private
     onRecurrenceUpdate: function() {
         this.rangeEditWin = this.rangeEditWin || Ext.WindowMgr.get('ext-cal-rangeeditwin');
         if (!this.rangeEditWin) {
@@ -417,7 +410,6 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         });
     },
     
-    // private
     onRecurrenceEditModeSelected: function(editMode) {
         var me = this;
         
@@ -427,7 +419,6 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         }
     },
 
-    // private
     onDelete: function() {
         this.fireEvent('eventdelete', this, this.activeRecord);
     }

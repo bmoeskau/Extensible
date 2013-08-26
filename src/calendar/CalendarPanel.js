@@ -226,8 +226,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * @type {Extensible.calendar.view.AbstractCalendar}
      * @property activeView
      */
-    
-    // private
+
     layout: {
         type: 'card',
         deferredRender: true
@@ -235,8 +234,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     
     // private property
     startDate: new Date(),
-    
-    // private
+
     initComponent: function() {
         this.tbar = {
             cls: 'ext-cal-toolbar',
@@ -647,8 +645,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             }
         }, this.editViewCfg));
     },
-    
-    // private
+
     initEventRelay: function(cfg) {
         cfg.listeners = cfg.listeners || {};
         cfg.listeners.afterrender = {
@@ -667,8 +664,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             single: true
         };
     },
-    
-    // private
+
     afterRender: function() {
         this.callParent(arguments);
         
@@ -708,25 +704,21 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         }
         this.store = store;
     },
-    
-    // private
+
     onStoreAdd: function(ds, recs, index) {
         this.hideEditForm();
     },
-    
-    // private
+
     onStoreUpdate: function(ds, rec, operation) {
         if(operation === Ext.data.Record.COMMIT) {
             this.hideEditForm();
         }
     },
 
-    // private
     onStoreRemove: function(ds, rec) {
         this.hideEditForm();
     },
-    
-    // private
+
     onWrite: function(store, operation) {
         var rec = operation.records[0];
         
@@ -742,15 +734,13 @@ Ext.define('Extensible.calendar.CalendarPanel', {
                 break;
         }
     },
-    
-    // private
+
     onEditDetails: function(vw, rec, el) {
         if(this.fireEvent('editdetails', this, vw, rec, el) !== false) {
             this.showEditForm(rec);
         }
     },
-    
-    // private
+
     save: function() {
         // If the store is configured as autoSync:true the record's endEdit
         // method will have already internally caused a save to execute on
@@ -760,8 +750,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             this.store.sync();
         }
     },
-        
-    // private
+
     onEventAdd: function(form, rec) {
         if(!rec.store) {
             this.store.add(rec);
@@ -769,21 +758,18 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         }
         this.fireEvent('eventadd', this, rec);
     },
-    
-    // private
+
     onEventUpdate: function(form, rec) {
         this.save();
         this.fireEvent('eventupdate', this, rec);
     },
-    
-    // private
+
     onEventDelete: function(form, rec) {
         this.store.remove(rec);
         this.save();
         this.fireEvent('eventdelete', this, rec);
     },
-    
-    // private
+
     onEventCancel: function(form, rec) {
         this.hideEditForm();
         this.fireEvent('eventcancel', this, rec);
@@ -860,8 +846,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             me.fireViewChange();
         }
     },
-    
-    // private
+
     fireViewChange: function() {
         if (this.layout && this.layout.getActiveItem) {
             var view = this.layout.getActiveItem(),
@@ -886,8 +871,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             }
         }
     },
-    
-    // private
+
     updateNavState: function() {
         var me = this,
             activeItem = me.layout.activeItem;
@@ -916,20 +900,17 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         this.fireViewChange();
         return this;
     },
-        
-    // private
+
     showWeek: function(dt) {
         this.setActiveView(this.id+'-week', dt);
     },
-    
-    // private
+
     onTodayClick: function() {
         this.startDate = this.layout.activeItem.moveToday(true);
         this.updateNavState();
         this.fireViewChange();
     },
-    
-    // private
+
     onJumpClick: function() {
         var dt = Ext.getCmp(this.id+'-tb-jump-dt').getValue();
         if(dt !== '') {
@@ -939,42 +920,35 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             this.fireViewChange();
         }
     },
-    
-    // private
+
     onPrevClick: function() {
         this.startDate = this.layout.activeItem.movePrev(true);
         this.updateNavState();
         this.fireViewChange();
     },
-    
-    // private
+
     onNextClick: function() {
         this.startDate = this.layout.activeItem.moveNext(true);
         this.updateNavState();
         this.fireViewChange();
     },
-    
-    // private
+
     onDayNavClick: function() {
         this.setActiveView(this.id+'-day');
     },
-    
-    // private
+
     onMultiDayNavClick: function() {
         this.setActiveView(this.id+'-multiday');
     },
-    
-    // private
+
     onWeekNavClick: function() {
         this.setActiveView(this.id+'-week');
     },
-    
-    // private
+
     onMultiWeekNavClick: function() {
         this.setActiveView(this.id+'-multiweek');
     },
-    
-    // private
+
     onMonthNavClick: function() {
         this.setActiveView(this.id+'-month');
     },

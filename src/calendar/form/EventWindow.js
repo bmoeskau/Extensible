@@ -1,6 +1,4 @@
 /**
- * @class Extensible.calendar.form.EventWindow
- * @extends Ext.window.Window
  * A custom window containing a basic edit form used for quick editing of events.
  * 
  * This window also provides custom events specific to the calendar so that other calendar components can be easily
@@ -96,7 +94,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
      */
     allowDefaultAdd: true,
     
-    // private
     initComponent: function() {
         this.addEvents({
             /**
@@ -186,7 +183,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         return cfg;
     },
     
-    // private
     onRender : function(ct, position){        
         this.formPanel = Ext.create('Ext.form.Panel', Ext.applyIf({
             fieldDefaults: {
@@ -231,7 +227,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         return items;
     },
 
-    // private
     afterRender: function() {
         this.callParent(arguments);
         
@@ -263,7 +258,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         this.calendarField = this.down('#' + this.id + '-calendar');
     },
     
-    // private
     onEditDetailsClick: function(e) {
         e.stopEvent();
         this.updateRecord(this.activeRecord, true);
@@ -344,21 +338,18 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         
         return me;
     },
-    
-    // private
+
     roundTime: function(dt, incr) {
         incr = incr || 15;
         var m = parseInt(dt.getMinutes(), 10);
         return dt.add('mi', incr - (m % incr));
     },
-    
-    // private
+
     onCancel: function() {
         this.cleanup(true);
         this.fireEvent('eventcancel', this, this.activeRecord, this.animateTarget);
     },
 
-    // private
     cleanup: function(hide) {
         if (this.activeRecord) {
             this.activeRecord.reject();
@@ -418,8 +409,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
 
         return record.dirty || (record.phantom && this.allowDefaultAdd);
     },
-    
-    // private
+
     onSave: function() {
         var me = this,
             form = me.formPanel.form,
@@ -453,8 +443,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             }
         }
     },
-    
-    // private
+
     onRecurrenceUpdate: function() {
         this.rangeEditWin = this.rangeEditWin || Ext.WindowMgr.get('ext-cal-rangeeditwin');
         if (!this.rangeEditWin) {
@@ -465,8 +454,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             scope: this
         });
     },
-    
-    // private
+
     onRecurrenceEditModeSelected: function(editMode) {
         var me = this;
         
@@ -475,8 +463,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
         }
     },
-    
-    // private
+
     onDelete: function() {
         this.fireEvent('eventdelete', this, this.activeRecord, this.animateTarget);
     }

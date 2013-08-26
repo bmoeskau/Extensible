@@ -61,7 +61,6 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
      * The {@link Extensible.calendar.util.ColorPicker ColorPicker} instance for this CalendarListMenu
      */
     
-    // private
     initComponent: function() {
         this.addEvents(
             'showcalendar',
@@ -87,7 +86,6 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
         this.callParent(arguments);
     },
     
-    // private
     afterRender: function() {
         this.callParent(arguments);
         
@@ -98,12 +96,10 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
         }
     },
     
-    // private
     handleRadioCalendarClick: function(e, t) {
         this.fireEvent('radiocalendar', this, this.calendarId);
     },
     
-    // private
     handleColorSelect: function(cp, selColorId) {
         this.fireEvent('colorchange', this, this.calendarId, selColorId, this.colorId);
         this.colorId = selColorId;
@@ -127,7 +123,6 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
         return this;
     },
 
-    // private
     menuHide: function() {
         if(this.hideOnClick) {
             this.hide();

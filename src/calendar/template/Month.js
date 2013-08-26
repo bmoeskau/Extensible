@@ -1,14 +1,10 @@
 /**
- * @class Extensible.calendar.template.Month
- * @extends Ext.XTemplate
  * This is the template used to render the {@link Extensible.calendar.view.Month MonthView}. Internally this class defers to an
  * instance of {@link Extensible.calendar.template.BoxLayout} to handle the inner layout rendering and adds containing elements around
  * that to form the month view.
  * 
  * This template is automatically bound to the underlying event store by the
  * calendar components and expects records of type {@link Extensible.calendar.data.EventModel}.
- * @constructor
- * @param {Object} config The config object
  */
 Ext.define('Extensible.calendar.template.Month', {
     extend: 'Ext.XTemplate',
@@ -27,7 +23,6 @@ Ext.define('Extensible.calendar.template.Month', {
      */
     dayHeaderTitleFormat: 'l, F j, Y',
     
-    // private
     constructor: function(config) {
         
         Ext.apply(this, config);
@@ -56,7 +51,6 @@ Ext.define('Extensible.calendar.template.Month', {
         );
     },
     
-    // private
     applyTemplate: function(o) {
         var days = [],
             weeks = this.weekTpl.apply(o),

@@ -1,6 +1,4 @@
 /**
- * @class Extensible.calendar.form.field.CalendarCombo
- * @extends Ext.form.field.ComboBox
  * A custom combo used for choosing from the list of available calendars to assign an event to. You must
  * pass a populated calendar store as the store config or the combo will not work.
  * 
@@ -11,8 +9,6 @@
  *		queryMode: 'local',
  *		forceSelection: true,
  *		width: 200
- * @constructor
- * @param {Object} config The config object
  */
 Ext.define('Extensible.calendar.form.field.CalendarCombo', {
     extend: 'Ext.form.field.ComboBox',
@@ -26,11 +22,9 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
     forceSelection: true,
     selectOnFocus: true,
     
-    // private
     defaultCls: 'x-cal-default',
     hiddenCalendarCls: 'ext-cal-hidden',
     
-    // private
     initComponent: function() {
         this.valueField = Extensible.calendar.data.CalendarMappings.CalendarId.name;
         this.displayField = Extensible.calendar.data.CalendarMappings.Title.name;
@@ -49,7 +43,6 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
                 '}"><div class="ext-cal-picker-icon">&#160;</div>{' + displayField + '}</div>';
     },
     
-    // private
     afterRender: function() {
         this.callParent(arguments);
         
@@ -98,7 +91,9 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
         return me;
     },
     
-    // inherited docs
+    /**
+     * @protected 
+     */
     setValue: function(value) {
         if (!value && this.store.getCount() > 0) {
             // ensure that a valid value is always set if possible

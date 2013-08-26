@@ -1,6 +1,4 @@
 /**
- * @class Extensible.calendar.template.DayBody
- * @extends Ext.XTemplate
  * This is the template used to render the scrolling body container used in
  * {@link Extensible.calendar.view.Day DayView} and {@link Extensible.calendar.view.Week WeekView}. This template
  * is automatically bound to the underlying event store by the calendar components and expects records of type
@@ -9,13 +7,10 @@
  * Note that this template would not normally be used directly. Instead you would use the
  * {@link Extensible.calendar.view.DayTemplate} that internally creates an instance of this template along
  * with a {@link Extensible.calendar.DayHeaderTemplate}.
- * @constructor
- * @param {Object} config The config object
  */
 Ext.define('Extensible.calendar.template.DayBody', {
     extend: 'Ext.XTemplate',
-    
-    // private
+
     constructor: function(config) {
         
         Ext.apply(this, config);
@@ -58,7 +53,6 @@ Ext.define('Extensible.calendar.template.DayBody', {
         );
     },
 
-    // private
     applyTemplate: function(o) {
         this.today = Extensible.Date.today();
         this.dayCount = this.dayCount || 1;
