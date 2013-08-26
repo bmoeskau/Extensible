@@ -18,6 +18,7 @@ The final major outstanding issue is lacking documentation for the recurrence fe
 * New locale files: British English (en_GB) and Dutch (nl)
 * Updated `Extensible_config.js` to enable custom locales in examples
 * Added `fieldAnchor` config to the `EventDetail` class so that the event form's field widths are configurable rather than hard-coded to 70% (they now default to 100%)
+* Converted documentation to [JSDuck](https://github.com/senchalabs/jsduck) format
 
 **Bugs Fixed**
 
