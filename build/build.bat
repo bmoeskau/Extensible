@@ -21,7 +21,7 @@ IF NOT EXIST %EXTENSIBLE_ROOT%\NUL GOTO E_FOLDER_NOT_FOUND
 IF "%1" == "-h" GOTO E_USAGE
 
 :: Any cleanup that needs to happen prior to the build
-if exist %EXTENSIBLE_ROOT%\resources\css\extensible-all.css del %EXTENSIBLE_ROOT%\resources\css\extensible-all.css
+if exist "%EXTENSIBLE_ROOT%\resources\css\extensible-all.css" del "%EXTENSIBLE_ROOT%\resources\css\extensible-all.css"
 
 :: Build it
 java -jar JSBuilder2.jar --projectFile %EXTENSIBLE_ROOT%\build\extensible.jsb2 --homeDir %EXTENSIBLE_OUTPUT%
@@ -44,10 +44,20 @@ xcopy /y /q "%EXTENSIBLE_ROOT%\*.html" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
 xcopy /y /q "%EXTENSIBLE_ROOT%\*.txt" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
 xcopy /y /q "%EXTENSIBLE_ROOT%\*.md" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
 
-:: Docs
+:: The docs have now been converted to JSDuck. This assumes that JSDuck is installed
+:: correctly and available in the system path (or the jsduck.exe copied into this directory)
+:: - Installation: https://github.com/senchalabs/jsduck/wiki/Installation
+:: - Configuring this command: jsduck --help
 IF "%1" == "-d" (
-   echo Generating docs...
-   java -jar ext-doc.jar -p extensible.xml -o %EXTENSIBLE_OUTPUT%\%VER%\docs -t template\ext\template.xml
+    echo Generating docs...
+	if exist "%EXTENSIBLE_OUTPUT%\%VER%\docs" rmdir /s /q "%EXTENSIBLE_OUTPUT%\%VER%\docs"
+    jsduck "%EXTENSIBLE_ROOT%\src" --output "%EXTENSIBLE_OUTPUT%\%VER%\docs" --seo --builtin-classes ^
+        --message="Note that these docs have not yet been finalized for 1.6.0" ^
+        --title="Extensible Docs" ^
+        --footer="<a href='http://ext.ensible.com/'>Ext.ensible.com</a>" ^
+        --warnings=-all ^
+        --exclude="%EXTENSIBLE_ROOT%/src/calendar/dd/CalendarScrollManager.js" ^
+        --ignore-html=locale,debug
 )
 
 echo All done!
