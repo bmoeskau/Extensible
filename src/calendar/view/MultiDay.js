@@ -1,10 +1,6 @@
 /**
- * @class Extensible.calendar.view.MultiDay
- * @extends Extensible.calendar.view.Day
  * Displays a calendar view by day, more than one day at a time. This class does not usually need to be used directly as you can
  * use a {@link Extensible.calendar.CalendarPanel CalendarPanel} to manage multiple calendar views at once.
- * @constructor
- * @param {Object} config The config object
  */
 Ext.define('Extensible.calendar.view.MultiDay', {
     extend: 'Extensible.calendar.view.Day',
@@ -49,12 +45,16 @@ Ext.define('Extensible.calendar.view.MultiDay', {
      */
     startDayIsStatic: false,
     
-    // inherited docs
+    /**
+     * @protected 
+     */
     moveNext: function(/*private*/reload) {
         return this.moveDays(this.startDayIsStatic ? 7 : this.dayCount, reload);
     },
 
-    // inherited docs
+    /**
+     * @protected 
+     */
     movePrev: function(/*private*/reload) {
         return this.moveDays(this.startDayIsStatic ? -7 : -this.dayCount, reload);
     }

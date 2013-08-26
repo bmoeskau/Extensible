@@ -1,6 +1,4 @@
 /**
- * @class Extensible.calendar.data.EventModel
- * @extends Extensible.data.Model
  * This is the {@link Ext.data.Model Model} specification for calendar event data used by the
  * {@link Extensible.calendar.CalendarPanel CalendarPanel}'s underlying store. It can be overridden as
  * necessary to customize the fields supported by events, although the existing field definition names
@@ -26,15 +24,6 @@
  *			rec.data[M.EndDate.name] = '2101-01-12 13:30:00';
  *			rec.data[M.Title.name] = 'My cool event';
  *			rec.data[M.Notes.name] = 'Some notes';
- * @constructor
- * @param {Object} data (Optional) An object, the properties of which provide values for the new Record's
- * fields. If not specified the {@link Ext.data.Field#defaultValue defaultValue}
- * for each field will be assigned.
- * @param {Object} id (Optional) The id of the Record. The id is used by the
- * {@link Ext.data.Store} object which owns the Record to index its collection
- * of Records (therefore this id should be unique within each store). If an
- * id is not specified a {@link #phantom}
- * Record will be created with an {@link #Record.id automatically generated id}.
  */
 Ext.define('Extensible.calendar.data.EventModel', {
     extend: 'Extensible.data.Model',

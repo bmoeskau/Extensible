@@ -71,8 +71,7 @@ Ext.define('Extensible.calendar.menu.Event', {
      * it. If the menu was created directly outside of a CalendarPanel this property will be null. Read-only.
      */
     ownerCalendarPanel: {},
-    
-    // private
+
     initComponent: function() {
         this.addEvents(
             /**
@@ -211,13 +210,11 @@ Ext.define('Extensible.calendar.menu.Event', {
         me.copyMenu.picker.setValue(startDate);
         me.showAt(xy);
     },
-    
-    // private
+
     onHide: function() {
         this.callParent(arguments);
     },
-    
-    // private
+
     onDestroy: function() {
         delete this.ctxEl;
         this.callParent(arguments);

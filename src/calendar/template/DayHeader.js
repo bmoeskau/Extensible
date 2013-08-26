@@ -1,6 +1,4 @@
 /**
- * @class Extensible.calendar.template.DayHeader
- * @extends Ext.XTemplate
  * This is the template used to render the all-day event container used in
  * {@link Extensible.calendar.view.Day DayView} and {@link Extensible.calendar.view.Week WeekView}. Internally
  * the majority of the layout logic is deferred to an instance of {@link Extensible.calendar.template.BoxLayout}.
@@ -11,15 +9,12 @@
  * Note that this template would not normally be used directly. Instead you would use the
  * {@link Extensible.calendar.view.DayTemplate} that internally creates an instance of this template along with
  * a {@link Extensible.calendar.template.DayBody}.
- * @constructor
- * @param {Object} config The config object
  */
 Ext.define('Extensible.calendar.template.DayHeader', {
     extend: 'Ext.XTemplate',
     
     requires: ['Extensible.calendar.template.BoxLayout'],
     
-    // private
     constructor: function(config) {
         
         Ext.apply(this, config);
@@ -42,7 +37,6 @@ Ext.define('Extensible.calendar.template.DayHeader', {
         );
     },
     
-    // private
     applyTemplate: function(o) {
         var templateConfig = {
             allDayTpl: this.allDayTpl.apply(o)

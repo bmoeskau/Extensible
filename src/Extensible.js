@@ -1,7 +1,5 @@
 /**
- * @class Extensible
  * Extensible core utilities and functions.
- * @singleton
  */
 Ext.define('Extensible', {
     
@@ -28,21 +26,17 @@ Ext.define('Extensible', {
      * @type String
      */
     extVersion: '4.0.1',
-    
-    // private
+
     hasBorderRadius: Ext.supports.CSS3BorderRadius,
-    
-    // private
+
     log: function(s) {
         //console.log(s);
     },
-    
-    // private
+
     getScrollWidth: function() {
         return Ext.getScrollbarSize ? Ext.getScrollbarSize().width : Ext.getScrollBarWidth();
     },
-    
-    // private
+
     constructor: function() {
         // Have to make sure the body is ready since we are modifying it below
         Ext.onReady(function() {
@@ -176,7 +170,7 @@ Ext.define('Extensible', {
             return d2.getTime() - d1.getTime();
         },
 
-        // private helper fn
+        // helper fn
         maxOrMin: function(max) {
             var dt = max ? 0: Number.MAX_VALUE,
                 i = 0,

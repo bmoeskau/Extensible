@@ -1,9 +1,5 @@
 /**
- * @class Extensible.form.field.DateRange
- * @extends Ext.form.Field
  * A combination field that includes start and end dates and times, as well as an optional all-day checkbox.
- * @constructor
- * @param {Object} config The config object
  */
 Ext.define('Extensible.form.field.DateRange', {
     extend: 'Ext.form.FieldContainer',
@@ -51,13 +47,11 @@ Ext.define('Extensible.form.field.DateRange', {
      */
     startDay: 0,
 
-    // private
     fieldLayout: {
         type: 'hbox',
         defaultMargins: { top: 0, right: 5, bottom: 0, left: 0 }
     },
     
-    // private
     initComponent: function() {
         var me = this;
         /**
@@ -259,13 +253,11 @@ Ext.define('Extensible.form.field.DateRange', {
         return me.calculatedSingleLine;
     },
     
-    // private
     onFieldChange: function(type, startend) {
         this.checkDates(type, startend);
         this.fireEvent('change', this, this.getValue());
     },
         
-    // private
     checkDates: function(type, startend) {
         var me = this,
             typeCap = type === 'date' ? 'Date' : 'Time',
@@ -306,7 +298,7 @@ Ext.define('Extensible.form.field.DateRange', {
         ];
     },
     
-    // private getValue helper
+    // getValue helper
     getDT: function(startend) {
         var time = this[startend+'Time'].getValue(),
             dt = this[startend+'Date'].getValue();
@@ -366,7 +358,7 @@ Ext.define('Extensible.form.field.DateRange', {
         }
     },
     
-    // private setValue helper
+    // setValue helper
     setDT: function(dt, startend) {
         if(dt && Ext.isDate(dt)) {
             this[startend + 'Date'].setValue(dt);
@@ -375,7 +367,9 @@ Ext.define('Extensible.form.field.DateRange', {
         }
     },
     
-    // inherited docs
+    /**
+     * @protected 
+     */
     isDirty: function() {
         var dirty = false;
         if(this.rendered && !this.disabled) {
@@ -389,12 +383,13 @@ Ext.define('Extensible.form.field.DateRange', {
         return dirty;
     },
     
-    // inherited docs
+    /**
+     * @protected 
+     */
     reset: function() {
         this.delegateFn('reset');
     },
     
-    // private
     delegateFn: function(fn) {
         this.items.each(function(item) {
             if (item[fn]) {
@@ -403,7 +398,6 @@ Ext.define('Extensible.form.field.DateRange', {
         });
     },
     
-    // private
     beforeDestroy: function() {
         Ext.destroy(this.fieldCt);
         this.callParent(arguments);

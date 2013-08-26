@@ -193,8 +193,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         this.setFrequency(freq);
         this.onChange();
     },
-    
-    // private
+
     initValue: function() {
         var me = this;
 

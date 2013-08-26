@@ -10,7 +10,6 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
     
     requires: ['Ext.XTemplate'],
     
-    // private
     colorCount: 32,
     
     /**
@@ -36,7 +35,6 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
         this.callParent(arguments);
     },
     
-    // private
     initComponent: function() {
         this.callParent(arguments);
         
@@ -54,7 +52,6 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
         }
     },
     
-    // private
     handleClick: function(e, target) {
         e.preventDefault();
         

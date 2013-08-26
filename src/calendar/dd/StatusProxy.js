@@ -28,13 +28,12 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
         '</div>'
     ],
     
-    // private -- applies only to Ext 4.1 and above, see notes in constructor
+    // applies only to Ext 4.1 and above, see notes in constructor
     childEls: [
         'ghost',
         'message'
     ],
     
-    // private
     constructor: function(config) {
         // In Ext 4.0.x StatusProxy was a plain class that did not inherit from Component,
         // and all of its els were rendered inside the constructor. Unfortunately, because
@@ -53,7 +52,7 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
         }
     },
     
-    // private -- applies only to Ext <4.1, see notes in constructor
+    // applies only to Ext <4.1, see notes in constructor
     preComponentConstructor: function(config) {
         var me = this;
         
@@ -79,7 +78,9 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
         me.dropStatus = me.dropNotAllowed;
     },
     
-    // inherit docs
+    /**
+     * @protected 
+     */
     update: function(html) {
         this.callParent(arguments);
         

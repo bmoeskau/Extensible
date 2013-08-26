@@ -1,14 +1,10 @@
 /**
- * @class Extensible.calendar.view.Day
- * @extends Ext.container.Container
  * Unlike other calendar views, is not actually a subclass of {@link Extensible.calendar.view.AbstractCalendar CalendarView}.
  * Instead it is a {@link Ext.container.Container Container} subclass that internally creates and manages the layouts of
  * a {@link Extensible.calendar.view.DayHeader DayHeaderView} and a {@link Extensible.calendar.view.DayBody DayBodyView}. As such
  * DayView accepts any config values that are valid for DayHeaderView and DayBodyView and passes those through
  * to the contained views. It also supports the interface required of any calendar view and in turn calls methods
  * on the contained views as necessary.
- * @constructor
- * @param {Object} config The config object
  */
 Ext.define('Extensible.calendar.view.Day', {
     extend: 'Ext.container.Container',
@@ -136,11 +132,9 @@ Ext.define('Extensible.calendar.view.Day', {
      * overall Day view container vertically scrollable.
      */
     minBodyHeight: 150,
-    
-    // private
+
     isDayView: true,
-    
-    // private
+
     initComponent: function() {
         /**
          * @cfg {String} ddCreateEventText
@@ -191,8 +185,7 @@ Ext.define('Extensible.calendar.view.Day', {
         
         this.callParent(arguments);
     },
-    
-    // private
+
     afterRender: function() {
         this.callParent(arguments);
         
@@ -202,8 +195,7 @@ Ext.define('Extensible.calendar.view.Day', {
         this.body.on('eventsrendered', this.forceSize, this);
         this.on('resize', this.onResize, this);
     },
-    
-    // private
+
     refresh: function(reloadData) {
         Extensible.log('refresh (DayView)');
         if (reloadData === undefined) {
@@ -212,8 +204,7 @@ Ext.define('Extensible.calendar.view.Day', {
         this.header.refresh(reloadData);
         this.body.refresh(reloadData);
     },
-    
-    // private
+
     forceSize: function() {
         var me = this;
         
@@ -237,8 +228,7 @@ Ext.define('Extensible.calendar.view.Day', {
             }
         }, Ext.isIE ? 1 : 0, me);
     },
-    
-    // private
+
     onResize: function() {
         this.forceSize();
         Ext.defer(this.refresh, Ext.isIE ? 1 : 0, this); //IE needs the defer
@@ -252,8 +242,7 @@ Ext.define('Extensible.calendar.view.Day', {
         this.header.doHide.apply(this, arguments);
         this.body.doHide.apply(this, arguments);
     },
-    
-    // private
+
     getViewBounds: function() {
         return this.header.getViewBounds();
     },
@@ -278,7 +267,6 @@ Ext.define('Extensible.calendar.view.Day', {
         this.body.setStartDate(dt, true);
     },
 
-    // private
     renderItems: function() {
         this.header.renderItems();
         this.body.renderItems();

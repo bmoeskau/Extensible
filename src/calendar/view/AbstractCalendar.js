@@ -1,6 +1,4 @@
 /**
- * @class Extensible.calendar.view.AbstractCalendar
- * @extends Ext.Component
  * This is an abstract class that serves as the base for other calendar views. This class is not
  * intended to be directly instantiated.
  * 
@@ -8,8 +6,6 @@
  * for the <tt>renderItems</tt> method, as there is no default implementation for rendering events
  * The rendering logic is totally dependent on how the UI structures its data, which
  * is determined by the underlying UI template (this base class does not have a template).
- * @constructor
- * @param {Object} config The config object
  */
 Ext.define('Extensible.calendar.view.AbstractCalendar', {
     extend: 'Ext.Component',
@@ -339,7 +335,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * @return {String} A space-delimited CSS class string (or '')
      */
 
-    // private
     initComponent: function() {
         this.setStartDate(this.startDate || new Date());
 
@@ -553,7 +548,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         });
     },
 
-    // private
     afterRender: function() {
         this.callParent(arguments);
 
@@ -655,12 +649,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         this.store.load(o);
     },
 
-    // private
     onEventsRendered: function() {
         this.forceSize();
     },
 
-    // private
     forceSize: function() {
         var el = this.el;
         
@@ -703,13 +695,11 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     getWeekCount: function() {
         var days = Extensible.Date.diffDays(this.viewStart, this.viewEnd);
         return Math.ceil(days / this.dayCount);
     },
     
-    // private
     prepareData: function() {
         var lastInMonth = Ext.Date.getLastDateOfMonth(this.startDate),
             w = 0,
@@ -758,7 +748,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         this.currentWeekCount = w;
     },
 
-    // private
     prepareEventGrid: function(evts, w, d) {
         var me = this,
             row = 0,
@@ -794,7 +783,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }, me);
     },
     
-    // private
     setMaxEventsForDay: function(weekIndex, dayIndex) {
         var max = (this.maxEventsPerDay + 1) || 999;
         
@@ -809,7 +797,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     prepareEventGridSpans: function(evt, grid, w, d, days, allday) {
         // this event spans multiple days/weeks, so we have to preprocess
         // the events and store special span events as placeholders so that
@@ -862,7 +849,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     findEmptyRowIndex: function(w, d, allday) {
         var grid = allday ? this.allDayGrid : this.eventGrid,
             day = grid[w] ? grid[w][d] || [] : [],
@@ -877,7 +863,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         return len;
     },
 
-    // private
     renderTemplate: function() {
         if (this.tpl) {
             this.tpl.overwrite(this.el, this.getTemplateParams());
@@ -886,7 +871,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     getTemplateParams: function() {
         return {
             viewStart: this.viewStart,
@@ -923,22 +907,18 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         return this;
     },
 
-    // private
     onResize: function() {
         this.refresh(false);
     },
 
-    // private
     onInitDrag: function() {
         this.fireEvent('initdrag', this);
     },
 
-    // private
     onEventDrop: function(rec, dt, mode) {
         this[(mode || 'move') + 'Event'](rec, dt);
     },
 
-    // private
     onCalendarEndDrag: function(start, end, onComplete) {
         // set this flag for other event handlers that might conflict while we're waiting
         this.dragPending = true;
@@ -965,7 +945,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     onCalendarEndDragComplete: function(onComplete) {
         // callback for the drop zone to clean up
         onComplete();
@@ -995,7 +974,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         this.refresh(reload);
     },
 
-    // private
     onUpdate: function(store, operation, updateType) {
         if (this.hidden === true || this.ownerCt.hidden === true || this.monitorStoreEvents === false) {
             // Hidden calendar view don't need to be refreshed. For views composed of header and body (for example
@@ -1033,7 +1011,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         this.highlightEvent(els, null, o);
     },
 
-    // private
     onAdd: function(store, operation) {
         var rec = operation.records[0];
 
@@ -1076,7 +1053,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         els.fadeIn(Ext.apply(o, { duration: 2000 }));
     },
 
-    // private
     onRemove: function(store, operation) {
         if (this.hidden === true || this.ownerCt.hidden === true || this.monitorStoreEvents === false) {
             // Hidden calendar view don't need to be refreshed. For views composed of header and body (for example
@@ -1185,7 +1161,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         return id;
     },
 
-    // private
     getEventId: function(eventId) {
         if (eventId === undefined && this.tempEventId) {
             // temp record id assigned during an add, will be overwritten later
@@ -1229,7 +1204,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         return this.viewStart.getTime() <= today && this.viewEnd.getTime() >= today;
     },
 
-    // private
     isEventVisible: function(evt) {
         var eventMappings = Extensible.calendar.data.EventMappings,
             calendarMappings = Extensible.calendar.data.CalendarMappings,
@@ -1250,7 +1224,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         return Extensible.Date.rangesOverlap(start, end, evStart, evEnd);
     },
 
-    // private
     isOverlapping: function(evt1, evt2) {
         var ev1 = evt1.data ? evt1.data : evt1,
             ev2 = evt2.data ? evt2.data : evt2,
@@ -1279,7 +1252,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         return (evtsOverlap || ev1MinHeightOverlapsEv2);
     },
 
-    // private
     isEventSpanning: function(evt) {
         var M = Extensible.calendar.data.EventMappings,
             data = evt.data || evt,
@@ -1295,12 +1267,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         return diff > 0;
     },
 
-    // private
     getDayEl: function(dt) {
         return Ext.get(this.getDayId(dt));
     },
 
-    // private
     getDayId: function(dt) {
         if (Ext.isDate(dt)) {
             dt = Ext.Date.format(dt, 'Ymd');
@@ -1351,7 +1321,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     setViewBounds: function(startDate) {
         var me = this,
             start = startDate || me.startDate,
@@ -1567,13 +1536,11 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         this.store = store;
     },
     
-    // private
     onEventStoreLoad: function(store, recs, successful) {
         Extensible.log('AbstractCalendar.onEventStoreLoad: store loaded');
         this.refresh(false);
     },
     
-    // private
     // No longer used, but kept here for compatibility
     onDataChanged: this.onEventStoreLoad,
 
@@ -1673,7 +1640,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         this.calendarStore = store;
     },
 
-    // private
     getEventRecord: function(id) {
         var idx = this.store.find(Extensible.calendar.data.EventMappings.EventId.name, id,
             0,     // start index
@@ -1684,12 +1650,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         return this.store.getAt(idx);
     },
 
-    // private
     getEventRecordFromEl: function(el) {
         return this.getEventRecord(this.getEventIdFromEl(el));
     },
 
-    // private
     getEventEditor: function() {
         // only create one instance of the edit window, even if there are multiple CalendarPanels
         this.editWin = this.editWin || Ext.WindowMgr.get('ext-cal-editwin');
@@ -1785,7 +1749,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         return this;
     },
 
-    // private
     save: function() {
         // If the store is configured as autoSync:true the record's endEdit
         // method will have already internally caused a save to execute on
@@ -1796,7 +1759,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     onWrite: function(store, operation) {
         if (operation.wasSuccessful()) {
             //var rec = operation.records[0];
@@ -1815,7 +1777,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     onEventEditorAdd: function(form, rec) {
         this.newRecord = rec;
 
@@ -1826,24 +1787,21 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         this.fireEvent('eventadd', this, rec);
     },
 
-    // private
     onEventEditorUpdate: function(form, rec) {
         this.save();
         this.fireEvent('eventupdate', this, rec);
     },
 
-    // private
     onEventEditorDelete: function(form, rec) {
         rec._deleting = true;
         this.deleteEvent(rec);
     },
 
-    // private
     onEventEditorCancel: function(form, rec) {
         this.fireEvent('eventcancel', this, rec);
     },
 
-    // private -- called from subclasses
+    // called from subclasses
     onDayClick: function(dt, ad, el) {
         if (this.readOnly === true) {
             return;
@@ -1859,7 +1817,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     showEventMenu: function(el, xy) {
         var me = this;
 
@@ -1880,13 +1837,11 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         me.menuActive = true;
     },
 
-    // private
     onCopyEvent: function(menu, rec, newStartDate) {
         this.menuActive = false;
         this.shiftEvent(rec, newStartDate, 'copy');
     },
 
-    // private
     onMoveEvent: function(menu, rec, newStartDate) {
         this.menuActive = false;
         this.shiftEvent(rec, newStartDate, 'move');
@@ -1911,7 +1866,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         this.shiftEvent(rec, newStartDate, 'move');
     },
 
-    // private
     shiftEvent: function(rec, newStartDate, moveOrCopy) {
         var me = this,
             newRec;
@@ -1946,7 +1900,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     onRecurrenceEditModeSelected: function(editMode, rec, newStartDate, moveOrCopy) {
         var EventMappings = Extensible.calendar.data.EventMappings;
 
@@ -1961,7 +1914,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         // else user canceled
     },
 
-    // private
     doShiftEvent: function(rec, newStartDate, moveOrCopy) {
         var EventMappings = Extensible.calendar.data.EventMappings,
             diff = newStartDate.getTime() - rec.getStartDate().getTime(),
@@ -1980,13 +1932,11 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         this.fireEvent('event' + moveOrCopy, this, rec);
     },
 
-    // private
     onEditDetails: function(menu, rec, el) {
         this.fireEvent('editdetails', this, rec, el);
         this.menuActive = false;
     },
 
-    // private
     // onRecurrenceMoveModeSelected: function(editMode, rec, newStartDate) {
         // if (editMode) {
             // rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
@@ -1996,7 +1946,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         // // else user canceled
     // },
 
-    // private
     onDeleteEvent: function(menu, rec, el) {
         rec._deleting = true;
         this.deleteEvent(rec, el);
@@ -2027,7 +1976,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     onRecurrenceDeleteModeSelected: function(editMode, rec, el) {
         if (editMode) {
             rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
@@ -2037,14 +1985,12 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         // else user canceled
     },
 
-    // private
     doDeleteEvent: function(rec, /* private */el) {
         this.store.remove(rec);
         this.save();
         this.fireEvent('eventdelete', this, rec, el);
     },
 
-    // private
     onContextMenu: function(e, t) {
         var el = e.getTarget(this.eventSelector, 5, true),
             match = false;
@@ -2089,7 +2035,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     onMouseOver: function(e, t) {
         if (this.trackMouseOver !== false && (this.dragZone === undefined || !this.dragZone.dragging)) {
             if (!this.handleEventMouseEvent(e, t, 'over')) {
@@ -2098,7 +2043,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     onMouseOut: function(e, t) {
         if (this.trackMouseOver !== false && (this.dragZone === undefined || !this.dragZone.dragging)) {
             if (!this.handleEventMouseEvent(e, t, 'out')) {
@@ -2107,7 +2051,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private
     handleEventMouseEvent: function(e, t, type) {
         var el = e.getTarget(this.eventSelector, this.eventSelectorDepth, true);
         
@@ -2132,13 +2075,11 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         return false;
     },
 
-    // private
     getDateFromId: function(id, delim) {
         var parts = id.split(delim);
         return parts[parts.length-1];
     },
 
-    // private
     handleDayMouseEvent: function(e, t, type) {
         t = e.getTarget('td', 3);
         
@@ -2164,7 +2105,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
     },
 
-    // private, MUST be implemented by subclasses
+    // MUST be implemented by subclasses
     renderItems: function() {
         throw 'This method must be implemented by a subclass';
     },
@@ -2181,7 +2122,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         return (calendarPanel && calendarPanel.getActiveView().id === this.id);
     },
 
-    // private
     destroy: function() {
         this.callParent(arguments);
 

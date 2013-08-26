@@ -16,7 +16,6 @@ Ext.define('Extensible.calendar.dd.DropZone', {
     dateRangeFormat: '{0}-{1}',
     dateFormat: 'n/j',
     
-    // private
     shims: [],
     
     getTargetFromEvent: function(e) {

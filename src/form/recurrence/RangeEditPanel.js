@@ -38,8 +38,7 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
         type: 'vbox',
         align: 'stretch'
     },
-    
-    // private
+
     initComponent: function() {
         var me = this;
         
