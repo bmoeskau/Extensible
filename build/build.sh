@@ -73,6 +73,7 @@ if [ "$docs" = "1" ]; then
     echo Generating docs to $EXTENSIBLE_OUTPUT/$VER/docs
     jsduck $EXTENSIBLE_ROOT/src --output $EXTENSIBLE_OUTPUT/$VER/docs \
         --seo --builtin-classes \
+        --head-html="<link rel='stylesheet' href='extensible-docs.css' type='text/css'>" \
         --message="Note that these docs have not yet been finalized for 1.6.0" \
         --title="Extensible Docs" \
         --footer="<a href='http://ext.ensible.com/'>Ext.ensible.com</a>" \
@@ -83,6 +84,8 @@ if [ "$docs" = "1" ]; then
         --examples-base-url="../examples" \
         --exclude=$EXTENSIBLE_ROOT/src/calendar/dd/CalendarScrollManager.js \
         --ignore-html=locale,debug
+    
+    cp $EXTENSIBLE_ROOT/build/resources/extensible-docs.css $EXTENSIBLE_OUTPUT/$VER/docs
 fi
 
 echo All done!

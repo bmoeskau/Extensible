@@ -36,6 +36,7 @@ echo f | xcopy /y /q "%EXTENSIBLE_ROOT%\src\Extensible.js" "%EXTENSIBLE_OUTPUT%\
 
 :: Copy the deploy files back into dev so that the samples get the latest code
 echo Copying output to %EXTENSIBLE_OUTPUT%\%VER%
+
 xcopy /y /q "%EXTENSIBLE_OUTPUT%\%VER%\lib\extensible-bootstrap.js" "%EXTENSIBLE_ROOT%\lib" > nul
 xcopy /y /q "%EXTENSIBLE_OUTPUT%\%VER%\lib\extensible-all.js" "%EXTENSIBLE_ROOT%\lib" > nul
 xcopy /y /q "%EXTENSIBLE_OUTPUT%\%VER%\lib\extensible-all-debug.js" "%EXTENSIBLE_ROOT%\lib" > nul
@@ -55,7 +56,9 @@ xcopy /y /q "%EXTENSIBLE_ROOT%\*.md" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
 IF "%1" == "-d" (
     echo Generating docs to %EXTENSIBLE_OUTPUT%\%VER%\docs...
     if exist "%EXTENSIBLE_OUTPUT%\%VER%\docs" rmdir /s /q "%EXTENSIBLE_OUTPUT%\%VER%\docs"
-    jsduck "%EXTENSIBLE_ROOT%\src" --output "%EXTENSIBLE_OUTPUT%\%VER%\docs" --seo --builtin-classes ^
+    jsduck "%EXTENSIBLE_ROOT%\src" --output "%EXTENSIBLE_OUTPUT%\%VER%\docs" ^
+        --seo --builtin-classes ^
+        --head-html="<link rel='stylesheet' href='extensible-docs.css' type='text/css'>" ^
         --message="Note that these docs have not yet been finalized for 1.6.0" ^
         --title="Extensible Docs" ^
         --footer="<a href='http://ext.ensible.com/'>Ext.ensible.com</a>" ^
@@ -66,6 +69,8 @@ IF "%1" == "-d" (
         --examples-base-url="..\examples" ^
         --exclude="%EXTENSIBLE_ROOT%\src\calendar\dd\CalendarScrollManager.js" ^
         --ignore-html=locale,debug
+    
+    xcopy /y /q "%EXTENSIBLE_ROOT%\build\resources\extensible-docs.css" "%EXTENSIBLE_OUTPUT%\%VER%\docs" > nul
 )
 
 echo All done!

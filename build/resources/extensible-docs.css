@@ -1,0 +1,23 @@
+
+/* Extensible custom styles */
+
+#extensible-welcome {
+    margin: 50px auto;
+    text-align: center;
+}
+#extensible-welcome h1,
+#extensible-welcome p {
+    margin-bottom: 20px;
+}
+
+
+/* JSDuck overrides */
+
+.class-categories .section .left-column {
+    width: 300px;
+}
+.class-categories .section .middle-column,
+.class-categories .section .right-column {
+    width: 300px;
+    margin-left: 20px;
+}
