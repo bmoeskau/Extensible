@@ -56,7 +56,11 @@ IF "%1" == "-d" (
         --title="Extensible Docs" ^
         --footer="<a href='http://ext.ensible.com/'>Ext.ensible.com</a>" ^
         --warnings=-all ^
-        --exclude="%EXTENSIBLE_ROOT%/src/calendar/dd/CalendarScrollManager.js" ^
+        --welcome="%EXTENSIBLE_ROOT%\welcome.html" ^
+        --examples="%EXTENSIBLE_ROOT%\examples.json" ^
+        --examples-base-url="..\examples" ^
+        --categories="%EXTENSIBLE_ROOT%\categories.json" ^
+        --exclude="%EXTENSIBLE_ROOT%\src\calendar\dd\CalendarScrollManager.js" ^
         --ignore-html=locale,debug
 )
 
