@@ -20,18 +20,22 @@ set EXTENSIBLE_OUTPUT=%EXTENSIBLE_ROOT%\deploy
 IF NOT EXIST %EXTENSIBLE_ROOT%\NUL GOTO E_FOLDER_NOT_FOUND
 IF "%1" == "-h" GOTO E_USAGE
 
+echo Preparing to build %VER% from source %EXTENSIBLE_ROOT%
+
 :: Any cleanup that needs to happen prior to the build
 if exist "%EXTENSIBLE_ROOT%\resources\css\extensible-all.css" del "%EXTENSIBLE_ROOT%\resources\css\extensible-all.css"
 
 :: Build it
-java -jar JSBuilder2.jar --projectFile %EXTENSIBLE_ROOT%\build\extensible.jsb2 --homeDir %EXTENSIBLE_OUTPUT%
+java -jar "%EXTENSIBLE_ROOT%\build\resources\JSBuilder2.jar" ^
+     --projectFile "%EXTENSIBLE_ROOT%\build\resources\extensible.jsb2" ^
+     --homeDir %EXTENSIBLE_OUTPUT%
 
 :: Copy the Extensible class definition to the root as extensible.js for dynamic loading support.
 :: Use "echo f | " to suppress the "copy as file or directory" prompt and force as file
 echo f | xcopy /y /q "%EXTENSIBLE_ROOT%\src\Extensible.js" "%EXTENSIBLE_OUTPUT%\%VER%\lib\extensible-bootstrap.js" > nul
 
 :: Copy the deploy files back into dev so that the samples get the latest code
-echo Updating dev...
+echo Copying output to %EXTENSIBLE_OUTPUT%\%VER%
 xcopy /y /q "%EXTENSIBLE_OUTPUT%\%VER%\lib\extensible-bootstrap.js" "%EXTENSIBLE_ROOT%\lib" > nul
 xcopy /y /q "%EXTENSIBLE_OUTPUT%\%VER%\lib\extensible-all.js" "%EXTENSIBLE_ROOT%\lib" > nul
 xcopy /y /q "%EXTENSIBLE_OUTPUT%\%VER%\lib\extensible-all-debug.js" "%EXTENSIBLE_ROOT%\lib" > nul
@@ -49,17 +53,17 @@ xcopy /y /q "%EXTENSIBLE_ROOT%\*.md" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
 :: - Installation: https://github.com/senchalabs/jsduck/wiki/Installation
 :: - Configuring this command: jsduck --help
 IF "%1" == "-d" (
-    echo Generating docs...
+    echo Generating docs to %EXTENSIBLE_OUTPUT%\%VER%\docs...
     if exist "%EXTENSIBLE_OUTPUT%\%VER%\docs" rmdir /s /q "%EXTENSIBLE_OUTPUT%\%VER%\docs"
     jsduck "%EXTENSIBLE_ROOT%\src" --output "%EXTENSIBLE_OUTPUT%\%VER%\docs" --seo --builtin-classes ^
         --message="Note that these docs have not yet been finalized for 1.6.0" ^
         --title="Extensible Docs" ^
         --footer="<a href='http://ext.ensible.com/'>Ext.ensible.com</a>" ^
         --warnings=-all ^
-        --welcome="%EXTENSIBLE_ROOT%\welcome.html" ^
-        --examples="%EXTENSIBLE_ROOT%\examples.json" ^
+        --welcome="%EXTENSIBLE_ROOT%\build\resources\welcome.html" ^
+        --examples="%EXTENSIBLE_ROOT%\build\resources\examples.json" ^
+        --categories="%EXTENSIBLE_ROOT%\build\resources\categories.json" ^
         --examples-base-url="..\examples" ^
-        --categories="%EXTENSIBLE_ROOT%\categories.json" ^
         --exclude="%EXTENSIBLE_ROOT%\src\calendar\dd\CalendarScrollManager.js" ^
         --ignore-html=locale,debug
 )
