@@ -609,6 +609,8 @@
     
             case 'add':
                 if (isset($event)) {
+                    // The id column is auto-increment, so remove if passed in
+                    unset($event['id']);
                     $result = addEvent($event);
                 }
                 out($result);
