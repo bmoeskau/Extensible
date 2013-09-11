@@ -49,6 +49,9 @@ xcopy /y /q "%EXTENSIBLE_ROOT%\*.html" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
 xcopy /y /q "%EXTENSIBLE_ROOT%\*.txt" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
 xcopy /y /q "%EXTENSIBLE_ROOT%\*.md" "%EXTENSIBLE_OUTPUT%\%VER%" > nul
 
+:: The example config.php file should not exist, make sure of it
+if exists "%EXTENSIBLE_OUTPUT%\%VER%\examples\server\php\config.php" del "%EXTENSIBLE_OUTPUT%\%VER%\examples\server\php\config.php"
+
 :: The docs have now been converted to JSDuck. This assumes that JSDuck is installed
 :: correctly and available in the system path (or the jsduck.exe copied into this directory)
 :: - Installation: https://github.com/senchalabs/jsduck/wiki/Installation

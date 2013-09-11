@@ -205,11 +205,11 @@
     },{
         "src": "../../examples/",
         "dest": "examples/",
-        "filters": ".*[\\.html|\\.jpg|\\.png|\\.gif|\\.css|\\.js|\\.php]"
+        "filters": ".*"
     },{
         "src": "../../welcome/",
         "dest": "welcome/",
-        "filters": ".*[\\.html|\\.jpg|\\.png|\\.gif|\\.css|\\.js|\\.php]"
+        "filters": ".*"
     },{
         "src": "../../resources/",
         "dest": "resources/",

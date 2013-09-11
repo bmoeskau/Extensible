@@ -65,6 +65,9 @@ cp $EXTENSIBLE_ROOT/*.html $EXTENSIBLE_OUTPUT/$VER
 cp $EXTENSIBLE_ROOT/*.txt $EXTENSIBLE_OUTPUT/$VER
 cp $EXTENSIBLE_ROOT/*.md $EXTENSIBLE_OUTPUT/$VER
 
+# The example config.php file should not exist, make sure of it
+rm $EXTENSIBLE_OUTPUT/$VER/examples/server/php/config.php
+
 # The docs have now been converted to JSDuck. This assumes that JSDuck is installed
 # correctly and available in the system path.
 # - Installation: https://github.com/senchalabs/jsduck/wiki/Installation
