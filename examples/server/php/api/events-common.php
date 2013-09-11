@@ -9,6 +9,10 @@
     $json = file_get_contents('php://input');
     $event = json_decode($json, TRUE);
     
+    // Clean the event.
+    // MySQL doesn't really have a true boolean type, so convert to int for this demo
+    $event['all_day'] = $event['all_day'] === TRUE ? 1 : 0;
+    
     // Grab the requested start and end dates if supplied
     $start_dt = isset($_REQUEST['startDate']) ? strtolower($_REQUEST['startDate']) : null;
     $end_dt = isset($_REQUEST['endDate']) ? strtolower($_REQUEST['endDate']) : null;
