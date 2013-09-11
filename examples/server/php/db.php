@@ -13,7 +13,7 @@
         }
         
         public function connect() {
-            if (!isset($db)) {
+            if (!isset($this->db)) {
                 $cfg = $this->config;
                 $this->db = new PDO('mysql:host='.$cfg->host.';dbname='.$cfg->dbname, $cfg->username, $cfg->password);
                 $this->db->setAttribute(PDO::ATTR_ERRMODE, $this->error_mode);
