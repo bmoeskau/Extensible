@@ -26,6 +26,9 @@ Extensible.Config = {
          * - 'debug': (default) non-minifed single file (e.g. ext-all-debug.js)
          * - 'dynamic': uses Ext.Loader to load classes individually (e.g., ext.js). NOTE: this
          *    option does not work for IE, which will be defaulted to the 'debug' option.
+         * - 'dynamic-extensible': Loads the Extensible framework dymically and the EXT JS framework from a
+         *   non-minified single file. This loads much faster than the 'dynamic' mode. NOTE: this
+         *    option does not work for IE, which will be defaulted to the 'debug' option.
          * 
          * Typically the default of 'debug' is the best trade-off between code readability and
          * load/execution speed. If you need to step into framework files frequently during
@@ -189,7 +192,7 @@ Extensible.Config = {
                 // after that, so use the version number instead of a unique string
                 cacheBuster = '?_dc=' + Extensible.version;
                 break;
-            
+
             default:
                 // IE does not work in dynamic mode for the Extensible examples currently
                 // based on how it (mis)handles loading of scripts when mixing includes
@@ -199,8 +202,16 @@ Extensible.Config = {
                     suffixExtensible = '-all-debug';
                 }
                 else {
-                    suffixExt = '-debug';
-                    suffixExtensible = '-bootstrap';
+                    switch (me.mode) {
+                        case 'dynamic-extensible':
+                            suffixExt = '-all-debug';
+                            suffixExtensible = '-bootstrap';
+                            break;
+
+                        default:
+                            suffixExt = '-debug';
+                            suffixExtensible = '-bootstrap';
+                    }
                 }
         }
         
