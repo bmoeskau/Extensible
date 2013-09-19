@@ -96,6 +96,8 @@ Ext.define('Extensible.calendar.view.Agenda', {
         var header = Ext.applyIf({
             xtype: 'extensible.agendaheaderview',
             id: this.id+'-hd',
+            stateful: this.stateful,
+            stateId: this.id+'-hd',
             ownerCalendarView: this,
             listeners: {
                 formchange: {fn: this.onFormChange, scope: this},

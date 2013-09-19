@@ -149,6 +149,7 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
     showDetailsDefault: false,
 
     // private configs
+    cls: 'ext-cal-agenda-hd',
     preventHeader: true,
     autoHeight: true,
     border: 0,
@@ -249,10 +250,7 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
                 }),
                 // This fixes a bug that a blank item is not properly supported. See Sencha forum and source of Ext.view.BoundList.
                 // http://www.sencha.com/forum/showthread.php?41431-Empty-string-as-ComboBox-entry-text&p=195882
-                tpl: '<ul><tpl for="."><li role="option" class="x-boundlist-item">{name}&nbsp;</li></tpl></ul>',
-                listeners: {
-                    change: {fn: this.onFormChange, scope: this}
-                }
+                tpl: '<ul><tpl for="."><li role="option" class="x-boundlist-item">{name}&nbsp;</li></tpl></ul>'
             }]
         };
 
@@ -276,10 +274,7 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
                 }),
                 // This fixes a bug that a blank item is not properly supported. See Sencha forum and source of Ext.view.BoundList.
                 // http://www.sencha.com/forum/showthread.php?41431-Empty-string-as-ComboBox-entry-text&p=195882
-                tpl: '<ul><tpl for="."><li role="option" class="x-boundlist-item">{name}&nbsp;</li></tpl></ul>',
-                listeners: {
-                    change: {fn: this.onFormChange, scope: this}
-                }
+                tpl: '<ul><tpl for="."><li role="option" class="x-boundlist-item">{name}&nbsp;</li></tpl></ul>'
             });
         }
 
@@ -289,10 +284,7 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
             value:          this.showDetailsDefault,
             inputvalue:     '1',
             fieldLabel:     this.showDetailsText,
-            name:           'details',
-            listeners: {
-                change: {fn: this.onFormChange, scope: this}
-            }
+            name:           'details'
         });
 
         return [formItems];
@@ -335,13 +327,13 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
      * <p>Returns an array of objects where each object has two attributes <tt>name</tt> and <tt>value</tt>. The
      * attribute <tt>name</tt> is the display string, the attribute <tt>value</tt> is the value returned as the
      * field value of the combo box. The default configuration is: <pre><code>
-[
+     [
      {name : 'One Day',   value: 'day'},
      {name : 'One Week',  value: 'week'},
      {name : 'One Month',  value: 'month'},
      {name : '3 Months',  value: '3months'},
      {name : 'One Year', value: 'year'}
-]
+     ]
      </code></pre></p>
      * @return {Object}
      */
@@ -386,6 +378,7 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
      */
     onFormChange: function(field, newValue, oldValue, eOpts){
         this.fireEvent('formchange', this, this.getForm(), field, newValue, oldValue, eOpts);
+        this.saveState();
     },
 
     /* Private
@@ -401,8 +394,19 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
 
     // private
     afterRender : function(){
-        this.addCls('ext-cal-agenda-hd');
         this.callParent(arguments);
+
+        this.dateRangeField = this.down('#' + this.id + '-daterange');
+        this.dateRangeField.setValue(this.dateRangeDefault);
+        this.dateRangeField.on('change', this.onFormChange, this);
+        this.groupByField = this.down('#' + this.id + '-groupby');
+        if (this.groupByField) {
+            this.groupByField.setValue(this.groupBy);
+            this.groupByField.on('change', this.onFormChange, this);
+        }
+        this.showDetailsCheckbox = this.down('#' + this.id + '-showdetails');
+        this.showDetailsCheckbox.setValue(this.showDetailsDefault);
+        this.showDetailsCheckbox.on('change', this.onFormChange, this);
     },
 
     // private
@@ -418,6 +422,55 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
      * @param {Date} dt The new view start date.
      */
     moveTo : function(dt){
+    },
+
+    /**
+     * Returns the state to be persisted in a browser cookie. This implements function getState()
+     * from mixin Ext.state.Stateful.
+     * @return {Object}
+     */
+    getState: function() {
+        var state = {
+            daterange: this.dateRangeField.getValue(),
+            showdetails: this.showDetailsCheckbox.getValue()
+        };
+        if (this.groupByField) {
+            state.groupby = this.groupByField.getValue();
+        }
+        return state;
+    },
+
+    /**
+     * Function is called in the constructor to restore the state. This implements function applyState()
+     * from mixin Ext.state.Stateful.
+     * @param {Object} state See function getState() for the structure of state.
+     */
+    applyState: function(state) {
+        if (state) {
+            if (state.daterange) {
+                var dateRangeValues = this.getDateRangeOptions();
+                for (var i = 0; i < dateRangeValues.length; i++ ) {
+                    var option = dateRangeValues[i];
+                    if (option.value == state.daterange) {
+                        this.dateRangeDefault = state.daterange;
+                        break;
+                    }
+                }
+            }
+            if (state.showdetails === true || state.showdetails === false) {
+                this.showDetailsDefault = state.showdetails;
+            }
+            if (state.groupby) {
+                var groupByValues = this.getGroupByOptions();
+                for (var i = 0; i < groupByValues.length; i++ ) {
+                    var option = groupByValues[i];
+                    if (option.value == state.groupby) {
+                        this.groupBy = state.groupby;
+                        break;
+                    }
+                }
+            }
+        }
     }
 
 });
