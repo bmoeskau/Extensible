@@ -38,7 +38,7 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
     initComponent: function() {
         this.callParent(arguments);
         
-        this.addCls('x-calendar-palette');
+        this.addCls(Ext.baseCSSPrefix+'calendar-palette');
             
         if(this.handler) {
             this.on('select', this.handler, this.scope || this, {
@@ -59,8 +59,8 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
             colorId;
         
         Ext.each(classNames, function(className) {
-            if (className.indexOf('x-cal-') > -1) {
-                colorId = className.split('x-cal-')[1];
+            if (className.indexOf(Ext.baseCSSPrefix+'cal-') > -1) {
+                colorId = className.split(Ext.baseCSSPrefix+'cal-')[1];
                 return false;
             }
         });
@@ -88,9 +88,9 @@ Ext.define('Extensible.calendar.util.ColorPicker', {
             var el = me.el;
 
             if (me.value) {
-                el.down('.x-cal-' + value).removeCls(selectedCls);
+                el.down('.'+Ext.baseCSSPrefix+'cal-' + value).removeCls(selectedCls);
             }
-            el.down('.x-cal-' + colorId).addCls(selectedCls);
+            el.down('.'+Ext.baseCSSPrefix+'cal-' + colorId).addCls(selectedCls);
             me.value = colorId;
             
             if (suppressEvent !== true) {

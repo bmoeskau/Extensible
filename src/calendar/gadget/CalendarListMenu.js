@@ -82,7 +82,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
             }]
         });
         
-        this.addClass('x-calendar-list-menu');
+        this.addClass(Ext.baseCSSPrefix+'calendar-list-menu');
         this.callParent(arguments);
     },
     

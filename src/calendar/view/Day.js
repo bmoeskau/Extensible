@@ -212,7 +212,7 @@ Ext.define('Extensible.calendar.view.Day', {
         // general to make sure that the window resize is good and done first
         // so that we can properly calculate sizes.
         Ext.defer(function() {
-            var ct = me.el.up('.x-panel-body'),
+            var ct = me.el.up('.'+Ext.baseCSSPrefix+'panel-body'),
                 header = me.el.down('.ext-cal-day-header'),
                 bodyHeight = ct ? ct.getHeight() - header.getHeight() : false;
             

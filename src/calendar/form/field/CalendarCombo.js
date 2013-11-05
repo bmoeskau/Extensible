@@ -22,7 +22,7 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
     forceSelection: true,
     selectOnFocus: true,
     
-    defaultCls: 'x-cal-default',
+    defaultCls: Ext.baseCSSPrefix+'cal-default',
     hiddenCalendarCls: 'ext-cal-hidden',
     
     initComponent: function() {
@@ -46,7 +46,7 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
     afterRender: function() {
         this.callParent(arguments);
         
-        this.wrap = this.el.down('.x-form-item-body');
+        this.wrap = this.el.down('.'+Ext.baseCSSPrefix+'form-item-body');
         this.wrap.addCls('ext-calendar-picker');
         
         this.icon = Ext.core.DomHelper.append(this.wrap, {
@@ -78,7 +78,7 @@ Ext.define('Extensible.calendar.form.field.CalendarCombo', {
                 // this is a calendar id, need to get the record first then use its color
                 value = this.store.findRecord(calendarMappings.CalendarId.name, value);
             }
-            colorCls = 'x-cal-' + (value.data ? value.data[calendarMappings.ColorId.name] : value);
+            colorCls = Ext.baseCSSPrefix+'cal-' + (value.data ? value.data[calendarMappings.ColorId.name] : value);
         }
         
         me.currentStyleClss = colorCls;

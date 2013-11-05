@@ -27,7 +27,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
      */
     
     initComponent: function() {
-        this.addCls('x-calendar-list');
+        this.addCls(Ext.baseCSSPrefix+'calendar-list');
         this.callParent(arguments);
     },
     
@@ -126,7 +126,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     },
     
     getColorCls: function(colorId) {
-        return 'x-cal-'+colorId+'-ad';
+        return Ext.baseCSSPrefix+'cal-'+colorId+'-ad';
     },
     
     toggleCalendar: function(id, commit) {

@@ -47,16 +47,16 @@ Ext.define('Extensible', {
                 // static style rules rather than recalculate sizes on each resize.
                 // We check for less than 3 because the Ext scrollbar measurement gets
                 // slightly padded (not sure the reason), so it's never returned as 0.
-                Ext.getBody().addCls('x-no-scrollbar');
+                Ext.getBody().addCls(Ext.baseCSSPrefix+'no-scrollbar');
             }
             if (Ext.isWindows) {
                 // There are a few Extensible-specific CSS fixes required only on Windows
-                Ext.getBody().addCls('x-win');
+                Ext.getBody().addCls(Ext.baseCSSPrefix+'win');
             }
             if (Ext.getVersion('extjs').isLessThan('4.1')) {
                 // Unfortunately some styling changed in 4.1 that requires version-specific
                 // CSS differences to handle properly across versions. Ugh.
-                Ext.getBody().addCls('x-4-0');
+                Ext.getBody().addCls(Ext.baseCSSPrefix+'4-0');
             }
         }, this);
     },

@@ -257,8 +257,8 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             });
         }
         if(this.showNavNextPrev) {
-            this.tbar.items.push({id: this.id+'-tb-prev', handler: this.onPrevClick, scope: this, iconCls: 'x-tbar-page-prev'});
-            this.tbar.items.push({id: this.id+'-tb-next', handler: this.onNextClick, scope: this, iconCls: 'x-tbar-page-next'});
+            this.tbar.items.push({id: this.id+'-tb-prev', handler: this.onPrevClick, scope: this, iconCls: Ext.baseCSSPrefix+'tbar-page-prev'});
+            this.tbar.items.push({id: this.id+'-tb-next', handler: this.onNextClick, scope: this, iconCls: Ext.baseCSSPrefix+'tbar-page-next'});
         }
         if(this.showNavJump) {
             this.tbar.items.push(this.jumpToText);
@@ -307,7 +307,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         
         if(this.showNavBar === false) {
             delete this.tbar;
-            this.addCls('x-calendar-nonav');
+            this.addCls(Ext.baseCSSPrefix+'calendar-nonav');
         }
         
         this.callParent(arguments);
@@ -544,7 +544,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              */
         });
         
-        this.addCls('x-cal-panel');
+        this.addCls(Ext.baseCSSPrefix+'cal-panel');
         
         if(this.eventStore) {
             this.store = this.eventStore;
@@ -668,7 +668,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     afterRender: function() {
         this.callParent(arguments);
         
-        this.body.addCls('x-cal-body');
+        this.body.addCls(Ext.baseCSSPrefix+'cal-body');
         this.updateNavState();
         this.setActiveView();
     },

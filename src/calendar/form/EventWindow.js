@@ -236,7 +236,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         
         // This junk spacer item gets added to the fbar by Ext (fixed in 4.0.2)
         var junkSpacer = this.getDockedItems('toolbar')[0].items.items[0];
-        if (junkSpacer.el.hasCls('x-component-default')) {
+        if (junkSpacer.el.hasCls(Ext.baseCSSPrefix+'component-default')) {
             Ext.destroy(junkSpacer);
         }
     },
