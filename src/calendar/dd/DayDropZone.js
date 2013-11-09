@@ -1,5 +1,6 @@
-/* @private
+/**
  * Internal drop zone implementation for the calendar day and week views.
+ * @private
  */
 Ext.define('Extensible.calendar.dd.DayDropZone', {
     extend: 'Extensible.calendar.dd.DropZone',

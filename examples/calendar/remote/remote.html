@@ -28,16 +28,14 @@
     <div style="visibility:hidden;">
         <div id="sample-overview">
             <h1>Remote Calendar Demo</h1>
-            <p>This sample uses a simple MVC-style PHP (5.3+) / REST implementation to demonstrate the ease with
-                which you can hook a CalendarPanel up to a back end. In fact, the only differences from the
+            <p>This sample uses a simple PHP (5.3+) / Ajax implementation to demonstrate the ease with
+                which you can hook a CalendarPanel up to a server API. In fact, the only differences from the
                 other local examples are in the store &mdash; giving it a remote proxy and defining the
-                REST API). The PHP code uses the session object for storage, allowing you to refresh the
-                page without losing data. You can also use Firebug (or any other tool that allows you to
-                inspect XHR requests) to examine each request and verify that the proper HTTP verbs are
-                being used when calling the RESTful API.</p>
+                Ajax API). The PHP code uses a MySQL database for storage, allowing you to refresh the
+                page without losing data.</p>
             <p>The calendar will automatically handle server errors, either via remote validation (returning
-                <code>'success': false</code> in the response) or non-200 HTTP response codes. If an editor
-                is visible it will remain visible, and if an event was changed directly via a context menu
+                <code>'success': false</code> in the response) or non-200 HTTP response codes. If an event
+                editor is visible it will remain visible, and if an event was changed directly via a context menu
                 or drag-and-drop the change will not be applied.</p>
     
             <p id="errChk"><label for="forceError"><input type="checkbox" id="forceError"

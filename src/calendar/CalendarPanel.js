@@ -1,12 +1,8 @@
 /**
- * @class Extensible.calendar.CalendarPanel
- * @extends Ext.panel.Panel
- * <p>This is the default container for calendar views. It supports day, week, multi-week and month views as well
+ * This is the default container for calendar views. It supports day, week, multi-week and month views as well
  * as a built-in event edit form. The only requirement for displaying a calendar is passing in a valid
- * {@link #Ext.data.Store store} config containing records of type {@link Extensible.calendar.data.EventModel EventRecord}.</p>
- * @constructor
- * @param {Object} config The config object
- * @xtype extensible.calendarpanel
+ * {@link #Ext.data.Store store} config containing records of type
+ * {@link Extensible.calendar.data.EventModel EventRModel}.
  */
 Ext.define('Extensible.calendar.CalendarPanel', {
     extend: 'Ext.panel.Panel',
@@ -132,10 +128,11 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     dayText: 'Day',
     /**
      * @cfg {String} multiDayText
-     * <p><b>Deprecated.</b> Please override {@link #getMultiDayText} instead.</p>
-     * <p>Text to use for the 'X Days' nav bar button (defaults to "{0} Days" where {0} is automatically
+     * **Deprecated.** Please override {@link #getMultiDayText} instead.
+     * 
+     * Text to use for the 'X Days' nav bar button (defaults to "{0} Days" where {0} is automatically
      * replaced by the value of the {@link #multDayViewCfg}'s dayCount value if available, otherwise it
-     * uses the view default of 3).</p>
+     * uses the view default of 3).
      * @deprecated
      */
     multiDayText: '{0} Days',
@@ -146,10 +143,11 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     weekText: 'Week',
     /**
      * @cfg {String} multiWeekText
-     * <p><b>Deprecated.</b> Please override {@link #getMultiWeekText} instead.</p>
-     * <p>Text to use for the 'X Weeks' nav bar button (defaults to "{0} Weeks" where {0} is automatically
+     * **Deprecated.** Please override {@link #getMultiWeekText} instead.
+     * 
+     * Text to use for the 'X Weeks' nav bar button (defaults to "{0} Weeks" where {0} is automatically
      * replaced by the value of the {@link #multiWeekViewCfg}'s weekCount value if available, otherwise it
-     * uses the view default of 2).</p>
+     * uses the view default of 2).
      * @deprecated
      */
     multiWeekText: '{0} Weeks',
@@ -233,8 +231,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
      * @type {Extensible.calendar.view.AbstractCalendar}
      * @property activeView
      */
-    
-    // private
+
     layout: {
         type: 'card',
         deferredRender: true
@@ -242,8 +239,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     
     // private property
     startDate: new Date(),
-    
-    // private
+
     initComponent: function() {
         this.tbar = {
             cls: 'ext-cal-toolbar',
@@ -326,16 +322,16 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              * @event eventadd
              * Fires after a new event is added to the underlying store
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The new
-             *        {@link Extensible.calendar.data.EventModel record} that was added
+             * @param {Extensible.calendar.data.EventModel} rec The new 
+             * {@link Extensible.calendar.data.EventModel record} that was added
              */
             eventadd: true,
             /**
              * @event eventupdate
              * Fires after an existing event is updated
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The new
-             *        {@link Extensible.calendar.data.EventModel record} that was updated
+             * @param {Extensible.calendar.data.EventModel} rec The new 
+             * {@link Extensible.calendar.data.EventModel record} that was updated
              */
             eventupdate: true,
             /**
@@ -343,8 +339,8 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              * Fires before an event is deleted by the user. This is a cancelable event, so returning
              * false from a handler will cancel the delete operation.
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The
-             *        {@link Extensible.calendar.data.EventModel record} for the event that was deleted
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+             * for the event that was deleted
              * @param {Ext.Element} el The target element
              */
             beforeeventdelete: true,
@@ -352,8 +348,8 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              * @event eventdelete
              * Fires after an event is deleted by the user.
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The
-             *        {@link Extensible.calendar.data.EventModel record} for the event that was deleted
+             * @param {Extensible.calendar.data.EventModel} rec The 
+             * {@link Extensible.calendar.data.EventModel record} for the event that was deleted
              * @param {Ext.Element} el The target element
              */
             eventdelete: true,
@@ -362,21 +358,24 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              * Fires after an event add/edit operation is canceled by the user and no store update took place
              * @param {Extensible.calendar.CalendarPanel} this
              * @param {Extensible.calendar.data.EventModel} rec The new
-             *        {@link Extensible.calendar.data.EventModel record} that was canceled
+             * {@link Extensible.calendar.data.EventModel record} that was canceled
              */
             eventcancel: true,
             /**
              * @event viewchange
              * Fires after a different calendar view is activated (but not when the event edit form is activated)
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.CalendarView} view The view being activated (any valid
-             *        {@link Extensible.calendar.view.AbstractCalendar CalendarView} subclass)
+             * @param {Extensible.CalendarView} view The view being activated (any valid 
+             * {@link Extensible.calendar.view.AbstractCalendar CalendarView} subclass)
              * @param {Object} info Extra information about the newly activated view. This is a plain object
-             * with following properties:<div class="mdetail-params"><ul>
-             * <li><b><code>activeDate</code></b> : <div class="sub-desc">The currently-selected date</div></li>
-             * <li><b><code>viewStart</code></b> : <div class="sub-desc">The first date in the new view range</div></li>
-             * <li><b><code>viewEnd</code></b> : <div class="sub-desc">The last date in the new view range</div></li>
-             * </ul></div>
+             * with following properties:
+             * 
+             *	* **activeDate**
+             *		* The currently selected date
+             *	* **viewStart**
+             *		* The first date in the new view range
+             *	* **viewEnd**
+             *		* The last date in the new view range
              */
             viewchange: true,
             /**
@@ -387,10 +386,10 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              * instance of the detailed form by showing it and calling
              * {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
              * @param {Extensible.calendar.CalendarPanel} this The CalendarPanel
-             * @param {Extensible.calendar.view.AbstractCalendar} view The currently active
-             *        {@link Extensible.calendar.view.AbstractCalendar CalendarView} subclass
-             * @param {Extensible.calendar.data.EventModel} rec The
-             *        {@link Extensible.calendar.data.EventModel record} that is currently being edited
+             * @param {Extensible.calendar.view.AbstractCalendar} view The currently active 
+             * {@link Extensible.calendar.view.AbstractCalendar CalendarView} subclass
+             * @param {Extensible.calendar.data.EventModel} rec The 
+             * {@link Extensible.calendar.data.EventModel record} that is currently being edited
              * @param {Ext.Element} el The target element
              */
             editdetails: true
@@ -408,16 +407,17 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              */
             /**
              * @event eventclick
-             * <p>Fires after the user clicks on an event element.</p>
-             * <p><strong>NOTE:</strong> This version of <code>eventclick</code> differs from the same
+             * Fires after the user clicks on an event element.
+             * 
+             * **NOTE:** This version of <tt>eventclick</tt> differs from the same
              * event fired directly by {@link Extensible.calendar.view.AbstractCalendar CalendarView}
              * subclasses in that it provides a default implementation (showing the default edit window)
-             * and is also cancelable (if a handler returns <code>false</code> the edit window will not be
+             * and is also cancelable (if a handler returns <tt>false</tt> the edit window will not be
              * shown). This event when fired from a view class is simply a notification that an event was
              * clicked and has no default behavior.
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The
-             *        {@link Extensible.calendar.data.EventModel record} for the event that was clicked on
+             * @param {Extensible.calendar.data.EventModel} rec The 
+             * {@link Extensible.calendar.data.EventModel record} for the event that was clicked on
              * @param {HTMLNode} el The DOM node that was clicked on
              */
             /**
@@ -426,27 +426,27 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              * create an event
              * @param {Extensible.calendar.CalendarPanel} this
              * @param {Object} dates An object containing the start (StartDate property) and end (EndDate
-             *        property) dates selected
-             * @param {Function} callback A callback function that MUST be called after the event handling
-             *        is complete so that the view is properly cleaned up (shim elements are persisted in
-             *        the view while the user is prompted to handle the range selection). The callback is
-             *        already created in the proper scope, so it simply needs to be executed as a standard
-             *        function call (e.g., callback()).
+             * property) dates selected
+             * @param {Function} callback A callback function that MUST be called after the event handling 
+             * is complete so that the view is properly cleaned up (shim elements are persisted in 
+             * the view while the user is prompted to handle the range selection). The callback is 
+             * already created in the proper scope, so it simply needs to be executed as a standard 
+             * function call (e.g., callback()).
              */
             /**
              * @event eventover
              * Fires anytime the mouse is over an event element
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The
-             *        {@link Extensible.calendar.data.EventModel record} for the event that the cursor is over
+             * @param {Extensible.calendar.data.EventModel} rec The 
+             * {@link Extensible.calendar.data.EventModel record} for the event that the cursor is over
              * @param {HTMLNode} el The DOM node that is being moused over
              */
             /**
              * @event eventout
              * Fires anytime the mouse exits an event element
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The
-             *        {@link Extensible.calendar.data.EventModel record} for the event that the cursor exited
+             * @param {Extensible.calendar.data.EventModel} rec The 
+             * {@link Extensible.calendar.data.EventModel record} for the event that the cursor exited
              * @param {HTMLNode} el The DOM node that was exited
              */
             /**
@@ -481,15 +481,15 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              * Fires before an event element is dragged by the user and dropped in a new position. This is
              * a cancelable event, so returning false from a handler will cancel the move operation.
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The
-             *        {@link Extensible.calendar.data.EventModel record} for the event that will be moved
+             * @param {Extensible.calendar.data.EventModel} rec The 
+             * {@link Extensible.calendar.data.EventModel record} for the event that will be moved
              */
             /**
              * @event eventmove
              * Fires after an event element is dragged by the user and dropped in a new position
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The
-             *        {@link Extensible.calendar.data.EventModel record} for the event that was moved with
+             * @param {Extensible.calendar.data.EventModel} rec The 
+             * {@link Extensible.calendar.data.EventModel record} for the event that was moved with
              * updated start and end dates
              */
             /**
@@ -515,26 +515,26 @@ Ext.define('Extensible.calendar.CalendarPanel', {
              * @event beforeeventresize
              * Fires after the user drags the resize handle of an event to resize it, but before the
              * resize operation is carried out. This is a cancelable event, so returning false from a
-             * handler will cancel the resize operation. <strong>NOTE:</strong> This event is only fired
+             * handler will cancel the resize operation. **NOTE:** This event is only fired
              * from views that support event resizing.
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The
-             *        {@link Extensible.calendar.data.EventModel record} for the event that was resized
+             * @param {Extensible.calendar.data.EventModel} rec The 
+             * {@link Extensible.calendar.data.EventModel record} for the event that was resized
              * containing the updated start and end dates
              */
             /**
              * @event eventresize
              * Fires after the user drags the resize handle of an event and the resize operation is
-             * complete. <strong>NOTE:</strong> This event is only fired from views that support event resizing.
+             * complete. **NOTE:** This event is only fired from views that support event resizing.
              * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The
-             *        {@link Extensible.calendar.data.EventModel record} for the event that was resized
+             * @param {Extensible.calendar.data.EventModel} rec The 
+             * {@link Extensible.calendar.data.EventModel record} for the event that was resized
              * containing the updated start and end dates
              */
             /**
              * @event eventexception
              * Fires after an event has been processed via an Ext proxy and returned with an exception. This
-             * could be because of a server error, or because the data returned <code>success: false</code>.
+             * could be because of a server error, or because the data returned <tt>success: false</tt>.
              *
              * The view provides default handling via the overrideable
              * {@link Extensible.calendar.view.AbstractCalendar#notifyOnException notifyOnException} method. If
@@ -650,8 +650,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             }
         }, this.editViewCfg));
     },
-    
-    // private
+
     initEventRelay: function(cfg) {
         cfg.listeners = cfg.listeners || {};
         cfg.listeners.afterrender = {
@@ -670,8 +669,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             single: true
         };
     },
-    
-    // private
+
     afterRender: function() {
         this.callParent(arguments);
         
@@ -711,25 +709,21 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         }
         this.store = store;
     },
-    
-    // private
+
     onStoreAdd: function(ds, recs, index) {
         this.hideEditForm();
     },
-    
-    // private
+
     onStoreUpdate: function(ds, rec, operation) {
         if(operation === Ext.data.Record.COMMIT) {
             this.hideEditForm();
         }
     },
 
-    // private
     onStoreRemove: function(ds, rec) {
         this.hideEditForm();
     },
-    
-    // private
+
     onWrite: function(store, operation) {
         var rec = operation.records[0];
         
@@ -745,15 +739,13 @@ Ext.define('Extensible.calendar.CalendarPanel', {
                 break;
         }
     },
-    
-    // private
+
     onEditDetails: function(vw, rec, el) {
         if(this.fireEvent('editdetails', this, vw, rec, el) !== false) {
             this.showEditForm(rec);
         }
     },
-    
-    // private
+
     save: function() {
         // If the store is configured as autoSync:true the record's endEdit
         // method will have already internally caused a save to execute on
@@ -763,8 +755,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             this.store.sync();
         }
     },
-        
-    // private
+
     onEventAdd: function(form, rec) {
         if(!rec.store) {
             this.store.add(rec);
@@ -772,21 +763,18 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         }
         this.fireEvent('eventadd', this, rec);
     },
-    
-    // private
+
     onEventUpdate: function(form, rec) {
         this.save();
         this.fireEvent('eventupdate', this, rec);
     },
-    
-    // private
+
     onEventDelete: function(form, rec) {
         this.store.remove(rec);
         this.save();
         this.fireEvent('eventdelete', this, rec);
     },
-    
-    // private
+
     onEventCancel: function(form, rec) {
         this.hideEditForm();
         this.fireEvent('eventcancel', this, rec);
@@ -820,8 +808,8 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     
     /**
      * Set the active view, optionally specifying a new start date.
-     * @param {String/Number} id The id of the view to activate (or the 0-based index of the view within
-     *        the CalendarPanel's internal card layout).
+     * @param {String/Number} id The id of the view to activate (or the 0-based index of the view within 
+     * the CalendarPanel's internal card layout).
      * @param {Date} startDate (optional) The new view start date (defaults to the current start date)
      */
     setActiveView: function(id, startDate) {
@@ -863,8 +851,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             me.fireViewChange();
         }
     },
-    
-    // private
+
     fireViewChange: function() {
         if (this.layout && this.layout.getActiveItem) {
             var view = this.layout.getActiveItem(),
@@ -889,8 +876,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             }
         }
     },
-    
-    // private
+
     updateNavState: function() {
         var me = this,
             activeItem = me.layout.activeItem;
@@ -919,20 +905,17 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         this.fireViewChange();
         return this;
     },
-        
-    // private
+
     showWeek: function(dt) {
         this.setActiveView(this.id+'-week', dt);
     },
-    
-    // private
+
     onTodayClick: function() {
         this.startDate = this.layout.activeItem.moveToday(true);
         this.updateNavState();
         this.fireViewChange();
     },
-    
-    // private
+
     onJumpClick: function() {
         var dt = Ext.getCmp(this.id+'-tb-jump-dt').getValue();
         if(dt !== '') {
@@ -942,42 +925,35 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             this.fireViewChange();
         }
     },
-    
-    // private
+
     onPrevClick: function() {
         this.startDate = this.layout.activeItem.movePrev(true);
         this.updateNavState();
         this.fireViewChange();
     },
-    
-    // private
+
     onNextClick: function() {
         this.startDate = this.layout.activeItem.moveNext(true);
         this.updateNavState();
         this.fireViewChange();
     },
-    
-    // private
+
     onDayNavClick: function() {
         this.setActiveView(this.id+'-day');
     },
-    
-    // private
+
     onMultiDayNavClick: function() {
         this.setActiveView(this.id+'-multiday');
     },
-    
-    // private
+
     onWeekNavClick: function() {
         this.setActiveView(this.id+'-week');
     },
-    
-    // private
+
     onMultiWeekNavClick: function() {
         this.setActiveView(this.id+'-multiweek');
     },
-    
-    // private
+
     onMonthNavClick: function() {
         this.setActiveView(this.id+'-month');
     },

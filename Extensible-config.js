@@ -1,10 +1,18 @@
 Extensible = {
-    version: '1.6.0-b1'
+    version: '1.6.0-rc.1'
 };
 /**
+ * =================================================================================================
+ * 
+ *   THIS FILE IS FOR *DEV* MODE ONLY, NOT FOR PRODUCTION USE!
+ * 
+ * =================================================================================================
+ * 
  * This is intended as a development mode only convenience so that you can configure all include
  * paths for all Extensible examples in one place. For production deployment you should configure
- * your application with the proper paths directly.
+ * your application with your own custom includes and/or Ext.Loader configuration directly.
+ * 
+ * =================================================================================================
  */
 Extensible.Config = {
     /**
@@ -31,7 +39,7 @@ Extensible.Config = {
          * 
          * @config {String} mode
          */
-        mode: 'dynamic',
+        mode: 'debug',
         
         /**
          * The root path to the Ext JS framework (defaults to loading 4.1.0 from the Sencha CDN via
@@ -98,13 +106,23 @@ Extensible.Config = {
         /**
          * Language files to load for the Ext JS and Extensible frameworks. Valid values are ISO language codes of
          * supported languages. See directory src/locale for a list of supported languages. Examples are:
+         * 
          * - 'en'
          * - 'en_GB'
          * - 'de'
          * - 'fr'
-         * and many more.
+         * - etc...
+         * 
+         * NOTE: This setting will NOT work for Ext versions < 4.1 due to how the locale files were written
+         * in 4.0.x. Because the 4.0.x locale files check for existence of classes by reference rather than
+         * by name, they do not play nicely when loaded asynchronously (Ext may load later, causing runtime
+         * errors when the locale files hit undefined classes). Extensible locales do not have this issue
+         * and work correctly for all versions. For Ext >= 4.1 this should work fine (Sencha updated all of
+         * the locales with string-based class checking), but for now this option is disabled by default to
+         * work consistently with all Ext 4.x versions (just uses the Ext default English strings). As long
+         * as you are using 4.1+ feel free to enable this by setting the value to any supported locale code.
          */
-        language: 'en'
+        language: null
     },
     
     /**
@@ -155,16 +173,18 @@ Extensible.Config = {
     writeIncludes: function() {
         var me = this,
             cacheBuster = '?_dc=' + (me.cacheExtensible ? Extensible.version : (+new Date)),
-            suffix = '',
-            bootstrap = '';
+            suffixExt = '',
+            suffixExtensible = '';
         
         switch (me.mode) {
             case 'debug':
-                suffix = '-all-debug';
+                suffixExt = '-all-debug';
+                suffixExtensible = '-all-debug';
                 break;
             
             case 'release':
-                suffix = '-all';
+                suffixExt = '-all';
+                suffixExtensible = '-all'
                 // For release we want to refresh the cache on first load, but allow caching
                 // after that, so use the version number instead of a unique string
                 cacheBuster = '?_dc=' + Extensible.version;
@@ -175,10 +195,12 @@ Extensible.Config = {
                 // based on how it (mis)handles loading of scripts when mixing includes
                 // and in-page scripts. Make sure IE always uses the regular debug versions.
                 if (me.isIE) {
-                    suffix = '-all-debug';
+                    suffixExt = '-all-debug';
+                    suffixExtensible = '-all-debug';
                 }
                 else {
-                    bootstrap = '-bootstrap';
+                    suffixExt = '-debug';
+                    suffixExtensible = '-bootstrap';
                 }
         }
         
@@ -186,11 +208,14 @@ Extensible.Config = {
         me.includeStylesheet(me.extensibleRoot + 'resources/css/extensible-all.css' + cacheBuster);
         me.includeStylesheet(me.extensibleRoot + 'examples/examples.css?_dc=' + Extensible.version);
         
-        me.includeScript(me.extJsRoot + 'ext-debug' + suffix + '.js');
-        me.includeScript(me.extJsRoot + 'locale/ext-lang-' + me.language + '.js');
-        me.includeScript(me.extensibleRoot + 'lib/extensible' + suffix + bootstrap + '.js' + cacheBuster);
-        me.includeScript(me.extensibleRoot + 'src/locale/extensible-lang-' + me.language + '.js' + cacheBuster);
+        me.includeScript(me.extJsRoot + 'ext' + suffixExt + '.js');
+        me.includeScript(me.extensibleRoot + 'lib/extensible' + suffixExtensible + '.js' + cacheBuster);
         me.includeScript(me.extensibleRoot + 'examples/examples.js?_dc=' + Extensible.version);
+        
+        if (me.language) {
+            me.includeScript(me.extJsRoot + 'locale/ext-lang-' + me.language + '.js');
+            me.includeScript(me.extensibleRoot + 'src/locale/extensible-lang-' + me.language + '.js' + cacheBuster);
+        }
     }
 };
 

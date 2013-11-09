@@ -1,10 +1,8 @@
 /**
- * @class Extensible.calendar.dd.StatusProxy
  * A specialized drag proxy that supports a drop status icon, {@link Ext.dom.Layer} styles and auto-repair. It also
- * contains a calendar-specific drag status message containing details about the dragged event's target drop date range.  
+ * contains a calendar-specific drag status message containing details about the dragged event's target drop date range.
  * This is the default drag proxy used by all calendar views.
- * @constructor
- * @param {Object} config
+ * @private
  */
 Ext.define('Extensible.calendar.dd.StatusProxy', {
     extend: 'Ext.dd.StatusProxy',
@@ -30,13 +28,12 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
         '</div>'
     ],
     
-    // private -- applies only to Ext 4.1 and above, see notes in constructor
+    // applies only to Ext 4.1 and above, see notes in constructor
     childEls: [
         'ghost',
         'message'
     ],
     
-    // private
     constructor: function(config) {
         // In Ext 4.0.x StatusProxy was a plain class that did not inherit from Component,
         // and all of its els were rendered inside the constructor. Unfortunately, because
@@ -47,7 +44,7 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
         // In 4.1 StatusProxy was switched to inherit from Component, so the renderTpl and
         // renderSelectors configs will kick in and generate the proper elements and refs
         // automagically, and will be ignored by 4.0.x.
-        if (Ext.getVersion().isLessThan('4.1')) {
+        if (Ext.getVersion('extjs').isLessThan('4.1')) {
             this.preComponentConstructor(config);
         }
         else {
@@ -55,7 +52,7 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
         }
     },
     
-    // private -- applies only to Ext <4.1, see notes in constructor
+    // applies only to Ext <4.1, see notes in constructor
     preComponentConstructor: function(config) {
         var me = this;
         
@@ -81,7 +78,9 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
         me.dropStatus = me.dropNotAllowed;
     },
     
-    // inherit docs
+    /**
+     * @protected 
+     */
     update: function(html) {
         this.callParent(arguments);
         

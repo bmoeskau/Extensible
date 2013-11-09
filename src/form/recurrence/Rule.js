@@ -1,19 +1,23 @@
 /**
- * @class Extensible.form.recurrence.Rule
+ * Represents an iCalendar recurrence rule and parses recurrence rule strings
+ * to generate a textual description of each recurrence rule for human readability.
  *
- * <p>Class Rule represents a iCalendar recurrence rule and offers functionality to parse a recurrence rule string,
- * to generate a recurrence rule string and to compile a textual description of a recurrence rule for display in the
- * user interface.</p>
+ * Note that currently only a subset of the iCalendar recurrence rule attributes are supported.
+ * They are `FREQ`, `INTERVAL`, `BYDAY`, `BYMONTHDAY`, `BYMONTH`, `COUNT` and `UNTIL`.
  *
- * <p>Note that currently only a subset of the iCalendar recurrence rule attributes are supported. They are FREQ,
- * INTERVAL, BYDAY, BYMONTHDAY, BYMONTH, COUNT and UNTIL.</p>
+ * Portions of this implementation were inspired by the recurrence rule parser of [Vincent Romagnoli][1].
  *
- * <p>The implementation was inspired by the recurrence rule parser of Vincent Romagnoli at
- * https://github.com/skyporter/rrule_parser</p>
- *
- * <p>Reference documentation is at http://www.ietf.org/rfc/rfc2445.txt</p>
- *
- * @author Gabriel Sidler, http://teamup.com
+ * Reference documentation is at [http://www.ietf.org/rfc/rfc2445.txt][2],
+ * although a more practical guide can be found at [http://www.kanzaki.com/docs/ical/rrule.html][3].
+ * 
+ * Authored by [Gabriel Sidler][4]
+ * 
+ * [1]: https://github.com/skyporter/rrule_parser
+ * [2]: http://www.ietf.org/rfc/rfc2445.txt
+ * [3]: http://www.kanzaki.com/docs/ical/rrule.html
+ * [4]: http://teamup.com
+ * 
+ * @author Gabriel Sidler
  */
 Ext.define('Extensible.form.recurrence.Rule', {
     config: {
@@ -67,17 +71,17 @@ Ext.define('Extensible.form.recurrence.Rule', {
         interval: 1,
         /**
          * @cfg {String} byDay
-         * <p>The value of the BYDAY attribute of the recurrence rule, or null if the recurrence rule has no
-         * BYDAY attribute or if no recurrence rule has been set (default is null).</p>
+         * The value of the BYDAY attribute of the recurrence rule, or null if the recurrence rule has no
+         * BYDAY attribute or if no recurrence rule has been set (default is null).
          *
-         * <p>The BYDAY attribute can contain 3 different types of values:</p>
+         * The BYDAY attribute can contain 3 different types of values:
          *
-         * - A comma-delimited string of 2-character weekday abbreviations, e.g. 'MO,TU,FR,SU'
-         * - A numbered weekday abbreviation that can be positive or negative, e.g. '4TH' or '-1FR'
-         * - An integer day offset from the start or end of the period, e.g. 3, 20 or -10.
+         *	* A comma-delimited string of 2-character weekday abbreviations, e.g. 'MO,TU,FR,SU'
+         *	* A numbered weekday abbreviation that can be positive or negative, e.g. '4TH' or '-1FR'
+         *	* An integer day offset from the start or end of the period, e.g. 3, 20 or -10.
          *
-         * <p>See also {@link #byDayWeekdays} and {@link #byDayNumberedWeekday} for more
-         * information about how these values are used.</p>
+         * See also {@link #byDayWeekdays} and {@link #byDayNumberedWeekday} for more
+         * information about how these values are used.
          */
         byDay: null,
         /**
@@ -267,12 +271,9 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @param {String} dateString A date string in {@link #dateValueFormat iCal format}
      * @param {Object} options An optional options object. This can contain:
      *
-     * - A String <tt>format</tt> property to override the default {@link #dateValueFormat} used when parsing
-     * the string (not recommended)
-     * - A Boolean <tt>strict</tt> property that gets passed to the {@link Ext.Date.parse} method to determine
-     * whether or not strict date parsing should be used (defaults to false)
-     * - A Date <tt>defaultValue</tt> property to be used in case the string cannot be parsed as a valid date
-     * (defaults to the current date)
+     *	A String <tt>format</tt> property to override the default {@link #dateValueFormat} used when parsing the string (not recommended)
+     *	A Boolean <tt>strict</tt> property that gets passed to the {@link Ext.Date.parse} method to determine whether or not strict date parsing should be used (defaults to false)
+     *	A Date <tt>defaultValue</tt> property to be used in case the string cannot be parsed as a valid date (defaults to the current date)
      *
      * @returns {Date} The corresponding Date object
      */
@@ -304,9 +305,17 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * @private
      * Applies the value of the BYDAY attribute to the underlying RRULE.
      * @param {String/Array/Object} byDay The new value of the BYDAY attribute. There are three ways to pass a
-     * parameter value: 1) As a string, e.g. 'MO,TU,WE' or '3TH' or '-1FR'. 2) As an array of weekday identifiers, e.g.
-     * ['MO', 'TU', 'WE']. 3) As an object with two attributes <i>number</i> and <i>weekday</i>, e.g. {number:
-     * 4, weekday:'TH'} or {number: -1, weekday:'WE'}.
+     * parameter value:
+     * 
+     *	1. As a string, e.g. 'MO,TU,WE' or '3TH' or '-1FR'
+     *	2. As an array of weekday identifiers, e.g. ['MO', 'TU', 'WE']. 
+     *	3. As an object with two attributes *number* and *weekday*, e.g. 
+     *		
+     *			{ number: 4, weekday:'TH' }
+     * 
+     *	or
+     *  
+     *			{ number: -1, weekday:'WE' }
      */
     applyByDay: function(byDay) {
         var me = this;
@@ -343,7 +352,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             me.byDay = byDay.join(',');
             me.byDayWeekdays = byDay;
         }
-        else if (typeof byDay === 'object') {
+        else if (Ext.isObject(byDay)) {
             // byDay is an object with two properties number and weekday, e.g. {number: 4, weekday: 'TH'}
             me.byDay = byDay.number + byDay.weekday;
             me.byDayNthWeekday = byDay;
@@ -353,7 +362,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
     /**
      * If attribute BYDAY of the recurrence rule holds a numbered weekday following iCal relative syntax
      * (e.g. '4TU' meaning "the fourth Tuesday of the month") then this function returns an Object with two
-     * attributes <i>number</i> and <i>weekday</i> (e.g. {number: 4, weekday: 'TU'}), otherwise this method
+     * attributes *number* and *weekday* (e.g. {number: 4, weekday: 'TU'}), otherwise this method
      * returns null. This object is provided as a convenience when accessing the individual parts of the value.
      * For iCal RRULE representation the {@link #getByDay BYDAY} string should always be used instead.
      * Use function {@link #setByDay} to set the underlying values.
@@ -376,15 +385,18 @@ Ext.define('Extensible.form.recurrence.Rule', {
     },
     
     /**
-     * Returns a textual representation of the underlying rules in <a
-     * href="http://www.kanzaki.com/docs/ical/rrule.html">iCal RRULE format</a>, e.g. "FREQ=WEEKLY;INTERVAL=2;".
-     * This is the standard format that is typically used to store and transmit recurrence rules between systems.
-     * @returns {String} The iCal-formatted RRULE string
+     * Returns a textual representation of the underlying rules in [iCal RRULE format](http://www.kanzaki.com/docs/ical/rrule.html), 
+     * e.g. "FREQ=WEEKLY;INTERVAL=2;". This is the standard format that is typically 
+     * used to store and transmit recurrence rules between systems.
+     * @returns {String} The iCal-formatted RRULE string, or empty string if a valid RRULE cannot be returned
      */
     getRule: function() {
         var rule = [],
             me = this;
-
+        
+        if (!me.frequency) {
+            return '';
+        }
         rule.push('FREQ=' + me.frequency);
         
         if (me.interval !== 1) {
@@ -410,12 +422,12 @@ Ext.define('Extensible.form.recurrence.Rule', {
 
     /**
      * @private
-     * <p>Parses a recurrence rule string conforming to the iCalendar standard. Note that currently only the following
-     * recurrence rule attributes are supported: FREQ, INTERVAL, BYDAY, BYMONTHDAY, BYMONTH, COUNT and UNTIL.</p>
+     * Parses a recurrence rule string conforming to the iCalendar standard. Note that currently only the following
+     * recurrence rule attributes are supported: FREQ, INTERVAL, BYDAY, BYMONTHDAY, BYMONTH, COUNT and UNTIL.
      *
-     * <p>This function can be used to set a new rule or update an existing rule. If rule attribute FREQ is present
+     * This function can be used to set a new rule or update an existing rule. If rule attribute FREQ is present
      * in the passed recurrence rule string, then the rule is initialized first before rule properties are set. If
-     * rule attribute FREQ is not present, then the rule properties are updated without first initializing the rule.</p>
+     * rule attribute FREQ is not present, then the rule properties are updated without first initializing the rule.
      *
      * @param {String} rRule iCalendar recurrence rule as a text string. E.g. "FREQ=WEEKLY;INTERVAL=2;"
      */
@@ -423,7 +435,11 @@ Ext.define('Extensible.form.recurrence.Rule', {
         var rrParams, nbParams, p, v,
             i = 0,
             me = this;
-
+        
+        if (!rRule) {
+            this.init();
+            return;
+        }
         rrParams = rRule.split(";");
         nbParams = rrParams.length;
 

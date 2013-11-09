@@ -1,13 +1,9 @@
 /**
- * @class Extensible.calendar.template.BoxLayout
- * @extends Ext.XTemplate
- * <p>This is the template used to render calendar views based on small day boxes within a non-scrolling container
+ * This is the template used to render calendar views based on small day boxes within a non-scrolling container
  * (currently the {@link Extensible.calendar.view.Month MonthView} and the all-day headers for
  * {@link Extensible.calendar.view.Day DayView} and {@link Extensible.calendar.view.Week WeekView}. This template
  * is automatically bound to the underlying event store by the calendar components and expects records of type
- * {@link Extensible.calendar.data.EventModel}.</p>
- * @constructor
- * @param {Object} config The config object
+ * {@link Extensible.calendar.data.EventModel}.
  */
 Ext.define('Extensible.calendar.template.BoxLayout', {
     extend: 'Ext.XTemplate',
@@ -44,8 +40,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
      * Note that if this day falls on the first day within the view, {@link #multiDayFirstDayFormat} takes precedence.
      */
     multiDayMonthStartFormat: 'M j',
-    
-    // private
+
     constructor: function(config) {
         
         Ext.apply(this, config);
@@ -85,8 +80,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
             }
         );
     },
-    
-    // private
+
     applyTemplate: function(o) {
         
         Ext.apply(this, o);
@@ -163,7 +157,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
             }
         }
         
-        if (Ext.getVersion().isLessThan('4.1')) {
+        if (Ext.getVersion('extjs').isLessThan('4.1')) {
             return Extensible.calendar.template.BoxLayout.superclass.applyTemplate.call(this, {
                 weeks: weeks
             });
@@ -174,8 +168,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
             }, []).join('');
         }
     },
-    
-    // private
+
     getTodayText: function() {
         var timeFmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
             todayText = this.showTodayText !== false ? this.todayText : '',

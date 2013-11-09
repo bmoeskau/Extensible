@@ -1,6 +1,7 @@
-/* @private
- * Currently not used
- * Rrule info: http://www.kanzaki.com/docs/ical/rrule.html
+/**
+ * The widget that represents a single recurrence rule field in the UI.
+ * In reality, it is made up of many constituent
+ * {@link #Extensible.form.recurrence.AbstractOption option widgets} internally.
  */
 Ext.define('Extensible.form.recurrence.Fieldset', {
     extend: 'Ext.form.FieldContainer',
@@ -72,6 +73,17 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             delete me.height;
             me.autoHeight = true;
         }
+        
+        this.addEvents(
+            /**
+             * @event startchange
+             * Fires when the start date of the recurrence series is changed
+             * @param {Extensible.form.recurrence.option.Interval} this
+             * @param {Date} newDate The new start date
+             * @param {Date} oldDate The previous start date
+             */
+            'startchange'
+        );
         
         me.initRRule();
         
@@ -160,11 +172,17 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     initChangeEvents: function() {
         var me = this;
         
+        me.intervalField.on('startchange', me.onStartDateChange, me);
+        
         me.intervalField.on('change', me.onChange, me);
         me.weeklyField.on('change', me.onChange, me);
         me.monthlyField.on('change', me.onChange, me);
         me.yearlyField.on('change', me.onChange, me);
         me.durationField.on('change', me.onChange, me);
+    },
+    
+    onStartDateChange: function(interval, newDate, oldDate) {
+        this.fireEvent('startchange', this, newDate, oldDate);
     },
     
     onChange: function() {
@@ -175,8 +193,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         this.setFrequency(freq);
         this.onChange();
     },
-    
-    // private
+
     initValue: function() {
         var me = this;
 

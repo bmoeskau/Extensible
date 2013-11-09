@@ -26,7 +26,7 @@
     //------------------------------------------------
     // Select all:
     //------------------------------------------------
-    out($db->select('events'));
+    // out($db->select('events'));
     // out($db->select('calendars'));
     
     // Select by id:
@@ -84,6 +84,20 @@
         // )
     // )));
     
+    //------------------------------------------------
+    // Custom SQL:
+    //------------------------------------------------
+    // $sql = 'SELECT * FROM events'.
+            // ' WHERE (start >= :start AND start <= :end)'. // starts in range
+            // ' OR (end >= :start AND end <= :end)'.        // ends in range
+            // ' OR (start <= :start AND end >= :end)';      // spans range
+//     
+    // out($db->querySql($sql, array(
+        // ':start' => '2013-07-01',
+        // ':end'   => '2013-08-03'
+    // )));
+    
+    
     // CREATE
     //------------------------------------------------
     // out($db->insert('events', array(
@@ -96,6 +110,7 @@
         // 'title' => 'Test calendar',
         // 'color' => 10
     // )));
+    
     
     // UPDATE
     //------------------------------------------------
@@ -110,6 +125,7 @@
         // 'title' => 'Test calendar',
         // 'color' => 10
     // )));
+    
     
     // DELETE
     //------------------------------------------------

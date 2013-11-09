@@ -1,37 +1,37 @@
 /**
- * @class Extensible.calendar.form.EventDetails
- * @extends Ext.form.Panel
- * <p>A custom form used for detailed editing of events.</p>
- * <p>This is pretty much a standard form that is simply pre-configured for the options needed by the
+ * A custom form used for detailed editing of events.
+ * 
+ * This is pretty much a standard form that is simply pre-configured for the options needed by the
  * calendar components. It is also configured to automatically bind records of type
- * {@link Extensible.calendar.data.EventModel EventModel} to and from the form.</p>
- * <p>This form also provides custom events specific to the calendar so that other calendar components can be easily
- * notified when an event has been edited via this component.</p>
- * <p>The default configs are as follows:</p><pre><code>
-    labelWidth: 65,
-    labelWidthRightCol: 65,
-    colWidthLeft: '.9',
-    colWidthRight: '.1',
-    title: 'Event Form',
-    titleTextAdd: 'Add Event',
-    titleTextEdit: 'Edit Event',
-    titleLabelText: 'Title',
-    datesLabelText: 'When',
-    reminderLabelText: 'Reminder',
-    notesLabelText: 'Notes',
-    locationLabelText: 'Location',
-    webLinkLabelText: 'Web Link',
-    calendarLabelText: 'Calendar',
-    repeatsLabelText: 'Repeats',
-    saveButtonText: 'Save',
-    deleteButtonText: 'Delete',
-    cancelButtonText: 'Cancel',
-    bodyStyle: 'padding:20px 20px 10px;',
-    border: false,
-    buttonAlign: 'center',
-    autoScroll: true,
-    recurrence: false
-</code></pre>
+ * {@link Extensible.calendar.data.EventModel EventModel} to and from the form.
+ * 
+ * This form also provides custom events specific to the calendar so that other calendar components can be easily
+ * notified when an event has been edited via this component.
+ * 
+ * The default configs are as follows:
+ *		labelWidth: 65,
+ *		labelWidthRightCol: 65,
+ *		colWidthLeft: '.9',
+ *		colWidthRight: '.1',
+ *		title: 'Event Form',
+ *		titleTextAdd: 'Add Event',
+ *		titleTextEdit: 'Edit Event',
+ *		titleLabelText: 'Title',
+ *		datesLabelText: 'When',
+ *		reminderLabelText: 'Reminder',
+ *		notesLabelText: 'Notes',
+ *		locationLabelText: 'Location',
+ *		webLinkLabelText: 'Web Link',
+ *		calendarLabelText: 'Calendar',
+ *		repeatsLabelText: 'Repeats',
+ *		saveButtonText: 'Save',
+ *		deleteButtonText: 'Delete',
+ *		cancelButtonText: 'Cancel',
+ *		bodyStyle: 'padding:20px 20px 10px;',
+ *		border: false,
+ *		buttonAlign: 'center',
+ *		autoScroll: true,
+ *		recurrence: false
  * @constructor
  * @param {Object} config The config object
  */
@@ -51,8 +51,9 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     
     labelWidth: 65,
     labelWidthRightCol: 65,
-    colWidthLeft: '.9',
-    colWidthRight: '.1',
+    colWidthLeft: '.95',
+    colWidthRight: '.05',
+    fieldAnchor: '100%',
     title: 'Event Form',
     titleTextAdd: 'Add Event',
     titleTextEdit: 'Edit Event',
@@ -102,11 +103,10 @@ Ext.define('Extensible.calendar.form.EventDetails', {
      * defaultEventTitleText} when displaying it. Any custom fields might require similar custom handling.
      */
     allowDefaultAdd: true,
-    
-    // private properties:
+
+	//private properties    
     layout: 'column',
     
-    // private
     initComponent: function() {
         
         this.addEvents({
@@ -147,12 +147,12 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         this.titleField = Ext.create('Ext.form.field.Text', {
             fieldLabel: this.titleLabelText,
             name: Extensible.calendar.data.EventMappings.Title.name,
-            anchor: '70%'
+            anchor: this.fieldAnchor
         });
         this.dateRangeField = Ext.create('Extensible.form.field.DateRange', {
             fieldLabel: this.datesLabelText,
             singleLine: false,
-            anchor: '70%',
+            anchor: this.fieldAnchor,
             startDay: this.startDay,
             listeners: {
                 'change': Ext.bind(this.onDateChange, this)
@@ -161,24 +161,24 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         this.reminderField = Ext.create('Extensible.calendar.form.field.ReminderCombo', {
             name: Extensible.calendar.data.EventMappings.Reminder.name,
             fieldLabel: this.reminderLabelText,
-            anchor: '70%'
+            anchor: this.fieldAnchor
         });
         this.notesField = Ext.create('Ext.form.field.TextArea', {
             fieldLabel: this.notesLabelText,
             name: Extensible.calendar.data.EventMappings.Notes.name,
             grow: true,
             growMax: 150,
-            anchor: '70%'
+            anchor: this.fieldAnchor
         });
         this.locationField = Ext.create('Ext.form.field.Text', {
             fieldLabel: this.locationLabelText,
             name: Extensible.calendar.data.EventMappings.Location.name,
-            anchor: '70%'
+            anchor: this.fieldAnchor
         });
         this.urlField = Ext.create('Ext.form.field.Text', {
             fieldLabel: this.webLinkLabelText,
             name: Extensible.calendar.data.EventMappings.Url.name,
-            anchor: '70%'
+            anchor: this.fieldAnchor
         });
         
         // var leftFields = [this.titleField, this.dateRangeField, this.reminderField],
@@ -194,7 +194,10 @@ Ext.define('Extensible.calendar.form.EventDetails', {
                 name: Extensible.calendar.data.EventMappings.RRule.name,
                 fieldLabel: this.repeatsLabelText,
                 startDay: this.startDay,
-                anchor: '70%'
+                anchor: this.fieldAnchor,
+                listeners: {
+                    'startchange': Ext.bind(this.onRecurrenceStartChange, this)
+                }
             });
             leftFields.splice(2, 0, this.recurrenceField);
         }
@@ -204,7 +207,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
                 store: this.calendarStore,
                 fieldLabel: this.calendarLabelText,
                 name: Extensible.calendar.data.EventMappings.CalendarId.name,
-                anchor: '70%'
+                anchor: this.fieldAnchor
             });
             leftFields.splice(2, 0, this.calendarField);
         }
@@ -250,14 +253,19 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         this.callParent(arguments);
     },
     
-    // private
     onDateChange: function(dateRangeField, val) {
-        if(this.recurrenceField) {
+        if (this.recurrenceField) {
             this.recurrenceField.setStartDate(val[0]);
         }
     },
     
-    // inherited docs
+    onRecurrenceStartChange: function(recurrenceFieldset, startDate, oldDate) {
+        this.dateRangeField.setValue(startDate);
+    },
+    
+    /**
+     * @protected 
+     */
     loadRecord: function(rec) {
         var me = this,
             EventMappings = Extensible.calendar.data.EventMappings;
@@ -267,8 +275,14 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         me.dateRangeField.setValue(rec.data);
         
         if (me.recurrenceField) {
-            me.recurrenceField.setStartDate(rec.data[EventMappings.StartDate.name]);
-            me.recurrenceField.setValue(rec.data[EventMappings.RRule.name]);
+            var recurrenceStart = rec.get(EventMappings.RSeriesStartDate.name) ||
+                rec.get(EventMappings.StartDate.name);
+            
+            // Prevent a loop since the two start date fields sync on change
+            me.recurrenceField.suspendEvents();
+            me.recurrenceField.setStartDate(recurrenceStart);
+            me.recurrenceField.setValue(rec.get(EventMappings.RRule.name));
+            me.recurrenceField.resumeEvents();
             
             if (!rec.data[EventMappings.RInstanceStartDate.name]) {
                 // If the record is new we have to set the instance start date explicitly to match the
@@ -340,13 +354,11 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         return record.dirty || (record.phantom && this.allowDefaultAdd);
     },
     
-    // private
     onCancel: function() {
         this.cleanup(true);
         this.fireEvent('eventcancel', this, this.activeRecord);
     },
     
-    // private
     cleanup: function(hide) {
         if (this.activeRecord) {
             this.activeRecord.reject();
@@ -358,7 +370,6 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         }
     },
     
-    // private
     onSave: function() {
         var me = this,
             originalHasRecurrence = me.activeRecord.isRecurring();
@@ -388,7 +399,6 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         }
     },
     
-    // private
     onRecurrenceUpdate: function() {
         this.rangeEditWin = this.rangeEditWin || Ext.WindowMgr.get('ext-cal-rangeeditwin');
         if (!this.rangeEditWin) {
@@ -400,7 +410,6 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         });
     },
     
-    // private
     onRecurrenceEditModeSelected: function(editMode) {
         var me = this;
         
@@ -410,7 +419,6 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         }
     },
 
-    // private
     onDelete: function() {
         this.fireEvent('eventdelete', this, this.activeRecord);
     }

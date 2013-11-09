@@ -1,4 +1,6 @@
-
+/*
+ *
+ */
 Ext.define('Extensible.calendar.data.EventStore', {
     extend: 'Ext.data.Store',
     model: 'Extensible.calendar.data.EventModel',

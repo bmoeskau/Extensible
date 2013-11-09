@@ -1,10 +1,6 @@
 /**
- * @class Extensible.calendar.view.MultiWeek
- * @extends Extensible.calendar.view.Month
- * <p>Displays a calendar view by week, more than one week at a time. This class does not usually need to be used directly as you can
- * use a {@link Extensible.calendar.CalendarPanel CalendarPanel} to manage multiple calendar views at once.</p>
- * @constructor
- * @param {Object} config The config object
+ * Displays a calendar view by week, more than one week at a time. This class does not usually need to be used directly as you can
+ * use a {@link Extensible.calendar.CalendarPanel CalendarPanel} to manage multiple calendar views at once.
  */
 Ext.define('Extensible.calendar.view.MultiWeek', {
     extend: 'Extensible.calendar.view.Month',
@@ -16,12 +12,16 @@ Ext.define('Extensible.calendar.view.MultiWeek', {
      */
     weekCount: 2,
     
-    // inherited docs
+    /**
+     * @protected 
+     */
     moveNext: function() {
         return this.moveWeeks(this.weekCount, true);
     },
     
-    // inherited docs
+    /**
+     * @protected 
+     */
     movePrev: function() {
         return this.moveWeeks(-this.weekCount, true);
     }

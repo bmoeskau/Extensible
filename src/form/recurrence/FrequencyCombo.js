@@ -1,5 +1,7 @@
-/* @private
- * Currently not used
+/**
+ * The widget used to choose the frequency of recurrence. While this could be created
+ * as a standalone widget, it is typically created automatically as part of a
+ * Extensible.form.recurrence.Fieldset and does not normally need to be configured directly.
  */
 Ext.define('Extensible.form.recurrence.FrequencyCombo', {
     extend: 'Ext.form.field.ComboBox',
@@ -40,14 +42,14 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
          * are defined in the {@link Extensible.form.recurrence.Parser#strings} config.
          * Defaults to:
          *
-         *    [
-         *        ['NONE', 'Does not repeat'],
-         *        ['DAILY', 'Daily'],
-         *        ['WEEKDAYS', 'Every weekday (Mon-Fri)'],
-         *        ['WEEKLY', 'Weekly'],
-         *        ['MONTHLY', 'Monthly'],
-         *        ['YEARLY', 'Yearly']
-         *    ]
+         *		[
+         *			['NONE', 'Does not repeat'],
+         *			['DAILY', 'Daily'],
+         *			['WEEKDAYS', 'Every weekday (Mon-Fri)'],
+         *			['WEEKLY', 'Weekly'],
+         *			['MONTHLY', 'Monthly'],
+         *			['YEARLY', 'Yearly']
+         *		]
          */
         me.frequencyOptions = me.frequencyOptions || [
             ['NONE',     freq.none],

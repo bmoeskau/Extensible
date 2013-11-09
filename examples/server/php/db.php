@@ -6,22 +6,17 @@
         private $config;
         
         private $error_mode = PDO::ERRMODE_EXCEPTION;
-        private $fetch_type = PDO::FETCH_OBJ;
+        private $fetch_type = PDO::FETCH_ASSOC;
         
         public function __construct($config = null) {
             $this->config = isset($config) ? $config : new Config();
         }
         
         public function connect() {
-            if (!isset($db)) {
+            if (!isset($this->db)) {
                 $cfg = $this->config;
-                try {
-                    $this->db = new PDO('mysql:host='.$cfg->host.';dbname='.$cfg->dbname, $cfg->username, $cfg->password);
-                    $this->db->setAttribute(PDO::ATTR_ERRMODE, $this->error_mode);
-                }
-                catch (PDOException $e) {
-                    echo 'ERROR: ' . $e->getMessage();
-                }
+                $this->db = new PDO('mysql:host='.$cfg->host.';dbname='.$cfg->dbname, $cfg->username, $cfg->password);
+                $this->db->setAttribute(PDO::ATTR_ERRMODE, $this->error_mode);
             }
             return $this->db;
         }
@@ -30,25 +25,20 @@
             $sql = 'SELECT * FROM '.$table;
             $id_col = isset($id_col) ? $id_col : 'id';
             
-            try {
-                $this->connect();
-                
-                if (isset($id)) {
-                    $query = $this->db->prepare($sql.' WHERE '.$id_col.' = :id');
-                    $query->bindParam(':id', $id);
-                    $query->execute();
-                }
-                else {
-                    $query = $this->db->prepare($sql);
-                    $query->execute();
-                }
-                $result = $query->fetchAll($this->fetch_type);
-                
-                return $result;
+            $this->connect();
+            
+            if (isset($id)) {
+                $query = $this->db->prepare($sql.' WHERE '.$id_col.' = :id');
+                $query->bindParam(':id', $id);
+                $query->execute();
             }
-            catch (PDOException $e) {
-                echo 'ERROR: ' . $e->getMessage();
+            else {
+                $query = $this->db->prepare($sql);
+                $query->execute();
             }
+            $result = $query->fetchAll($this->fetch_type);
+            
+            return $result;
         }
         
         public function query($table, array $values) {
@@ -87,20 +77,23 @@
                 $param_list = implode(' ', $col_mappings);
                 $sql = $sql.' WHERE '.$param_list;
             }
-            //echo $sql.'<br>';
-            //print_r($param_mappings);
             
-            try {
-                $this->connect();
-                $query = $this->db->prepare($sql);
-                $query->execute($param_mappings);
-                $result = $query->fetchAll($this->fetch_type);
-                
-                return $result;
-            }
-            catch (PDOException $e) {
-                echo 'ERROR: ' . $e->getMessage();
-            }
+            return $this->querySql($sql, $param_mappings);
+        }
+        
+        public function querySql($sql, array $params) {
+            $this->connect();
+            $query = $this->db->prepare($sql);
+            $query->execute($params);
+            $result = $query->fetchAll($this->fetch_type);
+            
+            return $result;
+        }
+        
+        public function execSql($sql, array $params) {
+            $this->connect();
+            $query = $this->db->prepare($sql);
+            return $query->execute($params);
         }
         
         private function save($action, $table, array $values) {
@@ -122,20 +115,17 @@
             }
             else {
                 $cols = implode(',', $col_mappings);
-                $sql = 'UPDATE '.$table.' SET '.$cols.' WHERE id = '.$values['id'];
+                $id = $values['id'];
+                $sql = 'UPDATE '.$table.' SET '.$cols.' WHERE id = '.$id;
             }
             
-            try {
-                $this->connect();
-                $query = $this->db->prepare($sql);
-                $query->execute($param_mappings);
-                $result = $query->rowCount();
-                
-                return $result;
-            }
-            catch (PDOException $e) {
-                echo 'ERROR: ' . $e->getMessage();
-            }
+            $this->connect();
+            $query = $this->db->prepare($sql);
+            $query->execute($param_mappings);
+            $id = $action == 'INSERT' ? $this->db->lastInsertId() : $id;
+            $result = $this->select($table, $id);
+            
+            return $result;
         }
         
         public function insert($table, array $values) {
@@ -150,18 +140,13 @@
             $id_col = isset($id_col) ? $id_col : 'id';
             $sql = 'DELETE FROM '.$table.' WHERE '.$id_col.' = :id';
             
-            try {
-                $this->connect();
-                $query = $this->db->prepare($sql);
-                $query->bindParam(':id', $id);
-                $query->execute();
-                $result = $query->rowCount();
-                
-                return $result;
-            }
-            catch (PDOException $e) {
-                echo 'ERROR: ' . $e->getMessage();
-            }
+            $this->connect();
+            $query = $this->db->prepare($sql);
+            $query->bindParam(':id', $id);
+            $query->execute();
+            $result = $query->rowCount();
+            
+            return $result;
         }
     }
 

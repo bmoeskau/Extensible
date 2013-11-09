@@ -1,3 +1,17 @@
+/**
+ * This panel is used during recurrence editing. It enables the user to indicate which
+ * style of edit is currently being performed on a recurring series. The types currently
+ * supported are:
+ * 
+ * - Edit a single instance
+ * - Edit the current and future instances (past instances are unchanged)
+ * - Edit all instances in the series
+ * 
+ * Typically this panel is created implicitly by the Extensible.form.recurrence.RangeEditWindow
+ * and should not typically be instantiated directly.
+ * 
+ * @protected
+ */
 Ext.define('Extensible.form.recurrence.RangeEditPanel', {
     extend: 'Ext.form.Panel',
     alias: 'widget.extensible.recurrence-rangeeditpanel',
@@ -24,8 +38,7 @@ Ext.define('Extensible.form.recurrence.RangeEditPanel', {
         type: 'vbox',
         align: 'stretch'
     },
-    
-    // private
+
     initComponent: function() {
         var me = this;
         

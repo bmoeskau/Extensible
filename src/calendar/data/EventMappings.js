@@ -1,86 +1,80 @@
 /**
  * @class Extensible.calendar.data.EventMappings
  * @extends Object
- * <p>A simple object that provides the field definitions for
- * {@link Extensible.calendar.EventRecord EventRecord}s so that they can be easily overridden.</p>
+ * A simple object that provides the field definitions for
+ * {@link Extensible.calendar.EventRecord EventRecord}s so that they can be easily overridden.
  *
- * <p>There are several ways of overriding the default Event record mappings to customize how
+ * There are several ways of overriding the default Event record mappings to customize how
  * Ext records are mapped to your back-end data model. If you only need to change a handful
  * of field properties you can directly modify the EventMappings object as needed and then
- * reconfigure it. The simplest approach is to only override specific field attributes:</p>
- * <pre><code>
-var M = Extensible.calendar.data.EventMappings;
-M.Title.mapping = 'evt_title';
-M.Title.name = 'EventTitle';
-Extensible.calendar.EventRecord.reconfigure();
-</code></pre>
+ * reconfigure it. The simplest approach is to only override specific field attributes:
+ * 
+ *		var M = Extensible.calendar.data.EventMappings;
+ *			M.Title.mapping = 'evt_title';
+ *			M.Title.name = 'EventTitle';
+ *			Extensible.calendar.EventRecord.reconfigure();
  *
- * <p>You can alternately override an entire field definition using object-literal syntax, or
+ * You can alternately override an entire field definition using object-literal syntax, or
  * provide your own custom field definitions (as in the following example). Note that if you do
- * this, you <b>MUST</b> include a complete field definition, including the <tt>type</tt> attribute
- * if the field is not the default type of <tt>string</tt>.</p>
- * <pre><code>
-// Add a new field that does not exist in the default EventMappings:
-Extensible.calendar.data.EventMappings.Timestamp = {
-    name: 'Timestamp',
-    mapping: 'timestamp',
-    type: 'date'
-};
-Extensible.calendar.EventRecord.reconfigure();
-</code></pre>
+ * this, you **MUST** include a complete field definition, including the <tt>type</tt> attribute
+ * if the field is not the default type of <tt>string</tt>.
+ * 
+ *		// Add a new field that does not exist in the default EventMappings:
+ *		Extensible.calendar.data.EventMappings.Timestamp = {
+ *			name: 'Timestamp',
+ *			mapping: 'timestamp',
+ *			type: 'date'
+ *		};
+ *		Extensible.calendar.EventRecord.reconfigure();
  *
- * <p>If you are overriding a significant number of field definitions it may be more convenient
+ * If you are overriding a significant number of field definitions it may be more convenient
  * to simply redefine the entire EventMappings object from scratch. The following example
  * redefines the same fields that exist in the standard EventRecord object but the names and
  * mappings have all been customized. Note that the name of each field definition object
- * (e.g., 'EventId') should <b>NOT</b> be changed for the default EventMappings fields as it
- * is the key used to access the field data programmatically.</p>
- * <pre><code>
-Extensible.calendar.data.EventMappings = {
-    EventId:     {name: 'ID', mapping:'evt_id', type:'int'},
-    CalendarId:  {name: 'CalID', mapping: 'cal_id', type: 'int'},
-    Title:       {name: 'EvtTitle', mapping: 'evt_title'},
-    StartDate:   {name: 'StartDt', mapping: 'start_dt', type: 'date', dateFormat: 'c'},
-    EndDate:     {name: 'EndDt', mapping: 'end_dt', type: 'date', dateFormat: 'c'},
-    RRule:       {name: 'RecurRule', mapping: 'recur_rule'},
-    Location:    {name: 'Location', mapping: 'location'},
-    Notes:       {name: 'Desc', mapping: 'full_desc'},
-    Url:         {name: 'LinkUrl', mapping: 'link_url'},
-    IsAllDay:    {name: 'AllDay', mapping: 'all_day', type: 'boolean'},
-    Reminder:    {name: 'Reminder', mapping: 'reminder'},
-    
-    // We can also add some new fields that do not exist in the standard EventRecord:
-    CreatedBy:   {name: 'CreatedBy', mapping: 'created_by'},
-    IsPrivate:   {name: 'Private', mapping:'private', type:'boolean'}
-};
-// Don't forget to reconfigure!
-Extensible.calendar.EventRecord.reconfigure();
-</code></pre>
+ * (e.g., 'EventId') should **NOT** be changed for the default EventMappings fields as it
+ * is the key used to access the field data programmatically.
+ * 
+ *		Extensible.calendar.data.EventMappings = {
+ *			EventId:     {name: 'ID', mapping:'evt_id', type:'int'},
+ *			CalendarId:  {name: 'CalID', mapping: 'cal_id', type: 'int'},
+ *			Title:       {name: 'EvtTitle', mapping: 'evt_title'},
+ *			StartDate:   {name: 'StartDt', mapping: 'start_dt', type: 'date', dateFormat: 'c'},
+ *			EndDate:     {name: 'EndDt', mapping: 'end_dt', type: 'date', dateFormat: 'c'},
+ *			RRule:       {name: 'RecurRule', mapping: 'recur_rule'},
+ *			Location:    {name: 'Location', mapping: 'location'},
+ *			Notes:       {name: 'Desc', mapping: 'full_desc'},
+ *			Url:         {name: 'LinkUrl', mapping: 'link_url'},
+ *			IsAllDay:    {name: 'AllDay', mapping: 'all_day', type: 'boolean'},
+ *			Reminder:    {name: 'Reminder', mapping: 'reminder'},
+ *		    // We can also add some new fields that do not exist in the standard EventRecord:
+ *			CreatedBy:   {name: 'CreatedBy', mapping: 'created_by'},
+ *			IsPrivate:   {name: 'Private', mapping:'private', type:'boolean'}
+ *		};
+ *		// Don't forget to reconfigure!
+ *		Extensible.calendar.EventRecord.reconfigure();
  *
- * <p><b>NOTE:</b> Any record reconfiguration you want to perform must be done <b>PRIOR to</b>
- * initializing your data store, otherwise the changes will not be reflected in the store's records.</p>
+ * **NOTE:** Any record reconfiguration you want to perform must be done **PRIOR to**
+ * initializing your data store, otherwise the changes will not be reflected in the store's records.
  *
- * <p>Another important note is that if you alter the default mapping for <tt>EventId</tt>, make sure to add
+ * Another important note is that if you alter the default mapping for <tt>EventId</tt>, make sure to add
  * that mapping as the <tt>idProperty</tt> of your data reader, otherwise it won't recognize how to
  * access the data correctly and will treat existing records as phantoms. Here's an easy way to make sure
- * your mapping is always valid:</p>
- * <pre><code>
-var reader = new Ext.data.JsonReader({
-    totalProperty: 'total',
-    successProperty: 'success',
-    root: 'data',
-    messageProperty: 'message',
-    
-    // read the id property generically, regardless of the mapping:
-    idProperty: Extensible.calendar.data.EventMappings.EventId.mapping  || 'id',
-    
-    // this is also a handy way to configure your reader's fields generically:
-    fields: Extensible.calendar.EventRecord.prototype.fields.getRange()
-});
-</code></pre>
+ * your mapping is always valid:
+ * 
+ *		var reader = new Ext.data.reader.Json({
+ *			totalProperty: 'total',
+ *			successProperty: 'success',
+ * 			root: 'data',
+ * 			messageProperty: 'message',
+ *		    // read the id property generically, regardless of the mapping:
+ *			idProperty: Extensible.calendar.data.EventMappings.EventId.mapping  || 'id',
+ *		    // this is also a handy way to configure your reader's fields generically:
+ *			fields: Extensible.calendar.EventRecord.prototype.fields.getRange()
+ *		});
  */
 Ext.ns('Extensible.calendar.data');
 
+// @define Extensible.calendar.data.EventMappings
 Extensible.calendar.data.EventMappings = {
     EventId: {
         name:    'EventId',
@@ -153,7 +147,8 @@ Extensible.calendar.data.EventMappings = {
     RRule: {
         name:    'RRule',
         mapping: 'rrule',
-        type:    'string'
+        type:    'string',
+        useNull: true
     },
     
     // When using recurrence, the standard EndDate value will be the end date
@@ -166,7 +161,8 @@ Extensible.calendar.data.EventMappings = {
     Duration: {
         name:         'Duration',
         mapping:      'duration',
-        defaultValue: -1, // the standard int default of 0 is actually a valid duration
+        defaultValue: -1,   // the standard int default of 0 is actually a valid duration
+        useNull:      true, // Without this, the null returned from the server is coerced to 0
         type:         'int'
     },
     
@@ -179,18 +175,31 @@ Extensible.calendar.data.EventMappings = {
     OriginalEventId: {
         name:    'OriginalEventId',
         mapping: 'origid',
-        type:    'string'
+        type:    'string',
+        useNull: true
     },
     
-    // In cases where editing an event would require an exception date to be stored,
-    // the event instance's original start date must be used. Since the start date
-    // could be edited (and would not match as an exception in that case) the original
-    // start date is preserved prior to editing and sent with each request.
+    // The start date for the recurring series.
+    RSeriesStartDate: {
+        name:       'RSeriesStartDate',
+        mapping:    'rsstart',
+        type:       'date',
+        dateFormat: 'c',
+        useNull:    true
+    },
+    
+    // If the start date of a recurring event instance is changed and then saved
+    // using the "single" instance case (or if you drag an event instance and drop
+    // it on a different date) the server has to create an exception for that instance
+    // in the series. Since the instance being sent to the server by default only has
+    // the updated start date, you need a way to pass the original unedited start date
+    // to be used as the exception date, which is what this instance start date is for.
     RInstanceStartDate: {
         name:       'RInstanceStartDate',
         mapping:    'ristart',
         type:       'date',
-        dateFormat: 'c'
+        dateFormat: 'c',
+        useNull:    true
     },
     
     // Recurrence edit mode ('single', 'future' or 'all'). This is transient data
@@ -200,6 +209,7 @@ Extensible.calendar.data.EventMappings = {
     REditMode: {
         name:    'REditMode',
         mapping: 'redit',
-        type:    'string'
+        type:    'string',
+        useNull: true
     }
 };

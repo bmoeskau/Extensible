@@ -1,3 +1,6 @@
+/**
+ * The widget that represents the monthly recurrence options of an RRULE.
+ */
 Ext.define('Extensible.form.recurrence.option.Monthly', {
     extend: 'Extensible.form.recurrence.AbstractOption',
     alias: 'widget.extensible.recurrence-monthly',

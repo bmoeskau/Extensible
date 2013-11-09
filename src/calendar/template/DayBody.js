@@ -1,20 +1,16 @@
 /**
- * @class Extensible.calendar.template.DayBody
- * @extends Ext.XTemplate
- * <p>This is the template used to render the scrolling body container used in
+ * This is the template used to render the scrolling body container used in
  * {@link Extensible.calendar.view.Day DayView} and {@link Extensible.calendar.view.Week WeekView}. This template
  * is automatically bound to the underlying event store by the calendar components and expects records of type
- * {@link Extensible.calendar.data.EventModel}.</p>
- * <p>Note that this template would not normally be used directly. Instead you would use the
+ * {@link Extensible.calendar.data.EventModel}.
+ * 
+ * Note that this template would not normally be used directly. Instead you would use the
  * {@link Extensible.calendar.view.DayTemplate} that internally creates an instance of this template along
- * with a {@link Extensible.calendar.DayHeaderTemplate}.</p>
- * @constructor
- * @param {Object} config The config object
+ * with a {@link Extensible.calendar.DayHeaderTemplate}.
  */
 Ext.define('Extensible.calendar.template.DayBody', {
     extend: 'Ext.XTemplate',
-    
-    // private
+
     constructor: function(config) {
         
         Ext.apply(this, config);
@@ -57,7 +53,6 @@ Ext.define('Extensible.calendar.template.DayBody', {
         );
     },
 
-    // private
     applyTemplate: function(o) {
         this.today = Extensible.Date.today();
         this.dayCount = this.dayCount || 1;
@@ -95,7 +90,7 @@ Ext.define('Extensible.calendar.template.DayBody', {
             hourSeparatorHeight: (this.hourHeight / 2)
         };
          
-        if (Ext.getVersion().isLessThan('4.1')) {
+        if (Ext.getVersion('extjs').isLessThan('4.1')) {
             return Extensible.calendar.template.DayBody.superclass.applyTemplate.call(this, templateConfig);
         }
         else {

@@ -1,3 +1,6 @@
+/**
+ * The widget that represents the weekly recurrence options of an RRULE.
+ */
 Ext.define('Extensible.form.recurrence.option.Weekly', {
     extend: 'Extensible.form.recurrence.AbstractOption',
     alias: 'widget.extensible.recurrence-weekly',
@@ -25,13 +28,15 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
     /**
      * Creates the item configuration for the checkbox group. Takes into account the week start day.
      * For example:
-     * [{ boxLabel: 'Sun', name: 'SU', id: this.id + '-SU' },
-     *  { boxLabel: 'Mon', name: 'MO', id: this.id + '-MO' },
-     *  { boxLabel: 'Tue', name: 'TU', id: this.id + '-TU' },
-     *  { boxLabel: 'Wed', name: 'WE', id: this.id + '-WE' },
-     *  { boxLabel: 'Thu', name: 'TH', id: this.id + '-TH' },
-     *  { boxLabel: 'Fri', name: 'FR', id: this.id + '-FR' },
-     *  { boxLabel: 'Sat', name: 'SA', id: this.id + '-SA' }];
+     *		[
+     *			{ boxLabel: 'Sun', name: 'SU', id: this.id + '-SU' },
+     *			{ boxLabel: 'Mon', name: 'MO', id: this.id + '-MO' },
+     *			{ boxLabel: 'Tue', name: 'TU', id: this.id + '-TU' },
+     *			{ boxLabel: 'Wed', name: 'WE', id: this.id + '-WE' },
+     *			{ boxLabel: 'Thu', name: 'TH', id: this.id + '-TH' },
+     *			{ boxLabel: 'Fri', name: 'FR', id: this.id + '-FR' },
+     *			{ boxLabel: 'Sat', name: 'SA', id: this.id + '-SA' }
+     *		];
      * @return {Array}
      */
     getCheckboxGroupItems: function() {

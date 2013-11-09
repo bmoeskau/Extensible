@@ -1,24 +1,20 @@
 /**
- * @class Extensible.calendar.form.field.ReminderCombo
- * @extends Ext.form.field.ComboBox
- * <p>A custom combo used for choosing a reminder setting for an event.</p>
- * <p>This is pretty much a standard combo that is simply pre-configured for the options needed by the
- * calendar components. The default configs are as follows:<pre><code>
-width: 200,
-fieldLabel: 'Reminder',
-queryMode: 'local',
-triggerAction: 'all',
-forceSelection: true,
-displayField: 'desc',
-valueField: 'value',
-noneText: 'None',
-atStartTimeText: 'At start time',
-reminderValueFormat: '{0} {1} before start'
-</code></pre>
- * <p>To customize the descriptions in the dropdown list override the following methods:
- * {@link #getMinutesText}, {@link #getHoursText}, {@link #getDaysText} and {@link #getWeeksText}.</p>
- * @constructor
- * @param {Object} config The config object
+ * A custom combo used for choosing a reminder setting for an event.
+ * 
+ * This is pretty much a standard combo that is simply pre-configured for the options needed by the
+ * calendar components. The default configs are as follows:
+ *		width: 200,
+ *		fieldLabel: 'Reminder',
+ *		queryMode: 'local',
+ *		triggerAction: 'all',
+ *		forceSelection: true,
+ *		displayField: 'desc',
+ *		valueField: 'value',
+ *		noneText: 'None',
+ *		atStartTimeText: 'At start time',
+ *		reminderValueFormat: '{0} {1} before start'
+ * To customize the descriptions in the dropdown list override the following methods:
+ * {@link #getMinutesText}, {@link #getHoursText}, {@link #getDaysText} and {@link #getWeeksText}.
  */
 Ext.define('Extensible.calendar.form.field.ReminderCombo', {
     extend: 'Ext.form.field.ComboBox',
@@ -46,7 +42,6 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
     weekText: 'week',
     weeksText: 'weeks',
     
-    // private
     initComponent: function() {
         this.store = this.store || Ext.create('Ext.data.ArrayStore', {
             fields: ['value', 'desc'],
@@ -128,7 +123,9 @@ Ext.define('Extensible.calendar.form.field.ReminderCombo', {
         return numWeeks === 1 ? this.weekText : this.weeksText;
     },
     
-    // inherited docs
+    /**
+     * @protected 
+     */
     initValue: function() {
         if(this.value !== undefined) {
             this.setValue(this.value);

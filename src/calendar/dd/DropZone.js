@@ -1,12 +1,13 @@
-/* @private
+/**
  * Internal drop zone implementation for the calendar components. This provides base functionality
  * and is primarily for the month view -- DayViewDD adds day/week view-specific functionality.
+ * @private
  */
 Ext.define('Extensible.calendar.dd.DropZone', {
     extend: 'Ext.dd.DropZone',
     
     requires: [
-        Ext.getVersion().isLessThan('4.2') ? 'Ext.Layer' : 'Ext.dom.Layer',
+        'Ext.Layer',
         'Extensible.calendar.data.EventMappings'
     ],
     
@@ -15,7 +16,6 @@ Ext.define('Extensible.calendar.dd.DropZone', {
     dateRangeFormat: '{0}-{1}',
     dateFormat: 'n/j',
     
-    // private
     shims: [],
     
     getTargetFromEvent: function(e) {
@@ -128,7 +128,7 @@ Ext.define('Extensible.calendar.dd.DropZone', {
         el.className = 'ext-dd-shim';
         this.shimCt.appendChild(el);
         
-        return Ext.create(Ext.getVersion().isLessThan('4.2') ? 'Ext.Layer' : 'Ext.dom.Layer', {
+        return Ext.create('Ext.Layer', {
             shadow: false, 
             useDisplay: true, 
             constrain: false

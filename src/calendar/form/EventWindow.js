@@ -1,36 +1,35 @@
 /**
- * @class Extensible.calendar.form.EventWindow
- * @extends Ext.window.Window
- * <p>A custom window containing a basic edit form used for quick editing of events.</p>
- * <p>This window also provides custom events specific to the calendar so that other calendar components can be easily
- * notified when an event has been edited via this component.</p>
- * <p>The default configs are as follows:</p><pre><code>
-    // Locale configs
-    titleTextAdd: 'Add Event',
-    titleTextEdit: 'Edit Event',
-    width: 600,
-    labelWidth: 65,
-    detailsLinkText: 'Edit Details...',
-    savingMessage: 'Saving changes...',
-    deletingMessage: 'Deleting event...',
-    saveButtonText: 'Save',
-    deleteButtonText: 'Delete',
-    cancelButtonText: 'Cancel',
-    titleLabelText: 'Title',
-    datesLabelText: 'When',
-    calendarLabelText: 'Calendar',
-    
-    // General configs
-    closeAction: 'hide',
-    modal: false,
-    resizable: false,
-    constrain: true,
-    buttonAlign: 'left',
-    editDetailsLinkClass: 'edit-dtl-link',
-    enableEditDetails: true,
-    bodyStyle: 'padding: 8px 10px 5px;',
-    layout: 'fit'
-</code></pre>
+ * A custom window containing a basic edit form used for quick editing of events.
+ * 
+ * This window also provides custom events specific to the calendar so that other calendar components can be easily
+ * notified when an event has been edited via this component.
+ * 
+ * The default configs are as follows:
+ *		// Locale configs
+ *		titleTextAdd: 'Add Event',
+ *		titleTextEdit: 'Edit Event',
+ *		width: 600,
+ *		labelWidth: 65,
+ *		detailsLinkText: 'Edit Details...',
+ *		savingMessage: 'Saving changes...',
+ *		deletingMessage: 'Deleting event...',
+ *		saveButtonText: 'Save',
+ *		deleteButtonText: 'Delete',
+ *		cancelButtonText: 'Cancel',
+ *		titleLabelText: 'Title',
+ *		datesLabelText: 'When',
+ *		calendarLabelText: 'Calendar',
+ *		
+ *		// General configs
+ *		closeAction: 'hide',
+ *		modal: false,
+ *		resizable: false,
+ *		constrain: true,
+ *		buttonAlign: 'left',
+ *		editDetailsLinkClass: 'edit-dtl-link',
+ *		enableEditDetails: true,
+ *		bodyStyle: 'padding: 8px 10px 5px;',
+ *		layout: 'fit'
  * @constructor
  * @param {Object} config The config object
  */
@@ -95,7 +94,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
      */
     allowDefaultAdd: true,
     
-    // private
     initComponent: function() {
         this.addEvents({
             /**
@@ -185,7 +183,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         return cfg;
     },
     
-    // private
     onRender : function(ct, position){        
         this.formPanel = Ext.create('Ext.form.Panel', Ext.applyIf({
             fieldDefaults: {
@@ -230,7 +227,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         return items;
     },
 
-    // private
     afterRender: function() {
         this.callParent(arguments);
         
@@ -262,7 +258,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         this.calendarField = this.down('#' + this.id + '-calendar');
     },
     
-    // private
     onEditDetailsClick: function(e) {
         e.stopEvent();
         this.updateRecord(this.activeRecord, true);
@@ -309,6 +304,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
                 
             rec = Ext.create('Extensible.calendar.data.EventModel');
             
+            rec.data[EventMappings.Title.name] = o[EventMappings.Title.name]; // in case it's set
             rec.data[EventMappings.StartDate.name] = start;
             rec.data[EventMappings.EndDate.name] = end;
             
@@ -342,21 +338,18 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         
         return me;
     },
-    
-    // private
+
     roundTime: function(dt, incr) {
         incr = incr || 15;
         var m = parseInt(dt.getMinutes(), 10);
         return dt.add('mi', incr - (m % incr));
     },
-    
-    // private
+
     onCancel: function() {
         this.cleanup(true);
         this.fireEvent('eventcancel', this, this.activeRecord, this.animateTarget);
     },
 
-    // private
     cleanup: function(hide) {
         if (this.activeRecord) {
             this.activeRecord.reject();
@@ -416,8 +409,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
 
         return record.dirty || (record.phantom && this.allowDefaultAdd);
     },
-    
-    // private
+
     onSave: function() {
         var me = this,
             form = me.formPanel.form,
@@ -451,8 +443,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             }
         }
     },
-    
-    // private
+
     onRecurrenceUpdate: function() {
         this.rangeEditWin = this.rangeEditWin || Ext.WindowMgr.get('ext-cal-rangeeditwin');
         if (!this.rangeEditWin) {
@@ -463,8 +454,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             scope: this
         });
     },
-    
-    // private
+
     onRecurrenceEditModeSelected: function(editMode) {
         var me = this;
         
@@ -473,8 +463,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             me.fireEvent('eventupdate', me, me.activeRecord, me.animateTarget);
         }
     },
-    
-    // private
+
     onDelete: function() {
         this.fireEvent('eventdelete', this, this.activeRecord, this.animateTarget);
     }

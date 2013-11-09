@@ -1,20 +1,17 @@
 /**
- * @class Extensible.calendar.view.AbstractCalendar
- * @extends Ext.Component
- * <p>This is an abstract class that serves as the base for other calendar views. This class is not
- * intended to be directly instantiated.</p>
- * <p>When extending this class to create a custom calendar view, you must provide an implementation
- * for the <code>renderItems</code> method, as there is no default implementation for rendering events
+ * This is an abstract class that serves as the base for other calendar views. This class is not
+ * intended to be directly instantiated.
+ * 
+ * When extending this class to create a custom calendar view, you must provide an implementation
+ * for the <tt>renderItems</tt> method, as there is no default implementation for rendering events
  * The rendering logic is totally dependent on how the UI structures its data, which
- * is determined by the underlying UI template (this base class does not have a template).</p>
- * @constructor
- * @param {Object} config The config object
+ * is determined by the underlying UI template (this base class does not have a template).
  */
 Ext.define('Extensible.calendar.view.AbstractCalendar', {
     extend: 'Ext.Component',
     
     requires: [
-        'Ext.dom.CompositeElement',
+        'Ext.CompositeElement',
         'Extensible.calendar.form.EventDetails',
         'Extensible.calendar.form.EventWindow',
         'Extensible.calendar.menu.Event',
@@ -228,11 +225,12 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     todayCls: 'ext-cal-day-today',
     /**
      * @cfg {String} hideMode
-     * <p>How this component should be hidden. Supported values are <tt>'visibility'</tt>
+     * How this component should be hidden. Supported values are <tt>'visibility'</tt>
      * (css visibility), <tt>'offsets'</tt> (negative offset position) and <tt>'display'</tt>
-     * (css display).</p>
-     * <br><p><b>Note</b>: For calendar views the default is 'offsets' rather than the Ext JS default of
-     * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.</p>
+     * (css display).
+     * 
+     * **Note:** For calendar views the default is 'offsets' rather than the Ext JS default of
+     * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.
      */
     hideMode: 'offsets',
     /**
@@ -284,14 +282,15 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     getEventBodyMarkup: Ext.emptyFn, // must be implemented by a subclass
 
     /**
-     * <p>Returns the XTemplate that is bound to the calendar's event store (it expects records of type
+     * Returns the XTemplate that is bound to the calendar's event store (it expects records of type
      * {@link Extensible.calendar.data.EventModel}) to populate the calendar views with events. Internally this method
      * by default generates different markup for browsers that support CSS border radius and those that don't.
-     * This method can be overridden as needed to customize the markup generated.</p>
-     * <p>Note that this method calls {@link #getEventBodyMarkup} to retrieve the body markup for events separately
+     * This method can be overridden as needed to customize the markup generated.
+     * 
+     * Note that this method calls {@link #getEventBodyMarkup} to retrieve the body markup for events separately
      * from the surrounding container markup.  This provides the flexibility to customize what's in the body without
      * having to override the entire XTemplate. If you do override this method, you should make sure that your
-     * overridden version also does the same.</p>
+     * overridden version also does the same.
      * @return {Ext.XTemplate} The event XTemplate
      */
     getEventTemplate: Ext.emptyFn, // must be implemented by a subclass
@@ -302,30 +301,28 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * below and is expected to return the CSS class name (or empty string '' for none) that will be added to the
      * event element's wrapping div. To apply multiple class names, simply return them space-delimited within the
      * string (e.g., 'my-class another-class'). Example usage, applied in a CalendarPanel config:
-     * <pre><code>
-// This example assumes a custom field of 'IsHoliday' has been added to EventRecord
-viewConfig: {
-    getEventClass: function(rec, allday, templateData, store) {
-        if (rec.data.IsHoliday) {
-            templateData.iconCls = 'holiday';
-            return 'evt-holiday';
-        }
-        templateData.iconCls = 'plain';
-        return '';
-    },
-    getEventBodyMarkup: function() {
-        // This is simplified, but shows the symtax for how you could add a
-        // custom placeholder that maps back to the templateData property created
-        // in getEventClass. Note that this is standard Ext template syntax.
-        if (!this.eventBodyMarkup) {
-            this.eventBodyMarkup = '&lt;span class="{iconCls}">&lt;/span> {Title}';
-        }
-        return this.eventBodyMarkup;
-    }
-}
-</code></pre>
+     *		// This example assumes a custom field of 'IsHoliday' has been added to EventRecord
+     *		viewConfig: {
+     *			getEventClass: function(rec, allday, templateData, store) {
+     *				if (rec.data.IsHoliday) {
+     *				templateData.iconCls = 'holiday';
+     *				return 'evt-holiday';
+     *			}
+     *			templateData.iconCls = 'plain';
+     *			return '';
+     *			},
+     *			getEventBodyMarkup: function() {
+     *			// This is simplified, but shows the symtax for how you could add a
+     *			// custom placeholder that maps back to the templateData property created
+     *			// in getEventClass. Note that this is standard Ext template syntax.
+     *				if (!this.eventBodyMarkup) {
+     *					this.eventBodyMarkup = '&lt;span class="{iconCls}">&lt;/span> {Title}';
+     *				}
+     *			return this.eventBodyMarkup;
+     *			}
+     *		}
      * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} being rendered
-     * @param {Boolean} isAllDay A flag indicating whether the event will be <em>rendered</em> as an all-day event. Note that this
+     * @param {Boolean} isAllDay A flag indicating whether the event will be *rendered* as an all-day event. Note that this
      * will not necessarily correspond with the value of the <tt>EventRecord.IsAllDay</tt> field &mdash; events that span multiple
      * days will be rendered using the all-day event template regardless of the field value. If your logic for this function
      * needs to know whether or not the event will be rendered as an all-day event, this value should be used.
@@ -338,7 +335,6 @@ viewConfig: {
      * @return {String} A space-delimited CSS class string (or '')
      */
 
-    // private
     initComponent: function() {
         this.setStartDate(this.startDate || new Date());
 
@@ -419,7 +415,7 @@ viewConfig: {
             rangeselect: true,
             /**
              * @event beforeeventcopy
-             * Fires before an existing event is duplicated by the user view the "copy" command. This is a
+             * Fires before an existing event is duplicated by the user via the "copy" command. This is a
              * cancelable event, so returning false from a handler will cancel the copy operation.
              * @param {Extensible.calendar.view.AbstractCalendar} this
              * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
@@ -440,21 +436,25 @@ viewConfig: {
             eventcopy: true,
             /**
              * @event beforeeventmove
-             * Fires before an event element is dragged by the user and dropped in a new position. This is a cancelable event, so
-             * returning false from a handler will cancel the move operation. This could be useful for validating that a user can
-             * only move events within a certain date range.
+             * Fires after an event element has been dragged by the user and dropped in a new position, but before
+             * the event record is updated with the new dates, providing a hook for canceling the update.
+             * To cancel the move, return false from a handling function. This could be useful for validating
+             * that a user can only move events within a certain date range, for example.
              * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that will be moved
-             * @param {Date} dt The new start date to be set (the end date will be automaticaly adjusted to match the event duration)
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+             * for the event that will be moved. Start and end dates will be the original values before the move started.
+             * @param {Date} dt The new start date to be set (the end date will be automaticaly calculated to match
+             * based on the event duration)
              */
             beforeeventmove: true,
             /**
              * @event eventmove
-             * Fires after an event element has been dragged by the user and dropped in a new position. If you need to cancel the
-             * move operation you should handle the {@link #beforeeventmove} event and return false from your handler function.
+             * Fires after an event element has been moved to a new position and its data updated. If you need to
+             * cancel the move operation you should handle the {@link #beforeeventmove} event and return false
+             * from your handler function.
              * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was moved with
-             * updated start and end dates
+             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+             * for the event that was moved with updated start and end dates
              */
             eventmove: true,
             /**
@@ -532,7 +532,7 @@ viewConfig: {
             /**
              * @event eventexception
              * Fires after an event has been processed via an Ext proxy and returned with an exception. This
-             * could be because of a server error, or because the data returned <code>success: false</code>.
+             * could be because of a server error, or because the data returned <tt>success: false</tt>.
              *
              * The view provides default handling via the overrideable {@link #notifyOnException} method. If
              * any function handling this event returns false, the notifyOnException method will not be called.
@@ -548,7 +548,6 @@ viewConfig: {
         });
     },
 
-    // private
     afterRender: function() {
         this.callParent(arguments);
 
@@ -650,12 +649,10 @@ viewConfig: {
         this.store.load(o);
     },
 
-    // private
     onEventsRendered: function() {
         this.forceSize();
     },
 
-    // private
     forceSize: function() {
         var el = this.el;
         
@@ -698,13 +695,11 @@ viewConfig: {
         }
     },
 
-    // private
     getWeekCount: function() {
         var days = Extensible.Date.diffDays(this.viewStart, this.viewEnd);
         return Math.ceil(days / this.dayCount);
     },
     
-    // private
     prepareData: function() {
         var lastInMonth = Ext.Date.getLastDateOfMonth(this.startDate),
             w = 0,
@@ -753,7 +748,6 @@ viewConfig: {
         this.currentWeekCount = w;
     },
 
-    // private
     prepareEventGrid: function(evts, w, d) {
         var me = this,
             row = 0,
@@ -789,7 +783,6 @@ viewConfig: {
         }, me);
     },
     
-    // private
     setMaxEventsForDay: function(weekIndex, dayIndex) {
         var max = (this.maxEventsPerDay + 1) || 999;
         
@@ -804,7 +797,6 @@ viewConfig: {
         }
     },
 
-    // private
     prepareEventGridSpans: function(evt, grid, w, d, days, allday) {
         // this event spans multiple days/weeks, so we have to preprocess
         // the events and store special span events as placeholders so that
@@ -857,7 +849,6 @@ viewConfig: {
         }
     },
 
-    // private
     findEmptyRowIndex: function(w, d, allday) {
         var grid = allday ? this.allDayGrid : this.eventGrid,
             day = grid[w] ? grid[w][d] || [] : [],
@@ -865,14 +856,13 @@ viewConfig: {
             len = day.length;
 
         for (; i < len; i++) {
-            if (day[i] === null) {
+            if (!day[i]) {
                 return i;
             }
         }
         return len;
     },
 
-    // private
     renderTemplate: function() {
         if (this.tpl) {
             this.tpl.overwrite(this.el, this.getTemplateParams());
@@ -881,7 +871,6 @@ viewConfig: {
         }
     },
 
-    // private
     getTemplateParams: function() {
         return {
             viewStart: this.viewStart,
@@ -918,22 +907,18 @@ viewConfig: {
         return this;
     },
 
-    // private
     onResize: function() {
         this.refresh(false);
     },
 
-    // private
     onInitDrag: function() {
         this.fireEvent('initdrag', this);
     },
 
-    // private
     onEventDrop: function(rec, dt, mode) {
         this[(mode || 'move') + 'Event'](rec, dt);
     },
 
-    // private
     onCalendarEndDrag: function(start, end, onComplete) {
         // set this flag for other event handlers that might conflict while we're waiting
         this.dragPending = true;
@@ -960,7 +945,6 @@ viewConfig: {
         }
     },
 
-    // private
     onCalendarEndDragComplete: function(onComplete) {
         // callback for the drop zone to clean up
         onComplete();
@@ -975,13 +959,12 @@ viewConfig: {
      */
     refreshAfterEventChange: function(action, operation) {
         // Determine if a store reload is needed. A store reload is needed if the event is recurring after being
-        // edited or was recurring before being edited AND a event store reload has not been triggered already for
-        // this operation.
-        // The term operation.records[0].get(Extensible.calendar.data.EventMappings.RInstanceStartDate.name)) is
-        // used to determine of an event was recurring before being edited.
-        var reload = (operation.records[0].isRecurring() ||
-            operation.records[0].get(Extensible.calendar.data.EventMappings.RInstanceStartDate.name)) &&
-            !operation.wasStoreReloadTriggered;
+        // edited or was recurring before being edited AND an event store reload has not been triggered already for
+        // this operation. If an event is not currently recurring (isRecurring = false) but still has an instance
+        // start date set, then it must have been recurring and edited to no longer recur.
+        var RInstanceStartDate = Extensible.calendar.data.EventMappings.RInstanceStartDate,
+            isInstance = RInstanceStartDate && !!operation.records[0].get(RInstanceStartDate.name),
+            reload = (operation.records[0].isRecurring() || isInstance) && !operation.wasStoreReloadTriggered;
 
         if (reload) {
             // For calendar views with a body and a header component (e.g. weekly view, day view), this function is
@@ -991,7 +974,6 @@ viewConfig: {
         this.refresh(reload);
     },
 
-    // private
     onUpdate: function(store, operation, updateType) {
         if (this.hidden === true || this.ownerCt.hidden === true || this.monitorStoreEvents === false) {
             // Hidden calendar view don't need to be refreshed. For views composed of header and body (for example
@@ -1029,7 +1011,6 @@ viewConfig: {
         this.highlightEvent(els, null, o);
     },
 
-    // private
     onAdd: function(store, operation) {
         var rec = operation.records[0];
 
@@ -1072,7 +1053,6 @@ viewConfig: {
         els.fadeIn(Ext.apply(o, { duration: 2000 }));
     },
 
-    // private
     onRemove: function(store, operation) {
         if (this.hidden === true || this.ownerCt.hidden === true || this.monitorStoreEvents === false) {
             // Hidden calendar view don't need to be refreshed. For views composed of header and body (for example
@@ -1107,13 +1087,11 @@ viewConfig: {
      * @param {Ext.CompositeElement} el The {@link Ext.CompositeElement} representing the removed event
      * @param {Object} options An options object to be passed through to any Element.Fx methods. By default this
      * object contains the following properties:
-     * <pre><code>
-{
-   remove: true, // required by fadeOut to actually remove the element(s)
-   scope: this,  // required for the callback
-   callback: fn  // required to refresh the view after the fx finish
-}
-     * </code></pre>
+     *		{
+     *			remove: true, // required by fadeOut to actually remove the element(s)
+     *			scope: this,  // required for the callback
+     *			callback: fn  // required to refresh the view after the fx finish
+     *		}
      * While you can modify this options object as needed if you change the effect used, please note that the
      * callback method (and scope) MUST still be passed in order for the view to refresh correctly after the removal.
      * Please see the inline code comments before overriding this method.
@@ -1168,16 +1146,6 @@ viewConfig: {
      * Retrieve an Event object's id from its corresponding node in the DOM.
      * @param {String/Element/HTMLElement} el An {@link Ext.Element}, DOM node or id
      */
-//    getEventIdFromEl: function(el) {
-//        el = Ext.get(el);
-//        var id = el.id.split(this.eventElIdDelimiter)[1];
-//        if (id.indexOf('-w_') > -1) {
-//            //This id has the index of the week it is rendered in as part of the suffix.
-//            //This allows events that span across weeks to still have reproducibly-unique DOM ids.
-//            id = id.split('-w_')[0];
-//        }
-//        return id;
-//    },
     getEventIdFromEl: function(el) {
         el = Ext.get(el);
         var parts, id = '', cls, classes = el.dom.className.split(' ');
@@ -1193,7 +1161,6 @@ viewConfig: {
         return id;
     },
 
-    // private
     getEventId: function(eventId) {
         if (eventId === undefined && this.tempEventId) {
             // temp record id assigned during an add, will be overwritten later
@@ -1237,7 +1204,6 @@ viewConfig: {
         return this.viewStart.getTime() <= today && this.viewEnd.getTime() >= today;
     },
 
-    // private
     isEventVisible: function(evt) {
         var eventMappings = Extensible.calendar.data.EventMappings,
             calendarMappings = Extensible.calendar.data.CalendarMappings,
@@ -1258,7 +1224,6 @@ viewConfig: {
         return Extensible.Date.rangesOverlap(start, end, evStart, evEnd);
     },
 
-    // private
     isOverlapping: function(evt1, evt2) {
         var ev1 = evt1.data ? evt1.data : evt1,
             ev2 = evt2.data ? evt2.data : evt2,
@@ -1287,7 +1252,6 @@ viewConfig: {
         return (evtsOverlap || ev1MinHeightOverlapsEv2);
     },
 
-    // private
     isEventSpanning: function(evt) {
         var M = Extensible.calendar.data.EventMappings,
             data = evt.data || evt,
@@ -1303,12 +1267,10 @@ viewConfig: {
         return diff > 0;
     },
 
-    // private
     getDayEl: function(dt) {
         return Ext.get(this.getDayId(dt));
     },
 
-    // private
     getDayId: function(dt) {
         if (Ext.isDate(dt)) {
             dt = Ext.Date.format(dt, 'Ymd');
@@ -1359,7 +1321,6 @@ viewConfig: {
         }
     },
 
-    // private
     setViewBounds: function(startDate) {
         var me = this,
             start = startDate || me.startDate,
@@ -1409,14 +1370,15 @@ viewConfig: {
 
     /**
      * Returns the start and end boundary dates currently displayed in the view. The method
-     * returns an object literal that contains the following properties:<ul>
-     * <li><b>start</b> Date : <div class="sub-desc">The start date of the view</div></li>
-     * <li><b>end</b> Date : <div class="sub-desc">The end date of the view</div></li></ul>
-     * For example:<pre><code>
-var bounds = view.getViewBounds();
-alert('Start: '+bounds.start);
-alert('End: '+bounds.end);
-</code></pre>
+     * returns an object literal that contains the following properties:
+     *
+     *	* **start** Date: The start date of the view
+     *	* **end** Date: The end date of the view
+     * 
+     * For example:
+     *		var bounds = view.getViewBounds();
+     *		alert('Start: '+bounds.start);
+     *		alert('End: '+bounds.end);
      * @return {Object} An object literal containing the start and end values
      */
     getViewBounds: function() {
@@ -1574,13 +1536,11 @@ alert('End: '+bounds.end);
         this.store = store;
     },
     
-    // private
     onEventStoreLoad: function(store, recs, successful) {
         Extensible.log('AbstractCalendar.onEventStoreLoad: store loaded');
         this.refresh(false);
     },
     
-    // private
     // No longer used, but kept here for compatibility
     onDataChanged: this.onEventStoreLoad,
 
@@ -1611,12 +1571,17 @@ alert('End: '+bounds.end);
         }
     },
     
-    // private
-    getExceptionMessage: function(response) {
+    /**
+     * Returns the message to display from {@link #notifyOnException}, generated automatically
+     * from the server response and operation objects.
+     * @protected
+     * @since 1.6.0
+     */
+    getExceptionMessage: function(response, operation) {
         var msg = '';
         
         if (response.responseText) {
-            msg += '<br><b>responseText</b>: ' + Ext.decode(response.responseText).message;
+            msg += '<br><b>responseText</b>: ' + response.responseText;
         }
         if (response.message) {
             msg += '<br><b>message</b>: ' + response.message;
@@ -1626,6 +1591,9 @@ alert('End: '+bounds.end);
         }
         if (response.statusText) {
             msg += '<br><b>statusText</b>: ' + response.statusText;
+        }
+        if (operation.error && operation.error.length) {
+            msg += '<br><b>processing error</b>: ' + operation.error;
         }
         
         return msg || ('<br>' + this.notifyOnExceptionDefaultMessage);
@@ -1640,18 +1608,16 @@ alert('End: '+bounds.end);
      * functions can return false to bypass this method if application-specific code might conditionally
      * handle exceptions, and still fall back to this method in other cases. To bypass this method globally
      * you can simply remove it like so (or you could do the same thing in a view subclass):
-     * <pre><code>
-Ext.override(Extensible.calendar.view.AbstractCalendar, {
-    notifyOnException: Ext.emptyFn
-});
-     * </code></pre>
+     *		Ext.override(Extensible.calendar.view.AbstractCalendar, {
+     *			notifyOnException: Ext.emptyFn
+     *		});
      * @param {Object} response The raw response object returned from the server
      * @param {Ext.data.Operation} operation The operation that was processed
      * @since 1.6.0
      */
     notifyOnException: function(response, operation) {
         Ext.Msg.alert(this.notifyOnExceptionTitle, this.notifyOnExceptionText + '<br>' +
-            this.getExceptionMessage(response));
+            this.getExceptionMessage(response, operation));
     },
 
     /**
@@ -1674,7 +1640,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         this.calendarStore = store;
     },
 
-    // private
     getEventRecord: function(id) {
         var idx = this.store.find(Extensible.calendar.data.EventMappings.EventId.name, id,
             0,     // start index
@@ -1685,12 +1650,10 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         return this.store.getAt(idx);
     },
 
-    // private
     getEventRecordFromEl: function(el) {
         return this.getEventRecord(this.getEventIdFromEl(el));
     },
 
-    // private
     getEventEditor: function() {
         // only create one instance of the edit window, even if there are multiple CalendarPanels
         this.editWin = this.editWin || Ext.WindowMgr.get('ext-cal-editwin');
@@ -1786,7 +1749,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         return this;
     },
 
-    // private
     save: function() {
         // If the store is configured as autoSync:true the record's endEdit
         // method will have already internally caused a save to execute on
@@ -1797,7 +1759,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         }
     },
 
-    // private
     onWrite: function(store, operation) {
         if (operation.wasSuccessful()) {
             //var rec = operation.records[0];
@@ -1816,7 +1777,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         }
     },
 
-    // private
     onEventEditorAdd: function(form, rec) {
         this.newRecord = rec;
 
@@ -1827,24 +1787,21 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         this.fireEvent('eventadd', this, rec);
     },
 
-    // private
     onEventEditorUpdate: function(form, rec) {
         this.save();
         this.fireEvent('eventupdate', this, rec);
     },
 
-    // private
     onEventEditorDelete: function(form, rec) {
         rec._deleting = true;
         this.deleteEvent(rec);
     },
 
-    // private
     onEventEditorCancel: function(form, rec) {
         this.fireEvent('eventcancel', this, rec);
     },
 
-    // private -- called from subclasses
+    // called from subclasses
     onDayClick: function(dt, ad, el) {
         if (this.readOnly === true) {
             return;
@@ -1860,7 +1817,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         }
     },
 
-    // private
     showEventMenu: function(el, xy) {
         var me = this;
 
@@ -1881,13 +1837,11 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         me.menuActive = true;
     },
 
-    // private
     onCopyEvent: function(menu, rec, newStartDate) {
         this.menuActive = false;
         this.shiftEvent(rec, newStartDate, 'copy');
     },
 
-    // private
     onMoveEvent: function(menu, rec, newStartDate) {
         this.menuActive = false;
         this.shiftEvent(rec, newStartDate, 'move');
@@ -1912,7 +1866,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         this.shiftEvent(rec, newStartDate, 'move');
     },
 
-    // private
     shiftEvent: function(rec, newStartDate, moveOrCopy) {
         var me = this,
             newRec;
@@ -1947,7 +1900,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         }
     },
 
-    // private
     onRecurrenceEditModeSelected: function(editMode, rec, newStartDate, moveOrCopy) {
         var EventMappings = Extensible.calendar.data.EventMappings;
 
@@ -1962,7 +1914,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         // else user canceled
     },
 
-    // private
     doShiftEvent: function(rec, newStartDate, moveOrCopy) {
         var EventMappings = Extensible.calendar.data.EventMappings,
             diff = newStartDate.getTime() - rec.getStartDate().getTime(),
@@ -1981,13 +1932,11 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         this.fireEvent('event' + moveOrCopy, this, rec);
     },
 
-    // private
     onEditDetails: function(menu, rec, el) {
         this.fireEvent('editdetails', this, rec, el);
         this.menuActive = false;
     },
 
-    // private
     // onRecurrenceMoveModeSelected: function(editMode, rec, newStartDate) {
         // if (editMode) {
             // rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
@@ -1997,7 +1946,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         // // else user canceled
     // },
 
-    // private
     onDeleteEvent: function(menu, rec, el) {
         rec._deleting = true;
         this.deleteEvent(rec, el);
@@ -2028,7 +1976,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         }
     },
 
-    // private
     onRecurrenceDeleteModeSelected: function(editMode, rec, el) {
         if (editMode) {
             rec.data[Extensible.calendar.data.EventMappings.REditMode.name] = editMode;
@@ -2038,14 +1985,12 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         // else user canceled
     },
 
-    // private
     doDeleteEvent: function(rec, /* private */el) {
         this.store.remove(rec);
         this.save();
         this.fireEvent('eventdelete', this, rec, el);
     },
 
-    // private
     onContextMenu: function(e, t) {
         var el = e.getTarget(this.eventSelector, 5, true),
             match = false;
@@ -2090,7 +2035,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         }
     },
 
-    // private
     onMouseOver: function(e, t) {
         if (this.trackMouseOver !== false && (this.dragZone === undefined || !this.dragZone.dragging)) {
             if (!this.handleEventMouseEvent(e, t, 'over')) {
@@ -2099,7 +2043,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         }
     },
 
-    // private
     onMouseOut: function(e, t) {
         if (this.trackMouseOver !== false && (this.dragZone === undefined || !this.dragZone.dragging)) {
             if (!this.handleEventMouseEvent(e, t, 'out')) {
@@ -2108,7 +2051,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         }
     },
 
-    // private
     handleEventMouseEvent: function(e, t, type) {
         var el = e.getTarget(this.eventSelector, this.eventSelectorDepth, true);
         
@@ -2133,13 +2075,11 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         return false;
     },
 
-    // private
     getDateFromId: function(id, delim) {
         var parts = id.split(delim);
         return parts[parts.length-1];
     },
 
-    // private
     handleDayMouseEvent: function(e, t, type) {
         t = e.getTarget('td', 3);
         
@@ -2165,7 +2105,7 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         }
     },
 
-    // private, MUST be implemented by subclasses
+    // MUST be implemented by subclasses
     renderItems: function() {
         throw 'This method must be implemented by a subclass';
     },
@@ -2182,7 +2122,6 @@ Ext.override(Extensible.calendar.view.AbstractCalendar, {
         return (calendarPanel && calendarPanel.getActiveView().id === this.id);
     },
 
-    // private
     destroy: function() {
         this.callParent(arguments);
 

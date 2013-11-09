@@ -1,4 +1,4 @@
-/*
+/**
  * This is the view used internally by the panel that displays overflow events in the
  * month view. Anytime a day cell cannot display all of its events, it automatically displays
  * a link at the bottom to view all events for that day. When clicked, a panel pops up that

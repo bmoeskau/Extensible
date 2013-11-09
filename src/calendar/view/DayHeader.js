@@ -1,12 +1,8 @@
 /**
- * @class Extensible.calendar.view.DayHeader
- * @extends Extensible.calendar.view.Month
- * <p>This is the header area container within the day and week views where all-day events are displayed.
+ * This is the header area container within the day and week views where all-day events are displayed.
  * Normally you should not need to use this class directly -- instead you should use {@link Extensible.calendar.view.Day DayView}
  * which aggregates this class and the {@link Extensible.calendar.view.DayBody DayBodyView} into the single unified view
- * presented by {@link Extensible.calendar.CalendarPanel CalendarPanel}.</p>
- * @constructor
- * @param {Object} config The config object
+ * presented by {@link Extensible.calendar.CalendarPanel CalendarPanel}
  */
 Ext.define('Extensible.calendar.view.DayHeader', {
     extend: 'Extensible.calendar.view.Month',
@@ -35,8 +31,7 @@ Ext.define('Extensible.calendar.view.DayHeader', {
      * DayHeaderView always return true for this param.
      * @param {Ext.Element} el The Element that was clicked on
      */
-    
-    // private
+
     afterRender: function() {
         if(!this.tpl) {
             this.tpl = Ext.create('Extensible.calendar.template.DayHeader', {
@@ -51,18 +46,15 @@ Ext.define('Extensible.calendar.view.DayHeader', {
         
         this.callParent(arguments);
     },
-    
-    // private
+
     forceSize: Ext.emptyFn,
-    
-    // private
+
     refresh: function(reloadData) {
         Extensible.log('refresh (DayHeaderView)');
         this.callParent(arguments);
         this.recalcHeaderBox();
     },
-    
-    // private
+
     recalcHeaderBox: function() {
         var tbl = this.el.down('.ext-cal-evt-tbl'),
             h = tbl.getHeight();
@@ -74,18 +66,15 @@ Ext.define('Extensible.calendar.view.DayHeader', {
         this.el.down('.ext-cal-hd-ad-inner').setHeight(h+5);
         this.el.down('.ext-cal-bg-tbl').setHeight(h+5);
     },
-    
-    // private
+
     moveNext: function() {
         return this.moveDays(this.dayCount, false);
     },
 
-    // private
     movePrev: function() {
         return this.moveDays(-this.dayCount, false);
     },
-    
-    // private
+
     onClick: function(e, t) {
         var el = e.getTarget('td', 3);
         
@@ -101,7 +90,9 @@ Ext.define('Extensible.calendar.view.DayHeader', {
         this.callParent(arguments);
     },
     
-    // inherited docs
+    /**
+     * @protected 
+     */
     isActiveView: function() {
         var calendarPanel = this.ownerCalendarPanel;
         return (calendarPanel && calendarPanel.getActiveView().isDayView);

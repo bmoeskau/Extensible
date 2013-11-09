@@ -1,0 +1,100 @@
+[
+    {
+        "title": "Calendar Pro",
+        "items": [
+            {
+                "name": "CalendarTestApp",
+                "title": "Calendar Test Application",
+                "description": "Calendar example application.",
+                "url": "/calendar/TestApp/test-app.html",
+                "icon": "",
+                "status": "updated"
+            },
+            {
+                "name": "BasicCalendarExamples",
+                "text": "Basic Calendar Examples",
+                "description": "",
+                "url": "/calendar/basic.html",
+                "icon": "",
+                "status": "updated"
+            },
+            {
+                "name": "CalendarWithinPanel",
+                "title": "Calendar Within a Tab Panel",
+                "description": "",
+                "url": "/calendar/tabpanel.html",
+                "icon": "",
+                "status": "updated"
+            },
+            {
+                "name": "CalendarWithinWindow",
+                "text": "Calendar Within a Window",
+                "description": "",
+                "url": "/calendar/window.html",
+                "icon": "",
+                "status": "updated"
+            },
+            {
+                "name": "LocalizedCalendar",
+                "title": "Localized Calendar Example",
+                "description": "",
+                "url": "/calendar/localization.html",
+                "icon": "",
+                "status": "updated"
+            },
+            {
+                "name": "CustomCalendarViews",
+                "text": "Custom Calendar Views",
+                "description": "",
+                "url": "/calendar/custom-views.html",
+                "icon": "",
+                "status": "updated"
+            },
+            {
+                "name": "CustomCalendarMappings",
+                "title": "Custom Calendar Mappings",
+                "description": "",
+                "url": "/calendar/custom-mappings.html",
+                "icon": "",
+                "status": "updated"
+            },
+            {
+                "name": "RemoteCalendar",
+                "text": "Remote Calendar",
+                "description": "PHP Required",
+                "url": "/calendar/remote/remote.html",
+                "icon": "",
+                "status": "updated"
+            },
+            {
+                "name": "DoctypeTester",
+                "title": "Doc Type Tester",
+                "description": "PHP Required",
+                "url": "/calendar/doc-types.php",
+                "icon": "",
+                "status": "updated"
+            },
+            {
+                "name": "RecurrenceDemo",
+                "text": "Recurrence Demo",
+                "description": "PHP Required",
+                "url": "/calendar/remote/recurrence.html",
+                "icon": "",
+                "status": "updated"
+            }
+        ]
+    },
+    {
+        "title": "Form Components",
+        "items": [
+            {
+                "name": "RecurrenceWidget",
+                "title": "Extensible Recurrence Widget",
+                "description": "",
+                "url": "/form/recurrence-widget.html",
+                "icon": "",
+                "status": "updated"
+            }
+        ]
+    }
+]

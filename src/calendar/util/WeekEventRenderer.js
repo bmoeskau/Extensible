@@ -1,7 +1,9 @@
-/* @private
+/**
  * This is an internal helper class for the calendar views and should not be overridden.
  * It is responsible for the base event rendering logic underlying all views based on a
  * box-oriented layout that supports day spanning (MonthView, MultiWeekView, DayHeaderView).
+ * 
+ * @private
  */
 Ext.define('Extensible.calendar.util.WeekEventRenderer', {
     
