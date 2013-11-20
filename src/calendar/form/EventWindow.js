@@ -185,6 +185,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     
     onRender : function(ct, position){        
         this.formPanel = Ext.create('Ext.form.Panel', Ext.applyIf({
+            padding: '8 10 5',
             fieldDefaults: {
                 labelWidth: this.labelWidth
             },
