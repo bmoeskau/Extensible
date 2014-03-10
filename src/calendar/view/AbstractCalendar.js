@@ -1521,6 +1521,9 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             currStore.un("load", this.onEventStoreLoad, this);
             currStore.un("clear", this.refresh, this);
             currStore.un("write", this.onWrite, this);
+            currStore.un("update", this.refresh, this);
+            currStore.un("add", this.refresh, this);
+            currStore.un("remove", this.refresh, this);
             // Note that this handler is attached to the proxy's exception event. In Ext 4 the store no longer
             // raises an exception event. Store.sync() does accept a callback argument in 4.1+, but in 4.0.x
             // unfortunately the only way to handle this is directly on the proxy, so for ease of compatibility
@@ -1531,6 +1534,9 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             store.on("load", this.onEventStoreLoad, this);
             store.on("clear", this.refresh, this);
             store.on("write", this.onWrite, this);
+            store.on("update", this.refresh, this);
+            store.on("add", this.refresh, this);
+            store.on("remove", this.refresh, this);
             store.getProxy().on("exception", this.onException, this);
         }
         this.store = store;
