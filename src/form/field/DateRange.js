@@ -268,9 +268,13 @@ Ext.define('Extensible.form.field.DateRange', {
 
         if(startValue > endValue) {
             if(startend === 'start') {
+                var wasDirty = endField.isDirty();
                 endField.setValue(startValue);
+                if (!wasDirty) endField.resetOriginalValue()
             }else{
+                var wasDirty = startField.isDirty();
                 startField.setValue(endValue);
+                if (!wasDirty) startField.resetOriginalValue()
                 me.checkDates(type, 'start');
             }
         }
@@ -382,7 +386,11 @@ Ext.define('Extensible.form.field.DateRange', {
         }
         return dirty;
     },
-    
+
+    resetOriginalValue: function() {
+        this.delegateFn('resetOriginalValue');
+    },
+
     /**
      * @protected 
      */
