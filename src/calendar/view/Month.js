@@ -365,27 +365,32 @@ Ext.define('Extensible.calendar.view.Month', {
     },
 
     getDaySize: function(contentOnly) {
-        var box = this.el.getBox(),
-            padding = this.getViewPadding(),
-            w = (box.width - padding.width) / this.dayCount,
-            h = (box.height - padding.height) / this.getWeekCount();
-            
-        if(contentOnly) {
-            // measure last row instead of first in case text wraps in first row
-            var hd = this.el.select('.ext-cal-dtitle').last().parent('tr');
-            h = hd ? h-hd.getHeight(true) : h;
+        if (this.el) {
+            var box = this.el.getBox(),
+                padding = this.getViewPadding(),
+                w = (box.width - padding.width) / this.dayCount,
+                h = (box.height - padding.height) / this.getWeekCount();
+
+
+            if(contentOnly) {
+                // measure last row instead of first in case text wraps in first row
+                var hd = this.el.select('.ext-cal-dtitle').last().parent('tr');
+                h = hd ? h-hd.getHeight(true) : h;
+            }
         }
         return {height: h, width: w};
     },
 
     getEventHeight: function() {
         if (!this.eventHeight) {
-            var evt = this.el.select('.ext-cal-evt').first();
-            if(evt) {
-                this.eventHeight = evt.parent('td').getHeight();
-            }
-            else {
-                return 16; // no events rendered, so try setting this.eventHeight again later
+            if (this.el) {
+                var evt = this.el.select('.ext-cal-evt').first();
+                if(evt) {
+                    this.eventHeight = evt.parent('td').getHeight();
+                }
+                else {
+                    return 16; // no events rendered, so try setting this.eventHeight again later
+                }
             }
         }
         return this.eventHeight;

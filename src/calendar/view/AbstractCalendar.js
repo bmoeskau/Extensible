@@ -2119,7 +2119,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      */
     isActiveView: function() {
         var calendarPanel = this.ownerCalendarPanel;
-        return (calendarPanel && calendarPanel.getActiveView().id === this.id);
+        return (calendarPanel && calendarPanel.getActiveView() && calendarPanel.getActiveView().id === this.id);
     },
 
     destroy: function() {
