@@ -98,15 +98,15 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
             item.spanCls = (item.spanLeft ? (item.spanRight ? 'ext-cal-ev-spanboth' :
                 'ext-cal-ev-spanleft') : (item.spanRight ? 'ext-cal-ev-spanright' : ''));
 
-            templateData.push({markup: eventTpl.apply(this.getTemplateEventData(item))});
+            templateData.push({markup: eventTpl.apply(this.getTemplateEventData(item, evt))});
         }, this);
         
         this.tpl.overwrite(this.el, templateData);
         this.fireEvent('eventsrendered', this, this.date, evts.getCount());
     },
     
-    getTemplateEventData: function(evtData) {
-        var data = this.view.getTemplateEventData(evtData);
+    getTemplateEventData: function(evtData, evt) {
+        var data = this.view.getTemplateEventData(evtData, evt);
         data._elId = 'dtl-'+data._elId;
         return data;
     }
