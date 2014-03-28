@@ -1924,11 +1924,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
         rec.set(updateData);
 
-        if (rec.phantom) {
-            this.store.add(rec);
+        if (!rec.phantom) {
+            this.save();
         }
 
-        this.save();
         this.fireEvent('event' + moveOrCopy, this, rec);
     },
 
