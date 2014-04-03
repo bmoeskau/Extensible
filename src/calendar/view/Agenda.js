@@ -169,7 +169,7 @@ Ext.define('Extensible.calendar.view.Agenda', {
 
         data[M.StartDate.name] = D.add(today, D.HOUR, now.getHours() + 1);
         data[M.EndDate.name] = D.add(today, D.HOUR, now.getHours() + 2);
-        data[M.IsAllDay.name] = false;
+        data[M.IsAllDay.name] = true;
 
         this.body.showEventEditor(data, bt.getEl());
     },
