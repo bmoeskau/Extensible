@@ -1565,7 +1565,22 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                 }
             }
         }, this);
-        
+
+        // Restore deleted records back to their original positions.
+        // This code was copied from ExtJS V4.2.2 Ext.data.Store, function rejectChanges(). In order to maintain
+        // backwards compatibility with version 4.0.7, this function cannot be called directly.
+        var recs = this.store.removed,
+            len = recs.length,
+            i = 0, rec;
+
+        for (i = len-1; i >= 0; i--) {
+            rec = recs[i];
+            this.store.insert(rec.removedFrom || 0, rec);
+            rec.reject();
+        }
+        // Since removals are cached in a simple array we can simply reset it here.
+        this.store.removed.length = 0;
+
         if (this.fireEvent('eventexception', this, response, operation) !== false) {
             this.notifyOnException(response, operation);
         }
