@@ -13,7 +13,7 @@ Extensible actually contains a bunch of different components, but the primary pr
 
 ## Licensing
 
-Extensible is dual-licensed both commercially and under the open source GPL v3, [just like Ext JS](http://www.sencha.com/company/dual.php). For complete details see the [Extensible Licensing Overview](http://ext.ensible.com/products/licensing/). To purchase a commercial license or premium support please visit the [Extensible Store](http://ext.ensible.com/store/).
+Extensible is dual-licensed both commercially and under the open source GPL v3, just like Ext JS. For complete details see the [Extensible Licensing Overview](http://ext.ensible.com/products/licensing/). To purchase a commercial license or premium support please visit the [Extensible Store](http://ext.ensible.com/store/).
 
 ---
 
