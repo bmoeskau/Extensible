@@ -233,13 +233,13 @@ Ext.define('Extensible.form.field.DateRange', {
             if(me.singleLine === 'auto') {
                 var ownerCtEl = me.ownerCt.getEl(),
                     w = me.ownerCt.getWidth() - ownerCtEl.getPadding('lr'),
-                    el = ownerCtEl.down('.x-panel-body');
+                    el = ownerCtEl.down('.'+Ext.baseCSSPrefix+'panel-body');
                     
                 if(el) {
                     w -= el.getPadding('lr');
                 }
                 
-                el = ownerCtEl.down('.x-form-item-label');
+                el = ownerCtEl.down('.'+Ext.baseCSSPrefix+'form-item-label');
                 
                 if(el) {
                     w -= el.getWidth() - el.getPadding('lr');

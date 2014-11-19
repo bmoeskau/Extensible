@@ -337,7 +337,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         var M = Extensible.calendar.data.EventMappings,
             extraClasses = [this.getEventSelectorCls(evtData[M.EventId.name])],
             data = {},
-            colorCls = 'x-cal-default',
+            colorCls = Ext.baseCSSPrefix+'cal-default',
             title = evtData[M.Title.name],
             fmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
             rec;
@@ -349,7 +349,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
                 evtData[M.CalendarId.name]);
 
             if (rec) {
-                colorCls = 'x-cal-' + rec.data[Extensible.calendar.data.CalendarMappings.ColorId.name];
+                colorCls = Ext.baseCSSPrefix+'cal-' + rec.data[Extensible.calendar.data.CalendarMappings.ColorId.name];
             }
         }
         colorCls += (evtData._renderAsAllDay ? '-ad' : '') + (Ext.isIE || Ext.isOpera ? '-x' : '');

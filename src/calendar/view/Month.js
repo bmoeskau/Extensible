@@ -284,7 +284,7 @@ Ext.define('Extensible.calendar.view.Month', {
         var M = Extensible.calendar.data.EventMappings,
             extraClasses = [this.getEventSelectorCls(evtData[M.EventId.name])],
             templateData = {},
-            colorCls = 'x-cal-default',
+            colorCls = Ext.baseCSSPrefix+'cal-default',
             title = evtData[M.Title.name],
             fmt = Extensible.Date.use24HourTime ? 'G:i ' : 'g:ia ',
             rec;
@@ -292,7 +292,7 @@ Ext.define('Extensible.calendar.view.Month', {
         if (this.calendarStore && evtData[M.CalendarId.name]) {
             rec = this.calendarStore.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, evtData[M.CalendarId.name]);
             if(rec) {
-                colorCls = 'x-cal-' + rec.get(Extensible.calendar.data.CalendarMappings.ColorId.name);
+                colorCls = Ext.baseCSSPrefix+'cal-' + rec.get(Extensible.calendar.data.CalendarMappings.ColorId.name);
             }
         }
         colorCls += (evtData._renderAsAllDay ? '-ad' : '');
