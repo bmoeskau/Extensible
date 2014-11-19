@@ -64,7 +64,7 @@ Extensible.Config = {
          * 
          * @config {String} extJsRoot
          */
-        extJsRoot: 'http://cdn.sencha.io/ext-4.2.0-gpl/',
+        extJsRoot: 'http://projects.local/lib/Sencha/Ext/4.2.1/',
         
         /**
          * The root path to the Extensible framework (defaults to the current url of this script file,
