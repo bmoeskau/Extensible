@@ -42,30 +42,27 @@ Extensible.Config = {
         mode: 'debug',
         
         /**
-         * The root path to the Ext JS framework (defaults to loading 4.1.0 from the Sencha CDN via
-         * 'http://cdn.sencha.io/ext-4.1.0-gpl/'). Path should be absolute and should end with a '/'.
-         * 
+         * The root path to the Ext JS framework (defaults to loading 4.2.0 from the Sencha CDN via
+         * `http://cdn.sencha.com/ext/gpl/4.2.0/`). Path should be absolute and should end with a '/'.
+         *
          * Note that the Sencha CDN does not always provide the most current version of Ext JS
          * available (for example, support subscribers often have access to more up-to-date builds).
          * If the version you need is not hosted you'll have to download it locally and update this
          * path accordingly.
-         * 
+         *
          * Alternate example values:
-         * 
-         * // Older Ext JS versions:
-         * http://cdn.sencha.io/ext-4.0.2/
-         * 
+         *
          * // Direct to cachefly.net, e.g. if sencha.io is down:
          * http://extjs.cachefly.net/ext-4.1.0-gpl/
-         * 
+         *
          * // A custom absolute path:
          * http://localhost/extjs/
          * http://mydomain/extjs/4.0.2/
-         * 
+         *
          * @config {String} extJsRoot
          */
-        extJsRoot: 'http://projects.local/lib/Sencha/Ext/4.2.1/',
-        
+        extJsRoot: 'http://cdn.sencha.com/ext/gpl/4.2.0/',
+
         /**
          * The root path to the Extensible framework (defaults to the current url of this script file,
          * 'Extensible-config.js', which is shipped in the root folder of Extensible). Path should
