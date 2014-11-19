@@ -25,7 +25,7 @@ Extensible is dual-licensed both commercially and under the open source GPL v3, 
 
 ## Ext Version Support
 
-Extensible fully supports **both Ext 3 and Ext 4**. Unfortunately since Ext 4 is not backwards-compatible it means that Extensible must be managed in two separate branches in order to maintain support for both versions of Ext. As long as Ext 3 is supported by Sencha, the Ext 3 compatible versions of all Extensible components will be maintained as well.
+Extensible fully supports **both Ext 3 and Ext 4**. Unfortunately since Ext 4 is not backwards-compatible it means that Extensible must be managed in two separate branches in order to maintain support for both versions of Ext. As long as Ext 3 is supported by Sencha (which as of now will be through [June 1, 2015](http://www.sencha.com/support/faqs/category/sencha-ext-js)), the Ext 3 compatible versions of all Extensible components will be maintained as well.
 
 The default [master branch](https://github.com/bmoeskau/Extensible) is now only compatible with Ext 4, and all Extensible releases from 1.5 forward will be for Ext 4. The Extensible [1.x branch](https://github.com/bmoeskau/Extensible/tree/1.x) (less than 1.5) will remain as the Ext 3 compatible line of code.
 
