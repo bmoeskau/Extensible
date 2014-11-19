@@ -455,7 +455,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         for (; i<l; i++) {
             evt = evts[i].data;
             evt2 = null;
-            dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
+            dt = Extensible.Date.getDate(evt[Extensible.calendar.data.EventMappings.StartDate.name]);
 
             for (j = 0; j < l; j++) {
                 if (i === j) {
@@ -478,7 +478,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         // rendering loop
         for (i = 0; i < l; i++) {
             evt = evts[i].data;
-            dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
+            dt = Extensible.Date.getDate(evt[Extensible.calendar.data.EventMappings.StartDate.name]);
 
             if(evt._overlap !== undefined) {
                 var colWidth = 100 / (overlapCols[dt]+1),

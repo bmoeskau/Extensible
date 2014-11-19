@@ -309,7 +309,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             rec.data[EventMappings.EndDate.name] = end;
             
             rec.data[EventMappings.IsAllDay.name] = !!o[EventMappings.IsAllDay.name] ||
-                (start.getDate() !== Extensible.Date.add(end, {millis: 1}).getDate());
+                (Extensible.Date.getDate(start) !== Extensible.Date.getDate(Extensible.Date.add(end, {millis: 1})));
             
             rec.data[EventMappings.CalendarId.name] = me.calendarStore ?
                     me.calendarStore.getAt(0).data[Extensible.calendar.data.CalendarMappings.CalendarId.name] : '';

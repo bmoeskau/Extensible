@@ -100,7 +100,7 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
             weeks = [[]],
             today = Extensible.Date.today(),
             dt = Ext.Date.clone(this.viewStart),
-            thisMonth = this.startDate.getMonth();
+            thisMonth = Extensible.Date.getMonth(this.startDate);
         
         for (; w < this.weekCount || this.weekCount === -1; w++) {
             if(dt > this.viewEnd) {
@@ -110,10 +110,10 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
             
             for (var d = 0; d < this.dayCount; d++) {
                 isToday = dt.getTime() === today.getTime();
-                showMonth = first || (dt.getDate() === 1);
-                prevMonth = (dt.getMonth() < thisMonth) && this.weekCount === -1;
-                nextMonth = (dt.getMonth() > thisMonth) && this.weekCount === -1;
-                isWeekend = dt.getDay() % 6 === 0;
+                showMonth = first || (Extensible.Date.getDate(dt) === 1);
+                prevMonth = (Extensible.Date.getMonth(dt) < thisMonth) && this.weekCount === -1;
+                nextMonth = (Extensible.Date.getMonth(dt) > thisMonth) && this.weekCount === -1;
+                isWeekend = Extensible.Date.isWeekend(dt);
                 
                 if(dt.getDay() === 1) {
                     // The ISO week format 'W' is relative to a Monday week start. If we

@@ -107,11 +107,11 @@ Ext.define('Extensible.form.recurrence.option.Monthly', {
             dt = me.getStartDate(),
             
             // e.g. 30 (for June):
-            lastDayOfMonth = Ext.Date.getLastDateOfMonth(dt).getDate(),
+            lastDayOfMonth = Extensible.Date.getDate(dt.getLastDateOfMonth()),
             // e.g. "28th day":
             monthDayText = Ext.Date.format(dt, me.strings.monthDayDateFormat) + ' ' + me.strings.day,
             // e.g. 28:
-            dayNum = dt.getDate(),
+            dayNum = Extensible.Date.getDate(dt),
             // index in the month, e.g. 4 for the 4th Tuesday
             dayIndex = Math.ceil(dayNum / 7),
             // e.g. "TU":
