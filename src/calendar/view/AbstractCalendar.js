@@ -1665,6 +1665,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                 modal: this.editModal,
                 enableEditDetails: this.enableEditDetails,
                 startDay: this.startDay,
+                eventModel: this.store.model,
 
                 listeners: {
                     'eventadd': {
