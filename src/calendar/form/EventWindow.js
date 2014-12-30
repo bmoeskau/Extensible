@@ -282,7 +282,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         me.animateTarget = (Ext.isIE8 && Ext.isStrict) ? null : animateTarget;
 
         me.callParent([me.animateTarget, function() {
-            me.titleField.focus(false, 100);
+            if (me.titleField) me.titleField.focus(false, 100);
         }, me]);
         
         form = me.formPanel.form;
@@ -311,8 +311,10 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             rec.data[EventMappings.IsAllDay.name] = !!o[EventMappings.IsAllDay.name] ||
                 (start.getDate() !== Extensible.Date.add(end, {millis: 1}).getDate());
             
-            rec.data[EventMappings.CalendarId.name] = me.calendarStore ?
-                    me.calendarStore.getAt(0).data[Extensible.calendar.data.CalendarMappings.CalendarId.name] : '';
+            if (EventMappings.CalendarId) {
+                rec.data[EventMappings.CalendarId.name] = me.calendarStore ?
+                        me.calendarStore.getAt(0).data[Extensible.calendar.data.CalendarMappings.CalendarId.name] : '';
+            }
             
             if (EventMappings.Duration) {
                 rec.data[EventMappings.Duration.name] = Extensible.Date.diff(start, end,
