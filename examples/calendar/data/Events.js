@@ -105,6 +105,121 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "title" : "Toby's soccer game",
                 "start" : makeDate(5, 10),
                 "end"   : makeDate(5, 12)
+            },{
+                "id"    : 1014,
+                "cid"   : 3,
+                "title" : "Visit Museum",
+                "start" : makeDate(0, 13, 00),
+                "end"   : makeDate(0, 13, 45),
+                "loc"   : "Modern Art Museum",
+                "notes" : "Check the renaissance painters exhibition!",
+                "rem"   : "10"
+            },{
+                "id"    : 1015,
+                "cid"   : 3,
+                "title" : "Take photos at museum ",
+                "start" : makeDate(0, 13,15),
+                "end"   : makeDate(0, 14),
+                "loc"   : "Modern Art Museum",
+                "rem"   : "5"
+            },{
+                "id"    : 1016,
+                "cid"   : 3,
+                "title" : "Buy souvenir for Ann",
+                "start" : makeDate(0, 13, 30),
+                "end"   : makeDate(0, 14),
+                "loc"   : "Modern Art Museum",
+            },{
+                "id"    : 1017,
+                "cid"   : 1,
+                "title" : "Buy milk, bread and cookies",
+                "start" : makeDate(0, 10, 45),
+                "end"   : makeDate(0, 11),
+                "loc"   : "Joey's Groceries",
+                "notes" : "Take 1 gallon of milk and half kilo of cookies",
+                "rem"   : "10"
+            },{
+                "id"    : 1018,
+                "cid"   : 1,
+                "title" : "Get Time magazine for Dad",
+                "start" : makeDate(0, 09, 30),
+                "end"   : makeDate(0, 09, 45),
+                "loc"   : "Joey's Groceries"
+            },{
+                "id"    : 1019,
+                "cid"   : 1,
+                "title" : "Buy The New York Times",
+                "start" : makeDate(0, 09, 15),
+                "end"   : makeDate(0, 09, 45)
+            },{
+                "id"    : 1020,
+                "cid"   : 3,
+                "title" : "Buy greeting cards",
+                "start" : makeDate(0, 09, 30),
+                "end"   : makeDate(0, 09, 45)
+            },{
+                "id"    : 1021,
+                "cid"   : 1,
+                "title" : "Return books to library",
+                "start" : makeDate(0, 09, 30),
+                "end"   : makeDate(0, 09, 45),
+                "loc"   : "Chuy's!",
+                "url"   : "http : //chuys.com",
+                "notes" : "Order the queso",
+                "rem"   : "15"
+            },{
+                "id"    : 1022,
+                "cid"   : 3,
+                "title" : "Meet Jenny's school principal",
+                "start" : makeDate(0, 11, 00),
+                "end"   : makeDate(0, 11, 30),
+                "loc"   : "Jenny's School",
+                "rem"   : "15"
+            },{
+                "id"    : 1023,
+                "cid"   : 2,
+                "title" : "Prepare report for Bill",
+                "start" : makeDate(0, 15),
+                "end"   : makeDate(0, 16),
+                "loc"   : "New York Stock Exchange",
+                "url"   : "https://www.nyse.com/",
+                "rem"   : "5"
+            },{
+                "id"    : 1024,
+                "cid"   : 2,
+                "title" : "Collect money for Bill's Party",
+                "start" : makeDate(0, 15, 30),
+                "end"   : makeDate(0, 18),
+                "loc"   : "New York Stock Exchange",
+                "url"   : "https://www.nyse.com/",
+                "rem"   : "15"
+            },{
+                "id"    : 1025,
+                "cid"   : 1,
+                "title" : "Call grandpa!",
+                "start" : makeDate(0, 15, 30),
+                "end"   : makeDate(0, 15, 45),
+                "loc"   : "New York Stock Exchange",
+                "url"   : "https://www.nyse.com",
+                "rem"   : "10"
+            },{
+                "id"    : 1026,
+                "cid"   : 2,
+                "title" : "Print report for Bill",
+                "start" : makeDate(0, 15, 30),
+                "end"   : makeDate(0, 15, 45),
+                "loc"   : "New York Stock Exchange",
+                "url"   : "https://www.nyse.com"
+            },{
+                "id"    : 1027,
+                "cid"   : 2,
+                "title" : "Board Meeting",
+                "start" : makeDate(0, 15, 45),
+                "end"   : makeDate(0, 16, 15),
+                "loc"   : "New York Stock Exchange",
+                "url"   : "https://www.nyse.com",
+                "notes" : "Order the queso",
+                "rem"   : "15"
             }]
         };
     }
