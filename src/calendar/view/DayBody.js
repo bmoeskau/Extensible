@@ -448,6 +448,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             j = 0,
             overlapCols = [],
             l = evts.length,
+            rendergroup = 0,
             prevDt,
             evt2,
             dt;
@@ -462,14 +463,18 @@ Ext.define('Extensible.calendar.view.DayBody', {
                     continue;
                 }
                 evt2 = evts[j].data;
+                evt._rendergroup = rendergroup;
                 if(this.isOverlapping(evt, evt2)) {
-                    evt._overlap = evt._overlap === undefined ? 1 : evt._overlap+1;
+                    evt._overlap = (evt._overlap === undefined ? 1 : evt._overlap + 1);
+                    evt2._rendergroup = rendergroup;
                     if(i<j) {
                         if (evt._overcol === undefined) {
                             evt._overcol = 0;
+                            rendergroup++;
                         }
-                        evt2._overcol = evt._overcol+1;
-                        overlapCols[dt] = overlapCols[dt] ? Math.max(overlapCols[dt], evt2._overcol) : evt2._overcol;
+                        evt2._overcol = evt._overcol + 1;
+                        overlapCols[dt] = (overlapCols[dt] === undefined ? [] : overlapCols[dt]);
+                        overlapCols[dt][rendergroup] = (overlapCols[dt][rendergroup] ? Math.max(overlapCols[dt][rendergroup], evt2._overcol) : evt2._overcol);
                     }
                 }
             }
@@ -481,7 +486,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
 
             if(evt._overlap !== undefined) {
-                var colWidth = 100 / (overlapCols[dt]+1),
+                var colWidth = 100 / (overlapCols[dt][evt._rendergroup] + 1),
                     evtWidth = 100 - (colWidth * evt._overlap);
 
                 evt._width = colWidth;
