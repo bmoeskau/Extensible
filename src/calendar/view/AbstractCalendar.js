@@ -686,11 +686,9 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         Extensible.log('refresh (AbstractCalendar), reload = ' + reloadData);
 
         if (reloadData === true) {
-            console.log('refresh - reload data only');
             this.reloadStore();
         }
         else {
-            console.log('refresh - prepare + sort + render');
             this.prepareData();
             this.renderTemplate();
             this.renderItems();
@@ -740,9 +738,8 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             for (d = 0; d < this.dayCount; d++) {
                 if (evtsInView.getCount() > 0) {
                     var evts = evtsInView.filterBy(filterFn, this);
-                    //console.info(evts.items);
-                   this.sortEventRecordsForDay(evts);
-                    //console.log(evts.items);
+
+                    this.sortEventRecordsForDay(evts);
                     this.prepareEventGrid(evts, w, d);
                 }
                 currentDt = Extensible.Date.add(currentDt, {days: 1});
@@ -1391,34 +1388,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         };
     },
 
-    sortEventRecordsForDayBody:function(evts){
-
-        if (evts.length <2) {
-            return;
-        }
-        evts.sortBy(Ext.bind(function(evtA, evtB){
-            var a = evtA.data,
-                b = evtB.data,
-                M = Extensible.calendar.data.EventMappings;
-            var diff = Extensible.Date.diffDays;
-
-            var sortStartDate =  a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime(); //ascending
-            if (sortStartDate){
-                return sortStartDate;
-            }
-            var sortEndDate = b[M.EndDate.name].getTime() - a[M.EndDate.name].getTime(); //descending
-            if (sortEndDate){
-                return sortEndDate;
-            }
-
-            var sortCalendar = a[M.CalendarId.name] - b[M.CalendarId.name];//ascending
-            if (sortCalendar){
-                return sortCalendar;
-            }
-        },this));
-    },
-
-
     /* private
      * Sort events for a single day for display in the calendar.  This sorts allday
      * events first, then non-allday events are sorted either based on event start
@@ -1428,7 +1397,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * of {@link #Extensible.calendar.data.EventModel EventRecord} objects
      */
     sortEventRecordsForDay: function(evts) {
-     //   return;
         if (evts.length < 2) {
             return;
         }
@@ -1473,8 +1441,21 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                 // remain sorted sequentially by start time. This seems more proper
                 // but can make for a less visually-compact layout when there are
                 // many such events mixed together closely on the calendar.
-                return a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime();
+                //return a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime();
+                var sortStartDate  = a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime()
+                if (sortStartDate){
+                    return sortStartDate;
+                }
+                var sortEndDate = b[M.EndDate.name].getTime() - a[M.EndDate.name].getTime(); //descending
+                if (sortEndDate){
+                    return sortEndDate;
+                }
+                var sortCalendar = a[M.CalendarId.name] - b[M.CalendarId.name];//ascending
+                if (sortCalendar){
+                    return sortCalendar;
+                }
             }
+
         }, this));
     },
 
