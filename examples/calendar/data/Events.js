@@ -38,7 +38,7 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "cid"   : 1,
                 "title" : "Sarah's birthday",
                 "start" : today,
-                "end"   : today,
+                "end"   : makeDate(1,0,-1), //calling here the today function is not ok, today returns date component with time set to 00:00:00; end MUST contain time 23:59:00 (talking about allday events)
                 "notes" : "Need to get a gift",
                 "ad"    : true
             },{
