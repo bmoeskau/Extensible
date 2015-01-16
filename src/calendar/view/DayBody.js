@@ -406,6 +406,8 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     renderItems: function() {
+        console.log('rendering body! ');
+        this.sortEventRecordsForDayBody(this.store.data);
         var day = 0,
             evt,
             evts = [];
