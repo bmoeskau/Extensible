@@ -406,10 +406,11 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     renderItems: function() {
+
         var day = 0,
             evt,
             evts = [];
-        
+
         for (; day < this.dayCount; day++) {
             var ev = 0,
                 emptyCells = 0,
@@ -452,12 +453,11 @@ Ext.define('Extensible.calendar.view.DayBody', {
             prevDt,
             evt2,
             dt;
-        
+
         for (; i<l; i++) {
             evt = evts[i].data;
             evt2 = null;
             dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
-
             for (j = 0; j < l; j++) {
                 if (i === j) {
                     continue;
@@ -480,8 +480,77 @@ Ext.define('Extensible.calendar.view.DayBody', {
             }
         }
 
-        // rendering loop
-        for (i = 0; i < l; i++) {
+        //data structure needed for the event grouping in order to fill empty available spaces
+		var evts2 = [],
+            M = Extensible.calendar.data.EventMappings;
+		for (i = 0; i < l; i++) {
+			var ev1 = evts[i].data;
+			ev1._rendergroup = (ev1._rendergroup==undefined) ? 0 : ev1._rendergroup;
+			evts2[ev1._rendergroup] = (evts2[ev1._rendergroup]==undefined) ? [] : evts2[ev1._rendergroup];
+			evts2[ev1._rendergroup].push({
+				data: ev1,
+				date: evts[i].date
+            });
+			var ev2 = null;
+			for (j = 0; j < l; j++) {
+				if (i === j) {
+					continue;
+				}
+				ev2 = evts[j].data;
+				if(i<j) {
+					if (ev2._rendergroup == ev1._rendergroup && ev2[M.EventId.name]==ev1[M.EventId.name]) {
+						//evts2[ev_2._rendergroup].push(ev_2);
+						evts2[ev2._rendergroup].push({
+							data: ev2,
+							date: evts[j].date
+						})
+					}
+				}
+			}
+		}
+
+		for (var m = 0; m < evts2.length; m++) {
+			var groupedEvents = evts2[m];
+			if (groupedEvents == undefined) continue;
+
+				for (var n = 0; n < groupedEvents.length; n++){
+					var event1 = groupedEvents[n].data; //first event
+                    var found = false;
+                    //var found = 0;
+                    var col = 0;
+					for (var o = 0; o < groupedEvents.length; o++){
+						if (n === o) {
+							continue;
+						}
+						var	event2 = groupedEvents[o].data;
+
+						if (n<o){
+                           if (event2._overcol===undefined){
+                                event2._overcol = 0;
+                            }
+                            if (event1._overcol===undefined){
+                                event1._overcol = 0;
+                            }
+
+                            if (event2[M.StartDate.name].getTime() >= event1[M.EndDate.name].getTime()  &&  found == false){
+                                if (event1._overcol < event2._overcol){
+                                    event2._overcol = event1._overcol;
+                                    event2._overlap =  event1._overlap;
+                                    col = event2._overcol;
+                                }
+								found = true;
+                            }
+						}
+					}
+
+
+
+				}
+
+		}
+
+	   // rendering loop
+       for (i = 0; i < l; i++) {
             evt = evts[i].data;
             dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
 
