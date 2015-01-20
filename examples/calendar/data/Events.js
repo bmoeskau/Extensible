@@ -32,7 +32,7 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "cid"   : 3,
                 "title" : "Project due",
                 "start" : makeDate(0, 15),
-                "end"   : makeDate(0, 15)
+                "end"   : makeDate(0, 15,30)
             },{
                 "id"    : 1004,
                 "cid"   : 1,
@@ -133,7 +133,7 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "id"    : 1017,
                 "cid"   : 1,
                 "title" : "Buy milk, bread and cookies",
-                "start" : makeDate(0, 10, 45),
+                "start" : makeDate(0, 10, 30),
                 "end"   : makeDate(0, 11),
                 "loc"   : "Joey's Groceries",
                 "notes" : "Take 1 gallon of milk and half kilo of cookies",
@@ -149,20 +149,20 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "id"    : 1019,
                 "cid"   : 1,
                 "title" : "Buy The New York Times",
-                "start" : makeDate(0, 09, 15),
+                "start" : makeDate(0, 09, 30),
                 "end"   : makeDate(0, 09, 45)
             },{
                 "id"    : 1020,
                 "cid"   : 3,
                 "title" : "Buy greeting cards",
                 "start" : makeDate(0, 09, 30),
-                "end"   : makeDate(0, 09, 45)
+                "end"   : makeDate(0, 10, 45)
             },{
                 "id"    : 1021,
                 "cid"   : 1,
                 "title" : "Return books to library",
                 "start" : makeDate(0, 09, 30),
-                "end"   : makeDate(0, 09, 45),
+                "end"   : makeDate(0, 09, 00),
                 "loc"   : "Chuy's!",
                 "url"   : "http : //chuys.com",
                 "notes" : "Order the queso",
@@ -188,8 +188,8 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "id"    : 1024,
                 "cid"   : 2,
                 "title" : "Collect money for Bill's Party",
-                "start" : makeDate(0, 15, 30),
-                "end"   : makeDate(0, 18),
+                "start" : makeDate(0, 15),
+                "end"   : makeDate(0, 17),
                 "loc"   : "New York Stock Exchange",
                 "url"   : "https://www.nyse.com/",
                 "rem"   : "15"
@@ -198,7 +198,7 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "cid"   : 1,
                 "title" : "Call grandpa!",
                 "start" : makeDate(0, 15, 30),
-                "end"   : makeDate(0, 15, 45),
+                "end"   : makeDate(0, 16, 00),
                 "loc"   : "New York Stock Exchange",
                 "url"   : "https://www.nyse.com",
                 "rem"   : "10"
@@ -210,16 +210,6 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "end"   : makeDate(0, 15, 45),
                 "loc"   : "New York Stock Exchange",
                 "url"   : "https://www.nyse.com"
-            },{
-                "id"    : 1027,
-                "cid"   : 2,
-                "title" : "Board Meeting",
-                "start" : makeDate(0, 15, 45),
-                "end"   : makeDate(0, 16, 15),
-                "loc"   : "New York Stock Exchange",
-                "url"   : "https://www.nyse.com",
-                "notes" : "Order the queso",
-                "rem"   : "15"
             }]
         };
     }
