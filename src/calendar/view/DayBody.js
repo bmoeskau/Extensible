@@ -406,10 +406,10 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     renderItems: function() {
-
         var day = 0,
             evt,
-            evts = [];
+            evts = [],
+            M = Extensible.calendar.data.EventMappings;
 
         for (; day < this.dayCount; day++) {
             var ev = 0,
@@ -424,7 +424,6 @@ Ext.define('Extensible.calendar.view.DayBody', {
                     continue;
                 }
                 var item = evt.data || evt.event.data,
-                    M = Extensible.calendar.data.EventMappings,
                     ad = item[M.IsAllDay.name] === true,
                     span = this.isEventSpanning(evt.event || evt),
                     renderAsAllDay = ad || span;
@@ -444,33 +443,28 @@ Ext.define('Extensible.calendar.view.DayBody', {
             }
         }
 
+        // Layout events
         var i = 0,
             j = 0,
-            overlapCols = [],
             l = evts.length,
-            rendergroup = 0,
-            prevDt,
-            evt2,
-            M = Extensible.calendar.data.EventMappings,
-            dt;
+            minEventDuration = (this.minEventDisplayMinutes || 0) * 60 * 1000,
+            lastEventEnding = 0,
+            columns = [], // virtual columns for placement of the events
+            eventGroups = [];
 
-        var lastEventEnding=null; //store the last event's ending as timestamp - for comparisons
-        var columns = [] ; // virtual columns for placement of the events
-        // idx, ev
-        var eventGroups = [];
-        for(; i<l; i++){
+        for(i=0; i<l; i++){
             evt =  evts[i];
-            if (lastEventEnding != null && evt.data[M.StartDate.name].getTime() >= lastEventEnding){
+            if (lastEventEnding !== 0 && evt.data[M.StartDate.name].getTime() >= lastEventEnding) {
+                // This event does not overlap with the current event group. Start a new event group.
                 eventGroups.push(columns);
                 columns = [];
-                lastEventEnding = null;
-
+                lastEventEnding = 0;
             }
             var placed = false;
 
-            for (var j = 0; j < columns.length; j++) {
+            for (j = 0; j < columns.length; j++) {
                 var col = columns[ j ];
-                if (!this.collidesWith( col[col.length-1], evt ) ) {
+                if (!this.isOverlapping( col[col.length-1], evt ) ) {
                     col.push(evt);
                     placed = true;
                     break;
@@ -481,46 +475,49 @@ Ext.define('Extensible.calendar.view.DayBody', {
                 columns.push([evt]);
             }
 
-            if (lastEventEnding === null || evt.data[M.EndDate.name].getTime() > lastEventEnding) {
-                lastEventEnding = evt.data[M.EndDate.name].getTime();
+            // Remember the last event time of the event group.
+            // Very short events have a minimum duration on screen (we can't see a one minute event).
+            var eventDuration = evt.data[M.EndDate.name].getTime() - evt.data[M.StartDate.name].getTime();
+            var eventEnding;
+            if (eventDuration < minEventDuration) {
+                eventEnding = evt.data[M.StartDate.name].getTime() + minEventDuration;
+            } else {
+                eventEnding = evt.data[M.EndDate.name].getTime();
             }
-
+            if (eventEnding > lastEventEnding) {
+                lastEventEnding = eventEnding;
+            }
         }
 
-        if(columns.length >0){
+        // Render the last event group, if there is one.
+        if(columns.length > 0){
             eventGroups.push(columns);
         }
 
-       var eventGroupsLength  = eventGroups.length;
-        console.info('Total groups of event:'+ eventGroupsLength);
-        for (i = 0; i < eventGroupsLength; i++) { //group of events - coresponds to a "call" to PackEvents
-            console.log('Call Pack Events'+i+': ');
-            var evtGroup = eventGroups[i]; //one event group
-            var eventGroupLength = evtGroup.length;
-            for (j=0;j<eventGroupLength; j++){ //virtual columns of events inside the one event group
-                console.log('Virtual column: '+j+':');
-                var virtualCol = evtGroup[j];
-               for (var q=0; q<virtualCol.length; q++){
-                    evt =  virtualCol[q].data;
-                    dt = evt[M.StartDate.name].getDate();
-                    evt._width = (100/eventGroupLength);
-                    evt._left = (j/eventGroupLength)*100;
+        // Rendering loop
+        l = eventGroups.length;
+        // Loop over all the event groups.
+        for (i = 0; i < l; i++) {
+            var evtGroup = eventGroups[i];
+            var numColumns = evtGroup.length;
 
-                var markup = this.getEventTemplate().apply(evt),
-                    target = this.id + '-day-col-' + Ext.Date.format(virtualCol[q].date, 'Ymd');
+            // Loop over all the virtual columns of an event group
+            for (j = 0; j < numColumns; j++) {
+                col = evtGroup[j];
 
-                Ext.DomHelper.append(target, markup);
+                // Loop over all the events of a virtual column
+                for (var k=0; k < col.length; k++){
+                    evt = col[k];
+                    evt.data._width = (100 / numColumns);
+                    evt.data._left = (j / numColumns) * 100;
+                    var markup = this.getEventTemplate().apply(evt.data),
+                        target = this.id + '-day-col-' + Ext.Date.format(evt.date, 'Ymd');
+                    Ext.DomHelper.append(target, markup);
                 }
             }
         }
 
         this.fireEvent('eventsrendered', this);
-    },
-    collidesWith: function(evt, evt1){
-        //console.log(evt);
-      //  console.info(evt1);
-        var  M = Extensible.calendar.data.EventMappings;
-        return (evt.data[M.EndDate.name].getTime() > evt1.data[M.StartDate.name].getTime() && evt.data[M.StartDate.name].getTime() < evt1.data[M.EndDate.name].getTime());
     },
 
     getDayEl: function(dt) {
