@@ -444,7 +444,6 @@ Ext.define('Extensible.calendar.view.DayBody', {
             }
         }
 
-        // overlapping event pre-processing loop
         var i = 0,
             j = 0,
             overlapCols = [],
@@ -452,102 +451,78 @@ Ext.define('Extensible.calendar.view.DayBody', {
             rendergroup = 0,
             prevDt,
             evt2,
+            M = Extensible.calendar.data.EventMappings,
             dt;
 
-        var evts2 = [],
-            M = Extensible.calendar.data.EventMappings;
+        var lastEventEnding=null; //store the last event's ending as timestamp - for comparisons
+        var columns = [] ; // virtual columns for placement of the events
+        // idx, ev
+        var eventGroups = [];
+        for(; i<l; i++){
+            evt =  evts[i];
+            if (lastEventEnding != null && evt.data[M.StartDate.name].getTime() >= lastEventEnding){
+                eventGroups.push(columns);
+                columns = [];
+                lastEventEnding = null;
 
-        for (; i<l; i++) {
-            evt = evts[i].data;
-            evt2 = null;
-            dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
-            for (j = 0; j < l; j++) {
-                if (i === j) {
-                    continue;
-                }
-                evt2 = evts[j].data;
-                evt._rendergroup = rendergroup;
-                evts2[rendergroup]=(evts2[rendergroup]==undefined?[]:evts2[rendergroup]);
-                evts2[rendergroup].push(evt);
+            }
+            var placed = false;
 
-                if(this.isOverlapping(evt, evt2)) {
-                    evt._overlap = (evt._overlap === undefined ? 1 : evt._overlap + 1);
-                    evt2._rendergroup = rendergroup;
-                    if(i<j) {
-                        if (evt._overcol === undefined) {
-                            evt._overcol = 0;
-                            rendergroup++;
-                        }
-                        evt2._overcol = evt._overcol + 1;
-                        overlapCols[dt] = (overlapCols[dt] === undefined ? [] : overlapCols[dt]);
-                        overlapCols[dt][rendergroup] = (overlapCols[dt][rendergroup] ? Math.max(overlapCols[dt][rendergroup], evt2._overcol) : evt2._overcol);
-                    }
-                }
-                if (i<j) {
-                    if (evt2._rendergroup == evt._rendergroup && evt2[M.EventId.name] == evt[M.EventId.name]) {
-                        evts2[rendergroup].push(evt2);
-                    }
+            for (var j = 0; j < columns.length; j++) {
+                var col = columns[ j ];
+                if (!this.collidesWith( col[col.length-1], evt ) ) {
+                    col.push(evt);
+                    placed = true;
+                    break;
                 }
             }
-        }
 
-        for (var m = 0; m < evts2.length; m++) {
-            var groupedEvents = evts2[m];
-            if (groupedEvents == undefined) continue;
+            if (!placed) {
+                columns.push([evt]);
+            }
 
-            for (var n = 0; n < groupedEvents.length; n++){
-                var event1 = groupedEvents[n]; //first event
-                var found = false;
-                //var found = 0;
-                var col = 0;
-                for (var o = 0; o < groupedEvents.length; o++){
-                    if (n === o) {
-                        continue;
-                    }
-                    var	event2 = groupedEvents[o];
-
-                    if (n<o){
-                        if (event2._overcol===undefined){
-                            event2._overcol = 0;
-                        }
-                        if (event1._overcol===undefined){
-                            event1._overcol = 0;
-                        }
-
-                        if (event2[M.StartDate.name].getTime() >= event1[M.EndDate.name].getTime()  &&  found == false){
-                            if (event1._overcol < event2._overcol){
-                                event2._overcol = event1._overcol;
-                                event2._overlap =  event1._overlap;
-                                col = event2._overcol;
-                            }
-                            found = true;
-                        }
-                    }
-                }
-
+            if (lastEventEnding === null || evt.data[M.EndDate.name].getTime() > lastEventEnding) {
+                lastEventEnding = evt.data[M.EndDate.name].getTime();
             }
 
         }
 
-	   // rendering loop
-       for (i = 0; i < l; i++) {
-            evt = evts[i].data;
-            dt = evt[Extensible.calendar.data.EventMappings.StartDate.name].getDate();
+        if(columns.length >0){
+            eventGroups.push(columns);
+        }
 
-            if(evt._overlap !== undefined) {
+       // console.log(eventGroups);
+        l = eventGroups.length;
+
+        for (i = 0; i < l; i++) {
+            var evtGroup =eventGroups[i];
+            for (j=0;j<evtGroup.length; j++){
+                evt = evtGroup[i];
+            }
+            evt = evts[i].data;
+            dt = evt[M.StartDate.name].getDate();
+            evt._width = (100/l)-1;
+            evt._left = (i/l)*100;
+            /*if(evt._overlap !== undefined) {
                 var colWidth = 100 / (overlapCols[dt][evt._rendergroup] + 1),
                     evtWidth = 100 - (colWidth * evt._overlap);
 
                 evt._width = colWidth;
                 evt._left = colWidth * evt._overcol;
-            }
+            }*/
             var markup = this.getEventTemplate().apply(evt),
                 target = this.id + '-day-col-' + Ext.Date.format(evts[i].date, 'Ymd');
-            
+
             Ext.DomHelper.append(target, markup);
         }
 
         this.fireEvent('eventsrendered', this);
+    },
+    collidesWith: function(evt, evt1){
+        console.log(evt);
+        console.info(evt1);
+        var  M = Extensible.calendar.data.EventMappings;
+        return (evt.data[M.EndDate.name].getTime() > evt1.data[M.StartDate.name].getTime() && evt.data[M.StartDate.name].getTime() < evt1.data[M.EndDate.name].getTime());
     },
 
     getDayEl: function(dt) {
