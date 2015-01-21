@@ -491,36 +491,34 @@ Ext.define('Extensible.calendar.view.DayBody', {
             eventGroups.push(columns);
         }
 
-       // console.log(eventGroups);
-        l = eventGroups.length;
+       var eventGroupsLength  = eventGroups.length;
+        console.info('Total groups of event:'+ eventGroupsLength);
+        for (i = 0; i < eventGroupsLength; i++) { //group of events - coresponds to a "call" to PackEvents
+            console.log('Call Pack Events'+i+': ');
+            var evtGroup = eventGroups[i]; //one event group
+            var eventGroupLength = evtGroup.length;
+            for (j=0;j<eventGroupLength; j++){ //virtual columns of events inside the one event group
+                console.log('Virtual column: '+j+':');
+                var virtualCol = evtGroup[j];
+               for (var q=0; q<virtualCol.length; q++){
+                    evt =  virtualCol[q].data;
+                    dt = evt[M.StartDate.name].getDate();
+                    evt._width = (100/eventGroupLength);
+                    evt._left = (j/eventGroupLength)*100;
 
-        for (i = 0; i < l; i++) {
-            var evtGroup =eventGroups[i];
-            for (j=0;j<evtGroup.length; j++){
-                evt = evtGroup[i];
+                var markup = this.getEventTemplate().apply(evt),
+                    target = this.id + '-day-col-' + Ext.Date.format(virtualCol[q].date, 'Ymd');
+
+                Ext.DomHelper.append(target, markup);
+                }
             }
-            evt = evts[i].data;
-            dt = evt[M.StartDate.name].getDate();
-            evt._width = (100/l)-1;
-            evt._left = (i/l)*100;
-            /*if(evt._overlap !== undefined) {
-                var colWidth = 100 / (overlapCols[dt][evt._rendergroup] + 1),
-                    evtWidth = 100 - (colWidth * evt._overlap);
-
-                evt._width = colWidth;
-                evt._left = colWidth * evt._overcol;
-            }*/
-            var markup = this.getEventTemplate().apply(evt),
-                target = this.id + '-day-col-' + Ext.Date.format(evts[i].date, 'Ymd');
-
-            Ext.DomHelper.append(target, markup);
         }
 
         this.fireEvent('eventsrendered', this);
     },
     collidesWith: function(evt, evt1){
-        console.log(evt);
-        console.info(evt1);
+        //console.log(evt);
+      //  console.info(evt1);
         var  M = Extensible.calendar.data.EventMappings;
         return (evt.data[M.EndDate.name].getTime() > evt1.data[M.StartDate.name].getTime() && evt.data[M.StartDate.name].getTime() < evt1.data[M.EndDate.name].getTime());
     },
