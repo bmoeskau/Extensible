@@ -1454,6 +1454,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                 if (sortCalendar){
                     return sortCalendar;
                 }
+                return 0;
             }
 
         }, this));
