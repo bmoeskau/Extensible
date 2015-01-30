@@ -1441,7 +1441,12 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                 // remain sorted sequentially by start time. This seems more proper
                 // but can make for a less visually-compact layout when there are
                 // many such events mixed together closely on the calendar.
-                //return a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime();
+
+                // Events are sorted by three criteria: Start time, end time and
+                // calendar id. The calendar id is used as the third sort criteria
+                // to ensure that events are always ordered the same way. Without
+                // that third criteria, events that start at the same time and end at
+                // the same time would be ordered randomly.
                 var sortStartDate  = a[M.StartDate.name].getTime() - b[M.StartDate.name].getTime()
                 if (sortStartDate){
                     return sortStartDate;

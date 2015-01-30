@@ -405,6 +405,11 @@ Ext.define('Extensible.calendar.view.DayBody', {
         evtData._height = Math.max(((endMins - startMins) * heightFactor), this.minEventHeight) + evtOffsets.height;
     },
 
+    /**
+     * Render events.
+     * The event layout is based on this article: http://stackoverflow.com/questions/11311410/ and this sample
+     * implementation http://jsbin.com/detefuveta/5/edit?html,js,output     *
+     */
     renderItems: function() {
         var day = 0,
             evt,
@@ -489,7 +494,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             }
         }
 
-        // Render the last event group, if there is one.
+        // Push the last event group, if there is one.
         if(columns.length > 0){
             eventGroups.push(columns);
         }
@@ -506,9 +511,13 @@ Ext.define('Extensible.calendar.view.DayBody', {
                 col = evtGroup[j];
 
                 // Loop over all the events of a virtual column
-                for (var k=0; k < col.length; k++){
+                for (var k = 0; k < col.length; k++) {
                     evt = col[k];
-                    evt.data._width = (100 / numColumns);
+
+                    // Check if event is rightmost of a group and can be expanded to the right
+                    var colSpan = this.expandEvent(evt, j, evtGroup);
+
+                    evt.data._width = (100 * colSpan / numColumns);
                     evt.data._left = (j / numColumns) * 100;
                     var markup = this.getEventTemplate().apply(evt.data),
                         target = this.id + '-day-col-' + Ext.Date.format(evt.date, 'Ymd');
@@ -518,6 +527,37 @@ Ext.define('Extensible.calendar.view.DayBody', {
         }
 
         this.fireEvent('eventsrendered', this);
+     },
+
+     /**
+     * Expand events at the far right to use up any remaining space. This implements step 5 in the layout
+     * algorithm described here: http://stackoverflow.com/questions/11311410/
+     * @param {Object} evt Event to process.
+     * @param {int} iColumn Virtual column to where the event will be rendered.
+     * @param {Array} columns List of virtual colums for event group. Each column contains a list of events.
+     * @return {Number}
+     */
+    expandEvent: function(evt, iColumn, columns) {
+        var colSpan = 1;
+
+        // To see the output without event expansion, uncomment
+        // the line below. Watch column 3 in the output.
+        // return colSpan;
+
+        for (var i = iColumn + 1; i < columns.length; i++)
+        {
+            var col = columns[i];
+            for (var j = 0; j < col.length; j++)
+            {
+                var evt1 = col[j];
+                if (this.isOverlapping(evt, evt1))
+                {
+                    return colSpan;
+                }
+            }
+            colSpan++;
+        }
+        return colSpan;
     },
 
     getDayEl: function(dt) {
