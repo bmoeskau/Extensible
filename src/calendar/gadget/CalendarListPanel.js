@@ -18,6 +18,8 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     layout: 'fit',
     menuSelector: 'em',
     width: 100, // this should be overridden by this container's layout
+    stateful: true, // A flag which causes the object to attempt to restore the state of internal properties from a saved state on startup
+    stateId: this.id + 'CalendarListPanelStateId', // The unique id for this object to use for state management purposes
     
     /**
      * @cfg {Ext.data.Store} store
@@ -139,6 +141,9 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
         if(commit !== false) {
             rec.commit();
         }
+
+        // Saves the state of the calendars to the persistence store
+        this.saveState();
     },
     
     showCalendar: function(id, commit) {
@@ -234,5 +239,42 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
         }
         this.menu.setCalendar(id, colorId);
         this.menu.showAt(xy);
+    },
+
+    /**
+     * Returns the state to be persisted in a browser cookie. This implements function getState()
+     * from mixin Ext.state.Stateful.
+     * @return {Object}
+     */
+    getState: function() {
+        var state = {},
+            data = [],
+            CM = Extensible.calendar.data.CalendarMappings,
+            recs = this.store.getRange(),
+            len = recs.length,
+            i = 0;
+
+        for(; i < len; i++){
+            data.push({calendarId: recs[i].data[CM.CalendarId.name], hidden: recs[i].data[CM.IsHidden.name]});
+        }
+
+        state.data = data;
+        return state;
+    },
+
+    /**
+     * Function is called in the constructor to restore the state. This implements function applyState()
+     * from mixin Ext.state.Stateful.
+     * @param {Object} state See function getState() for the structure of state.
+     */
+    applyState: function(state) {
+        var data = state.data;
+
+        for (key in data) {
+            if (data[key]['hidden'] == true){
+                this.hideCalendar(data[key]['calendarId'], false);
+            }
+        }
     }
+
 });
