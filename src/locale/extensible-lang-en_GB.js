@@ -277,13 +277,13 @@ Ext.onReady(function() {
         });
     }
 
-    if (Extensible.form.recurrence.FrequencyCombo) {
+    if (exists('Extensible.form.recurrence.FrequencyCombo')) {
         Ext.apply(Extensible.form.recurrence.FrequencyCombo.prototype, {
             fieldLabel: 'Repeats'
         });
     }
 
-    if (Extensible.form.recurrence.RangeEditWindow) {
+    if (exists('Extensible.form.recurrence.RangeEditWindow')) {
         Ext.apply(Extensible.form.recurrence.RangeEditWindow.prototype, {
             title: 'Recurring Event Options',
             saveButtonText: 'Save',
@@ -291,7 +291,7 @@ Ext.onReady(function() {
         });
     }
 
-    if (Extensible.form.recurrence.RangeEditPanel) {
+    if (exists('Extensible.form.recurrence.RangeEditPanel')) {
         Ext.apply(Extensible.form.recurrence.RangeEditPanel.prototype, {
             headerText: 'There are multiple events in this series. How would you like your changes applied?',
             optionSingleButtonText: 'Single',
@@ -303,7 +303,7 @@ Ext.onReady(function() {
         });
     }
 
-    if (Extensible.form.recurrence.option.Interval) {
+    if (exists('Extensible.form.recurrence.option.Interval')) {
         Ext.apply(Extensible.form.recurrence.option.Interval.prototype, {
             dateLabelFormat: 'l, F j',
             strings: {
@@ -321,7 +321,7 @@ Ext.onReady(function() {
         });
     }
 
-    if (Extensible.form.recurrence.option.Duration) {
+    if (exists('Extensible.form.recurrence.option.Duration')) {
         Ext.apply(Extensible.form.recurrence.option.Duration.prototype, {
             strings: {
                 andContinuing: 'and continuing',
@@ -333,7 +333,7 @@ Ext.onReady(function() {
         });
     }
 
-    if (Extensible.form.recurrence.option.Weekly) {
+    if (exists('Extensible.form.recurrence.option.Weekly')) {
         Ext.apply(Extensible.form.recurrence.option.Weekly.prototype, {
             strings: {
                 on: 'on'
@@ -341,7 +341,7 @@ Ext.onReady(function() {
         });
     }
 
-    if (Extensible.form.recurrence.option.Monthly) {
+    if (exists('Extensible.form.recurrence.option.Monthly')) {
         Ext.apply(Extensible.form.recurrence.option.Monthly.prototype, {
             strings: {
                 // E.g. "on the 15th day of each month/year"
@@ -359,4 +359,39 @@ Ext.onReady(function() {
             }
         });
     }
+
+    if (exists('Extensible.calendar.template.AgendaBody')) {
+        Ext.apply(Extensible.calendar.template.AgendaBody.prototype, {
+            dayDateFormat: 'D M j',
+            hourFormat: 'G:i',
+            allDayText: 'All day',
+            locationText: 'Location',
+            webLinkText: 'Web Link',
+            notesText: 'Notes',
+            noEventsText: 'There are no events for the selected date range.',
+            prevLinkText: 'Previous',
+            nextLinkText: 'Next',
+            reminderTooltip: 'Reminder is activated',
+            recurringTooltip: 'Recurring event'
+        });
+    }
+
+    if (exists('Extensible.calendar.view.AgendaHeader')) {
+        Ext.apply(Extensible.calendar.view.AgendaHeader.prototype, {
+            dateRangeOneDay: 'One day',
+            dateRangeOneWeek: 'One week',
+            dateRangeOneMonth: 'One month',
+            dateRangeThreeMonths: 'Three months',
+            dateRangeOneYear: 'One year',
+            dateRangeText: 'Date range',
+            groupByMonths: 'Month',
+            groupByWeek: 'Week',
+            groupByNone: 'None',
+            groupByText: 'Group by',
+            showDetailsText: 'Show details',
+            addBtnText: 'Add event',
+            resetBtnText: 'Reset'
+        });
+    }
+
 });

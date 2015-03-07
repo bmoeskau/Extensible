@@ -1,6 +1,6 @@
 Ext.Loader.setConfig({
     enabled: true,
-    //disableCaching: false,
+    disableCaching: false,
     paths: {
         "Extensible": "../../../src",
         "Extensible.example": "../../"
@@ -149,6 +149,20 @@ Ext.onReady(function() {
             eventStore: eventStore,
             calendarStore: calendarStore,
             title: 'Recurrence Calendar',
+            showAgendaView: true,
+            showListView: true,
+
+            agendaViewCfg: {
+                linkDatesToDayView: true,
+                dateRangeDefault: '3months'
+            },
+
+            listViewCfg: {
+                linkDatesToDayView: true,
+                dateRangeDefault: '3months',
+                groupBy: 'week'
+            },
+            
     
             // This is the magical config that enables the recurrence edit
             // widget to appear in the event form. Without it, any existing
