@@ -523,10 +523,13 @@ Ext.define('Extensible.calendar.view.AgendaBody', {
     },
 
     // private
-	refresh : function(reloadData){
+    refresh : function(reloadData){
         Extensible.log('refresh (AgendaView)');
-		this.callParent(arguments);
-	},
+        if (this.isDestroyed) {
+            return;
+        }
+        this.callParent(arguments);
+    },
 
     /**
      * This method is here to fulfill the interface of {@link Extensible.view.AbstractCalendar}. It does not

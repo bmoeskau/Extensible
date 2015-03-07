@@ -412,6 +412,9 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
     // private
     refresh : function(reloadData){
         Extensible.log('refresh (AgendaHeader)');
+        if (this.isDestroyed) {
+            return;
+        }
         this.callParent(arguments);
     },
 

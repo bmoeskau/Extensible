@@ -1,3 +1,9 @@
+/*!
+ * Extensible 1.6.0-rc.1
+ * Copyright(c) 2010-2013 Extensible, LLC
+ * licensing@ext.ensible.com
+ * http://ext.ensible.com
+ */
 /*
  * Farsi (fa) locale
  * By Mehran Ziadloo
@@ -236,7 +242,7 @@ Ext.onReady(function() {
             savingMessage: 'ذخیره سازی تغییرات...',
             deletingMessage: 'حذف واقعه...',
             detailsLinkText: 'ویرایش جزئیات...',
-            saveButtonText: 'دخیره',
+            saveButtonText: 'ذخیره',
             deleteButtonText: 'حذف',
             cancelButtonText: 'لغو',
             titleLabelText: 'عنوان',

@@ -319,6 +319,9 @@ Ext.define('Extensible.calendar.view.Month', {
 
     refresh: function(reloadData) {
         Extensible.log('refresh (MonthView)');
+        if (this.isDestroyed) {
+            return;
+        }
         if(this.detailPanel) {
             this.detailPanel.hide();
         }

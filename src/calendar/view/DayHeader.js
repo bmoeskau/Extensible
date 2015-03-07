@@ -51,6 +51,9 @@ Ext.define('Extensible.calendar.view.DayHeader', {
 
     refresh: function(reloadData) {
         Extensible.log('refresh (DayHeaderView)');
+        if (this.isDestroyed) {
+            return;
+        }
         this.callParent(arguments);
         this.recalcHeaderBox();
     },

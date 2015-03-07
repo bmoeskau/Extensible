@@ -684,6 +684,9 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             return;
         }
         Extensible.log('refresh (AbstractCalendar), reload = ' + reloadData);
+        if (this.isDestroyed) {
+            return;
+        }
 
         if (reloadData === true) {
             this.reloadStore();

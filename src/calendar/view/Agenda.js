@@ -139,6 +139,9 @@ Ext.define('Extensible.calendar.view.Agenda', {
     // private
     refresh : function(){
         Extensible.log('refresh (AgendaView)');
+        if (this.isDestroyed) {
+            return;
+        }
         // this.header.refresh();
         this.body.refresh();
     },

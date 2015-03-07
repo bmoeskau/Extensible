@@ -98,6 +98,9 @@ Ext.define('Extensible.calendar.view.DayBody', {
 
     refresh: function(reloadData) {
         Extensible.log('refresh (DayBodyView)');
+        if (this.isDestroyed) {
+            return;
+        }
         var top = this.el.getScroll().top;
 
         this.callParent(arguments);

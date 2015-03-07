@@ -343,9 +343,19 @@
     border-left: 1px solid #C3D9FF;
     cursor: pointer;
 }
+/* Mehran Ziadloo: RTL { */
+/* Original:
 .ext-cal-day-first {
    border-left: 0;
 }
+*/
+*[style*="ltr"] .ext-cal-day-first {
+   border-left: 0;
+}
+*[style*="rtl"] .ext-cal-day-first {
+   border-right: 0;
+}
+/* RTL } */
 
 .ext-cal-ev,
 .ext-cal-dtitle {
@@ -535,8 +545,10 @@ td.ext-cal-dtitle-today div {
     -moz-border-radius:0;
     -webkit-border-radius:0;
     border-radius:0;
-	position: relative;
+    position: relative;
 }
+/* Mehran Ziadloo : RTL  { */
+/* Original {
 .ext-cal-ev-spanleft {
     -moz-border-radius-topright:5px;
     -moz-border-radius-bottomright:5px;
@@ -546,7 +558,7 @@ td.ext-cal-dtitle-today div {
     border-bottom-right-radius:5px;
     xpadding-left:5px;
 }
-.ext-cal-ev-spanright {
+*[style*='ltr'] .ext-cal-ev-spanright {
     -moz-border-radius-topleft:5px;
     -moz-border-radius-bottomleft:5px;
     -webkit-border-top-left-radius:5px;
@@ -555,6 +567,45 @@ td.ext-cal-dtitle-today div {
     border-bottom-left-radius:5px;
     xpadding-right:5px;
 }
+*/
+*[style*='ltr'] .ext-cal-ev-spanleft {
+    -moz-border-radius-topright:5px;
+    -moz-border-radius-bottomright:5px;
+    -webkit-border-top-right-radius:5px;
+    -webkit-border-bottom-right-radius:5px;
+    border-top-right-radius:5px;
+    border-bottom-right-radius:5px;
+    xpadding-left:5px;
+}
+*[style*='ltr'] .ext-cal-ev-spanright {
+    -moz-border-radius-topleft:5px;
+    -moz-border-radius-bottomleft:5px;
+    -webkit-border-top-left-radius:5px;
+    -webkit-border-bottom-left-radius:5px;
+    border-top-left-radius:5px;
+    border-bottom-left-radius:5px;
+    xpadding-right:5px;
+}
+*[style*='rtl'] .ext-cal-ev-spanleft {
+    -moz-border-radius-topleft:5px;
+    -moz-border-radius-bottomleft:5px;
+    -webkit-border-top-left-radius:5px;
+    -webkit-border-bottom-left-radius:5px;
+    border-top-left-radius:5px;
+    border-bottom-left-radius:5px;
+    xpadding-right:5px;
+}
+*[style*='rtl'] .ext-cal-ev-spanright {
+    -moz-border-radius-topright:5px;
+    -moz-border-radius-bottomright:5px;
+    -webkit-border-top-right-radius:5px;
+    -webkit-border-bottom-right-radius:5px;
+    border-top-right-radius:5px;
+    border-bottom-right-radius:5px;
+    xpadding-left:5px;
+}
+/* RTL  } */
+
 /* IE/ Opera: */
 .ext-cal-ev-spanboth .ext-cal-evm {
 	margin: 0;
@@ -648,6 +699,8 @@ td.ext-cal-dtitle-today div {
     /* http://stackoverflow.com/questions/5148041/does-firefox-support-position-relative-on-table-elements */
     display: block;
 }
+/* Mehran Ziadloo: RTL { */
+/* Original:
 .ext-calendar-picker .x-form-text {
     padding-left: 27px;
 }
@@ -670,6 +723,55 @@ td.ext-cal-dtitle-today div {
     top: 3px;
     left: 4px;
 }
+*/
+*[style*="ltr"] .ext-calendar-picker .x-form-text {
+    padding-left: 27px;
+}
+*[style*="ltr"] .ext-calendar-picker .x-combo-list-item {
+    padding-left: 24px;
+}
+*[style*="ltr"] .ext-cal-picker-icon {
+    width: 20px;
+    height: 16px;
+    margin-right: 5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    float: left;
+}
+/* This is the selected icon that always shows: */
+*[style*="ltr"] .ext-cal-picker-mainicon {
+    float: none;
+    position: absolute;
+    top: 3px;
+    left: 4px;
+}
+
+*[style*="rtl"] .ext-calendar-picker .x-form-text {
+    padding-right: 27px;
+}
+*[style*="rtl"] .ext-calendar-picker .x-combo-list-item {
+    padding-right: 24px;
+}
+*[style*="rtl"] .ext-cal-picker-icon {
+    width: 20px;
+    height: 16px;
+    margin-left: 5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    float: right;
+}
+/* This is the selected icon that always shows: */
+*[style*="rtl"] .ext-cal-picker-mainicon {
+    float: none;
+    position: absolute;
+    top: 3px;
+    right: 4px;
+}
+
+/* RTL } */
+
 
 /*
  * Event resize handle
