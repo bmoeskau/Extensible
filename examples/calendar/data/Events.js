@@ -8,7 +8,7 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 s = (s || 0);
                 return Ext.Date.add(today, Ext.Date.SECOND, d + h + m + s);
             };
-            
+
         return {
             "evts" : [{
                 "id"    : 1001,
@@ -24,7 +24,7 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 "start" : makeDate(0, 11, 30),
                 "end"   : makeDate(0, 13),
                 "loc"   : "Chuy's!",
-                "url"   : "http : //chuys.com",
+                "url"   : "http://chuys.com",
                 "notes" : "Order the queso",
                 "rem"   : "15"
             },{
