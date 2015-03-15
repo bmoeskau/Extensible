@@ -4,6 +4,12 @@
  * licensing@ext.ensible.com
  * http://ext.ensible.com
  */
+/*!
+ * Extensible 1.6.0-rc.1
+ * Copyright(c) 2010-2013 Extensible, LLC
+ * licensing@ext.ensible.com
+ * http://ext.ensible.com
+ */
 /*
  * Farsi (fa) locale
  * By Mehran Ziadloo
@@ -36,153 +42,153 @@
 /* Changes:
  * 
  * 2008-Jul-32:
- *	Use a remainder() function to fix conversion of ancient dates
- *	(before 1600 gregorian).  Reported by Shamim Rezaei.
+ *      Use a remainder() function to fix conversion of ancient dates
+ *      (before 1600 gregorian).  Reported by Shamim Rezaei.
  *
  * 2003-Mar-29:
  *      Ported to javascript by Behdad Esfahbod
  *
  * 2001-Sep-21:
- *	Fixed a bug with "30 Esfand" dates, reported by Mahmoud Ghandi
+ *      Fixed a bug with "30 Esfand" dates, reported by Mahmoud Ghandi
  *
  * 2001-Sep-20:
- *	First LGPL release, with both sides of conversions
+ *      First LGPL release, with both sides of conversions
  */
 
 var JalaliCalendar = {
-	g_days_in_month: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-	, j_days_in_month: [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]
-	, farsiMonthNames: ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"]
+    g_days_in_month: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    , j_days_in_month: [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]
+    , farsiMonthNames: ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"]
 
-	, div: function(a,b) {
-		return Math.floor(a/b);
-	}
+    , div: function(a,b) {
+        return Math.floor(a/b);
+    }
 
-	, remainder: function(a,b) {
-		return a - JalaliCalendar.div(a,b)*b;
-	}
+    , remainder: function(a,b) {
+        return a - JalaliCalendar.div(a,b)*b;
+    }
 
-	, g2j: function(date) {
-		g = [
-			date.getFullYear()
-			, date.getMonth() + 1
-			, date.getDate()
-		];
+    , g2j: function(date) {
+        var g = [
+            date.getFullYear()
+            , date.getMonth() + 1
+            , date.getDate()
+        ];
 
-		var gy, gm, gd;
-		var jy, jm, jd;
-		var g_day_no, j_day_no;
-		var j_np;
-		
-		var i;
+        var gy, gm, gd;
+        var jy, jm, jd;
+        var g_day_no, j_day_no;
+        var j_np;
+        
+        var i;
 
-		gy = g[0]-1600;
-		gm = g[1]-1;
-		gd = g[2]-1;
+        gy = g[0]-1600;
+        gm = g[1]-1;
+        gd = g[2]-1;
 
-		g_day_no = 365*gy + JalaliCalendar.div((gy+3), 4) - JalaliCalendar.div((gy+99), 100) + JalaliCalendar.div((gy+399), 400);
-		for (i=0; i<gm; ++i)
-			g_day_no += JalaliCalendar.g_days_in_month[i];
-		if (gm>1 && ((gy%4==0 && gy%100!=0) || (gy%400==0)))
-		/* leap and after Feb */
-			++g_day_no;
-		g_day_no += gd;
-		
-		j_day_no = g_day_no-79;
-		
-		j_np = JalaliCalendar.div(j_day_no, 12053);
-		j_day_no = JalaliCalendar.remainder(j_day_no, 12053);
-		
-		jy = 979+33*j_np+4 * JalaliCalendar.div(j_day_no,1461);
-		j_day_no = JalaliCalendar.remainder(j_day_no, 1461);
-		
-		if (j_day_no >= 366) {
-			jy += JalaliCalendar.div((j_day_no-1),365);
-			j_day_no = JalaliCalendar.remainder((j_day_no-1), 365);
-		}
-		
-		for (i = 0; i < 11 && j_day_no >= JalaliCalendar.j_days_in_month[i]; ++i) {
-			j_day_no -= JalaliCalendar.j_days_in_month[i];
-		}
-		jm = i+1;
-		jd = j_day_no+1;
+        g_day_no = 365*gy + JalaliCalendar.div((gy+3), 4) - JalaliCalendar.div((gy+99), 100) + JalaliCalendar.div((gy+399), 400);
+        for (i=0; i<gm; ++i)
+            g_day_no += JalaliCalendar.g_days_in_month[i];
+        if (gm>1 && ((gy%4==0 && gy%100!=0) || (gy%400==0)))
+        /* leap and after Feb */
+            ++g_day_no;
+        g_day_no += gd;
+        
+        j_day_no = g_day_no-79;
+        
+        j_np = JalaliCalendar.div(j_day_no, 12053);
+        j_day_no = JalaliCalendar.remainder(j_day_no, 12053);
+        
+        jy = 979+33*j_np+4 * JalaliCalendar.div(j_day_no,1461);
+        j_day_no = JalaliCalendar.remainder(j_day_no, 1461);
+        
+        if (j_day_no >= 366) {
+            jy += JalaliCalendar.div((j_day_no-1),365);
+            j_day_no = JalaliCalendar.remainder((j_day_no-1), 365);
+        }
+        
+        for (i = 0; i < 11 && j_day_no >= JalaliCalendar.j_days_in_month[i]; ++i) {
+            j_day_no -= JalaliCalendar.j_days_in_month[i];
+        }
+        jm = i+1;
+        jd = j_day_no+1;
 
-		return [jy, jm - 1, jd];
-	}
+        return [jy, jm - 1, jd];
+    }
 
-	, j2g: function(j /* array containing year, month-1, day*/ ) {
-		var gy, gm, gd;
-		var jy, jm, jd;
-		var g_day_no, j_day_no;
-		var leap;
+    , j2g: function(j /* array containing year, month-1, day*/ ) {
+        var gy, gm, gd;
+        var jy, jm, jd;
+        var g_day_no, j_day_no;
+        var leap;
 
-		var hour = 0;
-		var min = 0;
-		var second = 0;
-		if (typeof j[3] !== "undefined") {
-			hour = j[3];
-		}
-		if (typeof j[4] !== "undefined") {
-			min = j[4];
-		}
-		if (typeof j[5] !== "undefined") {
-			second = j[5];
-		}
+        var hour = 0;
+        var min = 0;
+        var second = 0;
+        if (typeof j[3] !== "undefined") {
+            hour = j[3];
+        }
+        if (typeof j[4] !== "undefined") {
+            min = j[4];
+        }
+        if (typeof j[5] !== "undefined") {
+            second = j[5];
+        }
 
-		var i;
+        var i;
 
-		jy = j[0]-979;
-		jm = j[1];
-		jd = j[2]-1;
+        jy = j[0]-979;
+        jm = j[1];
+        jd = j[2]-1;
 
-		j_day_no = 365*jy + JalaliCalendar.div(jy,33)*8 + JalaliCalendar.div((JalaliCalendar.remainder(jy, 33)+3),4);
-		for (i=0; i < jm; ++i)
-			j_day_no += JalaliCalendar.j_days_in_month[i];
+        j_day_no = 365*jy + JalaliCalendar.div(jy,33)*8 + JalaliCalendar.div((JalaliCalendar.remainder(jy, 33)+3),4);
+        for (i=0; i < jm; ++i)
+            j_day_no += JalaliCalendar.j_days_in_month[i];
 
-		j_day_no += jd;
+        j_day_no += jd;
 
-		g_day_no = j_day_no+79;
+        g_day_no = j_day_no+79;
 
-		gy = 1600 + 400 * JalaliCalendar.div(g_day_no,146097); /* 146097 = 365*400 + 400/4 - 400/100 + 400/400 */
-		g_day_no = JalaliCalendar.remainder(g_day_no, 146097);
+        gy = 1600 + 400 * JalaliCalendar.div(g_day_no,146097); /* 146097 = 365*400 + 400/4 - 400/100 + 400/400 */
+        g_day_no = JalaliCalendar.remainder(g_day_no, 146097);
 
-		leap = 1;
-		if (g_day_no >= 36525) /* 36525 = 365*100 + 100/4 */
-		{
-			g_day_no--;
-			gy += 100 * JalaliCalendar.div(g_day_no,36524); /* 36524 = 365*100 + 100/4 - 100/100 */
-			g_day_no = JalaliCalendar.remainder(g_day_no, 36524);
-			
-			if (g_day_no >= 365)
-				g_day_no++;
-			else
-				leap = 0;
-		}
+        leap = 1;
+        if (g_day_no >= 36525) /* 36525 = 365*100 + 100/4 */
+        {
+            g_day_no--;
+            gy += 100 * JalaliCalendar.div(g_day_no,36524); /* 36524 = 365*100 + 100/4 - 100/100 */
+            g_day_no = JalaliCalendar.remainder(g_day_no, 36524);
+            
+            if (g_day_no >= 365)
+                g_day_no++;
+            else
+                leap = 0;
+        }
 
-		gy += 4 * JalaliCalendar.div(g_day_no,1461); /* 1461 = 365*4 + 4/4 */
-		g_day_no = JalaliCalendar.remainder(g_day_no, 1461);
+        gy += 4 * JalaliCalendar.div(g_day_no,1461); /* 1461 = 365*4 + 4/4 */
+        g_day_no = JalaliCalendar.remainder(g_day_no, 1461);
 
-		if (g_day_no >= 366) {
-			leap = 0;
+        if (g_day_no >= 366) {
+            leap = 0;
 
-			g_day_no--;
-			gy += JalaliCalendar.div(g_day_no, 365);
-			g_day_no = JalaliCalendar.remainder(g_day_no, 365);
-		}
+            g_day_no--;
+            gy += JalaliCalendar.div(g_day_no, 365);
+            g_day_no = JalaliCalendar.remainder(g_day_no, 365);
+        }
 
-		for (i = 0; g_day_no >= JalaliCalendar.g_days_in_month[i] + (i == 1 && leap); i++)
-			g_day_no -= JalaliCalendar.g_days_in_month[i] + (i == 1 && leap);
-		gm = i+1;
-		gd = g_day_no+1;
+        for (i = 0; g_day_no >= JalaliCalendar.g_days_in_month[i] + (i == 1 && leap); i++)
+            g_day_no -= JalaliCalendar.g_days_in_month[i] + (i == 1 && leap);
+        gm = i+1;
+        gd = g_day_no+1;
 
-		return new Date(gy, gm-1, gd, hour, min, second, 0);
-	}
+        return new Date(gy, gm-1, gd, hour, min, second, 0);
+    }
 
-	, today: function() {
-		Today = new Date();
-		var j = JalaliCalendar.g2j(Today);
-		return j[2]+"/"+(j[1]+1)+"/"+j[0];
-	}
+    , today: function() {
+        Today = new Date();
+        var j = JalaliCalendar.g2j(Today);
+        return j[2]+"/"+(j[1]+1)+"/"+j[0];
+    }
 };
 
 
@@ -191,6 +197,46 @@ Ext.onReady(function() {
     
     Extensible.Date.use24HourTime = true;
     
+    if (exists('Extensible.calendar.CalendarPanel')) {
+        Ext.apply(Extensible.calendar.CalendarPanel.prototype, {
+            startDay: 6
+        });
+    }
+    if (exists('Extensible.calendar.menu.Event')) {
+        Ext.apply(Extensible.calendar.menu.Event.prototype, {
+            startDay: 6
+        });
+    }
+    if (exists('Extensible.calendar.form.EventWindow')) {
+        Ext.apply(Extensible.calendar.form.EventWindow.prototype, {
+            startDay: 6
+        });
+    }
+    if (exists('Extensible.calendar.form.EventDetails')) {
+        Ext.apply(Extensible.calendar.form.EventDetails.prototype, {
+            startDay: 6
+        });
+    }
+    if (exists('Extensible.form.field.DateRange')) {
+        Ext.apply(Extensible.form.field.DateRange.prototype, {
+            startDay: 6
+        });
+    }
+    if (exists('Extensible.form.recurrence.AbstractOption')) {
+        Ext.apply(Extensible.form.recurrence.AbstractOption.prototype, {
+            startDay: 6
+        });
+    }
+    if (exists('Extensible.form.recurrence.option.Weekly')) {
+        Ext.apply(Extensible.form.recurrence.option.Weekly.prototype, {
+            startDay: 6
+        });
+    }
+    if (exists('Extensible.form.recurrence.Fieldset')) {
+        Ext.apply(Extensible.form.recurrence.Fieldset.prototype, {
+            startDay: 6
+        });
+    }
     if (exists('Extensible.calendar.view.AbstractCalendar')) {
         Ext.apply(Extensible.calendar.view.AbstractCalendar.prototype, {
             startDay: 6,
@@ -220,7 +266,7 @@ Ext.onReady(function() {
             weekText: 'هفته',
             monthText: 'ماه',
             jumpToText: 'پرش به:',
-	    jumpToDateFormat: 'Y/n/j',
+            jumpToDateFormat: 'Y/n/j',
             goText: 'انتقال',
             multiDayText: '{0} روز', // deprecated
             multiWeekText: '{0} هفته', // deprecated

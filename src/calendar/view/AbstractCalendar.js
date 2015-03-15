@@ -745,7 +745,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                     this.sortEventRecordsForDay(evts);
                     this.prepareEventGrid(evts, w, d);
                 }
-                currentDt = Extensible.Date.add(currentDt, {days: 1});
+                currentDt = Ext.Date.clearTime(Extensible.Date.add(currentDt, {days: 1}));
             }
         }
         this.currentWeekCount = w;
