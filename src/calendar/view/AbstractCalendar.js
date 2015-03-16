@@ -1338,8 +1338,9 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             case 0:
             case 1:
                 me.viewStart = me.dayCount < 7 && !me.startDayIsStatic ?
-                    start: Dt.add(start, {days: -offset, clearTime: true});
-                me.viewEnd = Dt.add(me.viewStart, {days: me.dayCount || 7, seconds: -1});
+                    Ext.Date.clearTime(start) : Dt.add(start, {days: -offset, clearTime: true});
+                me.viewEnd = Dt.add(me.viewStart, {days: me.dayCount || 7, clearTime: true});
+                me.viewEnd = Dt.add(me.viewEnd, {seconds: -1});
                 return;
 
             case -1:
@@ -1353,7 +1354,8 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                 me.viewStart = Dt.add(start, {days: -offset, clearTime: true});
 
                 // start from current month start, not view start:
-                var end = Dt.add(start, {months: 1, seconds: -1});
+                var end = Dt.add(start, {months: 1, clearTime: true});
+                end = Dt.add(end, {seconds: -1});
 
                 // fill out to the end of the week:
                 offset = me.startDay;
@@ -1362,12 +1364,14 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                     offset -= 7;
                 }
 
-                me.viewEnd = Dt.add(end, {days: 6 - end.getDay() + offset});
+                me.viewEnd = Dt.add(end, {days: 6 - end.getDay() + offset, clearTime: true});
                 return;
 
             default:
                 me.viewStart = Dt.add(start, {days: -offset, clearTime: true});
-                me.viewEnd = Dt.add(me.viewStart, {days: me.weekCount * 7, seconds: -1});
+                me.viewEnd = Dt.add(me.viewStart, {days: me.weekCount * 7, clearTime: true});
+                me.viewEnd = Dt.add(me.viewEnd, {seconds: -1});
+                return;
         }
     },
 

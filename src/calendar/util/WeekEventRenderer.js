@@ -224,7 +224,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
                     }
                     
                     // Move to the next date and restart the loop
-                    currentDate = Extensible.Date.add(currentDate, {days: 1});
+                    currentDate = Ext.Date.clearTime(Extensible.Date.add(currentDate, {days: 1}));
                 }
             }
         }
