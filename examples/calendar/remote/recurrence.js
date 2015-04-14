@@ -49,17 +49,17 @@ Ext.onReady(function() {
         // the recurrence-specific data mappings. Typically RRule and Duration are the only
         // values that need to be persisted and returned with events, and they are the only ones
         // mapped to columns in the MySQL database:
-        RRule:    {name: 'RRule', mapping: 'rrule', type: 'string', useNull: true},
-        Duration: {name: 'Duration', mapping: 'duration', defaultValue: -1, useNull: true, type: 'int'},
+        RRule:    {name: 'RRule', mapping: 'rrule', type: 'string', allowNull: true},
+        Duration: {name: 'Duration', mapping: 'duration', defaultValue: -1, allowNull: true, type: 'int'},
         
         // These additional values are required for processing recurring events properly,
         // but are either calculated or used only during editing. They still must be mapped
         // to whatever the server expects, but typically aren't persisted in the DB. For additional
         // details see the comments in src/calendar/data/EventMappings.
-        OriginalEventId:    {name: 'OriginalEventId', mapping: 'origid', type: 'string', useNull: true},
-        RSeriesStartDate:   {name: 'RSeriesStartDate', mapping: 'rsstart', type: 'date', dateFormat: 'c', useNull: true},
-        RInstanceStartDate: {name: 'RInstanceStartDate', mapping: 'ristart', type: 'date', dateFormat: 'c', useNull: true},
-        REditMode:          {name: 'REditMode', mapping: 'redit', type: 'string', useNull: true}
+        OriginalEventId:    {name: 'OriginalEventId', mapping: 'origid', type: 'string', allowNull: true},
+        RSeriesStartDate:   {name: 'RSeriesStartDate', mapping: 'rsstart', type: 'date', dateFormat: 'c', allowNull: true},
+        RInstanceStartDate: {name: 'RInstanceStartDate', mapping: 'ristart', type: 'date', dateFormat: 'c', allowNull: true},
+        REditMode:          {name: 'REditMode', mapping: 'redit', type: 'string', allowNull: true}
     };
     Extensible.calendar.data.EventModel.reconfigure();
     
@@ -73,7 +73,7 @@ Ext.onReady(function() {
             
             reader: {
                 type: 'json',
-                root: 'calendars'
+                rootProperty: 'calendars'
             }
         }
     });
@@ -100,11 +100,54 @@ Ext.onReady(function() {
             },
             reader: {
                 type: 'json',
-                root: 'data'
+                rootProperty: 'data',
+                transform: {
+                    fn: function(data) {
+                        // Manipulate raw data object: start and end date are strings; Convert to Date()
+                        Ext.iterate(data.data, function(event, key){
+                            var startDate = (event['start']) ? new Date(event['start'].replace(/-/g , "/")) : new Date();
+                            event[Extensible.calendar.data.EventMappings.StartDate.mapping] = startDate;
+
+                            var endDate = (event['end']) ? new Date(event['end'].replace(/-/g , "/")) : new Date();
+                            event[Extensible.calendar.data.EventMappings.EndDate.mapping] = endDate;
+
+                            if (event['rsstart'] && event['rsstart'] != ''){
+                                var rsstartDt = new Date(event['rsstart'].replace(/-/g , "/"));
+                                event[Extensible.calendar.data.EventMappings.RSeriesStartDate.mapping] = rsstartDt;
+                            }
+
+                            if (event['ristart'] && event['ristart'] != ''){
+                                var ristartDt = new Date(event['ristart'].replace(/-/g , "/"));
+                                event[Extensible.calendar.data.EventMappings.RInstanceStartDate.mapping] = ristartDt;
+                            }
+
+                            // MySQL returns an int. Convert it to boolean, otherwise all events will be marked as all-day.
+                            var allDay = (event['all_day'] == 1) ? true: false;
+                            event[Extensible.calendar.data.EventMappings.IsAllDay.mapping] = allDay;
+                        });
+
+                        return data;
+                    },
+                    scope: this
+                }
             },
             writer: {
                 type: 'json',
-                nameProperty: 'mapping'
+                nameProperty: 'mapping',
+                writeAllFields: true, // send all fields to server
+                transform: {
+                    fn: function(data, request) {
+                        var postData = {};
+
+                        // Remove mapped fields from data sent to server and keep only the ones required in php script
+                        Ext.iterate(Extensible.calendar.data.EventMappings, function(key, value){
+                            postData[value.mapping] = data[value.name] ? data[value.name] : '';
+                        });
+
+                        return postData;
+                    },
+                    scope: this
+                }
             }
         },
 
@@ -114,8 +157,10 @@ Ext.onReady(function() {
         // NOT that your changes were actually persisted correctly in the back end. The 'write' event is the best
         // option for generically messaging after CRUD persistence has succeeded.
         listeners: {
-            'write': function(store, operation) {
-                var title = Ext.value(operation.records[0].data[Extensible.calendar.data.EventMappings.Title.name], '(No title)');
+            write: function(store, operation) {
+                var record = operation.getRequest().getJsonData(),
+                    title = record[Extensible.calendar.data.EventMappings.Title.mapping] || '(No title)';
+
                 switch(operation.action){
                     case 'create':
                         Extensible.example.msg('Add', 'Added "' + title + '"');

@@ -88,36 +88,36 @@ Ext.define('Extensible.calendar.view.Month', {
 
     initComponent: function() {
         this.callParent(arguments);
-        
-        this.addEvents({
-            /**
-             * @event dayclick
-             * Fires after the user clicks within the view container and not on an event element. This is a
-             * cancelable event, so returning false from a handler will cancel the click without displaying the event
-             * editor view. This could be useful for validating that a user can only create events on certain days.
-             * @param {Extensible.calendar.view.Month} this
-             * @param {Date} dt The date/time that was clicked on
-             * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks
-             * within the MonthView always return true for this param.
-             * @param {Ext.Element} el The Element that was clicked on
-             */
-            dayclick: true,
-            /**
-             * @event weekclick
-             * Fires after the user clicks within a week link (when {@link #showWeekLinks is true)
-             * @param {Extensible.calendar.view.Month} this
-             * @param {Date} dt The start date of the week that was clicked on
-             */
-            weekclick: true,
-    /**
-     * @protected 
-     */
-            dayover: true,
-    /**
-     * @protected 
-     */
-            dayout: true
-        });
+
+        //this.addEvents({
+        //    /**
+        //     * @event dayclick
+        //     * Fires after the user clicks within the view container and not on an event element. This is a
+        //     * cancelable event, so returning false from a handler will cancel the click without displaying the event
+        //     * editor view. This could be useful for validating that a user can only create events on certain days.
+        //     * @param {Extensible.calendar.view.Month} this
+        //     * @param {Date} dt The date/time that was clicked on
+        //     * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks
+        //     * within the MonthView always return true for this param.
+        //     * @param {Ext.Element} el The Element that was clicked on
+        //     */
+        //    dayclick: true,
+        //    /**
+        //     * @event weekclick
+        //     * Fires after the user clicks within a week link (when {@link #showWeekLinks is true)
+        //     * @param {Extensible.calendar.view.Month} this
+        //     * @param {Date} dt The start date of the week that was clicked on
+        //     */
+        //    weekclick: true,
+        //    /**
+        //     * @protected
+        //     */
+        //            dayover: true,
+        //    /**
+        //     * @protected
+        //     */
+        //    dayout: true
+        //});
     },
 
     initDD: function() {
@@ -527,7 +527,7 @@ Ext.define('Extensible.calendar.view.Month', {
         p.setHeight(calculatedHeight);
         
         p.show();
-        p.getPositionEl().alignTo(dayEl, 't-t?');
+        p.alignTo(dayEl, 't-t?');
     },
 
     onHide: function() {

@@ -36,7 +36,7 @@ Ext.onReady(function(){
         this.calendarWin.show();
     };
     
-    Ext.fly('cal-win').on('click', showWindow, this);
+    Ext.get('cal-win').on('click', showWindow, this);
     
     showWindow();
 });

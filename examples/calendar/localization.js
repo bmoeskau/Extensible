@@ -60,7 +60,6 @@ Ext.onReady(function() {
         listeners: {
             'select': {
                 fn: function(cbo, rec){
-                    rec = rec[0];
                     calendarPanel.getEl().mask('Loading '+rec.data.desc+'...');
                     loadLocale(rec.data.code);
                     locale = rec.data.desc;

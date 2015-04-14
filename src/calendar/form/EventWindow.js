@@ -95,57 +95,57 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     allowDefaultAdd: true,
     
     initComponent: function() {
-        this.addEvents({
-            /**
-             * @event eventadd
-             * Fires after a new event is added
-             * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was added
-             * @param {Ext.Element} el The target element
-             */
-            eventadd: true,
-            /**
-             * @event eventupdate
-             * Fires after an existing event is updated
-             * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was updated
-             * @param {Ext.Element} el The target element
-             */
-            eventupdate: true,
-            /**
-             * @event eventdelete
-             * Fires after an event is deleted
-             * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was deleted
-             * @param {Ext.Element} el The target element
-             */
-            eventdelete: true,
-            /**
-             * @event eventcancel
-             * Fires after an event add/edit operation is canceled by the user and no store update took place
-             * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was canceled
-             * @param {Ext.Element} el The target element
-             */
-            eventcancel: true,
-            /**
-             * @event editdetails
-             * Fires when the user selects the option in this window to continue editing in the detailed edit form
-             * (by default, an instance of {@link Extensible.calendar.form.EventDetails}. Handling code should hide
-             * this window and transfer the current event record to the appropriate instance of the detailed form by
-             * showing it and calling {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
-             * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
-             * that is currently being edited
-             * @param {Ext.Element} el The target element
-             */
-            editdetails: true
-        });
-        
+        //this.addEvents({
+        //    /**
+        //     * @event eventadd
+        //     * Fires after a new event is added
+        //     * @param {Extensible.calendar.form.EventWindow} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+        //     * record} that was added
+        //     * @param {Ext.Element} el The target element
+        //     */
+        //    eventadd: true,
+        //    /**
+        //     * @event eventupdate
+        //     * Fires after an existing event is updated
+        //     * @param {Extensible.calendar.form.EventWindow} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+        //     * record} that was updated
+        //     * @param {Ext.Element} el The target element
+        //     */
+        //    eventupdate: true,
+        //    /**
+        //     * @event eventdelete
+        //     * Fires after an event is deleted
+        //     * @param {Extensible.calendar.form.EventWindow} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+        //     * record} that was deleted
+        //     * @param {Ext.Element} el The target element
+        //     */
+        //    eventdelete: true,
+        //    /**
+        //     * @event eventcancel
+        //     * Fires after an event add/edit operation is canceled by the user and no store update took place
+        //     * @param {Extensible.calendar.form.EventWindow} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+        //     * record} that was canceled
+        //     * @param {Ext.Element} el The target element
+        //     */
+        //    eventcancel: true,
+        //    /**
+        //     * @event editdetails
+        //     * Fires when the user selects the option in this window to continue editing in the detailed edit form
+        //     * (by default, an instance of {@link Extensible.calendar.form.EventDetails}. Handling code should hide
+        //     * this window and transfer the current event record to the appropriate instance of the detailed form by
+        //     * showing it and calling {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
+        //     * @param {Extensible.calendar.form.EventWindow} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+        //     * that is currently being edited
+        //     * @param {Ext.Element} el The target element
+        //     */
+        //    editdetails: true
+        //});
+
         this.fbar = this.getFooterBarConfig();
         
         this.callParent(arguments);
@@ -371,7 +371,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             obj = {},
             modified;
 
-        fields.each(function(f) {
+        Ext.each(fields, function(f) {
             name = f.name;
             if (name in values) {
                 obj[name] = values[name];
@@ -427,7 +427,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             me.onCancel();
             return;
         }
-        
+
         if (me.activeRecord.phantom) {
             me.fireEvent('eventadd', me, me.activeRecord, me.animateTarget);
         }

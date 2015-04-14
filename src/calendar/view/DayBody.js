@@ -29,42 +29,42 @@ Ext.define('Extensible.calendar.view.DayBody', {
         this.incrementsPerHour = this.hourIncrement / this.ddIncrement;
         this.minEventHeight = this.minEventDisplayMinutes / (this.hourIncrement / this.hourHeight);
 
-        this.addEvents({
-            /**
-             * @event beforeeventresize
-             * Fires after the user drags the resize handle of an event to resize it, but before the resize
-             * operation is carried out. This is a cancelable event, so returning false from a handler will
-             * cancel the resize operation.
-             * @param {Extensible.calendar.view.DayBody} this
-             * @param {Extensible.calendar.data.EventModel} rec The original {@link
-             * Extensible.calendar.data.EventModel record} for the event that was resized
-             * @param {Object} data An object containing the new start and end dates that will be set into the
-             * event record if the event is not canceled. Format of the object is: {StartDate: [date], EndDate: [date]}
-             */
-            beforeeventresize: true,
-            /**
-             * @event eventresize
-             * Fires after the user has drag-dropped the resize handle of an event and the resize operation is
-             * complete. If you need to cancel the resize operation you should handle the {@link #beforeeventresize}
-             * event and return false from your handler function.
-             * @param {Extensible.calendar.view.DayBody} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
-             * record} for the event that was resized containing the updated start and end dates
-             */
-            eventresize: true,
-            /**
-             * @event dayclick
-             * Fires after the user clicks within the view container and not on an event element. This is a
-             * cancelable event, so returning false from a handler will cancel the click without displaying the event
-             * editor view. This could be useful for validating that a user can only create events on certain days.
-             * @param {Extensible.calendar.view.DayBody} this
-             * @param {Date} dt The date/time that was clicked on
-             * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks
-             * within the DayBodyView always return false for this param.
-             * @param {Ext.Element} el The Element that was clicked on
-             */
-            dayclick: true
-        });
+        //this.addEvents({
+        //    /**
+        //     * @event beforeeventresize
+        //     * Fires after the user drags the resize handle of an event to resize it, but before the resize
+        //     * operation is carried out. This is a cancelable event, so returning false from a handler will
+        //     * cancel the resize operation.
+        //     * @param {Extensible.calendar.view.DayBody} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The original {@link
+        //     * Extensible.calendar.data.EventModel record} for the event that was resized
+        //     * @param {Object} data An object containing the new start and end dates that will be set into the
+        //     * event record if the event is not canceled. Format of the object is: {StartDate: [date], EndDate: [date]}
+        //     */
+        //    beforeeventresize: true,
+        //    /**
+        //     * @event eventresize
+        //     * Fires after the user has drag-dropped the resize handle of an event and the resize operation is
+        //     * complete. If you need to cancel the resize operation you should handle the {@link #beforeeventresize}
+        //     * event and return false from your handler function.
+        //     * @param {Extensible.calendar.view.DayBody} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
+        //     * record} for the event that was resized containing the updated start and end dates
+        //     */
+        //    eventresize: true,
+        //    /**
+        //     * @event dayclick
+        //     * Fires after the user clicks within the view container and not on an event element. This is a
+        //     * cancelable event, so returning false from a handler will cancel the click without displaying the event
+        //     * editor view. This could be useful for validating that a user can only create events on certain days.
+        //     * @param {Extensible.calendar.view.DayBody} this
+        //     * @param {Date} dt The date/time that was clicked on
+        //     * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks
+        //     * within the DayBodyView always return false for this param.
+        //     * @param {Ext.Element} el The Element that was clicked on
+        //     */
+        //    dayclick: true
+        //});
     },
 
     initDD: function() {

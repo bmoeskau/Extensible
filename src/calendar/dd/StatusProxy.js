@@ -21,10 +21,10 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
     // Overridden to add a separate message element inside the ghost area.
     // Applies only to Ext 4.1 and above, see notes in constructor
     renderTpl: [
-        '<div class="' + Ext.baseCSSPrefix + 'dd-drop-icon"></div>',
-        '<div class="ext-dd-ghost-ct">',
-            '<div id="{id}-ghost" class="' + Ext.baseCSSPrefix + 'dd-drag-ghost"></div>',
-            '<div id="{id}-message" class="ext-dd-msg"></div>',
+        '<div class="' + Ext.baseCSSPrefix + 'dd-drop-icon" role="presentation"></div>' +
+        '<div class="ext-dd-ghost-ct">'+
+            '<div id="{id}-ghost" data-ref="ghost" class="' + Ext.baseCSSPrefix + 'dd-drag-ghost" role="presentation"></div>' +
+            '<div id="{id}-message" data-ref="message" class="' + Ext.baseCSSPrefix + 'dd-drag-message" role="presentation"></div>' +
         '</div>'
     ],
     
@@ -82,11 +82,17 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
      * @protected 
      */
     update: function(html) {
-        this.callParent(arguments);
-        
-        // If available, set the ghosted event el to autoHeight for visual consistency
-        var el = this.ghost.dom.firstChild;
-        if(el) {
+        var el = this.getGhost().dom;
+        if (typeof html == "string") {
+            this.getGhost().setHtml(html);
+        } else {
+            this.getGhost().setHtml('');
+            html.style.margin = "0";
+            this.getGhost().dom.appendChild(html);
+        }
+        if (el) {
+            Ext.fly(el).setStyle('float', 'none');
+            // If available, set the ghosted event el to autoHeight for visual consistency
             Ext.fly(el).setHeight('auto');
         }
     },
@@ -96,6 +102,6 @@ Ext.define('Extensible.calendar.dd.StatusProxy', {
      * @param {String} msg The new status message
      */
     updateMsg: function(msg) {
-        this.message.update(msg);
+        this.update(msg);
     }
 });

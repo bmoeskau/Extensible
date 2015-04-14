@@ -312,238 +312,238 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         
         this.callParent(arguments);
         
-        this.addEvents({
-            /**
-             * @event eventadd
-             * Fires after a new event is added to the underlying store
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The new 
-             * {@link Extensible.calendar.data.EventModel record} that was added
-             */
-            eventadd: true,
-            /**
-             * @event eventupdate
-             * Fires after an existing event is updated
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The new 
-             * {@link Extensible.calendar.data.EventModel record} that was updated
-             */
-            eventupdate: true,
-            /**
-             * @event beforeeventdelete
-             * Fires before an event is deleted by the user. This is a cancelable event, so returning
-             * false from a handler will cancel the delete operation.
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
-             * for the event that was deleted
-             * @param {Ext.Element} el The target element
-             */
-            beforeeventdelete: true,
-            /**
-             * @event eventdelete
-             * Fires after an event is deleted by the user.
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The 
-             * {@link Extensible.calendar.data.EventModel record} for the event that was deleted
-             * @param {Ext.Element} el The target element
-             */
-            eventdelete: true,
-            /**
-             * @event eventcancel
-             * Fires after an event add/edit operation is canceled by the user and no store update took place
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The new
-             * {@link Extensible.calendar.data.EventModel record} that was canceled
-             */
-            eventcancel: true,
-            /**
-             * @event viewchange
-             * Fires after a different calendar view is activated (but not when the event edit form is activated)
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.CalendarView} view The view being activated (any valid 
-             * {@link Extensible.calendar.view.AbstractCalendar CalendarView} subclass)
-             * @param {Object} info Extra information about the newly activated view. This is a plain object
-             * with following properties:
-             * 
-             *	* **activeDate**
-             *		* The currently selected date
-             *	* **viewStart**
-             *		* The first date in the new view range
-             *	* **viewEnd**
-             *		* The last date in the new view range
-             */
-            viewchange: true,
-            /**
-             * @event editdetails
-             * Fires when the user selects the option to edit the selected event in the detailed edit form
-             * (by default, an instance of {@link Extensible.calendar.form.EventDetails}). Handling code
-             * should hide the active event editor and transfer the current event record to the appropriate
-             * instance of the detailed form by showing it and calling
-             * {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
-             * @param {Extensible.calendar.CalendarPanel} this The CalendarPanel
-             * @param {Extensible.calendar.view.AbstractCalendar} view The currently active 
-             * {@link Extensible.calendar.view.AbstractCalendar CalendarView} subclass
-             * @param {Extensible.calendar.data.EventModel} rec The 
-             * {@link Extensible.calendar.data.EventModel record} that is currently being edited
-             * @param {Ext.Element} el The target element
-             */
-            editdetails: true
-            
-            
-            //
-            // NOTE: CalendarPanel also relays the following events from contained views as if
-            // they originated from this:
-            //
-            
-            /**
-             * @event eventsrendered
-             * Fires after events are finished rendering in the view
-             * @param {Extensible.calendar.CalendarPanel} this
-             */
-            /**
-             * @event eventclick
-             * Fires after the user clicks on an event element.
-             * 
-             * **NOTE:** This version of <tt>eventclick</tt> differs from the same
-             * event fired directly by {@link Extensible.calendar.view.AbstractCalendar CalendarView}
-             * subclasses in that it provides a default implementation (showing the default edit window)
-             * and is also cancelable (if a handler returns <tt>false</tt> the edit window will not be
-             * shown). This event when fired from a view class is simply a notification that an event was
-             * clicked and has no default behavior.
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The 
-             * {@link Extensible.calendar.data.EventModel record} for the event that was clicked on
-             * @param {HTMLNode} el The DOM node that was clicked on
-             */
-            /**
-             * @event rangeselect
-             * Fires after the user drags on the calendar to select a range of dates/times in which to
-             * create an event
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Object} dates An object containing the start (StartDate property) and end (EndDate
-             * property) dates selected
-             * @param {Function} callback A callback function that MUST be called after the event handling 
-             * is complete so that the view is properly cleaned up (shim elements are persisted in 
-             * the view while the user is prompted to handle the range selection). The callback is 
-             * already created in the proper scope, so it simply needs to be executed as a standard 
-             * function call (e.g., callback()).
-             */
-            /**
-             * @event eventover
-             * Fires anytime the mouse is over an event element
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The 
-             * {@link Extensible.calendar.data.EventModel record} for the event that the cursor is over
-             * @param {HTMLNode} el The DOM node that is being moused over
-             */
-            /**
-             * @event eventout
-             * Fires anytime the mouse exits an event element
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The 
-             * {@link Extensible.calendar.data.EventModel record} for the event that the cursor exited
-             * @param {HTMLNode} el The DOM node that was exited
-             */
-            /**
-             * @event beforedatechange
-             * Fires before the start date of the view changes, giving you an opportunity to save state or
-             * anything else you may need to do prior to the UI view changing. This is a cancelable event, so
-             * returning false from a handler will cancel both the view change and the setting of the start date.
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Date} startDate The current start date of the view (as explained in {@link #getStartDate}
-             * @param {Date} newStartDate The new start date that will be set when the view changes
-             * @param {Date} viewStart The first displayed date in the current view
-             * @param {Date} viewEnd The last displayed date in the current view
-             */
-            /**
-             * @event dayclick
-             * Fires after the user clicks within a day/week view container and not on an event element
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Date} dt The date/time that was clicked on
-             * @param {Boolean} allday True if the day clicked on represents an all-day box, else false.
-             * @param {Ext.Element} el The Element that was clicked on
-             */
-            /**
-             * @event datechange
-             * Fires after the start date of the view changes
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Date} startDate The start date of the view (as explained in {@link #getStartDate}
-             * @param {Date} viewStart The first displayed date in the view
-             * @param {Date} viewEnd The last displayed date in the view
-             */
-            /**
-             * @event beforeeventmove
-             * Fires before an event element is dragged by the user and dropped in a new position. This is
-             * a cancelable event, so returning false from a handler will cancel the move operation.
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The 
-             * {@link Extensible.calendar.data.EventModel record} for the event that will be moved
-             */
-            /**
-             * @event eventmove
-             * Fires after an event element is dragged by the user and dropped in a new position
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The 
-             * {@link Extensible.calendar.data.EventModel record} for the event that was moved with
-             * updated start and end dates
-             */
-            /**
-             * @event initdrag
-             * Fires when a drag operation is initiated in the view
-             * @param {Extensible.calendar.CalendarPanel} this
-             */
-            /**
-             * @event dayover
-             * Fires while the mouse is over a day element
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Date} dt The date that is being moused over
-             * @param {Ext.Element} el The day Element that is being moused over
-             */
-            /**
-             * @event dayout
-             * Fires when the mouse exits a day element
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Date} dt The date that is exited
-             * @param {Ext.Element} el The day Element that is exited
-             */
-            /**
-             * @event beforeeventresize
-             * Fires after the user drags the resize handle of an event to resize it, but before the
-             * resize operation is carried out. This is a cancelable event, so returning false from a
-             * handler will cancel the resize operation. **NOTE:** This event is only fired
-             * from views that support event resizing.
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The 
-             * {@link Extensible.calendar.data.EventModel record} for the event that was resized
-             * containing the updated start and end dates
-             */
-            /**
-             * @event eventresize
-             * Fires after the user drags the resize handle of an event and the resize operation is
-             * complete. **NOTE:** This event is only fired from views that support event resizing.
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Extensible.calendar.data.EventModel} rec The 
-             * {@link Extensible.calendar.data.EventModel record} for the event that was resized
-             * containing the updated start and end dates
-             */
-            /**
-             * @event eventexception
-             * Fires after an event has been processed via an Ext proxy and returned with an exception. This
-             * could be because of a server error, or because the data returned <tt>success: false</tt>.
-             *
-             * The view provides default handling via the overrideable
-             * {@link Extensible.calendar.view.AbstractCalendar#notifyOnException notifyOnException} method. If
-             * any function handling this event returns false, the notifyOnException method will not be called.
-             *
-             * Note that only Server proxy and subclasses (including Ajax proxy) will raise this event.
-             *
-             * @param {Extensible.calendar.CalendarPanel} this
-             * @param {Object} response The raw response object returned from the server
-             * @param {Ext.data.Operation} operation The operation that was processed
-             * @since 1.6.0
-             */
-        });
-        
+        //this.addEvents({
+        //    /**
+        //     * @event eventadd
+        //     * Fires after a new event is added to the underlying store
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The new
+        //     * {@link Extensible.calendar.data.EventModel record} that was added
+        //     */
+        //    eventadd: true,
+        //    /**
+        //     * @event eventupdate
+        //     * Fires after an existing event is updated
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The new
+        //     * {@link Extensible.calendar.data.EventModel record} that was updated
+        //     */
+        //    eventupdate: true,
+        //    /**
+        //     * @event beforeeventdelete
+        //     * Fires before an event is deleted by the user. This is a cancelable event, so returning
+        //     * false from a handler will cancel the delete operation.
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+        //     * for the event that was deleted
+        //     * @param {Ext.Element} el The target element
+        //     */
+        //    beforeeventdelete: true,
+        //    /**
+        //     * @event eventdelete
+        //     * Fires after an event is deleted by the user.
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The
+        //     * {@link Extensible.calendar.data.EventModel record} for the event that was deleted
+        //     * @param {Ext.Element} el The target element
+        //     */
+        //    eventdelete: true,
+        //    /**
+        //     * @event eventcancel
+        //     * Fires after an event add/edit operation is canceled by the user and no store update took place
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The new
+        //     * {@link Extensible.calendar.data.EventModel record} that was canceled
+        //     */
+        //    eventcancel: true,
+        //    /**
+        //     * @event viewchange
+        //     * Fires after a different calendar view is activated (but not when the event edit form is activated)
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.CalendarView} view The view being activated (any valid
+        //     * {@link Extensible.calendar.view.AbstractCalendar CalendarView} subclass)
+        //     * @param {Object} info Extra information about the newly activated view. This is a plain object
+        //     * with following properties:
+        //     *
+        //     *	* **activeDate**
+        //     *		* The currently selected date
+        //     *	* **viewStart**
+        //     *		* The first date in the new view range
+        //     *	* **viewEnd**
+        //     *		* The last date in the new view range
+        //     */
+        //    viewchange: true,
+        //    /**
+        //     * @event editdetails
+        //     * Fires when the user selects the option to edit the selected event in the detailed edit form
+        //     * (by default, an instance of {@link Extensible.calendar.form.EventDetails}). Handling code
+        //     * should hide the active event editor and transfer the current event record to the appropriate
+        //     * instance of the detailed form by showing it and calling
+        //     * {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
+        //     * @param {Extensible.calendar.CalendarPanel} this The CalendarPanel
+        //     * @param {Extensible.calendar.view.AbstractCalendar} view The currently active
+        //     * {@link Extensible.calendar.view.AbstractCalendar CalendarView} subclass
+        //     * @param {Extensible.calendar.data.EventModel} rec The
+        //     * {@link Extensible.calendar.data.EventModel record} that is currently being edited
+        //     * @param {Ext.Element} el The target element
+        //     */
+        //    editdetails: true
+        //
+        //
+        //    //
+        //    // NOTE: CalendarPanel also relays the following events from contained views as if
+        //    // they originated from this:
+        //    //
+        //
+        //    /**
+        //     * @event eventsrendered
+        //     * Fires after events are finished rendering in the view
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     */
+        //    /**
+        //     * @event eventclick
+        //     * Fires after the user clicks on an event element.
+        //     *
+        //     * **NOTE:** This version of <tt>eventclick</tt> differs from the same
+        //     * event fired directly by {@link Extensible.calendar.view.AbstractCalendar CalendarView}
+        //     * subclasses in that it provides a default implementation (showing the default edit window)
+        //     * and is also cancelable (if a handler returns <tt>false</tt> the edit window will not be
+        //     * shown). This event when fired from a view class is simply a notification that an event was
+        //     * clicked and has no default behavior.
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The
+        //     * {@link Extensible.calendar.data.EventModel record} for the event that was clicked on
+        //     * @param {HTMLNode} el The DOM node that was clicked on
+        //     */
+        //    /**
+        //     * @event rangeselect
+        //     * Fires after the user drags on the calendar to select a range of dates/times in which to
+        //     * create an event
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Object} dates An object containing the start (StartDate property) and end (EndDate
+        //     * property) dates selected
+        //     * @param {Function} callback A callback function that MUST be called after the event handling
+        //     * is complete so that the view is properly cleaned up (shim elements are persisted in
+        //     * the view while the user is prompted to handle the range selection). The callback is
+        //     * already created in the proper scope, so it simply needs to be executed as a standard
+        //     * function call (e.g., callback()).
+        //     */
+        //    /**
+        //     * @event eventover
+        //     * Fires anytime the mouse is over an event element
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The
+        //     * {@link Extensible.calendar.data.EventModel record} for the event that the cursor is over
+        //     * @param {HTMLNode} el The DOM node that is being moused over
+        //     */
+        //    /**
+        //     * @event eventout
+        //     * Fires anytime the mouse exits an event element
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The
+        //     * {@link Extensible.calendar.data.EventModel record} for the event that the cursor exited
+        //     * @param {HTMLNode} el The DOM node that was exited
+        //     */
+        //    /**
+        //     * @event beforedatechange
+        //     * Fires before the start date of the view changes, giving you an opportunity to save state or
+        //     * anything else you may need to do prior to the UI view changing. This is a cancelable event, so
+        //     * returning false from a handler will cancel both the view change and the setting of the start date.
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Date} startDate The current start date of the view (as explained in {@link #getStartDate}
+        //     * @param {Date} newStartDate The new start date that will be set when the view changes
+        //     * @param {Date} viewStart The first displayed date in the current view
+        //     * @param {Date} viewEnd The last displayed date in the current view
+        //     */
+        //    /**
+        //     * @event dayclick
+        //     * Fires after the user clicks within a day/week view container and not on an event element
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Date} dt The date/time that was clicked on
+        //     * @param {Boolean} allday True if the day clicked on represents an all-day box, else false.
+        //     * @param {Ext.Element} el The Element that was clicked on
+        //     */
+        //    /**
+        //     * @event datechange
+        //     * Fires after the start date of the view changes
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Date} startDate The start date of the view (as explained in {@link #getStartDate}
+        //     * @param {Date} viewStart The first displayed date in the view
+        //     * @param {Date} viewEnd The last displayed date in the view
+        //     */
+        //    /**
+        //     * @event beforeeventmove
+        //     * Fires before an event element is dragged by the user and dropped in a new position. This is
+        //     * a cancelable event, so returning false from a handler will cancel the move operation.
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The
+        //     * {@link Extensible.calendar.data.EventModel record} for the event that will be moved
+        //     */
+        //    /**
+        //     * @event eventmove
+        //     * Fires after an event element is dragged by the user and dropped in a new position
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The
+        //     * {@link Extensible.calendar.data.EventModel record} for the event that was moved with
+        //     * updated start and end dates
+        //     */
+        //    /**
+        //     * @event initdrag
+        //     * Fires when a drag operation is initiated in the view
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     */
+        //    /**
+        //     * @event dayover
+        //     * Fires while the mouse is over a day element
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Date} dt The date that is being moused over
+        //     * @param {Ext.Element} el The day Element that is being moused over
+        //     */
+        //    /**
+        //     * @event dayout
+        //     * Fires when the mouse exits a day element
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Date} dt The date that is exited
+        //     * @param {Ext.Element} el The day Element that is exited
+        //     */
+        //    /**
+        //     * @event beforeeventresize
+        //     * Fires after the user drags the resize handle of an event to resize it, but before the
+        //     * resize operation is carried out. This is a cancelable event, so returning false from a
+        //     * handler will cancel the resize operation. **NOTE:** This event is only fired
+        //     * from views that support event resizing.
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The
+        //     * {@link Extensible.calendar.data.EventModel record} for the event that was resized
+        //     * containing the updated start and end dates
+        //     */
+        //    /**
+        //     * @event eventresize
+        //     * Fires after the user drags the resize handle of an event and the resize operation is
+        //     * complete. **NOTE:** This event is only fired from views that support event resizing.
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The
+        //     * {@link Extensible.calendar.data.EventModel record} for the event that was resized
+        //     * containing the updated start and end dates
+        //     */
+        //    /**
+        //     * @event eventexception
+        //     * Fires after an event has been processed via an Ext proxy and returned with an exception. This
+        //     * could be because of a server error, or because the data returned <tt>success: false</tt>.
+        //     *
+        //     * The view provides default handling via the overrideable
+        //     * {@link Extensible.calendar.view.AbstractCalendar#notifyOnException notifyOnException} method. If
+        //     * any function handling this event returns false, the notifyOnException method will not be called.
+        //     *
+        //     * Note that only Server proxy and subclasses (including Ajax proxy) will raise this event.
+        //     *
+        //     * @param {Extensible.calendar.CalendarPanel} this
+        //     * @param {Object} response The raw response object returned from the server
+        //     * @param {Ext.data.Operation} operation The operation that was processed
+        //     * @since 1.6.0
+        //     */
+        //});
+
         this.addCls('x-cal-panel');
         
         if(this.eventStore) {
@@ -720,7 +720,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     },
 
     onWrite: function(store, operation) {
-        var rec = operation.records[0];
+        var rec = operation.getRequest().getJsonData();
         
         switch(operation.action) {
             case 'create':
@@ -827,7 +827,6 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             
             // Activate the new view and refresh the layout
             layout.setActiveItem(id || me.activeItem);
-            me.doComponentLayout();
             me.activeView = layout.getActiveItem();
             
             if (id !== editViewId) {

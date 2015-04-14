@@ -56,18 +56,18 @@ Ext.define('Extensible.form.recurrence.AbstractOption', {
     
     initComponent: function() {
         var me = this;
-        
-        me.addEvents(
-            /**
-             * @event change
-             * Fires when a user-initiated change is detected in the value of the field.
-             * @param {Extensible.form.recurrence.AbstractOption} this
-             * @param {Mixed} newValue The new value
-             * @param {Mixed} oldValue The old value
-             */
-            'change'
-        );
-        
+
+        //me.addEvents(
+        //    /**
+        //     * @event change
+        //     * Fires when a user-initiated change is detected in the value of the field.
+        //     * @param {Extensible.form.recurrence.AbstractOption} this
+        //     * @param {Mixed} newValue The new value
+        //     * @param {Mixed} oldValue The old value
+        //     */
+        //    'change'
+        //);
+
         me.initRRule();
         me.items = me.getItemConfigs();
         

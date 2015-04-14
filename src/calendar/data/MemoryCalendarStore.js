@@ -18,7 +18,7 @@ Ext.define('Extensible.calendar.data.MemoryCalendarStore', {
         type: 'memory',
         reader: {
             type: 'json',
-            root: 'calendars'
+            rootProperty: 'calendars'
         },
         writer: {
             type: 'json'
@@ -35,7 +35,7 @@ Ext.define('Extensible.calendar.data.MemoryCalendarStore', {
         
         this.idProperty = this.idProperty || Extensible.calendar.data.CalendarMappings.CalendarId.name || 'id';
         
-        this.fields = Extensible.calendar.data.CalendarModel.prototype.fields.getRange();
+        this.fields = Extensible.calendar.data.CalendarModel.prototype.fields;
         
         this.callParent(arguments);
     }

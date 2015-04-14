@@ -133,7 +133,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
         var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id),
             CM = Extensible.calendar.data.CalendarMappings,
             isHidden = rec.data[CM.IsHidden.name];
-        
+
         rec.set(CM.IsHidden.name, !isHidden);
         
         if(commit !== false) {
@@ -160,11 +160,11 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
             calendarId = Extensible.calendar.data.CalendarMappings.CalendarId.name,
             recs = this.store.getRange(),
             len = recs.length;
-            
+
         for (; i < len; i++) {
             recId = recs[i].data[calendarId];
             // make a truthy check so that either numeric or string ids can match
-            if(recId === id) {
+            if(recId == id) {
                 this.showCalendar(recId, false);
             }
             else{

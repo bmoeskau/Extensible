@@ -20,8 +20,8 @@ Ext.define('Extensible.calendar.dd.DropZone', {
     
     getTargetFromEvent: function(e) {
         var dragOffset = this.dragOffset || 0,
-            y = e.getPageY() - dragOffset,
-            d = this.view.getDayAt(e.getPageX(), y);
+            y = e.getY() - dragOffset,
+            d = this.view.getDayAt(e.getX(), y);
         
         return d.el ? d: null;
     },

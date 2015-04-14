@@ -485,7 +485,6 @@ td.ext-cal-dtitle-today div {
 }
 .ext-cal-evt dl {
     margin: 0;
-    border: 0 1px;
     overflow: hidden;
     border-width: 0 1px;
     border-style: solid;
@@ -763,14 +762,7 @@ td.ext-cal-dtitle-today div {
 .ext-cal-nav-picker {
     border-style: none none solid;
     border-color: #99BBE8;
-}
-.ext-cal-nav-picker .x-datepicker-header {
-    background: #D3E1F1 url(../images/default/ext/toolbar-bg.gif) repeat-x;
-}
-.ext-cal-nav-picker .x-datepicker-month,
-.ext-cal-nav-picker .x-datepicker-prev,
-.ext-cal-nav-picker .x-datepicker-next {
-    background: transparent;
+    max-width: 179px;
 }
 .ext-cal-nav-picker .x-datepicker-prev a {
     background-image: url(../images/default/ext/page-prev.gif);
@@ -785,10 +777,6 @@ td.ext-cal-dtitle-today div {
     color: #555 !important;
     font-weight: bold;
     font-family: arial,tahoma,verdana,helvetica;
-}
-.ext-cal-nav-picker .x-datepicker-month .x-btn-split-right {
-    background-image: url(../images/default/ext/button-arrow.gif) !important;
-    background-position: right 4px;
 }
 .ext-cal-nav-picker .x-datepicker-inner {
     border-top: 1px solid #BBCCFF;
@@ -969,9 +957,6 @@ td.ext-cal-dtitle-today div {
 .extensible-cal-icon-cal-show {
     background-image:url(../images/default/silk/calendar_view_month.png) !important;
 }
-.extensible-cal-icon-cal-colors {
-    background-image:url(../images/default/silk/color_wheel.png) !important;
-}
 
 /*******************************************
  * 
@@ -1007,4 +992,28 @@ td.ext-cal-dtitle-today div {
     height: 14px;
     width: 14px;
     line-height: 10px;
+}
+
+
+
+/********************************************   EXTJS 5 **********************************************/
+.x-monthpicker-months {
+    width: 90px;
+}
+
+.x-monthpicker-months .x-monthpicker-item {
+    width: 44px;
+}
+
+.x-monthpicker-years {
+    width: 89px;
+}
+
+
+.x-monthpicker-yearnav-button-ct {
+    width: 44px;
+}
+
+.x-monthpicker-years .x-monthpicker-item {
+    width: 44px;
 }

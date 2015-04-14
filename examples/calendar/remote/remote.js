@@ -46,7 +46,7 @@ Ext.onReady(function() {
         Reminder:    {name: 'Reminder', mapping: 'reminder'}
     };
     Extensible.calendar.data.EventModel.reconfigure();
-    
+
     // Calendars are loaded remotely from a static JSON file
     var calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
         autoLoad: true,
@@ -57,7 +57,7 @@ Ext.onReady(function() {
             
             reader: {
                 type: 'json',
-                root: 'calendars'
+                rootProperty: 'calendars'
             }
         }
     });
@@ -84,11 +84,44 @@ Ext.onReady(function() {
             },
             reader: {
                 type: 'json',
-                root: 'data'
+                rootProperty: 'data',
+                transform: {
+                    fn: function(data) {
+                        // Manipulate raw data object: start and end date are strings; Convert to Date()
+                        Ext.iterate(data.data, function(event,key){
+                            var startDate = (event['start']) ? new Date(event['start'].replace(/-/g , "/")) : new Date();
+                            event[Extensible.calendar.data.EventMappings.StartDate.mapping] = startDate;
+
+                            var endDate = (event['end']) ? new Date(event['end'].replace(/-/g , "/")) : new Date();
+                            event[Extensible.calendar.data.EventMappings.EndDate.mapping] = endDate;
+
+                            // MySQL returns it an int. Convert it to boolean, otherwise all events will be marked as all-day.
+                            var allDay = (event['all_day'] == 1) ? true: false;
+                            event[Extensible.calendar.data.EventMappings.IsAllDay.mapping] = allDay;
+                        });
+
+                        return data;
+                    },
+                    scope: this
+                }
             },
             writer: {
                 type: 'json',
-                nameProperty: 'mapping'
+                nameProperty: 'mapping',
+                writeAllFields: true, // send all fields to server
+                transform: {
+                    fn: function(data, request) {
+                        var postData = {};
+
+                        // Remove mapped fields from data sent to server and keep only the ones required in php script
+                        Ext.iterate(Extensible.calendar.data.EventMappings, function(key, value){
+                            postData[value.mapping] = data[value.name] ? data[value.name] : '';
+                        });
+
+                        return postData;
+                    },
+                    scope: this
+                }
             }
         },
 
@@ -98,8 +131,10 @@ Ext.onReady(function() {
         // NOT that your changes were actually persisted correctly in the back end. The 'write' event is the best
         // option for generically messaging after CRUD persistence has succeeded.
         listeners: {
-            'write': function(store, operation) {
-                var title = Ext.value(operation.records[0].data[Extensible.calendar.data.EventMappings.Title.name], '(No title)');
+            write: function(store, operation) {
+                var record = operation.getRequest().getJsonData(),
+                    title = record[Extensible.calendar.data.EventMappings.Title.mapping] || '(No title)';
+
                 switch(operation.action){
                     case 'create':
                         Extensible.example.msg('Add', 'Added "' + title + '"');
