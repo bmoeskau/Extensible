@@ -720,8 +720,8 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     },
 
     onWrite: function(store, operation) {
-        var rec = operation.getRequest().getJsonData();
-        
+        var records = operation.getRecords(), rec = records[0];
+
         switch(operation.action) {
             case 'create':
                 this.onStoreAdd(store, rec);

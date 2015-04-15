@@ -351,9 +351,9 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
 
     cleanup: function(hide) {
-        if (this.activeRecord) {
-            this.activeRecord.reject();
-        }
+        //if (this.activeRecord) {
+        //    this.activeRecord.reject();
+        //}
         delete this.activeRecord;
         
         if (hide===true) {

@@ -962,9 +962,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         // edited or was recurring before being edited AND an event store reload has not been triggered already for
         // this operation. If an event is not currently recurring (isRecurring = false) but still has an instance
         // start date set, then it must have been recurring and edited to no longer recur.
-        var record = operation.getRequest().getJsonData(),
+        var records = operation.getRecords(),
+            record = records[0],
             RInstanceStartDate = Extensible.calendar.data.EventMappings.RInstanceStartDate,
-            isInstance = RInstanceStartDate && !!record[RInstanceStartDate.name],
+            isInstance = RInstanceStartDate && !!record.get(RInstanceStartDate.name),
             reload = isInstance && !operation.wasStoreReloadTriggered;
 
             //reload = (record.isRecurring() || isInstance) && !operation.wasStoreReloadTriggered;
@@ -990,7 +991,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
             this.refreshAfterEventChange('update', operation);
 
-            var rec = operation.getRequest().getJsonData();
+            var records = operation.getRecords(), rec = records[0];
 
             if (this.enableFx && this.enableUpdateFx) {
                 this.doUpdateFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
@@ -1015,7 +1016,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     },
 
     onAdd: function(store, operation) {
-        var rec = operation.getRequest().getJsonData();
+        var records = operation.getRecords(), rec = records[0];
 
         if (this.hidden === true || this.ownerCt.hidden === true || this.monitorStoreEvents === false) {
             // Hidden calendar view don't need to be refreshed. For views composed of header and body (for example
@@ -1067,18 +1068,20 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         Extensible.log('onRemove');
         this.dismissEventEditor();
 
-        var rec = operation.getRequest().getJsonData();
+        if (operation.getResultSet()){
+            var records = operation.getResultSet().getRecords(), rec = records[0];
 
-        if (this.enableFx && this.enableRemoveFx) {
-            this.doRemoveFx(this.getEventEls(rec[Extensible.calendar.data.EventMappings.EventId.name]), {
-                remove: true,
-                scope: this,
-                callback: Ext.bind(this.refreshAfterEventChange, this, ['delete', operation])
-            });
-        }
-        else {
-            this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]).remove();
-            this.refreshAfterEventChange('delete', operation);
+            if (this.enableFx && this.enableRemoveFx) {
+                this.doRemoveFx(this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]), {
+                    remove: true,
+                    scope: this,
+                    callback: Ext.bind(this.refreshAfterEventChange, this, ['delete', operation])
+                });
+            }
+            else {
+                this.getEventEls(rec.data[Extensible.calendar.data.EventMappings.EventId.name]).remove();
+                this.refreshAfterEventChange('delete', operation);
+            }
         }
     },
 
@@ -1880,6 +1883,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
         else {
             newRec = rec.copy(null);
+            newRec.phantom = true;
             newRec.set(Extensible.calendar.data.EventMappings.EventId.mapping, null);
         }
 

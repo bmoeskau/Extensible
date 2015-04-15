@@ -93,8 +93,9 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
         var me = this;
 
         if (Extensible.example && Extensible.example.msg) {
-            var record = operation.getRequest().getJsonData(),
-                title = record.data[Extensible.calendar.data.EventMappings.Title.mapping] || '(No title)';
+            var records = 'Ext.data.operation.Destroy' == Ext.getClass(operation).getName()? operation.getResultSet().getRecords() : operation.getRecords(),
+                record = records[0],
+                title = record.get(Extensible.calendar.data.EventMappings.Title.mapping) || '(No title)';
 
             switch (operation.action) {
                 case 'create':
@@ -149,7 +150,8 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
                 var operation = Ext.create('Ext.data.operation.Create',{
                     success: true,
                     complete: true,
-                    request: Ext.create('Ext.data.Request', { jsonData: record })
+                    request: Ext.create('Ext.data.Request', { jsonData: record }),
+                    records: [record]
                 });
 
                 store.fireAction('write', [store, operation], function(){});
@@ -160,7 +162,8 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
                 var operation = Ext.create('Ext.data.operation.Update',{
                     success: true,
                     complete: true,
-                    request: Ext.create('Ext.data.Request', { jsonData: record })
+                    request: Ext.create('Ext.data.Request', { jsonData: record }),
+                    records: [record]
                 });
 
                 store.fireAction('write', [store, operation], function(){});
@@ -173,7 +176,8 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
                 var operation = Ext.create('Ext.data.operation.Destroy',{
                     success: true,
                     complete: true,
-                    request: Ext.create('Ext.data.Request', { jsonData: record })
+                    request: Ext.create('Ext.data.Request', { jsonData: record }),
+                    _resultSet: Ext.create('Ext.data.ResultSet', { records: [record]})
                 });
 
                 store.fireAction('write', [store, operation], function(){});
