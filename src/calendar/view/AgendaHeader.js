@@ -188,29 +188,25 @@ Ext.define('Extensible.calendar.view.AgendaHeader', {
 
         this.callParent(arguments);
 
-        this.addEvents({
-            /**
-             * @event formchange
-             * Fires after the filter form changes.
-             * @param {Extensible.calendar.view.AgendaHeader} this
-             * @param {Ext.form.Basic} form The filter form.
-             * @param {Ext.form.field.Field} field Form field that changed.
-             * @param {Object} newValue New form field value.
-             * @param {Object} oldValue Old form field value.
-             * @param {Object} eOpts The options object passed to {@link Ext.util.Observable.addListener}.
-             */
-            formchange: true,
+        /**
+         * @event formchange
+         * Fires after the filter form changes.
+         * @param {Extensible.calendar.view.AgendaHeader} this
+         * @param {Ext.form.Basic} form The filter form.
+         * @param {Ext.form.field.Field} field Form field that changed.
+         * @param {Object} newValue New form field value.
+         * @param {Object} oldValue Old form field value.
+         * @param {Object} eOpts The options object passed to {@link Ext.util.Observable.addListener}.
+         */
 
-            /**
-             * @event addevent
-             * Fires after the user clicks the add event button.
-             * @param {Extensible.calendar.view.AgendaHeader} this
-             * @param {Ext.button.Button} button The button clicked.
-             * @param {Event} event
-             * @param {Object} eOpts The options object passed to {@link Ext.util.Observable.addListener}.
-             */
-            addevent: true
-        });
+        /**
+         * @event addevent
+         * Fires after the user clicks the add event button.
+         * @param {Extensible.calendar.view.AgendaHeader} this
+         * @param {Ext.button.Button} button The button clicked.
+         * @param {Event} event
+         * @param {Object} eOpts The options object passed to {@link Ext.util.Observable.addListener}.
+         */
 
     },
 

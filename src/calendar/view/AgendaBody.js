@@ -85,15 +85,12 @@ Ext.define('Extensible.calendar.view.AgendaBody', {
             details: false
         };
 
-        this.addEvents({
-            /**
-             * @event dayclick
-             * Fires after the user clicks on a day date
-             * @param {Extensible.calendar.view.AgendaBody} this
-             * @param {Date} dt The date that was clicked on.
-             */
-            dayclick: true
-        });
+        /**
+         * @event dayclick
+         * Fires after the user clicks on a day date
+         * @param {Extensible.calendar.view.AgendaBody} this
+         * @param {Date} dt The date that was clicked on.
+         */
 
         this.callParent(arguments);
     },
