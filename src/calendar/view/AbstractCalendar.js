@@ -1647,13 +1647,15 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     },
 
     getEventRecord: function(id) {
-        var idx = this.store.find(Extensible.calendar.data.EventMappings.EventId.name, id,
-            0,     // start index
-            false, // match any part of string
-            true,  // case sensitive
-            true   // force exact match
-        );
-        return this.store.getAt(idx);
+        //var idx = this.store.find(Extensible.calendar.data.EventMappings.EventId.name, id,
+        //    0,     // start index
+        //    false, // match any part of string
+        //    true,  // case sensitive
+        //    true   // force exact match
+        //);
+        //return this.store.getAt(idx);
+
+        return this.store.getById(id);
     },
 
     getEventRecordFromEl: function(el) {
@@ -1882,9 +1884,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             newRec = rec;
         }
         else {
-            newRec = rec.copy(null);
-            newRec.phantom = true;
-            newRec.set(Extensible.calendar.data.EventMappings.EventId.mapping, null);
+            newRec = rec.clone();
         }
 
         if (me.fireEvent('beforeevent' + moveOrCopy, me, newRec, Ext.Date.clone(newStartDate)) !== false) {
@@ -2031,7 +2031,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         if (el) {
             var id = me.getEventIdFromEl(el),
                 rec = me.getEventRecord(id);
-            
+
             if (rec && me.fireEvent('eventclick', me, rec, el) !== false) {
                 if (me.readOnly !== true) {
                     me.showEventEditor(rec, el);
