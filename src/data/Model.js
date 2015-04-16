@@ -60,6 +60,8 @@ Ext.define('Extensible.data.Model', {
                     proto.fields.push(Ext.create('Ext.data.field.Date', fields[i]));
                 } else if ('boolean' == fields[i]['type']){
                     proto.fields.push(Ext.create('Ext.data.field.Boolean', fields[i]));
+                } else if ('int' == fields[i]['type']){
+                    proto.fields.push(Ext.create('Ext.data.field.Integer', fields[i]));
                 } else {
                     proto.fields.push(Ext.create('Ext.data.field.Field', fields[i]));
                 }

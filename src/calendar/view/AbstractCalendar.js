@@ -962,7 +962,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         // edited or was recurring before being edited AND an event store reload has not been triggered already for
         // this operation. If an event is not currently recurring (isRecurring = false) but still has an instance
         // start date set, then it must have been recurring and edited to no longer recur.
-        var records = operation.getRecords(),
+        var records = 'Ext.data.operation.Destroy' == Ext.getClass(operation).getName()? operation.getResultSet().getRecords() : operation.getRecords(),
             record = records[0],
             RInstanceStartDate = Extensible.calendar.data.EventMappings.RInstanceStartDate,
             isInstance = RInstanceStartDate && !!record.get(RInstanceStartDate.name),

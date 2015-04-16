@@ -141,7 +141,7 @@ Ext.onReady(function() {
 
                         // Remove mapped fields from data sent to server and keep only the ones required in php script
                         Ext.iterate(Extensible.calendar.data.EventMappings, function(key, value){
-                            postData[value.mapping] = data[value.name] ? data[value.name] : '';
+                            postData[value.mapping] = data[value.name] ? data[value.name] : null;
                         });
 
                         return postData;
@@ -158,8 +158,16 @@ Ext.onReady(function() {
         // option for generically messaging after CRUD persistence has succeeded.
         listeners: {
             write: function(store, operation) {
-                var record = operation.getRequest().getJsonData(),
+                var record, title;
+
+                if ('Ext.data.operation.Destroy' == Ext.getClass(operation).getName()){
+                    record = operation.getRequest().getJsonData();
                     title = record[Extensible.calendar.data.EventMappings.Title.mapping] || '(No title)';
+                } else {
+                    var records = operation.getRecords(),
+                        record = records[0],
+                        title = record.get(Extensible.calendar.data.EventMappings.Title.name) || '(No title)';
+                }
 
                 switch(operation.action){
                     case 'create':
