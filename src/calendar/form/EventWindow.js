@@ -66,6 +66,7 @@ Ext.define('Extensible.calendar.form.EventWindow', {
 
     // General configs
     closeAction: 'hide',
+    closable: false,
     modal: false,
     resizable: false,
     constrain: true,
@@ -77,7 +78,18 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     formPanelConfig: {
         border: false
     },
-    
+
+    /**
+     * Add close tool to panel header. When closing the editor it is important to cleanup the record if dirty.
+     * Handle it the same way as the cancel button.
+     */
+    tools: [{
+        type:'close',
+        handler: function(evt, el, header){
+            header.ownerCt.onCancel();
+        }
+    }],
+
     /**
      * @cfg {Boolean} allowDefaultAdd
      * @since 1.6.0
