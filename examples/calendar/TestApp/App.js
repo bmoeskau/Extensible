@@ -1,6 +1,6 @@
 Ext.Loader.setConfig({
     enabled: true,
-    //disableCaching: false,
+    disableCaching: false,
     paths: {
         "Extensible": "../../../src",
         "Extensible.example": "../.."
@@ -40,7 +40,11 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
             // of MemoryEventStore to see how automatic store messaging is implemented.
             autoMsg: false
         });
-        
+
+        // Make the calendar stateful. This is optional. If set, the application will remember hidden
+        // calendars in the calendar list panel.
+        Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+
         // This is the app UI layout code.  All of the calendar views are subcomponents of
         // CalendarPanel, but the app title bar and sidebar/navigation calendar are separate
         // pieces that are composed in app-specific layout code since they could be omitted
@@ -105,6 +109,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                         //viewStartHour: 6,
                         //viewEndHour: 18,
                         //minEventDisplayMinutes: 15
+                        startDay: 0,
                         showTime: false
                     },
                     
@@ -119,7 +124,19 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                     multiWeekViewCfg: {
                         //weekCount: 3
                     },
-                    
+
+                    agendaViewCfg: {
+                        linkDatesToDayView: true,
+                        dateRangeDefault: '3months'
+                    },
+
+                    listViewCfg: {
+                        linkDatesToDayView: true,
+                        dateRangeDefault: '3months',
+                        simpleList: true,
+                        groupBy: 'month'
+                    },
+
                     // Some optional CalendarPanel configs to experiment with:
                     //readOnly: true,
                     //showDayView: false,
@@ -127,6 +144,8 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                     //showWeekView: false,
                     //showMultiWeekView: false,
                     //showMonthView: false,
+                    showAgendaView: true,
+                    showListView: true,
                     //showNavBar: false,
                     //showTodayText: false,
                     //showTime: false,
@@ -135,6 +154,12 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                     //title: 'My Calendar', // the header of the calendar, could be a subtitle for the app
                     
                     listeners: {
+                        'datechange': {
+                            fn: function(vw, startDt, viewStart, viewEnd){
+                                this.updateTitle(viewStart, viewEnd);
+                            },
+                            scope: this
+                        },
                         'eventclick': {
                             fn: function(vw, rec, el){
                                 this.clearMsg();

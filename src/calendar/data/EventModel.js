@@ -34,7 +34,7 @@ Ext.define('Extensible.calendar.data.EventModel', {
     
     mappingClass: 'Extensible.calendar.data.EventMappings',
     
-    mappingIdProperty: 'EventId',
+    mappingIdProperty: 'id',
     
     // Experimental, not currently used:
     // associations: [{

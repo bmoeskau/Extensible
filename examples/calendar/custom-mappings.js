@@ -81,6 +81,9 @@ Ext.onReady(function(){
         calendarStore: calendarStore,
         renderTo: 'cal',
         title: 'Custom Event Mappings',
+        showAgendaView: true,
+        showListView: true,
+        activeItem: 3, // default to month view
         width: 800,
         height: 700
     });

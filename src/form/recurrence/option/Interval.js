@@ -27,16 +27,16 @@ Ext.define('Extensible.form.recurrence.option.Interval', {
     cls: 'extensible-recur-interval',
     
     initComponent: function() {
-        this.addEvents(
-            /**
-             * @event startchange
-             * Fires when the start date of the recurrence series is changed
-             * @param {Extensible.form.recurrence.option.Interval} this
-             * @param {Date} newDate The new start date
-             * @param {Date} oldDate The previous start date
-             */
-            'startchange'
-        );
+        //this.addEvents(
+        //    /**
+        //     * @event startchange
+        //     * Fires when the start date of the recurrence series is changed
+        //     * @param {Extensible.form.recurrence.option.Interval} this
+        //     * @param {Date} newDate The new start date
+        //     * @param {Date} oldDate The previous start date
+        //     */
+        //    'startchange'
+        //);
         this.callParent(arguments);
     },
     

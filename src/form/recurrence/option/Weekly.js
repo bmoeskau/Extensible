@@ -41,7 +41,7 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
      */
     getCheckboxGroupItems: function() {
         var weekdaysId = Extensible.form.recurrence.Parser.byDayNames,
-            weekdaysText = Extensible.form.recurrence.Parser.strings.dayNamesShortByIndex,
+            weekdaysText = Extensible.form.recurrence.Parser.config.strings.dayNamesShortByIndex,
             checkboxArray = [],
             i = this.startDay;
 

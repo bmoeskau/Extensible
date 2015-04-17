@@ -26,6 +26,9 @@ Ext.onReady(function(){
                 items: {
                     // xtype is supported:
                     xtype: 'extensible.calendarpanel',
+                    activeItem: 3, // default to month view
+                    showAgendaView: true,
+                    showListView: true,
                     eventStore: Ext.create('Extensible.calendar.data.MemoryEventStore', {
                         // defined in ../data/Events.js
                         data: Ext.create('Extensible.example.calendar.data.Events')
@@ -36,7 +39,7 @@ Ext.onReady(function(){
         this.calendarWin.show();
     };
     
-    Ext.fly('cal-win').on('click', showWindow, this);
+    Ext.get('cal-win').on('click', showWindow, this);
     
     showWindow();
 });

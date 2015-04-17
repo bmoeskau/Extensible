@@ -5,7 +5,10 @@ Ext.define('Extensible.data.Model', {
     extend: 'Ext.data.Model',
     
     requires: [
-        'Ext.util.MixedCollection'
+        'Ext.util.MixedCollection',
+        'Ext.data.field.Date',
+        'Ext.data.field.Boolean',
+        'Ext.data.field.Field'
     ],
     
     // *Must* be defined by subclasses
@@ -49,11 +52,19 @@ Ext.define('Extensible.data.Model', {
                 }
             }
 
-            proto.fields.clear();
+            proto.fields.length = 0;
             len = fields.length;
-            
+
             for (; i < len; i++) {
-                proto.fields.add(Ext.create('Ext.data.Field', fields[i]));
+                if ('date' == fields[i]['type']) {
+                    proto.fields.push(Ext.create('Ext.data.field.Date', fields[i]));
+                } else if ('boolean' == fields[i]['type']){
+                    proto.fields.push(Ext.create('Ext.data.field.Boolean', fields[i]));
+                } else if ('int' == fields[i]['type']){
+                    proto.fields.push(Ext.create('Ext.data.field.Integer', fields[i]));
+                } else {
+                    proto.fields.push(Ext.create('Ext.data.field.Field', fields[i]));
+                }
             }
             return this;
         }
@@ -74,10 +85,10 @@ Ext.define('Extensible.data.Model', {
      */
     clone: function(preserveId) {
         var copy = Ext.create(this.$className),
-            dataProp = this.persistenceProperty;
-        
+            dataProp = 'data';
+
         copy[dataProp] = Ext.Object.merge({}, this[dataProp]);
-        
+
         if (preserveId !== true) {
             delete copy[dataProp][this.idProperty];
         }

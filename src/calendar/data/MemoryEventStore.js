@@ -28,7 +28,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
         type: 'memory',
         reader: {
             type: 'json',
-            root: 'evts'
+            rootProperty: 'evts'
         },
         writer: {
             type: 'json'
@@ -53,7 +53,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
 
         this.idProperty = this.idProperty || Extensible.calendar.data.EventMappings.EventId.mapping || 'id';
 
-        this.fields = Extensible.calendar.data.EventModel.prototype.fields.getRange();
+        this.fields = Extensible.calendar.data.EventModel.prototype.fields;
 
         // By default this shared example store will monitor its own CRUD events and
         // automatically show a page-level message for each event. This is simply a shortcut
@@ -76,22 +76,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
         }
 
         this.autoMsg = config.autoMsg;
-        this.onCreateRecords = Ext.Function.createInterceptor(this.onCreateRecords, this.interceptCreateRecords);
         this.initRecs();
-    },
-
-    // private - override to make sure that any records added in-memory
-    // still get a unique PK assigned at the data level
-    interceptCreateRecords: function(records, operation, success) {
-        if (success) {
-            var i = 0,
-                rec,
-                len = records.length;
-
-            for (; i < len; i++) {
-                records[i].data[Extensible.calendar.data.EventMappings.EventId.name] = this.idSeed++;
-            }
-        }
     },
 
     // If the store started with preloaded inline data, we have to make sure the records are set up
@@ -108,19 +93,19 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
         var me = this;
 
         if (Extensible.example && Extensible.example.msg) {
-            var success = operation.wasSuccessful(),
-                rec = operation.records[0],
-                title = rec.data[Extensible.calendar.data.EventMappings.Title.name];
+            var records = 'Ext.data.operation.Destroy' == Ext.getClass(operation).getName()? operation.getResultSet().getRecords() : operation.getRecords(),
+                record = records[0],
+                title = record.get(Extensible.calendar.data.EventMappings.Title.mapping) || '(No title)';
 
             switch (operation.action) {
                 case 'create':
-                    Extensible.example.msg('Add', 'Added "' + Ext.value(title, '(No title)') + '"');
+                    Extensible.example.msg('Add', 'Added "' + title + '"');
                     break;
                 case 'update':
-                    Extensible.example.msg('Update', 'Updated "' + Ext.value(title, '(No title)') + '"');
+                    Extensible.example.msg('Update', 'Updated "' + title + '"');
                     break;
                 case 'destroy':
-                    Extensible.example.msg('Delete', 'Deleted "' + Ext.value(title, '(No title)') + '"');
+                    Extensible.example.msg('Delete', 'Deleted "' + title + '"');
                     break;
             }
         }
@@ -152,5 +137,52 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
 
         me.loading = false;
         me.fireEvent('load', me, records, successful);
+    },
+    listeners: {
+        add: {
+            fn: function(store, records) {
+                var record = records[0],
+                    id = this.idSeed++;
+
+                record.phantom = false;
+                record.data[Extensible.calendar.data.EventMappings.EventId.name] = id;
+
+                var operation = Ext.create('Ext.data.operation.Create',{
+                    success: true,
+                    complete: true,
+                    request: Ext.create('Ext.data.Request', { jsonData: record }),
+                    records: [record]
+                });
+
+                store.fireAction('write', [store, operation], function(){});
+            }
+        },
+        update: {
+            fn: function(store, record){
+                var operation = Ext.create('Ext.data.operation.Update',{
+                    success: true,
+                    complete: true,
+                    request: Ext.create('Ext.data.Request', { jsonData: record }),
+                    records: [record]
+                });
+
+                store.fireAction('write', [store, operation], function(){});
+            }
+        },
+        remove: {
+            fn: function(store, records){
+                var record = records[0];
+
+                var operation = Ext.create('Ext.data.operation.Destroy',{
+                    success: true,
+                    complete: true,
+                    request: Ext.create('Ext.data.Request', { jsonData: record }),
+                    _resultSet: Ext.create('Ext.data.ResultSet', { records: [record]})
+                });
+
+                store.fireAction('write', [store, operation], function(){});
+
+            }
+        }
     }
 });

@@ -62,13 +62,13 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
      */
     
     initComponent: function() {
-        this.addEvents(
-            'showcalendar',
-            'hidecalendar',
-            'radiocalendar',
-            'colorchange'
-        );
-        
+        //this.addEvents(
+        //    'showcalendar',
+        //    'hidecalendar',
+        //    'radiocalendar',
+        //    'colorchange'
+        //);
+
         Ext.apply(this, {
             plain: true,
             items: [{
@@ -82,7 +82,7 @@ Ext.define('Extensible.calendar.gadget.CalendarListMenu', {
             }]
         });
         
-        this.addClass('x-calendar-list-menu');
+        this.addCls('x-calendar-list-menu');
         this.callParent(arguments);
     },
     

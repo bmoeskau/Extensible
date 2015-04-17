@@ -108,42 +108,42 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     layout: 'column',
     
     initComponent: function() {
-        
-        this.addEvents({
-            /**
-             * @event eventadd
-             * Fires after a new event is added
-             * @param {Extensible.calendar.form.EventDetails} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was added
-             */
-            eventadd: true,
-            /**
-             * @event eventupdate
-             * Fires after an existing event is updated
-             * @param {Extensible.calendar.form.EventDetails} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was updated
-             */
-            eventupdate: true,
-            /**
-             * @event eventdelete
-             * Fires after an event is deleted
-             * @param {Extensible.calendar.form.EventDetails} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was deleted
-             */
-            eventdelete: true,
-            /**
-             * @event eventcancel
-             * Fires after an event add/edit operation is canceled by the user and no store update took place
-             * @param {Extensible.calendar.form.EventDetails} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was canceled
-             */
-            eventcancel: true
-        });
-                
+
+        //this.addEvents({
+        //    /**
+        //     * @event eventadd
+        //     * Fires after a new event is added
+        //     * @param {Extensible.calendar.form.EventDetails} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+        //     * record} that was added
+        //     */
+        //    eventadd: true,
+        //    /**
+        //     * @event eventupdate
+        //     * Fires after an existing event is updated
+        //     * @param {Extensible.calendar.form.EventDetails} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+        //     * record} that was updated
+        //     */
+        //    eventupdate: true,
+        //    /**
+        //     * @event eventdelete
+        //     * Fires after an event is deleted
+        //     * @param {Extensible.calendar.form.EventDetails} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+        //     * record} that was deleted
+        //     */
+        //    eventdelete: true,
+        //    /**
+        //     * @event eventcancel
+        //     * Fires after an event add/edit operation is canceled by the user and no store update took place
+        //     * @param {Extensible.calendar.form.EventDetails} this
+        //     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+        //     * record} that was canceled
+        //     */
+        //    eventcancel: true
+        //});
+
         this.titleField = Ext.create('Ext.form.field.Text', {
             fieldLabel: this.titleLabelText,
             name: Extensible.calendar.data.EventMappings.Title.name,
@@ -320,7 +320,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             name,
             obj = {};
 
-        fields.each(function(f) {
+        Ext.each(fields, function(f) {
             name = f.name;
             if (name in values) {
                 obj[name] = values[name];

@@ -257,15 +257,15 @@
             $max_date = new DateTime('9999-12-31');
             $recurrence = new When();
             $recurrence->rrule($rrule);
-            
             if (isset($recurrence->end_date) && $recurrence->end_date < $max_date) {
                 // The RRULE includes an explicit end date, so use that
-                $end = $recurrence->end_date->format($date_format).'Z';
+                $recurrence->end_date->setTimezone(new DateTimeZone('UTC'));
+                $end = $recurrence->end_date->format($date_format);
             }
             else if (isset($recurrence->count) && $recurrence->count > 0) {
                 // The RRULE has a limit, so calculate the end date based on the instance count
                 $count = 0;
-                $newEnd;
+                $newEnd = null;
                 $rdates = $recurrence->recur($event[$mappings['start_date']])->rrule($rrule);
                 
                 while ($rdate = $rdates->next()) {
@@ -276,11 +276,14 @@
                 }
                 // The 'minutes' portion should match Extensible.calendar.data.EventModel.resolution:
                 $newEnd->modify('+'.$event[$mappings['duration']].' minutes');
-                $end = $newEnd->format($date_format).'Z';
+                $newEnd->setTimezone(new DateTimeZone('UTC'));
+                $end = $newEnd->format($date_format);
             }
             else {
                 // The RRULE does not specify an end date or count, so default to max date
-                $end = date($date_format, PHP_INT_MAX).'Z';
+                $newEnd = new DateTime();
+                $newEnd->setTimestamp(PHP_INT_MAX);
+                $end = $newEnd->format($date_format);
             }
         }
         return $end;
@@ -428,7 +431,7 @@
      */
     function updateEvent($event) {
         global $db, $mappings, $date_format;
-        
+
         $editMode = $event[$mappings['recur_edit_mode']];
         
         if ($editMode) {

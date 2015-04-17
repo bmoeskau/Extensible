@@ -15,10 +15,6 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
     
     initComponent: function() {
         this.callParent(arguments);
-        
-        this.addEvents({
-            eventsrendered: true
-        });
     },
     
     afterRender: function() {
