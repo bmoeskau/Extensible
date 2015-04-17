@@ -276,13 +276,13 @@ Ext.onReady(function() {
         });
     }
 
-    if (Extensible.form.recurrence.FrequencyCombo) {
+    if (exists('Extensible.form.recurrence.FrequencyCombo')) {
         Ext.apply(Extensible.form.recurrence.FrequencyCombo.prototype, {
             fieldLabel: 'Wiederholen'
         });
     }
 
-    if (Extensible.form.recurrence.RangeEditWindow) {
+    if (exists('Extensible.form.recurrence.RangeEditWindow')) {
         Ext.apply(Extensible.form.recurrence.RangeEditWindow.prototype, {
             title: 'Wiederkehrender Termin',
             saveButtonText: 'Speichern',
@@ -290,7 +290,7 @@ Ext.onReady(function() {
         });
     }
 
-    if (Extensible.form.recurrence.RangeEditPanel) {
+    if (exists('Extensible.form.recurrence.RangeEditPanel')) {
         Ext.apply(Extensible.form.recurrence.RangeEditPanel.prototype, {
             headerText: 'Auf welche Termine dieser Termin-Serie möchten Sie Ihre Änderungen anwenden?',
             optionSingleButtonText: 'Nur diesen',
@@ -302,7 +302,7 @@ Ext.onReady(function() {
         });
     }
 
-    if (Extensible.form.recurrence.option.Interval) {
+    if (exists('Extensible.form.recurrence.option.Interval')) {
         Ext.apply(Extensible.form.recurrence.option.Interval.prototype, {
             dateLabelFormat: 'l, j. F',
             strings: {
@@ -320,7 +320,7 @@ Ext.onReady(function() {
         });
     }
 
-    if (Extensible.form.recurrence.option.Duration) {
+    if (exists('Extensible.form.recurrence.option.Duration')) {
         Ext.apply(Extensible.form.recurrence.option.Duration.prototype, {
             strings: {
                 andContinuing: 'und endet',
@@ -332,7 +332,7 @@ Ext.onReady(function() {
         });
     }
 
-    if (Extensible.form.recurrence.option.Weekly) {
+    if (exists('Extensible.form.recurrence.option.Weekly')) {
         Ext.apply(Extensible.form.recurrence.option.Weekly.prototype, {
             strings: {
                 on: 'am'
@@ -340,7 +340,7 @@ Ext.onReady(function() {
         });
     }
 
-    if (Extensible.form.recurrence.option.Monthly) {
+    if (exists('Extensible.form.recurrence.option.Monthly')) {
         Ext.apply(Extensible.form.recurrence.option.Monthly.prototype, {
             strings: {
                 // E.g. "on the 15th day of each month/year"
