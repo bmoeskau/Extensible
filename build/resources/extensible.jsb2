@@ -39,6 +39,9 @@
             "text": "Month.js",
             "path": "../../src/calendar/template/"
         },{
+            "text": "AgendaBody.js",
+            "path": "../../src/calendar/template/"
+        },{
             "text": "CalendarScrollManager.js",
             "path": "../../src/calendar/dd/"
         },{
@@ -127,6 +130,15 @@
             "path": "../../src/calendar/view/"
         },{
             "text": "MultiWeek.js",
+            "path": "../../src/calendar/view/"
+        },{
+            "text": "AgendaHeader.js",
+            "path": "../../src/calendar/view/"
+        },{
+            "text": "AgendaBody.js",
+            "path": "../../src/calendar/view/"
+        },{
+            "text": "Agenda.js",
             "path": "../../src/calendar/view/"
         },{
             "text": "CalendarPanel.js",

@@ -74,6 +74,8 @@ Ext.onReady(function(){
         }),
         renderTo: 'cal',
         title: 'Doctype Tester',
+        showAgendaView: true,
+        showListView: true,
         activeItem: 1,
         width: 800,
         height: 700
