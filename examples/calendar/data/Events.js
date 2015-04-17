@@ -8,7 +8,7 @@ Ext.define('Extensible.example.calendar.data.Events', {
                 s = (s || 0);
                 return Ext.Date.add(today, Ext.Date.SECOND, d + h + m + s);
             };
-            
+
         return {
             "evts" : [{
                 "id"    : 1001,

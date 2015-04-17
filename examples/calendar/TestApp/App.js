@@ -1,6 +1,6 @@
 Ext.Loader.setConfig({
     enabled: true,
-    //disableCaching: false,
+    disableCaching: false,
     paths: {
         "Extensible": "../../../src",
         "Extensible.example": "../.."
