@@ -40,7 +40,11 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
             // of MemoryEventStore to see how automatic store messaging is implemented.
             autoMsg: false
         });
-        
+
+        // Make the calendar stateful. This is optional. If set, the application will remember hidden
+        // calendars in the calendar list panel.
+        Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+
         // This is the app UI layout code.  All of the calendar views are subcomponents of
         // CalendarPanel, but the app title bar and sidebar/navigation calendar are separate
         // pieces that are composed in app-specific layout code since they could be omitted
