@@ -1564,7 +1564,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         Ext.each(operation.records, function(rec) {
             if (rec.dirty) {
                 if (rec.phantom) {
-                    rec.unjoin(this.eventStore);
+                    this.store.remove(rec);
                 }
                 else {
                     rec.reject();
