@@ -411,12 +411,27 @@ Ext.define('Extensible.calendar.view.DayBody', {
      * implementation http://jsbin.com/detefuveta/5/edit?html,js,output     *
      */
     renderItems: function() {
-        var day = 0,
-            evt,
+        var evts = [];
+
+        evts = this.filterEventsToRender();
+        this.layoutAndRenderItems(evts);
+        this.fireEvent('eventsrendered', this);
+     },
+
+    /**
+     * Filters events and returns a list of events that need to be displayed by the day body view.
+     * For example, all-day events and multi-day events are filtered out because they are not
+     * displayed in the body.
+     * This is a private helper function.
+     * @protected
+     * @returns {Array} An array of events.
+     */
+    filterEventsToRender: function() {
+        var evt,
             evts = [],
             M = Extensible.calendar.data.EventMappings;
 
-        for (; day < this.dayCount; day++) {
+        for (var day = 0; day < this.dayCount; day++) {
             var ev = 0,
                 emptyCells = 0,
                 skipped = 0,
@@ -448,14 +463,25 @@ Ext.define('Extensible.calendar.view.DayBody', {
             }
         }
 
+        return evts;
+    },
+
+    /**
+     * Layout events and render to DOM.
+     * @protected
+     * @param {Array} events An array of events.
+     */
+    layoutAndRenderItems: function(evts) {
         // Layout events
         var i = 0,
             j = 0,
             l = evts.length,
+            evt,
             minEventDuration = (this.minEventDisplayMinutes || 0) * 60 * 1000,
             lastEventEnding = 0,
             columns = [], // virtual columns for placement of the events
-            eventGroups = [];
+            eventGroups = [],
+            M = Extensible.calendar.data.EventMappings;
 
         for(i=0; i<l; i++){
             evt =  evts[i];
@@ -520,18 +546,17 @@ Ext.define('Extensible.calendar.view.DayBody', {
                     evt.data._width = (100 * colSpan / numColumns);
                     evt.data._left = (j / numColumns) * 100;
                     var markup = this.getEventTemplate().apply(evt.data),
-                        target = this.id + '-day-col-' + Ext.Date.format(evt.date, 'Ymd');
+                        target = this.getDayId(evt.date, null, evt.data.CalendarId);
                     Ext.DomHelper.append(target, markup);
                 }
             }
         }
+    },
 
-        this.fireEvent('eventsrendered', this);
-     },
-
-     /**
+    /**
      * Expand events at the far right to use up any remaining space. This implements step 5 in the layout
      * algorithm described here: http://stackoverflow.com/questions/11311410/
+     * @private
      * @param {Object} evt Event to process.
      * @param {int} iColumn Virtual column to where the event will be rendered.
      * @param {Array} columns List of virtual colums for event group. Each column contains a list of events.
