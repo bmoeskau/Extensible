@@ -7,18 +7,18 @@
 Ext.define('Extensible.calendar.view.DayHeader', {
     extend: 'Extensible.calendar.view.Month',
     alias: 'widget.extensible.dayheaderview',
-    
+
     requires: [
         'Extensible.calendar.template.DayHeader'
     ],
-    
+
     // private configs
     weekCount: 1,
     dayCount: 1,
     allDayOnly: true,
     monitorResize: false,
     isHeaderView: true,
-    
+
     // The event is declared in MonthView but we're just overriding the docs:
     /**
      * @event dayclick
@@ -43,7 +43,7 @@ Ext.define('Extensible.calendar.view.DayHeader', {
         }
         this.tpl.compile();
         this.addCls('ext-cal-day-header');
-        
+
         this.callParent(arguments);
     },
 
@@ -58,9 +58,9 @@ Ext.define('Extensible.calendar.view.DayHeader', {
     recalcHeaderBox: function() {
         var tbl = this.el.down('.ext-cal-evt-tbl'),
             h = tbl.getHeight();
-        
+
         this.el.setHeight(h+7);
-        
+
         // These should be auto-height, but since that does not work reliably
         // across browser / doc type, we have to size them manually
         this.el.down('.ext-cal-hd-ad-inner').setHeight(h+5);
@@ -77,21 +77,22 @@ Ext.define('Extensible.calendar.view.DayHeader', {
 
     onClick: function(e, t) {
         var el = e.getTarget('td', 3);
-        
+
         if (el) {
             if (el.id && el.id.indexOf(this.dayElIdDelimiter) > -1) {
                 var parts = el.id.split(this.dayElIdDelimiter),
-                    dt = parts[parts.length-1];
-                    
-                this.onDayClick(Ext.Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt, true)));
+                    dt = parts[parts.length-1],
+                    parsedDate = Ext.Date.parseDate(dt + ' 12:00', 'Ymd G:i')
+
+                this.onDayClick(parsedDate, true, Ext.get(this.getDayId(dt, true)));
                 return;
             }
         }
         this.callParent(arguments);
     },
-    
+
     /**
-     * @protected 
+     * @protected
      */
     isActiveView: function() {
         var calendarPanel = this.ownerCalendarPanel;
