@@ -752,7 +752,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     prepareEventGrid: function(evts, w, d) {
         var me = this,
             row = 0,
-            dt = Ext.Date.clone(me.viewStart),
             maxEventsForDay;
 
         evts.each(function(evt) {
@@ -805,7 +804,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         var w1 = w,
             d1 = d,
             row = this.findEmptyRowIndex(w,d,allday),
-            dt = Ext.Date.clone(this.viewStart);
+            dt = Extensible.Date.add(Ext.Date.clearTime(this.viewStart, true), {hours: 12});
 
         var start = {
             event: evt,

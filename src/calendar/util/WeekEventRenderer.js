@@ -40,7 +40,7 @@ Ext.define('Extensible.calendar.util.WeekEventRenderer', {
         renderEvent: function(event, weekIndex, dayIndex, eventIndex, dayCount, currentDate, renderConfig) {
             var eventMappings = Extensible.calendar.data.EventMappings,
                 eventData = event.data || event.event.data,
-                startOfWeek = Ext.Date.clone(currentDate),
+                startOfWeek = Ext.Date.clearTime(currentDate, true),
                 endOfWeek = Extensible.Date.add(startOfWeek, {days: dayCount - dayIndex, millis: -1}),
                 eventRow = this.getEventRow(renderConfig.viewId, weekIndex, eventIndex),
                 eventEndDate = (event.event || event).getEndDate(),
