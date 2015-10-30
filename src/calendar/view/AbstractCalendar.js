@@ -1296,17 +1296,17 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     setStartDate: function(start, /*private*/reload) {
         var me = this;
 
-        Extensible.log('setStartDate (base) '+Ext.Date.format(start, 'Y-m-d'));
+        var startDate = Extensible.Date.add(Ext.Date.clearTime(start || new Date(), true), {hours: 12});
+        Extensible.log('setStartDate (base) ' + Ext.Date.format(startDate, 'Y-m-d G:i'));
 
         var cloneDt = Ext.Date.clone,
             cloneStartDate = me.startDate ? cloneDt(me.startDate) : null,
-            cloneStart = cloneDt(start),
             cloneViewStart = me.viewStart ? cloneDt(me.viewStart) : null,
             cloneViewEnd = me.viewEnd ? cloneDt(me.viewEnd) : null;
 
-        if (me.fireEvent('beforedatechange', me, cloneStartDate, cloneStart, cloneViewStart, cloneViewEnd) !== false) {
-            me.startDate = Ext.Date.clearTime(start);
-            me.setViewBounds(start);
+        if (me.fireEvent('beforedatechange', me, cloneStartDate, startDate, cloneViewStart, cloneViewEnd) !== false) {
+            me.startDate = startDate;
+            me.setViewBounds(startDate);
 
             if (me.ownerCalendarPanel && me.ownerCalendarPanel.startDate !== me.startDate) {
                 // Sync the owning CalendarPanel's start date directly, not via CalendarPanel.setStartDate(),
@@ -1324,8 +1324,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     setViewBounds: function(startDate) {
         var me = this,
             start = startDate || me.startDate,
-            offset = start.getDay() - me.startDay,
-            Dt = Extensible.Date;
+            offset = start.getDay() - me.startDay;
 
         if (offset < 0) {
             // if the offset is negative then some days will be in the previous week so add a week to the offset
@@ -1335,9 +1334,9 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             case 0:
             case 1:
                 me.viewStart = me.dayCount < 7 && !me.startDayIsStatic ?
-                    start: Dt.add(start, {days: -offset, clearTime: true});
-                me.viewEnd = Dt.add(me.viewStart, {days: me.dayCount || 7, seconds: -1});
-                return;
+                    start: Extensible.Date.add(start, {days: -offset, clearTime: true});
+                me.viewEnd = Extensible.Date.add(me.viewStart, {days: me.dayCount || 7, seconds: -1});
+                break;
 
             case -1:
                 // auto by month
@@ -1347,10 +1346,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                     // if the offset is negative then some days will be in the previous week so add a week to the offset
                     offset += 7;
                 }
-                me.viewStart = Dt.add(start, {days: -offset, clearTime: true});
+                me.viewStart = Extensible.Date.add(start, {days: -offset, clearTime: true});
 
                 // start from current month start, not view start:
-                var end = Dt.add(start, {months: 1, seconds: -1});
+                var end = Extensible.Date.add(start, {months: 1, seconds: -1});
 
                 // fill out to the end of the week:
                 offset = me.startDay;
@@ -1359,13 +1358,15 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                     offset -= 7;
                 }
 
-                me.viewEnd = Dt.add(end, {days: 6 - end.getDay() + offset});
-                return;
+                me.viewEnd = Extensible.Date.add(end, {days: 6 - end.getDay() + offset});
+                break;
 
             default:
-                me.viewStart = Dt.add(start, {days: -offset, clearTime: true});
-                me.viewEnd = Dt.add(me.viewStart, {days: me.weekCount * 7, seconds: -1});
+                me.viewStart = Extensible.Date.add(start, {days: -offset, clearTime: true});
+                me.viewEnd = Extensible.Date.add(me.viewStart, {days: me.weekCount * 7, seconds: -1});
+                break;
         }
+        Extensible.log('Set viewStart=' + me.viewStart + ', viewEnd=' + me.viewEnd);
     },
 
     /**
