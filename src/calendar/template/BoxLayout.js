@@ -7,9 +7,9 @@
  */
 Ext.define('Extensible.calendar.template.BoxLayout', {
     extend: 'Ext.XTemplate',
-    
+
     requires: ['Ext.Date'],
-    
+
     /**
      * @cfg {String} firstWeekDateFormat
      * The date format used for the day boxes in the first week of the view only (subsequent weeks
@@ -42,11 +42,11 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
     multiDayMonthStartFormat: 'M j',
 
     constructor: function(config) {
-        
+
         Ext.apply(this, config);
-    
+
         var weekLinkTpl = this.showWeekLinks ? '<div id="{weekLinkId}" class="ext-cal-week-link">{weekNum}</div>' : '';
-        
+
         Extensible.calendar.template.BoxLayout.superclass.constructor.call(this,
             '<tpl for="weeks">',
                 '<div id="{[this.id]}-wk-{[xindex-1]}" class="ext-cal-wk-ct" style="top:{[this.getRowTop(xindex, xcount)]}%; height:{[this.getRowHeight(xcount)]}%;">',
@@ -82,9 +82,9 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
     },
 
     applyTemplate: function(o) {
-        
+
         Ext.apply(this, o);
-        
+
         var w = 0,
             title = '',
             first = true,
@@ -98,65 +98,64 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
             nextMonthCls = o.nextMonthCls,
             todayCls = o.todayCls,
             weeks = [[]],
-            today = Extensible.Date.today(),
-            dt = Ext.Date.clone(this.viewStart),
+            dt = Extensible.Date.add(Ext.Date.clearTime(this.viewStart, true), {hours: 12}),
             thisMonth = this.startDate.getMonth();
-        
+
         for (; w < this.weekCount || this.weekCount === -1; w++) {
-            if(dt > this.viewEnd) {
+            if (dt > this.viewEnd) {
                 break;
             }
             weeks[w] = [];
-            
+
             for (var d = 0; d < this.dayCount; d++) {
-                isToday = dt.getTime() === today.getTime();
+                isToday = Extensible.Date.isToday(dt);
                 showMonth = first || (dt.getDate() === 1);
                 prevMonth = (dt.getMonth() < thisMonth) && this.weekCount === -1;
                 nextMonth = (dt.getMonth() > thisMonth) && this.weekCount === -1;
                 isWeekend = dt.getDay() % 6 === 0;
-                
-                if(dt.getDay() === 1) {
+
+                if (dt.getDay() === 1) {
                     // The ISO week format 'W' is relative to a Monday week start. If we
                     // make this check on Sunday the week number will be off.
                     weeks[w].weekNum = this.showWeekNumbers ? Ext.Date.format(dt, 'W') : '&#160;';
                     weeks[w].weekLinkId = 'ext-cal-week-'+Ext.Date.format(dt, 'Ymd');
                 }
-                
-                if(showMonth) {
-                    if(isToday) {
+
+                if (showMonth) {
+                    if (isToday) {
                         title = this.getTodayText();
                     }
-                    else{
+                    else {
                         title = Ext.Date.format(dt, this.dayCount === 1 ? this.singleDayDateFormat :
                                 (first ? this.multiDayFirstDayFormat : this.multiDayMonthStartFormat));
                     }
                 }
-                else{
+                else {
                     var dayFmt = (w === 0 && this.showHeader !== true) ? this.firstWeekDateFormat : this.otherWeeksDateFormat;
                     title = isToday ? this.getTodayText() : Ext.Date.format(dt, dayFmt);
                 }
-                
+
                 weeks[w].push({
                     title: title,
                     date: Ext.Date.clone(dt),
-                    
+
                     titleCls: 'ext-cal-dtitle ' + (isToday ? ' ext-cal-dtitle-today' : '') +
                         (w === 0 ? ' ext-cal-dtitle-first' : '') +
                         (prevMonth ? ' ext-cal-dtitle-prev' : '') +
                         (nextMonth ? ' ext-cal-dtitle-next' : ''),
-                    
+
                     cellCls: 'ext-cal-day ' + (isToday ? ' ' + todayCls : '') +
                         (d === 0 ? ' ext-cal-day-first' : '') +
                         (prevMonth ? ' ' + prevMonthCls : '') +
                         (nextMonth ? ' ' + nextMonthCls : '') +
                         (isWeekend && weekendCls ? ' ' + weekendCls : '')
                 });
-                
+
                 dt = Extensible.Date.add(dt, {days: 1});
                 first = false;
             }
         }
-        
+
         if (Ext.getVersion('extjs').isLessThan('4.1')) {
             return Extensible.calendar.template.BoxLayout.superclass.applyTemplate.call(this, {
                 weeks: weeks
@@ -176,8 +175,8 @@ Ext.define('Extensible.calendar.template.BoxLayout', {
                 '-clock" class="ext-cal-dtitle-time" aria-live="off">' +
                 Ext.Date.format(new Date(), timeFmt) + '</span>' : '',
             separator = todayText.length > 0 || timeText.length > 0 ? ' &#8212; ' : ''; // &#8212; == &mdash;
-        
-        if(this.dayCount === 1) {
+
+        if (this.dayCount === 1) {
             return Ext.Date.format(new Date(), this.singleDayDateFormat) + separator + todayText + timeText;
         }
         var fmt = this.weekCount === 1 ? this.firstWeekDateFormat : this.otherWeeksDateFormat;
