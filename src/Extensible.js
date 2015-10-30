@@ -255,24 +255,25 @@ Ext.define('Extensible', {
         isMidnight: function(dt) {
             return dt.getHours() === 0 && dt.getMinutes() === 0;
         },
-        
+
         /**
          * Returns true if the specified date is the current browser-local date, else false.
          * @param {Object} dt The date to test
          * @return {Boolean} True if the date is today, else false
          */
         isToday: function(dt) {
+            dt = this.add(Ext.Date.clearTime(dt, true), {hours: 12});
             return this.diffDays(dt, this.today()) === 0;
         },
-        
+
         /**
          * Convenience method to get the current browser-local date with no time value.
-         * @return {Date} The current date, with time 00:00
+         * @return {Date} The current date, with time 12:00
          */
         today: function() {
-            return Ext.Date.clearTime(new Date());
+            return this.add(Ext.Date.clearTime(new Date()), {hours: 12});
         },
-        
+
         /**
          * Add time to the specified date and returns a new Date instance as the result (does not
          * alter the original date object). Time can be specified in any combination of milliseconds
