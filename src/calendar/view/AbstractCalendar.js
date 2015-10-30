@@ -705,8 +705,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             w = 0,
             d = 0,
             row = 0,
-            currentDt = Ext.Date.clone(this.viewStart),
+            currentDt = Extensible.Date.add(Ext.Date.clearTime(this.viewStart, true), {hours: 12}),
             weeks = this.weekCount < 1 ? 6 : this.weekCount;
+
+        lastInMonth = Extensible.Date.add(Ext.Date.clearTime(lastInMonth), {hours: 12})
 
         this.eventGrid = [[]];
         this.allDayGrid = [[]];
@@ -716,11 +718,11 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             return this.isEventVisible(rec.data);
         }, this);
 
-        var filterFn = function(rec) {
+        var evtsInDay = function(rec) {
             var EventMappings = Extensible.calendar.data.EventMappings,
-                startDt = Ext.Date.clearTime(rec.data[EventMappings.StartDate.name], true),
-                startsOnDate = currentDt.getTime() === startDt.getTime(),
-                spansFromPrevView = (w === 0 && d === 0 && (currentDt > rec.data[EventMappings.StartDate.name]));
+                startDt = Extensible.Date.add(Ext.Date.clearTime(rec.data[EventMappings.StartDate.name], true), {hours: 12}),
+                startsOnDate = Extensible.Date.diffDays(currentDt, startDt) === 0,
+                spansFromPrevView = (w === 0 && d === 0 && (currentDt > startDt));
 
             return startsOnDate || spansFromPrevView;
         };
@@ -737,8 +739,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
             for (d = 0; d < this.dayCount; d++) {
                 if (evtsInView.getCount() > 0) {
-                    var evts = evtsInView.filterBy(filterFn, this);
-
+                    var evts = evtsInView.filterBy(evtsInDay, this);
                     this.sortEventRecordsForDay(evts);
                     this.prepareEventGrid(evts, w, d);
                 }
