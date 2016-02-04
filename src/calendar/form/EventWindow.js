@@ -292,7 +292,6 @@ Ext.define('Extensible.calendar.form.EventWindow', {
         me.deleteButton[o.data && o.data[EventMappings.EventId.name] ? 'show' : 'hide']();
 
         if (o.data) {
-            console.log(o.data);
             rec = o;
             me.setTitle(rec.phantom ? me.titleTextAdd : me.titleTextEdit);
             form.loadRecord(rec);
