@@ -9,7 +9,7 @@ Ext.define('Extensible', {
      * The version of the Extensible framework
      * @type String
      */
-    version: '1.6.0-rc.1',
+    version: '1.6.0-rc.2',
     /**
      * The version of the framework, broken out into its numeric parts. This returns an
      * object that contains the following integer properties: major, minor and patch.
@@ -76,6 +76,29 @@ Ext.define('Extensible', {
          * @property use24HourTime
          */
         use24HourTime: false,
+
+        /**
+         * Calculate the `Date.timezoneOffset()` difference between two dates.
+         *
+         * @param {Date} date1 The first date
+         * @param {Date} date2 The second date
+         * @param {String} unit (optional) The time unit to return. Valid values are 'minutes'
+         * (the default), 'seconds' or 'millis'.
+         * @return {Number} The time difference between the timezoneOffset values in the units
+         * specified by the unit param.
+         * @since 1.6.0
+         */
+        diffTimezones: function(date1, date2, unit) {
+            var diff = date1.getTimezoneOffset() - date2.getTimezoneOffset(); // minutes
+
+            if (unit === 's' || unit === 'seconds') {
+                return diff * 60;
+            }
+            else if (unit === 'ms' || unit === 'millis') {
+                return diff * 60 * 1000;
+            }
+            return diff;
+        },
 
         /**
          * Returns the time duration between two dates in the specified units. For finding the number of
