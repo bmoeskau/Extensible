@@ -4,14 +4,14 @@
 Ext.define('Extensible.form.field.DateRange', {
     extend: 'Ext.form.FieldContainer',
     alias: 'widget.extensible.daterangefield',
-    
+
     requires: [
         'Ext.form.field.Date',
         'Ext.form.field.Time',
         'Ext.form.Label',
         'Ext.form.field.Checkbox'
     ],
-    
+
     /**
      * @cfg {String} toText
      * The text to display in between the date/time fields (defaults to 'to')
@@ -51,7 +51,7 @@ Ext.define('Extensible.form.field.DateRange', {
         type: 'hbox',
         defaultMargins: { top: 0, right: 5, bottom: 0, left: 0 }
     },
-    
+
     initComponent: function() {
         var me = this;
         /**
@@ -61,9 +61,9 @@ Ext.define('Extensible.form.field.DateRange', {
          * or 'G:i' for 24-hour time (e.g., 13:30). This can also be overridden by a static format string if desired.
          */
         me.timeFormat = me.timeFormat || (Extensible.Date.use24HourTime ? 'G:i' : 'g:i A');
-        
+
         me.addCls('ext-dt-range');
-        
+
         if (me.singleLine) {
             me.layout = me.fieldLayout;
             me.items = me.getFieldConfigs();
@@ -87,11 +87,11 @@ Ext.define('Extensible.form.field.DateRange', {
                 ]
             }];
         }
-        
+
         me.callParent(arguments);
         me.initRefs();
     },
-    
+
     initRefs: function() {
         var me = this;
         me.startDate = me.down('#' + me.id + '-start-date');
@@ -101,7 +101,7 @@ Ext.define('Extensible.form.field.DateRange', {
         me.allDay = me.down('#' + me.id + '-allday');
         me.toLabel = me.down('#' + me.id + '-to-label');
     },
-    
+
     getFieldConfigs: function() {
         var me = this;
         return [
@@ -113,7 +113,7 @@ Ext.define('Extensible.form.field.DateRange', {
             me.getAllDayConfig()
         ];
     },
-    
+
     getLayoutItems: function(singleLine) {
         var me = this;
         return singleLine ? me.items.items : [[
@@ -122,7 +122,7 @@ Ext.define('Extensible.form.field.DateRange', {
             me.endDate, me.endTime, me.allDay
         ]];
     },
-    
+
     getStartDateConfig: function() {
         return {
             xtype: 'datefield',
@@ -140,7 +140,7 @@ Ext.define('Extensible.form.field.DateRange', {
             }
         };
     },
-    
+
     getStartTimeConfig: function() {
         return {
             xtype: 'timefield',
@@ -160,7 +160,7 @@ Ext.define('Extensible.form.field.DateRange', {
             }
         };
     },
-    
+
     getEndDateConfig: function() {
         return {
             xtype: 'datefield',
@@ -179,7 +179,7 @@ Ext.define('Extensible.form.field.DateRange', {
             }
         };
     },
-    
+
     getEndTimeConfig: function() {
         return {
             xtype: 'timefield',
@@ -199,7 +199,7 @@ Ext.define('Extensible.form.field.DateRange', {
             }
         };
     },
-    
+
     getAllDayConfig: function() {
         return {
             xtype: 'checkbox',
@@ -211,12 +211,12 @@ Ext.define('Extensible.form.field.DateRange', {
             scope: this
         };
     },
-    
+
     onAllDayChange: function(chk, checked) {
         this.startTime.setVisible(!checked);
         this.endTime.setVisible(!checked);
     },
-    
+
     getDateSeparatorConfig: function() {
         return {
             xtype: 'label',
@@ -225,22 +225,22 @@ Ext.define('Extensible.form.field.DateRange', {
             margins: { top: 4, right: 5, bottom: 0, left: 0 }
         };
     },
-    
+
     isSingleLine: function() {
         var me = this;
-        
+
         if (me.calculatedSingleLine === undefined) {
             if(me.singleLine === 'auto') {
                 var ownerCtEl = me.ownerCt.getEl(),
                     w = me.ownerCt.getWidth() - ownerCtEl.getPadding('lr'),
                     el = ownerCtEl.down('.x-panel-body');
-                    
+
                 if(el) {
                     w -= el.getPadding('lr');
                 }
-                
+
                 el = ownerCtEl.down('.x-form-item-label');
-                
+
                 if(el) {
                     w -= el.getWidth() - el.getPadding('lr');
                 }
@@ -252,12 +252,12 @@ Ext.define('Extensible.form.field.DateRange', {
         }
         return me.calculatedSingleLine;
     },
-    
+
     onFieldChange: function(type, startend) {
         this.checkDates(type, startend);
         this.fireEvent('change', this, this.getValue());
     },
-        
+
     checkDates: function(type, startend) {
         var me = this,
             typeCap = type === 'date' ? 'Date' : 'Time',
@@ -278,10 +278,10 @@ Ext.define('Extensible.form.field.DateRange', {
             me.checkDates('time', startend);
         }
     },
-    
+
     /**
      * Returns an array containing the following values in order:
-     * 
+     *
      *	* **<tt>DateTime</tt>**
      *		* The start date/time
      *	* **<tt>DateTime</tt>**
@@ -297,33 +297,32 @@ Ext.define('Extensible.form.field.DateRange', {
             this.allDay.getValue()
         ];
     },
-    
+
     // getValue helper
     getDT: function(startend) {
         var time = this[startend+'Time'].getValue(),
             dt = this[startend+'Date'].getValue();
-            
-        if(Ext.isDate(dt)) {
+
+        if (Ext.isDate(dt)) {
             dt = Ext.Date.format(dt, this[startend + 'Date'].format);
         }
         else{
             return null;
         }
-        
-        if(time && time !== '') {
+
+        if (time && time !== '') {
             time = Ext.Date.format(time, this[startend+'Time'].format);
-            var val = Ext.Date.parseDate(dt + ' ' + time, this[startend+'Date'].format + ' ' + this[startend+'Time'].format);
-            return val;
-            //return Ext.Date.parseDate(dt+' '+time, this[startend+'Date'].format+' '+this[startend+'Time'].format);
+            var dateTimeFormat = this[startend+'Date'].format + ' ' + this[startend+'Time'].format;
+            return Ext.Date.parseDate(dt + ' ' + time, dateTimeFormat);
         }
-        return Ext.Date.parseDate(dt, this[startend+'Date'].format);
-        
+        // If no time is specified use 12:00 as the default to avoid DST boundary issues
+        return Ext.Date.parseDate(dt + ' 12:00', this[startend+'Date'].format + ' G:i');
     },
-    
+
     /**
      * Sets the values to use in the date range.
      * @param {Array/Date/Object} v The value(s) to set into the field. Valid types are as follows:
-     * 
+     *
      *	* **<tt>Array</tt>**
      *		* An array containing, in order, a start date, end date, and all-day flag. This array should exactly match the return type as specified by {@link #getValue}.
      *	* **<tt>DateTime</tt>**
@@ -338,7 +337,7 @@ Ext.define('Extensible.form.field.DateRange', {
         var me = this,
             eventMappings = Extensible.calendar.data.EventMappings,
             startDateName = eventMappings.StartDate.name;
-            
+
         if(Ext.isArray(v)) {
             me.setDT(v[0], 'start');
             me.setDT(v[1], 'end');
@@ -357,7 +356,7 @@ Ext.define('Extensible.form.field.DateRange', {
             me.allDay.setValue(!!v[eventMappings.IsAllDay.name]);
         }
     },
-    
+
     // setValue helper
     setDT: function(dt, startend) {
         if(dt && Ext.isDate(dt)) {
@@ -366,9 +365,9 @@ Ext.define('Extensible.form.field.DateRange', {
             return true;
         }
     },
-    
+
     /**
-     * @protected 
+     * @protected
      */
     isDirty: function() {
         var dirty = false;
@@ -382,14 +381,14 @@ Ext.define('Extensible.form.field.DateRange', {
         }
         return dirty;
     },
-    
+
     /**
-     * @protected 
+     * @protected
      */
     reset: function() {
         this.delegateFn('reset');
     },
-    
+
     delegateFn: function(fn) {
         this.items.each(function(item) {
             if (item[fn]) {
@@ -397,12 +396,12 @@ Ext.define('Extensible.form.field.DateRange', {
             }
         });
     },
-    
+
     beforeDestroy: function() {
         Ext.destroy(this.fieldCt);
         this.callParent(arguments);
     },
-    
+
     /**
      * @method getRawValue
      * @hide

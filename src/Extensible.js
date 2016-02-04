@@ -2,14 +2,14 @@
  * Extensible core utilities and functions.
  */
 Ext.define('Extensible', {
-    
+
     singleton: true,
-    
+
     /**
      * The version of the Extensible framework
      * @type String
      */
-    version: '1.6.0-rc.1',
+    version: '1.6.0-rc.2',
     /**
      * The version of the framework, broken out into its numeric parts. This returns an
      * object that contains the following integer properties: major, minor and patch.
@@ -30,7 +30,7 @@ Ext.define('Extensible', {
     hasBorderRadius: Ext.supports.CSS3BorderRadius,
 
     log: function(s) {
-        //console.log(s);
+        // console.log(s);
     },
 
     getScrollWidth: function() {
@@ -76,7 +76,30 @@ Ext.define('Extensible', {
          * @property use24HourTime
          */
         use24HourTime: false,
-        
+
+        /**
+         * Calculate the `Date.timezoneOffset()` difference between two dates.
+         *
+         * @param {Date} date1 The first date
+         * @param {Date} date2 The second date
+         * @param {String} unit (optional) The time unit to return. Valid values are 'minutes'
+         * (the default), 'seconds' or 'millis'.
+         * @return {Number} The time difference between the timezoneOffset values in the units
+         * specified by the unit param.
+         * @since 1.6.0
+         */
+        diffTimezones: function(date1, date2, unit) {
+            var diff = date1.getTimezoneOffset() - date2.getTimezoneOffset(); // minutes
+
+            if (unit === 's' || unit === 'seconds') {
+                return diff * 60;
+            }
+            else if (unit === 'ms' || unit === 'millis') {
+                return diff * 60 * 1000;
+            }
+            return diff;
+        },
+
         /**
          * Returns the time duration between two dates in the specified units. For finding the number of
          * calendar days (ignoring time) between two dates use {@link Extensible.Date.diffDays diffDays} instead.
@@ -90,7 +113,7 @@ Ext.define('Extensible', {
         diff: function(start, end, unit) {
             var denom = 1,
                 diff = end.getTime() - start.getTime();
-            
+
             if (unit === 's' || unit === 'seconds') {
                 denom = 1000;
             }
@@ -102,18 +125,18 @@ Ext.define('Extensible', {
             }
             return Math.round(diff / denom);
         },
-        
+
         /**
          * Calculates the number of calendar days between two dates, ignoring time values.
          * A time span that starts at 11pm (23:00) on Monday and ends at 1am (01:00) on Wednesday is
          * only 26 total hours, but it spans 3 calendar days, so this function would return 2. For the
          * exact time difference, use {@link Extensible.Date.diff diff} instead.
-         * 
+         *
          * NOTE that the dates passed into this function are expected to be in local time matching the
          * system timezone. This does not work with timezone-relative or UTC dates as the exact date
          * boundaries can shift with timezone shifts, affecting the output. If you need precise control
          * over the difference, use {@link Extensible.Date.diff diff} instead.
-         * 
+         *
          * @param {Date} start The start date
          * @param {Date} end The end date
          * @return {Number} The number of calendar days difference between the dates
@@ -125,10 +148,10 @@ Ext.define('Extensible', {
                 timezoneOffset = (start.getTimezoneOffset() - end.getTimezoneOffset()) * 60 * 1000,
                 diff = clear(end, true).getTime() - clear(start, true).getTime() + timezoneOffset,
                 days = Math.round(diff / day);
-            
+
             return days;
         },
-        
+
         /**
          * Copies the time value from one date object into another without altering the target's
          * date value. This function returns a new Date instance without modifying either original value.
@@ -138,16 +161,16 @@ Ext.define('Extensible', {
          */
         copyTime: function(fromDt, toDt) {
             var dt = Ext.Date.clone(toDt);
-            
+
             dt.setHours(
                 fromDt.getHours(),
                 fromDt.getMinutes(),
                 fromDt.getSeconds(),
                 fromDt.getMilliseconds());
-            
+
             return dt;
         },
-        
+
         /**
          * Compares two dates and returns a value indicating how they relate to each other.
          * @param {Date} dt1 The first date
@@ -160,7 +183,7 @@ Ext.define('Extensible', {
          */
         compare: function(dt1, dt2, precise) {
             var d1 = dt1, d2 = dt2;
-            
+
             if (precise !== true) {
                 d1 = Ext.Date.clone(dt1);
                 d1.setMilliseconds(0);
@@ -176,13 +199,13 @@ Ext.define('Extensible', {
                 i = 0,
                 args = arguments[1],
                 ln = args.length;
-            
+
             for (; i < ln; i++) {
                 dt = Math[max ? 'max': 'min'](dt, args[i].getTime());
             }
             return new Date(dt);
         },
-        
+
         /**
          * Returns the maximum date value passed into the function. Any number of date
          * objects can be passed as separate params.
@@ -194,7 +217,7 @@ Ext.define('Extensible', {
 		max: function() {
             return this.maxOrMin.apply(this, [true, arguments]);
         },
-        
+
         /**
          * Returns the minimum date value passed into the function. Any number of date
          * objects can be passed as separate params.
@@ -206,11 +229,11 @@ Ext.define('Extensible', {
 		min: function() {
             return this.maxOrMin.apply(this, [false, arguments]);
         },
-        
+
         isInRange: function(dt, rangeStart, rangeEnd) {
             return  (dt >= rangeStart && dt <= rangeEnd);
         },
-        
+
         /**
          * Returns true if two date ranges overlap (either one starts or ends within the other, or one completely
          * overlaps the start and end of the other), else false if they do not.
@@ -224,10 +247,10 @@ Ext.define('Extensible', {
             var startsInRange = (start1 >= start2 && start1 <= end2),
                 endsInRange = (end1 >= start2 && end1 <= end2),
                 spansRange = (start1 <= start2 && end1 >= end2);
-            
+
             return (startsInRange || endsInRange || spansRange);
         },
-        
+
         /**
          * Returns true if the specified date is a Saturday or Sunday, else false.
          * @param {Date} dt The date to test
@@ -236,7 +259,7 @@ Ext.define('Extensible', {
         isWeekend: function(dt) {
             return dt.getDay() % 6 === 0;
         },
-        
+
         /**
          * Returns true if the specified date falls on a Monday through Friday, else false.
          * @param {Date} dt The date to test
@@ -245,7 +268,7 @@ Ext.define('Extensible', {
         isWeekday: function(dt) {
             return dt.getDay() % 6 !== 0;
         },
-        
+
         /**
          * Returns true if the specified date's time component equals 00:00, ignoring
          * seconds and milliseconds.
@@ -255,24 +278,25 @@ Ext.define('Extensible', {
         isMidnight: function(dt) {
             return dt.getHours() === 0 && dt.getMinutes() === 0;
         },
-        
+
         /**
          * Returns true if the specified date is the current browser-local date, else false.
          * @param {Object} dt The date to test
          * @return {Boolean} True if the date is today, else false
          */
         isToday: function(dt) {
+            dt = this.add(Ext.Date.clearTime(dt, true), {hours: 12});
             return this.diffDays(dt, this.today()) === 0;
         },
-        
+
         /**
          * Convenience method to get the current browser-local date with no time value.
-         * @return {Date} The current date, with time 00:00
+         * @return {Date} The current date, with time 12:00
          */
         today: function() {
-            return Ext.Date.clearTime(new Date());
+            return this.add(Ext.Date.clearTime(new Date()), {hours: 12});
         },
-        
+
         /**
          * Add time to the specified date and returns a new Date instance as the result (does not
          * alter the original date object). Time can be specified in any combination of milliseconds
@@ -288,7 +312,7 @@ Ext.define('Extensible', {
          *			minutes: 30,
          *			clearTime: true
          *		});
-         * 
+         *
          * @param {Date} dt The starting date to which to add time
          * @param {Object} o A config object that can contain one or more of the following
          * properties, each with an integer value:
@@ -301,7 +325,7 @@ Ext.define('Extensible', {
          *	* weeks
          *	* months
          *	* years
-         * 
+         *
          * You can also optionally include the property "clearTime: true" which will perform all of the
          * date addition first, then clear the time value of the final date before returning it.
          * @return {Date} A new date instance containing the resulting date/time value
@@ -313,7 +337,7 @@ Ext.define('Extensible', {
             var ExtDate = Ext.Date,
                 dateAdd = ExtDate.add,
                 newDt = ExtDate.clone(dt);
-            
+
             if (o.years) {
                 newDt = dateAdd(newDt, ExtDate.YEAR, o.years);
             }
@@ -338,10 +362,10 @@ Ext.define('Extensible', {
             if (o.millis) {
                 newDt = dateAdd(newDt, ExtDate.MILLI, o.millis);
             }
-             
+
             return o.clearTime ? ExtDate.clearTime(newDt): newDt;
         },
-        
+
         clearTime: function(dt, clone) {
             return Ext.Date.clearTime(dt, clone);
         }
@@ -363,7 +387,7 @@ Ext.require([
 Extensible.applyOverrides = function() {
 
     var extVersion = Ext.getVersion('extjs');
-    
+
     // This was fixed in Ext 4.0.5:
     if (Ext.layout.container.AbstractCard) {
         Ext.layout.container.AbstractCard.override({
@@ -376,13 +400,13 @@ Extensible.applyOverrides = function() {
             }
         });
     }
-    
+
     // This was fixed in Ext 4.0.4?
     Ext.Component.override({
         getId: function() {
             var me = this,
                 xtype;
-            
+
             if (!me.id) {
                 xtype = me.getXType();
                 xtype = xtype ? xtype.replace(/[\.,\s]/g, '-'): 'ext-comp';
@@ -391,7 +415,7 @@ Extensible.applyOverrides = function() {
             return me.id;
         }
     });
-    
+
     if (Ext.picker && Ext.picker.Color) {
         Ext.picker.Color.override({
             constructor: function() {
@@ -399,12 +423,12 @@ Extensible.applyOverrides = function() {
                 this.renderTpl = this.renderTpl || Ext.create('Ext.XTemplate', '<tpl for="colors"><a href="#" ' +
                     'class="color-{.}" hidefocus="on"><em><span style="background:#{.}" ' +
                     'unselectable="on">&#160;</span></em></a></tpl>');
-    
+
                 this.callParent(arguments);
             }
         });
     }
-    
+
     if (extVersion.isLessThan('4.1')) {
         if (Ext.data && Ext.data.reader && Ext.data.reader.Reader) {
             Ext.data.reader.Reader.override({
@@ -416,37 +440,37 @@ Extensible.applyOverrides = function() {
                         i       = 0,
                         length  = root.length,
                         node, id, record;
-                        
+
                     if (!root.length && Ext.isObject(root)) {
                         root = [root];
                         length = 1;
                     }
-            
+
                     for (; i < length; i++) {
                         node   = root[i];
                         values = me.extractValues(node);
-                        
+
                         // Assuming that the idProperty is intended to use the id mapping, if
                         // available, getId() should read from the mapped values not the raw values.
                         // Using the non-mapped id causes updates later to silently fail since
                         // the updated data is replaced by id.
                         //id = me.getId(node);
                         id = me.getId(values);
-                        
+
                         record = new Model(values, id, node);
                         records.push(record);
-                            
+
                         if (me.implicitIncludes) {
                             me.readAssociated(record, node);
                         }
                     }
-            
+
                     return records;
                 }
             });
         }
     }
-    
+
     if (Ext.form && Ext.form.Basic) {
         Ext.form.Basic.override({
             reset: function() {
@@ -490,7 +514,7 @@ Extensible.applyOverrides = function() {
             }
         });
     }
-    
+
     // In Ext 4.0.x, CheckboxGroup's resetOriginalValue uses a defer hack that was removed
     // in 4.1. Unfortunately that defer hack causes a runtime error in certain situations
     // and is not really needed, so we'll replace any 4.0.x version with the new fixed version.
@@ -498,7 +522,7 @@ Extensible.applyOverrides = function() {
         Ext.form.CheckboxGroup.override({
             resetOriginalValue: function() {
                 var me = this;
-                
+
                 me.eachBox(function(box) {
                     box.resetOriginalValue();
                 });

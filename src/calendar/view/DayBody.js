@@ -222,7 +222,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
 
         updateData[startDateName] = data[startDateName];
         updateData[endDateName] = data[endDateName];
-        
+
         if (EventMappings.Duration) {
             updateData[EventMappings.Duration.name] = Extensible.Date.diff(data[startDateName], data[endDateName],
                 Extensible.calendar.data.EventModel.resolution);
@@ -237,7 +237,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     /**
-     * @protected 
+     * @protected
      */
     getEventBodyMarkup: function() {
         if(!this.eventBodyMarkup) {
@@ -260,7 +260,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     /**
-     * @protected 
+     * @protected
      */
     getEventTemplate: function() {
         if(!this.eventTpl) {
@@ -297,7 +297,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
      * {@link Extensible.calendar.data.EventModel}) to populate the calendar views with **all-day** events.
      * Internally this method by default generates different markup for browsers that support CSS border radius
      * and those that don't. This method can be overridden as needed to customize the markup generated.
-     * 
+     *
      * Note that this method calls {@link #getEventBodyMarkup} to retrieve the body markup for events separately
      * from the surrounding container markup.  This provdes the flexibility to customize what's in the body without
      * having to override the entire XTemplate. If you do override this method, you should make sure that your
@@ -409,7 +409,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         var day = 0,
             evt,
             evts = [];
-        
+
         for (; day < this.dayCount; day++) {
             var ev = 0,
                 emptyCells = 0,
@@ -451,7 +451,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             prevDt,
             evt2,
             dt;
-        
+
         for (; i<l; i++) {
             evt = evts[i].data;
             evt2 = null;
@@ -489,7 +489,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
             }
             var markup = this.getEventTemplate().apply(evt),
                 target = this.id + '-day-col-' + Ext.Date.format(evts[i].date, 'Ymd');
-            
+
             Ext.DomHelper.append(target, markup);
         }
 
@@ -558,8 +558,10 @@ Ext.define('Extensible.calendar.view.DayBody', {
         var el = e.getTarget('td', 3);
         if(el) {
             if(el.id && el.id.indexOf(this.dayElIdDelimiter) > -1) {
-                var dt = this.getDateFromId(el.id, this.dayElIdDelimiter);
-                this.onDayClick(Ext.Date.parseDate(dt, 'Ymd'), true, Ext.get(this.getDayId(dt)));
+                var dt = this.getDateFromId(el.id, this.dayElIdDelimiter),
+                    parsedDate = Ext.Date.parseDate(dt + ' 12:00', 'Ymd G:i');
+
+                this.onDayClick(parsedDate, true, Ext.get(this.getDayId(dt)));
                 return;
             }
         }
@@ -570,7 +572,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
     },
 
     /**
-     * @protected 
+     * @protected
      */
     isActiveView: function() {
         var calendarPanel = this.ownerCalendarPanel;

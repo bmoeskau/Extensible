@@ -9,14 +9,14 @@
  *
  * Reference documentation is at [http://www.ietf.org/rfc/rfc2445.txt][2],
  * although a more practical guide can be found at [http://www.kanzaki.com/docs/ical/rrule.html][3].
- * 
+ *
  * Authored by [Gabriel Sidler][4]
- * 
+ *
  * [1]: https://github.com/skyporter/rrule_parser
  * [2]: http://www.ietf.org/rfc/rfc2445.txt
  * [3]: http://www.kanzaki.com/docs/ical/rrule.html
  * [4]: http://teamup.com
- * 
+ *
  * @author Gabriel Sidler
  */
 Ext.define('Extensible.form.recurrence.Rule', {
@@ -142,7 +142,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
                 FR: 'Friday',
                 SA: 'Saturday'
             },
-            
+
             ordinals: {
                 1: 'first',
                 2: 'second',
@@ -151,7 +151,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
                 5: 'fifth',
                 6: 'sixth'
             },
-            
+
             frequency: {
                 none: 'Does not repeat',
                 daily: 'Daily',
@@ -160,7 +160,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
                 monthly: 'Monthly',
                 yearly: 'Yearly'
             },
-            
+
             every: 'Every',       // e.g. Every 2 days
             days: 'days',
             weeks: 'weeks',
@@ -185,7 +185,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             monthDayFormat: 'F j' // e.g. November 10
         }
     },
-    
+
     /**
      * @private
      * @property byDayNames
@@ -194,7 +194,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * the RRULE strings and should not be modified (they are not used for localization purposes).
      */
     byDayNames: [ "SU", "MO", "TU", "WE", "TH", "FR", "SA" ],
-    
+
     /**
      * @private
      */
@@ -228,7 +228,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
     applyStartDate: function(dt) {
         this.startDate = new Date(dt);
     },
-    
+
     /**
      * @private
      */
@@ -245,7 +245,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
         this.until = null;
         this.count = count;
     },
-    
+
     /**
      * @private
      * Transforms the string value of the UNTIL attribute to a Date object if needed.
@@ -264,22 +264,26 @@ Ext.define('Extensible.form.recurrence.Rule', {
             this.until = this.parseDate(until);
         }
     },
-    
+
     /**
      * Parses a date string in {@link #dateValueFormat iCal format} and returns a Date object if possible. This
      * method is the inverse of {@link #formatDate}.
      * @param {String} dateString A date string in {@link #dateValueFormat iCal format}
      * @param {Object} options An optional options object. This can contain:
      *
-     *	A String <tt>format</tt> property to override the default {@link #dateValueFormat} used when parsing the string (not recommended)
-     *	A Boolean <tt>strict</tt> property that gets passed to the {@link Ext.Date.parse} method to determine whether or not strict date parsing should be used (defaults to false)
-     *	A Date <tt>defaultValue</tt> property to be used in case the string cannot be parsed as a valid date (defaults to the current date)
+     *	A String <tt>format</tt> property to override the default {@link #dateValueFormat} used
+     *    when parsing the string (not recommended). If you pass in a custom format it should be
+     *    a full date/time format to avoid parsing ambiguity.
+     *	A Boolean <tt>strict</tt> property that gets passed to the {@link Ext.Date.parse} method
+     *    to determine whether or not strict date parsing should be used (defaults to false)
+     *	A Date <tt>defaultValue</tt> property to be used in case the string cannot be parsed as
+     *    a valid date (defaults to the current date)
      *
      * @returns {Date} The corresponding Date object
      */
     parseDate: function(dateString, options) {
         options = options || {};
-        
+
         try {
             var date = Ext.Date.parse(dateString, options.format || this.dateValueFormat, options.strict);
             if (date) {
@@ -287,10 +291,10 @@ Ext.define('Extensible.form.recurrence.Rule', {
             }
         }
         catch(ex) {}
-        
+
         return options.defaultValue || new Date();
     },
-    
+
     /**
      * Formats a Date object into a date string in {@link #dateValueFormat iCal format}. This method is the
      * inverse of {@link #parseDate}.
@@ -306,15 +310,15 @@ Ext.define('Extensible.form.recurrence.Rule', {
      * Applies the value of the BYDAY attribute to the underlying RRULE.
      * @param {String/Array/Object} byDay The new value of the BYDAY attribute. There are three ways to pass a
      * parameter value:
-     * 
+     *
      *	1. As a string, e.g. 'MO,TU,WE' or '3TH' or '-1FR'
-     *	2. As an array of weekday identifiers, e.g. ['MO', 'TU', 'WE']. 
-     *	3. As an object with two attributes *number* and *weekday*, e.g. 
-     *		
+     *	2. As an array of weekday identifiers, e.g. ['MO', 'TU', 'WE'].
+     *	3. As an object with two attributes *number* and *weekday*, e.g.
+     *
      *			{ number: 4, weekday:'TH' }
-     * 
+     *
      *	or
-     *  
+     *
      *			{ number: -1, weekday:'WE' }
      */
     applyByDay: function(byDay) {
@@ -331,7 +335,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
 
             // There are three cases to consider.
             var n = parseInt(byDay, 10);
-            
+
             if (Ext.isNumber(n)) {
                 if (n === -1 ) {
                     // The last weekday of period was specified, e.g. -1SU, -1MO, ... -1SA.
@@ -383,22 +387,22 @@ Ext.define('Extensible.form.recurrence.Rule', {
         this.byDayNthWeekday = null;
         this.byMonthDay = day;
     },
-    
+
     /**
-     * Returns a textual representation of the underlying rules in [iCal RRULE format](http://www.kanzaki.com/docs/ical/rrule.html), 
-     * e.g. "FREQ=WEEKLY;INTERVAL=2;". This is the standard format that is typically 
+     * Returns a textual representation of the underlying rules in [iCal RRULE format](http://www.kanzaki.com/docs/ical/rrule.html),
+     * e.g. "FREQ=WEEKLY;INTERVAL=2;". This is the standard format that is typically
      * used to store and transmit recurrence rules between systems.
      * @returns {String} The iCal-formatted RRULE string, or empty string if a valid RRULE cannot be returned
      */
     getRule: function() {
         var rule = [],
             me = this;
-        
+
         if (!me.frequency) {
             return '';
         }
         rule.push('FREQ=' + me.frequency);
-        
+
         if (me.interval !== 1) {
             rule.push('INTERVAL=' + me.interval);
         }
@@ -435,7 +439,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
         var rrParams, nbParams, p, v,
             i = 0,
             me = this;
-        
+
         if (!rRule) {
             this.init();
             return;
@@ -456,7 +460,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
         for (i = 0; i < nbParams; i++) {
             p = rrParams[i].split("=");
             v = p[1];
-            
+
             switch (p[0]) {
                 case 'INTERVAL':
                     me.setInterval(parseInt(v, 10));
@@ -494,7 +498,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             freq = me.frequency ? Ext.String.capitalize(me.frequency.toLowerCase()) : '';
 
         startDate = startDate || this.startDate;
-        
+
         if (freq && me['getDescription' + freq]) {
             me['getDescription' + freq](desc, startDate);
         }
@@ -503,7 +507,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
 
         return desc.join('');
     },
-    
+
     /**
      * @protected
      * Returns the description if the rule is of type "FREQ=DAILY".
@@ -516,7 +520,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
     getDescriptionDaily: function(desc, startDate) {
         var me = this,
             strings = me.strings;
-        
+
         if (me.interval === 1) {
             // E.g. Daily
             desc.push(strings.frequency.daily);
@@ -526,7 +530,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             desc.push(strings.every, ' ', me.interval, ' ', strings.days);
         }
     },
-    
+
     /**
      * @protected
      * Returns the description if the rule is of type "FREQ=WEEKLY".
@@ -539,7 +543,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
     getDescriptionWeekly: function(desc, startDate) {
         var me = this,
             strings = me.strings;
-        
+
         if (me.interval === 1) {
             // E.g. Weekly
             desc.push(strings.frequency.weekly);
@@ -552,9 +556,9 @@ Ext.define('Extensible.form.recurrence.Rule', {
         // Have specific weekdays been specified? E.g. Weekly on Tuesday, Wednesday and Thursday
         if (me.byDayWeekdays) {
             var len = me.byDayWeekdays.length;
-            
+
             desc.push(' ', strings.on, ' ');
-            
+
             for (var i=0; i < len; i++) {
                 if (i > 0 && i < len-1) {
                     desc.push(', ');
@@ -576,7 +580,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             desc.push(' ', strings.on, ' ', strings.dayNamesLong[me.byDayNames[startDate.getDay()]]);
         }
     },
-    
+
     /**
      * @protected
      * Returns the description if the rule is of type "FREQ=WEEKDAYS". Note that WEEKDAYS is not
@@ -597,7 +601,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             desc.push(this.strings.every, ' ', this.interval, ' ', this.strings.weekdays);
         }
     },
-    
+
     /**
      * @protected
      * Returns the description if the rule is of type "FREQ=MONTHLY".
@@ -610,7 +614,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
     getDescriptionMonthly: function(desc, startDate) {
         var me = this,
             strings = me.strings;
-        
+
         if (me.interval === 1) {
             // E.g. Monthly
             desc.push(strings.frequency.monthly);
@@ -640,7 +644,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             }
         }
     },
-    
+
     /**
      * @protected
      * Returns the description if the rule is of type "FREQ=YEARLY".
@@ -653,7 +657,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
     getDescriptionYearly: function(desc, startDate) {
         var me = this,
             strings = me.strings;
-        
+
         if (me.interval === 1) {
             // E.g. Yearly
             desc.push(strings.frequency.yearly);
@@ -662,12 +666,12 @@ Ext.define('Extensible.form.recurrence.Rule', {
             // E.g. Every two years
             desc.push(strings.every, ' ', me.interval, ' ', strings.years);
         }
-        
+
         if (!startDate) {
             // StartDate is required for formatting beyond this point
             return;
         }
-        
+
         if (me.byMonthDay === -1) {
             // The last day of the month, e.g. Annually on the last day of November.
             desc.push(' ', strings.onTheLastDay, ' ', strings.of, ' ', Ext.Date.format(startDate, strings.monthFormat));
@@ -691,7 +695,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             desc.push(' ', strings.on, ' ', Ext.Date.format(startDate, strings.monthDayFormat));
         }
     },
-    
+
     /**
      * @protected
      * Returns the description only for the "COUNT=5" portion of the rule (e.g., "5 times").
@@ -707,7 +711,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
             desc.push(', ', this.count, ' ', (this.count === 1 ? this.strings.time : this.strings.times));
         }
     },
-    
+
     /**
      * @protected
      * Returns the description only for the "UNTIL" portion of the rule.

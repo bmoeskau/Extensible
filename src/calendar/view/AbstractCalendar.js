@@ -1,7 +1,7 @@
 /**
  * This is an abstract class that serves as the base for other calendar views. This class is not
  * intended to be directly instantiated.
- * 
+ *
  * When extending this class to create a custom calendar view, you must provide an implementation
  * for the <tt>renderItems</tt> method, as there is no default implementation for rendering events
  * The rendering logic is totally dependent on how the UI structures its data, which
@@ -9,7 +9,7 @@
  */
 Ext.define('Extensible.calendar.view.AbstractCalendar', {
     extend: 'Ext.Component',
-    
+
     requires: [
         'Ext.CompositeElement',
         'Extensible.calendar.form.EventDetails',
@@ -41,7 +41,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * if the server supports it.
      */
     recurrence: false,
-    
+
     // @private
     // At the moment these are used, but not required to be modified. In the future, these may be used
     // for customizing how recurrence data is requested and processed.
@@ -228,7 +228,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * How this component should be hidden. Supported values are <tt>'visibility'</tt>
      * (css visibility), <tt>'offsets'</tt> (negative offset position) and <tt>'display'</tt>
      * (css display).
-     * 
+     *
      * **Note:** For calendar views the default is 'offsets' rather than the Ext JS default of
      * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.
      */
@@ -254,7 +254,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * and no error message is returned from the server (defaults to "An unknown error occurred").
      */
     notifyOnExceptionDefaultMessage: 'An unknown error occurred',
-    
+
     /**
      * @property ownerCalendarPanel
      * @type Extensible.calendar.CalendarPanel
@@ -286,7 +286,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * {@link Extensible.calendar.data.EventModel}) to populate the calendar views with events. Internally this method
      * by default generates different markup for browsers that support CSS border radius and those that don't.
      * This method can be overridden as needed to customize the markup generated.
-     * 
+     *
      * Note that this method calls {@link #getEventBodyMarkup} to retrieve the body markup for events separately
      * from the surrounding container markup.  This provides the flexibility to customize what's in the body without
      * having to override the entire XTemplate. If you do override this method, you should make sure that your
@@ -655,7 +655,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
     forceSize: function() {
         var el = this.el;
-        
+
         if (el && el.down) {
             var hd = el.down('.ext-cal-hd-ct'),
                 bd = el.down('.ext-cal-body-ct');
@@ -699,14 +699,16 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         var days = Extensible.Date.diffDays(this.viewStart, this.viewEnd);
         return Math.ceil(days / this.dayCount);
     },
-    
+
     prepareData: function() {
         var lastInMonth = Ext.Date.getLastDateOfMonth(this.startDate),
             w = 0,
             d = 0,
             row = 0,
-            currentDt = Ext.Date.clone(this.viewStart),
+            currentDt = Extensible.Date.add(Ext.Date.clearTime(this.viewStart, true), {hours: 12}),
             weeks = this.weekCount < 1 ? 6 : this.weekCount;
+
+        lastInMonth = Extensible.Date.add(Ext.Date.clearTime(lastInMonth), {hours: 12})
 
         this.eventGrid = [[]];
         this.allDayGrid = [[]];
@@ -715,19 +717,19 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         var evtsInView = this.store.queryBy(function(rec) {
             return this.isEventVisible(rec.data);
         }, this);
-        
-        var filterFn = function(rec) {
+
+        var evtsInDay = function(rec) {
             var EventMappings = Extensible.calendar.data.EventMappings,
-                startDt = Ext.Date.clearTime(rec.data[EventMappings.StartDate.name], true),
-                startsOnDate = currentDt.getTime() === startDt.getTime(),
-                spansFromPrevView = (w === 0 && d === 0 && (currentDt > rec.data[EventMappings.StartDate.name]));
-    
+                startDt = Extensible.Date.add(Ext.Date.clearTime(rec.data[EventMappings.StartDate.name], true), {hours: 12}),
+                startsOnDate = Extensible.Date.diffDays(currentDt, startDt) === 0,
+                spansFromPrevView = (w === 0 && d === 0 && (currentDt > startDt));
+
             return startsOnDate || spansFromPrevView;
         };
 
         for (; w < weeks; w++) {
             this.evtMaxCount[w] = this.evtMaxCount[w] || 0;
-            
+
             if (this.weekCount === -1 && currentDt > lastInMonth) {
                 //current week is fully in next month so skip
                 break;
@@ -737,8 +739,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
             for (d = 0; d < this.dayCount; d++) {
                 if (evtsInView.getCount() > 0) {
-                    var evts = evtsInView.filterBy(filterFn, this);
-
+                    var evts = evtsInView.filterBy(evtsInDay, this);
                     this.sortEventRecordsForDay(evts);
                     this.prepareEventGrid(evts, w, d);
                 }
@@ -751,7 +752,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     prepareEventGrid: function(evts, w, d) {
         var me = this,
             row = 0,
-            dt = Ext.Date.clone(me.viewStart),
             maxEventsForDay;
 
         evts.each(function(evt) {
@@ -776,22 +776,22 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                     me.allDayGrid[w][d][row] = evt;
                 }
             }
-            
+
             me.setMaxEventsForDay(w, d);
 
             return true;
         }, me);
     },
-    
+
     setMaxEventsForDay: function(weekIndex, dayIndex) {
         var max = (this.maxEventsPerDay + 1) || 999;
-        
+
         // If calculating the max event count for the day/week view header, use the allDayGrid
         // so that only all-day events displayed in that area get counted, otherwise count all events.
         var maxEventsForDay = this[this.isHeaderView ? 'allDayGrid' : 'eventGrid'][weekIndex][dayIndex] || [];
-        
+
         this.evtMaxCount[weekIndex] = this.evtMaxCount[weekIndex] || 0;
-        
+
         if (maxEventsForDay.length && this.evtMaxCount[weekIndex] < maxEventsForDay.length) {
             this.evtMaxCount[weekIndex] = Math.min(max, maxEventsForDay.length);
         }
@@ -804,7 +804,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         var w1 = w,
             d1 = d,
             row = this.findEmptyRowIndex(w,d,allday),
-            dt = Ext.Date.clone(this.viewStart);
+            dt = Extensible.Date.add(Ext.Date.clearTime(this.viewStart, true), {hours: 12});
 
         var start = {
             event: evt,
@@ -813,15 +813,15 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             spanLeft: false,
             spanRight: (d === 6)
         };
-        
+
         grid[w][d] = grid[w][d] || [];
         grid[w][d][row] = start;
-        
+
         this.setMaxEventsForDay(w, d);
-        
+
         while (--days) {
             dt = Extensible.Date.add(dt, {days: 1});
-            
+
             if (dt > this.viewEnd) {
                 break;
             }
@@ -840,7 +840,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                 spanLeft: (w1 > w) && (d1 % 7 === 0),
                 spanRight: (d1 === 6) && (days > 1)
             };
-            
+
             // In this loop we are pre-processing empty span placeholders. In the case
             // where a given week might only contain such spans, we have to make this
             // max event check on each iteration to make sure that our empty placeholder
@@ -931,7 +931,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
         if (this.fireEvent('rangeselect', this, dates, boundOnComplete) !== false) {
             this.showEventEditor(dates, null);
-            
+
             if (this.editWin) {
                 this.editWin.on('hide', boundOnComplete, this, {single:true});
             }
@@ -1126,11 +1126,11 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             if (Ext.isIE || Ext.isOpera) {
                 // Fun IE/Opera handling:
                 var highlightEl;
-                
+
                 els.each(function(el) {
                     el.highlight(color, Ext.applyif ({attr:'color'}, o));
                     var highlightEl = el.down('.ext-cal-evm');
-                    
+
                     if (highlightEl) {
                         highlightEl.highlight(color, o);
                     }
@@ -1296,17 +1296,17 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     setStartDate: function(start, /*private*/reload) {
         var me = this;
 
-        Extensible.log('setStartDate (base) '+Ext.Date.format(start, 'Y-m-d'));
+        var startDate = Extensible.Date.add(Ext.Date.clearTime(start || new Date(), true), {hours: 12});
+        Extensible.log('setStartDate (base) ' + Ext.Date.format(startDate, 'Y-m-d G:i'));
 
         var cloneDt = Ext.Date.clone,
             cloneStartDate = me.startDate ? cloneDt(me.startDate) : null,
-            cloneStart = cloneDt(start),
             cloneViewStart = me.viewStart ? cloneDt(me.viewStart) : null,
             cloneViewEnd = me.viewEnd ? cloneDt(me.viewEnd) : null;
 
-        if (me.fireEvent('beforedatechange', me, cloneStartDate, cloneStart, cloneViewStart, cloneViewEnd) !== false) {
-            me.startDate = Ext.Date.clearTime(start);
-            me.setViewBounds(start);
+        if (me.fireEvent('beforedatechange', me, cloneStartDate, startDate, cloneViewStart, cloneViewEnd) !== false) {
+            me.startDate = startDate;
+            me.setViewBounds(startDate);
 
             if (me.ownerCalendarPanel && me.ownerCalendarPanel.startDate !== me.startDate) {
                 // Sync the owning CalendarPanel's start date directly, not via CalendarPanel.setStartDate(),
@@ -1324,8 +1324,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     setViewBounds: function(startDate) {
         var me = this,
             start = startDate || me.startDate,
-            offset = start.getDay() - me.startDay,
-            Dt = Extensible.Date;
+            offset = start.getDay() - me.startDay;
 
         if (offset < 0) {
             // if the offset is negative then some days will be in the previous week so add a week to the offset
@@ -1335,9 +1334,9 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
             case 0:
             case 1:
                 me.viewStart = me.dayCount < 7 && !me.startDayIsStatic ?
-                    start: Dt.add(start, {days: -offset, clearTime: true});
-                me.viewEnd = Dt.add(me.viewStart, {days: me.dayCount || 7, seconds: -1});
-                return;
+                    start: Extensible.Date.add(start, {days: -offset, clearTime: true});
+                me.viewEnd = Extensible.Date.add(me.viewStart, {days: me.dayCount || 7, seconds: -1});
+                break;
 
             case -1:
                 // auto by month
@@ -1347,10 +1346,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                     // if the offset is negative then some days will be in the previous week so add a week to the offset
                     offset += 7;
                 }
-                me.viewStart = Dt.add(start, {days: -offset, clearTime: true});
+                me.viewStart = Extensible.Date.add(start, {days: -offset, clearTime: true});
 
                 // start from current month start, not view start:
-                var end = Dt.add(start, {months: 1, seconds: -1});
+                var end = Extensible.Date.add(start, {months: 1, seconds: -1});
 
                 // fill out to the end of the week:
                 offset = me.startDay;
@@ -1359,13 +1358,15 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                     offset -= 7;
                 }
 
-                me.viewEnd = Dt.add(end, {days: 6 - end.getDay() + offset});
-                return;
+                me.viewEnd = Extensible.Date.add(end, {days: 6 - end.getDay() + offset});
+                break;
 
             default:
-                me.viewStart = Dt.add(start, {days: -offset, clearTime: true});
-                me.viewEnd = Dt.add(me.viewStart, {days: me.weekCount * 7, seconds: -1});
+                me.viewStart = Extensible.Date.add(start, {days: -offset, clearTime: true});
+                me.viewEnd = Extensible.Date.add(me.viewStart, {days: me.weekCount * 7, seconds: -1});
+                break;
         }
+        Extensible.log('Set viewStart=' + me.viewStart + ', viewEnd=' + me.viewEnd);
     },
 
     /**
@@ -1374,7 +1375,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      *
      *	* **start** Date: The start date of the view
      *	* **end** Date: The end date of the view
-     * 
+     *
      * For example:
      *		var bounds = view.getViewBounds();
      *		alert('Start: '+bounds.start);
@@ -1535,12 +1536,12 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         }
         this.store = store;
     },
-    
+
     onEventStoreLoad: function(store, recs, successful) {
         Extensible.log('AbstractCalendar.onEventStoreLoad: store loaded');
         this.refresh(false);
     },
-    
+
     // No longer used, but kept here for compatibility
     onDataChanged: this.onEventStoreLoad,
 
@@ -1565,12 +1566,12 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                 }
             }
         }, this);
-        
+
         if (this.fireEvent('eventexception', this, response, operation) !== false) {
             this.notifyOnException(response, operation);
         }
     },
-    
+
     /**
      * Returns the message to display from {@link #notifyOnException}, generated automatically
      * from the server response and operation objects.
@@ -1579,7 +1580,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      */
     getExceptionMessage: function(response, operation) {
         var msg = '';
-        
+
         if (response.responseText) {
             msg += '<br><b>responseText</b>: ' + response.responseText;
         }
@@ -1595,10 +1596,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         if (operation.error && operation.error.length) {
             msg += '<br><b>processing error</b>: ' + operation.error;
         }
-        
+
         return msg || ('<br>' + this.notifyOnExceptionDefaultMessage);
     },
-    
+
     /**
      * This is an overrideable method for notifying the user when an exception occurs while attempting to
      * process records via a proxy. The default implementation is to display a standard Ext MessageBox with
@@ -1916,12 +1917,16 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
     doShiftEvent: function(rec, newStartDate, moveOrCopy) {
         var EventMappings = Extensible.calendar.data.EventMappings,
-            diff = newStartDate.getTime() - rec.getStartDate().getTime(),
+            startDiff = Extensible.Date.diff(rec.getStartDate(), newStartDate),
+            newEndDate = Extensible.Date.add(rec.getEndDate(), {millis: startDiff}),
+            timezoneOffset = Extensible.Date.diffTimezones(rec.getEndDate(), newEndDate),
             updateData = {};
 
+        if (timezoneOffset) {
+            newEndDate = Extensible.Date.add(newEndDate, {minutes: -timezoneOffset});
+        }
         updateData[EventMappings.StartDate.name] = newStartDate;
-        updateData[EventMappings.EndDate.name] = Extensible.Date.add(rec.getEndDate(), {millis: diff});
-
+        updateData[EventMappings.EndDate.name] = newEndDate;
         rec.set(updateData);
 
         if (rec.phantom) {
@@ -2025,7 +2030,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         if (el) {
             var id = me.getEventIdFromEl(el),
                 rec = me.getEventRecord(id);
-            
+
             if (rec && me.fireEvent('eventclick', me, rec, el) !== false) {
                 if (me.readOnly !== true) {
                     me.showEventEditor(rec, el);
@@ -2053,10 +2058,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
     handleEventMouseEvent: function(e, t, type) {
         var el = e.getTarget(this.eventSelector, this.eventSelectorDepth, true);
-        
+
         if (el) {
             var rel = Ext.get(e.getRelatedTarget());
-            
+
             if (el === rel || el.contains(rel)) {
                 return true;
             }
@@ -2067,9 +2072,9 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                 var els = this.getEventEls(evtId);
                 els[type === 'over' ? 'addCls' : 'removeCls'](this.eventOverClass);
             }
-            
+
             this.fireEvent('event' + type, this, this.getEventRecord(evtId), el);
-            
+
             return true;
         }
         return false;
@@ -2082,7 +2087,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
     handleDayMouseEvent: function(e, t, type) {
         t = e.getTarget('td', 3);
-        
+
         if (t) {
             if (t.id && t.id.indexOf(this.dayElIdDelimiter) > -1) {
                 var dt = this.getDateFromId(t.id, this.dayElIdDelimiter),
@@ -2095,11 +2100,12 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
                 }
                 if (!rel || dt !== relDate) {
                     var el = this.getDayEl(dt);
-                    
+
                     if (el && !Ext.isEmpty(this.dayOverClass)) {
                         el[type === 'over' ? 'addCls' : 'removeCls'](this.dayOverClass);
                     }
-                    this.fireEvent('day' + type, this, Ext.Date.parseDate(dt, "Ymd"), el);
+                    var parsedDate = Ext.Date.parseDate(dt + ' 12:00', 'Ymd G:i');
+                    this.fireEvent('day' + type, this, parsedDate, el);
                 }
             }
         }
@@ -2107,7 +2113,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
     // MUST be implemented by subclasses
     renderItems: function() {
-        throw 'This method must be implemented by a subclass';
+        throw new Error('The renderItems method must be implemented by a subclass');
     },
 
     /**

@@ -1,7 +1,7 @@
 {
     "projectName": "Extensible",
-    "deployDir": "extensible-1.6.0-rc.1",
-    "licenseText": "Extensible 1.6.0-rc.1\nCopyright(c) 2010-2013 Extensible, LLC\nlicensing@ext.ensible.com\nhttp://ext.ensible.com",
+    "deployDir": "extensible-1.6.0-rc.2",
+    "licenseText": "Extensible 1.6.0-rc.2\nCopyright(c) Extensible, LLC\nlicensing@ext.ensible.com\nhttp://ext.ensible.com",
     "pkgs": [{
         "name": "Extensible Core",
         "file": "pkgs/extensible-core.js",

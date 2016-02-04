@@ -2,6 +2,12 @@
 
 These notes apply to the Ext 4.x branch of Extensible.
 
+## 1.6.0-rc.2
+
+_February 4, 2016_
+
+Bug fix release, primarily focused on resolving daylight savings issues with Brazilian timezones.
+
 ## 1.6.0-rc.1
 
 _August 26, 2013_

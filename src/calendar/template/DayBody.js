@@ -3,7 +3,7 @@
  * {@link Extensible.calendar.view.Day DayView} and {@link Extensible.calendar.view.Week WeekView}. This template
  * is automatically bound to the underlying event store by the calendar components and expects records of type
  * {@link Extensible.calendar.data.EventModel}.
- * 
+ *
  * Note that this template would not normally be used directly. Instead you would use the
  * {@link Extensible.calendar.view.DayTemplate} that internally creates an instance of this template along
  * with a {@link Extensible.calendar.DayHeaderTemplate}.
@@ -12,9 +12,9 @@ Ext.define('Extensible.calendar.template.DayBody', {
     extend: 'Ext.XTemplate',
 
     constructor: function(config) {
-        
+
         Ext.apply(this, config);
-    
+
         Extensible.calendar.template.DayBody.superclass.constructor.call(this,
             '<table class="ext-cal-bg-tbl" cellspacing="0" cellpadding="0" style="height:{dayHeight}px;">',
                 '<tbody>',
@@ -56,10 +56,10 @@ Ext.define('Extensible.calendar.template.DayBody', {
     applyTemplate: function(o) {
         this.today = Extensible.Date.today();
         this.dayCount = this.dayCount || 1;
-        
+
         var i = 0, days = [],
-            dt = Ext.Date.clone(o.viewStart);
-            
+            dt = Extensible.Date.add(Ext.Date.clearTime(o.viewStart, true), {hours: 12});
+
         for (; i<this.dayCount; i++) {
             days[i] = Extensible.Date.add(dt, {days: i});
         }
@@ -71,10 +71,10 @@ Ext.define('Extensible.calendar.template.DayBody', {
             dayHeight = this.hourHeight * (end - start),
             fmt = Extensible.Date.use24HourTime ? 'G:i' : 'ga',
             templateConfig;
-        
+
         // use a fixed DST-safe date so times don't get skipped on DST boundaries
         dt = Extensible.Date.add(new Date('5/26/1972'), {hours: start});
-        
+
         for (i=start; i<end; i++) {
             times.push(Ext.Date.format(dt, fmt));
             dt = Extensible.Date.add(dt, {minutes: mins});
@@ -89,7 +89,7 @@ Ext.define('Extensible.calendar.template.DayBody', {
             dayHeight: dayHeight,
             hourSeparatorHeight: (this.hourHeight / 2)
         };
-         
+
         if (Ext.getVersion('extjs').isLessThan('4.1')) {
             return Extensible.calendar.template.DayBody.superclass.applyTemplate.call(this, templateConfig);
         }
