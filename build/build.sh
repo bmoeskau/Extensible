@@ -7,7 +7,7 @@
 
 # Configuration
 # The current version string, substituted into the build path below
-VER=extensible-1.6.0-rc.1
+VER=extensible-1.6.0-rc.2
 
 # Default the root to the parent of the current \build folder
 EXTENSIBLE_ROOT="`dirname "$0"`/.."
@@ -87,7 +87,7 @@ if [ "$docs" = "1" ]; then
         --examples-base-url="../examples" \
         --exclude=$EXTENSIBLE_ROOT/src/calendar/dd/CalendarScrollManager.js \
         --ignore-html=locale,debug
-    
+
     cp $EXTENSIBLE_ROOT/build/resources/extensible-docs.css $EXTENSIBLE_OUTPUT/$VER/docs
 fi
 
