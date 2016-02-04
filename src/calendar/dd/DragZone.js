@@ -5,17 +5,17 @@
  */
 Ext.define('Extensible.calendar.dd.DragZone', {
     extend: 'Ext.dd.DragZone',
-    
+
     requires: [
         'Ext.util.Point',
         'Extensible.calendar.dd.StatusProxy',
         'Extensible.calendar.data.EventMappings'
     ],
-    
+
     ddGroup: 'CalendarDD',
     eventSelector: '.ext-cal-evt',
     eventSelectorDepth: 10,
-    
+
     constructor: function(el, config) {
         if(!Extensible.calendar._statusProxyInstance) {
             Extensible.calendar._statusProxyInstance = Ext.create('Extensible.calendar.dd.StatusProxy');
@@ -23,7 +23,7 @@ Ext.define('Extensible.calendar.dd.DragZone', {
         this.proxy = Extensible.calendar._statusProxyInstance;
         this.callParent(arguments);
     },
-    
+
     getDragData: function(e) {
         // Check whether we are dragging on an event first
         var t = e.getTarget(this.eventSelector, this.eventSelectorDepth);
@@ -43,7 +43,7 @@ Ext.define('Extensible.calendar.dd.DragZone', {
                 proxy: this.proxy
             };
         }
-        
+
         // If not dragging an event then we are dragging on the calendar to add a new event
         t = this.view.getDayAt(e.getX(), e.getY());
         if(t.el) {
@@ -55,14 +55,14 @@ Ext.define('Extensible.calendar.dd.DragZone', {
         }
         return null;
     },
-    
+
     onInitDrag: function(x, y) {
         if(this.dragData.ddel) {
             var ghost = this.dragData.ddel.cloneNode(true),
                 child = Ext.fly(ghost).down('dl');
-            
+
             Ext.fly(ghost).setWidth('auto');
-            
+
             if(child) {
                 // for IE/Opera
                 child.setHeight('auto');
@@ -76,24 +76,24 @@ Ext.define('Extensible.calendar.dd.DragZone', {
         this.view.onInitDrag();
         return true;
     },
-    
+
     afterRepair: function() {
         if(Ext.enableFx && this.dragData.ddel) {
             Ext.fly(this.dragData.ddel).highlight(this.hlColor || 'c3daf9');
         }
         this.dragging = false;
     },
-    
+
     getRepairXY: function(e) {
         if(this.dragData.ddel) {
             return Ext.fly(this.dragData.ddel).getXY();
         }
     },
-    
+
     afterInvalidDrop: function(e, id) {
         Ext.select('.ext-dd-shim').hide();
     },
-    
+
     destroy: function() {
         this.callParent(arguments);
         delete Extensible.calendar._statusProxyInstance;

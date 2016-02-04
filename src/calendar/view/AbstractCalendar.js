@@ -1917,12 +1917,16 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
     doShiftEvent: function(rec, newStartDate, moveOrCopy) {
         var EventMappings = Extensible.calendar.data.EventMappings,
-            diff = newStartDate.getTime() - rec.getStartDate().getTime(),
+            startDiff = Extensible.Date.diff(rec.getStartDate(), newStartDate),
+            newEndDate = Extensible.Date.add(rec.getEndDate(), {millis: startDiff}),
+            timezoneOffset = Extensible.Date.diffTimezones(rec.getEndDate(), newEndDate),
             updateData = {};
 
+        if (timezoneOffset) {
+            newEndDate = Extensible.Date.add(newEndDate, {minutes: -timezoneOffset});
+        }
         updateData[EventMappings.StartDate.name] = newStartDate;
-        updateData[EventMappings.EndDate.name] = Extensible.Date.add(rec.getEndDate(), {millis: diff});
-
+        updateData[EventMappings.EndDate.name] = newEndDate;
         rec.set(updateData);
 
         if (rec.phantom) {
