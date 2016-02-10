@@ -755,6 +755,66 @@ td.ext-cal-dtitle-today div {
     display: none;
 }
 
+/* -----------------------------------------
+ * Agenda view specific styles
+ */
+.ext-cal-agenda {
+    border-top: 1px solid #99BBE8;
+}
+
+.ext-cal-agenda-hd {
+    border-bottom: 1px solid #99BBE8;
+}
+
+.ext-cal-agenda-hd .x-panel-body {
+    background-color: #F0F4FA !important;
+}
+.ext-cal-agenda-hd .x-toolbar {
+    background-color: #F0F4FA !important;
+    background-image: none !important;
+}
+
+.ext-cal-icon-evt-add {
+    background-image: url(../images/default/ext/add.gif) !important;
+}
+
+.ext-cal-agenda-bd .ext-cal-evt-agenda td {
+    padding: 2px 10px;
+    font-size: 12px;
+    vertical-align: top;
+}
+
+.ext-cal-agenda-bd .ext-cal-evt-agenda-details td {
+    padding: 1px 10px 1px 0;
+}
+
+.ext-cal-agenda-bd .ext-cal-day-link {
+    cursor: pointer;
+}
+
+.ext-cal-agenda-bd hr {
+    margin:10px 0;
+    color: #CCC;
+    background-color:#CCC;
+    height:1px;
+    border:0;
+}
+
+/* new styles, adjust for white skin */
+.ext-cal-agenda-bd td.ext-cal-agenda-group-header {
+    color: #A7C6DF;
+    font-size: 16px;
+    line-height: 14px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+
+.ext-cal-agenda-bd .ext-cal-evt-agenda td.ext-cal-evt-hours {
+    padding: 2px 2px;
+}
+
+
 /*******************************************
  * 
  * Calendar navigation picker styles
@@ -969,9 +1029,11 @@ td.ext-cal-dtitle-today div {
 .extensible-cal-icon-cal-show {
     background-image:url(../images/default/silk/calendar_view_month.png) !important;
 }
+/* Brian: Image color_wheel.png does not exist. Can this style be removed?
 .extensible-cal-icon-cal-colors {
     background-image:url(../images/default/silk/color_wheel.png) !important;
 }
+*/
 
 /*******************************************
  * 
