@@ -14,12 +14,12 @@ Ext.require([
 ]);
 
 Ext.onReady(function(){
-    
+
     var eventStore = Ext.create('Extensible.calendar.data.MemoryEventStore', {
         // defined in ../data/Events.js
-        data: Ext.create('Extensible.example.calendar.data.Events')
+        data: Extensible.example.calendar.data.Events.getData()
     });
-    
+
     //
     // Calendar config only, not created via new. This allows the calendar to
     // be lazy-rendered when its containing tab is first shown. Note that we
@@ -40,7 +40,7 @@ Ext.onReady(function(){
 
     //
     // Create the TabPanel and add the calendar config as the second tab
-    //    
+    //
     Ext.create('Ext.tab.Panel', {
         renderTo: 'tabpanel',
         width: 700,
@@ -50,7 +50,7 @@ Ext.onReady(function(){
             title: 'General Info',
             contentEl: 'general-tab',
             bodyStyle: 'padding: 20px;'
-        }, 
+        },
         calendarCfg]
     });
 });

@@ -19,10 +19,10 @@ Ext.require([
 
 Ext.onReady(function() {
     Ext.QuickTips.init();
-    
-    var calendarPanel, 
+
+    var calendarPanel,
         locale = 'English (US)';
-    
+
     var localeStore = Ext.create('Ext.data.ArrayStore', {
         fields: ['code', 'desc'],
         data : [
@@ -45,7 +45,7 @@ Ext.onReady(function() {
             ['sv_SE', 'Swedish']
         ]
     });
-    
+
     var localeCombo = Ext.create('Ext.form.field.ComboBox', {
         renderTo: 'locales',
         store: localeStore,
@@ -68,7 +68,7 @@ Ext.onReady(function() {
             }
         }
     });
-    
+
     var doLoad = function(url, successFn){
         Ext.Ajax.request({
             url: url,
@@ -80,7 +80,7 @@ Ext.onReady(function() {
             }
         });
     };
-    
+
     var loadLocale = function(code){
         doLoad('ext-locales/ext-lang-'+code+'.js', function(resp, opts){
             eval(resp.responseText); // apply the Ext locale overrides
@@ -90,7 +90,7 @@ Ext.onReady(function() {
             });
         });
     };
-    
+
     var renderUI = function() {
         if(calendarPanel){
             Ext.destroy(calendarPanel);
@@ -110,11 +110,11 @@ Ext.onReady(function() {
             },
             eventStore: Ext.create('Extensible.calendar.data.MemoryEventStore', {
                 // defined in ../data/Events.js
-                data: Ext.create('Extensible.example.calendar.data.Events')
+                data: Extensible.example.calendar.data.Events.getData()
             })
         });
     };
-    
+
     // default to Swedish, just for fun
     loadLocale('sv_SE');
 });

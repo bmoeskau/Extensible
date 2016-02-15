@@ -28,15 +28,15 @@ Ext.onReady(function(){
                     xtype: 'extensible.calendarpanel',
                     eventStore: Ext.create('Extensible.calendar.data.MemoryEventStore', {
                         // defined in ../data/Events.js
-                        data: Ext.create('Extensible.example.calendar.data.Events')
+                        data: Extensible.example.calendar.data.Events.getData()
                     })
                 }
             });
         }
         this.calendarWin.show();
     };
-    
+
     Ext.fly('cal-win').on('click', showWindow, this);
-    
+
     showWindow();
 });

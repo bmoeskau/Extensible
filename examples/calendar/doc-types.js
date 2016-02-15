@@ -34,7 +34,7 @@ Ext.onReady(function(){
             ['XHTML 1.0 Frameset', 'xhtml1/DTD/xhtml1-frameset']
         ]
     });
-    
+
     var doctypeCombo = Ext.create('Ext.form.field.ComboBox', {
         renderTo: 'doctypes',
         store: doctypeStore,
@@ -55,7 +55,7 @@ Ext.onReady(function(){
             }
         }
     });
-    
+
     // set the combo selected value if the url contains a doctype param
     var search = window.location.search;
     if(search.length > 0){
@@ -63,15 +63,15 @@ Ext.onReady(function(){
         var params = Ext.Object.fromQueryString(search);
         doctypeCombo.setValue(params.doctype);
     }
-    
+
     Ext.create('Extensible.calendar.CalendarPanel', {
         eventStore: Ext.create('Extensible.calendar.data.MemoryEventStore', {
             // defined in ../data/Events.js
-            data: Ext.create('Extensible.example.calendar.data.Events')
+            data: Extensible.example.calendar.data.Events.getData()
         }),
         calendarStore: Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
             // defined in ../data/Calendars.js
-            data: Ext.create('Extensible.example.calendar.data.Calendars')
+            data: Extensible.example.calendar.data.Calendars.getData()
         }),
         renderTo: 'cal',
         title: 'Doctype Tester',

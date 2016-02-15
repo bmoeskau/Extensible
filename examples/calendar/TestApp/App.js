@@ -8,7 +8,7 @@ Ext.Loader.setConfig({
 });
 
 Ext.define('Extensible.example.calendar.TestApp.App', {
-    
+
     requires: [
         'Ext.container.Viewport',
         'Ext.layout.container.Border',
@@ -19,14 +19,14 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
         'Extensible.example.calendar.data.Events',
         'Extensible.example.calendar.data.Calendars'
     ],
-    
+
     constructor : function() {
         var startDay = 0; // The 0-based index for the day on which the calendar week begins (0=Sunday)
 
         // This is an example calendar store that enables event color-coding
         this.calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
             // defined in ../data/Calendars.js
-            data: Ext.create('Extensible.example.calendar.data.Calendars')
+            data: Extensible.example.calendar.data.Calendars.getData()
         });
 
         // A sample event store that loads static JSON from a local file. Obviously a real
@@ -34,13 +34,13 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
         // underlying store functionality is the same.
         this.eventStore = Ext.create('Extensible.calendar.data.MemoryEventStore', {
             // defined in ../data/Events.js
-            data: Ext.create('Extensible.example.calendar.data.Events'),
+            data: Extensible.example.calendar.data.Events.getData(),
             // This disables the automatic CRUD messaging built into the sample data store.
             // This test application will provide its own custom messaging. See the source
             // of MemoryEventStore to see how automatic store messaging is implemented.
             autoMsg: false
         });
-        
+
         // This is the app UI layout code.  All of the calendar views are subcomponents of
         // CalendarPanel, but the app title bar and sidebar/navigation calendar are separate
         // pieces that are composed in app-specific layout code since they could be omitted
@@ -97,7 +97,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                     region: 'center',
                     activeItem: 3, // month view
                     startDay: startDay,
-                    
+
                     // Any generic view options that should be applied to all sub views:
                     viewConfig: {
                         //enableFx: false,
@@ -107,7 +107,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                         //minEventDisplayMinutes: 15
                         showTime: false
                     },
-                    
+
                     // View options specific to a certain view (if the same options exist in viewConfig
                     // they will be overridden by the view-specific config):
                     monthViewCfg: {
@@ -115,11 +115,11 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                         showWeekLinks: true,
                         showWeekNumbers: true
                     },
-                    
+
                     multiWeekViewCfg: {
                         //weekCount: 3
                     },
-                    
+
                     // Some optional CalendarPanel configs to experiment with:
                     //readOnly: true,
                     //showDayView: false,
@@ -133,7 +133,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                     //editModal: true,
                     //enableEditDetails: false,
                     //title: 'My Calendar', // the header of the calendar, could be a subtitle for the app
-                    
+
                     listeners: {
                         'eventclick': {
                             fn: function(vw, rec, el){
@@ -222,7 +222,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
             }]
         });
     },
-    
+
     // The CalendarPanel itself supports the standard Panel title config, but that title
     // only spans the calendar views.  For a title that spans the entire width of the app
     // we added a title to the layout's outer center region that is app-specific. This code
@@ -230,7 +230,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
     updateTitle: function(startDt, endDt){
         var p = Ext.getCmp('app-center'),
             fmt = Ext.Date.format;
-        
+
         if(Ext.Date.clearTime(startDt).getTime() === Ext.Date.clearTime(endDt).getTime()){
             p.setTitle(fmt(startDt, 'F j, Y'));
         }
@@ -246,26 +246,26 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
             p.setTitle(fmt(startDt, 'F j, Y') + ' - ' + fmt(endDt, 'F j, Y'));
         }
     },
-    
+
     // Handle event moves or copies generically
     onEventCopyOrMove: function(rec, mode) {
         var mappings = Extensible.calendar.data.EventMappings,
             time = rec.data[mappings.IsAllDay.name] ? '' : ' \\a\\t g:i a',
             action = mode === 'copy' ? 'copied' : 'moved';
-        
+
         rec.commit();
-        
+
         this.showMsg('Event '+ rec.data[mappings.Title.name] +' was ' + action + ' to '+
             Ext.Date.format(rec.data[mappings.StartDate.name], ('F jS'+time)));
     },
-    
+
     // This is an application-specific way to communicate CalendarPanel event messages back to the user.
     // This could be replaced with a function to do "toast" style messages, growl messages, etc. This will
     // vary based on application requirements, which is why it's not baked into the CalendarPanel.
     showMsg: function(msg){
         Ext.fly('app-msg').update(msg).removeCls('x-hidden');
     },
-    
+
     clearMsg: function(){
         Ext.fly('app-msg').update('').addCls('x-hidden');
     }
