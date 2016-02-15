@@ -18,7 +18,15 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     layout: 'fit',
     menuSelector: 'em',
     width: 100, // this should be overridden by this container's layout
-    
+
+    /**
+     * @cfg {bool} stateful
+     * If set to true, the object will remember the state of hidden and displayed calendars.
+     * Note that this works only, if a persistence provider has been passed to the state
+     * manager E.g. Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+     */
+    stateful: true,
+
     /**
      * @cfg {Ext.data.Store} store
      * A {@link Ext.data.Store store} containing records of type {@link Extensible.calendar.data.CalendarModel CalendarRecord}.
@@ -29,6 +37,10 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
     initComponent: function() {
         this.addCls('x-calendar-list');
         this.callParent(arguments);
+
+        if (this.stateful){
+            this.stateId = this.id + '-StateId';
+        }
     },
     
     afterRender: function(ct, position) {
@@ -124,12 +136,12 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
         }
         this.getListTemplate().overwrite(this.body, data);
     },
-    
+
     getColorCls: function(colorId) {
         return 'x-cal-'+colorId+'-ad';
     },
     
-    toggleCalendar: function(id, commit) {
+    toggleCalendar: function(id, commit, saveState) {
         var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id),
             CM = Extensible.calendar.data.CalendarMappings,
             isHidden = rec.data[CM.IsHidden.name];
@@ -139,19 +151,24 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
         if(commit !== false) {
             rec.commit();
         }
-    },
-    
-    showCalendar: function(id, commit) {
-        var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id);
-        if(rec.data[Extensible.calendar.data.CalendarMappings.IsHidden.name] === true) {
-            this.toggleCalendar(id, commit);
+
+        // Saves the state of the calendars to the persistence store
+        if (saveState !== false) {
+            this.saveState();
         }
     },
     
-    hideCalendar: function(id, commit) {
+    showCalendar: function(id, commit, saveState) {
         var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id);
-        if(rec.data[Extensible.calendar.data.CalendarMappings.IsHidden.name] !== true) {
-            this.toggleCalendar(id, commit);
+        if(rec && rec.data[Extensible.calendar.data.CalendarMappings.IsHidden.name] === true) {
+            this.toggleCalendar(id, commit, saveState);
+        }
+    },
+    
+    hideCalendar: function(id, commit, saveState) {
+        var rec = this.store.findRecord(Extensible.calendar.data.CalendarMappings.CalendarId.name, id);
+        if(rec && rec.data[Extensible.calendar.data.CalendarMappings.IsHidden.name] !== true) {
+            this.toggleCalendar(id, commit, saveState);
         }
     },
     
@@ -234,5 +251,39 @@ Ext.define('Extensible.calendar.gadget.CalendarListPanel', {
         }
         this.menu.setCalendar(id, colorId);
         this.menu.showAt(xy);
+    },
+
+    /**
+     * Returns the state to be persisted in a browser cookie. This implements function getState()
+     * from mixin Ext.state.Stateful.
+     * @return {Object}
+     */
+    getState: function() {
+        var state = [],
+            CM = Extensible.calendar.data.CalendarMappings,
+            recs = this.store.getRange(),
+            len = recs.length,
+            i = 0;
+
+        for(; i < len; i++){
+            // Check and save only the ids of hidden calendars
+            if (recs[i].data[CM.IsHidden.name]){
+                state.push(recs[i].data[CM.CalendarId.name]);
+            }
+        }
+
+        return state;
+    },
+
+    /**
+     * Function is called in the constructor to restore the state. This implements function applyState()
+     * from mixin Ext.state.Stateful.
+     * @param {Object} state See function getState() for the structure of state.
+     */
+    applyState: function(state) {
+        for (key in state) {
+            this.hideCalendar(state[key], false, false);
+        }
     }
+
 });
