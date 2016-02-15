@@ -333,7 +333,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         return this.eventAllDayTpl;
     },
 
-    getTemplateEventData: function(evtData) {
+    getTemplateEventData: function(evtData, evt) {
         var M = Extensible.calendar.data.EventMappings,
             extraClasses = [this.getEventSelectorCls(evtData[M.EventId.name])],
             data = {},
@@ -358,8 +358,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
         extraClasses.push('ext-evt-block');
 
         if(this.getEventClass) {
-            rec = this.getEventRecord(evtData[M.EventId.name]);
-            var cls = this.getEventClass(rec, !!evtData._renderAsAllDay, data, this.store);
+            var cls = this.getEventClass(evt, !!evtData._renderAsAllDay, data, this.store);
             extraClasses.push(cls);
         }
 
@@ -437,7 +436,7 @@ Ext.define('Extensible.calendar.view.DayBody', {
                     _positioned: true
                 });
                 evts.push({
-                    data: this.getTemplateEventData(item),
+                    data: this.getTemplateEventData(item, evt),
                     date: Extensible.Date.add(this.viewStart, {days: day})
                 });
             }
