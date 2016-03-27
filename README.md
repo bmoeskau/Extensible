@@ -1,6 +1,6 @@
 # Extensible
 
-An [Ext JS](http://www.sencha.com/products/extjs) Component Library  
+An [Ext JS](http://www.sencha.com/products/extjs) Component Library
 by Brian Moeskau
 
 Currently includes Calendar Pro and supporting components, more to come. See [ext.ensible.com](http://ext.ensible.com/) for complete details.
@@ -25,9 +25,9 @@ Extensible is dual-licensed both commercially and under the open source GPL v3, 
 
 ## Ext Version Support
 
-Extensible fully supports **both Ext 3 and Ext 4**. Unfortunately since Ext 4 is not backwards-compatible it means that Extensible must be managed in two separate branches in order to maintain support for both versions of Ext. As long as Ext 3 is supported by Sencha (which as of now will be through [June 1, 2015](http://www.sencha.com/support/faqs/category/sencha-ext-js)), the Ext 3 compatible versions of all Extensible components will be maintained as well.
+Extensible 1.x works with **both Ext 3 and Ext 4**. Unfortunately since Ext 4 is not backwards-compatible it means that Extensible must be managed in two separate branches in order to maintain support for both versions of Ext. The default [master branch](https://github.com/bmoeskau/Extensible) is now only compatible with Ext 4, and all Extensible releases from 1.5 forward will be for Ext 4. The Extensible [1.x branch](https://github.com/bmoeskau/Extensible/tree/1.x) (less than 1.5) will remain as the Ext 3 compatible line of code.
 
-The default [master branch](https://github.com/bmoeskau/Extensible) is now only compatible with Ext 4, and all Extensible releases from 1.5 forward will be for Ext 4. The Extensible [1.x branch](https://github.com/bmoeskau/Extensible/tree/1.x) (less than 1.5) will remain as the Ext 3 compatible line of code.
+Since Sencha Inc. officially no longer supports Ext version 3.x (they support <a href="https://www.sencha.com/support/faqs/">4.2 and above</a> only as of early 2016) Extensible also no longer officially supports Ext 3, and so Extensible itself will only be supported for versions 1.5 and greater.
 
 ## Getting Started
 
@@ -41,13 +41,13 @@ As of Extensible 1.0.2 and 1.5.1 you can easily customize the framework paths fo
 
 ### "Compiling" the Code
 
-If you clone or fork the repository to use the most up-to-date code, you'll probably want to be able to rebuild the project yourself. Build scripts for both Mac/Unix (`build.sh`) and Windows (`build.bat`) are included in the `/build` folder, as well as a version of [JSBuilder](http://www.sencha.com/products/jsbuilder) and a `.jsb2` project file for Extensible.  You must have a current version of Java installed for JSBuilder to work.
+If you clone or fork the repository to use the most up-to-date code, you'll probably want to be able to rebuild the project yourself. Build scripts for both Mac/Unix (`build.sh`) and Windows (`build.bat`) are included in the `/build` folder, as well as a version of JSBuilder and a `.jsb2` project file for Extensible.  You must have a current version of Java installed for JSBuilder to work.
 
 By default, each build script uses the script file's location to reference other files relatively, so they should work as expected without modification. When you execute a build script (e.g., `sh build.sh` on the Mac/Unix command line, or just `build` on the Windows command line) it will build everything (minus docs) into a `/deploy` folder and also copy the `-all` and `-all-debug` files into the main `/lib` folder so that the examples will always have the latest code as well.
 
 ### Generating Docs
 
-The jar file for the [Ext-doc](http://ext-doc.org/) utility is also included.  If you'd like to generate docs as part of your build, simply pass `-d` as a command line arg to the build script (e.g., `sh build.sh -d` or `build -d`) and the current documentation will also be created under `/docs`.
+The jar file for the Ext-doc utility is also included.  If you'd like to generate docs as part of your build, simply pass `-d` as a command line arg to the build script (e.g., `sh build.sh -d` or `build -d`) and the current documentation will also be created under `/docs`.
 
 ## Deployment
 
