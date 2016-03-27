@@ -25,29 +25,34 @@ Ext.define('Extensible.calendar.view.Month', {
      * @deprecated
      */
     moreText: '+{0} more...',
+
     /**
      * @cfg {String} detailsTitleDateFormat
      * The date format for the title of the details panel that shows when there are hidden events and the "more" link
      * is clicked (defaults to 'F j').
      */
     detailsTitleDateFormat: 'F j',
+
     /**
      * @cfg {Boolean} showTime
      * True to display the current time in today's box in the calendar, false to not display it (defaults to true)
      */
     showTime: true,
+
     /**
      * @cfg {Boolean} showTodayText
      * True to display the {@link #todayText} string in today's box in the calendar, false to not display it
      * (defaults to true)
      */
     showTodayText: true,
+
     /**
      * @cfg {Boolean} showHeader
      * True to display a header beneath the navigation bar containing the week names above each week's column, false
      * not to show it and instead display the week names in the first row of days in the calendar (defaults to false).
      */
     showHeader: false,
+
     /**
      * @cfg {Boolean} showWeekLinks
      * True to display an extra column before the first day in the calendar that links to the
@@ -55,18 +60,21 @@ Ext.define('Extensible.calendar.view.Month', {
      * If true, the week links can also contain the week number depending on the value of {@link #showWeekNumbers}.
      */
     showWeekLinks: false,
+
     /**
      * @cfg {Boolean} showWeekNumbers
      * True to show the week number for each week in the calendar in the week link column, false to show nothing
      * (defaults to false). Note that if {@link #showWeekLinks} is false this config will have no affect even if true.
      */
     showWeekNumbers: false,
+
     /**
      * @cfg {String} weekLinkOverClass
      * The CSS class name applied when the mouse moves over a week link element (only applies when
      * {@link #showWeekLinks} is true, defaults to 'ext-week-link-over').
      */
     weekLinkOverClass: 'ext-week-link-over',
+
     /**
      * @cfg {Number} morePanelMinWidth
      * When there are more events in a given day than can be displayed in the calendar view, the extra events
@@ -86,39 +94,34 @@ Ext.define('Extensible.calendar.view.Month', {
     moreElIdDelimiter: '-more-',
     weekLinkIdDelimiter: 'ext-cal-week-',
 
-    initComponent: function() {
-        this.callParent(arguments);
+    /**
+     * @event dayclick
+     * Fires after the user clicks within the view container and not on an event element. This is a
+     * cancelable event, so returning false from a handler will cancel the click without displaying the event
+     * editor view. This could be useful for validating that a user can only create events on certain days.
+     * @param {Extensible.calendar.view.Month} this
+     * @param {Date} dt The date/time that was clicked on
+     * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks
+     * within the MonthView always return true for this param.
+     * @param {Ext.Element} el The Element that was clicked on
+     */
 
-        this.addEvents({
-            /**
-             * @event dayclick
-             * Fires after the user clicks within the view container and not on an event element. This is a
-             * cancelable event, so returning false from a handler will cancel the click without displaying the event
-             * editor view. This could be useful for validating that a user can only create events on certain days.
-             * @param {Extensible.calendar.view.Month} this
-             * @param {Date} dt The date/time that was clicked on
-             * @param {Boolean} allday True if the day clicked on represents an all-day box, else false. Clicks
-             * within the MonthView always return true for this param.
-             * @param {Ext.Element} el The Element that was clicked on
-             */
-            dayclick: true,
-            /**
-             * @event weekclick
-             * Fires after the user clicks within a week link (when {@link #showWeekLinks is true)
-             * @param {Extensible.calendar.view.Month} this
-             * @param {Date} dt The start date of the week that was clicked on
-             */
-            weekclick: true,
+    /**
+     * @event weekclick
+     * Fires after the user clicks within a week link (when {@link #showWeekLinks is true)
+     * @param {Extensible.calendar.view.Month} this
+     * @param {Date} dt The start date of the week that was clicked on
+     */
+
     /**
      * @protected
      */
-            dayover: true,
+    dayover: true,
+
     /**
      * @protected
      */
-            dayout: true
-        });
-    },
+    dayout: true,
 
     initDD: function() {
         var cfg = {
@@ -250,9 +253,12 @@ Ext.define('Extensible.calendar.view.Month', {
      */
     getEventTemplate: function() {
         if(!this.eventTpl) {
-            var tpl, body = this.getEventBodyMarkup();
+            var tpl,
+                body = this.getEventBodyMarkup(),
+                isOldOpera = Ext.isOpera && (parseInt(Ext.operaVersion) < 11);
 
-            tpl = !(Ext.isIE || Ext.isOpera) ?
+
+            tpl = !(Ext.isIE7m || isOldOpera) ?
                 Ext.create('Ext.XTemplate',
                     '<div class="{_extraCls} {spanCls} ext-cal-evt ext-cal-evr">',
                         body,
@@ -527,7 +533,7 @@ Ext.define('Extensible.calendar.view.Month', {
         p.setHeight(calculatedHeight);
 
         p.show();
-        p.getPositionEl().alignTo(dayEl, 't-t?');
+        p.getEl().alignTo(dayEl, 't-t?');
     },
 
     onHide: function() {

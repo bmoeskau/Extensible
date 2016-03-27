@@ -28,13 +28,13 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
         type: 'memory',
         reader: {
             type: 'json',
-            root: 'evts'
+            rootProperty: 'evts'
         },
         writer: {
             type: 'json'
         }
     },
-    
+
     // Since we are faking persistence in memory, we also have to fake our primary
     // keys for things to work consistently. This starting id value will be auto-
     // incremented as records are created:
@@ -53,7 +53,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
 
         this.idProperty = this.idProperty || Extensible.calendar.data.EventMappings.EventId.mapping || 'id';
 
-        this.fields = Extensible.calendar.data.EventModel.prototype.fields.getRange();
+        this.fields = Extensible.calendar.data.EventModel.getFields();
 
         // By default this shared example store will monitor its own CRUD events and
         // automatically show a page-level message for each event. This is simply a shortcut

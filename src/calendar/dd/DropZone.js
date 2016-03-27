@@ -20,8 +20,8 @@ Ext.define('Extensible.calendar.dd.DropZone', {
 
     getTargetFromEvent: function(e) {
         var dragOffset = this.dragOffset || 0,
-            y = e.getPageY() - dragOffset,
-            d = this.view.getDayAt(e.getPageX(), y);
+            y = e.getY() - dragOffset,
+            d = this.view.getDayAt(e.getX(), y);
 
         return d.el ? d: null;
     },
@@ -128,11 +128,10 @@ Ext.define('Extensible.calendar.dd.DropZone', {
         el.className = 'ext-dd-shim';
         this.shimCt.appendChild(el);
 
-        return Ext.create('Ext.Layer', {
-            shadow: false,
-            useDisplay: true,
-            constrain: false
-        }, el);
+        el = Ext.get(el);
+        el.setVisibilityMode(2);
+
+        return el;
     },
 
     clearShims: function() {

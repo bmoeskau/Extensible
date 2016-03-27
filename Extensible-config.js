@@ -1,5 +1,5 @@
 Extensible = {
-    version: '1.6.0'
+    version: '1.7.0'
 };
 /**
  * =================================================================================================
@@ -61,7 +61,7 @@ Extensible.Config = {
          *
          * @config {String} extJsRoot
          */
-        extJsRoot: 'http://cdn.sencha.com/ext/gpl/4.2.0/',
+        extJsRoot: 'http://cdn.sencha.com/ext/gpl/5.1.0/',
 
         /**
          * The root path to the Extensible framework (defaults to the current url of this script file,
@@ -119,7 +119,12 @@ Extensible.Config = {
          * work consistently with all Ext 4.x versions (just uses the Ext default English strings). As long
          * as you are using 4.1+ feel free to enable this by setting the value to any supported locale code.
          */
-        language: null
+        language: null,
+
+        /**
+         * Name of theme used. Supported values are: 'neptune', nepture-touch', 'crisp', 'crisp-touch'.
+         */
+        theme: 'neptune'
     },
 
     /**
@@ -136,6 +141,7 @@ Extensible.Config = {
         me.extensibleRoot = config.extensibleRoot || me.defaults.extensibleRoot || me.getSdkPath();
         me.cacheExtensible = config.cacheExtensible || me.defaults.cacheExtensible;
         me.language = config.language || me.defaults.language;
+        me.theme = config.theme || me.defaults.theme;
 
         me.adjustPaths();
         me.writeIncludes();
@@ -169,44 +175,46 @@ Extensible.Config = {
     // private -- write out the CSS and script includes to the document
     writeIncludes: function() {
         var me = this,
-            cacheBuster = '?_dc=' + (me.cacheExtensible ? Extensible.version : (+new Date)),
-            suffixExt = '',
-            suffixExtensible = '';
+            cacheBuster = '?_dc=' + (me.cacheExtensible ? Extensible.version : (+new Date));
 
-        switch (me.mode) {
-            case 'debug':
-                suffixExt = '-all-debug';
-                suffixExtensible = '-all-debug';
-                break;
+        // Include style sheets
+        me.includeStylesheet(me.extJsRoot + '/build/packages/ext-theme-' + me.theme +
+            '/build/resources/ext-theme-' + me.theme + '-all.css');
 
-            case 'release':
-                suffixExt = '-all';
-                suffixExtensible = '-all'
-                // For release we want to refresh the cache on first load, but allow caching
-                // after that, so use the version number instead of a unique string
-                cacheBuster = '?_dc=' + Extensible.version;
-                break;
-
-            default:
-                // IE does not work in dynamic mode for the Extensible examples currently
-                // based on how it (mis)handles loading of scripts when mixing includes
-                // and in-page scripts. Make sure IE always uses the regular debug versions.
-                if (me.isIE) {
-                    suffixExt = '-all-debug';
-                    suffixExtensible = '-all-debug';
-                }
-                else {
-                    suffixExt = '-debug';
-                    suffixExtensible = '-bootstrap';
-                }
+        if (me.mode === 'release') {
+            me.includeStylesheet(me.extensibleRoot + 'resources/css/extensible-all.css' + cacheBuster);
         }
+        else {
+            me.includeStylesheet(me.extensibleRoot + 'resources/css/calendar.css' + cacheBuster);
+            me.includeStylesheet(me.extensibleRoot + 'resources/css/calendar-colors.css' + cacheBuster);
+            me.includeStylesheet(me.extensibleRoot + 'resources/css/recurrence.css' + cacheBuster);
+        }
+        me.includeStylesheet(me.extensibleRoot + 'examples/examples.css' + cacheBuster);
 
-        me.includeStylesheet(me.extJsRoot + 'resources/css/ext-all.css');
-        me.includeStylesheet(me.extensibleRoot + 'resources/css/extensible-all.css' + cacheBuster);
-        me.includeStylesheet(me.extensibleRoot + 'examples/examples.css?_dc=' + Extensible.version);
-
-        me.includeScript(me.extJsRoot + 'ext' + suffixExt + '.js');
-        me.includeScript(me.extensibleRoot + 'lib/extensible' + suffixExtensible + '.js' + cacheBuster);
+        // Include JS files
+        if (me.mode === 'debug' || me.isIE) {
+            // IE does not work in dynamic mode for the Extensible examples currently
+            // based on how it (mis)handles loading of scripts when mixing includes
+            // and in-page scripts. Make sure IE always uses the regular debug versions.
+            me.includeScript(me.extJsRoot + 'build/ext-all-debug.js');
+            me.includeScript(me.extensibleRoot + 'lib/extensible-all-debug.js' + cacheBuster);
+        }
+        else if (me.mode === 'release') {
+            // For release we want to refresh the cache on first load, but allow caching
+            // after that, so use the version number instead of a unique string
+            cacheBuster = '?_dc=' + Extensible.version;
+            me.includeScript(me.extJsRoot + 'build/ext-all.js');
+            me.includeScript(me.extensibleRoot + 'lib/extensible-all.js' + cacheBuster);
+        }
+        else {
+            if (me.mode === 'dynamic-extensible') {
+                me.includeScript(me.extJsRoot + 'build/ext-all-debug.js');
+            }
+            else {
+                me.includeScript(me.extJsRoot + 'build/ext-debug.js');
+            }
+            me.includeScript(me.extensibleRoot + 'lib/extensible-bootstrap.js' + cacheBuster);
+        }
         me.includeScript(me.extensibleRoot + 'examples/examples.js?_dc=' + Extensible.version);
 
         if (me.language) {

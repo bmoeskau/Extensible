@@ -26,6 +26,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * Note that this is an alias to the default {@link #store} config (to differentiate that from the optional {@link #calendarStore}
      * config), and either can be used interchangeably.
      */
+
     /**
      * @cfg {Ext.data.Store} calendarStore
      * The {@link Ext.data.Store store} which is bound to this calendar and contains {@link Extensible.calendar.data.CalendarModel CalendarRecords}.
@@ -33,6 +34,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * calendar in which to save an event will be shown in the edit forms. If this store is not available then all events will simply use
      * the default calendar (and color).
      */
+
     /*
      * @cfg {Boolean} recurrence
      * True to show the recurrence field, false to hide it (default). Note that recurrence requires
@@ -57,11 +59,13 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * @cfg {Boolean} readOnly
      * True to prevent clicks on events or the view from providing CRUD capabilities, false to enable CRUD (the default).
      */
+
     /**
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */
     startDay: 0,
+
     /**
      * @cfg {Boolean} spansHavePriority
      * Allows switching between two different modes of rendering events that span multiple days. When true,
@@ -72,12 +76,14 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * first which can result in a less compact, but chronologically consistent layout.
      */
     spansHavePriority: false,
+
     /**
      * @cfg {Boolean} trackMouseOver
      * Whether or not the view tracks and responds to the browser mouseover event on contained elements (defaults to
      * true). If you don't need mouseover event highlighting you can disable this.
      */
     trackMouseOver: true,
+
     /**
      * @cfg {Boolean} enableFx
      * Determines whether or not visual effects for CRUD actions are enabled (defaults to true). If this is false
@@ -85,6 +91,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * all animations will be disabled.
      */
     enableFx: true,
+
     /**
      * @cfg {Boolean} enableAddFx
      * True to enable a visual effect on adding a new event (the default), false to disable it. Note that if
@@ -92,6 +99,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * {@link #doAddFx} method.
      */
     enableAddFx: true,
+
     /**
      * @cfg {Boolean} enableUpdateFx
      * True to enable a visual effect on updating an event, false to disable it (the default). Note that if
@@ -99,6 +107,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * {@link #doUpdateFx} method.
      */
     enableUpdateFx: false,
+
     /**
      * @cfg {Boolean} enableRemoveFx
      * True to enable a visual effect on removing an event (the default), false to disable it. Note that if
@@ -106,17 +115,20 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * {@link #doRemoveFx} method.
      */
     enableRemoveFx: true,
+
     /**
      * @cfg {Boolean} enableDD
      * True to enable drag and drop in the calendar view (the default), false to disable it
      */
     enableDD: true,
+
     /**
      * @cfg {Boolean} enableContextMenus
      * True to enable automatic right-click context menu handling in the calendar views (the default), false to disable
      * them. Different context menus are provided when clicking on events vs. the view background.
      */
     enableContextMenus: true,
+
     /**
      * @cfg {Boolean} suppressBrowserContextMenu
      * When {@link #enableContextMenus} is true, the browser context menu will automatically be suppressed whenever a
@@ -125,6 +137,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * the browser context menu will still show if the right-clicked element has no custom menu (this is the default).
      */
     suppressBrowserContextMenu: false,
+
     /**
      * @cfg {Boolean} monitorResize
      * True to monitor the browser's resize event (the default), false to ignore it. If the calendar view is rendered
@@ -133,29 +146,34 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * any resize event propagates properly to all subcomponents and layouts get recalculated properly.
      */
     monitorResize: true,
+
     /**
      * @cfg {String} todayText
      * The text to display in the current day's box in the calendar when {@link #showTodayText} is true (defaults to 'Today')
      */
     todayText: 'Today',
+
     /**
      * @cfg {String} ddCreateEventText
      * The text to display inside the drag proxy while dragging over the calendar to create a new event (defaults to
      * 'Create event for {0}' where {0} is a date range supplied by the view)
      */
     ddCreateEventText: 'Create event for {0}',
+
     /**
      * @cfg {String} ddCopyEventText
      * The text to display inside the drag proxy while alt-dragging an event to copy it (defaults to
      * 'Copy event to {0}' where {0} is the updated event start date/time supplied by the view)
      */
     ddCopyEventText: 'Copy event to {0}',
+
     /**
      * @cfg {String} ddMoveEventText
      * The text to display inside the drag proxy while dragging an event to reposition it (defaults to
      * 'Move event to {0}' where {0} is the updated event start date/time supplied by the view)
      */
     ddMoveEventText: 'Move event to {0}',
+
     /**
      * @cfg {String} ddResizeEventText
      * The string displayed to the user in the drag proxy while dragging the resize handle of an event (defaults to
@@ -164,28 +182,33 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * that allow resizing of events.
      */
     ddResizeEventText: 'Update event to {0}',
+
     /**
      * @cfg {String} defaultEventTitleText
      * The default text to display as the title of an event that has a null or empty string title value (defaults to '(No title)')
      */
     defaultEventTitleText: '(No title)',
+
     /**
      * @cfg {String} dateParamStart
      * The param name representing the start date of the current view range that's passed in requests to retrieve events
      * when loading the view (defaults to 'startDate').
      */
     dateParamStart: 'startDate',
+
     /**
      * @cfg {String} dateParamEnd
      * The param name representing the end date of the current view range that's passed in requests to retrieve events
      * when loading the view (defaults to 'endDate').
      */
     dateParamEnd: 'endDate',
+
     /**
      * @cfg {String} dateParamFormat
      * The format to use for date parameters sent with requests to retrieve events for the calendar (defaults to 'Y-m-d', e.g. '2010-10-31')
      */
     dateParamFormat: 'Y-m-d',
+
     /**
      * @cfg {Boolean} editModal
      * True to show the default event editor window modally over the entire page, false to allow user interaction with the page
@@ -193,36 +216,42 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * config will no longer apply.
      */
     editModal: false,
+
     /**
      * @cfg {Boolean} enableEditDetails
      * True to show a link on the event edit window to allow switching to the detailed edit form (the default), false to remove the
      * link and disable detailed event editing.
      */
     enableEditDetails: true,
+
     /**
      * @cfg {String} weekendCls
      * A CSS class to apply to weekend days in the current view (defaults to 'ext-cal-day-we' which highlights weekend days in light blue).
      * To disable this styling set the value to null or ''.
      */
     weekendCls: 'ext-cal-day-we',
+
     /**
      * @cfg {String} prevMonthCls
      * A CSS class to apply to any days that fall in the month previous to the current view's month (defaults to 'ext-cal-day-prev' which
      * highlights previous month days in light gray). To disable this styling set the value to null or ''.
      */
     prevMonthCls: 'ext-cal-day-prev',
+
     /**
      * @cfg {String} nextMonthCls
      * A CSS class to apply to any days that fall in the month after the current view's month (defaults to 'ext-cal-day-next' which
      * highlights next month days in light gray). To disable this styling set the value to null or ''.
      */
     nextMonthCls: 'ext-cal-day-next',
+
     /**
      * @cfg {String} todayCls
      * A CSS class to apply to the current date when it is visible in the current view (defaults to 'ext-cal-day-today' which
      * highlights today in yellow). To disable this styling set the value to null or ''.
      */
     todayCls: 'ext-cal-day-today',
+
     /**
      * @cfg {String} hideMode
      * How this component should be hidden. Supported values are <tt>'visibility'</tt>
@@ -233,6 +262,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * 'display' in order to preserve scroll position after hiding/showing a scrollable view like Day or Week.
      */
     hideMode: 'offsets',
+
     /**
      * @cfg {String} notifyOnExceptionTitle
      * @since 1.6.0
@@ -240,6 +270,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * (defaults to "Server Error").
      */
     notifyOnExceptionTitle: 'Server Error',
+
     /**
      * @cfg {String} notifyOnExceptionText
      * @since 1.6.0
@@ -247,6 +278,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * (defaults to "The action failed with the following response:"). The text of the error is appended.
      */
     notifyOnExceptionText: 'The action failed with the following response:',
+
     /**
      * @cfg {String} notifyOnExceptionDefaultMessage
      * @since 1.6.0
@@ -334,6 +366,207 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
      * @method getEventClass
      * @return {String} A space-delimited CSS class string (or '')
      */
+    getEventClass: Ext.emptyFn,
+
+    /**
+     * @event eventsrendered
+     * Fires after events are finished rendering in the view
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     */
+
+    /**
+     * @event eventclick
+     * Fires after the user clicks on an event element. This is a cancelable event, so returning false from a
+     * handler will cancel the click without displaying the event editor view. This could be useful for
+     * validating the rules by which events should be editable by the user.
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was clicked on
+     * @param {HTMLNode} el The DOM node that was clicked on
+     */
+
+    /**
+     * @event eventover
+     * Fires anytime the mouse is over an event element
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that the cursor is over
+     * @param {HTMLNode} el The DOM node that is being moused over
+     */
+
+    /**
+     * @event eventout
+     * Fires anytime the mouse exits an event element
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that the cursor exited
+     * @param {HTMLNode} el The DOM node that was exited
+     */
+
+    /**
+     * @event beforedatechange
+     * Fires before the start date of the view changes, giving you an opportunity to save state or anything else you may need
+     * to do prior to the UI view changing. This is a cancelable event, so returning false from a handler will cancel both the
+     * view change and the setting of the start date.
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Date} startDate The current start date of the view (as explained in {@link #getStartDate}
+     * @param {Date} newStartDate The new start date that will be set when the view changes
+     * @param {Date} viewStart The first displayed date in the current view
+     * @param {Date} viewEnd The last displayed date in the current view
+     */
+
+    /**
+     * @event datechange
+     * Fires after the start date of the view has changed. If you need to cancel the date change you should handle the
+     * {@link #beforedatechange} event and return false from your handler function.
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Date} startDate The start date of the view (as explained in {@link #getStartDate}
+     * @param {Date} viewStart The first displayed date in the view
+     * @param {Date} viewEnd The last displayed date in the view
+     */
+
+    /**
+     * @event rangeselect
+     * Fires after the user drags on the calendar to select a range of dates/times in which to create an event. This is a
+     * cancelable event, so returning false from a handler will cancel the drag operation and clean up any drag shim elements
+     * without displaying the event editor view. This could be useful for validating that a user can only create events within
+     * a certain range.
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Object} dates An object containing the start (StartDate property) and end (EndDate property) dates selected
+     * @param {Function} callback A callback function that MUST be called after the event handling is complete so that
+     * the view is properly cleaned up (shim elements are persisted in the view while the user is prompted to handle the
+     * range selection). The callback is already created in the proper scope, so it simply needs to be executed as a standard
+     * function call (e.g., callback()).
+     */
+
+    /**
+     * @event beforeeventcopy
+     * Fires before an existing event is duplicated by the user via the "copy" command. This is a
+     * cancelable event, so returning false from a handler will cancel the copy operation.
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
+     * record} for the event that will be copied
+     * @param {Date} dt The new start date to be set in the copy (the end date will be automaticaly
+     * adjusted to match the original event duration)
+     */
+
+    /**
+     * @event eventcopy
+     * Fires after an event has been duplicated by the user via the "copy" command. If you need to
+     * cancel the copy operation you should handle the {@link #beforeeventcopy} event and return
+     * false from your handler function.
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
+     * record} for the event that was copied (with updated start and end dates)
+     */
+
+    /**
+     * @event beforeeventmove
+     * Fires after an event element has been dragged by the user and dropped in a new position, but before
+     * the event record is updated with the new dates, providing a hook for canceling the update.
+     * To cancel the move, return false from a handling function. This could be useful for validating
+     * that a user can only move events within a certain date range, for example.
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+     * for the event that will be moved. Start and end dates will be the original values before the move started.
+     * @param {Date} dt The new start date to be set (the end date will be automaticaly calculated to match
+     * based on the event duration)
+     */
+
+    /**
+     * @event eventmove
+     * Fires after an event element has been moved to a new position and its data updated. If you need to
+     * cancel the move operation you should handle the {@link #beforeeventmove} event and return false
+     * from your handler function.
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+     * for the event that was moved with updated start and end dates
+     */
+
+    /**
+     * @event initdrag
+     * Fires when a drag operation is initiated in the view
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     */
+
+    /**
+     * @event dayover
+     * Fires while the mouse is over a day element
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Date} dt The date that is being moused over
+     * @param {Ext.Element} el The day Element that is being moused over
+     */
+
+    /**
+     * @event dayout
+     * Fires when the mouse exits a day element
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Date} dt The date that is exited
+     * @param {Ext.Element} el The day Element that is exited
+     */
+
+    /**
+     * @event editdetails
+     * Fires when the user selects the option in this window to continue editing in the detailed edit form
+     * (by default, an instance of {@link Extensible.calendar.form.EventDetails}. Handling code should hide this window
+     * and transfer the current event record to the appropriate instance of the detailed form by showing it
+     * and calling {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} that is currently being edited
+     * @param {Ext.Element} el The target element
+     */
+
+    /**
+     * @event eventadd
+     * Fires after a new event has been added to the underlying store
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was added
+     */
+
+    /**
+     * @event eventupdate
+     * Fires after an existing event has been updated
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was updated
+     */
+
+    /**
+     * @event eventcancel
+     * Fires after an event add/edit operation has been canceled by the user and no store update took place
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was canceled
+     */
+
+    /**
+     * @event beforeeventdelete
+     * Fires before an event is deleted by the user. This is a cancelable event, so returning false from a handler
+     * will cancel the delete operation.
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was deleted
+     * @param {Ext.Element} el The target element
+     */
+
+    /**
+     * @event eventdelete
+     * Fires after an event has been deleted by the user. If you need to cancel the delete operation you should handle the
+     * {@link #beforeeventdelete} event and return false from your handler function.
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was deleted
+     * @param {Ext.Element} el The target element
+     */
+
+    /**
+     * @event eventexception
+     * Fires after an event has been processed via an Ext proxy and returned with an exception. This
+     * could be because of a server error, or because the data returned <tt>success: false</tt>.
+     *
+     * The view provides default handling via the overrideable {@link #notifyOnException} method. If
+     * any function handling this event returns false, the notifyOnException method will not be called.
+     *
+     * Note that only Server proxy and subclasses (including Ajax proxy) will raise this event.
+     *
+     * @param {Extensible.calendar.view.AbstractCalendar} this
+     * @param {Object} response The raw response object returned from the server
+     * @param {Ext.data.Operation} operation The operation that was processed
+     * @since 1.6.0
+     */
 
     initComponent: function() {
         this.setStartDate(this.startDate || new Date());
@@ -343,209 +576,6 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         if (this.readOnly === true) {
             this.addCls('ext-cal-readonly');
         }
-
-        this.addEvents({
-            /**
-             * @event eventsrendered
-             * Fires after events are finished rendering in the view
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             */
-            eventsrendered: true,
-            /**
-             * @event eventclick
-             * Fires after the user clicks on an event element. This is a cancelable event, so returning false from a
-             * handler will cancel the click without displaying the event editor view. This could be useful for
-             * validating the rules by which events should be editable by the user.
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was clicked on
-             * @param {HTMLNode} el The DOM node that was clicked on
-             */
-            eventclick: true,
-            /**
-             * @event eventover
-             * Fires anytime the mouse is over an event element
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that the cursor is over
-             * @param {HTMLNode} el The DOM node that is being moused over
-             */
-            eventover: true,
-            /**
-             * @event eventout
-             * Fires anytime the mouse exits an event element
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that the cursor exited
-             * @param {HTMLNode} el The DOM node that was exited
-             */
-            eventout: true,
-            /**
-             * @event beforedatechange
-             * Fires before the start date of the view changes, giving you an opportunity to save state or anything else you may need
-             * to do prior to the UI view changing. This is a cancelable event, so returning false from a handler will cancel both the
-             * view change and the setting of the start date.
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Date} startDate The current start date of the view (as explained in {@link #getStartDate}
-             * @param {Date} newStartDate The new start date that will be set when the view changes
-             * @param {Date} viewStart The first displayed date in the current view
-             * @param {Date} viewEnd The last displayed date in the current view
-             */
-            beforedatechange: true,
-            /**
-             * @event datechange
-             * Fires after the start date of the view has changed. If you need to cancel the date change you should handle the
-             * {@link #beforedatechange} event and return false from your handler function.
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Date} startDate The start date of the view (as explained in {@link #getStartDate}
-             * @param {Date} viewStart The first displayed date in the view
-             * @param {Date} viewEnd The last displayed date in the view
-             */
-            datechange: true,
-            /**
-             * @event rangeselect
-             * Fires after the user drags on the calendar to select a range of dates/times in which to create an event. This is a
-             * cancelable event, so returning false from a handler will cancel the drag operation and clean up any drag shim elements
-             * without displaying the event editor view. This could be useful for validating that a user can only create events within
-             * a certain range.
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Object} dates An object containing the start (StartDate property) and end (EndDate property) dates selected
-             * @param {Function} callback A callback function that MUST be called after the event handling is complete so that
-             * the view is properly cleaned up (shim elements are persisted in the view while the user is prompted to handle the
-             * range selection). The callback is already created in the proper scope, so it simply needs to be executed as a standard
-             * function call (e.g., callback()).
-             */
-            rangeselect: true,
-            /**
-             * @event beforeeventcopy
-             * Fires before an existing event is duplicated by the user via the "copy" command. This is a
-             * cancelable event, so returning false from a handler will cancel the copy operation.
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
-             * record} for the event that will be copied
-             * @param {Date} dt The new start date to be set in the copy (the end date will be automaticaly
-             * adjusted to match the original event duration)
-             */
-            beforeeventcopy: true,
-            /**
-             * @event eventcopy
-             * Fires after an event has been duplicated by the user via the "copy" command. If you need to
-             * cancel the copy operation you should handle the {@link #beforeeventcopy} event and return
-             * false from your handler function.
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
-             * record} for the event that was copied (with updated start and end dates)
-             */
-            eventcopy: true,
-            /**
-             * @event beforeeventmove
-             * Fires after an event element has been dragged by the user and dropped in a new position, but before
-             * the event record is updated with the new dates, providing a hook for canceling the update.
-             * To cancel the move, return false from a handling function. This could be useful for validating
-             * that a user can only move events within a certain date range, for example.
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
-             * for the event that will be moved. Start and end dates will be the original values before the move started.
-             * @param {Date} dt The new start date to be set (the end date will be automaticaly calculated to match
-             * based on the event duration)
-             */
-            beforeeventmove: true,
-            /**
-             * @event eventmove
-             * Fires after an event element has been moved to a new position and its data updated. If you need to
-             * cancel the move operation you should handle the {@link #beforeeventmove} event and return false
-             * from your handler function.
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
-             * for the event that was moved with updated start and end dates
-             */
-            eventmove: true,
-            /**
-             * @event initdrag
-             * Fires when a drag operation is initiated in the view
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             */
-            initdrag: true,
-            /**
-             * @event dayover
-             * Fires while the mouse is over a day element
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Date} dt The date that is being moused over
-             * @param {Ext.Element} el The day Element that is being moused over
-             */
-            dayover: true,
-            /**
-             * @event dayout
-             * Fires when the mouse exits a day element
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Date} dt The date that is exited
-             * @param {Ext.Element} el The day Element that is exited
-             */
-            dayout: true,
-            /**
-             * @event editdetails
-             * Fires when the user selects the option in this window to continue editing in the detailed edit form
-             * (by default, an instance of {@link Extensible.calendar.form.EventDetails}. Handling code should hide this window
-             * and transfer the current event record to the appropriate instance of the detailed form by showing it
-             * and calling {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} that is currently being edited
-             * @param {Ext.Element} el The target element
-             */
-            editdetails: true,
-            /**
-             * @event eventadd
-             * Fires after a new event has been added to the underlying store
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was added
-             */
-            eventadd: true,
-            /**
-             * @event eventupdate
-             * Fires after an existing event has been updated
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was updated
-             */
-            eventupdate: true,
-            /**
-             * @event eventcancel
-             * Fires after an event add/edit operation has been canceled by the user and no store update took place
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel record} that was canceled
-             */
-            eventcancel: true,
-            /**
-             * @event beforeeventdelete
-             * Fires before an event is deleted by the user. This is a cancelable event, so returning false from a handler
-             * will cancel the delete operation.
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was deleted
-             * @param {Ext.Element} el The target element
-             */
-            beforeeventdelete: true,
-            /**
-             * @event eventdelete
-             * Fires after an event has been deleted by the user. If you need to cancel the delete operation you should handle the
-             * {@link #beforeeventdelete} event and return false from your handler function.
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record} for the event that was deleted
-             * @param {Ext.Element} el The target element
-             */
-            eventdelete: true,
-            /**
-             * @event eventexception
-             * Fires after an event has been processed via an Ext proxy and returned with an exception. This
-             * could be because of a server error, or because the data returned <tt>success: false</tt>.
-             *
-             * The view provides default handling via the overrideable {@link #notifyOnException} method. If
-             * any function handling this event returns false, the notifyOnException method will not be called.
-             *
-             * Note that only Server proxy and subclasses (including Ajax proxy) will raise this event.
-             *
-             * @param {Extensible.calendar.view.AbstractCalendar} this
-             * @param {Object} response The raw response object returned from the server
-             * @param {Ext.data.Operation} operation The operation that was processed
-             * @since 1.6.0
-             */
-            eventexception: true
-        });
     },
 
     afterRender: function() {
@@ -865,6 +895,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
 
     renderTemplate: function() {
         if (this.tpl) {
+            this.el.select('*').destroy();
             this.tpl.overwrite(this.el, this.getTemplateParams());
             this.lastRenderStart = Ext.Date.clone(this.viewStart);
             this.lastRenderEnd = Ext.Date.clone(this.viewEnd);
