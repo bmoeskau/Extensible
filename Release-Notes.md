@@ -2,6 +2,12 @@
 
 These notes apply to the Ext 4.x branch of Extensible.
 
+## 1.6.0
+
+_March 27, 2016_
+
+Official 1.6 release. Finished recurrence documentation.
+
 ## 1.6.0-rc.2
 
 _February 4, 2016_
