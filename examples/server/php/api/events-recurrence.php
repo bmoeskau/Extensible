@@ -280,7 +280,7 @@
             }
             else {
                 // The RRULE does not specify an end date or count, so default to max date
-                $end = date($date_format, PHP_INT_MAX).'Z';
+                $end = date($date_format, mktime(0, 0, 0, 12, 31, 9999)).'Z';
             }
         }
         return $end;
