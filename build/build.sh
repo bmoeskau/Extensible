@@ -77,7 +77,6 @@ if [ "$docs" = "1" ]; then
     jsduck $EXTENSIBLE_ROOT/src --output $EXTENSIBLE_OUTPUT/$VER/docs \
         --seo --builtin-classes \
         --head-html="<link rel='stylesheet' href='extensible-docs.css' type='text/css'>" \
-        --message="Note that these docs have not yet been finalized for 1.6.0" \
         --title="Extensible Docs" \
         --footer="<a href='http://ext.ensible.com/'>Ext.ensible.com</a>" \
         --warnings=-all \
