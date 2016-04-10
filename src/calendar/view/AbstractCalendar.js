@@ -1297,7 +1297,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     setStartDate: function(start, /*private*/reload) {
         var me = this;
 
-        var startDate = Extensible.Date.add(Ext.Date.clearTime(start || new Date(), true));
+        var startDate = Ext.Date.clearTime(start || new Date());
         Extensible.log('setStartDate (base) ' + Ext.Date.format(startDate, 'Y-m-d G:i'));
 
         var cloneDt = Ext.Date.clone,
