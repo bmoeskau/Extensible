@@ -25,7 +25,7 @@ Ext.define('Extensible.example.calendar.data.Events', {
                     "start" : makeDate(0, 11, 30),
                     "end"   : makeDate(0, 13),
                     "loc"   : "Chuy's!",
-                    "url"   : "http : //chuys.com",
+                    "url"   : "http://chuys.com",
                     "notes" : "Order the queso",
                     "rem"   : "15"
                 },{

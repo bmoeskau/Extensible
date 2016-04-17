@@ -8,7 +8,7 @@
  * Ext records are mapped to your back-end data model. If you only need to change a handful
  * of field properties you can directly modify the EventMappings object as needed and then
  * reconfigure it. The simplest approach is to only override specific field attributes:
- * 
+ *
  *		var M = Extensible.calendar.data.EventMappings;
  *			M.Title.mapping = 'evt_title';
  *			M.Title.name = 'EventTitle';
@@ -18,7 +18,7 @@
  * provide your own custom field definitions (as in the following example). Note that if you do
  * this, you **MUST** include a complete field definition, including the <tt>type</tt> attribute
  * if the field is not the default type of <tt>string</tt>.
- * 
+ *
  *		// Add a new field that does not exist in the default EventMappings:
  *		Extensible.calendar.data.EventMappings.Timestamp = {
  *			name: 'Timestamp',
@@ -33,7 +33,7 @@
  * mappings have all been customized. Note that the name of each field definition object
  * (e.g., 'EventId') should **NOT** be changed for the default EventMappings fields as it
  * is the key used to access the field data programmatically.
- * 
+ *
  *		Extensible.calendar.data.EventMappings = {
  *			EventId:     {name: 'ID', mapping:'evt_id', type:'int'},
  *			CalendarId:  {name: 'CalID', mapping: 'cal_id', type: 'int'},
@@ -60,7 +60,7 @@
  * that mapping as the <tt>idProperty</tt> of your data reader, otherwise it won't recognize how to
  * access the data correctly and will treat existing records as phantoms. Here's an easy way to make sure
  * your mapping is always valid:
- * 
+ *
  *		var reader = new Ext.data.reader.Json({
  *			totalProperty: 'total',
  *			successProperty: 'success',
@@ -128,14 +128,14 @@ Extensible.calendar.data.EventMappings = {
         mapping: 'rem',
         type:    'string'
     },
-    
+
 // ----- Recurrence properties -----
 
     // NOTE: Only RRule and Duration need to be persisted. The other properties
     // do need to be mapped as they are used on the back end, but typically they
     // are transient properties only used during processing of requests and do
     // not need to be stored in a DB.
-    
+
     // The iCal-formatted RRULE (recurrence rule) pattern.
     // (See: http://www.kanzaki.com/docs/ical/rrule.html)
     // While technically recurrence could be implemented in other custom
@@ -148,9 +148,9 @@ Extensible.calendar.data.EventMappings = {
         name:    'RRule',
         mapping: 'rrule',
         type:    'string',
-        useNull: true
+        allowNull: true
     },
-    
+
     // When using recurrence, the standard EndDate value will be the end date
     // of the _recurrence series_, not the end date of the "event". In fact,
     // with recurrence there is no single "event", only a pattern that generates
@@ -162,10 +162,10 @@ Extensible.calendar.data.EventMappings = {
         name:         'Duration',
         mapping:      'duration',
         defaultValue: -1,   // the standard int default of 0 is actually a valid duration
-        useNull:      true, // Without this, the null returned from the server is coerced to 0
+        allowNull:      true, // Without this, the null returned from the server is coerced to 0
         type:         'int'
     },
-    
+
     // This is used to associate recurring event instances back to their
     // original master events when sending edit requests to the server. This
     // is required since each individual event instance will have a unique id
@@ -176,18 +176,18 @@ Extensible.calendar.data.EventMappings = {
         name:    'OriginalEventId',
         mapping: 'origid',
         type:    'string',
-        useNull: true
+        allowNull: true
     },
-    
+
     // The start date for the recurring series.
     RSeriesStartDate: {
         name:       'RSeriesStartDate',
         mapping:    'rsstart',
         type:       'date',
         dateFormat: 'c',
-        useNull:    true
+        allowNull:    true
     },
-    
+
     // If the start date of a recurring event instance is changed and then saved
     // using the "single" instance case (or if you drag an event instance and drop
     // it on a different date) the server has to create an exception for that instance
@@ -199,9 +199,9 @@ Extensible.calendar.data.EventMappings = {
         mapping:    'ristart',
         type:       'date',
         dateFormat: 'c',
-        useNull:    true
+        allowNull:    true
     },
-    
+
     // Recurrence edit mode ('single', 'future' or 'all'). This is transient data
     // and would typically not be persisted (it's ignored by the calendar for
     // display purposes), but it's kept on the record for ease of transmission to
@@ -210,6 +210,6 @@ Extensible.calendar.data.EventMappings = {
         name:    'REditMode',
         mapping: 'redit',
         type:    'string',
-        useNull: true
+        allowNull: true
     }
 };
