@@ -2,6 +2,16 @@
 
 These notes apply to the Ext 4.x branch of Extensible.
 
+## 1.6.1
+
+_April 10, 2016_
+
+Patch release to fix a serious regression affecting the single-day view. All users of 1.6.0 should upgrade ASAP.
+
+**Bugs Fixed**
+
+* As part of resolving edge cases related to daylight savings for 1.6.0, the day view incorrectly had a 12-hour shift applied to its start time, causing all events between 12am and 11:59am to be hidden when the day view was active.
+
 ## 1.6.0
 
 _March 27, 2016_

@@ -8,7 +8,7 @@
 
 :: Configuration
 :: The current version string, substituted into the build path below
-set VER=extensible-1.6.0
+set VER=extensible-1.6.1
 
 :: Default the root to the parent of the current \build folder
 set EXTENSIBLE_ROOT=%CD%\..

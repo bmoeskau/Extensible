@@ -1250,9 +1250,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         var start = this.viewStart.getTime(),
             end = this.viewEnd.getTime(),
             evStart = data[eventMappings.StartDate.name].getTime(),
-            evEnd = data[eventMappings.EndDate.name].getTime();
+            evEnd = data[eventMappings.EndDate.name].getTime(),
+            isOverlapping = Extensible.Date.rangesOverlap(start, end, evStart, evEnd);
 
-        return Extensible.Date.rangesOverlap(start, end, evStart, evEnd);
+        return isOverlapping;
     },
 
     isOverlapping: function(evt1, evt2) {
@@ -1327,7 +1328,7 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
     setStartDate: function(start, /*private*/reload) {
         var me = this;
 
-        var startDate = Extensible.Date.add(Ext.Date.clearTime(start || new Date(), true), {hours: 12});
+        var startDate = Ext.Date.clearTime(start || new Date());
         Extensible.log('setStartDate (base) ' + Ext.Date.format(startDate, 'Y-m-d G:i'));
 
         var cloneDt = Ext.Date.clone,
@@ -1364,8 +1365,8 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         switch(this.weekCount) {
             case 0:
             case 1:
-                me.viewStart = me.dayCount < 7 && !me.startDayIsStatic ?
-                    start: Extensible.Date.add(start, {days: -offset, clearTime: true});
+                me.viewStart = me.dayCount < 7 && !me.startDayIsStatic ? start :
+                    Extensible.Date.add(start, {days: -offset, clearTime: true});
                 me.viewEnd = Extensible.Date.add(me.viewStart, {days: me.dayCount || 7, seconds: -1});
                 break;
 
