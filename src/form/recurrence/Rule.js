@@ -519,7 +519,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
      */
     getDescriptionDaily: function(desc, startDate) {
         var me = this,
-            strings = me.strings;
+            strings = me.config.strings;
 
         if (me.interval === 1) {
             // E.g. Daily
@@ -542,7 +542,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
      */
     getDescriptionWeekly: function(desc, startDate) {
         var me = this,
-            strings = me.strings;
+            strings = me.config.strings;
 
         if (me.interval === 1) {
             // E.g. Weekly
@@ -594,11 +594,11 @@ Ext.define('Extensible.form.recurrence.Rule', {
      */
     getDescriptionWeekdays: function(desc, startDate) {
         if (this.interval === 1) {
-            desc.push(this.strings.frequency.weekdays);
+            desc.push(this.config.strings.frequency.weekdays);
         }
         else {
             // E.g. Every two weekdays
-            desc.push(this.strings.every, ' ', this.interval, ' ', this.strings.weekdays);
+            desc.push(this.config.strings.every, ' ', this.interval, ' ', this.config.strings.weekdays);
         }
     },
 
@@ -613,7 +613,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
      */
     getDescriptionMonthly: function(desc, startDate) {
         var me = this,
-            strings = me.strings;
+            strings = me.config.strings;
 
         if (me.interval === 1) {
             // E.g. Monthly
@@ -656,7 +656,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
      */
     getDescriptionYearly: function(desc, startDate) {
         var me = this,
-            strings = me.strings;
+            strings = me.config.strings;
 
         if (me.interval === 1) {
             // E.g. Yearly
@@ -708,7 +708,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
     getDescriptionCount: function(desc, startDate) {
         if (this.count) {
             // E.g. Daily, 5 times
-            desc.push(', ', this.count, ' ', (this.count === 1 ? this.strings.time : this.strings.times));
+            desc.push(', ', this.count, ' ', (this.count === 1 ? this.config.strings.time : this.config.strings.times));
         }
     },
 
@@ -724,7 +724,7 @@ Ext.define('Extensible.form.recurrence.Rule', {
     getDescriptionUntil: function(desc, startDate) {
         if (this.until) {
             // E.g. Daily, until December 31, 2012
-            desc.push(', ', this.strings.until, ' ', Ext.Date.format(this.until, this.strings.untilFormat));
+            desc.push(', ', this.config.strings.until, ' ', Ext.Date.format(this.until, this.config.strings.untilFormat));
         }
     }
 });
