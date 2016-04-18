@@ -30,7 +30,7 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
 
     initComponent: function() {
         var me = this,
-            freq = Extensible.form.recurrence.Parser.strings.frequency;
+            freq = Extensible.form.recurrence.Parser.config.strings.frequency;
 
         /**
          * @cfg {Array} frequencyOptions
@@ -69,7 +69,7 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
         me.callParent(arguments);
     },
 
-    onSelect: function(combo, records) {
-        this.fireEvent('frequencychange', records[0].data.id);
+    onSelect: function(combo, record) {
+        this.fireEvent('frequencychange', record.data.id);
     }
 });

@@ -13,6 +13,10 @@ Ext.define('Extensible.calendar.view.MonthDayDetail', {
         'Extensible.calendar.view.AbstractCalendar'
     ],
 
+    /**
+     * @event eventsrendered
+     */
+
     afterRender: function() {
         this.tpl = this.getTemplate();
 

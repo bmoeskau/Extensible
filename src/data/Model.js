@@ -59,7 +59,7 @@ Ext.define('Extensible.data.Model', {
      */
     clone: function(preserveId) {
         var copy = Ext.create(this.$className),
-            dataProp = this.persistenceProperty;
+            dataProp = this.persistenceProperty || 'data';
 
         copy[dataProp] = Ext.Object.merge({}, this[dataProp]);
 

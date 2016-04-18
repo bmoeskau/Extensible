@@ -407,7 +407,8 @@ Ext.define('Extensible.calendar.view.DayBody', {
     renderItems: function() {
         var day = 0,
             evt,
-            evts = [];
+            evts = [],
+            M = Extensible.calendar.data.EventMappings;
 
         for (; day < this.dayCount; day++) {
             var ev = 0,
@@ -422,7 +423,6 @@ Ext.define('Extensible.calendar.view.DayBody', {
                     continue;
                 }
                 var item = evt.data || evt.event.data,
-                    M = Extensible.calendar.data.EventMappings,
                     ad = item[M.IsAllDay.name] === true,
                     span = this.isEventSpanning(evt.event || evt),
                     renderAsAllDay = ad || span;

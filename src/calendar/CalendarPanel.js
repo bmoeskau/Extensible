@@ -835,7 +835,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
                 toolbar[id === editViewId ? 'hide' : 'show']();
             }
 
-            Ext.suspendLayouts();
+            // Ext.suspendLayouts();
 
             // Activate the new view and refresh the layout
             layout.setActiveItem(id || me.activeItem);
@@ -844,7 +844,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             if (id !== editViewId) {
                 if (id && id !== me.preEditView) {
                     // We're changing to a different view, so the view dates are likely different.
-                    // Re-set the start date so that the view range will be updated if needed.
+                    // Reset the start date so that the view range will be updated if needed.
                     // If id is undefined, it means this is the initial pass after render so we can
                     // skip this (as we don't want to cause a duplicate forced reload).
                     layout.activeItem.setStartDate(me.startDate, true);
@@ -855,7 +855,7 @@ Ext.define('Extensible.calendar.CalendarPanel', {
             }
 
             // Notify any listeners that the view changed
-            Ext.resumeLayouts(true);
+            // Ext.resumeLayouts(true);
             me.fireViewChange();
         }
     },
