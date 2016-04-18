@@ -76,13 +76,13 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
         }
 
         this.autoMsg = config.autoMsg;
-        this.onCreateRecords = Ext.Function.createInterceptor(this.onCreateRecords, this.interceptCreateRecords);
+        // this.onCreateRecords = Ext.Function.createInterceptor(this.onCreateRecords, this.interceptCreateRecords);
         this.initRecs();
     },
 
     // private - override to make sure that any records added in-memory
     // still get a unique PK assigned at the data level
-    interceptCreateRecords: function(records, operation, success) {
+    /*interceptCreateRecords: function(records, operation, success) {
         if (success) {
             var i = 0,
                 rec,
@@ -92,7 +92,7 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
                 records[i].data[Extensible.calendar.data.EventMappings.EventId.name] = this.idSeed++;
             }
         }
-    },
+    },*/
 
     // If the store started with preloaded inline data, we have to make sure the records are set up
     // properly as valid "saved" records otherwise they may get "added" on initial edit.
@@ -109,18 +109,22 @@ Ext.define('Extensible.calendar.data.MemoryEventStore', {
 
         if (Extensible.example && Extensible.example.msg) {
             var success = operation.wasSuccessful(),
-                rec = operation.records[0],
-                title = rec.data[Extensible.calendar.data.EventMappings.Title.name];
+                rec = operation.getRecords[0],
+                //var records = 'Ext.data.operation.Destroy' == Ext.getClass(operation).getName()? operation.getResultSet().getRecords() : operation.getRecords(),
+                title = rec.get(Extensible.calendar.data.EventMappings.Title.name) || '(No title)';
+
+
+                title = record.get(Extensible.calendar.data.EventMappings.Title.mapping) || '(No title)';
 
             switch (operation.action) {
                 case 'create':
-                    Extensible.example.msg('Add', 'Added "' + Ext.value(title, '(No title)') + '"');
+                    Extensible.example.msg('Add', 'Added "' + title + '"');
                     break;
                 case 'update':
-                    Extensible.example.msg('Update', 'Updated "' + Ext.value(title, '(No title)') + '"');
+                    Extensible.example.msg('Update', 'Updated "' + title + '"');
                     break;
                 case 'destroy':
-                    Extensible.example.msg('Delete', 'Deleted "' + Ext.value(title, '(No title)') + '"');
+                    Extensible.example.msg('Delete', 'Deleted "' + title + '"');
                     break;
             }
         }

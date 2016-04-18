@@ -25,13 +25,13 @@ Ext.onReady(function() {
         // Tell PHP to start a debugging session for an IDE to connect to.
         // This is passed as an additional parameter on each request:
         // XDEBUG_SESSION_START: 1,
-        
+
         // Slight hack just so that we can reuse the same demo server code
         // with persistence across multiple examples so that each example gets
         // its own unique data set:
         app_id: 'remote'
     };
-    
+
     // Set up mappings to match the DB column names as defined in examples/server/setup.sql
     Extensible.calendar.data.EventMappings = {
         EventId:     {name: 'EventId', mapping:'id', type:'string'},
@@ -46,7 +46,7 @@ Ext.onReady(function() {
         Reminder:    {name: 'Reminder', mapping: 'reminder'}
     };
     Extensible.calendar.data.EventModel.reconfigure();
-    
+
     // Calendars are loaded remotely from a static JSON file
     var calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
         autoLoad: true,
@@ -54,19 +54,19 @@ Ext.onReady(function() {
             type: 'ajax',
             url: '../data/calendars.json',
             noCache: false,
-            
+
             reader: {
                 type: 'json',
-                root: 'calendars'
+                rootProperty: 'calendars'
             }
         }
     });
-    
+
     // Events are loaded remotely via Ajax. For simplicity in this demo we use simple param-based
     // actions, although you could easily use REST instead, swapping out the proxy type below.
     // The event data will still be passed as JSON in the request body.
     var apiBase = '../../server/php/api/events-basic.php?action=';
-    
+
     var eventStore = Ext.create('Extensible.calendar.data.EventStore', {
         autoLoad: true,
         proxy: {
@@ -75,7 +75,7 @@ Ext.onReady(function() {
             pageParam: null,
             startParam: null,
             limitParam: null,
-            
+
             api: {
                 read:    apiBase + 'load',
                 create:  apiBase + 'add',
@@ -84,7 +84,7 @@ Ext.onReady(function() {
             },
             reader: {
                 type: 'json',
-                root: 'data'
+                rootProperty: 'data'
             },
             writer: {
                 type: 'json',
@@ -114,7 +114,7 @@ Ext.onReady(function() {
             }
         }
     });
-    
+
     // This is the actual calendar setup code -- pretty simple!
     var calendarPanel = Ext.create('Extensible.calendar.CalendarPanel', {
         id: 'calendar-remote',
@@ -123,7 +123,7 @@ Ext.onReady(function() {
         calendarStore: calendarStore,
         title: 'Remote Calendar'
     });
-    
+
     Ext.create('Ext.container.Viewport', {
         layout: 'border',
         items: [{
@@ -138,7 +138,7 @@ Ext.onReady(function() {
             calendarPanel
         ]
     });
-    
+
     // You can optionally call load() here if you prefer instead of using the
     // autoLoad config.  Note that as long as you call load AFTER the store
     // has been passed into the CalendarPanel the default start and end date parameters
@@ -147,9 +147,9 @@ Ext.onReady(function() {
     // it will call the remote read method without any date parameters, which is most
     // likely not what you'll want.
     // store.load({ ... });
-    
+
     var errorCheckbox = Ext.get('forceError');
-     
+
     var setRemoteErrorMode = function() {
         if (errorCheckbox.dom.checked) {
             // force an error response to test handling of CUD (not R) actions. this param is
@@ -162,7 +162,7 @@ Ext.onReady(function() {
             calendarPanel.setTitle('Remote Calendar');
         }
     };
-    
+
     setRemoteErrorMode();
     errorCheckbox.on('click', setRemoteErrorMode);
 });

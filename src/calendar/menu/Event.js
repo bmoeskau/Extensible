@@ -4,9 +4,9 @@
 Ext.define('Extensible.calendar.menu.Event', {
     extend: 'Ext.menu.Menu',
     alias: 'widget.extensible.eventcontextmenu',
-    
+
     requires: ['Ext.menu.DatePicker'],
-    
+
     /**
      * @cfg {Boolean} hideOnClick
      * False to continue showing the menu after a color is selected, defaults to true.
@@ -48,6 +48,57 @@ Ext.define('Extensible.calendar.menu.Event', {
      * @hide
      */
     enableScrolling: false,
+
+    /**
+     * @event editdetails
+     * Fires when the user selects the option to edit the event details
+     * (by default, in an instance of {@link Extensible.calendar.form.EventDetails}. Handling code should
+     * transfer the current event record to the appropriate instance of the detailed form by showing
+     * the form and calling {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
+     * @param {Extensible.calendar.menu.Event} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
+     * record} that is currently being edited
+     * @param {Ext.Element} el The element associated with this context menu
+     */
+
+    /**
+     * @event eventdelete
+     * Fires after the user selectes the option to delete an event. Note that this menu does not actually
+     * delete the event from the data store. This is simply a notification that the menu option was
+     * selected -- it is the responsibility of handling code to perform the deletion and any clean
+     * up required.
+     * @param {Extensible.calendar.menu.Event} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
+     * record} for the event to be deleted
+     * @param {Ext.Element} el The element associated with this context menu
+     */
+
+    /**
+     * @event eventmove
+     * Fires after the user selects a date in the calendar picker under the "move event" menu option.
+     * Note that this menu does not actually update the event in the data store. This is simply a
+     * notification that the menu option was selected -- it is the responsibility of handling code
+     * to perform the move action and any clean up required.
+     * @param {Extensible.calendar.menu.Event} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
+     * record} for the event to be moved
+     * @param {Date} dt The new start date for the event (the existing event start time will be preserved)
+     */
+
+    /**
+     * @event eventcopy
+     * Fires after the user selects a date in the calendar picker under the "copy event" menu option.
+     * Note that this menu does not actually update the event in the data store. This is simply a
+     * notification that the menu option was selected -- it is the responsibility of handling code
+     * to perform the copy action.
+     * @param {Extensible.calendar.menu.Event} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
+     * record} for the event to be copied
+     * @param {Date} dt The start date for the event copy (the existing event start time will
+     * be preserved)
+     */
+
+
     /**
      * @cfg {Number} maxHeight
      * @hide
@@ -73,69 +124,17 @@ Ext.define('Extensible.calendar.menu.Event', {
     ownerCalendarPanel: {},
 
     initComponent: function() {
-        this.addEvents(
-            /**
-             * @event editdetails
-             * Fires when the user selects the option to edit the event details
-             * (by default, in an instance of {@link Extensible.calendar.form.EventDetails}. Handling code should
-             * transfer the current event record to the appropriate instance of the detailed form by showing
-             * the form and calling {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
-             * @param {Extensible.calendar.menu.Event} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
-             * record} that is currently being edited
-             * @param {Ext.Element} el The element associated with this context menu
-             */
-            'editdetails',
-            /**
-             * @event eventdelete
-             * Fires after the user selectes the option to delete an event. Note that this menu does not actually
-             * delete the event from the data store. This is simply a notification that the menu option was
-             * selected -- it is the responsibility of handling code to perform the deletion and any clean
-             * up required.
-             * @param {Extensible.calendar.menu.Event} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
-             * record} for the event to be deleted
-             * @param {Ext.Element} el The element associated with this context menu
-             */
-            'eventdelete',
-            /**
-             * @event eventmove
-             * Fires after the user selects a date in the calendar picker under the "move event" menu option.
-             * Note that this menu does not actually update the event in the data store. This is simply a
-             * notification that the menu option was selected -- it is the responsibility of handling code
-             * to perform the move action and any clean up required.
-             * @param {Extensible.calendar.menu.Event} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
-             * record} for the event to be moved
-             * @param {Date} dt The new start date for the event (the existing event start time will be preserved)
-             */
-            'eventmove',
-            /**
-             * @event eventcopy
-             * Fires after the user selects a date in the calendar picker under the "copy event" menu option.
-             * Note that this menu does not actually update the event in the data store. This is simply a
-             * notification that the menu option was selected -- it is the responsibility of handling code
-             * to perform the copy action.
-             * @param {Extensible.calendar.menu.Event} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
-             * record} for the event to be copied
-             * @param {Date} dt The start date for the event copy (the existing event start time will
-             * be preserved)
-             */
-            'eventcopy'
-        );
-        
         this.buildMenu();
         this.callParent(arguments);
     },
-    
+
     /**
      * Overrideable method intended for customizing the menu items. This should only to be used for overriding
      * or called from a subclass and should not be called directly from application code.
      */
     buildMenu: function() {
         var me = this;
-        
+
         if(me.rendered) {
             return;
         }
@@ -149,7 +148,7 @@ Ext.define('Extensible.calendar.menu.Event', {
             startDay: me.startDay,
             handler: me.onEventCopySelected
         });
-        
+
         Ext.apply(me, {
             items: [{
                 text: me.editDetailsText,
@@ -176,22 +175,22 @@ Ext.define('Extensible.calendar.menu.Event', {
             }]
         });
     },
-    
+
     onEventMoveSelected: function(datePicker, selectedDate) {
         this.doCopyOrMove(selectedDate, 'move');
     },
-    
+
     onEventCopySelected: function(datePicker, selectedDate) {
         this.doCopyOrMove(selectedDate, 'copy');
     },
-    
+
     doCopyOrMove: function(selectedDate, mode) {
         selectedDate = Extensible.Date.copyTime(
             this.rec.data[Extensible.calendar.data.EventMappings.StartDate.name], selectedDate);
-        
+
         this.fireEvent('event' + mode, this, this.rec, selectedDate);
     },
-    
+
     /**
      * Shows the specified event at the given XY position.
      * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel
@@ -203,7 +202,7 @@ Ext.define('Extensible.calendar.menu.Event', {
     showForEvent: function(rec, el, xy) {
         var me = this,
             startDate = rec.data[Extensible.calendar.data.EventMappings.StartDate.name];
-        
+
         me.rec = rec;
         me.ctxEl = el;
         me.dateMenu.picker.setValue(startDate);

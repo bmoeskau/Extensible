@@ -729,7 +729,8 @@ Ext.define('Extensible.calendar.CalendarPanel', {
     },
 
     onWrite: function(store, operation) {
-        var rec = operation.records[0];
+        var records = operation.getRecords(),
+            rec = records[0];
 
         switch(operation.action) {
             case 'create':
@@ -911,6 +912,10 @@ Ext.define('Extensible.calendar.CalendarPanel', {
         this.updateNavState();
         this.fireViewChange();
         return this;
+    },
+
+    showDay: function(dt) {
+        this.setActiveView(this.id+'-day', dt);
     },
 
     showWeek: function(dt) {

@@ -73,7 +73,7 @@ Ext.onReady(function() {
 
             reader: {
                 type: 'json',
-                root: 'calendars'
+                rootProperty: 'calendars'
             }
         }
     });
@@ -100,7 +100,7 @@ Ext.onReady(function() {
             },
             reader: {
                 type: 'json',
-                root: 'data'
+                rootProperty: 'data'
             },
             writer: {
                 type: 'json',
