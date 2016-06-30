@@ -1,31 +1,22 @@
 # Extensible
 
-An [Ext JS](http://www.sencha.com/products/extjs) Component Library
-by Brian Moeskau
+**This project is no longer under active development.** See this [blog post](http://ext.ensible.com/blog/2016/06/end-of-the-line/) for additional information.
 
-Currently includes Calendar Pro and supporting components, more to come. See [ext.ensible.com](http://ext.ensible.com/) for complete details.
+If you are interested in becoming a committer or taking ownership of this repo open a PR and let me know.
+
+---
 
 ## About
 
-Extensible actually contains a bunch of different components, but the primary product currently is Calendar Pro, a drop-in calendar solution styled after (the old) Google Calendar. It supports multiple views, drag-and-drop editing, calendar color-coding, localizability and is built to be easily extendable. For more details check out the [product page](http://ext.ensible.com/products/calendar/) or try the [online demos](http://ext.ensible.com/deploy/dev/examples/).
+Extensible actually contains a bunch of different components, but the primary product currently is Calendar Pro, a drop-in calendar solution styled after (the old) Google Calendar. It supports multiple views, drag-and-drop editing, calendar color-coding, localizability and is built to be easily extendable.
 
 ![Calendar Pro screenshot](http://ext.ensible.com/images/home-screenshot.gif)
 
-## Licensing
-
-Extensible is dual-licensed both commercially and under the open source GPL v3, just like Ext JS. For complete details see the [Extensible Licensing Overview](http://ext.ensible.com/products/licensing/). To purchase a commercial license or premium support please visit the [Extensible Store](http://ext.ensible.com/store/).
-
----
-
-**Please note that if you use Extensible under the free GPL license, then your project must also be open source and must adhere to the rules of the [GPL](http://ext.ensible.com/products/gpl-v3.txt). If your project is commercial and/or closed source, a [commercial license](http://ext.ensible.com/store/) is required.**
-
-[View GPL v3 license terms](gpl-v3.txt)
-
----
-
 ## Ext Version Support
 
-Extensible 1.x works with **both Ext 3 and Ext 4**. Unfortunately since Ext 4 is not backwards-compatible it means that Extensible must be managed in two separate branches in order to maintain support for both versions of Ext. The default [master branch](https://github.com/bmoeskau/Extensible) is now only compatible with Ext 4, and all Extensible releases from 1.5 forward will be for Ext 4. The Extensible [1.x branch](https://github.com/bmoeskau/Extensible/tree/1.x) (less than 1.5) will remain as the Ext 3 compatible line of code.
+**Extensible only supports Ext JS versions 3.x and 4.x. Ext 5 and above are not supported.**
+
+Extensible works with **both Ext 3 and Ext 4**. Unfortunately since Ext 4 is not backwards-compatible it means that Extensible must be managed in two separate branches in order to maintain support for both versions of Ext. The default [master branch](https://github.com/bmoeskau/Extensible) is now only compatible with Ext 4, and all Extensible releases from 1.5 forward will be for Ext 4. The Extensible [1.x branch](https://github.com/bmoeskau/Extensible/tree/1.x) (less than 1.5) will remain as the Ext 3 compatible line of code.
 
 Since Sencha Inc. officially no longer supports Ext version 3.x (they support <a href="https://www.sencha.com/support/faqs/">4.2 and above</a> only as of early 2016) Extensible also no longer officially supports Ext 3, and so Extensible itself will only be supported for versions 1.5 and greater.
 
@@ -70,8 +61,6 @@ Nothing about the Extensible API changed between 1.x and 1.5 except the naming/n
 
 To ease this transition there is a compatibility file in the `/lib` folder called `extensible-1.0-compat.js` that provides all of the necessary class aliases to get Extensible 1.x code working under 1.5+. Simply include it right after your existing `extensible-all[-debug].js` reference. You should eventually update your own code with the new class names so that you can remove the compatibility file, but it will not hurt anything to run with it as needed.
 
-## Additional Help
+## License
 
-For questions about using Extensible, or to report bugs, visit the [Extensible forums](http://ext.ensible.com/forum/).
-
-We also have [premium support subscriptions](http://ext.ensible.com/store/) available if you need more direct assistance, or would like to help support the project's continued development.
+Extensible is available for free under the terms of [GPL v3](gpl-v3.txt).
