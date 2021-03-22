@@ -10,7 +10,7 @@ To implement recurrence in an application, you need to consider all of the follo
 - **Application Goals** &mdash; Define what "recurrence" really means to your application and what level of complexity your users require (hint: simpler is almost always better)
 - **Recurrence Format** &mdash; Choose a recurrence format and supporting data to store with your events that makes it easy (or at least *possible*) to query against events with
 - **Event Generation** &mdash; Parse the recurrence data format when retrieving events to generate recurring instances dynamically
-- **Recurrence Editing** &mdash; Provide a mechanism in the UI for associating a recurrence pattern to an event and editing it later, and a way to uupdate events in application code (including a way to create exceptions to the recurrence pattern)
+- **Recurrence Editing** &mdash; Provide a mechanism in the UI for associating a recurrence pattern to an event and editing it later, and a way to update events in application code (including a way to create exceptions to the recurrence pattern)
 
 This is a pretty nontrivial list, so let's break it down piece by piece.
 
