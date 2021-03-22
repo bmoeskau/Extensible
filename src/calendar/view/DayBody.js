@@ -230,7 +230,9 @@ Ext.define('Extensible.calendar.view.DayBody', {
 
         rec.set(updateData);
 
-        this.save();
+        if (!rec.phantom) {
+            this.save();
+        }
 
         this.fireEvent('eventupdate', this, rec);
         this.fireEvent('eventresize', this, rec);
