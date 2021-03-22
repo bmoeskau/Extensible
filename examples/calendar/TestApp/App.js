@@ -67,7 +67,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                 items: [{
                     id:'app-west',
                     region: 'west',
-                    width: 179,
+                    width: 215,
                     border: false,
                     items: [{
                         xtype: 'datepicker',
@@ -86,7 +86,7 @@ Ext.define('Extensible.example.calendar.TestApp.App', {
                         xtype: 'extensible.calendarlist',
                         store: this.calendarStore,
                         border: false,
-                        width: 178
+                        width: '100%'
                     }]
                 },{
                     xtype: 'extensible.calendarpanel',

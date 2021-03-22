@@ -7,10 +7,13 @@ Ext.define('Extensible.example', {
             this.msgCt.alignTo(document, 't-t');
             var s = Ext.String.format.apply(String, Array.prototype.slice.call(arguments, 1));
             var m = Ext.core.DomHelper.append(this.msgCt, {html:'<div class="msg"><h3>' + title + '</h3><p>' + s + '</p></div>'}, true);
-        
-            m.slideIn('t').pause(3000).ghost('t', {remove:true});
+
+            m.slideIn('t').ghost('t', {
+                remove:true,
+                duration: 3000
+            });
         },
-        
+
         insertExamplesMenuLink: function() {
             var sampleCt = Ext.get('sample-overview');
             if (sampleCt) {
@@ -21,7 +24,7 @@ Ext.define('Extensible.example', {
                 });
             }
         },
-        
+
         insertViewSourceLink: function() {
             var sampleCt = Ext.get('sample-overview');
             if (sampleCt) {
@@ -47,7 +50,7 @@ Ext.onReady(function() {
                   'either need to build the project first (see the included README ' +
                   'file) or you should download the pre-built files from the <a ' +
                   'href="http://ext.ensible.com/products/" target="_blank">Extensible website</a>.';
-        
+
         Ext.Msg.show({
             title: 'Extensible Not Ready',
             msg: msg,
