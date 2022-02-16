@@ -138,7 +138,7 @@ This means that if an event has recurrence, the stored end date will always be t
 
 > You must be able to distinguish between the recurrence pattern end date and the end date of each event instance to enable practical querying
 
-To return to our example, if we implemented it using to the basic schema recommendation from before we would store the event like so:
+To return to our example, if we implemented it using the basic schema recommendation from before, we would store the event like so:
 
 | Start Date           | End Date             | Duration | Recurrence Pattern            |
 |----------------------|----------------------|----------|-------------------------------|
