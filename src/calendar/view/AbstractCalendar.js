@@ -1930,11 +1930,10 @@ Ext.define('Extensible.calendar.view.AbstractCalendar', {
         updateData[EventMappings.EndDate.name] = newEndDate;
         rec.set(updateData);
 
-        if (rec.phantom) {
-            this.store.add(rec);
+        if (!rec.phantom) {
+            this.save();
         }
 
-        this.save();
         this.fireEvent('event' + moveOrCopy, this, rec);
     },
 
