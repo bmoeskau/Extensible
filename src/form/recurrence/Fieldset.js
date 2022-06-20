@@ -6,11 +6,11 @@
 Ext.define('Extensible.form.recurrence.Fieldset', {
     extend: 'Ext.form.FieldContainer',
     alias: 'widget.extensible.recurrencefield',
-    
+
     mixins: {
         field: 'Ext.form.field.Field'
     },
-    
+
     requires: [
         'Ext.form.Label',
         'Extensible.form.recurrence.Rule',
@@ -42,57 +42,54 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
      */
     startDay: 0,
 
+    /**
+     * @event startchange
+     * Fires when the start date of the recurrence series is changed
+     * @param {Extensible.form.recurrence.option.Interval} this
+     * @param {Date} newDate The new start date
+     * @param {Date} oldDate The previous start date
+     */
+
     //TODO: implement code to use this config.
     // Maybe use xtypes instead for dynamic loading of custom options?
     // Include secondly/minutely/hourly, plugins for M-W-F, T-Th, weekends
     options: [
         'daily', 'weekly', 'weekdays', 'monthly', 'yearly'
     ],
-    
+
     //TODO: implement
     displayStyle: 'field', // or 'dialog'
-    
+
     fieldLabel: 'Repeats',
     fieldContainerWidth: 400,
-    
+
     //enableFx: true,
     monitorChanges: true,
     cls: 'extensible-recur-field',
-    
+
     frequencyWidth: null, // defaults to the anchor value
-    
+
     layout: 'anchor',
     defaults: {
         anchor: '100%'
     },
-    
+
     initComponent: function() {
         var me = this;
-        
+
         if (!me.height || me.displayStyle === 'field') {
             delete me.height;
             me.autoHeight = true;
         }
-        
-        this.addEvents(
-            /**
-             * @event startchange
-             * Fires when the start date of the recurrence series is changed
-             * @param {Extensible.form.recurrence.option.Interval} this
-             * @param {Date} newDate The new start date
-             * @param {Date} oldDate The previous start date
-             */
-            'startchange'
-        );
-        
+
         me.initRRule();
-        
+
         me.items = [{
             xtype: 'extensible.recurrence-frequency',
             hideLabel: true,
             width: this.frequencyWidth,
             itemId: this.id + '-frequency',
-            
+
             listeners: {
                 'frequencychange': {
                     fn: this.onFrequencyChange,
@@ -108,7 +105,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             hideMode: 'offsets',
             hidden: true,
             width: this.fieldContainerWidth,
-            
+
             defaults: {
                 hidden: true,
                 rrule: me.rrule
@@ -132,32 +129,32 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 startDay: this.startDay
             }]
         }];
-        
+
         me.callParent(arguments);
-        
+
         me.initField();
     },
-    
+
     initRRule: function() {
         var me = this;
-        
+
         me.rrule = me.rrule || Ext.create('Extensible.form.recurrence.Rule');
         me.startDate = me.startDate || me.rrule.startDate || Extensible.Date.today();
-        
+
         if (!me.rrule.startDate) {
             me.rrule.setStartDate(me.startDate);
         }
     },
-    
+
     afterRender: function() {
         this.callParent(arguments);
         this.initRefs();
     },
-    
+
     initRefs: function() {
         var me = this,
             id = me.id;
-        
+
         me.innerContainer = me.down('#' + id + '-inner-ct');
         me.frequencyCombo = me.down('#' + id + '-frequency');
         me.intervalField = me.down('#' + id + '-interval');
@@ -165,30 +162,30 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         me.monthlyField = me.down('#' + id + '-monthly');
         me.yearlyField = me.down('#' + id + '-yearly');
         me.durationField = me.down('#' + id + '-duration');
-        
+
         me.initChangeEvents();
     },
-    
+
     initChangeEvents: function() {
         var me = this;
-        
+
         me.intervalField.on('startchange', me.onStartDateChange, me);
-        
+
         me.intervalField.on('change', me.onChange, me);
         me.weeklyField.on('change', me.onChange, me);
         me.monthlyField.on('change', me.onChange, me);
         me.yearlyField.on('change', me.onChange, me);
         me.durationField.on('change', me.onChange, me);
     },
-    
+
     onStartDateChange: function(interval, newDate, oldDate) {
         this.fireEvent('startchange', this, newDate, oldDate);
     },
-    
+
     onChange: function() {
         this.fireEvent('change', this, this.getValue());
     },
-    
+
     onFrequencyChange: function(freq) {
         this.setFrequency(freq);
         this.onChange();
@@ -201,9 +198,9 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
 
         // Set the initial value - prevent validation on initial set
         me.suspendCheckChange++;
-        
+
         me.setStartDate(me.startDate);
-        
+
         if (me.value !== undefined) {
             me.setValue(me.value);
         }
@@ -214,11 +211,11 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             me.setValue('');
         }
         me.suspendCheckChange--;
-        
+
         Ext.defer(me.doLayout, 1, me);
         me.onChange();
     },
-    
+
     /**
      * Sets the start date of the recurrence pattern
      * @param {Date} The new start date
@@ -226,9 +223,9 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
      */
     setStartDate: function(dt) {
         var me = this;
-        
+
         me.startDate = dt;
-        
+
         if (me.innerContainer) {
             me.innerContainer.items.each(function(item) {
                 if (item.setStartDate) {
@@ -243,7 +240,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         }
         return me;
     },
-    
+
     /**
      * Returns the start date of the recurrence pattern (defaults to the current date
      * if not explicitly set via {@link #setStartDate} or the constructor).
@@ -252,14 +249,14 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
     getStartDate: function() {
         return this.startDate;
     },
-    
+
     /**
      * Return true if the fieldset currently has a recurrence value set, otherwise returns false.
      */
     isRecurring: function() {
         return this.getValue() !== '';
     },
-    
+
     getValue: function() {
         if (!this.innerContainer) {
             return this.value;
@@ -267,17 +264,17 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         if (this.frequency === 'NONE') {
             return '';
         }
-        
+
         var values,
             itemValue;
-        
+
         if (this.frequency === 'WEEKDAYS') {
             values = ['FREQ=WEEKLY','BYDAY=MO,TU,WE,TH,FR'];
         }
         else {
             values = ['FREQ=' + this.frequency];
         }
-        
+
         this.innerContainer.items.each(function(item) {
             if(item.isVisible() && item.getValue) {
                 itemValue = item.getValue();
@@ -286,10 +283,10 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 }
             }
         }, this);
-        
+
         return values.length > 1 ? values.join(';') : values[0];
     },
-    
+
     includeItemValue: function(value) {
         if (value) {
             if (value === 'INTERVAL=1') {
@@ -305,17 +302,17 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         }
         return false;
     },
-    
+
     getDescription: function() {
         // TODO: Should not have to set value here
         return this.rrule.setRule(this.getValue()).getDescription();
     },
-    
+
     setValue: function(value) {
         var me = this;
-        
+
         me.value = (!value || value === 'NONE' ? '' : value);
-        
+
         if (!me.frequencyCombo || !me.innerContainer) {
             me.on('afterrender', function() {
                 me.setValue(value);
@@ -326,7 +323,7 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         }
 
         var parts = me.value.split(';');
-        
+
         if (me.value === '') {
             me.setFrequency('NONE');
         }
@@ -340,27 +337,27 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
                 }
             }, me);
         }
-        
+
         me.innerContainer.items.each(function(item) {
             if (item.setValue) {
                 item.setValue(me.value);
             }
         });
-        
+
         me.checkChange();
-        
+
         return me;
     },
-    
+
     setFrequency: function(freq) {
         var me = this;
-        
+
         me.frequency = freq;
-        
+
         if (me.frequencyCombo) {
             me.frequencyCombo.setValue(freq);
             me.showOptions(freq);
-            
+
             this.innerContainer.items.each(function(item) {
                 item.setFrequency(freq);
             });
@@ -373,11 +370,11 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
         }
         return me;
     },
-    
+
     showOptions: function(freq) {
         var me = this,
             unit = 'day';
-        
+
         if (freq === 'NONE') {
             // me.innerContainer.items.each(function(item) {
                 // item.hide();
@@ -389,33 +386,33 @@ Ext.define('Extensible.form.recurrence.Fieldset', {
             me.durationField.show();
             me.innerContainer.show();
         }
-        
+
         switch(freq) {
             case 'DAILY':
             case 'WEEKDAYS':
                 me.weeklyField.hide();
                 me.monthlyField.hide();
                 me.yearlyField.hide();
-                
+
                 if (freq === 'WEEKDAYS') {
                     unit = 'week';
                 }
                 break;
-            
+
             case 'WEEKLY':
                 me.weeklyField.show();
                 me.monthlyField.hide();
                 me.yearlyField.hide();
                 unit = 'week';
                 break;
-            
+
             case 'MONTHLY':
                 me.monthlyField.show();
                 me.weeklyField.hide();
                 me.yearlyField.hide();
                 unit = 'month';
                 break;
-            
+
             case 'YEARLY':
                 me.yearlyField.show();
                 me.weeklyField.hide();

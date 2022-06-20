@@ -25,13 +25,13 @@ Ext.onReady(function() {
         // Tell PHP to start a debugging session for an IDE to connect to.
         // This is passed as an additional parameter on each request:
         //XDEBUG_SESSION_START: 1,
-        
+
         // Slight hack just so that we can reuse the same demo server code
         // with persistence across multiple examples so that each example gets
         // its own unique data set:
         app_id: 'recurrence'
     };
-    
+
     // Set up mappings to match the DB column names as defined in examples/server/setup.sql
     Extensible.calendar.data.EventMappings = {
         EventId:     {name: 'EventId', mapping:'id', type:'string'},
@@ -44,25 +44,25 @@ Ext.onReady(function() {
         Url:         {name: 'Url', mapping: 'url'},
         IsAllDay:    {name: 'IsAllDay', mapping: 'all_day', type: 'boolean'},
         Reminder:    {name: 'Reminder', mapping: 'reminder'},
-        
+
         // NOTE that since we want recurrence support in this demo, we must also include
         // the recurrence-specific data mappings. Typically RRule and Duration are the only
         // values that need to be persisted and returned with events, and they are the only ones
         // mapped to columns in the MySQL database:
-        RRule:    {name: 'RRule', mapping: 'rrule', type: 'string', useNull: true},
-        Duration: {name: 'Duration', mapping: 'duration', defaultValue: -1, useNull: true, type: 'int'},
-        
+        RRule:    {name: 'RRule', mapping: 'rrule', type: 'string', allowNull: true},
+        Duration: {name: 'Duration', mapping: 'duration', defaultValue: -1, allowNull: true, type: 'int'},
+
         // These additional values are required for processing recurring events properly,
         // but are either calculated or used only during editing. They still must be mapped
         // to whatever the server expects, but typically aren't persisted in the DB. For additional
         // details see the comments in src/calendar/data/EventMappings.
-        OriginalEventId:    {name: 'OriginalEventId', mapping: 'origid', type: 'string', useNull: true},
-        RSeriesStartDate:   {name: 'RSeriesStartDate', mapping: 'rsstart', type: 'date', dateFormat: 'c', useNull: true},
-        RInstanceStartDate: {name: 'RInstanceStartDate', mapping: 'ristart', type: 'date', dateFormat: 'c', useNull: true},
-        REditMode:          {name: 'REditMode', mapping: 'redit', type: 'string', useNull: true}
+        OriginalEventId:    {name: 'OriginalEventId', mapping: 'origid', type: 'string', allowNull: true},
+        RSeriesStartDate:   {name: 'RSeriesStartDate', mapping: 'rsstart', type: 'date', dateFormat: 'c', allowNull: true},
+        RInstanceStartDate: {name: 'RInstanceStartDate', mapping: 'ristart', type: 'date', dateFormat: 'c', allowNull: true},
+        REditMode:          {name: 'REditMode', mapping: 'redit', type: 'string', allowNull: true}
     };
     Extensible.calendar.data.EventModel.reconfigure();
-    
+
     // Calendars are loaded remotely from a static JSON file
     var calendarStore = Ext.create('Extensible.calendar.data.MemoryCalendarStore', {
         autoLoad: true,
@@ -70,19 +70,19 @@ Ext.onReady(function() {
             type: 'ajax',
             url: '../data/calendars.json',
             noCache: false,
-            
+
             reader: {
                 type: 'json',
-                root: 'calendars'
+                rootProperty: 'calendars'
             }
         }
     });
-    
+
     // Events are loaded remotely via Ajax. For simplicity in this demo we use simple param-based
     // actions, although you could easily use REST instead, swapping out the proxy type below.
     // The event data will still be passed as JSON in the request body.
     var apiBase = '../../server/php/api/events-recurrence.php?action=';
-    
+
     var eventStore = Ext.create('Extensible.calendar.data.EventStore', {
         autoLoad: true,
         proxy: {
@@ -91,7 +91,7 @@ Ext.onReady(function() {
             pageParam: null,
             startParam: null,
             limitParam: null,
-            
+
             api: {
                 read:    apiBase + 'load',
                 create:  apiBase + 'add',
@@ -100,7 +100,7 @@ Ext.onReady(function() {
             },
             reader: {
                 type: 'json',
-                root: 'data'
+                rootProperty: 'data'
             },
             writer: {
                 type: 'json',
@@ -130,7 +130,7 @@ Ext.onReady(function() {
             }
         }
     });
-    
+
     // This is the code for the entire UI:
     Ext.create('Ext.container.Viewport', {
         layout: 'border',
@@ -149,7 +149,7 @@ Ext.onReady(function() {
             eventStore: eventStore,
             calendarStore: calendarStore,
             title: 'Recurrence Calendar',
-    
+
             // This is the magical config that enables the recurrence edit
             // widget to appear in the event form. Without it, any existing
             // recurring events sent from the server will still be rendered

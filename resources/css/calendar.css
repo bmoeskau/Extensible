@@ -1,19 +1,19 @@
 
 /*******************************************
- * 
+ *
  * Ext Calendar styles
  *
  ******************************************/
 
 /* -----------------------------------------
- * Ext overrides 
+ * Ext overrides
  */
 .x-strict .x-webkit .x-small-editor .x-form-field-wrap .x-form-trigger {
     height: 21px;
 }
 
 /* -----------------------------------------
- * Shared calendar view containers 
+ * Shared calendar view containers
  */
 .x-panel-tbar .ext-cal-toolbar {
     padding: 3px;
@@ -168,7 +168,7 @@
 }
 .ext-cal-dayview .ext-cal-dtitle {
     padding: 8px 1px 2px;
-} 
+}
 .ext-cal-hd-ad-bg-tbl {
     position: absolute;
     left: 0;
@@ -354,7 +354,7 @@
 .ext-cal-readonly .ext-cal-day,
 .ext-cal-readonly .ext-cal-dtitle {
     cursor: default;
-} 
+}
 .ext-day-over {
     background: #D1EAEF !important;
 }
@@ -756,21 +756,13 @@ td.ext-cal-dtitle-today div {
 }
 
 /*******************************************
- * 
+ *
  * Calendar navigation picker styles
- * 
+ *
  ******************************************/
 .ext-cal-nav-picker {
     border-style: none none solid;
     border-color: #99BBE8;
-}
-.ext-cal-nav-picker .x-datepicker-header {
-    background: #D3E1F1 url(../images/default/ext/toolbar-bg.gif) repeat-x;
-}
-.ext-cal-nav-picker .x-datepicker-month,
-.ext-cal-nav-picker .x-datepicker-prev,
-.ext-cal-nav-picker .x-datepicker-next {
-    background: transparent;
 }
 .ext-cal-nav-picker .x-datepicker-prev a {
     background-image: url(../images/default/ext/page-prev.gif);
@@ -785,10 +777,6 @@ td.ext-cal-dtitle-today div {
     color: #555 !important;
     font-weight: bold;
     font-family: arial,tahoma,verdana,helvetica;
-}
-.ext-cal-nav-picker .x-datepicker-month .x-btn-split-right {
-    background-image: url(../images/default/ext/button-arrow.gif) !important;
-    background-position: right 4px;
 }
 .ext-cal-nav-picker .x-datepicker-inner {
     border-top: 1px solid #BBCCFF;
@@ -812,7 +800,7 @@ td.ext-cal-dtitle-today div {
 }
 
 /*******************************************
- * 
+ *
  * Calendar editor window styles
  *
  ******************************************/
@@ -831,7 +819,7 @@ td.ext-cal-dtitle-today div {
 }
 
 /*******************************************
- * 
+ *
  * Calendar form styles
  *
  ******************************************/
@@ -864,7 +852,7 @@ td.ext-cal-dtitle-today div {
 }
 
 /*******************************************
- * 
+ *
  * DateRangeField styles
  *
  ******************************************/
@@ -878,7 +866,7 @@ td.ext-cal-dtitle-today div {
 }
 
 /*******************************************
- * 
+ *
  * ContextMenu styles
  *
  ******************************************/
@@ -896,7 +884,7 @@ td.ext-cal-dtitle-today div {
 }
 
 /*******************************************
- * 
+ *
  * CalendarList styles
  *
  ******************************************/
@@ -969,12 +957,9 @@ td.ext-cal-dtitle-today div {
 .extensible-cal-icon-cal-show {
     background-image:url(../images/default/silk/calendar_view_month.png) !important;
 }
-.extensible-cal-icon-cal-colors {
-    background-image:url(../images/default/silk/color_wheel.png) !important;
-}
 
 /*******************************************
- * 
+ *
  * CalendarList menu styles
  *
  ******************************************/
@@ -993,7 +978,7 @@ td.ext-cal-dtitle-today div {
     outline: 0 none;
     cursor: pointer;
 }
-.x-calendar-list-menu .x-color-picker a:hover, 
+.x-calendar-list-menu .x-color-picker a:hover,
 .x-calendar-list-menu .x-color-picker a.x-color-picker-selected {
     border-color: #8BB8F3;
 }
