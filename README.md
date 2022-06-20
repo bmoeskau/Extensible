@@ -1,8 +1,6 @@
 # Extensible
 
-**This project is no longer under active development.** See this [blog post](http://ext.ensible.com/blog/2016/06/end-of-the-line/) for additional information.
-
-If you are interested in becoming a committer or taking ownership of this repo open a PR and let me know.
+**This project is no longer under active development.** The code remains available for historical purposes only.
 
 ---
 
@@ -19,10 +17,6 @@ Extensible actually contains a bunch of different components, but the primary pr
 Extensible works with **both Ext 3 and Ext 4**. Unfortunately since Ext 4 is not backwards-compatible it means that Extensible must be managed in two separate branches in order to maintain support for both versions of Ext. The default [master branch](https://github.com/bmoeskau/Extensible) is now only compatible with Ext 4, and all Extensible releases from 1.5 forward will be for Ext 4. The Extensible [1.x branch](https://github.com/bmoeskau/Extensible/tree/1.x) (less than 1.5) will remain as the Ext 3 compatible line of code.
 
 Since Sencha Inc. officially no longer supports Ext version 3.x (they support <a href="https://www.sencha.com/support/faqs/">4.2 and above</a> only as of early 2016) Extensible also no longer officially supports Ext 3, and so Extensible itself will only be supported for versions 1.5 and greater.
-
-## Getting Started
-
-The easiest way to get started with Extensible is to download one of the [released packages](http://ext.ensible.com/products/calendar/download/), which already contain the fully-built distribution files and documentation, and unzip it into your local web root (required for Ajax requests to work). By default, all examples use a relative reference to the pre-built debug version of Extensible (`[Extensible]/lib/extensible-all-debug.js`) and a url to a recent version of Ext hosted on the Sencha CDN (e.g., `http://cdn.sencha.io/ext-4.0.7-gpl/`). As long as you have an internet connection, the examples should work out of the box.
 
 ## Configuration
 
