@@ -186,4 +186,3 @@ Here are a few additional references for dealing with recurrence that you might 
 - [StackOverflow search](http://stackoverflow.com/search?q=recurring+events) (in particular [this answer](http://stackoverflow.com/questions/85699/whats-the-best-way-to-model-recurring-events-in-a-calendar-application))
 - [recurring_events_for](https://github.com/bakineggs/recurring_events_for) - Example SQL for dealing with recurrence
 - [Calendar Tutorial: Recurring Events](http://www.daypilot.org/calendar-tutorial-recurrent-events.html) - Dealing with recurrence in .NET
-- [Understanding Telerik's Scheduler Recurrence](http://dotnetslackers.com/articles/aspnet/Understanding-Teleriks-Scheduler-Recurrence.aspx) - Another .NET example
