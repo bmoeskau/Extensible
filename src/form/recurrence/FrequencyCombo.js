@@ -6,12 +6,12 @@
 Ext.define('Extensible.form.recurrence.FrequencyCombo', {
     extend: 'Ext.form.field.ComboBox',
     alias: 'widget.extensible.recurrence-frequency',
-    
+
     requires: [
         'Ext.data.ArrayStore',
         'Extensible.form.recurrence.Parser'
     ],
-    
+
     fieldLabel: 'Repeats',
     queryMode: 'local',
     triggerAction: 'all',
@@ -19,21 +19,19 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
     displayField: 'pattern',
     valueField: 'id',
     cls: 'extensible-recur-frequency',
-    
+
+    /**
+     * @event frequencychange
+     * Fires when a frequency list item is selected.
+     * @param {Extensible.form.recurrence.Combo} combo This combo box
+     * @param {String} value The selected frequency value (one of the names
+     * from {@link #frequencyOptions}, e.g. 'DAILY')
+     */
+
     initComponent: function() {
-        var me = this;
-        
-        /**
-         * @event frequencychange
-         * Fires when a frequency list item is selected.
-         * @param {Extensible.form.recurrence.Combo} combo This combo box
-         * @param {String} value The selected frequency value (one of the names
-         * from {@link #frequencyOptions}, e.g. 'DAILY')
-         */
-        me.addEvents('frequencychange');
-        
-        var freq = Extensible.form.recurrence.Parser.strings.frequency;
-        
+        var me = this,
+            freq = Extensible.form.recurrence.Parser.config.strings.frequency;
+
         /**
          * @cfg {Array} frequencyOptions
          * An array of arrays, each containing the name/value pair that defines a recurring
@@ -59,19 +57,19 @@ Ext.define('Extensible.form.recurrence.FrequencyCombo', {
             ['MONTHLY',  freq.monthly],
             ['YEARLY',   freq.yearly]
         ];
-        
+
         me.store = me.store || Ext.create('Ext.data.ArrayStore', {
             fields: ['id', 'pattern'],
             idIndex: 0,
             data: me.frequencyOptions
         });
-        
+
         me.on('select', me.onSelect, me);
-        
+
         me.callParent(arguments);
     },
-    
-    onSelect: function(combo, records) {
-        this.fireEvent('frequencychange', records[0].data.id);
+
+    onSelect: function(combo, record) {
+        this.fireEvent('frequencychange', record.data.id);
     }
 });

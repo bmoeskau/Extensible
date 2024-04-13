@@ -4,7 +4,7 @@
 Ext.define('Extensible.form.recurrence.option.Weekly', {
     extend: 'Extensible.form.recurrence.AbstractOption',
     alias: 'widget.extensible.recurrence-weekly',
-    
+
     requires: [
         'Ext.form.field.Checkbox', // should be required by CheckboxGroup but isn't
         'Ext.form.CheckboxGroup',
@@ -18,7 +18,7 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
     startDay: 0,
 
     dayValueDelimiter: ',',
-    
+
     cls: 'extensible-recur-weekly',
 
     strings: {
@@ -41,7 +41,7 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
      */
     getCheckboxGroupItems: function() {
         var weekdaysId = Extensible.form.recurrence.Parser.byDayNames,
-            weekdaysText = Extensible.form.recurrence.Parser.strings.dayNamesShortByIndex,
+            weekdaysText = Extensible.form.recurrence.Parser.config.strings.dayNamesShortByIndex,
             checkboxArray = [],
             i = this.startDay;
 
@@ -69,48 +69,48 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
             }
         }];
     },
-    
+
     initValue: function() {
         this.callParent(arguments);
-        
+
         if (!this.value) {
             this.selectByDate();
         }
     },
-    
+
     initRefs: function() {
         this.daysCheckboxGroup = this.down('#' + this.id + '-days');
     },
-    
+
     onSelectionChange: function(field, value, oldValue) {
         this.checkChange();
         this.updateLabel();
     },
-    
+
     selectByDate: function(dt) {
         var day = Ext.Date.format(dt || this.getStartDate(), 'D').substring(0,2).toUpperCase();
         this.setValue('BYDAY=' + day);
     },
-    
+
     clearValue: function() {
         this.value = undefined;
-        
+
         if (this.daysCheckboxGroup) {
             this.daysCheckboxGroup.setValue({
                 SU:0, MO:0, TU:0, WE:0, TH:0, FR:0, SA:0
             });
         }
     },
-    
+
     getValue: function() {
         var me = this;
-        
+
         if (me.daysCheckboxGroup) {
             // Checkbox group value will look like {MON:"on", TUE:"on", FRI:"on"}
             var fieldValue = me.daysCheckboxGroup.getValue(),
                 days = [],
                 property;
-            
+
             for (property in fieldValue) {
                 if (fieldValue.hasOwnProperty(property)) {
                     // Push the name ('MON') not the value ('on')
@@ -121,10 +121,10 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
         }
         return '';
     },
-    
+
     setValue: function(v) {
         var me = this;
-        
+
         if (!me.preSetValue(v, me.daysCheckboxGroup)) {
             return me;
         }
@@ -139,19 +139,19 @@ Ext.define('Extensible.form.recurrence.option.Weekly', {
 
         Ext.each(options, function(option) {
             parts = option.split('=');
-            
+
             if (parts[0] === 'BYDAY') {
                 days = parts[1].split(me.dayValueDelimiter);
-                    
+
                 Ext.each(days, function(day) {
                     compositeValue[day] = true;
                 }, me);
-                
+
                 me.daysCheckboxGroup.setValue(compositeValue);
                 return;
             }
         }, me);
-        
+
         return me;
     }
 });

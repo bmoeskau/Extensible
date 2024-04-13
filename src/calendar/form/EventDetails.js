@@ -45,7 +45,6 @@ Ext.define('Extensible.calendar.form.EventDetails', {
         'Extensible.calendar.data.EventMappings',
         'Extensible.calendar.form.field.CalendarCombo',
         'Extensible.form.recurrence.Fieldset',
-        'Ext.layout.container.Column',
         'Extensible.form.recurrence.RangeEditWindow'
     ],
 
@@ -105,45 +104,44 @@ Ext.define('Extensible.calendar.form.EventDetails', {
     allowDefaultAdd: true,
 
 	//private properties
-    layout: 'column',
+    layout: {
+        type: 'hbox',
+        align: 'stretch'
+    },
+
+    /**
+     * @event eventadd
+     * Fires after a new event is added
+     * @param {Extensible.calendar.form.EventDetails} this
+     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+     * record} that was added
+     */
+
+    /**
+     * @event eventupdate
+     * Fires after an existing event is updated
+     * @param {Extensible.calendar.form.EventDetails} this
+     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+     * record} that was updated
+     */
+
+    /**
+     * @event eventdelete
+     * Fires after an event is deleted
+     * @param {Extensible.calendar.form.EventDetails} this
+     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+     * record} that was deleted
+     */
+
+    /**
+     * @event eventcancel
+     * Fires after an event add/edit operation is canceled by the user and no store update took place
+     * @param {Extensible.calendar.form.EventDetails} this
+     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+     * record} that was canceled
+     */
 
     initComponent: function() {
-
-        this.addEvents({
-            /**
-             * @event eventadd
-             * Fires after a new event is added
-             * @param {Extensible.calendar.form.EventDetails} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was added
-             */
-            eventadd: true,
-            /**
-             * @event eventupdate
-             * Fires after an existing event is updated
-             * @param {Extensible.calendar.form.EventDetails} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was updated
-             */
-            eventupdate: true,
-            /**
-             * @event eventdelete
-             * Fires after an event is deleted
-             * @param {Extensible.calendar.form.EventDetails} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was deleted
-             */
-            eventdelete: true,
-            /**
-             * @event eventcancel
-             * Fires after an event add/edit operation is canceled by the user and no store update took place
-             * @param {Extensible.calendar.form.EventDetails} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was canceled
-             */
-            eventcancel: true
-        });
-
         this.titleField = Ext.create('Ext.form.field.Text', {
             fieldLabel: this.titleLabelText,
             name: Extensible.calendar.data.EventMappings.Title.name,
@@ -218,7 +216,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
 
         this.items = [{
             id: this.id+'-left-col',
-            columnWidth: this.colWidthLeft,
+            flex: this.colWidthLeft,
             layout: 'anchor',
             fieldDefaults: {
                 labelWidth: labelWidth
@@ -227,7 +225,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             items: leftFields
         },{
             id: this.id+'-right-col',
-            columnWidth: this.colWidthRight,
+            flex: this.colWidthRight,
             layout: 'anchor',
             fieldDefaults: {
                 labelWidth: labelWidth
@@ -306,9 +304,9 @@ Ext.define('Extensible.calendar.form.EventDetails', {
 
         // Using setValue() results in dirty fields, so we reset the field state
         // after loading the form so that the current values are the "original" values
-        me.form.getFields().each(function(item) {
-            item.resetOriginalValue();
-        });
+        // Ext.Array.each(me.form.getFields(), function(item) {
+        //     item.resetOriginalValue();
+        // });
 
         me.titleField.focus();
     },
@@ -320,7 +318,7 @@ Ext.define('Extensible.calendar.form.EventDetails', {
             name,
             obj = {};
 
-        fields.each(function(f) {
+        Ext.Array.each(fields, function(f) {
             name = f.name;
             if (name in values) {
                 obj[name] = values[name];

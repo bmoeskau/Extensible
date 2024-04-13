@@ -94,60 +94,57 @@ Ext.define('Extensible.calendar.form.EventWindow', {
      */
     allowDefaultAdd: true,
 
+    /**
+     * @event eventadd
+     * Fires after a new event is added
+     * @param {Extensible.calendar.form.EventWindow} this
+     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+     * record} that was added
+     * @param {Ext.Element} el The target element
+     */
+
+    /**
+     * @event eventupdate
+     * Fires after an existing event is updated
+     * @param {Extensible.calendar.form.EventWindow} this
+     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+     * record} that was updated
+     * @param {Ext.Element} el The target element
+     */
+
+    /**
+     * @event eventdelete
+     * Fires after an event is deleted
+     * @param {Extensible.calendar.form.EventWindow} this
+     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+     * record} that was deleted
+     * @param {Ext.Element} el The target element
+     */
+
+    /**
+     * @event eventcancel
+     * Fires after an event add/edit operation is canceled by the user and no store update took place
+     * @param {Extensible.calendar.form.EventWindow} this
+     * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
+     * record} that was canceled
+     * @param {Ext.Element} el The target element
+     */
+
+    /**
+     * @event editdetails
+     * Fires when the user selects the option in this window to continue editing in the detailed edit form
+     * (by default, an instance of {@link Extensible.calendar.form.EventDetails}. Handling code should hide
+     * this window and transfer the current event record to the appropriate instance of the detailed form by
+     * showing it and calling {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
+     * @param {Extensible.calendar.form.EventWindow} this
+     * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
+     * that is currently being edited
+     * @param {Ext.Element} el The target element
+     */
+
+    // private
     initComponent: function() {
-        this.addEvents({
-            /**
-             * @event eventadd
-             * Fires after a new event is added
-             * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was added
-             * @param {Ext.Element} el The target element
-             */
-            eventadd: true,
-            /**
-             * @event eventupdate
-             * Fires after an existing event is updated
-             * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was updated
-             * @param {Ext.Element} el The target element
-             */
-            eventupdate: true,
-            /**
-             * @event eventdelete
-             * Fires after an event is deleted
-             * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was deleted
-             * @param {Ext.Element} el The target element
-             */
-            eventdelete: true,
-            /**
-             * @event eventcancel
-             * Fires after an event add/edit operation is canceled by the user and no store update took place
-             * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The new {@link Extensible.calendar.data.EventModel
-             * record} that was canceled
-             * @param {Ext.Element} el The target element
-             */
-            eventcancel: true,
-            /**
-             * @event editdetails
-             * Fires when the user selects the option in this window to continue editing in the detailed edit form
-             * (by default, an instance of {@link Extensible.calendar.form.EventDetails}. Handling code should hide
-             * this window and transfer the current event record to the appropriate instance of the detailed form by
-             * showing it and calling {@link Extensible.calendar.form.EventDetails#loadRecord loadRecord}.
-             * @param {Extensible.calendar.form.EventWindow} this
-             * @param {Extensible.calendar.data.EventModel} rec The {@link Extensible.calendar.data.EventModel record}
-             * that is currently being edited
-             * @param {Ext.Element} el The target element
-             */
-            editdetails: true
-        });
-
         this.fbar = this.getFooterBarConfig();
-
         this.callParent(arguments);
     },
 
@@ -302,26 +299,27 @@ Ext.define('Extensible.calendar.form.EventWindow', {
             me.setTitle(me.titleTextAdd);
 
             var start = o[EventMappings.StartDate.name],
-                end = o[EventMappings.EndDate.name] || Extensible.Date.add(start, {hours: 1});
+                end = o[EventMappings.EndDate.name] || Extensible.Date.add(start, {hours: 1}),
+                eventData = {};
 
-            rec = Ext.create('Extensible.calendar.data.EventModel');
+            eventData[EventMappings.Title.name] = o[EventMappings.Title.name]; // in case it's set
+            eventData[EventMappings.StartDate.name] = start;
+            eventData[EventMappings.EndDate.name] = end;
 
-            rec.data[EventMappings.Title.name] = o[EventMappings.Title.name]; // in case it's set
-            rec.data[EventMappings.StartDate.name] = start;
-            rec.data[EventMappings.EndDate.name] = end;
-
-            rec.data[EventMappings.IsAllDay.name] = !!o[EventMappings.IsAllDay.name] ||
+            eventData[EventMappings.IsAllDay.name] = !!o[EventMappings.IsAllDay.name] ||
                 (start.getDate() !== Extensible.Date.add(end, {millis: 1}).getDate());
 
             if (EventMappings.CalendarId) {
-                rec.data[EventMappings.CalendarId.name] = me.calendarStore ?
+                eventData[EventMappings.CalendarId.name] = me.calendarStore ?
                     me.calendarStore.getAt(0).data[Extensible.calendar.data.CalendarMappings.CalendarId.name] : '';
             }
 
             if (EventMappings.Duration) {
-                rec.data[EventMappings.Duration.name] = Extensible.Date.diff(start, end,
+                eventData[EventMappings.Duration.name] = Extensible.Date.diff(start, end,
                     Extensible.calendar.data.EventModel.resolution);
             }
+
+            rec = new Extensible.calendar.data.EventModel(eventData);
 
             form.reset();
             form.loadRecord(rec);
@@ -336,9 +334,9 @@ Ext.define('Extensible.calendar.form.EventWindow', {
 
         // Using setValue() results in dirty fields, so we reset the field state
         // after loading the form so that the current values are the "original" values
-        form.getFields().each(function(item) {
-            item.resetOriginalValue();
-        });
+        // Ext.Array.each(form.getFields(), function(item) {
+        //     item.resetOriginalValue();
+        // });
 
         return me;
     },
@@ -368,14 +366,14 @@ Ext.define('Extensible.calendar.form.EventWindow', {
     },
 
     updateRecord: function(record, keepEditing) {
-        var fields = record.fields,
+        var fields = record.getFields(),
             values = this.formPanel.getForm().getValues(),
             EventMappings = Extensible.calendar.data.EventMappings,
             name,
             obj = {},
             modified;
 
-        fields.each(function(f) {
+        Ext.Array.each(fields, function(f) {
             name = f.name;
             if (name in values) {
                 obj[name] = values[name];

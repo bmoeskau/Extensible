@@ -17,11 +17,13 @@ Ext.define('Extensible.form.field.DateRange', {
      * The text to display in between the date/time fields (defaults to 'to')
      */
     toText: 'to',
+
     /**
      * @cfg {String} allDayText
      * The text to display as the label for the all day checkbox (defaults to 'All day')
      */
     allDayText: 'All day',
+
     /**
      * @cfg {String/Boolean} singleLine
      * <tt>true</tt> to render the fields all on one line, <tt>false</tt> to break the start
@@ -29,6 +31,7 @@ Ext.define('Extensible.form.field.DateRange', {
      * (defaults to <tt>true</tt>).
      */
     singleLine: true,
+
     /*
      * @cfg {Number} singleLineMinWidth -- not currently used
      * If {@link singleLine} is set to 'auto' it will use this value to determine whether to render the field on one
@@ -36,20 +39,23 @@ Ext.define('Extensible.form.field.DateRange', {
      * the field's container is narrower than this value it will automatically be rendered on two lines.
      */
     //singleLineMinWidth: 490,
+
     /**
      * @cfg {String} dateFormat
      * The date display format used by the date fields (defaults to 'n/j/Y')
      */
     dateFormat: 'n/j/Y',
+
     /**
      * @cfg {Number} startDay
      * The 0-based index for the day on which the calendar week begins (0=Sunday, which is the default)
      */
     startDay: 0,
 
-    fieldLayout: {
-        type: 'hbox',
-        defaultMargins: { top: 0, right: 5, bottom: 0, left: 0 }
+    fieldLayout: 'hbox',
+
+    defaults: {
+        margin: '0 5 0 0'
     },
 
     initComponent: function() {
@@ -206,7 +212,7 @@ Ext.define('Extensible.form.field.DateRange', {
             id: this.id + '-allday',
             hidden: this.showTimes === false || this.showAllDay === false,
             boxLabel: this.allDayText,
-            margins: { top: 2, right: 5, bottom: 0, left: 0 },
+            margin: '2 5 0 0',
             handler: this.onAllDayChange,
             scope: this
         };
@@ -222,7 +228,7 @@ Ext.define('Extensible.form.field.DateRange', {
             xtype: 'label',
             id: this.id + '-to-label',
             text: this.toText,
-            margins: { top: 4, right: 5, bottom: 0, left: 0 }
+            margin: '4 5 0 0',
         };
     },
 
